@@ -1,15 +1,12 @@
 package com.liuzhenli.reader.ui.presenter;
 
-import android.text.TextUtils;
 
-import com.liuzhenli.common.observer.MyObserver;
 import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.reader.base.RxPresenter;
 import com.liuzhenli.reader.network.Api;
 import com.liuzhenli.reader.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.contract.ReadContract;
 import com.micoredu.readerlib.bean.BookChapterBean;
-import com.micoredu.readerlib.bean.BookInfoBean;
 import com.micoredu.readerlib.bean.BookShelfBean;
 import com.micoredu.readerlib.helper.BookshelfHelper;
 
@@ -66,7 +63,6 @@ public class ReadPresenter extends RxPresenter<ReadContract.View> implements Rea
 
     @Override
     public void saveProgress() {
-
     }
 
     public void setChapterList(List<BookChapterBean> chapters) {

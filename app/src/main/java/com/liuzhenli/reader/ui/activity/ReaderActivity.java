@@ -33,7 +33,7 @@ import static com.liuzhenli.common.BitIntentDataManager.DATA_KEY;
 import static com.liuzhenli.common.BitIntentDataManager.getInstance;
 
 /**
- * describe:
+ * describe:阅读页
  *
  * @author Liuzhenli on 2019-11-09 19:29
  * @since 1.0.0
@@ -181,6 +181,10 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
             @Override
             public void onCategoryFinish(List<BookChapterBean> chapters) {
                 mPresenter.setChapterList(chapters);
+                mBookShelf.setChapterListSize(chapters.size());
+                mCurrentChapterIndex = mBookShelf.getDurChapter();
+                mBookShelf.setDurChapterName(chapters.get(mCurrentChapterIndex).getDurChapterName());
+                mBookShelf.setLastChapterName(chapters.get(chapters.size() - 1).getDurChapterName());
             }
 
             @Override
