@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="main_blue">#00a0e9</color>
+    <color name="main">#ff0000</color>
+    <color name="transparent">#fff</color>
+
+    <color name="main_touming">#99008577</color>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="white">#FFFFFFFF</color>
+    <!--textColor-->
+    <color name="text_color_33">#4a4a4a</color>
+    <color name="text_color_66">#565656</color>
+    <color name="text_color_99">#979797</color>
+
+    <!--通用背景色-->
+    <color name="common_bg">@color/white</color>
+    <!--通用分割线细-->
+    <color name="common_divider_narrow">#f2f2f2</color>
+
+    <color name="divider">#FFD4D4D4</color>
+    <color name="ripple_color">#ffdddddd</color>
+
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="main_tab_names">
+        <item>@string/book_shelf</item>
+        <item>@string/book_shop</item>
+        <item>@string/discover</item>
+        <item>@string/me</item>
+    </string-array>
+
+    <string-array name="text_suffix">
+        <item>.txt</item>
+        <item>.json</item>
+        <item>.xml</item>
+    </string-array>
+</resources>

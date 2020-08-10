@@ -1,0 +1,81 @@
+package com.liuzhenli.reader.ui.adapter;
+
+import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.liuzhenli.reader.view.BadgeView;
+import com.liuzhenli.reader.view.RotateLoading;
+import com.liuzhenli.reader.view.recyclerview.adapter.BaseViewHolder;
+import com.liuzhenli.reader.view.recyclerview.adapter.RecyclerArrayAdapter;
+import com.micoredu.readerlib.bean.BookShelfBean;
+import com.microedu.reader.R;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+/**
+ * describe:书架
+ *
+ * @author Liuzhenli on 2020-01-11 15:47
+ */
+public class BookShelfAdapter extends RecyclerArrayAdapter<BookShelfBean> {
+
+
+    public BookShelfAdapter(Context context) {
+        super(context);
+    }
+
+    @Override
+    public BaseViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
+        return new BookShelfHolder(parent, R.layout.item_bookshelf_list);
+    }
+
+    public class BookShelfHolder extends BaseViewHolder<BookShelfBean> {
+        @BindView(R.id.iv_cover)
+        ImageView mIvCover;
+        @BindView(R.id.bv_unread)
+        BadgeView mBvUnread;
+        @BindView(R.id.rl_loading)
+        RotateLoading mRlLoading;
+        @BindView(R.id.fl_has_new)
+        FrameLayout mFlHasNew;
+        @BindView(R.id.tv_name)
+        TextView mTvName;
+        @BindView(R.id.iv_author)
+        AppCompatImageView mIvAuthor;
+        @BindView(R.id.tv_author)
+        TextView mTvAuthor;
+        @BindView(R.id.iv_read)
+        AppCompatImageView mIvRead;
+        @BindView(R.id.tv_read)
+        TextView mTvRead;
+        @BindView(R.id.iv_last)
+        AppCompatImageView mIvLast;
+        @BindView(R.id.tv_last)
+        TextView mTvLast;
+        @BindView(R.id.vw_select)
+        View mVwSelect;
+
+        public BookShelfHolder(ViewGroup parent, int res) {
+            super(parent, res);
+            ButterKnife.bind(this, itemView);
+        }
+
+        @Override
+        public void setData(BookShelfBean item) {
+            super.setData(item);
+            mTvName.setText(item.getBookInfoBean().getName() == null ? "[未知书名]" : item.getBookInfoBean().getName());
+            mTvAuthor.setText(item.getBookInfoBean().getAuthor() == null ? "佚名" : item.getBookInfoBean().getAuthor());
+            mTvRead.setText(item.getDurChapterName() == null ? "0" : item.getDurChapterName());
+            mTvLast.setText(item.getLastChapterName() == null ? "0" : item.getLastChapterName());
+        }
+    }
+
+}

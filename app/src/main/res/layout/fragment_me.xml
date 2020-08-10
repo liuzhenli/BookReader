@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.liuzhenli.reader.ui.fragment.MeFragment">
+
+    <LinearLayout
+        android:id="@+id/ll_import_local_books"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/all_item_height"
+        android:layout_marginStart="@dimen/common_margin_normal"
+        android:layout_marginEnd="@dimen/common_margin_normal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/all_item_height"
+            android:layout_weight="1"
+            android:text="@string/import_book_source_local"
+            android:textSize="@dimen/txt_size_14" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=">>" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_feedback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="意见反馈" />
+</LinearLayout>

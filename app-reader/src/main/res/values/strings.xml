@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ReaderLib</string>
+
+
+    <string name="page_mode_COVER">覆盖</string>
+    <string name="page_mode_SIMULATION">仿真</string>
+    <string name="page_mode_SLIDE">滑动</string>
+    <string name="page_mode_SCROLL">滚动</string>
+    <string name="page_mode_NONE">无动画</string>
+</resources>

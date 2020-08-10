@@ -1,0 +1,136 @@
+apply plugin: 'com.android.application'
+apply plugin: 'walle'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'org.greenrobot.greendao' // apply plugin
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
+    defaultConfig {
+        applicationId "com.microedu.reader"
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        vectorDrawables.useSupportLibrary = true
+        versionCode 1
+        versionName "1.0.0"
+        multiDexEnabled true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    greendao {
+        schemaVersion 2 // 数据库版本号
+        daoPackage 'com.liuzhenli.greendao'//greenDao 自动生成的代码保存的包名
+        targetGenDir 'src/main/java' //自动生成的代码存储的路径，默认是 build/generated/source/greendao.
+        generateTests false //true的时候自动生成测试单元
+        //targetGenDirTests: 测试单元的生成目录默认是 src/androidTest/java
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file('debug.jks')
+            storePassword "liuzhenli"
+            keyAlias "liuzhenli"
+            keyPassword "liuzhenli"
+        }
+
+        release {
+            storeFile file('debug.jks')
+            storePassword "liuzhenli"
+            keyAlias "liuzhenli"
+            keyPassword "liuzhenli"
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            //去掉无用的resource文件
+            zipAlignEnabled true
+            signingConfig signingConfigs.release
+            // 混淆文件的位置
+            proguardFiles 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            android.applicationVariants.all { variant ->
+                variant.outputs.all {
+                    outputFileName = outputFileName.replace("release", "${variant.versionName}_build${defaultConfig.versionCode}")
+                }
+            }
+        }
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+            proguardFiles 'proguard-rules.pro'
+        }
+    }
+    flavorDimensions "app", "ndkfilter"
+    productFlavors {
+        def apphead = "hello"
+        "doudou" {
+            manifestPlaceholders = [
+                    UMENG_KEY   : "4e901b51527015426f000004",
+                    CHANNEL_NAME: "${apphead}Test",
+                    CHNL        : "999999"
+            ]
+//            versionName "6.5.0"
+//            applicationId "${appname}"
+            ndk {
+                abiFilters "armeabi", "x86_64", "armeabi-v7a"
+            }
+            dimension "app"
+        }
+        "other" {
+            manifestPlaceholders = [CHANNEL_NAME: "${apphead}Test",
+                                    CHNL        : "999999",
+            ]
+            dimension "ndkfilter"
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    //https://developer.android.com/jetpack/androidx/migrate
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.google.android.material:material:1.1.0'
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+    //图片加载框架  https://github.com/bumptech/glide
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+
+    //rxJava  https://search.maven.org/search?q=io.reactivex.rxjava3
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.10'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+
+    implementation 'org.greenrobot:eventbus:3.1.1'
+
+    implementation 'com.jakewharton:butterknife:10.1.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
+    //日志输出
+    implementation 'com.orhanobut:logger:2.2.0'
+
+    //依赖注入框架
+    implementation 'com.google.dagger:dagger:2.0.2'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.0.2'
+    compileOnly 'org.glassfish:javax.annotation:10.0-b28'
+
+    implementation 'com.meituan.android.walle:library:1.1.6'
+
+    //权限申请
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+    implementation project(path: ':app-libs')
+    implementation project(path: ':app-reader')
+
+
+}
