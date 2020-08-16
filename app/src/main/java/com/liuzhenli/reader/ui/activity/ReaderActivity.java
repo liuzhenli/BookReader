@@ -16,6 +16,7 @@ import com.liuzhenli.reader.view.ReadBottomMenu;
 import com.micoredu.readerlib.BaseReaderActivity;
 import com.micoredu.readerlib.bean.BookInfoBean;
 import com.micoredu.readerlib.bean.BookShelfBean;
+import com.micoredu.readerlib.helper.BookshelfHelper;
 import com.micoredu.readerlib.page.PageView;
 import com.micoredu.readerlib.bean.BookChapterBean;
 import com.micoredu.readerlib.page.PageLoader;
@@ -126,7 +127,53 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
         }
 
         //底部menu中 菜单按钮点击从底部弹出一个章节菜单
-        mBottomMenu.setOnMenuElementClickListener(this::showBookChapterListView);
+        mBottomMenu.setOnMenuElementClickListener(new ReadBottomMenu.OnElementClickListener() {
+            @Override
+            public void onMenuClick() {
+                showBookChapterListView();
+            }
+
+            @Override
+            public void onPreChapterClick() {
+                mPageLoader.skipPreChapter();
+            }
+
+            @Override
+            public void onNextChapterClick() {
+                mPageLoader.skipNextChapter();
+            }
+
+            @Override
+            public void onBrightnessClick() {
+                toast("亮度");
+            }
+
+            @Override
+            public void onNightModeClick() {
+                toast("夜间模式");
+            }
+
+            @Override
+            public void onSettingClick() {
+                toast("设置");
+            }
+
+            @Override
+            public void onListenBookClick() {
+                toast("听书");
+            }
+
+            @Override
+            public void onChapterProgressed(int progress, boolean isStop) {
+
+                mCurrentChapterIndex = mPresenter.getChapterList().size() * progress / 100;
+                if (isStop) {
+                    mPageLoader.skipToChapter(mCurrentChapterIndex, 0);
+                } else {
+                    toast(String.format("%s", mPresenter.getChapterList().get(mCurrentChapterIndex).getDurChapterName()));
+                }
+            }
+        });
     }
 
 
@@ -185,6 +232,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
                 mCurrentChapterIndex = mBookShelf.getDurChapter();
                 mBookShelf.setDurChapterName(chapters.get(mCurrentChapterIndex).getDurChapterName());
                 mBookShelf.setLastChapterName(chapters.get(chapters.size() - 1).getDurChapterName());
+                BookshelfHelper.saveBookToShelf(mBookShelf);
             }
 
             @Override

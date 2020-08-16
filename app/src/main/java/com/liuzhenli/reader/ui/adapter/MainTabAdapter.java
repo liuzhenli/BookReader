@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.liuzhenli.reader.base.BaseFragment;
+import com.liuzhenli.reader.ui.fragment.BookRecommendFragment;
 import com.liuzhenli.reader.ui.fragment.BookShelfFragment;
 import com.liuzhenli.reader.ui.fragment.DiscoverFragment;
 import com.liuzhenli.reader.ui.fragment.MeFragment;
@@ -35,9 +36,9 @@ public class MainTabAdapter extends FragmentPagerAdapter {
         super(fm, behavior);
         mContext = context;
         tabName = mContext.getResources().getStringArray(R.array.main_tab_names);
-        fragments=new ArrayList<>();
+        fragments = new ArrayList<>();
         fragments.add(new BookShelfFragment());
-        fragments.add(new BookShelfFragment());
+        fragments.add(BookRecommendFragment.getInstance());
         fragments.add(new DiscoverFragment());
         fragments.add(new MeFragment());
     }

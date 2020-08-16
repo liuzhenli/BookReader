@@ -147,11 +147,15 @@ public class BookShelfFragment extends BaseRVFragment<BookShelfPresenter, BookSh
         TextView tvBookAuthor = bottomSheetDialog.findViewById(R.id.tv_book_author);
         TextView tvBookSource = bottomSheetDialog.findViewById(R.id.tv_book_source);
         TextView tvProgress = bottomSheetDialog.findViewById(R.id.tv_book_read_progress);
-        tvBookName.setText(bookShelfBean.getBookInfoBean().getName());
+        TextView tvDes = bottomSheetDialog.findViewById(R.id.tv_book_des);
+
         String author = TextUtils.isEmpty(bookShelfBean.getBookInfoBean().getAuthor()) ? "未知" : bookShelfBean.getBookInfoBean().getAuthor();
+
+        tvBookName.setText(bookShelfBean.getBookInfoBean().getName());
         tvBookAuthor.setText(String.format("作者:%s", author));
         tvBookSource.setText(String.format("书源:%s", "本地"));
         tvProgress.setText(String.format("已阅读:%s", "1%"));
+        tvDes.setText(bookShelfBean.getBookInfoBean().getIntroduce());
         bottomSheetDialog.show();
         return false;
     }

@@ -2,15 +2,18 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/common_margin_normal">
 
-    <ImageView
-        android:id="@+id/iv_read_book"
+    <TextView
+        android:id="@+id/view_listen_book"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/common_margin_large"
-        android:background="@mipmap/ic_launcher_round"
-        android:src="@android:drawable/ic_lock_idle_charging"
+        android:layout_marginRight="@dimen/common_margin_large"
+        android:text="听"
+        android:textColor="@color/text_color_99"
+        android:textSize="30dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -18,10 +21,13 @@
         android:id="@+id/tv_pre_chapter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/common_margin_large"
         android:layout_marginTop="@dimen/common_margin_large"
         android:text="上一章"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_10"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_read_book" />
+        app:layout_constraintTop_toBottomOf="@+id/view_listen_book" />
 
     <SeekBar
         android:id="@+id/sb_chapters"
@@ -35,7 +41,10 @@
         android:id="@+id/tv_next_chapter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/common_margin_large"
         android:text="下一章"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_10"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_pre_chapter" />
 
@@ -44,8 +53,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/common_margin_large"
-        android:drawableTop="@android:drawable/ic_menu_call"
+        android:drawableTop="@drawable/ic_menu_book_list"
+        android:gravity="center"
         android:text="目录"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_10"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/tv_change_night_skin"
@@ -55,19 +67,25 @@
         android:id="@+id/tv_change_night_skin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableTop="@android:drawable/ic_menu_agenda"
-        android:text="皮肤"
+        android:drawableTop="@drawable/ic_menu_light"
+        android:gravity="center"
+        android:text="@string/brightness"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_10"
         app:layout_constraintLeft_toRightOf="@+id/tv_menu"
-        app:layout_constraintRight_toLeftOf="@+id/tv_reader_book_mark"
+        app:layout_constraintRight_toLeftOf="@+id/tv_reader_night_mode"
         app:layout_constraintTop_toBottomOf="@+id/tv_pre_chapter"
         app:layout_constraintTop_toTopOf="@+id/tv_menu" />
 
     <TextView
-        android:id="@+id/tv_reader_book_mark"
+        android:id="@+id/tv_reader_night_mode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableTop="@android:drawable/btn_dialog"
-        android:text="书签"
+        android:drawableTop="@drawable/ic_menu_brightness_night"
+        android:gravity="center"
+        android:text="@string/night_theme"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_10"
         app:layout_constraintLeft_toRightOf="@+id/tv_change_night_skin"
         app:layout_constraintRight_toLeftOf="@+id/tv_reader_setting"
         app:layout_constraintTop_toBottomOf="@+id/tv_pre_chapter"
@@ -77,10 +95,12 @@
         android:id="@+id/tv_reader_setting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableTop="@android:drawable/button_onoff_indicator_off"
+        android:drawableTop="@drawable/ic_menu_setting"
         android:gravity="center"
         android:text="设置"
-        app:layout_constraintLeft_toRightOf="@+id/tv_reader_book_mark"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_10"
+        app:layout_constraintLeft_toRightOf="@+id/tv_reader_night_mode"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_pre_chapter"
         app:layout_constraintTop_toTopOf="@+id/tv_menu" />

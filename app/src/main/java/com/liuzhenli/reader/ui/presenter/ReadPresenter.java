@@ -63,6 +63,7 @@ public class ReadPresenter extends RxPresenter<ReadContract.View> implements Rea
 
     @Override
     public void saveProgress() {
+
     }
 
     public void setChapterList(List<BookChapterBean> chapters) {
@@ -72,4 +73,5 @@ public class ReadPresenter extends RxPresenter<ReadContract.View> implements Rea
     public List<BookChapterBean> getChapterList() {
         return chapterList;
     }
+
 }
