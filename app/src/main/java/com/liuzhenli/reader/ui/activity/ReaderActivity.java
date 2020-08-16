@@ -12,7 +12,9 @@ import com.liuzhenli.reader.network.AppComponent;
 import com.liuzhenli.reader.ui.contract.ReadContract;
 import com.liuzhenli.reader.ui.presenter.ReadPresenter;
 import com.liuzhenli.reader.utils.BatteryUtil;
-import com.liuzhenli.reader.view.ReadBottomMenu;
+import com.liuzhenli.reader.view.menu.ReadBottomMenu;
+import com.liuzhenli.reader.view.menu.ReadBrightnessMenu;
+import com.liuzhenli.reader.view.menu.ReadSettingMenu;
 import com.micoredu.readerlib.BaseReaderActivity;
 import com.micoredu.readerlib.bean.BookInfoBean;
 import com.micoredu.readerlib.bean.BookShelfBean;
@@ -51,8 +53,15 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
 
     @BindView(R.id.reader_page_view)
     PageView mPageView;
+    /***底部设置菜单*/
     @BindView(R.id.view_read_bottom_menu)
-    ReadBottomMenu mBottomMenu;
+    ReadBottomMenu mVBottomMenu;
+    /***设置菜单**/
+    @BindView(R.id.view_read_setting_menu)
+    ReadSettingMenu mVSettingMenu;
+    /***亮度**/
+    @BindView(R.id.view_read_brightness_setting)
+    ReadBrightnessMenu mVBrightnessSettingMenu;
 
     private PageLoader mPageLoader;
     private int mCurrentChapterIndex;
@@ -127,7 +136,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
         }
 
         //底部menu中 菜单按钮点击从底部弹出一个章节菜单
-        mBottomMenu.setOnMenuElementClickListener(new ReadBottomMenu.OnElementClickListener() {
+        mVBottomMenu.setOnMenuElementClickListener(new ReadBottomMenu.OnElementClickListener() {
             @Override
             public void onMenuClick() {
                 showBookChapterListView();
@@ -145,7 +154,8 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
 
             @Override
             public void onBrightnessClick() {
-                toast("亮度");
+                mVBottomMenu.setVisibility(View.GONE);
+                mVBrightnessSettingMenu.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -155,7 +165,8 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
 
             @Override
             public void onSettingClick() {
-                toast("设置");
+                mVBottomMenu.setVisibility(View.GONE);
+                mVSettingMenu.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -270,10 +281,19 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
 
             @Override
             public void center() {
-                if (mBottomMenu.getVisibility() == View.VISIBLE) {
-                    mBottomMenu.setVisibility(View.GONE);
+                if (mVBottomMenu.getVisibility() == View.VISIBLE) {
+                    mVBottomMenu.setVisibility(View.GONE);
                 } else {
-                    mBottomMenu.setVisibility(View.VISIBLE);
+                    mVBottomMenu.setVisibility(View.VISIBLE);
+                }
+                if (mVSettingMenu.getVisibility() == View.VISIBLE) {
+                    mVSettingMenu.setVisibility(View.GONE);
+                    mVBottomMenu.setVisibility(View.GONE);
+                }
+
+                if (mVBrightnessSettingMenu.getVisibility() == View.VISIBLE) {
+                    mVBrightnessSettingMenu.setVisibility(View.GONE);
+                    mVBottomMenu.setVisibility(View.GONE);
                 }
             }
         });

@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:paddingBottom="@dimen/common_margin_normal">
+
+    <TextView
+        android:id="@+id/tv_pre_chapter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/common_margin_large"
+        android:layout_marginTop="@dimen/common_margin_large"
+        android:text="文字:"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_10"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/tv_menu_text_min"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/common_margin_large"
+        android:background="@drawable/btn_retry"
+        android:gravity="center"
+        android:padding="@dimen/common_margin_small"
+        android:text="A-"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_10"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_pre_chapter"
+        app:layout_constraintLeft_toRightOf="@+id/tv_pre_chapter"
+        app:layout_constraintTop_toTopOf="@+id/tv_pre_chapter"
+        app:qmui_borderColor="@color/text_color_99" />
+
+    <TextView
+        android:id="@+id/tv_setting_menu_text_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/common_margin_normal"
+        android:text="50"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_10"
+        app:layout_constraintLeft_toRightOf="@+id/tv_menu_text_min"
+        app:layout_constraintTop_toTopOf="@+id/tv_pre_chapter" />
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/tv_menu_text_enlarge"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/common_margin_normal"
+        android:background="@drawable/btn_retry"
+        android:gravity="center"
+        android:padding="@dimen/common_margin_small"
+        android:text="A+"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_10"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_pre_chapter"
+        app:layout_constraintLeft_toRightOf="@+id/tv_setting_menu_text_size"
+        app:layout_constraintTop_toTopOf="@+id/tv_pre_chapter"
+        app:qmui_borderColor="@color/text_color_99" />
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/tv_menu_text_simple"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/common_margin_normal"
+        android:background="@drawable/btn_retry"
+        android:gravity="center"
+        android:padding="@dimen/common_margin_small"
+        android:text="简体"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_10"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_pre_chapter"
+        app:layout_constraintLeft_toRightOf="@+id/tv_menu_text_enlarge"
+        app:layout_constraintRight_toLeftOf="@+id/tv_menu_text_style"
+        app:layout_constraintTop_toTopOf="@+id/tv_pre_chapter"
+        app:qmui_borderColor="@color/text_color_99" />
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/tv_menu_text_style"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/common_margin_normal"
+        android:background="@drawable/btn_retry"
+        android:gravity="center"
+        android:padding="@dimen/common_margin_small"
+        android:text="加粗"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_10"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_pre_chapter"
+        app:layout_constraintLeft_toRightOf="@+id/tv_menu_text_simple"
+        app:layout_constraintRight_toLeftOf="@id/tv_menu_text_type_face"
+        app:layout_constraintTop_toTopOf="@+id/tv_pre_chapter"
+        app:qmui_borderColor="@color/text_color_99" />
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/tv_menu_text_type_face"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/common_margin_normal"
+        android:background="@drawable/btn_retry"
+        android:gravity="center"
+        android:padding="@dimen/common_margin_small"
+        android:text="字体"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_10"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_pre_chapter"
+        app:layout_constraintLeft_toRightOf="@+id/tv_menu_text_style"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_pre_chapter"
+        app:qmui_borderColor="@color/text_color_99" />
+
+
+    <TextView
+        android:id="@+id/tv_setting_letter_space"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/common_margin_large"
+        android:layout_marginTop="@dimen/common_margin_xlarge"
+        android:text="间距:"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_10"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_pre_chapter" />
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/tv_menu_text_space_4"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/common_margin_large"
+        android:background="@drawable/btn_retry"
+        android:gravity="center"
+        android:padding="@dimen/common_margin_small"
+        android:text="单倍"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_10"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_setting_letter_space"
+        app:layout_constraintLeft_toRightOf="@+id/tv_setting_letter_space"
+        app:layout_constraintTop_toTopOf="@+id/tv_setting_letter_space"
+        app:qmui_borderColor="@color/text_color_99" />
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/tv_menu_text_space_3"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/common_margin_large"
+        android:background="@drawable/btn_retry"
+        android:gravity="center"
+        android:padding="@dimen/common_margin_small"
+        android:text="2倍"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_10"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_setting_letter_space"
+        app:layout_constraintLeft_toRightOf="@+id/tv_menu_text_space_4"
+        app:layout_constraintTop_toTopOf="@+id/tv_setting_letter_space"
+        app:qmui_borderColor="@color/text_color_99" />
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/tv_menu_text_space_2"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/common_margin_large"
+        android:background="@drawable/btn_retry"
+        android:gravity="center"
+        android:padding="@dimen/common_margin_small"
+        android:text="3倍"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_10"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_setting_letter_space"
+        app:layout_constraintLeft_toRightOf="@+id/tv_menu_text_space_3"
+        app:layout_constraintTop_toTopOf="@+id/tv_setting_letter_space"
+        app:qmui_borderColor="@color/text_color_99" />
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/tv_menu_text_space_default"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/common_margin_large"
+        android:background="@drawable/btn_retry"
+        android:gravity="center"
+        android:padding="@dimen/common_margin_small"
+        android:text="默认"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_10"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_setting_letter_space"
+        app:layout_constraintLeft_toRightOf="@+id/tv_menu_text_space_2"
+        app:layout_constraintTop_toTopOf="@+id/tv_setting_letter_space"
+        app:qmui_borderColor="@color/text_color_99" />
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/tv_menu_text_space_more"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="@dimen/common_margin_large"
+        android:gravity="center"
+        android:text="+"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_18"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_setting_letter_space"
+        app:layout_constraintLeft_toRightOf="@+id/tv_menu_text_space_default"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_setting_letter_space"
+        app:qmui_borderColor="@color/text_color_99" />
+
+
+    <TextView
+        android:id="@+id/tv_setting_text_background"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/common_margin_large"
+        android:layout_marginTop="@dimen/common_margin_xlarge"
+        android:text="背景:"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_10"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_setting_letter_space" />
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/tv_menu_background_1"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="@dimen/common_margin_large"
+        android:background="@color/white"
+        android:gravity="center"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_18"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_setting_text_background"
+        app:layout_constraintLeft_toRightOf="@+id/tv_setting_text_background"
+        app:layout_constraintTop_toTopOf="@+id/tv_setting_text_background"
+        app:qmui_borderColor="@color/text_color_99" />
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/tv_menu_background_2"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="@dimen/common_margin_large"
+        android:gravity="center"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_18"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_setting_text_background"
+        app:layout_constraintLeft_toRightOf="@+id/tv_menu_background_1"
+        app:layout_constraintTop_toTopOf="@+id/tv_setting_text_background"
+        app:qmui_backgroundColor="@color/main"
+        app:qmui_borderColor="@color/text_color_99" />
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/tv_menu_background_3"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="@dimen/common_margin_large"
+        android:gravity="center"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_18"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_setting_text_background"
+        app:layout_constraintLeft_toRightOf="@+id/tv_menu_background_2"
+        app:layout_constraintTop_toTopOf="@+id/tv_setting_text_background"
+        app:qmui_backgroundColor="@color/main_blue"
+        app:qmui_borderColor="@color/text_color_99" />
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/tv_menu_background_4"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="@dimen/common_margin_large"
+        android:gravity="center"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_18"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_setting_text_background"
+        app:layout_constraintLeft_toRightOf="@+id/tv_menu_background_3"
+        app:layout_constraintTop_toTopOf="@+id/tv_setting_text_background"
+        app:qmui_backgroundColor="@color/md_purple_50"
+        app:qmui_borderColor="@color/text_color_99" />
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/tv_menu_background_5"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="@dimen/common_margin_large"
+        android:gravity="center"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_18"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_setting_text_background"
+        app:layout_constraintLeft_toRightOf="@+id/tv_menu_background_4"
+        app:layout_constraintTop_toTopOf="@+id/tv_setting_text_background"
+        app:qmui_backgroundColor="@color/md_yellow_50"
+        app:qmui_borderColor="@color/text_color_99" />
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/tv_menu_background_more"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="@dimen/common_margin_large"
+        android:gravity="center"
+        android:text="+"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_18"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_setting_text_background"
+        app:layout_constraintLeft_toRightOf="@+id/tv_menu_background_5"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_setting_text_background"
+        app:qmui_backgroundColor="@color/white"
+        app:qmui_borderColor="@color/text_color_99" />
+
+
+    <TextView
+        android:id="@+id/tv_setting_page_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/common_margin_large"
+        android:layout_marginTop="@dimen/common_margin_xlarge"
+        android:text="翻页:"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_10"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_setting_text_background" />
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/tv_setting_page_mode_paper"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/common_margin_large"
+        android:background="@drawable/btn_retry"
+        android:gravity="center"
+        android:padding="@dimen/common_margin_small"
+        android:text="仿真"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_10"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_setting_page_mode"
+        app:layout_constraintLeft_toRightOf="@+id/tv_setting_page_mode"
+        app:layout_constraintTop_toTopOf="@+id/tv_setting_page_mode"
+        app:qmui_borderColor="@color/text_color_99" />
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/tv_setting_page_mode_cover"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/common_margin_large"
+        android:background="@drawable/btn_retry"
+        android:gravity="center"
+        android:padding="@dimen/common_margin_small"
+        android:text="覆盖"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_10"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_setting_page_mode"
+        app:layout_constraintLeft_toRightOf="@+id/tv_setting_page_mode_paper"
+        app:layout_constraintTop_toTopOf="@+id/tv_setting_page_mode"
+        app:qmui_borderColor="@color/text_color_99" />
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/tv_setting_page_mode_vertical"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/common_margin_large"
+        android:background="@drawable/btn_retry"
+        android:gravity="center"
+        android:padding="@dimen/common_margin_small"
+        android:text="上下"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_10"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_setting_page_mode"
+        app:layout_constraintLeft_toRightOf="@+id/tv_setting_page_mode_cover"
+        app:layout_constraintTop_toTopOf="@+id/tv_setting_page_mode"
+        app:qmui_borderColor="@color/text_color_99" />
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/tv_setting_page_mode_empty"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/common_margin_large"
+        android:background="@drawable/btn_retry"
+        android:gravity="center"
+        android:padding="@dimen/common_margin_small"
+        android:text="无"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_10"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_setting_page_mode"
+        app:layout_constraintLeft_toRightOf="@+id/tv_setting_page_mode_vertical"
+        app:layout_constraintTop_toTopOf="@+id/tv_setting_page_mode"
+        app:qmui_borderColor="@color/text_color_99" />
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/tv_setting_reset"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/common_margin_large"
+        android:background="@drawable/btn_retry"
+        android:gravity="center"
+        android:padding="@dimen/common_margin_small"
+        android:text="还原"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_10"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_setting_page_mode"
+        app:layout_constraintLeft_toRightOf="@+id/tv_setting_page_mode_empty"
+        app:layout_constraintTop_toTopOf="@+id/tv_setting_page_mode"
+        app:qmui_borderColor="@color/text_color_99" />
+</androidx.constraintlayout.widget.ConstraintLayout>

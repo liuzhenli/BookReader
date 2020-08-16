@@ -1,11 +1,9 @@
-package com.liuzhenli.reader.view;
+package com.liuzhenli.reader.view.menu;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -24,7 +22,8 @@ import butterknife.ButterKnife;
  * @author liuzhenli 2020/7/27
  * Email: 848808263@qq.com
  */
-public class ReadBottomMenu extends FrameLayout {
+public class ReadBottomMenu extends BaseMenu {
+
     @BindView(R.id.tv_menu)
     TextView mTvMenu;
     @BindView(R.id.tv_pre_chapter)
@@ -41,6 +40,7 @@ public class ReadBottomMenu extends FrameLayout {
     TextView mVListenBook;
     @BindView(R.id.sb_chapters)
     SeekBar mVChapter;
+    private OnElementClickListener listener;
 
     public ReadBottomMenu(@NonNull Context context) {
         this(context, null);
@@ -52,12 +52,10 @@ public class ReadBottomMenu extends FrameLayout {
 
     public ReadBottomMenu(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
-        setOnClickListener(null);
     }
 
-
-    private void init() {
+    @Override
+    protected void init(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         LayoutInflater.from(getContext()).inflate(R.layout.layout_read_menu_bottom, this);
         ButterKnife.bind(this);
 
@@ -124,10 +122,14 @@ public class ReadBottomMenu extends FrameLayout {
         });
     }
 
-    private OnElementClickListener listener;
 
     public void setOnMenuElementClickListener(OnElementClickListener listener) {
         this.listener = listener;
+    }
+
+    @Override
+    protected void changeTheme() {
+
     }
 
     public interface OnElementClickListener {
