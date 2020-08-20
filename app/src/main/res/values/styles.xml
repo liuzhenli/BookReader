@@ -44,6 +44,11 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="AppTheme.FullScreen" parent="AppTheme.NoActionBar">
+        <item name="android:windowAnimationStyle">@style/ActivityAnimFade</item>
+        <item name="android:windowFullscreen">?android:windowNoTitle</item>
+    </style>
+
     <style name="TransparentActivityTheme" parent="AppTheme.NoActionBar">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>

@@ -2,6 +2,7 @@ package com.liuzhenli.reader.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
@@ -15,6 +16,7 @@ import com.liuzhenli.reader.utils.BatteryUtil;
 import com.liuzhenli.reader.view.menu.ReadBottomMenu;
 import com.liuzhenli.reader.view.menu.ReadBrightnessMenu;
 import com.liuzhenli.reader.view.menu.ReadSettingMenu;
+import com.liuzhenli.reader.view.menu.ReadTopBarMenu;
 import com.micoredu.readerlib.BaseReaderActivity;
 import com.micoredu.readerlib.bean.BookInfoBean;
 import com.micoredu.readerlib.bean.BookShelfBean;
@@ -50,6 +52,9 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
 
     private final static int OPEN_FROM_OTHER = 0;
     public final static int OPEN_FROM_APP = 1;
+
+    @BindView(R.id.menu_top_bar)
+    ReadTopBarMenu mTopBar;
 
     @BindView(R.id.reader_page_view)
     PageView mPageView;
@@ -129,6 +134,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
     @Override
     protected void configViews() {
         ButterKnife.bind(this);
+        mTopBar.getToolBar().setNavigationOnClickListener(v -> onBackPressed());
         initPageView();
         //获取本书的信息
         if (mOpenFrom == OPEN_FROM_APP) {
@@ -155,6 +161,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
             @Override
             public void onBrightnessClick() {
                 mVBottomMenu.setVisibility(View.GONE);
+                mTopBar.setVisibility(View.GONE);
                 mVBrightnessSettingMenu.setVisibility(View.VISIBLE);
             }
 
@@ -166,6 +173,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
             @Override
             public void onSettingClick() {
                 mVBottomMenu.setVisibility(View.GONE);
+                mTopBar.setVisibility(View.GONE);
                 mVSettingMenu.setVisibility(View.VISIBLE);
             }
 
@@ -181,7 +189,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
                 if (isStop) {
                     mPageLoader.skipToChapter(mCurrentChapterIndex, 0);
                 } else {
-                    toast(String.format("%s", mPresenter.getChapterList().get(mCurrentChapterIndex).getDurChapterName()));
+                    mTopBar.setChapterTitle(mPresenter.getChapterList().get(mCurrentChapterIndex).getDurChapterName());
                 }
             }
         });
@@ -230,6 +238,8 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
                 if (pos >= mPresenter.getChapterList().size()) {
                     return;
                 }
+                mCurrentChapterIndex = pos;
+                mTopBar.setChapterTitle(mPresenter.getChapterList().get(mCurrentChapterIndex).getDurChapterName());
             }
 
             /***
@@ -243,6 +253,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
                 mBookShelf.setDurChapterName(chapters.get(mCurrentChapterIndex).getDurChapterName());
                 mBookShelf.setLastChapterName(chapters.get(chapters.size() - 1).getDurChapterName());
                 BookshelfHelper.saveBookToShelf(mBookShelf);
+                mTopBar.setChapterTitle(mPresenter.getChapterList().get(mCurrentChapterIndex).getDurChapterName());
             }
 
             @Override
@@ -282,19 +293,27 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
             public void center() {
                 if (mVBottomMenu.getVisibility() == View.VISIBLE) {
                     mVBottomMenu.setVisibility(View.GONE);
+                    mTopBar.setVisibility(View.GONE);
                 } else {
                     mVBottomMenu.setVisibility(View.VISIBLE);
+                    mTopBar.setVisibility(View.VISIBLE);
                 }
                 if (mVSettingMenu.getVisibility() == View.VISIBLE) {
                     mVSettingMenu.setVisibility(View.GONE);
+                    mTopBar.setVisibility(View.GONE);
                     mVBottomMenu.setVisibility(View.GONE);
                 }
 
                 if (mVBrightnessSettingMenu.getVisibility() == View.VISIBLE) {
                     mVBrightnessSettingMenu.setVisibility(View.GONE);
                     mVBottomMenu.setVisibility(View.GONE);
+                    mTopBar.setVisibility(View.GONE);
                 }
+                mTopBar.getToolBar().setTitle(mBookShelf.getBookInfoBean().getName());
+                mTopBar.getToolBar().setTitleTextColor(Color.WHITE);
+
             }
+
         });
         mPageLoader.refreshChapterList();
     }

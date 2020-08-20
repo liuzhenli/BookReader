@@ -52,7 +52,9 @@
             android:name="com.liuzhenli.reader.ui.activity.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name="com.liuzhenli.reader.ui.activity.ImportLocalBookActivity" />
-        <activity android:name="com.liuzhenli.reader.ui.activity.ReaderActivity" />
+        <activity
+            android:name="com.liuzhenli.reader.ui.activity.ReaderActivity"
+            android:theme="@style/AppTheme.FullScreen" />
 
         <activity android:name="com.liuzhenli.reader.ui.activity.WebViewActivity" />
 
