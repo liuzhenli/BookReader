@@ -447,4 +447,6 @@
     <string name="layout_list">列表视图</string>
     <string name="layout_grid3">网格视图三列</string>
     <string name="layout_grid4">网格视图四列</string>
+
+    <string name="feed_back">意见反馈</string>
 </resources>

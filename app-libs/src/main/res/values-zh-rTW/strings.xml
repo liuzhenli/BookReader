@@ -441,4 +441,5 @@
     <string name="layout_grid3">網格視圖三列</string>
     <string name="layout_grid4">網格視圖四列</string>
     <string name="all_source">全部書源</string>
+    <string name="feed_back">意見反饋</string>
 </resources>

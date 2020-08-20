@@ -29,6 +29,7 @@ public class ReadBookControl {
     private int textDrawableIndex = DEFAULT_BG;
     private List<Map<String, Integer>> textDrawable;
     private Bitmap bgBitmap;
+    /***屏幕方向*/
     private int screenDirection;
     private int speechRate;
     private boolean speechRateFollowSys;

@@ -99,7 +99,7 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
      */
     protected void initImmersionBar() {
         //mImmersionBar.navigationBarColor(R.color.md_red_900);
-        mImmersionBar.statusBarColor(R.color.md_red_900);
+        mImmersionBar.statusBarColor(R.color.main);
         mImmersionBar.statusBarDarkFont(true);
         mImmersionBar.fitsSystemWindows(true);
         mImmersionBar.init();

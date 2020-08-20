@@ -2,12 +2,18 @@ package com.liuzhenli.reader.view.menu;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.liuzhenli.common.utils.ClickUtils;
 import com.microedu.reader.R;
+import com.qmuiteam.qmui.widget.QMUISlider;
+
+import butterknife.BindView;
 
 /**
  * Description:亮度菜单
@@ -16,6 +22,21 @@ import com.microedu.reader.R;
  * Email: 848808263@qq.com
  */
 public class ReadBrightnessMenu extends BaseMenu {
+    @BindView(R.id.view_brightness_mines)
+    ImageView viewBrightnessMines;
+    @BindView(R.id.sb_menu_setting_brightness)
+    QMUISlider sbMenuSettingBrightness;
+    @BindView(R.id.view_brightness_add)
+    ImageView viewBrightnessAdd;
+    @BindView(R.id.view_book_menu_brightness_divider_1)
+    View viewBookMenuBrightnessDivider1;
+    @BindView(R.id.tv_bright_follow_sys)
+    TextView tvBrightFollowSys;
+    @BindView(R.id.view_book_menu_brightness_divider_2)
+    View viewBookMenuBrightnessDivider2;
+    @BindView(R.id.tv_bright_protect_eye)
+    TextView tvBrightProtectEye;
+
     public ReadBrightnessMenu(@NonNull Context context) {
         this(context, null);
     }
@@ -29,8 +50,16 @@ public class ReadBrightnessMenu extends BaseMenu {
     }
 
     @Override
+    protected int getLayoutResId() {
+        return R.layout.layout_read_menu_brightness_setting;
+    }
+
+    @Override
     protected void init(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        LayoutInflater.from(context).inflate(R.layout.layout_read_menu_brightness_setting, this);
+        //减小亮度
+        ClickUtils.click(viewBrightnessMines, o -> {
+
+        });
     }
 
     @Override

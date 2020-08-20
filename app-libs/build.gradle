@@ -33,10 +33,6 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.1.0'
     api 'androidx.media:media:1.1.0'
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     //GreenDao
@@ -62,4 +58,9 @@ dependencies {
 
     api "com.qmuiteam:qmui:${rootProject.qmui_arch_version}"
     api "com.qmuiteam:arch:${rootProject.qmui_arch_version}"
+
+    //騰訊mmkv 增加包體0.5M https://github.com/Tencent/MMKV/wiki/android_setup_cn
+    api "com.tencent:mmkv-static:1.2.2"
+    //https://github.com/balysv/material-menu
+    api 'com.balysv.materialmenu:material-menu:2.0.0'
 }

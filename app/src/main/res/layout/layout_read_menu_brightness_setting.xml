@@ -14,7 +14,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_menu_brightness_night" />
 
-    <SeekBar
+    <com.qmuiteam.qmui.widget.QMUISlider
+        android:id="@+id/sb_menu_setting_brightness"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/view_brightness_mines"

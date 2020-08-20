@@ -55,10 +55,12 @@ public class ReadBottomMenu extends BaseMenu {
     }
 
     @Override
-    protected void init(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        LayoutInflater.from(getContext()).inflate(R.layout.layout_read_menu_bottom, this);
-        ButterKnife.bind(this);
+    protected int getLayoutResId() {
+        return R.layout.layout_read_menu_bottom;
+    }
 
+    @Override
+    protected void init(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         //菜单
         ClickUtils.click(mTvMenu, o -> {
             if (listener != null) {

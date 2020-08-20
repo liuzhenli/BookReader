@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by lfh on 2016/8/13.
+ * @author liuzhenli
  */
 public class SharedPreferencesUtil {
 
@@ -30,7 +30,7 @@ public class SharedPreferencesUtil {
         return prefsUtil;
     }
 
-    public static void init(Context context ) {
+    public static void init(Context context) {
         prefsUtil = new SharedPreferencesUtil();
         prefsUtil.context = context;
         prefsUtil.prefs = prefsUtil.context.getSharedPreferences("config", Context.MODE_PRIVATE);

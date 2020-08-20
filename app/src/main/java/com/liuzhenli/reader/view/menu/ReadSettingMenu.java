@@ -2,7 +2,6 @@ package com.liuzhenli.reader.view.menu;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,7 +11,6 @@ import com.microedu.reader.R;
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Description:设置菜单
@@ -87,10 +85,15 @@ public class ReadSettingMenu extends BaseMenu {
     }
 
     @Override
-    protected void init(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        LayoutInflater.from(getContext()).inflate(R.layout.layout_read_menu_setting, this);
-        ButterKnife.bind(this);
+    protected int getLayoutResId() {
+        return R.layout.layout_read_menu_setting;
     }
+
+    @Override
+    protected void init(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+
+    }
+
 
     @Override
     protected void changeTheme() {

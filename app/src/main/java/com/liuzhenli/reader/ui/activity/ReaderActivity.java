@@ -177,7 +177,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
             @Override
             public void onChapterProgressed(int progress, boolean isStop) {
 
-                mCurrentChapterIndex = mPresenter.getChapterList().size() * progress / 100;
+                mCurrentChapterIndex = (mPresenter.getChapterList().size() - 1) * progress / 100;
                 if (isStop) {
                     mPageLoader.skipToChapter(mCurrentChapterIndex, 0);
                 } else {
@@ -186,7 +186,6 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
             }
         });
     }
-
 
     /***显示书目录**/
     private void showBookChapterListView() {

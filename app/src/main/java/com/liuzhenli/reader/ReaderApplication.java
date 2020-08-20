@@ -19,6 +19,7 @@ import com.microedu.reader.BuildConfig;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.LogAdapter;
 import com.orhanobut.logger.Logger;
+import com.tencent.mmkv.MMKV;
 
 import java.util.concurrent.TimeUnit;
 
@@ -56,6 +57,11 @@ public class ReaderApplication extends BaseApplication {
                 return BuildConfig.DEBUG;
             }
         });
+        initMMKV();
+    }
+
+    private void initMMKV() {
+        String initialize = MMKV.initialize(this);
     }
 
     public static ReaderApplication getInstance() {

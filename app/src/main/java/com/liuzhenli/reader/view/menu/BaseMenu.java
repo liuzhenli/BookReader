@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 
 import com.microedu.reader.R;
 
+import butterknife.ButterKnife;
+
 /**
  * Description:设置菜单
  *
@@ -28,8 +30,12 @@ public abstract class BaseMenu extends FrameLayout {
     public BaseMenu(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setOnClickListener(null);
+        LayoutInflater.from(getContext()).inflate(getLayoutResId(),this);
+        ButterKnife.bind(this);
         init(context, attrs, defStyleAttr);
     }
+
+    protected abstract int getLayoutResId();
 
     protected abstract void init(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr);
 

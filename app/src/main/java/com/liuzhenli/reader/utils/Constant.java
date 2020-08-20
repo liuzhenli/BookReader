@@ -47,4 +47,9 @@ public class Constant extends AppConstant {
         String PDF = ".pdf";
         String EPUB = ".epub";
     }
+
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface QQGroup {
+        String QQ_1140723995 = "py5-vU4j3y7mobTS3IkZMKKJAFbiKRgl";
+    }
 }
