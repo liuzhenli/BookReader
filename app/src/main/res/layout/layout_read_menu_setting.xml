@@ -349,6 +349,22 @@
         app:qmui_borderColor="@color/text_color_99" />
 
     <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/tv_setting_page_mode_slide"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/common_margin_large"
+        android:background="@drawable/btn_retry"
+        android:gravity="center"
+        android:padding="@dimen/common_margin_small"
+        android:text="滑动"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_10"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_setting_page_mode"
+        app:layout_constraintLeft_toRightOf="@+id/tv_setting_page_mode_cover"
+        app:layout_constraintTop_toTopOf="@+id/tv_setting_page_mode"
+        app:qmui_borderColor="@color/text_color_99" />
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
         android:id="@+id/tv_setting_page_mode_vertical"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
@@ -360,7 +376,7 @@
         android:textColor="@color/text_color_99"
         android:textSize="@dimen/txt_size_10"
         app:layout_constraintBottom_toBottomOf="@+id/tv_setting_page_mode"
-        app:layout_constraintLeft_toRightOf="@+id/tv_setting_page_mode_cover"
+        app:layout_constraintLeft_toRightOf="@+id/tv_setting_page_mode_slide"
         app:layout_constraintTop_toTopOf="@+id/tv_setting_page_mode"
         app:qmui_borderColor="@color/text_color_99" />
 

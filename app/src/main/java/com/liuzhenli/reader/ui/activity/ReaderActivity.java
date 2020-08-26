@@ -18,9 +18,11 @@ import com.liuzhenli.reader.view.menu.ReadBrightnessMenu;
 import com.liuzhenli.reader.view.menu.ReadSettingMenu;
 import com.liuzhenli.reader.view.menu.ReadTopBarMenu;
 import com.micoredu.readerlib.BaseReaderActivity;
+import com.micoredu.readerlib.animation.PageAnimation;
 import com.micoredu.readerlib.bean.BookInfoBean;
 import com.micoredu.readerlib.bean.BookShelfBean;
 import com.micoredu.readerlib.helper.BookshelfHelper;
+import com.micoredu.readerlib.helper.ReadBookControl;
 import com.micoredu.readerlib.page.PageView;
 import com.micoredu.readerlib.bean.BookChapterBean;
 import com.micoredu.readerlib.page.PageLoader;
@@ -190,6 +192,14 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
                     mPageLoader.skipToChapter(mCurrentChapterIndex, 0);
                 } else {
                     mTopBar.setChapterTitle(mPresenter.getChapterList().get(mCurrentChapterIndex).getDurChapterName());
+                }
+            }
+        });
+        mVSettingMenu.setReadSettingCallBack(new ReadSettingMenu.ReadSettingCallBack() {
+            @Override
+            public void onPageModeChange() {
+                if (mPageLoader != null) {
+                    mPageLoader.setPageMode(PageAnimation.Mode.getPageMode(ReadBookControl.getInstance().getPageMode()));
                 }
             }
         });

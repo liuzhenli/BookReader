@@ -7,6 +7,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.liuzhenli.common.utils.ClickUtils;
+import com.liuzhenli.reader.ui.contract.ReadContract;
+import com.micoredu.readerlib.animation.PageAnimation;
+import com.micoredu.readerlib.helper.ReadBookControl;
+import com.micoredu.readerlib.utils.ReaderConfig;
 import com.microedu.reader.R;
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 
@@ -61,12 +66,19 @@ public class ReadSettingMenu extends BaseMenu {
     QMUIRoundButton tvMenuBackgroundMore;
     @BindView(R.id.tv_setting_page_mode)
     TextView tvSettingPageMode;
+    /****仿真*/
     @BindView(R.id.tv_setting_page_mode_paper)
     QMUIRoundButton tvSettingPageModePaper;
+    /****覆盖*/
     @BindView(R.id.tv_setting_page_mode_cover)
     QMUIRoundButton tvSettingPageModeCover;
+    /***滑动*/
+    @BindView(R.id.tv_setting_page_mode_slide)
+    QMUIRoundButton tvSettingPageModeSlide;
+    /***上下*/
     @BindView(R.id.tv_setting_page_mode_vertical)
     QMUIRoundButton tvSettingPageModeVertical;
+    /***无动画*/
     @BindView(R.id.tv_setting_page_mode_empty)
     QMUIRoundButton tvSettingPageModeEmpty;
     @BindView(R.id.tv_setting_reset)
@@ -91,12 +103,34 @@ public class ReadSettingMenu extends BaseMenu {
 
     @Override
     protected void init(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        //仿真模式
+        ClickUtils.click(tvSettingPageModePaper, o -> setPageMode(ReaderConfig.PageMode.SIMULATION));
+        ClickUtils.click(tvSettingPageModeCover, o -> setPageMode(ReaderConfig.PageMode.COVER));
+        ClickUtils.click(tvSettingPageModeVertical, o -> setPageMode(ReaderConfig.PageMode.SCROLL));
+        ClickUtils.click(tvSettingPageModeSlide, o -> setPageMode(ReaderConfig.PageMode.SLIDE));
+        ClickUtils.click(tvSettingPageModeEmpty, o -> setPageMode(ReaderConfig.PageMode.NONE));
 
     }
 
+    private void setPageMode(int mode) {
+        ReadBookControl.getInstance().setPageMode(mode);
+        if (callBack != null) {
+            callBack.onPageModeChange();
+        }
+    }
 
     @Override
     protected void changeTheme() {
 
+    }
+
+    private ReadSettingCallBack callBack;
+
+    public void setReadSettingCallBack(ReadSettingCallBack callBack) {
+        this.callBack = callBack;
+    }
+
+    public interface ReadSettingCallBack {
+        void onPageModeChange();
     }
 }
