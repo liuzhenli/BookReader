@@ -17,11 +17,28 @@ public class ReaderConfig {
     public static final int TIP_ALPHA = 180;
 
 
+    /**
+     * 翻页模式
+     */
     public @interface PageMode {
         int COVER = 0;
         int SIMULATION = 1;
         int SLIDE = 2;
         int SCROLL = 3;
         int NONE = 4;
+    }
+
+    /***默认字体大小*/
+    public @interface TextSize {
+        int SIZE_MIN = 10;
+        int SIZE_MAX = 40;
+    }
+
+    /***中文繁简体*/
+    public @interface CNText {
+        /***汉语-简体*/
+        int CN_SIMPLE = 1;
+        /***汉语-繁体*/
+        int CN_TRADITION = 2;
     }
 }

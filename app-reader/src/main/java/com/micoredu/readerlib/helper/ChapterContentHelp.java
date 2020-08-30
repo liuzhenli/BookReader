@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.luhuiguo.chinese.ChineseUtils;
 import com.micoredu.readerlib.bean.ReplaceRuleBean;
 import com.micoredu.readerlib.model.ReplaceRuleManager;
+import com.micoredu.readerlib.utils.ReaderConfig;
 
 public class ChapterContentHelp {
     private static ChapterContentHelp instance;
@@ -21,13 +22,13 @@ public class ChapterContentHelp {
     private String toTraditional(String content) {
         int convertCTS = ReadBookControl.getInstance().getTextConvert();
         switch (convertCTS) {
-            case 0:
-                break;
-            case 1:
+            case ReaderConfig.CNText.CN_SIMPLE:
                 content = ChineseUtils.toSimplified(content);
                 break;
-            case 2:
+            case ReaderConfig.CNText.CN_TRADITION:
                 content = ChineseUtils.toTraditional(content);
+                break;
+            default:
                 break;
         }
         return content;

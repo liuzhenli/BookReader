@@ -197,9 +197,25 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
         });
         mVSettingMenu.setReadSettingCallBack(new ReadSettingMenu.ReadSettingCallBack() {
             @Override
-            public void onPageModeChange() {
+            public void onPageAnimChanged() {
+                mPageLoader.setPageMode(PageAnimation.Mode.getPageMode(ReadBookControl.getInstance().getPageMode()));
+            }
+
+            @Override
+            public void onTextStyleChanged() {
                 if (mPageLoader != null) {
-                    mPageLoader.setPageMode(PageAnimation.Mode.getPageMode(ReadBookControl.getInstance().getPageMode()));
+                    mPageLoader.setTextSize();
+                }
+            }
+
+            @Override
+            public void onTypeFaceClicked() {
+
+            }
+
+            @Override
+            public void onBackGroundClicked() {
+                if (mPageLoader != null) {
                 }
             }
         });

@@ -40,6 +40,7 @@ public class ReadBookControl {
     private float lineMultiplier;
     private float paragraphSize;
     private int pageMode;
+    /***隐藏状态栏*/
     private Boolean hideStatusBar;
     private Boolean hideNavigationBar;
     private String fontPath;
@@ -372,6 +373,15 @@ public class ReadBookControl {
         preferences.putInt("textConvertInt", textConvert);
     }
 
+    /**
+     * 字体繁简
+     *
+     * @return ReaderConfig.CNText.CN_SIMPLE
+     */
+    public int getTextConvert() {
+        return textConvert == -1 ? ReaderConfig.CNText.CN_SIMPLE : textConvert;
+    }
+
     public void setNavBarColor(int navBarColor) {
         this.navBarColor = navBarColor;
         preferences.putInt("navBarColorInt", navBarColor);
@@ -396,9 +406,6 @@ public class ReadBookControl {
         return fontPath;
     }
 
-    public int getTextConvert() {
-        return textConvert == -1 ? 2 : textConvert;
-    }
 
     public Boolean getTextBold() {
         return textBold;

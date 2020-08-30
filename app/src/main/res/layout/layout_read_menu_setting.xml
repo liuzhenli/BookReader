@@ -87,13 +87,13 @@
         android:gravity="center"
         android:padding="@dimen/common_margin_small"
         android:text="加粗"
-        android:textColor="@color/text_color_99"
+        android:textColor="@color/s_setting_menu_outer"
         android:textSize="@dimen/txt_size_10"
         app:layout_constraintBottom_toBottomOf="@+id/tv_pre_chapter"
         app:layout_constraintLeft_toRightOf="@+id/tv_menu_text_simple"
         app:layout_constraintRight_toLeftOf="@id/tv_menu_text_type_face"
         app:layout_constraintTop_toTopOf="@+id/tv_pre_chapter"
-        app:qmui_borderColor="@color/text_color_99" />
+        app:qmui_borderColor="@color/s_setting_menu_outer" />
 
     <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
         android:id="@+id/tv_menu_text_type_face"
@@ -125,69 +125,74 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_pre_chapter" />
 
-    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
-        android:id="@+id/tv_menu_text_space_4"
-        android:layout_width="40dp"
+    <RadioGroup
+        android:id="@+id/rg_menu_text_space"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/common_margin_large"
-        android:background="@drawable/btn_retry"
-        android:gravity="center"
-        android:padding="@dimen/common_margin_small"
-        android:text="单倍"
-        android:textColor="@color/text_color_99"
-        android:textSize="@dimen/txt_size_10"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="@+id/tv_setting_letter_space"
         app:layout_constraintLeft_toRightOf="@+id/tv_setting_letter_space"
-        app:layout_constraintTop_toTopOf="@+id/tv_setting_letter_space"
-        app:qmui_borderColor="@color/text_color_99" />
+        app:layout_constraintTop_toTopOf="@+id/tv_setting_letter_space">
 
-    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
-        android:id="@+id/tv_menu_text_space_3"
-        android:layout_width="40dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/common_margin_large"
-        android:background="@drawable/btn_retry"
-        android:gravity="center"
-        android:padding="@dimen/common_margin_small"
-        android:text="2倍"
-        android:textColor="@color/text_color_99"
-        android:textSize="@dimen/txt_size_10"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_setting_letter_space"
-        app:layout_constraintLeft_toRightOf="@+id/tv_menu_text_space_4"
-        app:layout_constraintTop_toTopOf="@+id/tv_setting_letter_space"
-        app:qmui_borderColor="@color/text_color_99" />
+        <RadioButton
+            android:id="@+id/tv_menu_text_space_5"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/common_margin_large"
+            android:background="@drawable/s_btn_setting_menu_bg"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="@dimen/common_margin_small"
+            android:text="0.5倍"
+            android:textColor="@color/s_setting_menu_outer"
+            android:textSize="@dimen/txt_size_10" />
 
-    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
-        android:id="@+id/tv_menu_text_space_2"
-        android:layout_width="40dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/common_margin_large"
-        android:background="@drawable/btn_retry"
-        android:gravity="center"
-        android:padding="@dimen/common_margin_small"
-        android:text="3倍"
-        android:textColor="@color/text_color_99"
-        android:textSize="@dimen/txt_size_10"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_setting_letter_space"
-        app:layout_constraintLeft_toRightOf="@+id/tv_menu_text_space_3"
-        app:layout_constraintTop_toTopOf="@+id/tv_setting_letter_space"
-        app:qmui_borderColor="@color/text_color_99" />
+        <RadioButton
+            android:id="@+id/tv_menu_text_space_4"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/common_margin_large"
+            android:background="@drawable/s_btn_setting_menu_bg"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="@dimen/common_margin_small"
+            android:text="1倍"
+            android:textColor="@color/s_setting_menu_outer"
+            android:textSize="@dimen/txt_size_10" />
 
-    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
-        android:id="@+id/tv_menu_text_space_default"
-        android:layout_width="40dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/common_margin_large"
-        android:background="@drawable/btn_retry"
-        android:gravity="center"
-        android:padding="@dimen/common_margin_small"
-        android:text="默认"
-        android:textColor="@color/text_color_99"
-        android:textSize="@dimen/txt_size_10"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_setting_letter_space"
-        app:layout_constraintLeft_toRightOf="@+id/tv_menu_text_space_2"
-        app:layout_constraintTop_toTopOf="@+id/tv_setting_letter_space"
-        app:qmui_borderColor="@color/text_color_99" />
+        <RadioButton
+            android:id="@+id/tv_menu_text_space_3"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/common_margin_large"
+            android:background="@drawable/s_btn_setting_menu_bg"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="@dimen/common_margin_small"
+            android:text="2倍"
+            android:textColor="@color/s_setting_menu_outer"
+            android:textSize="@dimen/txt_size_10"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_setting_letter_space"
+            app:layout_constraintLeft_toRightOf="@+id/tv_menu_text_space_4"
+            app:layout_constraintTop_toTopOf="@+id/tv_setting_letter_space" />
+
+        <RadioButton
+            android:id="@+id/tv_menu_text_space_2"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/common_margin_large"
+            android:background="@drawable/s_btn_setting_menu_bg"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="@dimen/common_margin_small"
+            android:text="3倍"
+            android:textColor="@color/s_setting_menu_outer"
+            android:textSize="@dimen/txt_size_10"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_setting_letter_space"
+            app:layout_constraintLeft_toRightOf="@+id/tv_menu_text_space_3"
+            app:layout_constraintTop_toTopOf="@+id/tv_setting_letter_space" />
+
+    </RadioGroup>
 
     <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
         android:id="@+id/tv_menu_text_space_more"
@@ -199,7 +204,7 @@
         android:textColor="@color/text_color_99"
         android:textSize="@dimen/txt_size_18"
         app:layout_constraintBottom_toBottomOf="@+id/tv_setting_letter_space"
-        app:layout_constraintLeft_toRightOf="@+id/tv_menu_text_space_default"
+        app:layout_constraintLeft_toRightOf="@+id/rg_menu_text_space"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_setting_letter_space"
         app:qmui_borderColor="@color/text_color_99" />
@@ -325,12 +330,12 @@
         android:gravity="center"
         android:padding="@dimen/common_margin_small"
         android:text="仿真"
-        android:textColor="@color/text_color_99"
+        android:textColor="@color/s_setting_menu_outer"
         android:textSize="@dimen/txt_size_10"
         app:layout_constraintBottom_toBottomOf="@+id/tv_setting_page_mode"
         app:layout_constraintLeft_toRightOf="@+id/tv_setting_page_mode"
         app:layout_constraintTop_toTopOf="@+id/tv_setting_page_mode"
-        app:qmui_borderColor="@color/text_color_99" />
+        app:qmui_borderColor="@color/s_setting_menu_outer" />
 
     <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
         android:id="@+id/tv_setting_page_mode_cover"
@@ -341,12 +346,12 @@
         android:gravity="center"
         android:padding="@dimen/common_margin_small"
         android:text="覆盖"
-        android:textColor="@color/text_color_99"
+        android:textColor="@color/s_setting_menu_outer"
         android:textSize="@dimen/txt_size_10"
         app:layout_constraintBottom_toBottomOf="@+id/tv_setting_page_mode"
         app:layout_constraintLeft_toRightOf="@+id/tv_setting_page_mode_paper"
         app:layout_constraintTop_toTopOf="@+id/tv_setting_page_mode"
-        app:qmui_borderColor="@color/text_color_99" />
+        app:qmui_borderColor="@color/s_setting_menu_outer" />
 
     <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
         android:id="@+id/tv_setting_page_mode_slide"
@@ -357,12 +362,12 @@
         android:gravity="center"
         android:padding="@dimen/common_margin_small"
         android:text="滑动"
-        android:textColor="@color/text_color_99"
+        android:textColor="@color/s_setting_menu_outer"
         android:textSize="@dimen/txt_size_10"
         app:layout_constraintBottom_toBottomOf="@+id/tv_setting_page_mode"
         app:layout_constraintLeft_toRightOf="@+id/tv_setting_page_mode_cover"
         app:layout_constraintTop_toTopOf="@+id/tv_setting_page_mode"
-        app:qmui_borderColor="@color/text_color_99" />
+        app:qmui_borderColor="@color/s_setting_menu_outer" />
 
     <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
         android:id="@+id/tv_setting_page_mode_vertical"
@@ -373,12 +378,12 @@
         android:gravity="center"
         android:padding="@dimen/common_margin_small"
         android:text="上下"
-        android:textColor="@color/text_color_99"
+        android:textColor="@color/s_setting_menu_outer"
         android:textSize="@dimen/txt_size_10"
         app:layout_constraintBottom_toBottomOf="@+id/tv_setting_page_mode"
         app:layout_constraintLeft_toRightOf="@+id/tv_setting_page_mode_slide"
         app:layout_constraintTop_toTopOf="@+id/tv_setting_page_mode"
-        app:qmui_borderColor="@color/text_color_99" />
+        app:qmui_borderColor="@color/s_setting_menu_outer" />
 
     <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
         android:id="@+id/tv_setting_page_mode_empty"
@@ -389,12 +394,12 @@
         android:gravity="center"
         android:padding="@dimen/common_margin_small"
         android:text="无"
-        android:textColor="@color/text_color_99"
+        android:textColor="@color/s_setting_menu_outer"
         android:textSize="@dimen/txt_size_10"
         app:layout_constraintBottom_toBottomOf="@+id/tv_setting_page_mode"
         app:layout_constraintLeft_toRightOf="@+id/tv_setting_page_mode_vertical"
         app:layout_constraintTop_toTopOf="@+id/tv_setting_page_mode"
-        app:qmui_borderColor="@color/text_color_99" />
+        app:qmui_borderColor="@color/s_setting_menu_outer" />
 
     <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
         android:id="@+id/tv_setting_reset"

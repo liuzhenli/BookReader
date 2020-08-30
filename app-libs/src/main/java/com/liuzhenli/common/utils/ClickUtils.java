@@ -28,6 +28,11 @@ public class ClickUtils {
     }
 
     @SuppressLint("CheckResult")
+    public static void longClick(View view, Consumer action) {
+        RxView.longClicks(view).subscribe(action);
+    }
+
+    @SuppressLint("CheckResult")
     public static void click(View view, Consumer action, long duration) {
         if (Thread.currentThread().getName().contains("main")) {
             RxView.clicks(view)
