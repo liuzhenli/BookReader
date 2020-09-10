@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 
 import com.micoredu.readerlib.R;
 import com.micoredu.readerlib.ReaderLibManager;
-import com.micoredu.readerlib.helper.ReadBookControl;
+import com.micoredu.readerlib.helper.ReadConfigManager;
 
 
 /**
@@ -23,7 +23,7 @@ public abstract class PageAnimation {
     static final int animationSpeed = 300;
     //正在使用的View
     protected View mView;
-    protected ReadBookControl readBookControl = ReadBookControl.getInstance();
+    protected ReadConfigManager readBookControl = ReadConfigManager.getInstance();
     //滑动装置
     Scroller mScroller;
     //监听器

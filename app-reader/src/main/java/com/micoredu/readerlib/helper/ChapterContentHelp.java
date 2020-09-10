@@ -20,7 +20,7 @@ public class ChapterContentHelp {
      * 转繁体
      */
     private String toTraditional(String content) {
-        int convertCTS = ReadBookControl.getInstance().getTextConvert();
+        int convertCTS = ReadConfigManager.getInstance().getTextConvert();
         switch (convertCTS) {
             case ReaderConfig.CNText.CN_SIMPLE:
                 content = ChineseUtils.toSimplified(content);

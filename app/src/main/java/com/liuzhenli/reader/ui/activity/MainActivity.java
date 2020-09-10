@@ -48,6 +48,9 @@ public class MainActivity extends BaseActivity {
     View mViewFeedBack;
     @BindView(R.id.tv_qq_group)
     View mViewJoinQQGroup;
+    /***关于**/
+    @BindView(R.id.tv_main_draw_about)
+    View mViewAbout;
 
     private int mCurrentPosition;
 
@@ -137,6 +140,11 @@ public class MainActivity extends BaseActivity {
                 super.onDrawerSlide(drawerView, slideOffset);
                 mMaterialMenu.setTransformationOffset(MaterialMenuDrawable.AnimationState.BURGER_ARROW, 2 - slideOffset);
             }
+        });
+
+        //关于
+        ClickUtils.click(mViewAbout, o -> {
+            AboutActivity.start(mContext);
         });
 
     }

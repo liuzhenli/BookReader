@@ -28,7 +28,7 @@ import com.micoredu.readerlib.animation.ScrollPageAnim;
 import com.micoredu.readerlib.animation.SimulationPageAnim;
 import com.micoredu.readerlib.animation.SlidePageAnim;
 import com.micoredu.readerlib.bean.BookShelfBean;
-import com.micoredu.readerlib.helper.ReadBookControl;
+import com.micoredu.readerlib.helper.ReadConfigManager;
 import com.micoredu.readerlib.utils.bar.ImmersionBar;
 
 import org.jetbrains.annotations.NotNull;
@@ -55,7 +55,7 @@ public class PageView extends View implements PageAnimation.OnPageChangeListener
 
     private boolean actionFromEdge = false;
     /*** 初始化参数*/
-    private ReadBookControl readBookControl = ReadBookControl.getInstance();
+    private ReadConfigManager readBookControl = ReadConfigManager.getInstance();
     private boolean isPrepare;
     /*** 动画类*/
     private PageAnimation mPageAnim;

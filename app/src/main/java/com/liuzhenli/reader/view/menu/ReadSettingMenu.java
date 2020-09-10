@@ -3,7 +3,6 @@ package com.liuzhenli.reader.view.menu;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -13,7 +12,7 @@ import androidx.annotation.Nullable;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.FillContentUtil;
 import com.liuzhenli.reader.utils.ToastUtil;
-import com.micoredu.readerlib.helper.ReadBookControl;
+import com.micoredu.readerlib.helper.ReadConfigManager;
 import com.micoredu.readerlib.utils.ReaderConfig;
 import com.microedu.reader.R;
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
@@ -48,23 +47,13 @@ public class ReadSettingMenu extends BaseMenu {
     @BindView(R.id.rg_menu_text_space)
     RadioGroup rbTextSpace;
 
-    RadioButton tvMenuTextSpaceDefault;
     @BindView(R.id.tv_menu_text_space_more)
     QMUIRoundButton tvMenuTextSpaceMore;
     @BindView(R.id.tv_setting_text_background)
     TextView tvSettingTextBackground;
-    @BindView(R.id.tv_menu_background_1)
-    QMUIRoundButton tvMenuBackground1;
-    @BindView(R.id.tv_menu_background_2)
-    QMUIRoundButton tvMenuBackground2;
-    @BindView(R.id.tv_menu_background_3)
-    QMUIRoundButton tvMenuBackground3;
-    @BindView(R.id.tv_menu_background_4)
-    QMUIRoundButton tvMenuBackground4;
-    @BindView(R.id.tv_menu_background_5)
-    QMUIRoundButton tvMenuBackground5;
-    @BindView(R.id.tv_menu_background_more)
-    QMUIRoundButton tvMenuBackgroundMore;
+    @BindView(R.id.rb_menu_setting_bg)
+    RadioGroup rbPageBg;
+
     @BindView(R.id.tv_setting_page_mode)
     TextView tvSettingPageMode;
     /****仿真*/
@@ -84,6 +73,7 @@ public class ReadSettingMenu extends BaseMenu {
     QMUIRoundButton tvSettingPageModeEmpty;
     @BindView(R.id.tv_setting_reset)
     QMUIRoundButton tvSettingReset;
+    private ReadSettingCallBack callBack;
 
     public ReadSettingMenu(@NonNull Context context) {
         this(context, null);
@@ -116,10 +106,10 @@ public class ReadSettingMenu extends BaseMenu {
         //减小字号
         ClickUtils.click(tvMenuTextMin, o -> {
             if (callBack != null) {
-                int textSize = ReadBookControl.getInstance().getTextSize();
+                int textSize = ReadConfigManager.getInstance().getTextSize();
                 if (textSize > ReaderConfig.TextSize.SIZE_MIN) {
                     textSize -= 2;
-                    ReadBookControl.getInstance().setTextSize(textSize);
+                    ReadConfigManager.getInstance().setTextSize(textSize);
                     FillContentUtil.setNumberText(tvSettingMenuTextSize, textSize);
                     callBack.onTextStyleChanged();
                 } else {
@@ -131,11 +121,11 @@ public class ReadSettingMenu extends BaseMenu {
         //增大字号
         ClickUtils.click(tvMenuTextEnlarge, o -> {
             if (callBack != null) {
-                int textSize = ReadBookControl.getInstance().getTextSize();
+                int textSize = ReadConfigManager.getInstance().getTextSize();
                 if (textSize < ReaderConfig.TextSize.SIZE_MAX) {
                     textSize += 2;
                     FillContentUtil.setNumberText(tvSettingMenuTextSize, textSize);
-                    ReadBookControl.getInstance().setTextSize(textSize);
+                    ReadConfigManager.getInstance().setTextSize(textSize);
                     callBack.onTextStyleChanged();
                 } else {
                     ToastUtil.showCenter("已经是最大字体了~~");
@@ -145,10 +135,10 @@ public class ReadSettingMenu extends BaseMenu {
 
         //字体简体--繁体
         ClickUtils.click(tvMenuTextSimple, o -> {
-            if (ReadBookControl.getInstance().getTextConvert() != ReaderConfig.CNText.CN_TRADITION) {
-                ReadBookControl.getInstance().setTextConvert(ReaderConfig.CNText.CN_TRADITION);
+            if (ReadConfigManager.getInstance().getTextConvert() != ReaderConfig.CNText.CN_TRADITION) {
+                ReadConfigManager.getInstance().setTextConvert(ReaderConfig.CNText.CN_TRADITION);
             } else {
-                ReadBookControl.getInstance().setTextConvert(ReaderConfig.CNText.CN_SIMPLE);
+                ReadConfigManager.getInstance().setTextConvert(ReaderConfig.CNText.CN_SIMPLE);
             }
             setCnText();
             if (callBack != null) {
@@ -157,7 +147,7 @@ public class ReadSettingMenu extends BaseMenu {
         });
         //字体加粗,常态
         ClickUtils.click(tvMenuTextStyle, o -> {
-            ReadBookControl.getInstance().setTextBold(!ReadBookControl.getInstance().getTextBold());
+            ReadConfigManager.getInstance().setTextBold(!ReadConfigManager.getInstance().getTextBold());
             if (callBack != null) {
                 callBack.onTextStyleChanged();
             }
@@ -169,13 +159,20 @@ public class ReadSettingMenu extends BaseMenu {
                 callBack.onTypeFaceClicked();
             }
         });
-        rbTextSpace.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                setLineSpace(checkedId);
-                if (callBack != null) {
-                    callBack.onTextStyleChanged();
-                }
+        //设置行间距
+        rbTextSpace.setOnCheckedChangeListener((group, checkedId) -> {
+            setLineSpace(checkedId);
+            if (callBack != null) {
+                callBack.onTextStyleChanged();
+            }
+        });
+
+
+        //设置背景
+        rbPageBg.setOnCheckedChangeListener((group, checkedId) -> {
+            setPageBackGround(checkedId);
+            if (callBack != null) {
+                callBack.onBackGroundChanged();
             }
         });
     }
@@ -184,22 +181,23 @@ public class ReadSettingMenu extends BaseMenu {
      * 默认菜单选项设置
      */
     private void fillDefaultContent() {
-        FillContentUtil.setNumberText(tvSettingMenuTextSize, ReadBookControl.getInstance().getTextSize());
+        FillContentUtil.setNumberText(tvSettingMenuTextSize, ReadConfigManager.getInstance().getTextSize());
         setCnText();
         setTextBold();
-        setPageMode(ReadBookControl.getInstance().getPageMode());
-        setLineSpace(ReadBookControl.getInstance().getLineMultiplier());
+        setPageMode(ReadConfigManager.getInstance().getPageMode());
+        setLineSpace(ReadConfigManager.getInstance().getLineMultiplier());
     }
 
     /***繁体,简体*/
     private void setCnText() {
-        if (ReadBookControl.getInstance().getTextConvert() == ReaderConfig.CNText.CN_TRADITION) {
+        if (ReadConfigManager.getInstance().getTextConvert() == ReaderConfig.CNText.CN_TRADITION) {
             tvMenuTextSimple.setText("简体");
         } else {
             tvMenuTextSimple.setText("繁体");
         }
     }
 
+    /***设置行间距*/
     private void setLineSpace(float lineMultiplier) {
         if (lineMultiplier == 1.0) {
             setLineSpace(R.id.tv_menu_text_space_4);
@@ -210,22 +208,22 @@ public class ReadSettingMenu extends BaseMenu {
         } else if (lineMultiplier == 0.5f) {
             setLineSpace(R.id.tv_menu_text_space_5);
         }
-
     }
 
+    /***设置行间距*/
     private void setLineSpace(int checkedId) {
         switch (checkedId) {
             case R.id.tv_menu_text_space_4:
-                ReadBookControl.getInstance().setLineMultiplier(1.0f);
+                ReadConfigManager.getInstance().setLineMultiplier(1.0f);
                 break;
             case R.id.tv_menu_text_space_3:
-                ReadBookControl.getInstance().setLineMultiplier(2);
+                ReadConfigManager.getInstance().setLineMultiplier(2);
                 break;
             case R.id.tv_menu_text_space_2:
-                ReadBookControl.getInstance().setLineMultiplier(3);
+                ReadConfigManager.getInstance().setLineMultiplier(3);
                 break;
             case R.id.tv_menu_text_space_5:
-                ReadBookControl.getInstance().setLineMultiplier(0.5f);
+                ReadConfigManager.getInstance().setLineMultiplier(0.5f);
                 break;
             default:
                 break;
@@ -233,8 +231,58 @@ public class ReadSettingMenu extends BaseMenu {
         rbTextSpace.check(checkedId);
     }
 
+    static final int[] CHECKED_STATE_SET = new int[]{android.R.attr.state_checked};
+    static final int[] SELECTED_STATE_SET = new int[]{android.R.attr.state_selected};
+    static final int[] NOT_PRESSED_OR_FOCUSED_STATE_SET = new int[]{-android.R.attr.state_pressed, -android.R.attr.state_focused};
+
+    private void setPageBackGround(int checkedId) {
+        final int[][] states = new int[2][];
+        final int[] color = new int[2];
+        states[0] = NOT_PRESSED_OR_FOCUSED_STATE_SET;
+        states[1] = CHECKED_STATE_SET;
+        color[0] = R.color.text_color_99;
+        color[1] = R.color.main;
+        switch (checkedId) {
+            //0 白天
+            case R.id.tv_menu_background_0:
+                ReadConfigManager.getInstance().setTextDrawableIndex(0);
+                break;
+            //1 黄色
+            case R.id.tv_menu_background_1:
+                ReadConfigManager.getInstance().setTextDrawableIndex(1);
+                break;
+            //2 绿色
+            case R.id.tv_menu_background_2:
+                ReadConfigManager.getInstance().setTextDrawableIndex(2);
+                break;
+            //3 粉色
+            case R.id.tv_menu_background_3:
+                ReadConfigManager.getInstance().setTextDrawableIndex(3);
+                break;
+            //4 深蓝色
+            case R.id.tv_menu_background_4:
+                ReadConfigManager.getInstance().setTextDrawableIndex(4);
+                break;
+            //5 蓝色
+            case R.id.tv_menu_background_5:
+                ReadConfigManager.getInstance().setTextDrawableIndex(5);
+                break;
+            //6 夜间
+            case R.id.tv_menu_background_more:
+                ReadConfigManager.getInstance().setTextDrawableIndex(6);
+                break;
+            default:
+                break;
+        }
+        rbPageBg.check(checkedId);
+    }
+
+    private int getColor(int resId) {
+        return getContext().getResources().getColor(resId);
+    }
+
     private void setTextBold() {
-        if (ReadBookControl.getInstance().getTextBold()) {
+        if (ReadConfigManager.getInstance().getTextBold()) {
             tvMenuTextStyle.setSelected(true);
         } else {
             tvMenuTextStyle.setSelected(false);
@@ -262,7 +310,7 @@ public class ReadSettingMenu extends BaseMenu {
                 tvSettingPageModeEmpty.setSelected(true);
                 break;
         }
-        ReadBookControl.getInstance().setPageMode(mode);
+        ReadConfigManager.getInstance().setPageMode(mode);
         if (callBack != null) {
             callBack.onPageAnimChanged();
         }
@@ -273,7 +321,6 @@ public class ReadSettingMenu extends BaseMenu {
 
     }
 
-    private ReadSettingCallBack callBack;
 
     public void setReadSettingCallBack(ReadSettingCallBack callBack) {
         this.callBack = callBack;
@@ -290,6 +337,6 @@ public class ReadSettingMenu extends BaseMenu {
         void onTypeFaceClicked();
 
         /***背景*/
-        void onBackGroundClicked();
+        void onBackGroundChanged();
     }
 }

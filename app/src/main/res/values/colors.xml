@@ -2,7 +2,8 @@
 <resources>
     <color name="main_blue">#00a0e9</color>
     <color name="main">#00a0e9</color>
-    <color name="transparent">#fff</color>
+    <color name="transparent">#00ffffff</color>
+    <color name="read_theme_checked">#ff5000</color>
 
     <color name="main_touming">#99008577</color>
     <color name="colorPrimary">#008577</color>

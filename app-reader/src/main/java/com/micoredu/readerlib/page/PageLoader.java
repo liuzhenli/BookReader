@@ -27,7 +27,7 @@ import com.micoredu.readerlib.bean.BookChapterBean;
 import com.micoredu.readerlib.bean.BookShelfBean;
 import com.micoredu.readerlib.helper.BookshelfHelper;
 import com.micoredu.readerlib.helper.ChapterContentHelp;
-import com.micoredu.readerlib.helper.ReadBookControl;
+import com.micoredu.readerlib.helper.ReadConfigManager;
 import com.micoredu.readerlib.service.ReadAloudService;
 import com.micoredu.readerlib.utils.ReaderConfig;
 import com.microedu.theme.ThemeStore;
@@ -71,7 +71,7 @@ public abstract class PageLoader {
     /*** 绘制结束的画笔*/
     private TextPaint mTextEndPaint;
     /*** 阅读器的配置选项*/
-    protected ReadBookControl readBookControl = ReadBookControl.getInstance();
+    protected ReadConfigManager readBookControl = ReadConfigManager.getInstance();
     /***缩进*/
     protected String indent;
     /*****************params**************************/

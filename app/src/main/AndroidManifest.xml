@@ -57,6 +57,7 @@
             android:theme="@style/AppTheme.FullScreen" />
 
         <activity android:name="com.liuzhenli.reader.ui.activity.WebViewActivity" />
+        <activity android:name="com.liuzhenli.reader.ui.activity.AboutActivity" />
 
         <meta-data
             android:name="UMENG_APPKEY"

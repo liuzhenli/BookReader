@@ -22,7 +22,7 @@ import com.micoredu.readerlib.animation.PageAnimation;
 import com.micoredu.readerlib.bean.BookInfoBean;
 import com.micoredu.readerlib.bean.BookShelfBean;
 import com.micoredu.readerlib.helper.BookshelfHelper;
-import com.micoredu.readerlib.helper.ReadBookControl;
+import com.micoredu.readerlib.helper.ReadConfigManager;
 import com.micoredu.readerlib.page.PageView;
 import com.micoredu.readerlib.bean.BookChapterBean;
 import com.micoredu.readerlib.page.PageLoader;
@@ -198,7 +198,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
         mVSettingMenu.setReadSettingCallBack(new ReadSettingMenu.ReadSettingCallBack() {
             @Override
             public void onPageAnimChanged() {
-                mPageLoader.setPageMode(PageAnimation.Mode.getPageMode(ReadBookControl.getInstance().getPageMode()));
+                mPageLoader.setPageMode(PageAnimation.Mode.getPageMode(ReadConfigManager.getInstance().getPageMode()));
             }
 
             @Override
@@ -214,8 +214,11 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
             }
 
             @Override
-            public void onBackGroundClicked() {
+            public void onBackGroundChanged() {
                 if (mPageLoader != null) {
+                    ReadConfigManager.getInstance().initTextDrawableIndex();
+                    mPageView.setBackground(ReadConfigManager.getInstance().getTextBackground(mContext));
+                    mPageLoader.refreshUi();
                 }
             }
         });

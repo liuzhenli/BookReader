@@ -21,22 +21,25 @@ import com.liuzhenli.common.BaseApplication;
 import com.liuzhenli.common.BitmapUtil;
 import com.liuzhenli.common.utils.MeUtils;
 import com.liuzhenli.common.SharedPreferencesUtil;
+import com.micoredu.readerlib.R;
 import com.micoredu.readerlib.ReaderLibManager;
 import com.micoredu.readerlib.utils.ReaderConfig;
 
-public class ReadBookControl {
+/****阅读参数设置*/
+public class ReadConfigManager {
     private static final int DEFAULT_BG = 1;
-    private int textDrawableIndex = DEFAULT_BG;
-    private List<Map<String, Integer>> textDrawable;
+    private int mTextDrawableIndex = DEFAULT_BG;
+    private List<Map<String, Integer>> mTextDrawable;
     private Bitmap bgBitmap;
     /***屏幕方向*/
     private int screenDirection;
     private int speechRate;
     private boolean speechRateFollowSys;
     private int textSize;
-    private int textColor;
+    /***字体颜色**/
+    private int mTextColor;
     private boolean bgIsColor;
-    private int bgColor;
+    private int mBackgroundColor;
     private float lineMultiplier;
     private float paragraphSize;
     private int pageMode;
@@ -71,20 +74,20 @@ public class ReadBookControl {
 
     private SharedPreferencesUtil preferences;
 
-    private static ReadBookControl readBookControl;
+    private static ReadConfigManager readBookControl;
 
-    public static ReadBookControl getInstance() {
+    public static ReadConfigManager getInstance() {
         if (readBookControl == null) {
-            synchronized (ReadBookControl.class) {
+            synchronized (ReadConfigManager.class) {
                 if (readBookControl == null) {
-                    readBookControl = new ReadBookControl();
+                    readBookControl = new ReadConfigManager();
                 }
             }
         }
         return readBookControl;
     }
 
-    private ReadBookControl() {
+    private ReadConfigManager() {
         preferences = SharedPreferencesUtil.getInstance();
         initTextDrawable();
         updateReaderSettings();
@@ -130,53 +133,74 @@ public class ReadBookControl {
 
     /***阅读背景*/
     private void initTextDrawable() {
-        if (null == textDrawable) {
-            textDrawable = new ArrayList<>();
+        if (null == mTextDrawable) {
+            //0 白天
+            mTextDrawable = new ArrayList<>();
             Map<String, Integer> temp1 = new HashMap<>();
-            temp1.put("textColor", Color.parseColor("#3E3D3B"));
+            temp1.put("textColor", BaseApplication.getInstance().getResources().getColor(R.color.skin_day_reader_scene_text_color));
             temp1.put("bgIsColor", 1);
-            temp1.put("textBackground", Color.parseColor("#F3F3F3"));
+            temp1.put("textBackground", BaseApplication.getInstance().getResources().getColor(R.color.skin_day_reader_scene_bg_color));
             temp1.put("darkStatusIcon", 1);
-            textDrawable.add(temp1);
+            mTextDrawable.add(temp1);
 
+            //1 黄
             Map<String, Integer> temp2 = new HashMap<>();
-            temp2.put("textColor", Color.parseColor("#5E432E"));
+            temp2.put("textColor", BaseApplication.getInstance().getResources().getColor(R.color.skin_yellow_reader_scene_text_color));
             temp2.put("bgIsColor", 1);
-            temp2.put("textBackground", Color.parseColor("#C6BAA1"));
+            temp2.put("textBackground", BaseApplication.getInstance().getResources().getColor(R.color.skin_yellow_reader_scene_bg_color));
             temp2.put("darkStatusIcon", 1);
-            textDrawable.add(temp2);
+            mTextDrawable.add(temp2);
 
+            //2 绿
             Map<String, Integer> temp3 = new HashMap<>();
-            temp3.put("textColor", Color.parseColor("#22482C"));
+            temp3.put("textColor", BaseApplication.getInstance().getResources().getColor(R.color.skin_green_reader_scene_text_color));
             temp3.put("bgIsColor", 1);
-            temp3.put("textBackground", Color.parseColor("#E1F1DA"));
+            temp3.put("textBackground", BaseApplication.getInstance().getResources().getColor(R.color.skin_green_reader_scene_bg_color));
             temp3.put("darkStatusIcon", 1);
-            textDrawable.add(temp3);
+            mTextDrawable.add(temp3);
 
+            //3 粉
             Map<String, Integer> temp4 = new HashMap<>();
-            temp4.put("textColor", Color.parseColor("#FFFFFF"));
+            temp4.put("textColor", BaseApplication.getInstance().getResources().getColor(R.color.skin_pink_reader_scene_text_color));
             temp4.put("bgIsColor", 1);
-            temp4.put("textBackground", Color.parseColor("#015A86"));
+            temp4.put("textBackground", BaseApplication.getInstance().getResources().getColor(R.color.skin_green_reader_scene_bg_color));
             temp4.put("darkStatusIcon", 0);
-            textDrawable.add(temp4);
+            mTextDrawable.add(temp4);
 
+            //4 深蓝
             Map<String, Integer> temp5 = new HashMap<>();
-            temp5.put("textColor", Color.parseColor("#808080"));
+            temp5.put("textColor", BaseApplication.getInstance().getResources().getColor(R.color.skin_sblue_reader_scene_text_color));
             temp5.put("bgIsColor", 1);
-            temp5.put("textBackground", Color.parseColor("#000000"));
+            temp5.put("textBackground", BaseApplication.getInstance().getResources().getColor(R.color.skin_sblue_reader_scene_bg_color));
             temp5.put("darkStatusIcon", 0);
-            textDrawable.add(temp5);
+            mTextDrawable.add(temp5);
+
+            //5 蓝
+            Map<String, Integer> temp6 = new HashMap<>();
+            temp6.put("textColor", BaseApplication.getInstance().getResources().getColor(R.color.skin_blue_reader_scene_text_color));
+            temp6.put("bgIsColor", 1);
+            temp6.put("textBackground", BaseApplication.getInstance().getResources().getColor(R.color.skin_blue_reader_scene_bg_color));
+            temp6.put("darkStatusIcon", 0);
+            mTextDrawable.add(temp6);
+
+            //6 夜间
+            Map<String, Integer> temp7 = new HashMap<>();
+            temp7.put("textColor", R.color.skin_night_reader_scene_text_color);
+            temp7.put("bgIsColor", 1);
+            temp7.put("textBackground", R.color.skin_night_reader_scene_bg_color);
+            temp7.put("darkStatusIcon", 0);
+            mTextDrawable.add(temp7);
         }
     }
 
     public void initTextDrawableIndex() {
         if (getIsNightTheme()) {
-            textDrawableIndex = preferences.getInt("textDrawableIndexNight", 4);
+            mTextDrawableIndex = preferences.getInt("textDrawableIndexNight", 6);
         } else {
-            textDrawableIndex = preferences.getInt("textDrawableIndex", DEFAULT_BG);
+            mTextDrawableIndex = preferences.getInt("textDrawableIndex", DEFAULT_BG);
         }
-        if (textDrawableIndex == -1) {
-            textDrawableIndex = DEFAULT_BG;
+        if (mTextDrawableIndex == -1) {
+            mTextDrawableIndex = DEFAULT_BG;
         }
         initPageStyle();
         setTextDrawable();
@@ -184,10 +208,10 @@ public class ReadBookControl {
 
     @SuppressWarnings("ConstantConditions")
     private void initPageStyle() {
-        int bgCustom = getBgCustom(textDrawableIndex);
-        if ((bgCustom == 2 || bgCustom == 3) && getBgPath(textDrawableIndex) != null) {
+        int bgCustom = getBgCustom(mTextDrawableIndex);
+        if ((bgCustom == 2 || bgCustom == 3) && getBgPath(mTextDrawableIndex) != null) {
             bgIsColor = false;
-            String bgPath = getBgPath(textDrawableIndex);
+            String bgPath = getBgPath(mTextDrawableIndex);
             Resources resources = ReaderLibManager.getAppResources();
             DisplayMetrics dm = resources.getDisplayMetrics();
             int width = dm.widthPixels;
@@ -200,18 +224,20 @@ public class ReadBookControl {
             if (bgBitmap != null) {
                 return;
             }
-        } else if (getBgCustom(textDrawableIndex) == 1) {
+        } else if (getBgCustom(mTextDrawableIndex) == 1) {
             bgIsColor = true;
-            bgColor = getBgColor(textDrawableIndex);
+            mBackgroundColor = getBgColor(mTextDrawableIndex);
             return;
         }
         bgIsColor = true;
-        bgColor = textDrawable.get(textDrawableIndex).get("textBackground");
+        if (mTextDrawable.size() > mTextDrawableIndex && mTextDrawable.get(mTextDrawableIndex) != null) {
+            mBackgroundColor = mTextDrawable.get(mTextDrawableIndex).get("textBackground");
+        }
     }
 
     private void setTextDrawable() {
-        darkStatusIcon = getDarkStatusIcon(textDrawableIndex);
-        textColor = getTextColor(textDrawableIndex);
+        darkStatusIcon = getDarkStatusIcon(mTextDrawableIndex);
+        mTextColor = getTextColor(mTextDrawableIndex);
     }
 
     public int getTextColor(int textDrawableIndex) {
@@ -247,15 +273,15 @@ public class ReadBookControl {
                     color = getBgColor(textDrawableIndex);
                     return new ColorDrawable(color);
             }
-            if (textDrawable.get(textDrawableIndex).get("bgIsColor") != 0) {
-                color = textDrawable.get(textDrawableIndex).get("textBackground");
+            if (mTextDrawable.get(textDrawableIndex).get("bgIsColor") != 0) {
+                color = mTextDrawable.get(textDrawableIndex).get("textBackground");
                 return new ColorDrawable(color);
             } else {
                 return getDefaultBgDrawable(textDrawableIndex, context);
             }
         } catch (Exception e) {
-            if (textDrawable.get(textDrawableIndex).get("bgIsColor") != 0) {
-                color = textDrawable.get(textDrawableIndex).get("textBackground");
+            if (mTextDrawable.get(textDrawableIndex).get("bgIsColor") != 0) {
+                color = mTextDrawable.get(textDrawableIndex).get("textBackground");
                 return new ColorDrawable(color);
             } else {
                 return getDefaultBgDrawable(textDrawableIndex, context);
@@ -265,8 +291,8 @@ public class ReadBookControl {
 
     @SuppressWarnings("ConstantConditions")
     public Drawable getDefaultBgDrawable(int textDrawableIndex, Context context) {
-        if (textDrawable.get(textDrawableIndex).get("bgIsColor") != 0) {
-            return new ColorDrawable(textDrawable.get(textDrawableIndex).get("textBackground"));
+        if (mTextDrawable.get(textDrawableIndex).get("bgIsColor") != 0) {
+            return new ColorDrawable(mTextDrawable.get(textDrawableIndex).get("textBackground"));
         } else {
             return context.getResources().getDrawable(getDefaultBg(textDrawableIndex));
         }
@@ -290,12 +316,12 @@ public class ReadBookControl {
 
     @SuppressWarnings("ConstantConditions")
     public int getDefaultTextColor(int textDrawableIndex) {
-        return textDrawable.get(textDrawableIndex).get("textColor");
+        return mTextDrawable.get(textDrawableIndex).get("textColor");
     }
 
     @SuppressWarnings("ConstantConditions")
     private int getDefaultBg(int textDrawableIndex) {
-        return textDrawable.get(textDrawableIndex).get("textBackground");
+        return mTextDrawable.get(textDrawableIndex).get("textBackground");
     }
 
     public int getBgColor(int index) {
@@ -328,7 +354,7 @@ public class ReadBookControl {
     }
 
     public int getTextColor() {
-        return textColor;
+        return mTextColor;
     }
 
     public boolean bgIsColor() {
@@ -337,13 +363,13 @@ public class ReadBookControl {
 
     public Drawable getTextBackground(Context context) {
         if (bgIsColor) {
-            return new ColorDrawable(bgColor);
+            return new ColorDrawable(mBackgroundColor);
         }
         return new BitmapDrawable(context.getResources(), bgBitmap);
     }
 
     public int getBgColor() {
-        return bgColor;
+        return mBackgroundColor;
     }
 
     public boolean bgBitmapIsNull() {
@@ -355,11 +381,11 @@ public class ReadBookControl {
     }
 
     public int getTextDrawableIndex() {
-        return textDrawableIndex;
+        return mTextDrawableIndex;
     }
 
     public void setTextDrawableIndex(int textDrawableIndex) {
-        this.textDrawableIndex = textDrawableIndex;
+        this.mTextDrawableIndex = textDrawableIndex;
         if (getIsNightTheme()) {
             preferences.putInt("textDrawableIndexNight", textDrawableIndex);
         } else {
@@ -570,7 +596,7 @@ public class ReadBookControl {
 
     @SuppressWarnings("ConstantConditions")
     public boolean getDarkStatusIcon(int textDrawableIndex) {
-        return preferences.getBoolean("darkStatusIcon" + textDrawableIndex, textDrawable.get(textDrawableIndex).get("darkStatusIcon") != 0);
+        return preferences.getBoolean("darkStatusIcon" + textDrawableIndex, mTextDrawable.get(textDrawableIndex).get("darkStatusIcon") != 0);
     }
 
     public void setDarkStatusIcon(int textDrawableIndex, Boolean darkStatusIcon) {
