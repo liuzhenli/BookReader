@@ -163,7 +163,7 @@ public class ReadConfigManager {
             Map<String, Integer> temp4 = new HashMap<>();
             temp4.put("textColor", BaseApplication.getInstance().getResources().getColor(R.color.skin_pink_reader_scene_text_color));
             temp4.put("bgIsColor", 1);
-            temp4.put("textBackground", BaseApplication.getInstance().getResources().getColor(R.color.skin_green_reader_scene_bg_color));
+            temp4.put("textBackground", BaseApplication.getInstance().getResources().getColor(R.color.skin_pink_reader_scene_bg_color));
             temp4.put("darkStatusIcon", 0);
             mTextDrawable.add(temp4);
 

@@ -60,6 +60,17 @@ public class ReadBrightnessMenu extends BaseMenu {
         ClickUtils.click(viewBrightnessMines, o -> {
 
         });
+
+        sbMenuSettingBrightness.setCallback(new QMUISlider.DefaultCallback() {
+            @Override
+            public void onProgressChange(QMUISlider slider, int progress, int tickCount, boolean fromUser) {
+                super.onProgressChange(slider, progress, tickCount, fromUser);
+
+            }
+        });
+    }
+
+    private void setBrightness(int value){
     }
 
     @Override
