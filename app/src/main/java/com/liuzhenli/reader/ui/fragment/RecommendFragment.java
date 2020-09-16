@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import com.liuzhenli.reader.base.BaseFragment;
 import com.liuzhenli.reader.network.AppComponent;
+import com.liuzhenli.reader.ui.contract.RecommendContract;
+import com.liuzhenli.reader.ui.presenter.RecommendPresenter;
 import com.microedu.reader.R;
 
 /**
@@ -11,10 +13,10 @@ import com.microedu.reader.R;
  *
  * @author Liuzhenli on 2019-11-09 22:28
  */
-public class BookRecommendFragment extends BaseFragment {
+public class RecommendFragment extends BaseFragment<RecommendPresenter> implements RecommendContract.View {
 
-    public static BookRecommendFragment getInstance() {
-        BookRecommendFragment instance = new BookRecommendFragment();
+    public static RecommendFragment getInstance() {
+        RecommendFragment instance = new RecommendFragment();
         Bundle bundle = new Bundle();
         instance.setArguments(bundle);
         return instance;
@@ -27,7 +29,7 @@ public class BookRecommendFragment extends BaseFragment {
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-
+        appComponent.inject(appComponent);
     }
 
     @Override
@@ -42,6 +44,21 @@ public class BookRecommendFragment extends BaseFragment {
 
     @Override
     public void configViews() {
+
+    }
+
+    @Override
+    public void showSource() {
+
+    }
+
+    @Override
+    public void showError(Exception e) {
+
+    }
+
+    @Override
+    public void complete() {
 
     }
 }

@@ -10,6 +10,53 @@
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/common_margin_large"
+        android:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/tv_version_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/common_margin_normal"
+        android:gravity="center"
+        android:text="阅读 v1.0.0 Build#11 tq_group_1"
+        android:textColor="@color/text_color_66" />
+
+    <TextView
+        android:id="@+id/tv_version_check_update"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/all_item_height"
+        android:layout_marginTop="@dimen/common_margin_normal"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/common_margin_normal"
+        android:text="检查更新"
+        android:textColor="@color/text_color_66" />
+
+    <TextView
+        android:id="@+id/tv_about_contact"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/all_item_height"
+        android:layout_marginTop="@dimen/common_margin_normal"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/common_margin_normal"
+        android:text="联系开发者"
+        android:textColor="@color/text_color_66" />
+
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/common_margin_normal"
+        android:gravity="center"
+        android:text="Lovely Made by liuzhenli \n@2020-2020 All Rights Reserved"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_10" />
 
 </LinearLayout>

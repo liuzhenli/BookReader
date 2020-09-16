@@ -398,4 +398,8 @@ public class StringUtils {
                         //移除尾部空行
                         .replaceAll("[\\n\\s]+$", "");
     }
+
+    public static boolean isEmpty(String text) {
+        return text == null || text.length() == 0;
+    }
 }

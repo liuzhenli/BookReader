@@ -1,9 +1,17 @@
 package com.liuzhenli.common.utils;
 
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
+import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.provider.Settings;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.liuzhenli.common.BaseApplication;
 
 import java.lang.reflect.Method;
+import java.util.logging.Logger;
 
 /**
  * Created by newbiechen on 17-5-1.
@@ -120,5 +129,128 @@ public class ScreenUtils {
                 .getInstance()
                 .getResources()
                 .getDisplayMetrics();
+    }
+
+    /**
+     * 当前是否是横屏
+     *
+     * @param context context
+     * @return boolean
+     */
+    public static final boolean isLandscape(Context context) {
+        return context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+    }
+
+    /**
+     * 当前是否是竖屏
+     *
+     * @param context context
+     * @return boolean
+     */
+    public static final boolean isPortrait(Context context) {
+        return context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+    }
+
+    /**
+     * 调整窗口的透明度  1.0f,0.5f 变暗
+     *
+     * @param from    from>=0&&from<=1.0f
+     * @param to      to>=0&&to<=1.0f
+     * @param context 当前的activity
+     */
+    public static void dimBackground(final float from, final float to, Activity context) {
+        final Window window = context.getWindow();
+        ValueAnimator valueAnimator = ValueAnimator.ofFloat(from, to);
+        valueAnimator.setDuration(500);
+        valueAnimator.addUpdateListener(
+                animation -> {
+                    WindowManager.LayoutParams params = window.getAttributes();
+                    params.alpha = (Float) animation.getAnimatedValue();
+                    window.setAttributes(params);
+                });
+        valueAnimator.start();
+    }
+
+    /**
+     * 判断是否开启了自动亮度调节
+     *
+     * @param activity
+     * @return
+     */
+    public static boolean isAutoBrightness(Activity activity) {
+        boolean isAutoAdjustBright = false;
+        try {
+            isAutoAdjustBright = Settings.System.getInt(
+                    activity.getContentResolver(),
+                    Settings.System.SCREEN_BRIGHTNESS_MODE) == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
+        } catch (Settings.SettingNotFoundException e) {
+            e.printStackTrace();
+        }
+        return isAutoAdjustBright;
+    }
+
+
+    /**
+     * 开启亮度自动调节
+     *
+     * @param activity
+     */
+
+    public static void startAutoBrightness(Activity activity) {
+        setScreenBrightness(activity, -1);
+    }
+
+    /**
+     * 获得当前屏幕亮度值
+     *
+     * @param mContext
+     * @return 0~100
+     */
+    public static float getScreenBrightness(Context mContext) {
+        int screenBrightness = 255;
+        try {
+            screenBrightness = Settings.System.getInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return screenBrightness / 255.0F * 100;
+    }
+
+    /**
+     * 设置当前屏幕亮度值
+     *
+     * @param paramInt 0~100
+     * @param mContext
+     */
+    public static void saveScreenBrightness(int paramInt, Context mContext) {
+        if (paramInt <= 5) {
+            paramInt = 5;
+        }
+        try {
+            float f = paramInt / 100.0F * 255;
+            Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, (int) f);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 设置Activity的亮度
+     *
+     * @param brightness 亮度值0-100
+     * @param activity activity
+     */
+
+    public static void setScreenBrightness(Activity activity, int brightness) {
+        WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
+        if (brightness == -1) {
+            lp.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
+        } else {
+            if (brightness < 10) {
+                brightness = 10;
+            }
+            lp.screenBrightness = Float.valueOf(brightness / 255f);
+        }
+        activity.getWindow().setAttributes(lp);
     }
 }

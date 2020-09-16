@@ -38,4 +38,6 @@ public interface AppComponent {
     void inject(BookCatalogActivity bookCatalogActivity);
 
     void inject(LocalTxtFragment localTxtFragment);
+
+    void inject(AppComponent appComponent);
 }

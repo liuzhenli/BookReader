@@ -195,6 +195,12 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
                 }
             }
         });
+        mVBrightnessSettingMenu.setCallback(this, new ReadBrightnessMenu.CallBack() {
+            @Override
+            public void onProtectEyeClick(boolean on) {
+
+            }
+        });
         mVSettingMenu.setReadSettingCallBack(new ReadSettingMenu.ReadSettingCallBack() {
             @Override
             public void onPageAnimChanged() {

@@ -4,6 +4,8 @@ import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.text.TextUtils;
 
@@ -12,6 +14,7 @@ import androidx.multidex.MultiDex;
 
 import com.liuzhenli.common.constant.AppConstant;
 import com.liuzhenli.common.utils.AppFrontBackHelper;
+import com.liuzhenli.common.utils.ChannelUtil;
 import com.qmuiteam.qmui.arch.QMUISwipeBackActivityManager;
 
 import java.io.File;
@@ -31,6 +34,13 @@ public class BaseApplication extends Application {
     private static BaseApplication sInstance;
     private static String downloadPath;
     protected boolean donateHb;
+    public int mVersionCode;
+    public String mVersionName;
+    public String mVersionChannel;
+
+    public static BaseApplication getInstance() {
+        return sInstance;
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -44,10 +54,18 @@ public class BaseApplication extends Application {
         if (TextUtils.isEmpty(downloadPath) | Objects.equals(downloadPath, FileHelp.getCachePath())) {
             setDownloadPath(null);
         }
+        initAppVersion();
     }
 
-    public static BaseApplication getInstance() {
-        return sInstance;
+    private void initAppVersion() {
+        try {
+            PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
+            mVersionCode = pi.versionCode;
+            mVersionName = pi.versionName;
+            mVersionChannel = ChannelUtil.getChannelName(this);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean isNightTheme() {
@@ -118,4 +136,5 @@ public class BaseApplication extends Application {
         SharedPreferencesUtil.getInstance().putLong("DonateHb", System.currentTimeMillis());
         donateHb = true;
     }
+
 }
