@@ -1,18 +1,21 @@
 package com.liuzhenli.reader.network.support;
 
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.liuzhenli.common.utils.NetworkUtils;
 import com.liuzhenli.reader.ReaderApplication;
 import com.liuzhenli.reader.utils.AccountManager;
+import com.liuzhenli.reader.utils.ApiManager;
 import com.liuzhenli.reader.utils.AppUtils;
 import com.liuzhenli.reader.utils.DeviceUtil;
 import com.liuzhenli.reader.utils.StringUtil;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.FormBody;
@@ -25,6 +28,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okio.Buffer;
 
+import static com.liuzhenli.reader.utils.Constant.USER_AGENT;
+
 /**
  * Retrofit2 Cookie拦截器。用于保存和设置Cookies
  *
@@ -36,58 +41,55 @@ public final class HeaderInterceptor implements Interceptor {
     private Map<String, String> commonParams = new HashMap<>();
 
     private void initCommonParams() {
-        commonParams.put("_filterData", "1");
-        //android 2
-        commonParams.put("platform", "2");
         commonParams.put("_versions", AppUtils.getAppVersionCode(ReaderApplication.getInstance()) + "");
         commonParams.put("merchant", AppUtils.getChannelValue(ReaderApplication.getInstance()));
     }
 
-    private void initTangYuanCommonParams() {
-        String brand = StringUtil.filterInvisiableChar(android.os.Build.BRAND, "*");
-        String model = StringUtil.filterInvisiableChar(android.os.Build.MODEL, "*");
-        String osVersionNum = StringUtil.filterInvisiableChar(android.os.Build.VERSION.RELEASE, "*");
-
-        String deviceModel = brand + "-" + model;
-        String deviceOSVersion = "Android" + osVersionNum;
-        String appVersion = AppUtils.getAppVersionName(ReaderApplication.getInstance())
-                + " rv-" + AppUtils.getAppVersionCode(ReaderApplication.getInstance());
-        String deviceId = DeviceUtil.getPhoneUid();
-        String appChannel = AppUtils.getChannelValue(ReaderApplication.getInstance());
-
-        String userAgentFormat = "%1$s,%2$s,%3$s,%4$s,%5$s,%6$s";
-        String userAgent = String.format(userAgentFormat, "Android", deviceModel, deviceOSVersion, appVersion, appChannel, deviceId);
-        commonParams.put("User-Agent", userAgent);
-        Log.e("userAgent--", userAgent);
-
-        // 所有请求，都添加一条自定义的 Header
-        long currentTime = System.currentTimeMillis() / 1000;
-        commonParams.put("X-TY-Request", "ts=" + currentTime + "; network=" + NetworkUtils.getNetWorkType(ReaderApplication.getInstance()));
-    }
-
     @Override
     public Response intercept(Chain chain) throws IOException {
-        //initCommonParams();
-        initTangYuanCommonParams();
+        initCommonParams();
         Request oldRequest = chain.request();
         Request.Builder newRequestBuild = null;
         String method = oldRequest.method();
-        Request newRequest;
+        Request newRequest = null;
+        HttpUrl newUrl = null;
+        /*需要替换的url*/
+        List<String> urlNameList = oldRequest.headers("url_name");
+        if (urlNameList.size() > 0) {
+            oldRequest.newBuilder().removeHeader("url_name");
+            String urlName = urlNameList.get(0);
+            String url = ApiManager.getInstance().getUrl(urlName);
+            if (!TextUtils.isEmpty(url)) {
+                newUrl = HttpUrl.parse(url);
+            } else {
+                newUrl = oldRequest.url();
+            }
+        } else {
+            newUrl = oldRequest.url();
+        }
 
         RequestBody body = oldRequest.body();
-        if ("GET".equals(method) || "DELETE".equals(method) || body instanceof MultipartBody) {
+        HttpUrl.Builder commonParamsUrlBuilder = oldRequest.url()
+                .newBuilder()
+                .scheme(newUrl.scheme())
+                .encodedPath(newUrl.encodedPath())
+                .host(newUrl.host())
+                .port(newUrl.port());
 
-            HttpUrl.Builder commonParamsUrlBuilder = oldRequest.url()
-                    .newBuilder()
-                    .scheme(oldRequest.url().scheme())
-                    .host(oldRequest.url().host());
+        if ("GET".equals(method) || "DELETE".equals(method)) {
             for (Map.Entry<String, String> item : commonParams.entrySet()) {
                 commonParamsUrlBuilder.addQueryParameter(item.getKey(), item.getValue());
             }
-            newRequestBuild = oldRequest.newBuilder()
-                    .method(oldRequest.method(), body)
-                    .url(commonParamsUrlBuilder.build());
-
+            newRequestBuild = oldRequest.newBuilder().method(oldRequest.method(), body);
+        } else if (body instanceof MultipartBody) {
+            MultipartBody requestBody = (MultipartBody) oldRequest.body();
+            MultipartBody.Builder multipartBodybuilder = new MultipartBody.Builder();
+            //在加新参数
+            for (Map.Entry<String, String> item : commonParams.entrySet()) {
+                MultipartBody.Part part = MultipartBody.Part.createFormData(item.getKey(), item.getValue());
+                multipartBodybuilder.addPart(part);
+            }
+            newRequestBuild = oldRequest.newBuilder().method(oldRequest.method(), body);
         } else {
             if (body instanceof FormBody) {
                 FormBody.Builder newFormBody = new FormBody.Builder();
@@ -101,9 +103,8 @@ public final class HeaderInterceptor implements Interceptor {
                     newFormBody.add(item.getKey(), item.getValue());
                 }
 
-
                 newRequestBuild = oldRequest.newBuilder().method(oldRequest.method(), newFormBody.build());
-            } else if (body instanceof RequestBody) {
+            } else if (body != null) {
                 //buffer流
                 HashMap<String, Object> rootMap = null;
                 Gson mGson = new Gson();
@@ -127,14 +128,29 @@ public final class HeaderInterceptor implements Interceptor {
         }
 
 
-        if (AccountManager.getInstance().isLogin()) {
-            newRequestBuild = newRequestBuild
-                    .addHeader("Cookie", "accessToken=" + AccountManager.getInstance().getToken());
+        if (AccountManager.getInstance().isLogin()
+                && newRequestBuild != null
+                && !TextUtils.isEmpty(AccountManager.getInstance().getToken())) {
+            newRequestBuild = newRequestBuild.addHeader("token", AccountManager.getInstance().getToken());
         }
-        newRequest = newRequestBuild
-                .addHeader("Connection", "close")
-                .build();
 
+        if (newRequestBuild != null) {
+
+            newRequestBuild.addHeader("User-Agent", USER_AGENT);
+            newRequestBuild.addHeader("Pragma", "no-cache");
+            newRequestBuild.addHeader("Cache-Control", "no-cache");
+            newRequestBuild.addHeader("Accept", "*/*");
+            newRequestBuild.addHeader("Sec-Fetch-Site", "none");
+            newRequestBuild.addHeader("Sec-Fetch-Mode", "cors");
+            newRequestBuild.addHeader("Sec-Fetch-Dest", "empty");
+            newRequestBuild.addHeader("Accept-Language", "zh-CN,zh;q=0.9");
+            newRequestBuild.addHeader("Cookie", "_d_id=fd820288f284d6444b09f90993e6f3;_d_id=fd850288f284d66a0a09f90993e6f3");
+
+            newRequest = newRequestBuild.url(commonParamsUrlBuilder.build())
+                    .addHeader("Connection", "keep-alive")
+                    .build();
+            return chain.proceed(newRequest);
+        }
         return chain.proceed(newRequest);
     }
 }

@@ -1,6 +1,7 @@
 package com.liuzhenli.reader.network;
 
 import com.liuzhenli.reader.base.BaseBean;
+import com.liuzhenli.reader.bean.BookSourceData;
 import com.liuzhenli.reader.gson.CustomGsonConverterFactory;
 import com.liuzhenli.reader.utils.Constant;
 
@@ -8,6 +9,7 @@ import java.util.Map;
 
 import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
@@ -40,5 +42,9 @@ public class Api {
 
     public Observable<BaseBean> getLoginData(Map<String, String> params) {
         return service.getLoginData(params);
+    }
+
+    public Observable<ResponseBody> getBookSource(String id) {
+        return service.getBookSource(id);
     }
 }

@@ -3,19 +3,13 @@ package com.liuzhenli.reader.view.menu;
 import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.ScreenUtils;
-import com.liuzhenli.reader.utils.LogUtils;
 import com.micoredu.readerlib.helper.ReadConfigManager;
 import com.microedu.reader.R;
 import com.qmuiteam.qmui.widget.QMUISlider;

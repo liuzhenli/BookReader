@@ -10,6 +10,7 @@ import com.liuzhenli.reader.ui.activity.ReaderActivity;
 import com.liuzhenli.reader.ui.fragment.BookShelfFragment;
 import com.liuzhenli.reader.ui.fragment.LocalFileFragment;
 import com.liuzhenli.reader.ui.fragment.LocalTxtFragment;
+import com.liuzhenli.reader.ui.fragment.RecommendFragment;
 
 import javax.inject.Singleton;
 
@@ -40,4 +41,6 @@ public interface AppComponent {
     void inject(LocalTxtFragment localTxtFragment);
 
     void inject(AppComponent appComponent);
+
+    void inject(RecommendFragment recommendFragment);
 }

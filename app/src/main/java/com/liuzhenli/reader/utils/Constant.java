@@ -10,6 +10,7 @@ import java.lang.annotation.RetentionPolicy;
  * @since 2019-07-06 19:05
  */
 public class Constant extends AppConstant {
+    public static final String USER_AGENT ="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36";
     public static final String API_BASE_URL = "http://www.baidu.com";
     public static final int TOKEN_EXPRIED = 10104;
     public static final String SP_TOKEN = "token";

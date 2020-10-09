@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="concept_card_bg_pressed">#66e3e4e5</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

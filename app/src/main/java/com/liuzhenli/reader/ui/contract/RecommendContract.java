@@ -1,6 +1,9 @@
 package com.liuzhenli.reader.ui.contract;
 
 import com.liuzhenli.reader.base.BaseContract;
+import com.liuzhenli.reader.bean.BookSourceData;
+
+import java.util.List;
 
 /**
  * Description:
@@ -9,8 +12,8 @@ import com.liuzhenli.reader.base.BaseContract;
  * Email: 848808263@qq.com
  */
 public class RecommendContract {
-    public interface View  extends BaseContract.BaseView{
-        void showSource();
+    public interface View extends BaseContract.BaseView {
+        void showSource(List<BookSourceData> bookSourceList);
     }
 
 
