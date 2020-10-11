@@ -3,13 +3,14 @@ package com.liuzhenli.reader.ui.fragment;
 import android.os.Bundle;
 
 import com.liuzhenli.reader.base.BaseRVFragment;
-import com.liuzhenli.reader.bean.BookSourceData;
 import com.liuzhenli.reader.network.AppComponent;
 import com.liuzhenli.reader.ui.adapter.RecommendFragmentAdapter;
 import com.liuzhenli.reader.ui.contract.RecommendContract;
 import com.liuzhenli.reader.ui.presenter.RecommendPresenter;
 import com.liuzhenli.reader.view.recyclerview.EasyRecyclerView;
+import com.micoredu.readerlib.bean.BookSourceBean;
 import com.microedu.reader.R;
+
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ import butterknife.BindView;
  *
  * @author Liuzhenli on 2019-11-09 22:28
  */
-public class RecommendFragment extends BaseRVFragment<RecommendPresenter, BookSourceData> implements RecommendContract.View {
+public class RecommendFragment extends BaseRVFragment<RecommendPresenter, BookSourceBean> implements RecommendContract.View {
     @BindView(R.id.recyclerView)
     EasyRecyclerView mRecyclerView;
 
@@ -65,7 +66,7 @@ public class RecommendFragment extends BaseRVFragment<RecommendPresenter, BookSo
     }
 
     @Override
-    public void showSource(List<BookSourceData> bookSourceData) {
+    public void showSource(List<BookSourceBean> bookSourceData) {
         mAdapter.clear();
         mAdapter.addAll(bookSourceData);
     }

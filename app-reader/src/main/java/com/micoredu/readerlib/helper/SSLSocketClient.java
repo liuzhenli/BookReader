@@ -12,7 +12,6 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 /**
- * Created by GKF on 2018/3/1.
  * 忽略证书
  */
 

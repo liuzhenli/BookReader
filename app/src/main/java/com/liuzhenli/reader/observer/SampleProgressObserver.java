@@ -49,6 +49,8 @@ public abstract class SampleProgressObserver<T> extends BaseObserver<T> {
 
     @Override
     public void onComplete() {
-
+        if (mView != null) {
+            mView.complete();
+        }
     }
 }

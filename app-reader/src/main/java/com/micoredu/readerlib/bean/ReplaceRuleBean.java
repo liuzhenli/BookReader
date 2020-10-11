@@ -12,7 +12,6 @@ import org.greenrobot.greendao.annotation.Transient;
 import java.util.regex.Pattern;
 
 /**
- * Created by GKF on 2018/2/7.
  * 阅读内容替换规则
  */
 @Entity

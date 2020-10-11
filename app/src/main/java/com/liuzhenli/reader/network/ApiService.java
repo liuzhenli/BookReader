@@ -1,7 +1,6 @@
 package com.liuzhenli.reader.network;
 
 import com.liuzhenli.reader.base.BaseBean;
-import com.liuzhenli.reader.bean.BookSourceData;
 import com.liuzhenli.reader.utils.ApiManager;
 
 import java.util.Map;

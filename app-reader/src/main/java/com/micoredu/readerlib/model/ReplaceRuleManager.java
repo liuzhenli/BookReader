@@ -20,7 +20,6 @@ import io.reactivex.Single;
 import io.reactivex.SingleOnSubscribe;
 
 /**
- * Created by GKF on 2018/2/12.
  * 替换规则管理
  */
 

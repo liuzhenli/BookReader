@@ -27,7 +27,6 @@ import io.reactivex.Single;
 import io.reactivex.SingleOnSubscribe;
 
 /**
- * Created by GKF on 2017/12/15.
  * 所有书源
  */
 

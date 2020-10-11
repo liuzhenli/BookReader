@@ -1,4 +1,4 @@
-package com.liuzhenli.common;
+package com.liuzhenli.common.utils;
 
 import android.content.Context;
 import android.content.Intent;

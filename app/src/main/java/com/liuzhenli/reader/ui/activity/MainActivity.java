@@ -146,7 +146,7 @@ public class MainActivity extends BaseActivity {
         ClickUtils.click(mViewAbout, o -> {
             AboutActivity.start(mContext);
         });
-
+        mViewPager.setOffscreenPageLimit(4);
     }
 
     private void requestPermissions() {

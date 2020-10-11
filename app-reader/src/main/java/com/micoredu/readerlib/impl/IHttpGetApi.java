@@ -10,7 +10,6 @@ import retrofit2.http.QueryMap;
 import retrofit2.http.Url;
 
 /**
- * Created by GKF on 2018/1/21.
  * get web content
  */
 

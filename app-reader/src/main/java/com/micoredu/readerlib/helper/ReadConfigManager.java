@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.liuzhenli.common.BaseApplication;
-import com.liuzhenli.common.BitmapUtil;
+import com.liuzhenli.common.utils.BitmapUtil;
 import com.liuzhenli.common.utils.MeUtils;
 import com.liuzhenli.common.SharedPreferencesUtil;
 import com.micoredu.readerlib.R;

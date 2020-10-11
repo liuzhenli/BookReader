@@ -4,6 +4,7 @@ package com.liuzhenli.reader.network;
 import com.liuzhenli.reader.module.ApiModule;
 import com.liuzhenli.reader.module.AppModule;
 import com.liuzhenli.reader.ui.activity.BookCatalogActivity;
+import com.liuzhenli.reader.ui.activity.BookSiteActivity;
 import com.liuzhenli.reader.ui.activity.ImportLocalBookActivity;
 import com.liuzhenli.reader.ui.activity.LoginActivity;
 import com.liuzhenli.reader.ui.activity.ReaderActivity;
@@ -43,4 +44,6 @@ public interface AppComponent {
     void inject(AppComponent appComponent);
 
     void inject(RecommendFragment recommendFragment);
+
+    void inject(BookSiteActivity bookSiteActivity);
 }

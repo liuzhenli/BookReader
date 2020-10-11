@@ -17,7 +17,6 @@ import static android.text.TextUtils.isEmpty;
 import static com.liuzhenli.common.constant.AppConstant.DEFAULT_USER_AGENT;
 
 /**
- * Created by GKF on 2018/3/2.
  * 解析Headers
  */
 

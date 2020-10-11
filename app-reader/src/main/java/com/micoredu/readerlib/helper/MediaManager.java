@@ -8,7 +8,6 @@ import com.liuzhenli.common.BaseApplication;
 import com.micoredu.readerlib.R;
 
 /**
- * Created by GKF on 2018/1/9.
  * 播放音频
  */
 

@@ -11,17 +11,18 @@ import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.OrderBy;
 import org.greenrobot.greendao.annotation.Transient;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
 import static android.text.TextUtils.isEmpty;
 
 /**
- * Created by GKF on 2017/12/14.
  * 书源信息
  */
 @Entity
-public class BookSourceBean implements Cloneable {
+public class BookSourceBean implements Cloneable , Serializable {
+    private static final long serialVersionUID = -6111323241670458022L;
     @Id
     private String bookSourceUrl;
     private String bookSourceName;

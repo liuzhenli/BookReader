@@ -24,7 +24,6 @@ import java.util.regex.Pattern;
 import javax.script.SimpleBindings;
 
 /**
- * Created by GKF on 2018/1/24.
  * 搜索URL规则解析
  */
 @Keep
