@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.liuzhenli.reader.base.BaseRVFragment;
 import com.liuzhenli.reader.network.AppComponent;
+import com.liuzhenli.reader.ui.activity.BookCategoryActivity;
 import com.liuzhenli.reader.ui.adapter.RecommendFragmentAdapter;
 import com.liuzhenli.reader.ui.contract.RecommendContract;
 import com.liuzhenli.reader.ui.presenter.RecommendPresenter;
@@ -74,7 +75,7 @@ public class RecommendFragment extends BaseRVFragment<RecommendPresenter, BookSo
 
     @Override
     public void onItemClick(int position) {
-
+        BookCategoryActivity.start(mContext,mAdapter.getItem(position));
     }
 
     @Override

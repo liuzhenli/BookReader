@@ -21,7 +21,7 @@ import static android.text.TextUtils.isEmpty;
  * 书源信息
  */
 @Entity
-public class BookSourceBean implements Cloneable , Serializable {
+public class BookSourceBean implements Cloneable, Serializable {
     private static final long serialVersionUID = -6111323241670458022L;
     @Id
     private String bookSourceUrl;
@@ -36,7 +36,9 @@ public class BookSourceBean implements Cloneable , Serializable {
     @NotNull
     private int weight = 0;
     private boolean enable;
-    //发现规则
+    /**
+     * 发现规则  key:::value 的格式
+     */
     private String ruleFindUrl;
     private String ruleFindList;
     private String ruleFindName;

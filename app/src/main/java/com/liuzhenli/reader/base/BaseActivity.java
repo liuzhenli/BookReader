@@ -1,6 +1,7 @@
 package com.liuzhenli.reader.base;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -63,7 +64,10 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
         }
         initImmersionBar();
     }
-
+    public void startActivityByAnim(Intent intent, int animIn, int animExit) {
+        startActivity(intent);
+        overridePendingTransition(animIn, animExit);
+    }
     protected abstract int getLayoutId();
 
     protected abstract void setupActivityComponent(AppComponent appComponent);

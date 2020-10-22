@@ -2,6 +2,8 @@ package com.liuzhenli.reader.ui.activity;
 
 
 
+import android.content.Intent;
+
 import com.liuzhenli.reader.base.BaseActivity;
 import com.liuzhenli.reader.network.AppComponent;
 import com.microedu.reader.R;

@@ -65,4 +65,9 @@ dependencies {
     api 'com.balysv.materialmenu:material-menu:2.0.0'
 
     api 'com.meituan.android.walle:library:1.1.6'
+
+    //page indicator
+    api('com.github.hackware1993:MagicIndicator:1.6.0') {
+        exclude group: 'com.android.support'
+    }
 }

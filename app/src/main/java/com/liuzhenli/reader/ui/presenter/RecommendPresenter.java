@@ -8,6 +8,7 @@ import com.liuzhenli.reader.network.Api;
 import com.liuzhenli.reader.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.contract.RecommendContract;
 import com.micoredu.readerlib.bean.BookSourceBean;
+import com.micoredu.readerlib.model.BookSourceManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,6 +53,7 @@ public class RecommendPresenter extends RxPresenter<RecommendContract.View> impl
                 if (StringUtils.isJsonArray(s)) {
                     bookSourceList = GsonUtils.parseJArray(s, BookSourceBean.class);
                 }
+                BookSourceManager.addBookSource(bookSourceList);
                 mView.showSource(bookSourceList);
             }
         });

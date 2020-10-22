@@ -20,8 +20,10 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.Observable;
 
 import static android.text.TextUtils.isEmpty;
+
 import com.liuzhenli.common.constant.AppConstant;
 
+/***处理书籍信息*/
 public class WebBookModel {
 
     public static WebBookModel getInstance() {

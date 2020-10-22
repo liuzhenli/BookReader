@@ -32,6 +32,9 @@ import io.reactivex.SingleOnSubscribe;
 
 public class BookSourceManager {
 
+    /**
+     * @return 用户筛选的书源
+     */
     public static List<BookSourceBean> getSelectedBookSource() {
         return DbHelper.getDaoSession().getBookSourceBeanDao().queryBuilder()
                 .where(BookSourceBeanDao.Properties.Enable.eq(true))
@@ -40,6 +43,7 @@ public class BookSourceManager {
                 .list();
     }
 
+    /***全部书源*/
     public static List<BookSourceBean> getAllBookSource() {
         return DbHelper.getDaoSession().getBookSourceBeanDao().queryBuilder()
                 .orderRaw(getBookSourceSort())
@@ -60,6 +64,11 @@ public class BookSourceManager {
                 .list();
     }
 
+    /***可用书源
+     *
+     * @param group
+     * @return
+     */
     public static List<BookSourceBean> getEnableSourceByGroup(String group) {
         return DbHelper.getDaoSession().getBookSourceBeanDao().queryBuilder()
                 .where(BookSourceBeanDao.Properties.Enable.eq(true))
