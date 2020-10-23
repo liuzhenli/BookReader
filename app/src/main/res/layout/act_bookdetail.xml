@@ -1,9 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.liuzhenli.reader.ui.activity.BookDetailActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <include
+        layout="@layout/layout_common_toolbar"
+        android:background="@color/black" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/item_book_detail_header" />
+
+            <include layout="@layout/item_divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/all_item_height"
+                android:layout_marginLeft="@dimen/common_margin_normal"
+                android:layout_marginRight="@dimen/common_margin_normal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/chapter_list"
+                    android:textColor="@color/text_color_33"
+                    android:textSize="@dimen/txt_size_16" />
+
+                <TextView
+                    android:id="@+id/tv_total_chapter_count"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/total_chapter_count"
+                    android:textColor="@color/text_color_99"
+                    android:textSize="@dimen/txt_size_14" />
+
+                <TextView
+                    android:id="@+id/tv_last_update_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:drawableRight="@drawable/icon_common_arrow_right_more"
+                    android:drawablePadding="@dimen/common_margin_small"
+                    android:gravity="right|center"
+                    android:text="10小时前"
+                    android:textColor="@color/text_color_99"
+                    android:textSize="@dimen/txt_size_14" />
+            </LinearLayout>
+
+            <include layout="@layout/item_divider" />
+
+            <TextView
+                android:id="@+id/tv_book_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_margin_normal"
+                android:layout_marginRight="@dimen/common_margin_normal"
+                android:text="简介"
+                android:textColor="@color/s_text_66"
+                android:textSize="@dimen/txt_size_14" />
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom"
+        android:gravity="bottom">
+
+        <TextView
+            android:id="@+id/tv_download"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_card_bg"
+            android:gravity="center"
+            android:text="下载" />
+
+        <TextView
+            android:id="@+id/tv_read"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_card_bg"
+            android:gravity="center"
+            android:text="开始阅读" />
+
+        <TextView
+            android:id="@+id/tv_add_to_bookshelf"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_card_bg"
+            android:gravity="center"
+            android:text="加入书架" />
+    </LinearLayout>
+</LinearLayout>

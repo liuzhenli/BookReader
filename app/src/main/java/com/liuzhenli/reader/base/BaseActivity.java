@@ -26,6 +26,7 @@ import butterknife.ButterKnife;
  * @since 2019-07-06 17:18
  */
 public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extends RxAppCompatActivity {
+    public final static String START_SHEAR_ELE = "start_with_share_ele";
     protected Context mContext;
     public TextView mTvTitle;
     public Toolbar mToolBar;
@@ -33,11 +34,15 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
     public T1 mPresenter;
     /***状态栏*/
     protected ImmersionBar mImmersionBar;
+    private Boolean startShareAnim = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
+        if (getIntent() != null) {
+            startShareAnim = getIntent().getBooleanExtra(START_SHEAR_ELE, false);
+        }
         mContext = this;
         mImmersionBar = ImmersionBar.with(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -64,10 +69,12 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
         }
         initImmersionBar();
     }
+
     public void startActivityByAnim(Intent intent, int animIn, int animExit) {
         startActivity(intent);
         overridePendingTransition(animIn, animExit);
     }
+
     protected abstract int getLayoutId();
 
     protected abstract void setupActivityComponent(AppComponent appComponent);
@@ -108,4 +115,9 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
         mImmersionBar.fitsSystemWindows(true);
         mImmersionBar.init();
     }
+
+    public Boolean getStart_share_ele() {
+        return startShareAnim;
+    }
+
 }

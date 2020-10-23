@@ -451,4 +451,5 @@
     <string name="select_local_image">选择本地图片</string>
     <string name="refresh_cover">刷新封面</string>
     <string name="feed_back">意見反饋</string>
+    <string name="total_chapter_count">共%s章</string>
 </resources>

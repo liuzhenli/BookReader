@@ -18,10 +18,10 @@ import okhttp3.MediaType;
 
 public class AppConstant {
     public interface BookOpenFrom {
-        /***其他位置打开***/
-        public final static int OPEN_FROM_OTHER = 2;
+        /***本地书***/
+        public final static int OPEN_FROM_APP = 0;
         /****app打开***/
-        public final static int OPEN_FROM_APP = 1;
+        public final static int FROM_BOOKSHELF = 1;
         /****搜索打开***/
         public final static int OPEN_FROM_SEARCH = 2;
     }

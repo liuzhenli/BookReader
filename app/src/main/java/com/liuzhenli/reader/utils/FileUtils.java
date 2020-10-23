@@ -738,4 +738,8 @@ public class FileUtils {
         }
     }
 
+    public static String getCapturePath(String img) {
+        return Constant.CAPTURE_PATH + img;
+    }
+
 }

@@ -18,6 +18,8 @@ public class Constant extends AppConstant {
     public static final String REFER = "http://wan.baidu.com";
     public static final String FEEDBACK = "https://support.qq.com/product/186909";
 
+    public static String CAPTURE_PATH = FileUtils.createRootPath(AppUtils.getAppContext()) + "/capture/";
+
     public static String PATH_DATA = FileUtils.createRootPath(AppUtils.getAppContext()) + "/data";
     public static String BASE_PATH = FileUtils.createRootPath(AppUtils.getAppContext()) + "/book/";
     public static String FONT_PATH = FileUtils.createRootPath(AppUtils.getAppContext()) + "/font/";

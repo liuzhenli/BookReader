@@ -26,7 +26,6 @@ import com.liuzhenli.reader.utils.ToastUtil;
 import com.micoredu.readerlib.bean.BookShelfBean;
 import com.micoredu.readerlib.helper.BookshelfHelper;
 import com.microedu.reader.R;
-import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheet;
 
 import java.util.List;
 
@@ -79,7 +78,7 @@ public class BookShelfFragment extends BaseRVFragment<BookShelfPresenter, BookSh
         bookShelfBean.setFinalDate(System.currentTimeMillis());
         BookshelfHelper.saveBookToShelf(bookShelfBean);
         Intent intent = new Intent(getContext(), ReaderActivity.class);
-        intent.putExtra("openFrom", Constant.BookOpenFrom.OPEN_FROM_APP);
+        intent.putExtra("openFrom", Constant.BookOpenFrom.FROM_BOOKSHELF);
 
         String bookKey = String.valueOf(System.currentTimeMillis());
         intent.putExtra(BitIntentDataManager.DATA_KEY, bookKey);

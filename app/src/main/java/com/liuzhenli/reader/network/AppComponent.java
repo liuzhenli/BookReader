@@ -5,6 +5,7 @@ import com.liuzhenli.reader.module.ApiModule;
 import com.liuzhenli.reader.module.AppModule;
 import com.liuzhenli.reader.ui.activity.BookCatalogActivity;
 import com.liuzhenli.reader.ui.activity.BookCategoryActivity;
+import com.liuzhenli.reader.ui.activity.BookDetailActivity;
 import com.liuzhenli.reader.ui.activity.ImportLocalBookActivity;
 import com.liuzhenli.reader.ui.activity.LoginActivity;
 import com.liuzhenli.reader.ui.activity.ReaderActivity;
@@ -47,4 +48,6 @@ public interface AppComponent {
     void inject(RecommendFragment recommendFragment);
 
     void inject(BookCategoryFragment bookCategoryFragment);
+
+    void inject(BookDetailActivity bookDetailActivity);
 }

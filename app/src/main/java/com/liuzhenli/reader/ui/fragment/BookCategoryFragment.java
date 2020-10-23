@@ -20,6 +20,8 @@ import com.microedu.reader.R;
 
 import java.util.List;
 
+import static com.liuzhenli.common.BitIntentDataManager.DATA_KEY;
+
 /**
  * Description:某个分类下的书列表
  *
@@ -74,8 +76,8 @@ public class BookCategoryFragment extends BaseRVFragment<BookCategoryPresenter, 
         SearchBookBean item = mAdapter.getItem(position);
         String dataKey = String.valueOf(System.currentTimeMillis());
         Intent intent = new Intent(mContext, BookDetailActivity.class);
-        intent.putExtra("openFrom", AppConstant.BookOpenFrom.OPEN_FROM_SEARCH);
-        intent.putExtra("data_key", dataKey);
+        intent.putExtra(BookDetailActivity.OPEN_FROM, AppConstant.BookOpenFrom.OPEN_FROM_SEARCH);
+        intent.putExtra(DATA_KEY, dataKey);
         BitIntentDataManager.getInstance().putData(dataKey, item);
         ((BaseActivity) activity).startActivityByAnim(intent, android.R.anim.fade_in, android.R.anim.fade_out);
     }

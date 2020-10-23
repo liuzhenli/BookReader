@@ -39,7 +39,7 @@ public class StringUtils {
         return format.format(date);
     }
 
-    //将日期转换成昨天、今天、明天
+    /**将日期转换成昨天、今天、明天*/
     public static String dateConvert(String source, String pattern) {
         @SuppressLint("SimpleDateFormat") DateFormat format = new SimpleDateFormat(pattern);
         Calendar calendar = Calendar.getInstance();

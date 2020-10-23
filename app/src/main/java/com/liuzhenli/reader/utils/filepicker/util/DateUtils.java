@@ -20,6 +20,7 @@ import java.util.Locale;
  * @since 2015/8/5
  */
 public class DateUtils extends android.text.format.DateUtils {
+    private static final SimpleDateFormat sd = new SimpleDateFormat("yyyy/MM/dd HH:mm");
     public static final int Second = 0;
     public static final int Minute = 1;
     public static final int Hour = 2;
@@ -221,6 +222,107 @@ public class DateUtils extends android.text.format.DateUtils {
      */
     public static String formatDate(String format) {
         return formatDate(Calendar.getInstance(Locale.CHINA).getTime(), format);
+    }
+
+    /**
+     * 格式化更新时间
+     */
+    public static String formatUpdateTime(long updateTime) {
+        if (updateTime <= 0) {
+            return "";
+        }
+        Calendar cal = Calendar.getInstance();
+        // 手机当前时间
+        int currentYear = cal.get(Calendar.YEAR);
+        int year = 0;
+        try {
+            year = Integer.parseInt(formatDateInSecond(updateTime).substring(0, 4));
+        } catch (Exception e) {
+            year = currentYear;
+        }
+        // 手机时间大于服务器时间 显示服务器时间
+        if (currentYear > year) {
+            return formatDateInSecond(updateTime);
+        }
+        long currentTime = System.currentTimeMillis() / 1000;
+        long time = currentTime - updateTime;
+        if (time < 0) {
+            return formatDateInmm(updateTime, true);
+        } else if (time < 60) {
+            return "刚刚";
+        } else if (time < 3600) {
+            return time / 60 + "分钟前";
+        } else if (time < 3600 * 24) {
+            return time / 3600 + "小时前";
+        } else if (time < 3600 * 24 * 30) {
+            return time / (3600 * 24) + "天前";
+        } else if (time < 3600 * 24 * 30 * 11) {
+            return formatDateInmmNoYear(updateTime, true);
+        } else {
+            return formatDateInmm(updateTime, true);
+        }
+
+        // 时间与评论显示一样
+        // ·1分钟内——“刚刚”
+        // ·1分钟<*<1小时——“n分钟前”
+        // ·1小时<*<24小时——“n小时前”
+        // ·1天<*<30天——“n天前”
+        // ·30天<*<11月——“n月n日 10:05”（这是例子）
+        // ·超过11月——“n年n月n日 12:25”（这是例子）
+    }
+
+    public static String formatDateInSecond(long time) {
+        String strDate = "";
+        try {
+            time *= 1000;
+            if (time <= 0) {
+                time = System.currentTimeMillis();
+            }
+            Date date = new Date();
+            date.setTime(time);
+
+            strDate = sd.format(time);
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+        return strDate;
+    }
+
+    public static String formatDateInmmNoYear(long time, boolean ishavtime) {
+        SimpleDateFormat sdf = new SimpleDateFormat(ishavtime ? "MM月dd日 HH:mm" : "MM月dd日");
+        String strDate = "";
+        try {
+            time *= 1000;
+            if (time <= 0) {
+                time = System.currentTimeMillis();
+            }
+            Date date = new Date();
+            date.setTime(time);
+            strDate = sdf.format(time);
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+        return strDate;
+    }
+
+    public static String formatDateInmm(long time, boolean ishavtime) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat(ishavtime ? "yyyy年MM月dd日 HH:mm" : "yyyy年MM月dd日");
+        String strDate = "";
+        try {
+            time *= 1000;
+            if (time <= 0) {
+                time = System.currentTimeMillis();
+            }
+            Date date = new Date();
+            date.setTime(time);
+            strDate = sdf.format(time);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return strDate;
     }
 
 }

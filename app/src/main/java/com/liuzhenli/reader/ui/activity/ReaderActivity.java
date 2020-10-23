@@ -52,7 +52,9 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
     public static final String OPEN_FROM = "openFrom";
 
 
+    /***app外部打开*/
     private final static int OPEN_FROM_OTHER = 0;
+    /**从app内部打开*/
     public final static int OPEN_FROM_APP = 1;
 
     @BindView(R.id.menu_top_bar)
@@ -138,9 +140,12 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
         ButterKnife.bind(this);
         mTopBar.getToolBar().setNavigationOnClickListener(v -> onBackPressed());
         initPageView();
-        //获取本书的信息
+        //获取本书的信息  本地书
         if (mOpenFrom == OPEN_FROM_APP) {
             mPresenter.getBookInfo(mNoteUrl);
+            //网络书籍
+        } else {
+
         }
 
         //底部menu中 菜单按钮点击从底部弹出一个章节菜单

@@ -54,7 +54,7 @@ public class MediaButtonIntentReceiver extends BroadcastReceiver {
     private static void readAloud(final Context context, String command) {
         if (!AppActivityManager.getInstance().isExist(BaseReaderActivity.class)) {
             Intent intent = new Intent(context, BaseReaderActivity.class);
-            intent.putExtra("openFrom", AppConstant.BookOpenFrom.OPEN_FROM_APP);
+            intent.putExtra("openFrom", AppConstant.BookOpenFrom.FROM_BOOKSHELF);
             intent.putExtra("readAloud", true);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             try {
