@@ -128,9 +128,8 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
         mOpenFrom = getIntent().getIntExtra(OPEN_FROM, OPEN_FROM_OTHER);
 
 
-        String bookShelfKey = getIntent().getStringExtra(DATA_KEY);
-        if (bookShelfKey != null) {
-            mBookShelf = (BookShelfBean) getInstance().getData(bookShelfKey);
+        if (mDataKey != null) {
+            mBookShelf = (BookShelfBean) getInstance().getData(mDataKey);
             mNoteUrl = mBookShelf.getNoteUrl();
         }
     }

@@ -130,14 +130,16 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
                 if (mChapterList != null) {
                     DbHelper.getDaoSession().getBookChapterBeanDao().insertOrReplaceInTx(mChapterList);
                 }
-
             }
+        });
+        ClickUtils.click(mTvRead, o -> {
+
             Intent intent = new Intent(BookDetailActivity.this, ReaderActivity.class);
             intent.putExtra("openFrom", AppConstant.BookOpenFrom.OPEN_FROM_APP);
             intent.putExtra("inBookshelf", isInBookShelf);
             String key = String.valueOf(System.currentTimeMillis());
             String bookKey = "book" + key;
-            intent.putExtra("bookKey", bookKey);
+            intent.putExtra(DATA_KEY, bookKey);
             BitIntentDataManager.getInstance().putData(bookKey, mBookShelf.clone());
             startActivityByAnim(intent, android.R.anim.fade_in, android.R.anim.fade_out);
 

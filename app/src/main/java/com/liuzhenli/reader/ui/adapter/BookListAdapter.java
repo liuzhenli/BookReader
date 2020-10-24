@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatImageView;
 
+import com.liuzhenli.reader.utils.image.ImageUtil;
 import com.liuzhenli.reader.view.BadgeView;
 import com.liuzhenli.reader.view.RotateLoading;
 import com.liuzhenli.reader.view.recyclerview.adapter.BaseViewHolder;
@@ -74,6 +75,7 @@ public class BookListAdapter extends RecyclerArrayAdapter<SearchBookBean> {
             super.setData(item);
             mTvName.setText(item.getName() == null ? "[未知书名]" : item.getName());
             mTvAuthor.setText(item.getAuthor() == null ? "佚名" : item.getAuthor());
+            ImageUtil.setImage(mContext, item.getCoverUrl(), R.drawable.book_cover, mIvCover);
         }
     }
 
