@@ -3,11 +3,13 @@ package com.liuzhenli.reader.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import com.liuzhenli.common.constant.AppConstant;
 import com.liuzhenli.reader.ReaderApplication;
 import com.liuzhenli.reader.network.AppComponent;
 import com.liuzhenli.reader.ui.contract.ReadContract;
@@ -38,6 +40,7 @@ import butterknife.ButterKnife;
 
 import static com.liuzhenli.common.BitIntentDataManager.DATA_KEY;
 import static com.liuzhenli.common.BitIntentDataManager.getInstance;
+import static com.liuzhenli.reader.base.BaseActivity.START_SHEAR_ELE;
 
 /**
  * describe:阅读页
@@ -51,10 +54,12 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
     public static final String PROGRESS = "progress";
     public static final String OPEN_FROM = "openFrom";
 
-
+    private Boolean startShareAnim = false;
     /***app外部打开*/
     private final static int OPEN_FROM_OTHER = 0;
-    /**从app内部打开*/
+    /**
+     * 从app内部打开
+     */
     public final static int OPEN_FROM_APP = 1;
 
     @BindView(R.id.menu_top_bar)
@@ -118,6 +123,11 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
 
     @Override
     protected void initData() {
+        if (getIntent() != null) {
+            startShareAnim = getIntent().getBooleanExtra(START_SHEAR_ELE, false);
+            mOpenFrom = getIntent().getIntExtra(OPEN_FROM, AppConstant.BookOpenFrom.OPEN_FROM_APP);
+        }
+
         AppComponent appComponent = ReaderApplication.getInstance().getAppComponent();
         appComponent.inject(this);
 
@@ -398,5 +408,19 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
     @Override
     public boolean isInBookShelf() {
         return isInBookShelf;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (startShareAnim) {
+                finishAfterTransition();
+            } else {
+                overridePendingTransition(0, android.R.anim.fade_out);
+            }
+        } else {
+            overridePendingTransition(0, android.R.anim.fade_out);
+        }
     }
 }

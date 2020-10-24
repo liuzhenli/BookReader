@@ -1,22 +1,17 @@
 package com.liuzhenli.reader.ui.activity;
 
 import android.content.Intent;
-import android.os.Build;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.liuzhenli.common.BitIntentDataManager;
 import com.liuzhenli.common.constant.AppConstant;
 import com.liuzhenli.common.utils.ClickUtils;
-import com.liuzhenli.common.utils.StringUtils;
 import com.liuzhenli.reader.base.BaseActivity;
 import com.liuzhenli.reader.network.AppComponent;
 import com.liuzhenli.reader.ui.contract.BookDetailContract;
 import com.liuzhenli.reader.ui.presenter.BookDetailPresenter;
-import com.liuzhenli.reader.utils.StringUtil;
-import com.liuzhenli.reader.utils.face.DataUtils;
 import com.liuzhenli.reader.utils.filepicker.util.DateUtils;
 import com.liuzhenli.reader.utils.image.ImageUtil;
 import com.micoredu.readerlib.bean.BookChapterBean;
@@ -40,7 +35,6 @@ import static com.liuzhenli.common.BitIntentDataManager.DATA_KEY;
  * @author liuzhenli 2019.12.13
  */
 public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implements BookDetailContract.View {
-
     public static final String OPEN_FROM = "openFrom";
     @BindView(R.id.iv_cover)
     ImageView mIvCover;
@@ -91,7 +85,6 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
 
     @Override
     protected void initData() {
-        mOpenFrom = getIntent().getIntExtra(OPEN_FROM, AppConstant.BookOpenFrom.OPEN_FROM_APP);
 
         if (mOpenFrom == AppConstant.BookOpenFrom.FROM_BOOKSHELF) {
             mBookShelf = (BookShelfBean) BitIntentDataManager.getInstance().getData(DATA_KEY);
@@ -133,7 +126,6 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
             }
         });
         ClickUtils.click(mTvRead, o -> {
-
             Intent intent = new Intent(BookDetailActivity.this, ReaderActivity.class);
             intent.putExtra("openFrom", AppConstant.BookOpenFrom.OPEN_FROM_APP);
             intent.putExtra("inBookshelf", isInBookShelf);
@@ -142,18 +134,6 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
             intent.putExtra(DATA_KEY, bookKey);
             BitIntentDataManager.getInstance().putData(bookKey, mBookShelf.clone());
             startActivityByAnim(intent, android.R.anim.fade_in, android.R.anim.fade_out);
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                if (getStart_share_ele()) {
-                    finishAfterTransition();
-                } else {
-                    finish();
-                    overridePendingTransition(0, android.R.anim.fade_out);
-                }
-            } else {
-                finish();
-                overridePendingTransition(0, android.R.anim.fade_out);
-            }
         });
     }
 
@@ -166,7 +146,6 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
     public void complete() {
 
     }
-
 
     @Override
     public void showBookInfo(BookInfoBean data, List<BookChapterBean> bookChapterBeans) {

@@ -6,15 +6,13 @@ import android.os.Bundle;
 import com.liuzhenli.common.BitIntentDataManager;
 import com.liuzhenli.common.constant.AppConstant;
 import com.liuzhenli.reader.base.BaseActivity;
-import com.liuzhenli.reader.base.BaseBean;
 import com.liuzhenli.reader.base.BaseRVFragment;
 import com.liuzhenli.reader.network.AppComponent;
 import com.liuzhenli.reader.ui.activity.BookDetailActivity;
-import com.liuzhenli.reader.ui.activity.ReaderActivity;
 import com.liuzhenli.reader.ui.adapter.BookListAdapter;
 import com.liuzhenli.reader.ui.contract.BookCategoryContract;
 import com.liuzhenli.reader.ui.presenter.BookCategoryPresenter;
-import com.micoredu.readerlib.bean.BookShelfBean;
+import com.liuzhenli.reader.utils.DataDiffUtil;
 import com.micoredu.readerlib.bean.SearchBookBean;
 import com.microedu.reader.R;
 
@@ -68,7 +66,6 @@ public class BookCategoryFragment extends BaseRVFragment<BookCategoryPresenter, 
     @Override
     public void configViews() {
         initAdapter(BookListAdapter.class, true, true, true);
-        mPresenter.getBookList(mUrl, mPage, mTag);
     }
 
     @Override
@@ -91,17 +88,46 @@ public class BookCategoryFragment extends BaseRVFragment<BookCategoryPresenter, 
 
     @Override
     public void showError(Exception e) {
-
+        mRecyclerView.setRefreshing(false);
     }
 
     @Override
     public void complete() {
+        mRecyclerView.setRefreshing(false);
+    }
 
+    @Override
+    public void onRefresh() {
+        super.onRefresh();
+        mPage = 1;
+        mPresenter.getBookList(mUrl, mPage, mTag);
     }
 
     @Override
     public void showBookList(List<SearchBookBean> data) {
-        mAdapter.clear();
-        mAdapter.addAll(data);
+        mRecyclerView.setRefreshing(false);
+        if (mAdapter.getCount() != 0 && mPage == 1) {
+            DataDiffUtil.diffResult(mAdapter, data, new DataDiffUtil.ItemSameCallBack<SearchBookBean>() {
+                @Override
+                public boolean isItemSame(SearchBookBean oldItem, SearchBookBean newItem) {
+                    return oldItem != null && newItem != null && oldItem.getName().equals(newItem.getName());
+                }
+
+                @Override
+                public boolean isContentSame(SearchBookBean oldItem, SearchBookBean newItem) {
+                    return oldItem.getCoverUrl().equals(newItem.getCoverUrl());
+                }
+            });
+        } else {
+            mAdapter.addAll(data);
+        }
+    }
+
+    @Override
+    protected void onFragmentVisibleChange(boolean isVisible) {
+        super.onFragmentVisibleChange(isVisible);
+        if (mAdapter.getCount() == 0) {
+            onRefresh();
+        }
     }
 }

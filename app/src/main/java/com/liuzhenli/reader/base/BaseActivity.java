@@ -109,15 +109,23 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
      * 沉浸状态栏
      */
     protected void initImmersionBar() {
-        //mImmersionBar.navigationBarColor(R.color.md_red_900);
         mImmersionBar.statusBarColor(R.color.main);
         mImmersionBar.statusBarDarkFont(true);
         mImmersionBar.fitsSystemWindows(true);
         mImmersionBar.init();
     }
 
-    public Boolean getStart_share_ele() {
-        return startShareAnim;
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (startShareAnim) {
+                finishAfterTransition();
+            } else {
+                overridePendingTransition(0, android.R.anim.fade_out);
+            }
+        } else {
+            overridePendingTransition(0, android.R.anim.fade_out);
+        }
     }
-
 }
