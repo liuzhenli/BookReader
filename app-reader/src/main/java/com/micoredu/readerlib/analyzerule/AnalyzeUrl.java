@@ -28,7 +28,7 @@ import javax.script.SimpleBindings;
  */
 @Keep
 public class AnalyzeUrl {
-    private static final Pattern pagePattern = Pattern.compile("\\{(.*?)\\}");
+    private static final Pattern PAGE_PATTERN = Pattern.compile("\\{(.*?)\\}");
     private String baseUrl;
     private String url;
     private String host;
@@ -145,7 +145,7 @@ public class AnalyzeUrl {
         if (searchPage == null) {
             return ruleUrl;
         }
-        Matcher matcher = pagePattern.matcher(ruleUrl);
+        Matcher matcher = PAGE_PATTERN.matcher(ruleUrl);
         while (matcher.find()) {
             String[] pages = matcher.group(1).split(",");
             if (searchPage <= pages.length) {

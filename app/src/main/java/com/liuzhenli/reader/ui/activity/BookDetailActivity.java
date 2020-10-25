@@ -101,7 +101,7 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
             isInBookShelf = true;
             mSearchBook = new SearchBookBean();
             mSearchBook.setNoteUrl(mBookShelf.getNoteUrl());
-            mSearchBook.setTag(mBookShelf.getTag());
+            mSearchBook.setTag(mBookShelf.getBookInfoBean().getTag());
         } else {
             String key = getIntent().getStringExtra(DATA_KEY);
             if (!TextUtils.isEmpty(key)) {

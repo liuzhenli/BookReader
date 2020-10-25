@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.liuzhenli.reader.utils.image.ImageUtil;
 import com.liuzhenli.reader.view.BadgeView;
 import com.liuzhenli.reader.view.RotateLoading;
 import com.liuzhenli.reader.view.recyclerview.adapter.BaseViewHolder;
@@ -75,6 +76,9 @@ public class BookShelfAdapter extends RecyclerArrayAdapter<BookShelfBean> {
             mTvAuthor.setText(item.getBookInfoBean().getAuthor() == null ? "佚名" : item.getBookInfoBean().getAuthor());
             mTvRead.setText(item.getDurChapterName() == null ? "0" : item.getDurChapterName());
             mTvLast.setText(item.getLastChapterName() == null ? "0" : item.getLastChapterName());
+            if (item.getBookInfoBean() != null) {
+                ImageUtil.setImage(mContext, item.getBookInfoBean().getCoverUrl(), R.drawable.book_cover, mIvCover);
+            }
         }
     }
 

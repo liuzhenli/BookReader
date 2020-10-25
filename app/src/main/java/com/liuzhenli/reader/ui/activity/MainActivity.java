@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.balysv.materialmenu.MaterialMenuDrawable;
@@ -18,6 +19,7 @@ import com.liuzhenli.reader.network.AppComponent;
 import com.liuzhenli.reader.base.BaseActivity;
 import com.liuzhenli.reader.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.adapter.MainTabAdapter;
+import com.liuzhenli.reader.ui.fragment.BookShelfFragment;
 import com.liuzhenli.reader.utils.Constant;
 import com.liuzhenli.reader.utils.PermissionUtil;
 import com.liuzhenli.reader.utils.ToastUtil;
@@ -44,6 +46,8 @@ public class MainActivity extends BaseActivity {
     TabLayout mTabLayout;
     @BindView(R.id.tv_main_draw_setting)
     View mViewSetting;
+    @BindView(R.id.tv_donate)
+    View mViewDonate;
     @BindView(R.id.tv_main_feedback)
     View mViewFeedBack;
     @BindView(R.id.tv_qq_group)
@@ -53,6 +57,7 @@ public class MainActivity extends BaseActivity {
     View mViewAbout;
 
     private int mCurrentPosition;
+    private MainTabAdapter mainTabAdapter;
 
     @OnClick(R.id.tv_night_mode)
     public void login() {
@@ -88,7 +93,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void configViews() {
-        MainTabAdapter mainTabAdapter = new MainTabAdapter(mContext, getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        mainTabAdapter = new MainTabAdapter(mContext, getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mViewPager.setAdapter(mainTabAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
         //打开左侧的设置页面
@@ -145,6 +150,10 @@ public class MainActivity extends BaseActivity {
         //关于
         ClickUtils.click(mViewAbout, o -> {
             AboutActivity.start(mContext);
+        });
+        //捐赠
+        ClickUtils.click(mViewDonate, o -> {
+            DonateActivity.start(mContext);
         });
         mViewPager.setOffscreenPageLimit(4);
     }

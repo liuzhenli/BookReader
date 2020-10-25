@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_common_toolbar" />
+
+    <TextView
+        android:id="@+id/tv_about_donate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/common_margin_large"
+        android:layout_marginTop="@dimen/common_margin_large"
+        android:layout_marginRight="@dimen/common_margin_large"
+        android:text="@string/about_donate"
+        android:textColor="@color/s_text_66" />
+
+    <TextView
+        android:id="@+id/tv_donate_zhifubao_kouling"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/common_margin_large"
+        android:layout_marginTop="@dimen/common_margin_large"
+        android:layout_marginRight="@dimen/common_margin_large"
+        android:text="@string/get_ali_pay_hb"
+        android:textColor="@color/s_text_66" />
+
+    <TextView
+        android:id="@+id/tv_donate_zhifubao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/common_margin_large"
+        android:layout_marginTop="@dimen/common_margin_large"
+        android:layout_marginRight="@dimen/common_margin_large"
+        android:text="扫码支持"
+        android:textColor="@color/s_text_66" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="@dimen/common_margin_large"
+        android:layout_marginTop="@dimen/common_margin_large"
+        android:layout_marginRight="@dimen/common_margin_large"
+        android:src="@mipmap/ic_launcher"
+        android:text="扫码支持"
+        android:textColor="@color/s_text_66" />
+
+</LinearLayout>

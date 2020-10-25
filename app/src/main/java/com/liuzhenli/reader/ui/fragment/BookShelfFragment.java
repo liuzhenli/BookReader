@@ -22,6 +22,7 @@ import com.liuzhenli.reader.ui.adapter.BookShelfAdapter;
 import com.liuzhenli.reader.ui.contract.BookShelfContract;
 import com.liuzhenli.reader.ui.presenter.BookShelfPresenter;
 import com.liuzhenli.reader.utils.Constant;
+import com.liuzhenli.reader.utils.DataDiffUtil;
 import com.liuzhenli.reader.utils.ToastUtil;
 import com.micoredu.readerlib.bean.BookShelfBean;
 import com.micoredu.readerlib.helper.BookshelfHelper;
@@ -53,7 +54,7 @@ public class BookShelfFragment extends BaseRVFragment<BookShelfPresenter, BookSh
 
     @Override
     public void initData() {
-        mPresenter.queryBooks(false, 0);
+
     }
 
     @Override
@@ -90,7 +91,24 @@ public class BookShelfFragment extends BaseRVFragment<BookShelfPresenter, BookSh
 
     @Override
     public void showBooks(List<BookShelfBean> bookShelfBeanList) {
-        mAdapter.addAll(bookShelfBeanList);
+        if (mAdapter.getCount() != 0) {
+            DataDiffUtil.diffResult(mAdapter, bookShelfBeanList, new DataDiffUtil.ItemSameCallBack<BookShelfBean>() {
+                @Override
+                public boolean isItemSame(BookShelfBean oldItem, BookShelfBean newItem) {
+
+                    return oldItem.getBookInfoBean() != null && oldItem.getBookInfoBean().getName() != null
+                            && newItem.getBookInfoBean() != null
+                            && oldItem.getBookInfoBean().getName().equals(newItem.getBookInfoBean().getName());
+                }
+
+                @Override
+                public boolean isContentSame(BookShelfBean oldItem, BookShelfBean newItem) {
+                    return false;
+                }
+            });
+        } else {
+            mAdapter.addAll(bookShelfBeanList);
+        }
     }
 
     @Override
@@ -157,5 +175,19 @@ public class BookShelfFragment extends BaseRVFragment<BookShelfPresenter, BookSh
         tvDes.setText(bookShelfBean.getBookInfoBean().getIntroduce());
         bottomSheetDialog.show();
         return false;
+    }
+
+    @Override
+    protected void onFragmentVisibleChange(boolean isVisible) {
+        super.onFragmentVisibleChange(isVisible);
+        if (isVisible) {
+            onRefresh();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        onRefresh();
     }
 }

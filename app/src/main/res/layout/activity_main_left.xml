@@ -47,6 +47,13 @@
         android:text="@string/join_qq_group" />
 
     <TextView
+        android:id="@+id/tv_donate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/common_margin_large"
+        android:text="@string/donate" />
+
+    <TextView
         android:id="@+id/tv_main_draw_setting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

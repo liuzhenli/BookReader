@@ -18,15 +18,20 @@ import java.util.Map;
 public class SearchBookBean implements BaseBookBean {
     @Id
     private String noteUrl;
-    private String coverUrl;//封面URL
+    /***封面URL*/
+    private String coverUrl;
     private String name;
     private String author;
     private String tag;
-    private String kind;//分类
-    private String origin;//来源
+    /***分类*/
+    private String kind;
+    /***来源*/
+    private String origin;
     private String lastChapter;
-    private String introduce; //简介
-    private String chapterUrl;//目录URL
+    /***简介*/
+    private String introduce;
+    /***目录URL*/
+    private String chapterUrl;
     private Long addTime = 0L;
     private Long upTime = 0L;
     private String variable;
@@ -145,8 +150,9 @@ public class SearchBookBean implements BaseBookBean {
     }
 
     public int getLastChapterNum() {
-        if (lastChapterNum == -2)
+        if (lastChapterNum == -2) {
             this.lastChapterNum = BookshelfHelper.guessChapterNum(lastChapter);
+        }
         return lastChapterNum;
     }
 
@@ -181,8 +187,9 @@ public class SearchBookBean implements BaseBookBean {
 
     public void setIsCurrentSource(Boolean isCurrentSource) {
         this.isCurrentSource = isCurrentSource;
-        if (isCurrentSource)
+        if (isCurrentSource) {
             this.addTime = System.currentTimeMillis();
+        }
     }
 
     public int getOriginNum() {
@@ -223,10 +230,11 @@ public class SearchBookBean implements BaseBookBean {
 
     public int getWeight() {
         BookSourceBean source = BookSourceManager.getBookSourceByUrl(this.tag);
-        if (source != null)
+        if (source != null) {
             return source.getWeight();
-        else
+        } else {
             return 0;
+        }
     }
 
     public int getSearchTime() {

@@ -36,7 +36,7 @@ public class BookListAdapter extends RecyclerArrayAdapter<SearchBookBean> {
 
     @Override
     public BaseViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
-        return new BookShelfHolder(parent, R.layout.item_bookshelf_list);
+        return new BookShelfHolder(parent, R.layout.item_book_list);
     }
 
     public class BookShelfHolder extends BaseViewHolder<SearchBookBean> {
@@ -50,18 +50,10 @@ public class BookListAdapter extends RecyclerArrayAdapter<SearchBookBean> {
         FrameLayout mFlHasNew;
         @BindView(R.id.tv_name)
         TextView mTvName;
-        @BindView(R.id.iv_author)
-        AppCompatImageView mIvAuthor;
-        @BindView(R.id.tv_author)
+        @BindView(R.id.tv_book_summary)
+        TextView mTvSummary;
+        @BindView(R.id.tv_author_info)
         TextView mTvAuthor;
-        @BindView(R.id.iv_read)
-        AppCompatImageView mIvRead;
-        @BindView(R.id.tv_read)
-        TextView mTvRead;
-        @BindView(R.id.iv_last)
-        AppCompatImageView mIvLast;
-        @BindView(R.id.tv_last)
-        TextView mTvLast;
         @BindView(R.id.vw_select)
         View mVwSelect;
 
@@ -74,8 +66,13 @@ public class BookListAdapter extends RecyclerArrayAdapter<SearchBookBean> {
         public void setData(SearchBookBean item) {
             super.setData(item);
             mTvName.setText(item.getName() == null ? "[未知书名]" : item.getName());
-            mTvAuthor.setText(item.getAuthor() == null ? "佚名" : item.getAuthor());
+            mTvSummary.setText(item.getIntroduce());
+            mTvAuthor.setText(String.format("%s · %s", getAuthor(item), item.getKind()));
             ImageUtil.setImage(mContext, item.getCoverUrl(), R.drawable.book_cover, mIvCover);
+        }
+
+        private String getAuthor(SearchBookBean item) {
+            return item.getAuthor() == null ? "佚名" : item.getAuthor();
         }
     }
 

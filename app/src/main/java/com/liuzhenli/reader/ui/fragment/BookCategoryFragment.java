@@ -126,8 +126,10 @@ public class BookCategoryFragment extends BaseRVFragment<BookCategoryPresenter, 
     @Override
     protected void onFragmentVisibleChange(boolean isVisible) {
         super.onFragmentVisibleChange(isVisible);
-        if (mAdapter.getCount() == 0) {
-            onRefresh();
+        if (isVisible) {
+            if (mAdapter.getCount() == 0) {
+                onRefresh();
+            }
         }
     }
 }
