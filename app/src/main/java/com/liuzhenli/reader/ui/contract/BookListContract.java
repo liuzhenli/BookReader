@@ -11,7 +11,7 @@ import java.util.List;
  * @author liuzhenli 2020/10/9
  * Email: 848808263@qq.com
  */
-public class BookCategoryContract {
+public class BookListContract {
     public interface View extends BaseContract.BaseView {
         /**
          * 显示书籍列表

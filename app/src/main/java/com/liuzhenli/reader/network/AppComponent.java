@@ -4,7 +4,6 @@ package com.liuzhenli.reader.network;
 import com.liuzhenli.reader.module.ApiModule;
 import com.liuzhenli.reader.module.AppModule;
 import com.liuzhenli.reader.ui.activity.BookCatalogActivity;
-import com.liuzhenli.reader.ui.activity.BookCategoryActivity;
 import com.liuzhenli.reader.ui.activity.BookDetailActivity;
 import com.liuzhenli.reader.ui.activity.ImportLocalBookActivity;
 import com.liuzhenli.reader.ui.activity.LoginActivity;

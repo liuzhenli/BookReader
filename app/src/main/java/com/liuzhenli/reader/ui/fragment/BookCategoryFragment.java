@@ -10,8 +10,8 @@ import com.liuzhenli.reader.base.BaseRVFragment;
 import com.liuzhenli.reader.network.AppComponent;
 import com.liuzhenli.reader.ui.activity.BookDetailActivity;
 import com.liuzhenli.reader.ui.adapter.BookListAdapter;
-import com.liuzhenli.reader.ui.contract.BookCategoryContract;
-import com.liuzhenli.reader.ui.presenter.BookCategoryPresenter;
+import com.liuzhenli.reader.ui.contract.BookListContract;
+import com.liuzhenli.reader.ui.presenter.BookListPresenter;
 import com.liuzhenli.reader.utils.DataDiffUtil;
 import com.micoredu.readerlib.bean.SearchBookBean;
 import com.microedu.reader.R;
@@ -26,7 +26,7 @@ import static com.liuzhenli.common.BitIntentDataManager.DATA_KEY;
  * @author liuzhenli 2020/10/20
  * Email: 848808263@qq.com
  */
-public class BookCategoryFragment extends BaseRVFragment<BookCategoryPresenter, SearchBookBean> implements BookCategoryContract.View {
+public class BookCategoryFragment extends BaseRVFragment<BookListPresenter, SearchBookBean> implements BookListContract.View {
 
     public static final String URL = "url";
     public static final String PAGE = "page";

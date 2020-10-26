@@ -13,12 +13,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.liuzhenli.reader.base.BaseActivity;
-import com.liuzhenli.reader.base.BaseBean;
 import com.liuzhenli.reader.base.BaseFragment;
 import com.liuzhenli.reader.network.AppComponent;
-import com.liuzhenli.reader.ui.contract.BookCategoryContract;
 import com.liuzhenli.reader.ui.fragment.BookCategoryFragment;
-import com.liuzhenli.reader.ui.presenter.BookCategoryPresenter;
 import com.liuzhenli.reader.view.NoAnimViewPager;
 import com.liuzhenli.reader.view.ScaleTransitionPagerTitleView;
 import com.micoredu.readerlib.analyzerule.AnalyzeRule;
@@ -52,7 +49,7 @@ import static com.liuzhenli.common.constant.AppConstant.SCRIPT_ENGINE;
  * @author liuzhenli 2020/10/9
  * Email: 848808263@qq.com
  */
-public class BookCategoryActivity extends BaseActivity {
+public class BookListActivity extends BaseActivity {
     public static final String BOOK_SOURCE_DATA = "book_source_data";
 
     @BindView(R.id.magic_indicator)
@@ -67,14 +64,14 @@ public class BookCategoryActivity extends BaseActivity {
     protected List<BaseFragment> mFragmentList = new ArrayList<>();
 
     public static void start(Context context, BookSourceBean data) {
-        Intent intent = new Intent(context, BookCategoryActivity.class);
+        Intent intent = new Intent(context, BookListActivity.class);
         intent.putExtra(BOOK_SOURCE_DATA, data);
         context.startActivity(intent);
     }
 
     @Override
     protected int getLayoutId() {
-        return R.layout.act_bookcategory;
+        return R.layout.act_booklist;
     }
 
     @Override
