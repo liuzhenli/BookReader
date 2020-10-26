@@ -30,7 +30,7 @@ object UiUtils {
                     tabView.setPadding(0, 0, 0, 0)
 
                     //因为我想要的效果是   字多宽线就多宽，所以测量mTextView的宽度
-                    var width = 0
+                    var width: Int
                     width = mTextView.width
                     if (width == 0) {
                         mTextView.measure(0, 0)

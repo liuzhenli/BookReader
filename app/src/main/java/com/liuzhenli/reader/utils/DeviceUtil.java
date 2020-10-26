@@ -165,7 +165,7 @@ public class DeviceUtil {
         try {
             brightness = Settings.System.getInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS);
         } catch (SettingNotFoundException e) {
-            Logger.w("TangYuan", "----->Current Mobile Can't Get Screen Brightness Value !!!");
+            e.printStackTrace();
         }
 
         return brightness;
