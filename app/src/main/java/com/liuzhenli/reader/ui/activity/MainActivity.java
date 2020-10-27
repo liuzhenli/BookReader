@@ -146,7 +146,10 @@ public class MainActivity extends BaseActivity {
                 mMaterialMenu.setTransformationOffset(MaterialMenuDrawable.AnimationState.BURGER_ARROW, 2 - slideOffset);
             }
         });
-
+        //设置
+        ClickUtils.click(mViewSetting, o -> {
+            SettingActivity.start(mContext);
+        });
         //关于
         ClickUtils.click(mViewAbout, o -> {
             AboutActivity.start(mContext);

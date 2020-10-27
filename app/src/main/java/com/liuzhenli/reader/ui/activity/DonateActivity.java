@@ -29,7 +29,7 @@ public class DonateActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_about;
+        return R.layout.activity_denote;
     }
 
     @Override

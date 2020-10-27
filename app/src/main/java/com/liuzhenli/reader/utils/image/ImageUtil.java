@@ -511,4 +511,21 @@ public class ImageUtil {
     public interface OnSaveResultListener {
         void onResult(boolean success, String path);
     }
+
+    /**
+     * 清除内存缓存
+     *
+     * @param context context
+     */
+    public static void clearMemoryCache(Context context) {
+        Glide.get(context).clearMemory();
+    }
+    /**
+     * 清除磁盘缓存 必须在子线程
+     *
+     * @param context context
+     */
+    public static void clearDiskCache(Context context) {
+        Glide.get(context).clearDiskCache();
+    }
 }
