@@ -41,4 +41,17 @@ public class ReaderConfig {
         /***汉语-繁体*/
         int CN_TRADITION = 2;
     }
+
+    /***背景色*/
+    public @interface PageBgColor {
+        /***白天*/
+        int BG_COLOR_DAY = 0;
+        int BG_COLOR_YELLOW = 1;
+        int BG_COLOR_GREEN = 2;
+        int BG_COLOR_PINK = 3;
+        int BG_COLOR_SBLUE = 4;
+        int BG_COLOR_BLUE = 5;
+        int BG_COLOR_NIGHT = 6;
+
+    }
 }

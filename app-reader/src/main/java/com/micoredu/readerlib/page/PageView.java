@@ -42,6 +42,8 @@ import static com.liuzhenli.common.utils.ScreenUtils.getDisplayMetrics;
 
 /**
  * 绘制页面显示内容的类
+ *
+ * @author fanqie
  */
 public class PageView extends View implements PageAnimation.OnPageChangeListener {
 
@@ -158,7 +160,13 @@ public class PageView extends View implements PageAnimation.OnPageChangeListener
                 mViewWidth * 2f / 3, mViewHeight * 2f / 3);
     }
 
-    //设置翻页的模式
+    /**
+     * 设置翻页的模式
+     *
+     * @param pageMode     turn page mode
+     * @param marginTop    top margin
+     * @param marginBottom bottom margin
+     */
     public void setPageMode(PageAnimation.Mode pageMode, int marginTop, int marginBottom) {
         //视图未初始化的时候，禁止调用
         if (mViewWidth == 0 || mViewHeight == 0 || mPageLoader == null) {
@@ -168,6 +176,7 @@ public class PageView extends View implements PageAnimation.OnPageChangeListener
             marginTop = marginTop + statusBarHeight;
         }
         switch (pageMode) {
+            //仿真
             case SIMULATION:
                 mPageAnim = new SimulationPageAnim(mViewWidth, mViewHeight, this, this);
                 break;

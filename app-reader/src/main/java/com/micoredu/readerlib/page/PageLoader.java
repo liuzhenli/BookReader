@@ -134,11 +134,11 @@ public abstract class PageLoader {
     /***正在朗读章节**/
     private int readAloudParagraph;
 
-    Bitmap cover;
+    protected Bitmap cover;
     private int linePos = 0;
     private boolean isLastPage = false;
 
-    CompositeDisposable compositeDisposable;
+    protected CompositeDisposable compositeDisposable;
     /***翻页时间*/
     private long skipPageTime = 0;
 
@@ -248,8 +248,10 @@ public abstract class PageLoader {
         // 绘制提示的画笔
         mTipPaint = new TextPaint();
         mTipPaint.setColor(readBookControl.getTextColor());
-        mTipPaint.setTextAlign(Paint.Align.LEFT); // 绘制的起始点
-        mTipPaint.setTextSize(ScreenUtils.spToPx(ReaderConfig.DEFAULT_TIP_SIZE)); // Tip默认的字体大小
+        // 绘制的起始点
+        mTipPaint.setTextAlign(Paint.Align.LEFT);
+        // Tip默认的字体大小
+        mTipPaint.setTextSize(ScreenUtils.spToPx(ReaderConfig.DEFAULT_TIP_SIZE));
         mTipPaint.setTypeface(Typeface.create(typeface, Typeface.NORMAL));
         mTipPaint.setAntiAlias(true);
         mTipPaint.setSubpixelText(true);
@@ -1745,7 +1747,7 @@ public abstract class PageLoader {
             //字宽
             txtChar.setCharWidth(cw + d);
             //txtChar.Index = y;//每页每个字的位置
-            if (txtList.getCharsData()!=null){
+            if (txtList.getCharsData() != null) {
                 txtList.getCharsData().add(txtChar);
             }
             //pzl
@@ -1844,6 +1846,7 @@ public abstract class PageLoader {
         }
         return null;
     }
+
     /*****************************************interface*****************************************/
 
     public class ChapterContainer {

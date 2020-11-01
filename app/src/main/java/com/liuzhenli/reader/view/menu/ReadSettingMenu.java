@@ -245,31 +245,31 @@ public class ReadSettingMenu extends BaseMenu {
         switch (checkedId) {
             //0 白天
             case R.id.tv_menu_background_0:
-                ReadConfigManager.getInstance().setTextDrawableIndex(0);
+                ReadConfigManager.getInstance().setTextDrawableIndex(ReaderConfig.PageBgColor.BG_COLOR_DAY);
                 break;
             //1 黄色
             case R.id.tv_menu_background_1:
-                ReadConfigManager.getInstance().setTextDrawableIndex(1);
+                ReadConfigManager.getInstance().setTextDrawableIndex(ReaderConfig.PageBgColor.BG_COLOR_YELLOW);
                 break;
             //2 绿色
             case R.id.tv_menu_background_2:
-                ReadConfigManager.getInstance().setTextDrawableIndex(2);
+                ReadConfigManager.getInstance().setTextDrawableIndex(ReaderConfig.PageBgColor.BG_COLOR_GREEN);
                 break;
             //3 粉色
             case R.id.tv_menu_background_3:
-                ReadConfigManager.getInstance().setTextDrawableIndex(3);
+                ReadConfigManager.getInstance().setTextDrawableIndex(ReaderConfig.PageBgColor.BG_COLOR_PINK);
                 break;
             //4 深蓝色
             case R.id.tv_menu_background_4:
-                ReadConfigManager.getInstance().setTextDrawableIndex(4);
+                ReadConfigManager.getInstance().setTextDrawableIndex(ReaderConfig.PageBgColor.BG_COLOR_SBLUE);
                 break;
             //5 蓝色
             case R.id.tv_menu_background_5:
-                ReadConfigManager.getInstance().setTextDrawableIndex(5);
+                ReadConfigManager.getInstance().setTextDrawableIndex(ReaderConfig.PageBgColor.BG_COLOR_BLUE);
                 break;
             //6 夜间
             case R.id.tv_menu_background_more:
-                ReadConfigManager.getInstance().setTextDrawableIndex(6);
+                ReadConfigManager.getInstance().setTextDrawableIndex(ReaderConfig.PageBgColor.BG_COLOR_NIGHT);
                 break;
             default:
                 break;
@@ -336,7 +336,7 @@ public class ReadSettingMenu extends BaseMenu {
         /***点击字体切换了*/
         void onTypeFaceClicked();
 
-        /***背景*/
+        /***background change*/
         void onBackGroundChanged();
     }
 }

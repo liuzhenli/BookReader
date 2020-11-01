@@ -112,7 +112,7 @@ public class CountDownView extends View {
         //文字
         mPaintText = new Paint();
         mPaintText.setTextSize(getResources().getDimension(R.dimen.txt_size_13));
-        mPaintText.setColor(Color.parseColor("#000000"));
+        mPaintText.setColor(Color.parseColor("#666666"));
 
         //背景圆
         mPatinCircle = new Paint();

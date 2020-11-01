@@ -183,7 +183,9 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
 
             @Override
             public void onNightModeClick() {
-                toast("夜间模式");
+                boolean isNightTheme = ReadConfigManager.getInstance().getIsNightTheme();
+                ReadConfigManager.getInstance().setIsNightTheme(!isNightTheme);
+                mPageLoader.refreshUi();
             }
 
             @Override
@@ -233,6 +235,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
 
             }
 
+            /***background changed*/
             @Override
             public void onBackGroundChanged() {
                 if (mPageLoader != null) {

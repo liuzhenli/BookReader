@@ -67,11 +67,6 @@ public class BaseApplication extends Application {
             e.printStackTrace();
         }
     }
-
-    public boolean isNightTheme() {
-        return SharedPreferencesUtil.getInstance().getBoolean("nightTheme", false);
-    }
-
     /**
      * 设置下载地址
      */

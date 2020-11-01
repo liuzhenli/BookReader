@@ -28,7 +28,13 @@ import com.micoredu.readerlib.utils.ReaderConfig;
 /****阅读参数设置*/
 public class ReadConfigManager {
     private static final int DEFAULT_BG = 1;
+    /**
+     * 阅读器主题背景对应的文字
+     */
     private int mTextDrawableIndex = DEFAULT_BG;
+    /***
+     * 阅读器页面文字,背景选项配置信息  文字颜色,背景  这里约定,最后一个是夜间模式
+     */
     private List<Map<String, Integer>> mTextDrawable;
     private Bitmap bgBitmap;
     /***屏幕方向*/
@@ -58,6 +64,9 @@ public class ReadConfigManager {
     private Boolean showTitle;
     private Boolean showTimeBattery;
     private Boolean showLine;
+    /**
+     * 根据阅读页的主题,配置不同的图标
+     */
     private Boolean darkStatusIcon;
     private int indent;
     private int screenTimeOut;
@@ -185,16 +194,18 @@ public class ReadConfigManager {
 
             //6 夜间
             Map<String, Integer> temp7 = new HashMap<>();
-            temp7.put("textColor", R.color.skin_night_reader_scene_text_color);
-            temp7.put("bgIsColor", 1);
-            temp7.put("textBackground", R.color.skin_night_reader_scene_bg_color);
-            temp7.put("darkStatusIcon", 0);
+            temp6.put("textColor", BaseApplication.getInstance().getResources().getColor(R.color.skin_night_reader_scene_text_color));
+            temp6.put("bgIsColor", 1);
+            temp6.put("textBackground", BaseApplication.getInstance().getResources().getColor(R.color.skin_night_reader_scene_bg_color));
+            temp6.put("darkStatusIcon", 0);
+            mTextDrawable.add(temp6);
             mTextDrawable.add(temp7);
         }
     }
 
     public void initTextDrawableIndex() {
         if (getIsNightTheme()) {
+            //直接取值夜间模式字体颜色
             mTextDrawableIndex = preferences.getInt("textDrawableIndexNight", 6);
         } else {
             mTextDrawableIndex = preferences.getInt("textDrawableIndex", DEFAULT_BG);
@@ -209,6 +220,7 @@ public class ReadConfigManager {
     @SuppressWarnings("ConstantConditions")
     private void initPageStyle() {
         int bgCustom = getBgCustom(mTextDrawableIndex);
+        //图片背景
         if ((bgCustom == 2 || bgCustom == 3) && getBgPath(mTextDrawableIndex) != null) {
             bgIsColor = false;
             String bgPath = getBgPath(mTextDrawableIndex);
@@ -229,6 +241,7 @@ public class ReadConfigManager {
             mBackgroundColor = getBgColor(mTextDrawableIndex);
             return;
         }
+        //the background is color
         bgIsColor = true;
         if (mTextDrawable.size() > mTextDrawableIndex && mTextDrawable.get(mTextDrawableIndex) != null) {
             mBackgroundColor = mTextDrawable.get(mTextDrawableIndex).get("textBackground");
@@ -248,6 +261,12 @@ public class ReadConfigManager {
         }
     }
 
+    /**
+     * set text color
+     *
+     * @param textDrawableIndex the position
+     * @param textColor         text color
+     */
     public void setTextColor(int textDrawableIndex, int textColor) {
         preferences.putInt("textColor" + textDrawableIndex, textColor);
     }
@@ -306,6 +325,7 @@ public class ReadConfigManager {
         preferences.putInt("bgCustom" + textDrawableIndex, bgCustom);
     }
 
+    /***与文字相对应的背景路径*/
     public String getBgPath(int textDrawableIndex) {
         return preferences.getString("bgPath" + textDrawableIndex, null);
     }
@@ -324,6 +344,10 @@ public class ReadConfigManager {
         return mTextDrawable.get(textDrawableIndex).get("textBackground");
     }
 
+    public int getBgColor() {
+        return mBackgroundColor;
+    }
+
     public int getBgColor(int index) {
         return preferences.getInt("bgColor" + index, Color.parseColor("#1e1e1e"));
     }
@@ -332,8 +356,17 @@ public class ReadConfigManager {
         preferences.putInt("bgColor" + index, bgColor);
     }
 
-    private boolean getIsNightTheme() {
-        return BaseApplication.getInstance().isNightTheme();
+    public boolean getIsNightTheme() {
+        return preferences.getBoolean("nightTheme", false);
+    }
+
+    /**
+     * set night theme
+     *
+     * @param isNightTheme true if is night theme
+     */
+    public void setIsNightTheme(boolean isNightTheme) {
+        preferences.putBoolean("nightTheme", isNightTheme);
     }
 
     public boolean getImmersionStatusBar() {
@@ -366,10 +399,6 @@ public class ReadConfigManager {
             return new ColorDrawable(mBackgroundColor);
         }
         return new BitmapDrawable(context.getResources(), bgBitmap);
-    }
-
-    public int getBgColor() {
-        return mBackgroundColor;
     }
 
     public boolean bgBitmapIsNull() {

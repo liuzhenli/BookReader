@@ -71,7 +71,8 @@ public class BitmapUtil {
             bitmap.recycle();
             bitmap = null;
         }
-        return bmp;// Bitmap.createBitmap(bitmap, 0, 0, w, h, matrix, true);
+        // Bitmap.createBitmap(bitmap, 0, 0, w, h, matrix, true);
+        return bmp;
     }
 
     /**
