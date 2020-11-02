@@ -3,12 +3,14 @@ package com.liuzhenli.reader.ui.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.balysv.materialmenu.MaterialMenuDrawable;
@@ -19,7 +21,6 @@ import com.liuzhenli.reader.network.AppComponent;
 import com.liuzhenli.reader.base.BaseActivity;
 import com.liuzhenli.reader.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.adapter.MainTabAdapter;
-import com.liuzhenli.reader.ui.fragment.BookShelfFragment;
 import com.liuzhenli.reader.utils.Constant;
 import com.liuzhenli.reader.utils.PermissionUtil;
 import com.liuzhenli.reader.utils.ToastUtil;
@@ -195,5 +196,35 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return true;
+    }
+
+    @Override
+    public void onOptionsMenuClosed(Menu menu) {
+        super.onOptionsMenuClosed(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_cet_sync:
+                ToastUtil.showCenter("i");
+                break;
+            case R.id.menu_cet_mistakes:
+                ToastUtil.showCenter("2");
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }
