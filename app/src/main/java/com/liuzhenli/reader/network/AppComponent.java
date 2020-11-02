@@ -8,6 +8,7 @@ import com.liuzhenli.reader.ui.activity.BookDetailActivity;
 import com.liuzhenli.reader.ui.activity.ImportLocalBookActivity;
 import com.liuzhenli.reader.ui.activity.LoginActivity;
 import com.liuzhenli.reader.ui.activity.ReaderActivity;
+import com.liuzhenli.reader.ui.activity.SearchActivity;
 import com.liuzhenli.reader.ui.fragment.BookCategoryFragment;
 import com.liuzhenli.reader.ui.fragment.BookShelfFragment;
 import com.liuzhenli.reader.ui.fragment.LocalFileFragment;
@@ -49,4 +50,6 @@ public interface AppComponent {
     void inject(BookCategoryFragment bookCategoryFragment);
 
     void inject(BookDetailActivity bookDetailActivity);
+
+    void inject(SearchActivity searchActivity);
 }

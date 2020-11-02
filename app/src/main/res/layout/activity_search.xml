@@ -24,9 +24,10 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/iv_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/common_padding_normal"
+                android:padding="@dimen/common_margin_large"
                 android:src="@drawable/titlebar_back_white_icon" />
 
             <EditText
@@ -71,7 +72,7 @@
             android:layout_marginEnd="@dimen/common_margin_normal"
             android:layout_marginRight="@dimen/common_margin_normal"
             android:singleLine="true"
-            android:text="取消"
+            android:text="@string/search"
             android:textColor="@color/white"
             android:textSize="@dimen/txt_size_14" />
 
@@ -87,61 +88,57 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ScrollView
-            android:id="@+id/sv_general_search_history_hot"
+        <LinearLayout
+            android:id="@+id/view_search_history"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:scrollbars="none">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/block_general_search_history_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:id="@+id/block_general_search_history_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tv_general_search_history_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/common_margin_large"
+                    android:text="搜索历史"
+                    android:textColor="@color/text_color_99" />
 
-                    <TextView
-                        android:id="@+id/tv_general_search_history_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="@dimen/common_margin_large"
-                        android:text="搜索历史"
-                        android:textColor="@color/text_color_99" />
+                <ImageView
 
-                    <ImageView
-                        android:id="@+id/iv_clear_search_history"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:src="@drawable/selector_card_bg" />
-                </LinearLayout>
-
-
-                <com.google.android.material.internal.FlowLayout
-                    android:id="@+id/fl_general_search_history"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/common_margin_normal"
-                    app:itemSpacing="8dp"
-                    app:lineSpacing="8dp" />
+                    android:id="@+id/iv_clear_search_history"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:src="@drawable/icon_clear_search_history" />
             </LinearLayout>
-        </ScrollView>
 
-        <FrameLayout
-            android:id="@+id/fl_search_result"
+
+            <com.google.android.material.internal.FlowLayout
+                android:id="@+id/fl_general_search_history"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_margin_large"
+                android:layout_marginRight="@dimen/common_margin_large"
+                app:itemSpacing="8dp"
+                app:lineSpacing="8dp" />
+        </LinearLayout>
+
+        <com.liuzhenli.reader.view.recyclerview.EasyRecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone" />
-
+            app:layout_empty="@layout/common_empty_view"
+            app:layout_progress="@layout/common_progress_view"
+            app:scrollbarStyle="insideOverlay" />
     </FrameLayout>
 
 </LinearLayout>

@@ -67,6 +67,7 @@ public class BookListAdapter extends RecyclerArrayAdapter<SearchBookBean> {
             super.setData(item);
             mTvName.setText(item.getName() == null ? "[未知书名]" : item.getName());
             mTvSummary.setText(item.getIntroduce());
+            mBvUnread.setText(item.getOriginNum()+"");
             mTvAuthor.setText(String.format("%s · %s", getAuthor(item), item.getKind()));
             ImageUtil.setImage(mContext, item.getCoverUrl(), R.drawable.book_cover, mIvCover);
         }

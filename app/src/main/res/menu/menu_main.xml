@@ -2,9 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_cet_sync"
+        android:id="@+id/item_search"
+        android:icon="@drawable/icon_search"
         android:orderInCategory="100"
-        android:title="title1" />
+        android:title="搜索"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/menu_cet_mistakes"
         android:orderInCategory="100"

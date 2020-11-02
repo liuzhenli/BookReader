@@ -3,13 +3,12 @@ package com.liuzhenli.reader.ui.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentPagerAdapter;
 
@@ -85,6 +84,20 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initToolBar() {
         mTvTitle.setText(getResources().getStringArray(R.array.main_tab_names)[mCurrentPosition]);
+        mToolBar.inflateMenu(R.menu.menu_main);
+        mToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.item_search:
+                        SearchActivity.start(mContext);
+                        break;
+                    default:
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -195,36 +208,4 @@ public class MainActivity extends BaseActivity {
             return false;
         }
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        return true;
-    }
-
-    @Override
-    public void onOptionsMenuClosed(Menu menu) {
-        super.onOptionsMenuClosed(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_cet_sync:
-                ToastUtil.showCenter("i");
-                break;
-            case R.id.menu_cet_mistakes:
-                ToastUtil.showCenter("2");
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 }

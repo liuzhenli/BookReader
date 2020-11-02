@@ -32,11 +32,13 @@
         app:layout_constraintTop_toTopOf="@id/tv_name">
 
         <com.liuzhenli.reader.view.BadgeView
+            android:background="@color/main"
             android:id="@+id/bv_unread"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_margin="5dp"
+            android:text="100"
             android:includeFontPadding="false"
             tools:ignore="RtlHardcoded" />
 
