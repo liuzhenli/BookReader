@@ -379,3 +379,6 @@
     *;
 }
 #腾讯x5内核-----
+
+-keep class com.wang.avi.** { *; }
+-keep class com.wang.avi.indicators.** { *; }

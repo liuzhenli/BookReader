@@ -132,6 +132,7 @@
                 app:lineSpacing="8dp" />
         </LinearLayout>
 
+
         <com.liuzhenli.reader.view.recyclerview.EasyRecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
@@ -139,6 +140,16 @@
             app:layout_empty="@layout/common_empty_view"
             app:layout_progress="@layout/common_progress_view"
             app:scrollbarStyle="insideOverlay" />
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/avi"
+            style="@style/AVLoadingIndicatorView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:visibility="visible"
+            app:indicatorColor="@color/main"
+            app:indicatorName="BallPulseIndicator" />
     </FrameLayout>
 
 </LinearLayout>

@@ -32,6 +32,10 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
     public Toolbar mToolBar;
     @Inject
     public T1 mPresenter;
+    /**
+     * 全屏状态下不需要状态栏
+     */
+    protected boolean mIsFullScreen;
     /***状态栏*/
     protected ImmersionBar mImmersionBar;
     private Boolean startShareAnim = false;
@@ -44,7 +48,11 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
             startShareAnim = getIntent().getBooleanExtra(START_SHEAR_ELE, false);
         }
         mContext = this;
-        mImmersionBar = ImmersionBar.with(this);
+        if (!mIsFullScreen) {
+            initImmersionBar();
+        }
+
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             getWindow().getDecorView().setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS);
         }
@@ -67,7 +75,6 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
         if (savedInstanceState != null) {
             restoreState(savedInstanceState);
         }
-        initImmersionBar();
     }
 
     public void startActivityByAnim(Intent intent, int animIn, int animExit) {
@@ -109,6 +116,7 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
      * 沉浸状态栏
      */
     protected void initImmersionBar() {
+        mImmersionBar = ImmersionBar.with(this);
         mImmersionBar.statusBarColor(R.color.main);
         mImmersionBar.statusBarDarkFont(true);
         mImmersionBar.fitsSystemWindows(true);

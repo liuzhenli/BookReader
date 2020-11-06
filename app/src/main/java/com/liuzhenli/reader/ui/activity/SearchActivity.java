@@ -95,7 +95,6 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
     @Override
     protected void configViews() {
         initAdapter(BookListAdapter.class, false, false);
-        mRecyclerView.setVisibility(View.GONE);
         mViewBack.setOnClickListener(v -> finish());
         mPresenter.getSearchHistory();
         ClickUtils.click(tvActionCancel, o -> {

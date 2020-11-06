@@ -30,6 +30,7 @@ public class CountDownView extends View {
     private float mRingWidth;
     private int mCircleColor;
     private int mRingColor;
+    private int mTextColor;
     private int progressStrokeWidth;
     private String mCircleText;
     private OnClickListener onClickListener;
@@ -51,6 +52,7 @@ public class CountDownView extends View {
         mRingWidth = typedArray.getDimension(R.styleable.CountDownView_strokeWidth, 10);
         mCircleColor = typedArray.getColor(R.styleable.CountDownView_circleColor, 0xFFFFFFFF);
         mRingColor = typedArray.getColor(R.styleable.CountDownView_ringColor, 0xFFFFFF00);
+        mTextColor = typedArray.getColor(R.styleable.CountDownView_textColor, 0xFF666666);
         progressStrokeWidth = (int) mRingWidth;
         mCircleRadius = mRadius + mRingWidth;
     }
@@ -111,8 +113,8 @@ public class CountDownView extends View {
     private void initVariable() {
         //文字
         mPaintText = new Paint();
-        mPaintText.setTextSize(getResources().getDimension(R.dimen.txt_size_13));
-        mPaintText.setColor(Color.parseColor("#666666"));
+        mPaintText.setTextSize(getResources().getDimension(R.dimen.txt_size_12));
+        mPaintText.setColor(mTextColor);
 
         //背景圆
         mPatinCircle = new Paint();

@@ -41,7 +41,7 @@
         </activity>
         <activity
             android:name="com.liuzhenli.reader.ui.activity.SplashActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

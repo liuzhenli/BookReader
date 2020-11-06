@@ -1,20 +1,18 @@
 package com.liuzhenli.reader.ui.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.widget.AppCompatImageView;
-
 import com.liuzhenli.reader.utils.image.ImageUtil;
 import com.liuzhenli.reader.view.BadgeView;
 import com.liuzhenli.reader.view.RotateLoading;
 import com.liuzhenli.reader.view.recyclerview.adapter.BaseViewHolder;
 import com.liuzhenli.reader.view.recyclerview.adapter.RecyclerArrayAdapter;
-import com.micoredu.readerlib.bean.BookShelfBean;
 import com.micoredu.readerlib.bean.SearchBookBean;
 import com.microedu.reader.R;
 
@@ -65,9 +63,9 @@ public class BookListAdapter extends RecyclerArrayAdapter<SearchBookBean> {
         @Override
         public void setData(SearchBookBean item) {
             super.setData(item);
-            mTvName.setText(item.getName() == null ? "[未知书名]" : item.getName());
+            mTvName.setText(TextUtils.isEmpty(item.getName()) ? "[未知书名]" : item.getName());
             mTvSummary.setText(item.getIntroduce());
-            mBvUnread.setText(item.getOriginNum()+"");
+            mBvUnread.setText(item.getOriginNum() + "");
             mTvAuthor.setText(String.format("%s · %s", getAuthor(item), item.getKind()));
             ImageUtil.setImage(mContext, item.getCoverUrl(), R.drawable.book_cover, mIvCover);
         }
