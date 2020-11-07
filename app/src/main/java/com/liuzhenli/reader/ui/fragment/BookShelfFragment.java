@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -24,6 +25,7 @@ import com.liuzhenli.reader.ui.presenter.BookShelfPresenter;
 import com.liuzhenli.reader.utils.Constant;
 import com.liuzhenli.reader.utils.DataDiffUtil;
 import com.liuzhenli.reader.utils.ToastUtil;
+import com.liuzhenli.reader.utils.image.ImageUtil;
 import com.micoredu.readerlib.bean.BookShelfBean;
 import com.micoredu.readerlib.helper.BookshelfHelper;
 import com.microedu.reader.R;
@@ -165,7 +167,8 @@ public class BookShelfFragment extends BaseRVFragment<BookShelfPresenter, BookSh
         TextView tvBookSource = bottomSheetDialog.findViewById(R.id.tv_book_source);
         TextView tvProgress = bottomSheetDialog.findViewById(R.id.tv_book_read_progress);
         TextView tvDes = bottomSheetDialog.findViewById(R.id.tv_book_des);
-
+        ImageView mIvCover = bottomSheetDialog.findViewById(R.id.iv_book_cover);
+        ImageUtil.setImage(mContext, bookShelfBean.getBookInfoBean().getCoverUrl(), mIvCover);
         String author = TextUtils.isEmpty(bookShelfBean.getBookInfoBean().getAuthor()) ? "未知" : bookShelfBean.getBookInfoBean().getAuthor();
 
         tvBookName.setText(bookShelfBean.getBookInfoBean().getName());

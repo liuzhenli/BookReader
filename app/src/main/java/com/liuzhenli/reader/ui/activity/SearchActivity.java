@@ -5,11 +5,9 @@ import android.content.Intent;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.internal.FlowLayout;
@@ -50,21 +48,28 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
     @BindView(R.id.edit_general_search_content)
     EditText mEtSearch;
     @BindView(R.id.btn_general_search_clear)
-    ImageView btnGeneralSearchClear;
+    View btnGeneralSearchClear;
     @BindView(R.id.tv_action_cancel)
-    TextView tvActionCancel;
+    TextView tvActionSearch;
     @BindView(R.id.tv_general_search_history_title)
     TextView tvGeneralSearchHistoryTitle;
     @BindView(R.id.iv_clear_search_history)
     ImageView ivClearSearchHistory;
-    @BindView(R.id.block_general_search_history_title)
-    LinearLayout blockGeneralSearchHistoryTitle;
     @BindView(R.id.fl_general_search_history)
     FlowLayout flGeneralSearchHistory;
     @BindView(R.id.iv_back)
     View mViewBack;
     @BindView(R.id.view_search_history)
     View mViewSearchHistory;
+    /*** search book result view group*/
+    @BindView(R.id.view_search_result_info)
+    View mViewGroupSearchResult;
+    @BindView(R.id.view_stop_search)
+    View mVStopSearch;
+    @BindView(R.id.view_search_indicator)
+    View mSearchIndicator;
+    @BindView(R.id.tv_search_book_count)
+    TextView mTvSearchBookCount;
 
     private List<SearchBookBean> bookList = new ArrayList<>();
 
@@ -97,16 +102,19 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
         initAdapter(BookListAdapter.class, false, false);
         mViewBack.setOnClickListener(v -> finish());
         mPresenter.getSearchHistory();
-        ClickUtils.click(tvActionCancel, o -> {
+
+        //click search button
+        ClickUtils.click(tvActionSearch, o -> {
             String s = mEtSearch.getText().toString();
             if (TextUtils.isEmpty(s)) {
                 ToastUtil.showCenter("请你输入搜索内容");
                 return;
             }
             mPresenter.addToSearchHistory(SearchType.BOOK, s);
+
             mPresenter.stopSearch();
             bookList.clear();
-            mPresenter.search(SearchType.BOOK, 0, s);
+            startSearch(s);
         });
 
         ClickUtils.click(ivClearSearchHistory, o -> {
@@ -128,12 +136,27 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
                 if (TextUtils.isEmpty(s.toString())) {
                     mPresenter.stopSearch();
                     mAdapter.clear();
+
                     mRecyclerView.setVisibility(View.GONE);
+                    mViewGroupSearchResult.setVisibility(View.VISIBLE);
+
                     mViewSearchHistory.setVisibility(View.VISIBLE);
                 }
             }
         });
 
+        //click stop search button
+        ClickUtils.click(mVStopSearch, o -> {
+            mPresenter.stopSearch();
+            mSearchIndicator.setVisibility(View.GONE);
+            mVStopSearch.setVisibility(View.GONE);
+        });
+
+        //click delete search content
+        ClickUtils.click(btnGeneralSearchClear, o -> {
+            mEtSearch.setText("");
+        });
+        mViewGroupSearchResult.setVisibility(View.GONE);
     }
 
     @Override
@@ -164,7 +187,7 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
                 ClickUtils.click(tvSearch, o -> {
                     mEtSearch.setText(tvSearch.getText());
                     mEtSearch.setSelection(tvSearch.getText().length());
-                    mPresenter.search(SearchType.BOOK, 0, tvSearch.getText().toString());
+                    startSearch(tvSearch.getText().toString());
                 });
                 flGeneralSearchHistory.addView(tvSearch);
             }
@@ -175,6 +198,7 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
     @Override
     public void showSearchResult(String key, List<SearchBookBean> searchResult) {
         mRecyclerView.setVisibility(View.VISIBLE);
+        mViewGroupSearchResult.setVisibility(View.VISIBLE);
         mViewSearchHistory.setVisibility(View.GONE);
         if (mAdapter.getCount() == 0) {
             mAdapter.addAll(searchResult);
@@ -236,9 +260,8 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
                             mAdapter.clear();
                         }
                         mAdapter.addAll(bookList);
-                        Log.e("111111", "booksize=" + bookList.size());
                         mAdapter.notifyDataSetChanged();
-
+                        mTvSearchBookCount.setText(String.format("发现%s本相关书籍", mAdapter.getCount()));
                     }
                 });
             }
@@ -266,5 +289,14 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
     public void finish() {
         mPresenter.stopSearch();
         super.finish();
+    }
+
+
+    private void startSearch(String searchKey) {
+        mPresenter.search(SearchType.BOOK, 0, searchKey);
+
+        mViewGroupSearchResult.setVisibility(View.VISIBLE);
+        mSearchIndicator.setVisibility(View.VISIBLE);
+        mVStopSearch.setVisibility(View.VISIBLE);
     }
 }

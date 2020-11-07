@@ -62,7 +62,7 @@ public class WebBookModel {
     }
 
     /**
-     * 搜索
+     * 搜索  content  搜索内容  tag 网址
      */
     public Observable<List<SearchBookBean>> searchBook(String content, int page, String tag) {
         return WebBook.getInstance(tag)

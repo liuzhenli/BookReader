@@ -74,7 +74,7 @@ public class WebBook extends BaseModelImpl {
     }
 
     /**
-     * 搜索
+     * 搜索  content 内容   page --页数
      */
     public Observable<List<SearchBookBean>> searchBook(String content, int page) {
         if (bookSourceBean == null || isEmpty(bookSourceBean.getRuleSearchUrl())) {

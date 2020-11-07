@@ -65,7 +65,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/rl_cover"
             app:layout_constraintTop_toTopOf="@+id/v_cover"
-            tools:text="超级兵王" />
+            tools:text="@string/book_name" />
 
         <TextView
             android:id="@+id/tv_author"
@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/selector_card_bg"
             android:letterSpacing="0.03"
-            android:text="步千帆"
+            android:text="@string/author"
             android:textColor="#F5A623"
             android:textSize="@dimen/txt_size_14"
             android:typeface="sans"
@@ -92,7 +92,7 @@
             app:layout_constraintBottom_toTopOf="@+id/tv_open_vip"
             app:layout_constraintLeft_toLeftOf="@+id/tv_book_name"
             app:layout_constraintTop_toBottomOf="@+id/tv_author"
-            tools:text="都市小说·都市激战" />
+            tools:text="" />
 
         <TextView
             android:id="@+id/tv_net_matches"
@@ -119,8 +119,8 @@
             android:paddingTop="2dp"
             android:paddingRight="10dp"
             android:paddingBottom="2dp"
-            android:text="开通会员免费读"
             android:textColor="#8F5900"
+            android:textIsSelectable="true"
             android:textSize="@dimen/txt_size_12"
             app:layout_constraintBottom_toBottomOf="@+id/v_cover"
             app:layout_constraintLeft_toLeftOf="@id/tv_book_name"

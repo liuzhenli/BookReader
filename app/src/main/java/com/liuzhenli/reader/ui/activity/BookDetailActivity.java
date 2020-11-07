@@ -61,6 +61,8 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
     TextView mTvRead;
     @BindView(R.id.tv_add_to_bookshelf)
     TextView mTvAddToBookshelf;
+    @BindView(R.id.tv_open_vip)
+    TextView mTvBookSite;
     private List<BookChapterBean> mChapterList = new ArrayList<>();
 
     private int mOpenFrom;
@@ -161,6 +163,8 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
         mTvBookName.setText(book.getName());
         mTvAuthor.setText(book.getAuthor());
         mTvCategory.setText(book.getTag());
+        //来源网站
+        mTvBookSite.setText(book.getOrigin());
         mTvLastUpdateTime.setText(DateUtils.formatUpdateTime(book.getFinalRefreshData()));
         mTvChapterCount.setText(String.format(getResources().getString(R.string.total_chapter_count), mChapterList.size() + ""));
         ImageUtil.setImage(mContext, book.getCoverUrl(), R.drawable.book_cover, mIvCover);
