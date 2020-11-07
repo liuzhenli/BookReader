@@ -299,7 +299,6 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
 
 
     private void startSearch(String searchKey) {
-        mCurrentSearchKey = searchKey;
         if (TextUtils.isEmpty(searchKey)) {
             ToastUtil.showCenter("请你输入搜索内容");
             return;
@@ -308,6 +307,7 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
         if (TextUtils.equals(mCurrentSearchKey, searchKey)) {
             return;
         }
+        mCurrentSearchKey = searchKey;
         mPresenter.addToSearchHistory(SearchType.BOOK, searchKey);
 
         mPresenter.stopSearch();
