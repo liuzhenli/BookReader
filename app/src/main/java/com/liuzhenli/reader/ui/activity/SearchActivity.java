@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -70,7 +72,7 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
     View mSearchIndicator;
     @BindView(R.id.tv_search_book_count)
     TextView mTvSearchBookCount;
-
+    private String mCurrentSearchKey;
     private List<SearchBookBean> bookList = new ArrayList<>();
 
     public static void start(Context context) {
@@ -106,14 +108,6 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
         //click search button
         ClickUtils.click(tvActionSearch, o -> {
             String s = mEtSearch.getText().toString();
-            if (TextUtils.isEmpty(s)) {
-                ToastUtil.showCenter("请你输入搜索内容");
-                return;
-            }
-            mPresenter.addToSearchHistory(SearchType.BOOK, s);
-
-            mPresenter.stopSearch();
-            bookList.clear();
             startSearch(s);
         });
 
@@ -134,17 +128,22 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
             @Override
             public void afterTextChanged(Editable s) {
                 if (TextUtils.isEmpty(s.toString())) {
-                    mPresenter.stopSearch();
-                    mAdapter.clear();
-
-                    mRecyclerView.setVisibility(View.GONE);
-                    mViewGroupSearchResult.setVisibility(View.VISIBLE);
-
-                    mViewSearchHistory.setVisibility(View.VISIBLE);
+                    btnGeneralSearchClear.setVisibility(View.GONE);
+                    stopSearch();
+                } else {
+                    btnGeneralSearchClear.setVisibility(View.VISIBLE);
                 }
             }
         });
-
+        mEtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    startSearch(mEtSearch.getText().toString());
+                }
+                return false;
+            }
+        });
         //click stop search button
         ClickUtils.click(mVStopSearch, o -> {
             mPresenter.stopSearch();
@@ -179,15 +178,22 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
     public void showSearchHistory(List<SearchHistoryBean> data) {
         flGeneralSearchHistory.removeAllViews();
         if (data != null) {
+            mViewSearchHistory.setVisibility(View.VISIBLE);
             for (int i = 0; i < data.size(); i++) {
                 TextView tvSearch = new TextView(mContext);
                 tvSearch.setTextSize(12);
                 tvSearch.setTextColor(getResources().getColor(R.color.text_color_99));
                 tvSearch.setText(data.get(i).getContent());
+                tvSearch.setTag(data.get(i));
                 ClickUtils.click(tvSearch, o -> {
                     mEtSearch.setText(tvSearch.getText());
                     mEtSearch.setSelection(tvSearch.getText().length());
                     startSearch(tvSearch.getText().toString());
+                });
+
+                ClickUtils.longClick(tvSearch, o -> {
+                    flGeneralSearchHistory.removeView(tvSearch);
+                    mPresenter.removeSearchHistoryItem((SearchHistoryBean) tvSearch.getTag());
                 });
                 flGeneralSearchHistory.addView(tvSearch);
             }
@@ -293,10 +299,36 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
 
 
     private void startSearch(String searchKey) {
-        mPresenter.search(SearchType.BOOK, 0, searchKey);
+        mCurrentSearchKey = searchKey;
+        if (TextUtils.isEmpty(searchKey)) {
+            ToastUtil.showCenter("请你输入搜索内容");
+            return;
+        }
+        //如果当前搜索词相同,不需要重新搜索
+        if (TextUtils.equals(mCurrentSearchKey, searchKey)) {
+            return;
+        }
+        mPresenter.addToSearchHistory(SearchType.BOOK, searchKey);
 
+        mPresenter.stopSearch();
+        bookList.clear();
+        if (mAdapter.getCount() > 0) {
+            mAdapter.clear();
+        }
+        mPresenter.search(SearchType.BOOK, 0, searchKey);
         mViewGroupSearchResult.setVisibility(View.VISIBLE);
         mSearchIndicator.setVisibility(View.VISIBLE);
         mVStopSearch.setVisibility(View.VISIBLE);
+        mTvSearchBookCount.setText("请稍等");
+    }
+
+    private void stopSearch() {
+        mPresenter.stopSearch();
+        mAdapter.clear();
+        mRecyclerView.setVisibility(View.GONE);
+        mViewGroupSearchResult.setVisibility(View.GONE);
+
+        mPresenter.getSearchHistory();
+
     }
 }

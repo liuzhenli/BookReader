@@ -16,7 +16,9 @@ import java.util.List;
 public class SearchContract {
     public interface View extends BaseContract.BaseView {
 
-        /**成功插入一条历史数据*/
+        /**
+         * 成功插入一条历史数据
+         */
         void addHistorySuccess();
 
         void showSearchHistory(List<SearchHistoryBean> data);
@@ -25,10 +27,15 @@ public class SearchContract {
     }
 
     public interface Presenter<T> extends BaseContract.BasePresenter<T> {
-        /**¬插入一条历史数据*/
+        /**
+         * ¬插入一条历史数据
+         */
         void addToSearchHistory(int type, String searchKey);
 
         void clearSearchHistory();
+
+        /***删除搜索历史item*/
+        void removeSearchHistoryItem(SearchHistoryBean data);
 
         void getSearchHistory();
 

@@ -4,6 +4,7 @@ import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.greendao.SearchHistoryBeanDao;
 import com.liuzhenli.reader.base.RxPresenter;
 import com.liuzhenli.reader.observer.SampleProgressObserver;
+import com.liuzhenli.reader.ui.activity.SearchActivity;
 import com.liuzhenli.reader.ui.contract.SearchContract;
 import com.micoredu.readerlib.bean.BookShelfBean;
 import com.micoredu.readerlib.bean.SearchBookBean;
@@ -12,7 +13,6 @@ import com.micoredu.readerlib.helper.BookshelfHelper;
 import com.micoredu.readerlib.helper.DbHelper;
 import com.micoredu.readerlib.model.SearchBookModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -36,6 +36,12 @@ public class SearchPresenter extends RxPresenter<SearchContract.View> implements
     public SearchPresenter() {
     }
 
+    /**
+     * 添加到数据库
+     *
+     * @param type      {@link SearchActivity.SearchType}
+     * @param searchKey the words users wants to search
+     */
     @Override
     public void addToSearchHistory(int type, String searchKey) {
 
@@ -75,9 +81,15 @@ public class SearchPresenter extends RxPresenter<SearchContract.View> implements
     }
 
     @Override
+    public void removeSearchHistoryItem(SearchHistoryBean data) {
+        SearchHistoryBeanDao searchHistoryBeanDao = DbHelper.getDaoSession().getSearchHistoryBeanDao();
+        searchHistoryBeanDao.delete(data);
+    }
+
+    @Override
     public void getSearchHistory() {
         SearchHistoryBeanDao searchHistoryBeanDao = DbHelper.getDaoSession().getSearchHistoryBeanDao();
-        List<SearchHistoryBean> searchHistoryBeans = searchHistoryBeanDao.loadAll();
+        List<SearchHistoryBean> searchHistoryBeans = searchHistoryBeanDao.queryBuilder().orderDesc(SearchHistoryBeanDao.Properties.Date).list();
         mView.showSearchHistory(searchHistoryBeans);
     }
 

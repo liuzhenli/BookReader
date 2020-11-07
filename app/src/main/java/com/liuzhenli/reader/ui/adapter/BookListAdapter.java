@@ -69,7 +69,7 @@ public class BookListAdapter extends RecyclerArrayAdapter<SearchBookBean> {
             mBvUnread.setText(String.format("%s", item.getOriginNum()));
             //作者
             if (!TextUtils.isEmpty(item.getKind())) {
-                mTvAuthor.setText(String.format("%s · %s", getAuthor(item), item.getKind()));
+                mTvAuthor.setText(String.format("%s  %s", getAuthor(item), item.getKind()));
             } else {
                 mTvAuthor.setText(String.format("%s", getAuthor(item)));
             }
@@ -77,7 +77,7 @@ public class BookListAdapter extends RecyclerArrayAdapter<SearchBookBean> {
         }
 
         private String getAuthor(SearchBookBean item) {
-            return TextUtils.isEmpty(item.getAuthor()) ? "佚名" : item.getAuthor();
+            return TextUtils.isEmpty(item.getAuthor()) ? "佚名" : String.format("%s·著", item.getAuthor());
         }
     }
 
