@@ -23,7 +23,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <View
+        <com.qmuiteam.qmui.layout.QMUIButton
             android:id="@+id/view_search_bg"
             android:layout_width="0dp"
             android:layout_height="35dp"
@@ -31,6 +31,7 @@
             android:layout_marginRight="50dp"
             android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -49,9 +50,9 @@
             android:dropDownHorizontalOffset="-200.0dip"
             android:hint="@string/search_book_key"
             android:imeOptions="actionSearch"
-            android:paddingLeft="@dimen/common_margin_large"
+            android:paddingLeft="@dimen/common_padding_normal"
             android:paddingTop="4dp"
-            android:paddingRight="20dip"
+            android:paddingRight="@dimen/common_padding_normal"
             android:paddingBottom="4dp"
             android:singleLine="true"
             android:textColor="@color/s_text_66"
@@ -70,7 +71,7 @@
             android:layout_centerVertical="true"
             android:src="@drawable/icon_edit_box_clear"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="@+id/view_search_bg"
+            app:layout_constraintRight_toLeftOf="@+id/tv_action_cancel"
             app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -82,12 +83,22 @@
             android:layout_marginRight="@dimen/common_margin_normal"
             android:singleLine="true"
             android:text="@string/search"
-            android:textColor="@color/white"
+            android:textColor="@color/main"
             android:textSize="@dimen/txt_size_14"
+            app:layout_constraintBottom_toBottomOf="@+id/view_search_bg"
+            app:layout_constraintRight_toRightOf="@+id/view_search_bg"
+            app:layout_constraintTop_toTopOf="@+id/view_search_bg"
+            app:layout_constraintVertical_bias="0.4" />
+
+        <ImageButton
+            android:id="@+id/btn_general_search_more"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.4" />
+            app:srcCompat="@drawable/ic_more" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -143,8 +154,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/view_search_result_info"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_search_result_info"
             app:layout_empty="@layout/common_empty_view"
             app:layout_progress="@layout/common_progress_view"
             app:scrollbarStyle="insideOverlay" />
@@ -153,9 +164,9 @@
             android:id="@+id/view_search_result_info"
             android:layout_width="match_parent"
             android:layout_height="@dimen/all_item_height"
-            android:background="@color/text_color_99"
+            android:background="@color/light_translucent"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/tv_search_book_count"
@@ -175,6 +186,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="停止"
+                android:textColor="@color/read_theme_checked"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -186,7 +198,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="@dimen/common_padding_large"
                 android:visibility="visible"
-                app:indicatorColor="@color/white"
+                app:indicatorColor="@color/read_theme_checked"
                 app:indicatorName="BallPulseIndicator"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"

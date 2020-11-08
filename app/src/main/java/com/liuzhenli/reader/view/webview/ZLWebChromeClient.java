@@ -62,7 +62,7 @@ public class ZLWebChromeClient extends WebChromeClient {
                     activity.startActivityForResult(intent, 101);
 
                 } catch (Exception e) {
-                    ToastUtil.showCenter("文件资源打开失败!");
+                    ToastUtil.showToast("文件资源打开失败!");
                 }
             }
         }

@@ -113,7 +113,7 @@ public class ReadSettingMenu extends BaseMenu {
                     FillContentUtil.setNumberText(tvSettingMenuTextSize, textSize);
                     callBack.onTextStyleChanged();
                 } else {
-                    ToastUtil.showCenter("已经是最小字体了~~");
+                    ToastUtil.showToast("已经是最小字体了~~");
                 }
             }
         });
@@ -128,7 +128,7 @@ public class ReadSettingMenu extends BaseMenu {
                     ReadConfigManager.getInstance().setTextSize(textSize);
                     callBack.onTextStyleChanged();
                 } else {
-                    ToastUtil.showCenter("已经是最大字体了~~");
+                    ToastUtil.showToast("已经是最大字体了~~");
                 }
             }
         });

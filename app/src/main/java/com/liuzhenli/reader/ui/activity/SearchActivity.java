@@ -8,8 +8,11 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.google.android.material.internal.FlowLayout;
@@ -21,13 +24,19 @@ import com.liuzhenli.reader.network.AppComponent;
 import com.liuzhenli.reader.ui.adapter.BookListAdapter;
 import com.liuzhenli.reader.ui.contract.SearchContract;
 import com.liuzhenli.reader.ui.presenter.SearchPresenter;
+import com.liuzhenli.reader.utils.DensityUtil;
+import com.liuzhenli.reader.utils.SoftInputUtils;
 import com.liuzhenli.reader.utils.ToastUtil;
 import com.micoredu.readerlib.bean.SearchBookBean;
 import com.micoredu.readerlib.bean.SearchHistoryBean;
-import com.micoredu.readerlib.helper.DbHelper;
 import com.microedu.reader.R;
+import com.qmuiteam.qmui.layout.QMUIButton;
+import com.qmuiteam.qmui.skin.QMUISkinManager;
+import com.qmuiteam.qmui.util.QMUIDisplayHelper;
+import com.qmuiteam.qmui.widget.popup.QMUIPopup;
+import com.qmuiteam.qmui.widget.popup.QMUIPopups;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -72,8 +81,12 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
     View mSearchIndicator;
     @BindView(R.id.tv_search_book_count)
     TextView mTvSearchBookCount;
+    @BindView(R.id.view_search_bg)
+    QMUIButton mEditBg;
+    @BindView(R.id.btn_general_search_more)
+    View mViewMore;
     private String mCurrentSearchKey;
-    private List<SearchBookBean> bookList = new ArrayList<>();
+    private QMUIPopup mMenu;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, SearchActivity.class);
@@ -101,10 +114,13 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
 
     @Override
     protected void configViews() {
+        mEditBg.setRadius(DensityUtil.dip2px(mContext, 6));
         initAdapter(BookListAdapter.class, false, false);
         mViewBack.setOnClickListener(v -> finish());
         mPresenter.getSearchHistory();
+        btnGeneralSearchClear.setVisibility(View.GONE);
 
+        initMenu();
         //click search button
         ClickUtils.click(tvActionSearch, o -> {
             String s = mEtSearch.getText().toString();
@@ -155,7 +171,18 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
         ClickUtils.click(btnGeneralSearchClear, o -> {
             mEtSearch.setText("");
         });
+        ClickUtils.click(mViewMore, o -> {
+            mMenu.show(mViewMore);
+        });
         mViewGroupSearchResult.setVisibility(View.GONE);
+
+        mEtSearch.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mEtSearch.requestFocus();
+                SoftInputUtils.showSoftInput(mContext, mEtSearch);
+            }
+        }, 500);
     }
 
     @Override
@@ -210,69 +237,11 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
             mAdapter.addAll(searchResult);
             return;
         }
-        bookList.clear();
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                if (searchResult == null || searchResult.size() == 0) {
-                    return;
-                }
-                //添加数据
-                ArrayList<SearchBookBean> allBooks = new ArrayList<>(mAdapter.getRealAllData());
-                //搜索结果存入数据库
-                DbHelper.getDaoSession().getSearchBookBeanDao().insertOrReplaceInTx(searchResult);
-
-                //去重
-                for (int i = 0; i < searchResult.size(); i++) {
-                    boolean hasSameBook = false;
-                    for (int j = 0; j < allBooks.size(); j++) {
-                        //作者名和书名都相同,视为同一本书  同一本书的书源+1
-                        if (TextUtils.equals(allBooks.get(j).getName(), searchResult.get(i).getName())
-                                && TextUtils.equals(allBooks.get(j).getAuthor(), searchResult.get(i).getAuthor())) {
-                            allBooks.get(j).addOriginUrl(searchResult.get(i).getTag());
-                            hasSameBook = true;
-                            break;
-                        }
-                    }
-
-                    if (!hasSameBook) {
-                        allBooks.add(searchResult.get(i));
-                    }
-                }
-
-
-                //处理数据的逻辑:1.书名和搜索的词语相同的放最上面  2.作者和搜索词相同的其次  3.标签和搜索词相同
-                if (allBooks.size() > 0) {
-                    for (int i = 0; i < allBooks.size(); i++) {
-                        if (TextUtils.equals(allBooks.get(i).getName(), key)) {
-                            bookList.add(allBooks.get(i));
-                            allBooks.remove(i);
-                            i--;
-                        }
-                    }
-                    for (int i = 0; i < allBooks.size(); i++) {
-                        if (TextUtils.equals(allBooks.get(i).getAuthor(), key)) {
-                            bookList.add(allBooks.get(i));
-                            allBooks.remove(i);
-                            i--;
-                        }
-                    }
-                    bookList.addAll(allBooks);
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mAdapter.getCount() != 0) {
-                            mAdapter.clear();
-                        }
-                        mAdapter.addAll(bookList);
-                        mAdapter.notifyDataSetChanged();
-                        mTvSearchBookCount.setText(String.format("发现%s本相关书籍", mAdapter.getCount()));
-                    }
-                });
-            }
-        };
-        runnable.run();
+        mTvSearchBookCount.setText(String.format("找到%s部相关书籍", searchResult.size()));
+        if (mAdapter.getCount() != 0) {
+            mAdapter.clear();
+        }
+        mAdapter.addAll(searchResult);
     }
 
     @Override
@@ -300,25 +269,26 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
 
     private void startSearch(String searchKey) {
         if (TextUtils.isEmpty(searchKey)) {
-            ToastUtil.showCenter("请你输入搜索内容");
+            ToastUtil.showToast("请你输入搜索内容");
             return;
         }
         //如果当前搜索词相同,不需要重新搜索
         if (TextUtils.equals(mCurrentSearchKey, searchKey)) {
             return;
         }
+        SoftInputUtils.hideSoftInput(mContext, mEtSearch);
         mCurrentSearchKey = searchKey;
         mPresenter.addToSearchHistory(SearchType.BOOK, searchKey);
 
         mPresenter.stopSearch();
-        bookList.clear();
         if (mAdapter.getCount() > 0) {
             mAdapter.clear();
         }
-        mPresenter.search(SearchType.BOOK, 0, searchKey);
+        mPresenter.search(SearchType.BOOK, 0, searchKey, mAdapter);
         mViewGroupSearchResult.setVisibility(View.VISIBLE);
         mSearchIndicator.setVisibility(View.VISIBLE);
         mVStopSearch.setVisibility(View.VISIBLE);
+        mViewSearchHistory.setVisibility(View.GONE);
         mTvSearchBookCount.setText("请稍等");
     }
 
@@ -327,8 +297,35 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
         mAdapter.clear();
         mRecyclerView.setVisibility(View.GONE);
         mViewGroupSearchResult.setVisibility(View.GONE);
-
         mPresenter.getSearchHistory();
+    }
 
+
+    private void initMenu() {
+        List<String> data = Arrays.asList("书源管理", "全部书源");
+        ArrayAdapter adapter = new ArrayAdapter(mContext, R.layout.item_menu_list, data);
+        mMenu = QMUIPopups.listPopup(mContext,
+                QMUIDisplayHelper.dp2px(mContext, 200),
+                QMUIDisplayHelper.dp2px(mContext, 300),
+                adapter,
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        if (mMenu != null) {
+                            mMenu.dismiss();
+                        }
+                    }
+                })
+                .animStyle(QMUIPopup.ANIM_GROW_FROM_CENTER)
+                .preferredDirection(QMUIPopup.DIRECTION_TOP)
+                .shadow(true)
+                .offsetYIfTop(QMUIDisplayHelper.dp2px(mContext, 5))
+                .skinManager(QMUISkinManager.defaultInstance(mContext))
+                .onDismiss(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+
+                    }
+                });
     }
 }

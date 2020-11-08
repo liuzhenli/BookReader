@@ -2,7 +2,6 @@ package com.liuzhenli.reader.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.widget.TextView;
 
 import com.liuzhenli.common.utils.ClickUtils;
@@ -13,7 +12,6 @@ import com.liuzhenli.reader.utils.ToastUtil;
 import com.microedu.reader.R;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Description:
@@ -63,7 +61,7 @@ public class AboutActivity extends BaseActivity {
         String channel = ReaderApplication.getInstance().mVersionChannel;
         tvVersionInfo.setText(String.format("%s %s Build#%s %s ", appName, versionName, versionCode, channel));
         ClickUtils.click(tvVersionCheckUpdate, o -> {
-            ToastUtil.showCenter("程序猿正在努力开发该功能~");
+            ToastUtil.showToast("程序猿正在努力开发该功能~");
         });
 
         ClickUtils.click(tvAboutContact, o -> {

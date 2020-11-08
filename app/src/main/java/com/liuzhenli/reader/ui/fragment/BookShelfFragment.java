@@ -117,7 +117,7 @@ public class BookShelfFragment extends BaseRVFragment<BookShelfPresenter, BookSh
     public void onBookRemoved(BookShelfBean bookShelfBean) {
         mAdapter.getRealAllData().remove(bookShelfBean);
         mAdapter.notifyDataSetChanged();
-        ToastUtil.showCenter("已从书架中移除");
+        ToastUtil.showToast("已从书架中移除");
     }
 
     @Override

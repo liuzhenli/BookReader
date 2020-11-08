@@ -42,12 +42,12 @@ public class ZLWebViewClient extends WebViewClient {
                     intent.setData(Uri.parse(url));
                     mContext.startActivity(intent);
                 } catch (Exception e) {
-                    ToastUtil.showCenter("无法支付，请安装微信！");
+                    ToastUtil.showToast("无法支付，请安装微信！");
                     view.loadUrl("http://log.umsns.com/link/weixin/download/");
                 }
                 return true;
             } else {
-                ToastUtil.showCenter("无法支付，请安装微信！");
+                ToastUtil.showToast("无法支付，请安装微信！");
                 view.loadUrl("http://log.umsns.com/link/weixin/download/");
                 return true;
             }

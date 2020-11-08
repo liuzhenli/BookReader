@@ -65,7 +65,7 @@ public class SettingActivity extends BaseActivity {
             }), new SampleProgressObserver<Boolean>() {
                 @Override
                 public void onNext(Boolean aBoolean) {
-                    ToastUtil.showCenter("");
+                    ToastUtil.showToast("");
                 }
             });
 

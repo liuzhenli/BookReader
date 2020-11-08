@@ -12,15 +12,15 @@ import com.liuzhenli.reader.ReaderApplication;
  * @since 2019-07-07 03:11
  */
 public class ToastUtil {
-    public static void showCenter(String ex) {
+    public static void showToast(String ex) {
         Toast.makeText(ReaderApplication.getInstance(),ex,Toast.LENGTH_SHORT).show();
     }
     private static Toast sToast;
 
-    public static void showCenter(Context context, CharSequence text) {
+    public static void showToast(Context context, CharSequence text) {
         showToast(context, text, Toast.LENGTH_SHORT);
     }
-    public static void showCenter(Context context, int resId) {
+    public static void showToast(Context context, int resId) {
         showToast(context, context.getResources().getText(resId), Toast.LENGTH_SHORT);
     }
 

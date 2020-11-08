@@ -1,7 +1,7 @@
 package com.liuzhenli.reader.ui.contract;
 
 import com.liuzhenli.reader.base.BaseContract;
-import com.micoredu.readerlib.bean.BookInfoBean;
+import com.liuzhenli.reader.view.recyclerview.adapter.RecyclerArrayAdapter;
 import com.micoredu.readerlib.bean.SearchBookBean;
 import com.micoredu.readerlib.bean.SearchHistoryBean;
 
@@ -39,7 +39,7 @@ public class SearchContract {
 
         void getSearchHistory();
 
-        void search(int type, int page, String key);
+        void search(int type, int page, String key, RecyclerArrayAdapter<SearchBookBean> mAdapter);
 
         void stopSearch();
     }

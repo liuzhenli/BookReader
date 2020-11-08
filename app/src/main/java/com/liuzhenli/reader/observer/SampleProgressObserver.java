@@ -42,7 +42,7 @@ public abstract class SampleProgressObserver<T> extends BaseObserver<T> {
 
     private void showErrorToast(String ex) {
         if (Looper.myLooper() == Looper.getMainLooper()) {
-            ToastUtil.showCenter(ex);
+            ToastUtil.showToast(ex);
         }
     }
 

@@ -1,7 +1,6 @@
 package com.liuzhenli.reader.ui.fragment;
 
 import android.os.Environment;
-import android.util.Log;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -84,7 +83,7 @@ public class LocalFileFragment extends BaseFragment<LocalFilePresenter> implemen
                 //当前文件的路径
             } else if (rootDir != null) {
                 //已经获取到文件的路径  设置选中状态
-                ToastUtil.showCenter(rootDir.getAbsolutePath());
+                ToastUtil.showToast(rootDir.getAbsolutePath());
                 boolean checked = (boolean) item.get(Constant.FileAttr.CHECKED);
                 mAdapter.getRealAllData().get(position).put(Constant.FileAttr.CHECKED, !checked);
             }

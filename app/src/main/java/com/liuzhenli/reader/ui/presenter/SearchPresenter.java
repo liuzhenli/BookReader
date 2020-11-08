@@ -1,11 +1,14 @@
 package com.liuzhenli.reader.ui.presenter;
 
+import android.text.TextUtils;
+
 import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.greendao.SearchHistoryBeanDao;
 import com.liuzhenli.reader.base.RxPresenter;
 import com.liuzhenli.reader.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.activity.SearchActivity;
 import com.liuzhenli.reader.ui.contract.SearchContract;
+import com.liuzhenli.reader.view.recyclerview.adapter.RecyclerArrayAdapter;
 import com.micoredu.readerlib.bean.BookShelfBean;
 import com.micoredu.readerlib.bean.SearchBookBean;
 import com.micoredu.readerlib.bean.SearchHistoryBean;
@@ -13,6 +16,7 @@ import com.micoredu.readerlib.helper.BookshelfHelper;
 import com.micoredu.readerlib.helper.DbHelper;
 import com.micoredu.readerlib.model.SearchBookModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -94,7 +98,7 @@ public class SearchPresenter extends RxPresenter<SearchContract.View> implements
     }
 
     @Override
-    public void search(int type, int page, String key) {
+    public void search(int type, int page, String key, RecyclerArrayAdapter<SearchBookBean> mAdapter) {
         searchBookModel = new SearchBookModel(new SearchBookModel.OnSearchListener() {
             @Override
             public void refreshSearchBook() {
@@ -112,7 +116,7 @@ public class SearchPresenter extends RxPresenter<SearchContract.View> implements
 
             @Override
             public void loadMoreSearchBook(List<SearchBookBean> searchBookBeanList) {
-                mView.showSearchResult(key, searchBookBeanList);
+                configSearchResult(key, searchBookBeanList, mAdapter);
             }
 
             @Override
@@ -129,6 +133,67 @@ public class SearchPresenter extends RxPresenter<SearchContract.View> implements
         long searchTime = System.currentTimeMillis();
         searchBookModel.setSearchTime(searchTime);
         searchBookModel.search(key, searchTime, bookshelf, false);
+    }
+
+
+    private void configSearchResult(String key, List<SearchBookBean> searchResult, RecyclerArrayAdapter<SearchBookBean> mAdapter) {
+
+        List<SearchBookBean> bookList = new ArrayList<>();
+        Observable<List<SearchBookBean>> listObservable = Observable.create(new ObservableOnSubscribe<List<SearchBookBean>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<SearchBookBean>> emitter) throws Exception {
+                //添加数据
+                ArrayList<SearchBookBean> allBooks = new ArrayList<>(mAdapter.getRealAllData());
+                //搜索结果存入数据库
+                DbHelper.getDaoSession().getSearchBookBeanDao().insertOrReplaceInTx(searchResult);
+
+                //去重
+                for (int i = 0; i < searchResult.size(); i++) {
+                    boolean hasSameBook = false;
+                    for (int j = 0; j < allBooks.size(); j++) {
+                        //作者名和书名都相同,视为同一本书  同一本书的书源+1
+                        if (TextUtils.equals(allBooks.get(j).getName(), searchResult.get(i).getName())
+                                && TextUtils.equals(allBooks.get(j).getAuthor(), searchResult.get(i).getAuthor())) {
+                            allBooks.get(j).addOriginUrl(searchResult.get(i).getTag());
+                            hasSameBook = true;
+                            break;
+                        }
+                    }
+
+                    if (!hasSameBook) {
+                        allBooks.add(searchResult.get(i));
+                    }
+                }
+                //处理数据的逻辑:1.书名和搜索的词语相同的放最上面  2.作者和搜索词相同的其次  3.标签和搜索词相同
+                if (allBooks.size() > 0) {
+                    for (int i = 0; i < allBooks.size(); i++) {
+                        if (TextUtils.equals(allBooks.get(i).getName(), key)) {
+                            bookList.add(allBooks.get(i));
+                            allBooks.remove(i);
+                            i--;
+                        }
+                    }
+                    for (int i = 0; i < allBooks.size(); i++) {
+                        if (TextUtils.equals(allBooks.get(i).getAuthor(), key)) {
+                            bookList.add(allBooks.get(i));
+                            allBooks.remove(i);
+                            i--;
+                        }
+                    }
+                    bookList.addAll(allBooks);
+                    emitter.onNext(bookList);
+                }
+
+            }
+        });
+
+        DisposableObserver subscribe = RxUtil.subscribe(listObservable, new SampleProgressObserver<List<SearchBookBean>>() {
+            @Override
+            public void onNext(List<SearchBookBean> searchBookBeans) {
+                mView.showSearchResult(key, searchBookBeans);
+            }
+        });
+        addSubscribe(subscribe);
     }
 
     @Override

@@ -133,7 +133,7 @@ public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPres
                     FileUtils.deleteFile(selectedBook);
                 }
                 fragment.notifyDataChanged();
-                ToastUtil.showCenter("已经删除");
+                ToastUtil.showToast("已经删除");
             }
         });
 

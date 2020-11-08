@@ -85,6 +85,7 @@ public class MainActivity extends BaseActivity {
     public void initToolBar() {
         mTvTitle.setText(getResources().getStringArray(R.array.main_tab_names)[mCurrentPosition]);
         mToolBar.inflateMenu(R.menu.menu_main);
+        mToolBar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_more));
         mToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -182,7 +183,7 @@ public class MainActivity extends BaseActivity {
                 if (aBoolean) {
 
                 } else {
-                    ToastUtil.showCenter("权限被拒绝,拒绝权限将无法使用***功能！");
+                    ToastUtil.showToast("权限被拒绝,拒绝权限将无法使用***功能！");
                 }
             }
         }, Manifest.permission.READ_EXTERNAL_STORAGE);
