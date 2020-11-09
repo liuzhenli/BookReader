@@ -104,6 +104,7 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
             mSearchBook = new SearchBookBean();
             mSearchBook.setNoteUrl(mBookShelf.getNoteUrl());
             mSearchBook.setTag(mBookShelf.getBookInfoBean().getTag());
+            setBookInfo(mBookShelf.getBookInfoBean());
         } else {
             String key = getIntent().getStringExtra(DATA_KEY);
             if (!TextUtils.isEmpty(key)) {
@@ -162,9 +163,11 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
         mTvDescription.setText(book.getIntroduce());
         mTvBookName.setText(book.getName());
         mTvAuthor.setText(book.getAuthor());
+
         mTvCategory.setText(book.getTag());
         //来源网站
         mTvBookSite.setText(book.getOrigin());
+
         mTvLastUpdateTime.setText(DateUtils.formatUpdateTime(book.getFinalRefreshData()));
         mTvChapterCount.setText(String.format(getResources().getString(R.string.total_chapter_count), mChapterList.size() + ""));
         ImageUtil.setImage(mContext, book.getCoverUrl(), R.drawable.book_cover, mIvCover);

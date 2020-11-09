@@ -92,7 +92,7 @@
             app:layout_constraintBottom_toTopOf="@+id/tv_open_vip"
             app:layout_constraintLeft_toLeftOf="@+id/tv_book_name"
             app:layout_constraintTop_toBottomOf="@+id/tv_author"
-            tools:text="" />
+            tools:text="111" />
 
         <TextView
             android:id="@+id/tv_net_matches"

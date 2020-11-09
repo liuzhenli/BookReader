@@ -8,6 +8,7 @@
     android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/view_search_title_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/all_item_height"
         android:background="@color/main"
@@ -102,6 +103,55 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/view_search_result_info"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/all_item_height"
+        android:background="@color/main"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_search_book_count"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:paddingLeft="80dp"
+            android:paddingRight="80dp"
+            android:singleLine="true"
+            android:text=""
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/view_stop_search"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="停止"
+            android:textColor="@color/white"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/view_search_indicator"
+            style="@style/AVLoadingIndicatorView"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="@dimen/common_padding_large"
+            android:layout_marginRight="@dimen/common_padding_large"
+            android:visibility="visible"
+            app:indicatorColor="@color/white"
+            app:indicatorName="BallPulseIndicator"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -155,56 +205,11 @@
             android:layout_height="0dp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_search_result_info"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_empty="@layout/common_empty_view"
             app:layout_progress="@layout/common_progress_view"
             app:scrollbarStyle="insideOverlay" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/view_search_result_info"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/all_item_height"
-            android:background="@color/light_translucent"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/tv_search_book_count"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:paddingLeft="@dimen/common_padding_normal"
-                android:text=""
-                android:textColor="@color/read_theme_checked"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/view_stop_search"
-                android:layout_width="60dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="停止"
-                android:textColor="@color/read_theme_checked"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.wang.avi.AVLoadingIndicatorView
-                android:id="@+id/view_search_indicator"
-                style="@style/AVLoadingIndicatorView"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="@dimen/common_padding_large"
-                android:visibility="visible"
-                app:indicatorColor="@color/read_theme_checked"
-                app:indicatorName="BallPulseIndicator"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

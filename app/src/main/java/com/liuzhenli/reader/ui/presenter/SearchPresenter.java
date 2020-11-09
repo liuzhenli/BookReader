@@ -35,6 +35,7 @@ import io.reactivex.observers.DisposableObserver;
 public class SearchPresenter extends RxPresenter<SearchContract.View> implements SearchContract.Presenter<SearchContract.View> {
 
     private SearchBookModel searchBookModel;
+    public boolean isSearching;
 
     @Inject
     public SearchPresenter() {
@@ -99,6 +100,7 @@ public class SearchPresenter extends RxPresenter<SearchContract.View> implements
 
     @Override
     public void search(int type, int page, String key, RecyclerArrayAdapter<SearchBookBean> mAdapter) {
+        isSearching = true;
         searchBookModel = new SearchBookModel(new SearchBookModel.OnSearchListener() {
             @Override
             public void refreshSearchBook() {
@@ -198,6 +200,7 @@ public class SearchPresenter extends RxPresenter<SearchContract.View> implements
 
     @Override
     public void stopSearch() {
+        isSearching=false;
         if (searchBookModel != null) {
             searchBookModel.stopSearch();
         }

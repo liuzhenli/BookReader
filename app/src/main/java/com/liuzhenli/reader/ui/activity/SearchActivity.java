@@ -26,7 +26,6 @@ import com.liuzhenli.reader.ui.contract.SearchContract;
 import com.liuzhenli.reader.ui.presenter.SearchPresenter;
 import com.liuzhenli.reader.utils.DensityUtil;
 import com.liuzhenli.reader.utils.SoftInputUtils;
-import com.liuzhenli.reader.utils.ToastUtil;
 import com.micoredu.readerlib.bean.SearchBookBean;
 import com.micoredu.readerlib.bean.SearchHistoryBean;
 import com.microedu.reader.R;
@@ -75,6 +74,8 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
     /*** search book result view group*/
     @BindView(R.id.view_search_result_info)
     View mViewGroupSearchResult;
+    @BindView(R.id.view_search_title_bar)
+    View mVtitleBar;
     @BindView(R.id.view_stop_search)
     View mVStopSearch;
     @BindView(R.id.view_search_indicator)
@@ -162,9 +163,14 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
         });
         //click stop search button
         ClickUtils.click(mVStopSearch, o -> {
-            mPresenter.stopSearch();
-            mSearchIndicator.setVisibility(View.GONE);
-            mVStopSearch.setVisibility(View.GONE);
+            if (mAdapter.getCount() == 0) {
+                stopSearch();
+            } else {
+                mPresenter.stopSearch();
+                mSearchIndicator.setVisibility(View.GONE);
+                mVStopSearch.setVisibility(View.GONE);
+            }
+            mVtitleBar.setVisibility(View.VISIBLE);
         });
 
         //click delete search content
@@ -230,14 +236,15 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
 
     @Override
     public void showSearchResult(String key, List<SearchBookBean> searchResult) {
+        mTvSearchBookCount.setText(String.format("找到%s部相关书籍", searchResult.size()));
         mRecyclerView.setVisibility(View.VISIBLE);
         mViewGroupSearchResult.setVisibility(View.VISIBLE);
+        mVtitleBar.setVisibility(View.GONE);
         mViewSearchHistory.setVisibility(View.GONE);
         if (mAdapter.getCount() == 0) {
             mAdapter.addAll(searchResult);
             return;
         }
-        mTvSearchBookCount.setText(String.format("找到%s部相关书籍", searchResult.size()));
         if (mAdapter.getCount() != 0) {
             mAdapter.clear();
         }
@@ -269,11 +276,10 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
 
     private void startSearch(String searchKey) {
         if (TextUtils.isEmpty(searchKey)) {
-            ToastUtil.showToast("请你输入搜索内容");
             return;
         }
         //如果当前搜索词相同,不需要重新搜索
-        if (TextUtils.equals(mCurrentSearchKey, searchKey)) {
+        if (TextUtils.equals(mCurrentSearchKey, searchKey) && mPresenter.isSearching) {
             return;
         }
         SoftInputUtils.hideSoftInput(mContext, mEtSearch);
@@ -286,10 +292,11 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
         }
         mPresenter.search(SearchType.BOOK, 0, searchKey, mAdapter);
         mViewGroupSearchResult.setVisibility(View.VISIBLE);
+        mVtitleBar.setVisibility(View.GONE);
         mSearchIndicator.setVisibility(View.VISIBLE);
         mVStopSearch.setVisibility(View.VISIBLE);
         mViewSearchHistory.setVisibility(View.GONE);
-        mTvSearchBookCount.setText("请稍等");
+        mTvSearchBookCount.setText(String.format("以\"%s\"为关键词进行搜索", mCurrentSearchKey));
     }
 
     private void stopSearch() {
@@ -297,6 +304,7 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
         mAdapter.clear();
         mRecyclerView.setVisibility(View.GONE);
         mViewGroupSearchResult.setVisibility(View.GONE);
+        mVtitleBar.setVisibility(View.VISIBLE);
         mPresenter.getSearchHistory();
     }
 

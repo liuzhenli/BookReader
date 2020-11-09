@@ -56,6 +56,11 @@ public class BookDetailPresenter extends RxPresenter<BookDetailContract.View> im
         addSubscribe(subscribe);
     }
 
+    @Override
+    public void getBookSource(BookShelfBean bookShelfBean) {
+
+    }
+
     /**
      * 保存数据
      */
