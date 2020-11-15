@@ -35,6 +35,7 @@ public class BookSourceBean implements Cloneable, Serializable {
     @OrderBy
     @NotNull
     private int weight = 0;
+    /***书源是否使用*/
     private boolean enable;
     /**
      * 发现规则  key:::value 的格式
@@ -48,6 +49,9 @@ public class BookSourceBean implements Cloneable, Serializable {
     private String ruleFindLastChapter;
     private String ruleFindCoverUrl;
     private String ruleFindNoteUrl;
+    /*** 书源是否显示推荐*/
+    private boolean ruleFindEnable;
+
     //搜索规则
     private String ruleSearchUrl;
     private String ruleSearchList;
@@ -58,6 +62,7 @@ public class BookSourceBean implements Cloneable, Serializable {
     private String ruleSearchLastChapter;
     private String ruleSearchCoverUrl;
     private String ruleSearchNoteUrl;
+
     //详情页规则
     private String ruleBookUrlPattern;
     private String ruleBookInfoInit;
@@ -68,11 +73,14 @@ public class BookSourceBean implements Cloneable, Serializable {
     private String ruleBookKind;
     private String ruleBookLastChapter;
     private String ruleChapterUrl;
+
     //目录页规则
     private String ruleChapterUrlNext;
     private String ruleChapterList;
     private String ruleChapterName;
     private String ruleContentUrl;
+
+
     //正文页规则
     private String ruleContentUrlNext;
     private String ruleBookContent;
@@ -81,12 +89,28 @@ public class BookSourceBean implements Cloneable, Serializable {
     @Transient
     private transient ArrayList<String> groupList;
 
-    @Generated(hash = 1840823895)
-    public BookSourceBean(String bookSourceUrl, String bookSourceName, String bookSourceGroup, String bookSourceType, String loginUrl, Long lastUpdateTime, int serialNumber, int weight, boolean enable, String ruleFindUrl,
-                          String ruleFindList, String ruleFindName, String ruleFindAuthor, String ruleFindKind, String ruleFindIntroduce, String ruleFindLastChapter, String ruleFindCoverUrl, String ruleFindNoteUrl, String ruleSearchUrl,
-                          String ruleSearchList, String ruleSearchName, String ruleSearchAuthor, String ruleSearchKind, String ruleSearchIntroduce, String ruleSearchLastChapter, String ruleSearchCoverUrl, String ruleSearchNoteUrl,
-                          String ruleBookUrlPattern, String ruleBookInfoInit, String ruleBookName, String ruleBookAuthor, String ruleCoverUrl, String ruleIntroduce, String ruleBookKind, String ruleBookLastChapter, String ruleChapterUrl,
-                          String ruleChapterUrlNext, String ruleChapterList, String ruleChapterName, String ruleContentUrl, String ruleContentUrlNext, String ruleBookContent, String httpUserAgent) {
+    public BookSourceBean() {
+    }
+
+    @Generated(hash = 675983993)
+    public BookSourceBean(String bookSourceUrl, String bookSourceName,
+                          String bookSourceGroup, String bookSourceType, String loginUrl,
+                          Long lastUpdateTime, int serialNumber, int weight, boolean enable,
+                          String ruleFindUrl, String ruleFindList, String ruleFindName,
+                          String ruleFindAuthor, String ruleFindKind, String ruleFindIntroduce,
+                          String ruleFindLastChapter, String ruleFindCoverUrl,
+                          String ruleFindNoteUrl, boolean ruleFindEnable, String ruleSearchUrl,
+                          String ruleSearchList, String ruleSearchName, String ruleSearchAuthor,
+                          String ruleSearchKind, String ruleSearchIntroduce,
+                          String ruleSearchLastChapter, String ruleSearchCoverUrl,
+                          String ruleSearchNoteUrl, String ruleBookUrlPattern,
+                          String ruleBookInfoInit, String ruleBookName, String ruleBookAuthor,
+                          String ruleCoverUrl, String ruleIntroduce, String ruleBookKind,
+                          String ruleBookLastChapter, String ruleChapterUrl,
+                          String ruleChapterUrlNext, String ruleChapterList,
+                          String ruleChapterName, String ruleContentUrl,
+                          String ruleContentUrlNext, String ruleBookContent,
+                          String httpUserAgent) {
         this.bookSourceUrl = bookSourceUrl;
         this.bookSourceName = bookSourceName;
         this.bookSourceGroup = bookSourceGroup;
@@ -105,6 +129,7 @@ public class BookSourceBean implements Cloneable, Serializable {
         this.ruleFindLastChapter = ruleFindLastChapter;
         this.ruleFindCoverUrl = ruleFindCoverUrl;
         this.ruleFindNoteUrl = ruleFindNoteUrl;
+        this.ruleFindEnable = ruleFindEnable;
         this.ruleSearchUrl = ruleSearchUrl;
         this.ruleSearchList = ruleSearchList;
         this.ruleSearchName = ruleSearchName;
@@ -130,9 +155,6 @@ public class BookSourceBean implements Cloneable, Serializable {
         this.ruleContentUrlNext = ruleContentUrlNext;
         this.ruleBookContent = ruleBookContent;
         this.httpUserAgent = httpUserAgent;
-    }
-
-    public BookSourceBean() {
     }
 
     @Override
@@ -586,4 +608,61 @@ public class BookSourceBean implements Cloneable, Serializable {
         this.ruleBookInfoInit = ruleBookInfoInit;
     }
 
+    @Override
+    public String toString() {
+        return "BookSourceBean{" +
+                "bookSourceUrl='" + bookSourceUrl + '\'' +
+                ", bookSourceName='" + bookSourceName + '\'' +
+                ", bookSourceGroup='" + bookSourceGroup + '\'' +
+                ", bookSourceType='" + bookSourceType + '\'' +
+                ", loginUrl='" + loginUrl + '\'' +
+                ", lastUpdateTime=" + lastUpdateTime +
+                ", serialNumber=" + serialNumber +
+                ", weight=" + weight +
+                ", enable=" + enable +
+                ", ruleFindUrl='" + ruleFindUrl + '\'' +
+                ", ruleFindList='" + ruleFindList + '\'' +
+                ", ruleFindName='" + ruleFindName + '\'' +
+                ", ruleFindAuthor='" + ruleFindAuthor + '\'' +
+                ", ruleFindKind='" + ruleFindKind + '\'' +
+                ", ruleFindIntroduce='" + ruleFindIntroduce + '\'' +
+                ", ruleFindLastChapter='" + ruleFindLastChapter + '\'' +
+                ", ruleFindCoverUrl='" + ruleFindCoverUrl + '\'' +
+                ", ruleFindNoteUrl='" + ruleFindNoteUrl + '\'' +
+                ", ruleSearchUrl='" + ruleSearchUrl + '\'' +
+                ", ruleSearchList='" + ruleSearchList + '\'' +
+                ", ruleSearchName='" + ruleSearchName + '\'' +
+                ", ruleSearchAuthor='" + ruleSearchAuthor + '\'' +
+                ", ruleSearchKind='" + ruleSearchKind + '\'' +
+                ", ruleSearchIntroduce='" + ruleSearchIntroduce + '\'' +
+                ", ruleSearchLastChapter='" + ruleSearchLastChapter + '\'' +
+                ", ruleSearchCoverUrl='" + ruleSearchCoverUrl + '\'' +
+                ", ruleSearchNoteUrl='" + ruleSearchNoteUrl + '\'' +
+                ", ruleBookUrlPattern='" + ruleBookUrlPattern + '\'' +
+                ", ruleBookInfoInit='" + ruleBookInfoInit + '\'' +
+                ", ruleBookName='" + ruleBookName + '\'' +
+                ", ruleBookAuthor='" + ruleBookAuthor + '\'' +
+                ", ruleCoverUrl='" + ruleCoverUrl + '\'' +
+                ", ruleIntroduce='" + ruleIntroduce + '\'' +
+                ", ruleBookKind='" + ruleBookKind + '\'' +
+                ", ruleBookLastChapter='" + ruleBookLastChapter + '\'' +
+                ", ruleChapterUrl='" + ruleChapterUrl + '\'' +
+                ", ruleChapterUrlNext='" + ruleChapterUrlNext + '\'' +
+                ", ruleChapterList='" + ruleChapterList + '\'' +
+                ", ruleChapterName='" + ruleChapterName + '\'' +
+                ", ruleContentUrl='" + ruleContentUrl + '\'' +
+                ", ruleContentUrlNext='" + ruleContentUrlNext + '\'' +
+                ", ruleBookContent='" + ruleBookContent + '\'' +
+                ", httpUserAgent='" + httpUserAgent + '\'' +
+                ", groupList=" + groupList +
+                '}';
+    }
+
+    public boolean getRuleFindEnable() {
+        return this.ruleFindEnable;
+    }
+
+    public void setRuleFindEnable(boolean ruleFindEnable) {
+        this.ruleFindEnable = ruleFindEnable;
+    }
 }

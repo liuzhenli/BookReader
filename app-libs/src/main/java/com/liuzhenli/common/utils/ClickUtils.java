@@ -17,7 +17,7 @@ import io.reactivex.functions.Consumer;
  */
 public class ClickUtils {
     private static final int DURATION = 500;
-
+    public static long mLastClickTime;
     @SuppressLint("CheckResult")
     public static void click(View view, Consumer action) {
         if (Thread.currentThread().getName().contains("main")) {
@@ -39,5 +39,15 @@ public class ClickUtils {
                     .throttleFirst(duration, TimeUnit.MILLISECONDS)
                     .subscribe(action);
         }
+    }
+
+    public static boolean isFastDoubleClick() {
+        long time = System.currentTimeMillis();
+        long timeD = time - mLastClickTime;
+        if (0 < timeD && timeD < DURATION) {
+            return true;
+        }
+        mLastClickTime = time;
+        return false;
     }
 }

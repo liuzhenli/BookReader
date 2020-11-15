@@ -64,10 +64,9 @@ public class BookSourceManager {
                 .list();
     }
 
-    /***可用书源
-     *
-     * @param group
-     * @return
+    /***
+     *根据分组选择可用书源
+     * @param group 分组名字
      */
     public static List<BookSourceBean> getEnableSourceByGroup(String group) {
         return DbHelper.getDaoSession().getBookSourceBeanDao().queryBuilder()
@@ -128,6 +127,18 @@ public class BookSourceManager {
     public static void saveBookSource(BookSourceBean bookSourceBean) {
         if (bookSourceBean != null) {
             DbHelper.getDaoSession().getBookSourceBeanDao().insertOrReplace(bookSourceBean);
+        }
+    }
+
+    public static void saveBookSource(List<BookSourceBean> bookSourceBeanList) {
+        if (bookSourceBeanList != null) {
+            DbHelper.getDaoSession().getBookSourceBeanDao().insertOrReplaceInTx(bookSourceBeanList);
+        }
+    }
+
+    public static void deleteBookSource(BookSourceBean bookSourceBean) {
+        if (bookSourceBean != null) {
+            DbHelper.getDaoSession().getBookSourceBeanDao().delete(bookSourceBean);
         }
     }
 

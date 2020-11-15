@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_add_book_source"
+        android:icon="@drawable/ic_time_add_24dp"
+        android:title="@string/add_book_source"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_import_book_source_local"
+        android:icon="@drawable/ic_time_add_24dp"
+        android:title="@string/import_book_source_local"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_import_book_source_onLine"
+        android:icon="@drawable/ic_time_add_24dp"
+        android:title="@string/import_book_source_on_line"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_import_book_source_rwm"
+        android:icon="@drawable/ic_time_add_24dp"
+        android:title="@string/import_by_qr_code"
+        app:showAsAction="never" />
+    
+
+    <item
+        android:id="@+id/action_del_select"
+        android:icon="@drawable/ic_time_add_24dp"
+        android:title="@string/del_select"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_check_book_source"
+        android:icon="@drawable/ic_time_add_24dp"
+        android:title="@string/check_select_source"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_share_wifi"
+        android:icon="@drawable/ic_time_add_24dp"
+        android:title="@string/wifi_share"
+        app:showAsAction="never" />
+</menu>

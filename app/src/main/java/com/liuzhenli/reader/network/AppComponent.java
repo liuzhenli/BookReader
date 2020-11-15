@@ -5,6 +5,7 @@ import com.liuzhenli.reader.module.ApiModule;
 import com.liuzhenli.reader.module.AppModule;
 import com.liuzhenli.reader.ui.activity.BookCatalogActivity;
 import com.liuzhenli.reader.ui.activity.BookDetailActivity;
+import com.liuzhenli.reader.ui.activity.BookSourceActivity;
 import com.liuzhenli.reader.ui.activity.ImportLocalBookActivity;
 import com.liuzhenli.reader.ui.activity.LoginActivity;
 import com.liuzhenli.reader.ui.activity.ReaderActivity;
@@ -26,8 +27,6 @@ import dagger.Component;
 @Singleton
 @Component(modules = {AppModule.class, ApiModule.class})
 public interface AppComponent {
-
-    //void inject(SplashActivity splashActivity);
 
     void inject(LoginActivity loginActivity);
 
@@ -52,4 +51,6 @@ public interface AppComponent {
     void inject(BookDetailActivity bookDetailActivity);
 
     void inject(SearchActivity searchActivity);
+
+    void inject(BookSourceActivity bookSourceActivity);
 }

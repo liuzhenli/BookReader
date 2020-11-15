@@ -319,6 +319,13 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        switch (position) {
+                            case 0:
+                                BookSourceActivity.start(mContext);
+                                break;
+                            default:
+                                break;
+                        }
                         if (mMenu != null) {
                             mMenu.dismiss();
                         }

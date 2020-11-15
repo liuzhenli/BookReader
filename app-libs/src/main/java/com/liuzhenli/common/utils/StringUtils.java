@@ -39,7 +39,9 @@ public class StringUtils {
         return format.format(date);
     }
 
-    /**将日期转换成昨天、今天、明天*/
+    /**
+     * 将日期转换成昨天、今天、明天
+     */
     public static String dateConvert(String source, String pattern) {
         @SuppressLint("SimpleDateFormat") DateFormat format = new SimpleDateFormat(pattern);
         Calendar calendar = Calendar.getInstance();
@@ -401,5 +403,16 @@ public class StringUtils {
 
     public static boolean isEmpty(String text) {
         return text == null || text.length() == 0;
+    }
+
+    //只有一个为空
+    public static boolean isOneEmpty(String... strings) {
+        for (String s : strings) {
+            if (isEmpty(s)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

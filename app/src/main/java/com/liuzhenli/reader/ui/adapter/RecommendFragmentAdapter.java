@@ -25,7 +25,7 @@ public class RecommendFragmentAdapter extends RecyclerArrayAdapter<BookSourceBea
 
     @Override
     public BaseViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ItemViewHolder(parent, R.layout.item_book_source);
+        return new ItemViewHolder(parent, R.layout.item_book_site);
     }
 
     class ItemViewHolder extends BaseViewHolder<BookSourceBean> {
