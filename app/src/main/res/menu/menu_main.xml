@@ -8,7 +8,7 @@
         android:title="搜索"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/menu_cet_mistakes"
+        android:id="@+id/item_add_from_local"
         android:orderInCategory="100"
-        android:title="title2" />
+        android:title="@string/import_book_source_local" />
 </menu>

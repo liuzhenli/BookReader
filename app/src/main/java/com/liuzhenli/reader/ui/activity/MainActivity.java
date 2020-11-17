@@ -93,6 +93,9 @@ public class MainActivity extends BaseActivity {
                     case R.id.item_search:
                         SearchActivity.start(mContext);
                         break;
+                    case R.id.item_add_from_local:
+                        ImportLocalBookActivity.start(mContext);
+                        break;
                     default:
                         break;
                 }
