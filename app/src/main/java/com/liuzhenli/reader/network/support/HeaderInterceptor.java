@@ -2,16 +2,12 @@ package com.liuzhenli.reader.network.support;
 
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.google.gson.Gson;
-import com.liuzhenli.common.utils.NetworkUtils;
 import com.liuzhenli.reader.ReaderApplication;
 import com.liuzhenli.reader.utils.AccountManager;
 import com.liuzhenli.reader.utils.ApiManager;
 import com.liuzhenli.reader.utils.AppUtils;
-import com.liuzhenli.reader.utils.DeviceUtil;
-import com.liuzhenli.reader.utils.StringUtil;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -28,7 +24,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okio.Buffer;
 
-import static com.liuzhenli.reader.utils.Constant.USER_AGENT;
+import static com.liuzhenli.common.utils.Constant.USER_AGENT;
 
 /**
  * Retrofit2 Cookie拦截器。用于保存和设置Cookies

@@ -1,32 +1,23 @@
 package com.liuzhenli.reader.ui.fragment;
 
 import android.Manifest;
-import android.app.LocalActivityManager;
 import android.content.Intent;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.liuzhenli.common.constant.AppConstant;
 import com.liuzhenli.common.observer.MyObserver;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.reader.base.BaseFragment;
 import com.liuzhenli.reader.network.AppComponent;
-import com.liuzhenli.reader.observer.SampleProgressObserver;
-import com.liuzhenli.reader.ui.activity.BookCatalogActivity;
-import com.liuzhenli.reader.ui.activity.BookSourceActivity;
 import com.liuzhenli.reader.ui.activity.ImportLocalBookActivity;
 import com.liuzhenli.reader.ui.activity.WebViewActivity;
-import com.liuzhenli.reader.utils.Constant;
+import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.reader.utils.PermissionUtil;
 import com.liuzhenli.reader.utils.filepicker.picker.FilePicker;
 import com.microedu.reader.R;
 import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
-import io.reactivex.Observer;
-import io.reactivex.Scheduler;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 
 /**
  * describe:

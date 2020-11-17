@@ -32,13 +32,12 @@ public class LocalTxtFragment extends BaseRVFragment<LocalTxtPresenter, LocalFil
 
     @Override
     public void initData() {
-        initAdapter(LocalTxtAdapter.class, false, false);
-        mPresenter.getLocalTxt((FragmentActivity) mContext);
     }
 
     @Override
     public void configViews() {
-        mPresenter.getLocalTxt((FragmentActivity) mContext);
+        initAdapter(LocalTxtAdapter.class, false, false);
+        refreshData();
     }
 
 
@@ -61,6 +60,9 @@ public class LocalTxtFragment extends BaseRVFragment<LocalTxtPresenter, LocalFil
 
     @Override
     public void showLocalTxt(List<LocalFileBean> fileList) {
+        if (mAdapter.getCount() > 0) {
+            mAdapter.clear();
+        }
         mAdapter.addAll(fileList);
     }
 
@@ -82,6 +84,12 @@ public class LocalTxtFragment extends BaseRVFragment<LocalTxtPresenter, LocalFil
 
     public List<LocalFileBean> getAllBooks() {
         return mAdapter.getRealAllData();
+    }
+
+    public void refreshData() {
+        if (mPresenter != null) {
+            mPresenter.getLocalTxt((FragmentActivity) mContext);
+        }
     }
 
 }

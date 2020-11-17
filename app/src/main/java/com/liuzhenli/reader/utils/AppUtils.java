@@ -40,9 +40,8 @@ import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Base64;
 
-import com.liuzhenli.reader.ReaderApplication;
+import com.liuzhenli.common.BaseApplication;
 import com.meituan.android.walle.WalleChannelReader;
-import com.orhanobut.logger.Logger;
 
 public class AppUtils {
 
@@ -176,13 +175,13 @@ public class AppUtils {
     }
 
     public static String getFormatDeviceUnique() {
-        String uuid = DeviceUtil.getDeviceUniqueId(ReaderApplication.getInstance());
+        String uuid = DeviceUtil.getDeviceUniqueId(BaseApplication.getInstance());
         byte[] data = ("unique_id:" + uuid).getBytes();
         return new String(Base64.encode(data, Base64.DEFAULT));
     }
 
     public static String getFormatVersionCode() {
-        byte[] data = ("app_version:android-" + getAppVersionCode(ReaderApplication.getInstance())).getBytes();
+        byte[] data = ("app_version:android-" + getAppVersionCode(BaseApplication.getInstance())).getBytes();
         return new String(Base64.encode(data, Base64.DEFAULT));
     }
 }

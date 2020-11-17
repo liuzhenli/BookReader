@@ -1,7 +1,6 @@
 package com.liuzhenli.reader;
 
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.multidex.MultiDex;
 
@@ -13,11 +12,9 @@ import com.liuzhenli.reader.network.DaggerAppComponent;
 import com.liuzhenli.reader.module.ApiModule;
 import com.liuzhenli.reader.module.AppModule;
 import com.liuzhenli.reader.utils.AppUtils;
-import com.micoredu.readerlib.ReaderLibManager;
 import com.micoredu.readerlib.content.UpLastChapterModel;
 import com.microedu.reader.BuildConfig;
 import com.orhanobut.logger.AndroidLogAdapter;
-import com.orhanobut.logger.LogAdapter;
 import com.orhanobut.logger.Logger;
 import com.tencent.mmkv.MMKV;
 

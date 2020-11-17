@@ -10,7 +10,7 @@ import com.liuzhenli.reader.network.AppComponent;
 import com.liuzhenli.reader.ui.adapter.LocalFileAdapter;
 import com.liuzhenli.reader.ui.contract.LocalFileContract;
 import com.liuzhenli.reader.ui.presenter.LocalFilePresenter;
-import com.liuzhenli.reader.utils.Constant;
+import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.reader.utils.ToastUtil;
 import com.liuzhenli.reader.utils.filepicker.adapter.PathAdapter;
 import com.liuzhenli.reader.view.recyclerview.EasyRecyclerView;

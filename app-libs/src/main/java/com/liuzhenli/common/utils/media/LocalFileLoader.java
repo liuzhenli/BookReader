@@ -9,6 +9,8 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.loader.content.CursorLoader;
 
+import com.liuzhenli.common.utils.AppConfigManager;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +25,7 @@ public class LocalFileLoader extends CursorLoader {
     private static final String TAG = "LocalFileLoader";
 
     private static final Uri FILE_URI = Uri.parse("content://media/external/file");
-    private static final String SELECTION = MediaStore.Files.FileColumns.DATA + " like ? or " + MediaStore.Files.FileColumns.DATA + " like ?";
+    private static final String SELECTION = MediaStore.Files.FileColumns.DATA + " like ? or " + MediaStore.Files.FileColumns.DATA + " like ? ";
     private static final String[] SEARCH_TYPE = new String[]{"%.txt", "%.epub"};
     private static final String SORT_ORDER = MediaStore.Files.FileColumns.DISPLAY_NAME + " ASC";
     private static final String[] FILE_PROJECTION = {
@@ -57,7 +59,7 @@ public class LocalFileLoader extends CursorLoader {
                 //判断有效路径
                 if (!TextUtils.isEmpty(path)) {
                     File file = new File(path);
-                    if (!file.isDirectory() && file.length() > 1024 * 100) {
+                    if (!file.isDirectory() && file.length() > 1024 * AppConfigManager.getMinFileSize()) {
                         files.add(file);
                     }
                 }

@@ -1,7 +1,7 @@
 package com.liuzhenli.reader.exception;
 
 
-import com.liuzhenli.reader.utils.Constant;
+import com.liuzhenli.common.utils.Constant;
 
 public class ApiCodeException extends RuntimeException {
     public int getErrorCode() {

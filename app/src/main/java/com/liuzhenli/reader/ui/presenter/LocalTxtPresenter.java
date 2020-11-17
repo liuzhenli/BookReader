@@ -4,32 +4,19 @@ import android.util.Log;
 
 import androidx.fragment.app.FragmentActivity;
 
-import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.common.utils.media.ImportBookFileHelper;
 import com.liuzhenli.reader.base.RxPresenter;
 import com.liuzhenli.reader.bean.LocalFileBean;
 import com.liuzhenli.reader.network.Api;
-import com.liuzhenli.reader.observer.SampleProgressObserver;
-import com.liuzhenli.reader.ui.contract.LocalFileContract;
 import com.liuzhenli.reader.ui.contract.LocalTxtContract;
-import com.liuzhenli.reader.utils.Constant;
-import com.liuzhenli.reader.utils.FileUtils;
-import com.orhanobut.logger.Logger;
+import com.liuzhenli.common.utils.Constant;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
-
-import io.reactivex.Observable;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.observers.DisposableObserver;
 
 /**
  * describe:

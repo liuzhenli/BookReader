@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.liuzhenli.reader.utils.DensityUtil;
-import com.liuzhenli.reader.utils.face.AppConfigManager;
+import com.liuzhenli.common.utils.AppConfigManager;
 import com.liuzhenli.reader.view.filter.adapter.MenuAdapter;
 import com.liuzhenli.reader.view.filter.adapter.SimpleTextAdapter;
 import com.liuzhenli.reader.view.filter.typeview.SingleListView;

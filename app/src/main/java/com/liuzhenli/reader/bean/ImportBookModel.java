@@ -1,4 +1,3 @@
-//Copyright (c) 2017. 章钦豪. All rights reserved.
 package com.liuzhenli.reader.bean;
 
 import com.liuzhenli.common.utils.StringUtils;
@@ -14,7 +13,9 @@ import java.io.File;
 
 import io.reactivex.Observable;
 
-
+/**
+ * 本地书导入
+ */
 public class ImportBookModel extends BaseModelImpl {
 
     public static ImportBookModel getInstance() {

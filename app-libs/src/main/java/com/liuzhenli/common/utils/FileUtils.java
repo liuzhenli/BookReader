@@ -1,4 +1,4 @@
-package com.liuzhenli.reader.utils;
+package com.liuzhenli.common.utils;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -6,6 +6,7 @@ import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
+
 
 import com.orhanobut.logger.Logger;
 
@@ -32,10 +33,9 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class FileUtils {
 
-    private static final String[] filters = {".txt"/*, ".pdf", ".epub"*/};
+    private static final String[] filters = {".txt", ".pdf", ".epub"};
 
 
     public static File getFontDir(String font) {
@@ -129,12 +129,14 @@ public class FileUtils {
     }
 
     public static File[] read(File file) {
-        if (file != null && file.isDirectory()) {// 是文件夹
+        // 是文件夹
+        if (file != null && file.isDirectory()) {
             // 设置过滤条件
             File[] files = file.listFiles(new FileFilter() {
                 @Override
                 public boolean accept(File pathname) {
-                    if (pathname.isDirectory()) {// 是文件夹，true不过滤
+                    // 是文件夹，true不过滤
+                    if (pathname.isDirectory()) {
                         return true;
                     }
                     boolean flag = false;
@@ -151,9 +153,6 @@ public class FileUtils {
                 }
             });
 
-            // for (int i = 0; i < files.length; i++) {
-            //    Logger.i(files[i].getName());
-            // }
             return files;
         }
         return null;
@@ -472,8 +471,12 @@ public class FileUtils {
             e.printStackTrace();
         } finally {
             try {
-                if (fo != null) fo.close();
-                if (fi != null) fi.close();
+                if (fo != null) {
+                    fo.close();
+                }
+                if (fi != null) {
+                    fi.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -732,6 +735,7 @@ public class FileUtils {
             this.ext = ext;
         }
 
+        @Override
         public boolean accept(File dir, String name) {
             return name.endsWith(ext);
 

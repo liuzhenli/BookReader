@@ -1,12 +1,16 @@
 package com.liuzhenli.reader.ui.presenter;
 
+import android.text.TextUtils;
+
 import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.reader.base.RxPresenter;
 import com.liuzhenli.reader.network.Api;
 import com.liuzhenli.reader.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.contract.LocalFileContract;
-import com.liuzhenli.reader.utils.Constant;
-import com.liuzhenli.reader.utils.FileUtils;
+import com.liuzhenli.common.utils.Constant;
+import com.liuzhenli.common.utils.FileUtils;
+
+import org.mozilla.javascript.ast.VariableDeclaration;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -20,6 +24,9 @@ import javax.inject.Inject;
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.observers.DisposableObserver;
+
+import static com.liuzhenli.common.utils.Constant.Fileuffix.PDF;
+import static com.liuzhenli.common.utils.Constant.Fileuffix.TET;
 
 /**
  * describe:
@@ -52,17 +59,17 @@ public class LocalFilePresenter extends RxPresenter<LocalFileContract.View> impl
                             for (int i = 0; i < size; i++) {
                                 HashMap<String, Object> map = new HashMap<String, Object>();
                                 String fileName = files[i].getName();
-                                // Log.d(TAG, "file info:" + files[i].getAbsolutePath());
-                                if (files[i].isDirectory()) {// 文件
+                                // 文件
+                                if (files[i].isDirectory()) {
                                     map.put(Constant.FileAttr.IMAGE, Constant.FileAttr.ZERO);
                                 } else if (files[i].isFile()) {
-                                    if (fileName.endsWith(Constant.Fileuffix.TET)) {
-                                        map.put(Constant.FileAttr.IMAGE, Constant.Fileuffix.TET);
-                                    } /*else if (fileName.endsWith(".pdf")) {
-                    map.put("mBitmap", "pdf");
-                } else if (fileName.endsWith(".epub")) {
-                    map.put("mBitmap", "epub");
-                }*/
+                                    if (fileName.endsWith(TET)) {
+                                        map.put(Constant.FileAttr.IMAGE, TET);
+                                    } else if (fileName.endsWith(PDF)) {
+                                        map.put("mBitmap", "pdf");
+                                    } else if (fileName.endsWith(".epub")) {
+                                        map.put("mBitmap", "epub");
+                                    }
                                 }
                                 map.put(Constant.FileAttr.FILE, files[i]);
                                 map.put(Constant.FileAttr.NAME, fileName);
@@ -77,16 +84,17 @@ public class LocalFilePresenter extends RxPresenter<LocalFileContract.View> impl
                                 data.add(map);
                             }
                         } catch (Exception e) {
-                           e.printStackTrace();
+                            e.printStackTrace();
                         }
 
                         Collections.sort(data, (lhs, rhs) -> (((String) lhs.get(Constant.FileAttr.NAME)).toLowerCase()).compareTo(((String) rhs.get(Constant.FileAttr.NAME)).toLowerCase()));
 
                         List<HashMap<String, Object>> temp = new ArrayList<HashMap<String, Object>>();
-                        Iterator list = data.iterator();
+                        Iterator<HashMap<String, Object>> list = data.iterator();
                         while (list.hasNext()) {
-                            HashMap<String, Object> map = (HashMap<String, Object>) list.next();
-                            if (((String) map.get(Constant.FileAttr.NAME)).endsWith(".txt")) {
+                            HashMap<String, Object> map = list.next();
+                            String fileName = (String) map.get(Constant.FileAttr.NAME);
+                            if (fileName != null && (TET.endsWith(fileName) || PDF.endsWith(fileName) || Constant.Fileuffix.EPUB.endsWith(fileName))) {
                                 temp.add(map);
                                 list.remove();
                             }

@@ -19,13 +19,16 @@ import com.liuzhenli.reader.ui.contract.ImportLocalBookContract;
 import com.liuzhenli.reader.ui.fragment.LocalFileFragment;
 import com.liuzhenli.reader.ui.fragment.LocalTxtFragment;
 import com.liuzhenli.reader.ui.presenter.ImportLocalBookPresenter;
-import com.liuzhenli.reader.utils.FileUtils;
+import com.liuzhenli.common.utils.FileUtils;
 import com.liuzhenli.reader.utils.PermissionUtil;
 import com.liuzhenli.reader.utils.ToastUtil;
 import com.liuzhenli.reader.view.loading.DialogUtil;
 import com.microedu.reader.R;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,8 +68,8 @@ public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPres
 
     @Override
     protected List<Fragment> createTabFragments() {
-        LocalFileFragment localFileFragment = new LocalFileFragment();
         LocalTxtFragment localTxtFragment = new LocalTxtFragment();
+        LocalFileFragment localFileFragment = new LocalFileFragment();
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(localTxtFragment);
         fragments.add(localFileFragment);
@@ -127,13 +130,25 @@ public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPres
                 }
                 fragment.notifyDataChanged();
             } else if (mFragmentList.get(getCurrentPagePosition()) instanceof LocalTxtFragment) {
-                LocalTxtFragment fragment = (LocalTxtFragment) mFragmentList.get(getCurrentPagePosition());
-                List<File> selectedBooks = fragment.getSelectedBooks();
-                for (File selectedBook : selectedBooks) {
-                    FileUtils.deleteFile(selectedBook);
-                }
-                fragment.notifyDataChanged();
-                ToastUtil.showToast("已经删除");
+
+                DialogUtil.showMessagePositiveDialog(mContext, "提示", "是否从手机中删除该文件?", "取消", null, "删除", new QMUIDialogAction.ActionListener() {
+                    @Override
+                    public void onClick(QMUIDialog dialog, int index) {
+                        LocalTxtFragment fragment = (LocalTxtFragment) mFragmentList.get(getCurrentPagePosition());
+                        List<File> selectedBooks = fragment.getSelectedBooks();
+                        for (File selectedBook : selectedBooks) {
+                            try {
+                                FileUtils.deleteFile(selectedBook);
+                                fragment.notifyDataChanged();
+                                ToastUtil.showToast("已经删除");
+                                fragment.refreshData();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }, true);
+
             }
         });
 

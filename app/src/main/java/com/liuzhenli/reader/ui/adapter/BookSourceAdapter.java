@@ -16,7 +16,7 @@ import com.liuzhenli.reader.ui.activity.BookSourceActivity;
 import com.liuzhenli.reader.ui.activity.EditSourceActivity;
 import com.liuzhenli.reader.utils.LogUtils;
 import com.liuzhenli.reader.utils.ToastUtil;
-import com.liuzhenli.reader.utils.face.AppConfigManager;
+import com.liuzhenli.common.utils.AppConfigManager;
 import com.liuzhenli.reader.view.loading.DialogUtil;
 import com.liuzhenli.reader.view.recyclerview.adapter.BaseViewHolder;
 import com.liuzhenli.reader.view.recyclerview.adapter.RecyclerArrayAdapter;

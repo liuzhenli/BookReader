@@ -22,7 +22,7 @@ import com.liuzhenli.reader.ui.activity.ReaderActivity;
 import com.liuzhenli.reader.ui.adapter.BookShelfAdapter;
 import com.liuzhenli.reader.ui.contract.BookShelfContract;
 import com.liuzhenli.reader.ui.presenter.BookShelfPresenter;
-import com.liuzhenli.reader.utils.Constant;
+import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.reader.utils.DataDiffUtil;
 import com.liuzhenli.reader.utils.ToastUtil;
 import com.liuzhenli.reader.utils.image.ImageUtil;
@@ -70,7 +70,7 @@ public class BookShelfFragment extends BaseRVFragment<BookShelfPresenter, BookSh
         RxBus.get().unregister(this);
     }
 
-    @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusTag.HAD_ADD_BOOK)})
+    @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusTag.REFRESH_BOOK_LIST)})
     public void onAddOrRemoveBook(BookShelfBean book) {
         mPresenter.queryBooks(false, 0);
     }

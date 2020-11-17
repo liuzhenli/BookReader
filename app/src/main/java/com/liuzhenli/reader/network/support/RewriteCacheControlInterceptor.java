@@ -9,7 +9,7 @@ import com.liuzhenli.reader.ReaderApplication;
 import com.liuzhenli.reader.base.BaseBean;
 import com.liuzhenli.reader.exception.CrashHandler;
 import com.liuzhenli.reader.exception.ApiCodeException;
-import com.liuzhenli.reader.utils.Constant;
+import com.liuzhenli.common.utils.Constant;
 
 import java.io.IOException;
 import java.nio.charset.Charset;

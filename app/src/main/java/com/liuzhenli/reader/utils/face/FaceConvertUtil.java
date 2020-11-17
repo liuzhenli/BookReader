@@ -11,7 +11,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.EditText;
 
-import com.liuzhenli.reader.utils.FileUtils;
+import com.liuzhenli.common.utils.FileUtils;
 import com.microedu.reader.R;
 
 import java.util.ArrayList;

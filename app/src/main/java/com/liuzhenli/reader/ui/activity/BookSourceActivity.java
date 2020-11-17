@@ -13,7 +13,7 @@ import com.liuzhenli.reader.ui.adapter.BookSourceAdapter;
 import com.liuzhenli.reader.ui.adapter.BookSourceFilterMenuAdapter;
 import com.liuzhenli.reader.ui.contract.BookSourceContract;
 import com.liuzhenli.reader.ui.presenter.BookSourcePresenter;
-import com.liuzhenli.reader.utils.face.AppConfigManager;
+import com.liuzhenli.common.utils.AppConfigManager;
 import com.liuzhenli.reader.view.filter.DropDownMenu;
 import com.micoredu.readerlib.bean.BookSourceBean;
 import com.micoredu.readerlib.model.BookSourceManager;
@@ -23,9 +23,9 @@ import java.util.List;
 
 import butterknife.BindView;
 
-import static com.liuzhenli.reader.utils.face.AppConfigManager.SortType.SORT_TYPE_AUTO;
-import static com.liuzhenli.reader.utils.face.AppConfigManager.SortType.SORT_TYPE_HAND;
-import static com.liuzhenli.reader.utils.face.AppConfigManager.SortType.SORT_TYPE_PINYIN;
+import static com.liuzhenli.common.utils.AppConfigManager.SortType.SORT_TYPE_AUTO;
+import static com.liuzhenli.common.utils.AppConfigManager.SortType.SORT_TYPE_HAND;
+import static com.liuzhenli.common.utils.AppConfigManager.SortType.SORT_TYPE_PINYIN;
 
 
 /**

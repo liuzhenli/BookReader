@@ -20,7 +20,7 @@ import com.liuzhenli.reader.network.AppComponent;
 import com.liuzhenli.reader.base.BaseActivity;
 import com.liuzhenli.reader.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.adapter.MainTabAdapter;
-import com.liuzhenli.reader.utils.Constant;
+import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.reader.utils.PermissionUtil;
 import com.liuzhenli.reader.utils.ToastUtil;
 import com.liuzhenli.reader.view.NoAnimViewPager;

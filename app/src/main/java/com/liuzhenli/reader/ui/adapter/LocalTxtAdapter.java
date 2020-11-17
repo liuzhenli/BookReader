@@ -9,8 +9,8 @@ import android.widget.TextView;
 
 import com.liuzhenli.greendao.BookShelfBeanDao;
 import com.liuzhenli.reader.bean.LocalFileBean;
-import com.liuzhenli.reader.utils.Constant;
-import com.liuzhenli.reader.utils.FileUtils;
+import com.liuzhenli.common.utils.Constant;
+import com.liuzhenli.common.utils.FileUtils;
 import com.liuzhenli.reader.view.recyclerview.adapter.BaseViewHolder;
 import com.liuzhenli.reader.view.recyclerview.adapter.RecyclerArrayAdapter;
 import com.micoredu.readerlib.bean.BookShelfBean;

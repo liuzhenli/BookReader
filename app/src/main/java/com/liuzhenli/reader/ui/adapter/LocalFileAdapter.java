@@ -8,13 +8,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.liuzhenli.greendao.BookShelfBeanDao;
-import com.liuzhenli.reader.utils.Constant;
+import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.reader.view.recyclerview.adapter.BaseViewHolder;
 import com.liuzhenli.reader.view.recyclerview.adapter.RecyclerArrayAdapter;
 import com.micoredu.readerlib.bean.BookShelfBean;
 import com.micoredu.readerlib.helper.DbHelper;
 import com.microedu.reader.R;
-import com.orhanobut.logger.Logger;
 
 import org.greenrobot.greendao.query.Query;
 

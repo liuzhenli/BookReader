@@ -44,7 +44,7 @@ public class ImportLocalBookPresenter extends RxPresenter<ImportLocalBookContrac
                     public void onNext(LocBookShelfBean value) {
                         //有新书插入数据库,刷新页面
                         if (value.getNew()) {
-                            RxBus.get().post(RxBusTag.HAD_ADD_BOOK, value.getBookShelfBean());
+                            RxBus.get().post(RxBusTag.REFRESH_BOOK_LIST, value.getBookShelfBean());
                         }
                     }
 

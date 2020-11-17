@@ -2,7 +2,7 @@ package com.liuzhenli.reader.network;
 
 import com.liuzhenli.reader.base.BaseBean;
 import com.liuzhenli.reader.gson.CustomGsonConverterFactory;
-import com.liuzhenli.reader.utils.Constant;
+import com.liuzhenli.common.utils.Constant;
 
 import java.util.Map;
 

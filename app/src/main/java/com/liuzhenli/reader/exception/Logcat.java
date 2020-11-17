@@ -16,15 +16,13 @@ import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 
-import com.liuzhenli.reader.utils.Constant;
-import com.liuzhenli.reader.utils.FileUtils;
-import com.orhanobut.logger.Logger;
+import com.liuzhenli.common.utils.Constant;
+import com.liuzhenli.common.utils.FileUtils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
