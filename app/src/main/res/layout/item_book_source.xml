@@ -48,7 +48,13 @@
         android:textSize="@dimen/txt_size_10" />
 
     <ImageView
-        android:id="@+id/view_set_top"
+        android:id="@+id/view_edit_book_source"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/icon_top" />
+
+    <ImageView
+        android:id="@+id/view_move_to_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/icon_top" />

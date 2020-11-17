@@ -62,6 +62,7 @@
         <activity android:name="com.liuzhenli.reader.ui.activity.DonateActivity" />
         <activity android:name="com.liuzhenli.reader.ui.activity.SettingActivity" />
         <activity android:name="com.liuzhenli.reader.ui.activity.SearchActivity" />
+        <activity android:name="com.liuzhenli.reader.ui.activity.EditSourceActivity" />
 
         <meta-data
             android:name="UMENG_APPKEY"

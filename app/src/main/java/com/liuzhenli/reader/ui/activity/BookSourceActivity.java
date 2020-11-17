@@ -66,12 +66,12 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_add_book_source:
-                        SearchActivity.start(mContext);
+                        EditSourceActivity.start(mContext, null);
                         break;
                     case R.id.action_import_book_source_local:
                         SearchActivity.start(mContext);
                         break;
-                    case R.id.action_import_book_source_onLine:
+                    case R.id.action_import_book_source_online:
                         SearchActivity.start(mContext);
                         break;
                     case R.id.action_import_book_source_rwm:

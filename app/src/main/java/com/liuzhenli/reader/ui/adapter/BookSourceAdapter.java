@@ -13,6 +13,7 @@ import androidx.appcompat.widget.AppCompatCheckBox;
 
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.reader.ui.activity.BookSourceActivity;
+import com.liuzhenli.reader.ui.activity.EditSourceActivity;
 import com.liuzhenli.reader.utils.LogUtils;
 import com.liuzhenli.reader.utils.ToastUtil;
 import com.liuzhenli.reader.utils.face.AppConfigManager;
@@ -57,8 +58,10 @@ public class BookSourceAdapter extends RecyclerArrayAdapter<BookSourceBean> {
         TextView tvSourceName;
         @BindView(R.id.view_show_recommand)
         Switch viewShowRecommend;
-        @BindView(R.id.view_set_top)
+        @BindView(R.id.view_move_to_top)
         View viewSetTop;
+        @BindView(R.id.view_edit_book_source)
+        View viewEditSource;
         @BindView(R.id.iv_book_source_visible)
         ImageView ivBookSourceVisible;
         @BindView(R.id.tv_source_group_name)
@@ -155,6 +158,13 @@ public class BookSourceAdapter extends RecyclerArrayAdapter<BookSourceBean> {
                 @Override
                 public void accept(Object o) throws Exception {
                     cbBookSourceCheck.setChecked(!cbBookSourceCheck.isChecked());
+                }
+            });
+            //编辑书源
+            ClickUtils.click(viewEditSource, new Consumer() {
+                @Override
+                public void accept(Object o) throws Exception {
+                    EditSourceActivity.start(mContext, item);
                 }
             });
         }
