@@ -7,8 +7,8 @@
 
     <com.qmuiteam.qmui.widget.QMUIRadiusImageView2
         android:id="@+id/iv_book_cover"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="78dp"
+        android:layout_height="104dp"
         android:layout_marginLeft="@dimen/common_margin_normal"
         android:layout_marginTop="@dimen/common_margin_large"
         android:background="@drawable/book_cover"
@@ -40,7 +40,7 @@
         android:layout_marginTop="@dimen/common_margin_small"
         android:text="@string/author"
         android:textColor="@color/text_color_66"
-        android:textSize="@dimen/txt_size_14"
+        android:textSize="@dimen/txt_size_12"
         app:layout_constraintLeft_toLeftOf="@+id/tv_book_name"
         app:layout_constraintTop_toBottomOf="@+id/tv_book_name" />
 
@@ -51,7 +51,7 @@
         android:layout_marginTop="@dimen/common_margin_small"
         android:text="@string/progress_show"
         android:textColor="@color/text_color_66"
-        android:textSize="@dimen/txt_size_14"
+        android:textSize="@dimen/txt_size_12"
         app:layout_constraintLeft_toLeftOf="@+id/tv_book_name"
         app:layout_constraintTop_toBottomOf="@+id/tv_book_author" />
 
@@ -62,7 +62,7 @@
         android:layout_marginTop="@dimen/common_margin_small"
         android:text="@string/book_source_name"
         android:textColor="@color/text_color_66"
-        android:textSize="@dimen/txt_size_14"
+        android:textSize="@dimen/txt_size_12"
         app:layout_constraintLeft_toLeftOf="@+id/tv_book_name"
         app:layout_constraintTop_toBottomOf="@+id/tv_book_read_progress" />
 
@@ -80,7 +80,7 @@
             android:button="@null"
             android:text="追更"
             android:textColor="@color/s_book_tag"
-            android:textSize="@dimen/txt_size_14" />
+            android:textSize="@dimen/txt_size_12" />
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -89,7 +89,7 @@
             android:button="@null"
             android:text="养肥"
             android:textColor="@color/s_book_tag"
-            android:textSize="@dimen/txt_size_14" />
+            android:textSize="@dimen/txt_size_12" />
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -98,7 +98,7 @@
             android:button="@null"
             android:text="完结"
             android:textColor="@color/s_book_tag"
-            android:textSize="@dimen/txt_size_14" />
+            android:textSize="@dimen/txt_size_12" />
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -108,7 +108,7 @@
             android:checked="true"
             android:text="本地"
             android:textColor="@color/s_book_tag"
-            android:textSize="@dimen/txt_size_14" />
+            android:textSize="@dimen/txt_size_12" />
     </RadioGroup>
 
     <TextView

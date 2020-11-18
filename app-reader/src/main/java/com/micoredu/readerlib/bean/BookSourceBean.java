@@ -84,6 +84,7 @@ public class BookSourceBean implements Cloneable, Serializable {
     //正文页规则
     private String ruleContentUrlNext;
     private String ruleBookContent;
+    private String ruleBookContentReplace;
     private String httpUserAgent;
 
     @Transient
@@ -92,25 +93,21 @@ public class BookSourceBean implements Cloneable, Serializable {
     public BookSourceBean() {
     }
 
-    @Generated(hash = 675983993)
-    public BookSourceBean(String bookSourceUrl, String bookSourceName,
-                          String bookSourceGroup, String bookSourceType, String loginUrl,
-                          Long lastUpdateTime, int serialNumber, int weight, boolean enable,
-                          String ruleFindUrl, String ruleFindList, String ruleFindName,
-                          String ruleFindAuthor, String ruleFindKind, String ruleFindIntroduce,
-                          String ruleFindLastChapter, String ruleFindCoverUrl,
-                          String ruleFindNoteUrl, boolean ruleFindEnable, String ruleSearchUrl,
-                          String ruleSearchList, String ruleSearchName, String ruleSearchAuthor,
-                          String ruleSearchKind, String ruleSearchIntroduce,
-                          String ruleSearchLastChapter, String ruleSearchCoverUrl,
-                          String ruleSearchNoteUrl, String ruleBookUrlPattern,
-                          String ruleBookInfoInit, String ruleBookName, String ruleBookAuthor,
-                          String ruleCoverUrl, String ruleIntroduce, String ruleBookKind,
-                          String ruleBookLastChapter, String ruleChapterUrl,
-                          String ruleChapterUrlNext, String ruleChapterList,
-                          String ruleChapterName, String ruleContentUrl,
-                          String ruleContentUrlNext, String ruleBookContent,
-                          String httpUserAgent) {
+    @Generated(hash = 1299559420)
+    public BookSourceBean(String bookSourceUrl, String bookSourceName, String bookSourceGroup,
+            String bookSourceType, String loginUrl, Long lastUpdateTime, int serialNumber, int weight,
+            boolean enable, String ruleFindUrl, String ruleFindList, String ruleFindName,
+            String ruleFindAuthor, String ruleFindKind, String ruleFindIntroduce,
+            String ruleFindLastChapter, String ruleFindCoverUrl, String ruleFindNoteUrl,
+            boolean ruleFindEnable, String ruleSearchUrl, String ruleSearchList, String ruleSearchName,
+            String ruleSearchAuthor, String ruleSearchKind, String ruleSearchIntroduce,
+            String ruleSearchLastChapter, String ruleSearchCoverUrl, String ruleSearchNoteUrl,
+            String ruleBookUrlPattern, String ruleBookInfoInit, String ruleBookName,
+            String ruleBookAuthor, String ruleCoverUrl, String ruleIntroduce, String ruleBookKind,
+            String ruleBookLastChapter, String ruleChapterUrl, String ruleChapterUrlNext,
+            String ruleChapterList, String ruleChapterName, String ruleContentUrl,
+            String ruleContentUrlNext, String ruleBookContent, String ruleBookContentReplace,
+            String httpUserAgent) {
         this.bookSourceUrl = bookSourceUrl;
         this.bookSourceName = bookSourceName;
         this.bookSourceGroup = bookSourceGroup;
@@ -154,6 +151,7 @@ public class BookSourceBean implements Cloneable, Serializable {
         this.ruleContentUrl = ruleContentUrl;
         this.ruleContentUrlNext = ruleContentUrlNext;
         this.ruleBookContent = ruleBookContent;
+        this.ruleBookContentReplace = ruleBookContentReplace;
         this.httpUserAgent = httpUserAgent;
     }
 
@@ -606,6 +604,13 @@ public class BookSourceBean implements Cloneable, Serializable {
 
     public void setRuleBookInfoInit(String ruleBookInfoInit) {
         this.ruleBookInfoInit = ruleBookInfoInit;
+    }
+    public String getRuleBookContentReplace() {
+        return ruleBookContentReplace;
+    }
+
+    public void setRuleBookContentReplace(String ruleBookContentReplace) {
+        this.ruleBookContentReplace = ruleBookContentReplace;
     }
 
     @Override

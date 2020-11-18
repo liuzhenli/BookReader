@@ -111,6 +111,11 @@ class BookContent {
                     }
                 }
             }
+            String replaceRule = bookSourceBean.getRuleBookContentReplace();
+            if (replaceRule != null && replaceRule.trim().length() > 0) {
+                analyzer.setContent(bookContentBean.getDurChapterContent());
+                bookContentBean.setDurChapterContent(analyzer.getString(replaceRule));
+            }
             e.onNext(bookContentBean);
             e.onComplete();
         });
@@ -121,7 +126,12 @@ class BookContent {
 
         analyzer.setContent(s, NetworkUtils.getAbsoluteURL(baseUrl, chapterUrl));
         Debug.printLog(tag, 1, "┌解析正文内容");
-        webContentBean.content = StringUtils.formatHtml(analyzer.getString(ruleBookContent));
+        if (ruleBookContent.equals("all") || ruleBookContent.contains("@all")) {
+            webContentBean.content = analyzer.getString(ruleBookContent);
+        }
+        else {
+            webContentBean.content = StringUtils.formatHtml(analyzer.getString(ruleBookContent));
+        }
         Debug.printLog(tag, 1, "└" + webContentBean.content);
         String nextUrlRule = bookSourceBean.getRuleContentUrlNext();
         if (!TextUtils.isEmpty(nextUrlRule)) {

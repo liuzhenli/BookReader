@@ -6,6 +6,7 @@ import com.liuzhenli.reader.module.AppModule;
 import com.liuzhenli.reader.ui.activity.BookCatalogActivity;
 import com.liuzhenli.reader.ui.activity.BookDetailActivity;
 import com.liuzhenli.reader.ui.activity.BookSourceActivity;
+import com.liuzhenli.reader.ui.activity.EditSourceActivity;
 import com.liuzhenli.reader.ui.activity.ImportLocalBookActivity;
 import com.liuzhenli.reader.ui.activity.LoginActivity;
 import com.liuzhenli.reader.ui.activity.ReaderActivity;
@@ -53,4 +54,6 @@ public interface AppComponent {
     void inject(SearchActivity searchActivity);
 
     void inject(BookSourceActivity bookSourceActivity);
+
+    void inject(EditSourceActivity editSourceActivity);
 }

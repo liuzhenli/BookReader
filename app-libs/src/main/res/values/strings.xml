@@ -299,7 +299,7 @@
     <string name="status_bar_immersion">状态栏颜色透明</string>
     <string name="navigation_bar_color_change">导航栏变色</string>
     <string name="navigation_bar_color_change_s">导航栏根据夜间模式变化</string>
-    <string name="add_to_shelf">放入书架</string>
+    <string name="add_to_shelf">加入书架</string>
     <string name="continue_read">继续阅读</string>
     <string name="cover_path">封面地址</string>
     <string name="page_mode_COVER">覆盖</string>
@@ -322,6 +322,7 @@
     <string name="book_source_login_url">登录URL(loginUrl)</string>
     <string name="rule_book_author">作者规则(ruleBookAuthor)</string>
     <string name="rule_book_content">正文规则(ruleBookContent)</string>
+    <string name="rule_book_content_replace">正文替换规则(ruleBookContentReplace)</string>
     <string name="rule_book_name">书名规则(ruleBookName)</string>
     <string name="rule_chapter_list">目录列表规则(ruleChapterList)</string>
     <string name="rule_chapter_name">章节名称规则(ruleChapterName)</string>

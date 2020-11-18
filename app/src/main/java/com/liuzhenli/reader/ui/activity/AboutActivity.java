@@ -2,8 +2,12 @@ package com.liuzhenli.reader.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.widget.TextView;
 
+import androidx.core.text.StringKt;
+
+import com.liuzhenli.common.BitIntentDataManager;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.reader.ReaderApplication;
 import com.liuzhenli.reader.base.BaseActivity;
@@ -27,6 +31,8 @@ public class AboutActivity extends BaseActivity {
     TextView tvVersionCheckUpdate;
     @BindView(R.id.tv_about_contact)
     TextView tvAboutContact;
+    @BindView(R.id.tv_disclaimer)
+    TextView tvDisclaimer;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, AboutActivity.class);
@@ -66,7 +72,24 @@ public class AboutActivity extends BaseActivity {
 
         ClickUtils.click(tvAboutContact, o -> {
             //发送邮件
+            openIntent(Intent.ACTION_SENDTO, "mailto:hpuzhenli@163.com");
         });
+        ClickUtils.click(tvDisclaimer, o -> {
+            //免责声明
+            String key = System.currentTimeMillis() + "";
+            BitIntentDataManager.getInstance().putData(key, mContext.getResources().getString(R.string.disclaimer_content));
+            ContentActivity.start(mContext, key, "免责声明");
+        });
+    }
+
+    void openIntent(String intentName, String address) {
+        try {
+            Intent intent = new Intent(intentName);
+            intent.setData(Uri.parse(address));
+            startActivity(intent);
+        } catch (Exception e) {
+            toast(getResources().getString(R.string.can_not_open));
+        }
     }
 
 }
