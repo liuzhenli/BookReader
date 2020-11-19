@@ -22,8 +22,12 @@ public class BookSourceContract {
     }
 
     public interface Presenter<T> extends BaseContract.BasePresenter<T> {
-        /***get bookSource data from database*/
-        void getLocalBookSource();
+        /**
+         * get bookSource data from database
+         *
+         * @param groupKey the searchKey
+         */
+        void getLocalBookSource(String groupKey);
 
         /**
          * set book source enable or disable

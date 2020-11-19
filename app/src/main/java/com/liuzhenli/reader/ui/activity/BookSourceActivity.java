@@ -3,7 +3,11 @@ package com.liuzhenli.reader.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -39,6 +43,8 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
 
     @BindView(R.id.view_dropdown_menu)
     DropDownMenu mDropdownMenu;
+    @BindView(R.id.et_book_source)
+    EditText mEtSearchKey;
     /***书源排序方式*/
     private int mSortType;
 
@@ -110,9 +116,7 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
                 }
                 //已选
             } else if (index == 1) {
-                List<BookSourceBean> selectedBookSource = BookSourceManager.getSelectedBookSource();
-                mAdapter.clear();
-                mAdapter.addAll(selectedBookSource);
+                mEtSearchKey.setText("enable");
                 //反选
             } else if (index == 2) {
                 for (int i = 0; i < mAdapter.getRealAllData().size(); i++) {
@@ -124,6 +128,10 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
             mDropdownMenu.close();
         }
 
+        /**
+         * 排序
+         * @param index index item index
+         */
         @Override
         public void onSortChange(int index) {
             BookSourceAdapter adapter = (BookSourceAdapter) mAdapter;
@@ -141,16 +149,18 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
             mAdapter.addAll(BookSourceManager.getAllBookSource());
         }
 
+        /**
+         * choose book source by group
+         * @param index     index the item index
+         * @param groupName the item name in the index
+         */
         @Override
         public void onGroupChange(int index, String groupName) {
-            List<BookSourceBean> enableSourceByGroup;
             if (index == 0) {
-                enableSourceByGroup = BookSourceManager.getAllBookSource();
+                mEtSearchKey.setText("");
             } else {
-                enableSourceByGroup = BookSourceManager.getEnableSourceByGroup(groupName);
+                mEtSearchKey.setText(groupName);
             }
-            mAdapter.clear();
-            mAdapter.addAll(enableSourceByGroup);
             mDropdownMenu.close();
         }
     };
@@ -158,11 +168,27 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
     @Override
     protected void configViews() {
         initAdapter(BookSourceAdapter.class, false, false);
-        mPresenter.getLocalBookSource();
+        mPresenter.getLocalBookSource("");
         mFilterMenuAdapter = new BookSourceFilterMenuAdapter(mContext);
         updateSortMenu();
         mDropdownMenu.setMenuAdapter(mFilterMenuAdapter);
         mFilterMenuAdapter.setMenuItemClickListener(filterMenuClickListener);
+        mEtSearchKey.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mPresenter.getLocalBookSource(s.toString());
+            }
+        });
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.liuzhenli.reader.ui.activity;
 
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -128,6 +127,7 @@ public class EditSourceActivity extends BaseRvActivity<EditSourcePresenter, Edit
                 }
             }
         });
+        mCbSourceEnable.setChecked(mBookSource.getEnable());
     }
 
     @Override

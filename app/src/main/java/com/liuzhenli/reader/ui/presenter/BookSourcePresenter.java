@@ -1,5 +1,7 @@
 package com.liuzhenli.reader.ui.presenter;
 
+import android.text.TextUtils;
+
 import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.reader.base.RxPresenter;
 import com.liuzhenli.reader.observer.SampleProgressObserver;
@@ -28,11 +30,18 @@ public class BookSourcePresenter extends RxPresenter<BookSourceContract.View> im
     }
 
     @Override
-    public void getLocalBookSource() {
+    public void getLocalBookSource(String key) {
 
         DisposableObserver subscribe = RxUtil.subscribe(Observable.create(emitter -> {
             //获取全部书源
-            emitter.onNext(BookSourceManager.getAllBookSource());
+            if (TextUtils.isEmpty(key)) {
+                emitter.onNext(BookSourceManager.getAllBookSource());
+            } else if (TextUtils.equals("enable", key)) {
+                emitter.onNext(BookSourceManager.getSelectedBookSource());
+            } else {
+                emitter.onNext(BookSourceManager.getSourceByKey(key));
+            }
+
         }), new SampleProgressObserver<List<BookSourceBean>>() {
             @Override
             public void onNext(List<BookSourceBean> list) {

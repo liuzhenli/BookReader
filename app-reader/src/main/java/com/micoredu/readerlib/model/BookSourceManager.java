@@ -65,7 +65,7 @@ public class BookSourceManager {
     }
 
     /***
-     *根据分组选择可用书源
+     *  根据分组选择可用书源
      * @param group 分组名字
      */
     public static List<BookSourceBean> getEnableSourceByGroup(String group) {
@@ -76,9 +76,28 @@ public class BookSourceManager {
                 .list();
     }
 
+    /**
+     * 搜索本地书源
+     *
+     * @param keyword 关键字
+     * @return 相关书源
+     */
+    public static List<BookSourceBean> getSourceByKey(String keyword) {
+        String term = "%" + keyword + "%";
+        return DbHelper.getDaoSession().getBookSourceBeanDao().queryBuilder()
+                .whereOr(BookSourceBeanDao.Properties.BookSourceName.like(term),
+                        BookSourceBeanDao.Properties.BookSourceGroup.like(term),
+                        BookSourceBeanDao.Properties.BookSourceUrl.like(term))
+                .orderRaw(BookSourceManager.getBookSourceSort())
+                .orderAsc(BookSourceBeanDao.Properties.SerialNumber)
+                .list();
+    }
+
     @Nullable
     public static BookSourceBean getBookSourceByUrl(String url) {
-        if (url == null) return null;
+        if (url == null) {
+            return null;
+        }
         return DbHelper.getDaoSession().getBookSourceBeanDao().load(url);
     }
 
