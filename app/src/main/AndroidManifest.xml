@@ -64,6 +64,7 @@
         <activity android:name="com.liuzhenli.reader.ui.activity.SearchActivity" />
         <activity android:name="com.liuzhenli.reader.ui.activity.EditSourceActivity" />
         <activity android:name="com.liuzhenli.reader.ui.activity.ContentActivity" />
+        <activity android:name="com.liuzhenli.reader.ui.activity.TestSourceActivity" />
 
         <meta-data
             android:name="UMENG_APPKEY"

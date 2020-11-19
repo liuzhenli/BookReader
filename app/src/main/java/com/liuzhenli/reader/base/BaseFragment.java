@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentActivity;
 
+import com.hwangjr.rxbus.RxBus;
 import com.liuzhenli.reader.ReaderApplication;
 import com.liuzhenli.reader.network.AppComponent;
 import com.liuzhenli.reader.base.rxlife.RxFragment;
@@ -61,8 +62,8 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-
         initVariable();
+        RxBus.get().register(this);
         super.onCreate(savedInstanceState);
     }
 
@@ -255,10 +256,10 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
     }
 
 
-
     @Override
     public void onDestroy() {
         super.onDestroy();
+        RxBus.get().unregister(this);
         if (mPresenter != null) {
             mPresenter.detachView();
         }

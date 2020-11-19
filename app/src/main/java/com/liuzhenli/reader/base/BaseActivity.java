@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
+import com.hwangjr.rxbus.RxBus;
 import com.liuzhenli.reader.ReaderApplication;
 import com.liuzhenli.reader.network.AppComponent;
 import com.liuzhenli.reader.base.rxlife.RxAppCompatActivity;
@@ -45,6 +46,7 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
+        RxBus.get().register(this);
         if (getIntent() != null) {
             startShareAnim = getIntent().getBooleanExtra(START_SHEAR_ELE, false);
         }
@@ -108,6 +110,7 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
     protected void onDestroy() {
         super.onDestroy();
         ImmersionBar.with(this).destroy();
+        RxBus.get().unregister(this);
         if (mPresenter != null) {
             mPresenter.detachView();
         }

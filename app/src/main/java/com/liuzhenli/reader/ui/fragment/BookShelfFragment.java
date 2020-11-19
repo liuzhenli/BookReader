@@ -41,7 +41,6 @@ public class BookShelfFragment extends BaseRVFragment<BookShelfPresenter, BookSh
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        RxBus.get().register(this);
     }
 
     @Override
@@ -67,7 +66,6 @@ public class BookShelfFragment extends BaseRVFragment<BookShelfPresenter, BookSh
     @Override
     public void onDestroy() {
         super.onDestroy();
-        RxBus.get().unregister(this);
     }
 
     @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusTag.REFRESH_BOOK_LIST)})

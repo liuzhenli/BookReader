@@ -27,6 +27,7 @@
         android:textColor="@color/text_color_66" />
 
     <TextView
+        android:background="@drawable/selector_card_bg"
         android:id="@+id/tv_version_check_update"
         android:layout_width="match_parent"
         android:layout_height="@dimen/all_item_height"
@@ -40,17 +41,17 @@
         android:id="@+id/tv_about_contact"
         android:layout_width="match_parent"
         android:layout_height="@dimen/all_item_height"
-        android:layout_marginTop="@dimen/common_margin_normal"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/common_margin_normal"
         android:text="联系开发者"
+        android:background="@drawable/selector_card_bg"
         android:textColor="@color/text_color_66" />
 
     <TextView
+        android:background="@drawable/selector_card_bg"
         android:id="@+id/tv_disclaimer"
         android:layout_width="match_parent"
         android:layout_height="@dimen/all_item_height"
-        android:layout_marginTop="@dimen/common_margin_normal"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/common_margin_normal"
         android:text="免责声明"
@@ -67,7 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/common_margin_normal"
         android:gravity="center"
-        android:text="Lovely Made by liuzhenli \n@2020-2020 All Rights Reserved"
+        android:text="Lovely Made by liuzhenli \n@2019-2020 All Rights Reserved"
         android:textColor="@color/text_color_99"
         android:textSize="@dimen/txt_size_10" />
 

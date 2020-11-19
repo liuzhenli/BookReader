@@ -85,15 +85,16 @@ public class EditSourceActivity extends BaseRvActivity<EditSourcePresenter, Edit
         mToolBar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.item_save_source:
-                    BookSourceBean bookSource = getBookSource(true);
-                    if (TextUtils.isEmpty(bookSource.getBookSourceName()) || TextUtils.isEmpty(bookSource.getBookSourceUrl())) {
-                        toast(getResources().getString(R.string.non_null_source_name_url));
+                    if (!canSaveBookSource()) {
                         break;
                     }
-                    mPresenter.saveBookSource(bookSource);
+                    mPresenter.saveBookSource(getBookSource(true));
                     break;
                 case R.id.item_test_source:
-
+                    if (!canSaveBookSource()) {
+                        break;
+                    }
+                    TestSourceActivity.start(mContext, getBookSource(true).getBookSourceUrl());
                     break;
                 case R.id.item_source_copy:
                     ClipboardUtil.copyToClipboard(getBookSourceStr(true));
@@ -132,6 +133,15 @@ public class EditSourceActivity extends BaseRvActivity<EditSourcePresenter, Edit
     @Override
     public void showError(Exception e) {
 
+    }
+
+
+    private boolean canSaveBookSource() {
+        if (TextUtils.isEmpty(getBookSource(true).getBookSourceName()) || TextUtils.isEmpty(getBookSource(true).getBookSourceUrl())) {
+            toast(getResources().getString(R.string.non_null_source_name_url));
+            return false;
+        }
+        return true;
     }
 
     @Override
