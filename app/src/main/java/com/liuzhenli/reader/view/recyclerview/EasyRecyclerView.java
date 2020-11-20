@@ -29,6 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * @author liuzhenli
+ */
 public class EasyRecyclerView extends FrameLayout {
     private Context mContext;
 
@@ -106,7 +109,6 @@ public class EasyRecyclerView extends FrameLayout {
     }
 
 
-
     private void initView() {
         if (isInEditMode()) {
             return;
@@ -130,17 +132,19 @@ public class EasyRecyclerView extends FrameLayout {
     public boolean dispatchTouchEvent(MotionEvent ev) {
         try {
             return mPtrLayout.dispatchTouchEvent(ev);
-        }catch (Exception e){
+        } catch (Exception e) {
             return true;
         }
 
     }
 
     /**
-     * @param left
-     * @param top
-     * @param right
-     * @param bottom
+     * set recycle view padding
+     *
+     * @param left   left padding
+     * @param top    top padding
+     * @param right  right padding
+     * @param bottom bottom padding
      */
     public void setRecyclerPadding(int left, int top, int right, int bottom) {
         this.mPaddingLeft = left;
@@ -150,6 +154,7 @@ public class EasyRecyclerView extends FrameLayout {
         mRecycler.setPadding(mPaddingLeft, mPaddingTop, mPaddingRight, mPaddingBottom);
     }
 
+    @Override
     public void setClipToPadding(boolean isClip) {
         mRecycler.setClipToPadding(isClip);
     }
@@ -495,7 +500,7 @@ public class EasyRecyclerView extends FrameLayout {
         mPtrLayout.setEnabled(true);
         mPtrLayout.setOnRefreshListener(listener);
         View errorView = getErrorView();
-        if (errorView!=null) {
+        if (errorView != null) {
             errorView.findViewById(R.id.tv_retry).setOnClickListener(v -> listener.onRefresh());
         }
         this.mRefreshListener = listener;

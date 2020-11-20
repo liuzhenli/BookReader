@@ -16,7 +16,7 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.StyleRes;
 
-import com.liuzhenli.reader.utils.filepicker.util.ScreenUtils;
+import com.liuzhenli.common.utils.ScreenUtils;
 
 
 /**
@@ -39,9 +39,8 @@ public abstract class BasicPopup<V extends View> implements DialogInterface.OnKe
 
     public BasicPopup(Activity activity) {
         this.activity = activity;
-        DisplayMetrics metrics = ScreenUtils.displayMetrics(activity);
-        screenWidthPixels = metrics.widthPixels;
-        screenHeightPixels = metrics.heightPixels;
+        screenWidthPixels = ScreenUtils.getScreenWidth(activity);
+        screenHeightPixels =ScreenUtils.getScreenHeight(activity);
         initDialog();
     }
 

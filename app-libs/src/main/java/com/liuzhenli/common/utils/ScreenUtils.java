@@ -63,16 +63,21 @@ public class ScreenUtils {
     /**
      * 获取整个手机屏幕的大小(包括虚拟按钮)
      * 必须在onWindowFocus方法之后使用
-     *
-     * @param activity
-     * @return
      */
-    public static int[] getScreenSize(AppCompatActivity activity) {
+    public static int[] getScreenSize(Activity activity) {
         int[] size = new int[2];
         View decorView = activity.getWindow().getDecorView();
         size[0] = decorView.getWidth();
         size[1] = decorView.getHeight();
         return size;
+    }
+
+    public static int getScreenHeight(Activity activity) {
+        return getScreenSize(activity)[1];
+    }
+
+    public static int getScreenWidth(Activity activity) {
+        return getScreenSize(activity)[0];
     }
 
     /**
@@ -238,7 +243,7 @@ public class ScreenUtils {
      * 设置Activity的亮度
      *
      * @param brightness 亮度值0-100
-     * @param activity activity
+     * @param activity   activity
      */
 
     public static void setScreenBrightness(Activity activity, int brightness) {

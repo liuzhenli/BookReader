@@ -2,7 +2,12 @@ package com.liuzhenli.reader.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.CheckBox;
 
 import com.google.gson.Gson;
@@ -10,6 +15,7 @@ import com.google.gson.GsonBuilder;
 import com.liuzhenli.common.constant.BookType;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.ClipboardUtil;
+import com.liuzhenli.common.utils.ScreenUtils;
 import com.liuzhenli.reader.base.BaseRvActivity;
 import com.liuzhenli.reader.bean.EditSource;
 import com.liuzhenli.reader.network.AppComponent;
@@ -17,11 +23,13 @@ import com.liuzhenli.reader.ui.adapter.EditSourceAdapter;
 import com.liuzhenli.reader.ui.contract.EditSourceContract;
 import com.liuzhenli.reader.ui.presenter.EditSourcePresenter;
 import com.liuzhenli.reader.utils.ToastUtil;
+import com.liuzhenli.reader.view.KeyboardTopView;
 import com.micoredu.readerlib.bean.BookSourceBean;
 import com.microedu.reader.R;
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -42,18 +50,26 @@ public class EditSourceActivity extends BaseRvActivity<EditSourcePresenter, Edit
     CheckBox cbIsAudio;
     @BindView(R.id.cb_source_edit_find)
     QMUIRoundButton mEditFind;
+    @BindView(R.id.ll_root)
+    ViewGroup mRootView;
     private List<EditSource> sourceEditList = new ArrayList<>();
     private List<EditSource> findEditList = new ArrayList<>();
 
     private boolean mIsEditFind;
     private BookSourceBean mBookSource;
     private int serialNumber;
+    private KeyboardTopView keyboardTopView;
+
+    private boolean mIsSoftKeyBoardShowing;
 
     public static void start(Context context, BookSourceBean data) {
         Intent intent = new Intent(context, EditSourceActivity.class);
         intent.putExtra(BOOK_SOURCE, data);
         context.startActivity(intent);
     }
+
+    private String[] helpWords = {"@", "&", "|", "%", "/", ":", "[", "]", "(", ")", "{", "}", "<", ">", "\\", "$", "#", "!", ".",
+            "href", "src", "textNodes", "xpath", "json", "css", "id", "class", "tag"};
 
     @Override
     protected int getLayoutId() {
@@ -128,6 +144,43 @@ public class EditSourceActivity extends BaseRvActivity<EditSourcePresenter, Edit
             }
         });
         mCbSourceEnable.setChecked(mBookSource.getEnable());
+
+        keyboardTopView = new KeyboardTopView(mContext, Arrays.asList(helpWords), new KeyboardTopView.CallBack() {
+            @Override
+            public void onItemClick(String key) {
+
+            }
+        });
+
+        getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalChange());
+    }
+
+
+    class OnGlobalChange implements ViewTreeObserver.OnGlobalLayoutListener {
+        @Override
+        public void onGlobalLayout() {
+            Rect rect = new Rect();
+            getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
+            int screenHeight = ScreenUtils.getScreenHeight(EditSourceActivity.this);
+            int keyBordHeight = screenHeight - rect.bottom;
+            if (keyBordHeight > screenHeight / 5) {
+                mIsSoftKeyBoardShowing = true;
+                mRecyclerView.setPadding(0, 0, 0, 100);
+                showKeyboardTopPopupWindow();
+            } else {
+                mIsSoftKeyBoardShowing = false;
+                mRecyclerView.setPadding(0, 0, 0, 0);
+                closePopupWindow();
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (keyboardTopView.isShowing()) {
+            keyboardTopView.dismiss();
+        }
     }
 
     @Override
@@ -210,7 +263,7 @@ public class EditSourceActivity extends BaseRvActivity<EditSourcePresenter, Edit
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
+        closePopupWindow();
     }
 
     private BookSourceBean getBookSource(boolean hasFind) {
@@ -366,5 +419,23 @@ public class EditSourceActivity extends BaseRvActivity<EditSourcePresenter, Edit
                 .setPrettyPrinting()
                 .create();
         return gson.toJson(getBookSource(hasFind));
+    }
+
+    private void showKeyboardTopPopupWindow() {
+        if (isFinishing()) {
+            return;
+        }
+        if (keyboardTopView != null && keyboardTopView.isShowing()) {
+            return;
+        }
+        if (keyboardTopView != null & !this.isFinishing()) {
+            keyboardTopView.showAtLocation(mRootView, Gravity.BOTTOM, 0, 0);
+        }
+    }
+
+    private void closePopupWindow() {
+        if (keyboardTopView != null && keyboardTopView.isShowing()) {
+            keyboardTopView.dismiss();
+        }
     }
 }

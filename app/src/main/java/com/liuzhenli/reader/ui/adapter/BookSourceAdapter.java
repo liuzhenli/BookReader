@@ -82,10 +82,10 @@ public class BookSourceAdapter extends RecyclerArrayAdapter<BookSourceBean> {
             viewShowRecommend.setChecked(item.getRuleFindEnable());
 
             //手动排序显示置顶
-            if (mSortType != AppConfigManager.SortType.SORT_TYPE_AUTO) {
-                viewSetTop.setVisibility(View.VISIBLE);
-            } else {
+            if (mSortType != AppConfigManager.SortType.SORT_TYPE_HAND) {
                 viewSetTop.setVisibility(View.GONE);
+            } else {
+                viewSetTop.setVisibility(View.VISIBLE);
             }
 
             cbBookSourceCheck.setChecked(item.getEnable());

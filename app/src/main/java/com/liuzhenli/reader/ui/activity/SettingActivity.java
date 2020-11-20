@@ -46,7 +46,7 @@ public class SettingActivity extends BaseActivity {
 
     @Override
     protected void initToolBar() {
-
+        mTvTitle.setText(R.string.setting);
     }
 
     @Override

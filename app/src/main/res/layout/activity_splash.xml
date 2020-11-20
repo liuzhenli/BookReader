@@ -55,7 +55,7 @@
         android:id="@+id/tv_saying_author"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/common_margin_large"
+        android:layout_marginBottom="56dp"
         android:gravity="center"
         android:paddingLeft="@dimen/common_margin_large"
         android:text="--苏轼"

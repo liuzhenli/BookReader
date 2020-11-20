@@ -2,7 +2,9 @@ package com.liuzhenli.reader.ui.adapter;
 
 import android.content.Context;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.TextureView;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -46,7 +48,12 @@ public class EditSourceAdapter extends RecyclerArrayAdapter<EditSource> {
         public void setData(EditSource item) {
             super.setData(item);
             mTv.setText(mContext.getResources().getString(item.getHint()));
-            mEditContent.setText(item.getValue());
+            if (TextUtils.isEmpty(item.getValue())) {
+                mEditContent.setText("");
+            } else {
+                mEditContent.setText(item.getValue());
+            }
+
             mEditContent.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -60,7 +67,7 @@ public class EditSourceAdapter extends RecyclerArrayAdapter<EditSource> {
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    item.setValue(s.toString());
+                    getRealAllData().get(getPosition()).setValue(s.toString());
                 }
             });
         }

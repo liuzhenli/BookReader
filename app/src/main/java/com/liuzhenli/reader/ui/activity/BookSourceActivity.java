@@ -144,9 +144,8 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
             }
             adapter.setSortType(mSortType);
             AppConfigManager.setBookSourceSortType(mSortType);
+            mPresenter.getLocalBookSource("");
             mDropdownMenu.close();
-            mAdapter.clear();
-            mAdapter.addAll(BookSourceManager.getAllBookSource());
         }
 
         /**

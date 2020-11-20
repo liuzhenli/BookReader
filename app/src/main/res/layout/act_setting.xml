@@ -10,8 +10,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/view_setting_clear_cache"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/all_item_height"
-        android:background="@drawable/selector_card_bg">
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_card_bg"
+        android:padding="@dimen/common_margin_normal">
 
         <TextView
             android:id="@+id/tv_setting_clear_cache_title"
