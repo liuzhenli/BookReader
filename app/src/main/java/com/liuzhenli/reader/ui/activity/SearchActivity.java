@@ -117,7 +117,7 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
     protected void configViews() {
         mEditBg.setRadius(DensityUtil.dip2px(mContext, 6));
         initAdapter(BookListAdapter.class, false, false);
-        mViewBack.setOnClickListener(v -> finish());
+        mViewBack.setOnClickListener(v -> onBackPressed());
         mPresenter.getSearchHistory();
         btnGeneralSearchClear.setVisibility(View.GONE);
 
@@ -265,12 +265,6 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
     public void onBackPressed() {
         mPresenter.stopSearch();
         super.onBackPressed();
-    }
-
-    @Override
-    public void finish() {
-        mPresenter.stopSearch();
-        super.finish();
     }
 
 

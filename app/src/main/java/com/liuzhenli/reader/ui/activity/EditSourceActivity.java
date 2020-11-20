@@ -3,12 +3,14 @@ package com.liuzhenli.reader.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.text.Editable;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.CheckBox;
+import android.widget.EditText;
+
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -29,11 +31,12 @@ import com.microedu.reader.R;
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.functions.Consumer;
+
+import static android.text.TextUtils.isEmpty;
 
 /**
  * Description:
@@ -52,14 +55,15 @@ public class EditSourceActivity extends BaseRvActivity<EditSourcePresenter, Edit
     QMUIRoundButton mEditFind;
     @BindView(R.id.ll_root)
     ViewGroup mRootView;
+    /***标点符号*/
+    @BindView(R.id.keyboard_top_view)
+    KeyboardTopView mRvPunctuation;
     private List<EditSource> sourceEditList = new ArrayList<>();
     private List<EditSource> findEditList = new ArrayList<>();
 
     private boolean mIsEditFind;
     private BookSourceBean mBookSource;
     private int serialNumber;
-    private KeyboardTopView keyboardTopView;
-
     private boolean mIsSoftKeyBoardShowing;
 
     public static void start(Context context, BookSourceBean data) {
@@ -67,9 +71,6 @@ public class EditSourceActivity extends BaseRvActivity<EditSourcePresenter, Edit
         intent.putExtra(BOOK_SOURCE, data);
         context.startActivity(intent);
     }
-
-    private String[] helpWords = {"@", "&", "|", "%", "/", ":", "[", "]", "(", ")", "{", "}", "<", ">", "\\", "$", "#", "!", ".",
-            "href", "src", "textNodes", "xpath", "json", "css", "id", "class", "tag"};
 
     @Override
     protected int getLayoutId() {
@@ -145,14 +146,27 @@ public class EditSourceActivity extends BaseRvActivity<EditSourcePresenter, Edit
         });
         mCbSourceEnable.setChecked(mBookSource.getEnable());
 
-        keyboardTopView = new KeyboardTopView(mContext, Arrays.asList(helpWords), new KeyboardTopView.CallBack() {
-            @Override
-            public void onItemClick(String key) {
-
+        mRvPunctuation.setData(key -> {
+            if (isEmpty(key)) {
+                return;
+            }
+            View view = getWindow().getDecorView().findFocus();
+            if (view instanceof EditText) {
+                EditText editText = (EditText) view;
+                int start = editText.getSelectionStart();
+                int end = editText.getSelectionEnd();
+                Editable edit = editText.getEditableText();
+                if (start < 0 || start >= edit.length()) {
+                    edit.append(key);
+                } else {
+                    //光标所在位置插入文字
+                    edit.replace(start, end, key);
+                }
             }
         });
 
         getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalChange());
+
     }
 
 
@@ -165,11 +179,9 @@ public class EditSourceActivity extends BaseRvActivity<EditSourcePresenter, Edit
             int keyBordHeight = screenHeight - rect.bottom;
             if (keyBordHeight > screenHeight / 5) {
                 mIsSoftKeyBoardShowing = true;
-                mRecyclerView.setPadding(0, 0, 0, 100);
                 showKeyboardTopPopupWindow();
             } else {
                 mIsSoftKeyBoardShowing = false;
-                mRecyclerView.setPadding(0, 0, 0, 0);
                 closePopupWindow();
             }
         }
@@ -178,9 +190,7 @@ public class EditSourceActivity extends BaseRvActivity<EditSourcePresenter, Edit
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (keyboardTopView.isShowing()) {
-            keyboardTopView.dismiss();
-        }
+        closePopupWindow();
     }
 
     @Override
@@ -425,17 +435,17 @@ public class EditSourceActivity extends BaseRvActivity<EditSourcePresenter, Edit
         if (isFinishing()) {
             return;
         }
-        if (keyboardTopView != null && keyboardTopView.isShowing()) {
+        if (mRvPunctuation != null && mRvPunctuation.getVisibility() == View.VISIBLE) {
             return;
         }
-        if (keyboardTopView != null & !this.isFinishing()) {
-            keyboardTopView.showAtLocation(mRootView, Gravity.BOTTOM, 0, 0);
+        if (mRvPunctuation != null & !this.isFinishing()) {
+            mRvPunctuation.setVisibility(View.VISIBLE);
         }
     }
 
     private void closePopupWindow() {
-        if (keyboardTopView != null && keyboardTopView.isShowing()) {
-            keyboardTopView.dismiss();
+        if (mRvPunctuation != null && mRvPunctuation.getVisibility() == View.VISIBLE) {
+            mRvPunctuation.setVisibility(View.GONE);
         }
     }
 }

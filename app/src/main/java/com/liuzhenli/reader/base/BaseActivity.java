@@ -15,6 +15,7 @@ import com.hwangjr.rxbus.RxBus;
 import com.liuzhenli.reader.ReaderApplication;
 import com.liuzhenli.reader.network.AppComponent;
 import com.liuzhenli.reader.base.rxlife.RxAppCompatActivity;
+import com.liuzhenli.reader.utils.SoftInputUtils;
 import com.liuzhenli.reader.utils.ToastUtil;
 import com.micoredu.readerlib.utils.bar.ImmersionBar;
 import com.microedu.reader.R;
@@ -130,6 +131,7 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        SoftInputUtils.hideSoftInput(mContext, getWindow().getCurrentFocus());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (startShareAnim) {
                 finishAfterTransition();
@@ -139,9 +141,10 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
         } else {
             overridePendingTransition(0, android.R.anim.fade_out);
         }
+
     }
 
-    protected void toast(String mst){
-        ToastUtil.showToast(mContext,mst);
+    protected void toast(String mst) {
+        ToastUtil.showToast(mContext, mst);
     }
 }

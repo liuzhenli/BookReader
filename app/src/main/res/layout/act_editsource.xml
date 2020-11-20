@@ -4,6 +4,7 @@
     android:id="@+id/ll_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <include layout="@layout/layout_common_toolbar" />
@@ -46,5 +47,12 @@
     <include
         layout="@layout/layout_easy_recyclerview"
         android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <com.liuzhenli.reader.view.KeyboardTopView
+        android:id="@+id/keyboard_top_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
 </LinearLayout>

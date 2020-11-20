@@ -44,7 +44,7 @@ public class RecommendPresenter extends RxPresenter<RecommendContract.View> impl
         String id = "2824-2823-2822-2821-2820-2819-2818-2817-2816-2815-2784-2545-2355-2814-2813-2812-2811-2810-2809-2808-2807-2806-2805-2804-2801-2803-2802-2793-2800-2799-2798-2538-2797-2296-2796-2795-2794-2792-2791-2790-2789-2788-2787-2786-2785-2783-2782-2781-2780-2779";
 
 
-        DisposableObserver subscribe = RxUtil.subscribe(mApi.getBookSource(id), new SampleProgressObserver<ResponseBody>(mView) {
+        DisposableObserver subscribe = RxUtil.subscribe(mApi.getBookSource(id), new SampleProgressObserver<ResponseBody>() {
             @Override
             public void onNext(ResponseBody data) {
                 configNetBookSource(data);
