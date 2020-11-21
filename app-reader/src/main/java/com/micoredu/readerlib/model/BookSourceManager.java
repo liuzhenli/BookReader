@@ -58,6 +58,13 @@ public class BookSourceManager {
                 .list();
     }
 
+    public static List<BookSourceBean> getRuleFindEnable() {
+        return DbHelper.getDaoSession().getBookSourceBeanDao().queryBuilder()
+                .where(BookSourceBeanDao.Properties.RuleFindEnable.eq(true))
+                .orderAsc(BookSourceBeanDao.Properties.SerialNumber)
+                .list();
+    }
+
     public static List<BookSourceBean> getAllBookSourceBySerialNumber() {
         return DbHelper.getDaoSession().getBookSourceBeanDao().queryBuilder()
                 .orderAsc(BookSourceBeanDao.Properties.SerialNumber)

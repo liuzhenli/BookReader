@@ -2,20 +2,29 @@ package com.liuzhenli.reader.ui.presenter;
 
 import android.text.TextUtils;
 
+import com.liuzhenli.common.utils.GsonUtils;
 import com.liuzhenli.common.utils.RxUtil;
+import com.liuzhenli.common.utils.StringUtils;
 import com.liuzhenli.reader.base.RxPresenter;
+import com.liuzhenli.reader.network.Api;
 import com.liuzhenli.reader.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.contract.BookSourceContract;
+import com.liuzhenli.reader.utils.ApiManager;
 import com.liuzhenli.reader.utils.ThreadUtils;
 import com.micoredu.readerlib.bean.BookSourceBean;
 import com.micoredu.readerlib.model.BookSourceManager;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.observers.DisposableObserver;
+import okhttp3.ResponseBody;
 
 
 /**
@@ -25,8 +34,11 @@ import io.reactivex.observers.DisposableObserver;
  * Email: 848808263@qq.com
  */
 public class BookSourcePresenter extends RxPresenter<BookSourceContract.View> implements BookSourceContract.Presenter<BookSourceContract.View> {
+    private Api mApi;
+
     @Inject
-    public BookSourcePresenter() {
+    public BookSourcePresenter(Api api) {
+        this.mApi = api;
     }
 
     @Override
@@ -70,6 +82,18 @@ public class BookSourcePresenter extends RxPresenter<BookSourceContract.View> im
         }));
     }
 
+    @Override
+    public void getNetSource(String url) {
+        ApiManager.getInstance().settBookSource(url);
+        DisposableObserver subscribe = RxUtil.subscribe(mApi.getBookSource(""), new SampleProgressObserver<ResponseBody>(mView) {
+            @Override
+            public void onNext(ResponseBody data) {
+                configNetBookSource(data);
+            }
+        });
+        addSubscribe(subscribe);
+    }
+
     public void saveData(List<BookSourceBean> data) {
         ThreadUtils.getInstance().getExecutorService().execute(() -> BookSourceManager.saveBookSource(data));
     }
@@ -80,5 +104,35 @@ public class BookSourcePresenter extends RxPresenter<BookSourceContract.View> im
 
     public void delData(BookSourceBean data) {
         ThreadUtils.getInstance().getExecutorService().execute(() -> BookSourceManager.deleteBookSource(data));
+    }
+
+    private void configNetBookSource(ResponseBody data) {
+        Observable<List<BookSourceBean>> listObservable = Observable.create(new ObservableOnSubscribe<List<BookSourceBean>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<BookSourceBean>> emitter) throws Exception {
+                List<BookSourceBean> bookSourceList = new ArrayList<>();
+                byte[] bytes = new byte[0];
+                try {
+                    bytes = data.bytes();
+                    String s = new String(bytes);
+                    if (StringUtils.isJsonArray(s)) {
+                        bookSourceList = GsonUtils.parseJArray(s, BookSourceBean.class);
+                    }
+                    //存入数据库
+                    BookSourceManager.addBookSource(bookSourceList);
+                    //有发现项的书源
+                    emitter.onNext(bookSourceList);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        DisposableObserver subscribe = RxUtil.subscribe(listObservable, new SampleProgressObserver<List<BookSourceBean>>() {
+            @Override
+            public void onNext(List<BookSourceBean> bookSourceList) {
+                mView.showAddNetSourceResult(bookSourceList);
+            }
+        });
+        addSubscribe(subscribe);
     }
 }

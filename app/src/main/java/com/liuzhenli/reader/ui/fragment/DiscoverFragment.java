@@ -68,6 +68,7 @@ public class DiscoverFragment extends BaseRVFragment<DiscoverPresenter, BookSour
 
     @Override
     public void showSource(List<BookSourceBean> bookSourceData) {
+        mRecyclerView.setRefreshing(false);
         mAdapter.clear();
         mAdapter.addAll(bookSourceData);
     }

@@ -4,7 +4,6 @@ package com.liuzhenli.reader.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -19,6 +18,7 @@ import com.liuzhenli.reader.ui.contract.BookSourceContract;
 import com.liuzhenli.reader.ui.presenter.BookSourcePresenter;
 import com.liuzhenli.common.utils.AppConfigManager;
 import com.liuzhenli.reader.view.filter.DropDownMenu;
+import com.liuzhenli.reader.view.loading.DialogUtil;
 import com.micoredu.readerlib.bean.BookSourceBean;
 import com.micoredu.readerlib.model.BookSourceManager;
 import com.microedu.reader.R;
@@ -66,36 +66,40 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
     @Override
     protected void initToolBar() {
         mToolBar.inflateMenu(R.menu.menu_book_source);
-        mToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.action_add_book_source:
-                        EditSourceActivity.start(mContext, null);
-                        break;
-                    case R.id.action_import_book_source_local:
-                        SearchActivity.start(mContext);
-                        break;
-                    case R.id.action_import_book_source_online:
-                        SearchActivity.start(mContext);
-                        break;
-                    case R.id.action_import_book_source_rwm:
-                        SearchActivity.start(mContext);
-                        break;
-                    case R.id.action_del_select:
-                        SearchActivity.start(mContext);
-                        break;
-                    case R.id.action_check_book_source:
-                        SearchActivity.start(mContext);
-                        break;
-                    case R.id.action_share_wifi:
-                        SearchActivity.start(mContext);
-                        break;
-                    default:
-                        break;
-                }
-                return false;
+        mToolBar.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.action_add_book_source:
+                    EditSourceActivity.start(mContext, null);
+                    break;
+                case R.id.action_import_book_source_local:
+                    SearchActivity.start(mContext);
+                    break;
+                case R.id.action_import_book_source_online:
+
+                    DialogUtil.showEditTextDialog(mContext, "网络导入", "请输入网址://", "请输入地址", new DialogUtil.DialogActionListener() {
+                        @Override
+                        public void onClick(String s) {
+                            showDialog();
+                            mPresenter.getNetSource(s);
+                        }
+                    });
+                    break;
+                case R.id.action_import_book_source_rwm:
+                    SearchActivity.start(mContext);
+                    break;
+                case R.id.action_del_select:
+                    SearchActivity.start(mContext);
+                    break;
+                case R.id.action_check_book_source:
+                    SearchActivity.start(mContext);
+                    break;
+                case R.id.action_share_wifi:
+                    SearchActivity.start(mContext);
+                    break;
+                default:
+                    break;
             }
+            return false;
         });
     }
 
@@ -193,6 +197,17 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
     public void showLocalBookSource(List<BookSourceBean> list) {
         mAdapter.clear();
         mAdapter.addAll(list);
+        hideDialog();
+    }
+
+    @Override
+    public void showAddNetSourceResult(List<BookSourceBean> list) {
+        if (list != null && list.size() > 0) {
+            showDialog();
+            mPresenter.getLocalBookSource("");
+            toast(String.format("成功导入%s个书源", list.size()));
+        }
+
     }
 
     @Override

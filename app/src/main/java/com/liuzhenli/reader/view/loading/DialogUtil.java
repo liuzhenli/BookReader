@@ -2,9 +2,13 @@ package com.liuzhenli.reader.view.loading;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.text.InputType;
+import android.widget.Toast;
 
 import com.liuzhenli.reader.utils.PermissionUtil;
+import com.liuzhenli.reader.utils.ToastUtil;
 import com.microedu.reader.R;
+import com.qmuiteam.qmui.skin.QMUISkinManager;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 
@@ -87,5 +91,27 @@ public class DialogUtil {
                     dialog.dismiss();
                 })
                 .create(mCurrentDialogStyle).show();
+    }
+
+    public static void showEditTextDialog(Context context, String title, String placeHolder, String toast, DialogActionListener actionListener) {
+        final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(context);
+        builder.setTitle(title)
+                .setSkinManager(QMUISkinManager.defaultInstance(context))
+                .setPlaceholder(placeHolder)
+                .setInputType(InputType.TYPE_CLASS_TEXT)
+                .addAction("取消", (dialog, index) -> dialog.dismiss())
+                .addAction("确定", (dialog, index) -> {
+                    CharSequence text = builder.getEditText().getText();
+                    if (text != null && text.length() > 0) {
+                        actionListener.onClick(text.toString());
+                        dialog.dismiss();
+                    } else {
+                        ToastUtil.showToast(toast);
+                    }
+                }).create(mCurrentDialogStyle).show();
+    }
+
+    public interface DialogActionListener {
+        void onClick(String s);
     }
 }

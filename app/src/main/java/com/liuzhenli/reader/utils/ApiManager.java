@@ -33,6 +33,10 @@ public class ApiManager {
         return bookSource;
     }
 
+    public void settBookSource(String bookSourceUrl) {
+        this.bookSource = bookSourceUrl;
+    }
+
     /**
      * 根据接口名字获取接口
      *
