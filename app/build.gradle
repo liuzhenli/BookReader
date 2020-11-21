@@ -63,21 +63,17 @@ android {
     flavorDimensions "app", "ndkfilter"
     productFlavors {
         def apphead = "hello"
-        "doudou" {
+        "app" {
             manifestPlaceholders = [
-                    UMENG_KEY   : "4e901b51527015426f000004",
-                    CHANNEL_NAME: "${apphead}Test",
-                    CHNL        : "999999"
+                    UMENG_KEY   : "5fb8761f690bda19c786950a",
             ]
-//            versionName "6.5.0"
-//            applicationId "${appname}"
             ndk {
                 abiFilters "armeabi", "x86_64", "armeabi-v7a"
             }
             dimension "app"
         }
-        "other" {
-            manifestPlaceholders = [CHANNEL_NAME: "${apphead}Test",
+        "reader" {
+            manifestPlaceholders = [CHANNEL_NAME: "${apphead}Reader",
                                     CHNL        : "999999",
             ]
             dimension "ndkfilter"

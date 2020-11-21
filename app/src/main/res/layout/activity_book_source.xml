@@ -22,7 +22,7 @@
             android:layout_width="240dp"
             android:layout_height="35dp"
             android:layout_gravity="center"
-            android:background="@color/white"
+            android:background="@drawable/bg_white_radius"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:gravity="center_vertical"

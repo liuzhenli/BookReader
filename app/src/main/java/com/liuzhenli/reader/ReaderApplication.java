@@ -17,6 +17,8 @@ import com.microedu.reader.BuildConfig;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 import com.tencent.mmkv.MMKV;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.commonsdk.UMConfigure;
 
 import java.util.concurrent.TimeUnit;
 
@@ -55,6 +57,20 @@ public class ReaderApplication extends BaseApplication {
             }
         });
         initMMKV();
+        initUmeng();
+    }
+
+    /**
+     * 注意: 即使您已经在AndroidManifest.xml中配置过appkey和channel值，也需要在App代码中调
+     * 用初始化接口（如需要使用AndroidManifest.xml中配置好的appkey和channel值，
+     * UMConfigure.init调用中appkey和channel参数请置为null）。
+     */
+    private void initUmeng() {
+        UMConfigure.setLogEnabled(BuildConfig.DEBUG);
+        UMConfigure.init(this, "5fb8761f690bda19c786950a", mVersionChannel, UMConfigure.DEVICE_TYPE_PHONE, "");
+        //选择AUTO页面采集模式，统计SDK基础指标无需手动埋点可自动采集。
+        //建议在宿主App的Application.onCreate函数中调用此函数。
+        MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
     }
 
     private void initMMKV() {

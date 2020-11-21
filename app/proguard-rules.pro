@@ -77,6 +77,14 @@
 -dontwarn okhttp3.internal.platform.ConscryptPlatform
 #---------okhttp------
 
+
+
+-keep public class com.microedu.reader.R$*{
+    public static final int *;
+}
+
+
+
 -keep class **_FragmentFinder { *; }
 -keep class com.qmuiteam.qmui.arch.record.** { *; }
 -keep class androidx.fragment.app.* { *; }
@@ -96,9 +104,6 @@
 -dontwarn okio.**
 -dontwarn org.apache.commons.codec.binary.**
 
-#umeng
--keep class com.umeng.** {*;}
-
 -keepclassmembers class * {
    public <init> (org.json.JSONObject);
 }
@@ -107,9 +112,6 @@
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
--keep public class cn.solist.level.R$*{
- public static final int *;
- }
 
  #所有native的方法不能去混淆.
  -keepclasseswithmembernames class * {
@@ -255,6 +257,22 @@
 # 指定混淆是采用的算法，后面的参数是一个过滤器
 # 这个过滤器是谷歌推荐的算法，一般不做更改
 -optimizations !code/simplification/cast,!field/*,!class/merging/*
+
+#umeng
+-keep class com.umeng.** {*;}
+-keep class com.uc.** {*;}
+-keepclassmembers class * {
+   public <init> (org.json.JSONObject);
+}
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+-keep class com.zui.** {*;}
+-keep class com.miui.** {*;}
+-keep class com.heytap.** {*;}
+-keep class a.** {*;}
+-keep class com.vivo.** {*;}
 
 
 -keep class com.umeng.scrshot.**

@@ -66,7 +66,6 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
     @Override
     protected void initToolBar() {
         mToolBar.inflateMenu(R.menu.menu_book_source);
-        mToolBar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_more));
         mToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {

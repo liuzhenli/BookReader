@@ -20,6 +20,7 @@ import com.liuzhenli.reader.network.AppComponent;
 import com.liuzhenli.reader.base.rxlife.RxFragment;
 import com.liuzhenli.reader.view.loading.CustomDialog;
 import com.microedu.reader.R;
+import com.umeng.analytics.MobclickAgent;
 
 import javax.inject.Inject;
 
@@ -205,8 +206,16 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
     @Override
     public void onResume() {
         super.onResume();
+        //统计页面("MainScreen"为页面名称，可自定义)
+        MobclickAgent.onPageStart(this.getClass().getName());
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        //统计页面("MainScreen"为页面名称，可自定义)
+        MobclickAgent.onPageEnd(this.getClass().getName());
+    }
 
     @Override
     public void onHiddenChanged(boolean hidden) {

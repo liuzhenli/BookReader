@@ -35,6 +35,7 @@ allprojects {
         maven {
             url 'https://github.com/psiegman/mvn-repo/raw/master/releases'
         }
+        maven { url 'https://dl.bintray.com/umsdk/release' }
     }
 }
 

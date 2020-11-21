@@ -68,6 +68,7 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
         if (mToolBar != null) {
             mTvTitle = findViewById(R.id.tv_toolbar_title);
             mToolBar.setNavigationOnClickListener(v -> onBackPressed());
+            mToolBar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_more));
             initToolBar();
         }
         if (mPresenter != null) {

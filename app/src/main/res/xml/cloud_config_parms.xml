@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>source</key>
+        <value>Here is some text</value>
+    </entry>
+    <entry>
+        <key>has_discount</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>main_color</key>
+        <value>red</value>
+    </entry>
+</defaultsMap>
