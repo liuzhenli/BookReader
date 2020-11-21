@@ -6,7 +6,7 @@ import com.liuzhenli.common.utils.StringUtils;
 import com.liuzhenli.reader.base.RxPresenter;
 import com.liuzhenli.reader.network.Api;
 import com.liuzhenli.reader.observer.SampleProgressObserver;
-import com.liuzhenli.reader.ui.contract.RecommendContract;
+import com.liuzhenli.reader.ui.contract.DiscoverContract;
 import com.micoredu.readerlib.bean.BookSourceBean;
 import com.micoredu.readerlib.model.BookSourceManager;
 
@@ -28,12 +28,12 @@ import okhttp3.ResponseBody;
  * @author liuzhenli 2020/9/12
  * Email: 848808263@qq.com
  */
-public class RecommendPresenter extends RxPresenter<RecommendContract.View> implements RecommendContract.Presenter<RecommendContract.View> {
+public class DiscoverPresenter extends RxPresenter<DiscoverContract.View> implements DiscoverContract.Presenter<DiscoverContract.View> {
 
     private Api mApi;
 
     @Inject
-    public RecommendPresenter(Api api) {
+    public DiscoverPresenter(Api api) {
         this.mApi = api;
     }
 

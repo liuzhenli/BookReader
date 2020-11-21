@@ -11,7 +11,7 @@ import java.util.List;
  * @author liuzhenli 2020/9/12
  * Email: 848808263@qq.com
  */
-public class RecommendContract {
+public class DiscoverContract {
     public interface View extends BaseContract.BaseView {
         void showSource(List<BookSourceBean> bookSourceList);
     }

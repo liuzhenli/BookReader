@@ -14,9 +14,9 @@ import com.liuzhenli.reader.ui.activity.SearchActivity;
 import com.liuzhenli.reader.ui.activity.TestSourceActivity;
 import com.liuzhenli.reader.ui.fragment.BookCategoryFragment;
 import com.liuzhenli.reader.ui.fragment.BookShelfFragment;
+import com.liuzhenli.reader.ui.fragment.DiscoverFragment;
 import com.liuzhenli.reader.ui.fragment.LocalFileFragment;
 import com.liuzhenli.reader.ui.fragment.LocalTxtFragment;
-import com.liuzhenli.reader.ui.fragment.RecommendFragment;
 
 import javax.inject.Singleton;
 
@@ -46,7 +46,7 @@ public interface AppComponent {
 
     void inject(AppComponent appComponent);
 
-    void inject(RecommendFragment recommendFragment);
+    void inject(DiscoverFragment discoverFragment);
 
     void inject(BookCategoryFragment bookCategoryFragment);
 

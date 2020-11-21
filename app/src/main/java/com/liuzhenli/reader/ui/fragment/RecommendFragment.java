@@ -1,48 +1,29 @@
 package com.liuzhenli.reader.ui.fragment;
 
-import android.os.Bundle;
-
-import com.liuzhenli.reader.base.BaseRVFragment;
+import com.liuzhenli.reader.base.BaseFragment;
 import com.liuzhenli.reader.network.AppComponent;
-import com.liuzhenli.reader.ui.activity.BookListActivity;
-import com.liuzhenli.reader.ui.adapter.RecommendFragmentAdapter;
-import com.liuzhenli.reader.ui.contract.RecommendContract;
-import com.liuzhenli.reader.ui.presenter.RecommendPresenter;
-import com.liuzhenli.reader.view.recyclerview.EasyRecyclerView;
-import com.micoredu.readerlib.bean.BookSourceBean;
 import com.microedu.reader.R;
 
-
-import java.util.List;
-
-import butterknife.BindView;
-
 /**
- * describe:推荐书源列表
+ * describe:
  *
  * @author Liuzhenli on 2019-11-09 22:28
  */
-public class RecommendFragment extends BaseRVFragment<RecommendPresenter, BookSourceBean> implements RecommendContract.View {
-    @BindView(R.id.recyclerView)
-    EasyRecyclerView mRecyclerView;
-
-    public static RecommendFragment getInstance() {
-        RecommendFragment instance = new RecommendFragment();
-        Bundle bundle = new Bundle();
-        instance.setArguments(bundle);
-        return instance;
-    }
-
+public class RecommendFragment extends BaseFragment {
     @Override
     public int getLayoutResId() {
-        return R.layout.fragment_recommend;
+        return R.layout.fragment_test;
     }
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-        appComponent.inject(this);
+
     }
 
+    @Override
+    public void attachView() {
+
+    }
 
     @Override
     public void initData() {
@@ -50,41 +31,7 @@ public class RecommendFragment extends BaseRVFragment<RecommendPresenter, BookSo
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
     public void configViews() {
-        mPresenter.getSource();
-        initAdapter(RecommendFragmentAdapter.class, true, false, true);
-    }
 
-    @Override
-    public void onRefresh() {
-        super.onRefresh();
-        mPresenter.getSource();
-    }
-
-    @Override
-    public void showSource(List<BookSourceBean> bookSourceData) {
-        mAdapter.clear();
-        mAdapter.addAll(bookSourceData);
-    }
-
-
-    @Override
-    public void onItemClick(int position) {
-        BookListActivity.start(mContext,mAdapter.getItem(position));
-    }
-
-    @Override
-    public void showError(Exception e) {
-        mRecyclerView.setRefreshing(false);
-    }
-
-    @Override
-    public void complete() {
-        mRecyclerView.setRefreshing(false);
     }
 }

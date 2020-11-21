@@ -18,8 +18,8 @@ import butterknife.ButterKnife;
  * @author liuzhenli 2020/9/27
  * Email: 848808263@qq.com
  */
-public class RecommendFragmentAdapter extends RecyclerArrayAdapter<BookSourceBean> {
-    public RecommendFragmentAdapter(Context context) {
+public class DiscoverFragmentAdapter extends RecyclerArrayAdapter<BookSourceBean> {
+    public DiscoverFragmentAdapter(Context context) {
         super(context);
     }
 
