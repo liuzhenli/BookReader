@@ -27,11 +27,46 @@
         android:textColor="@color/text_color_66" />
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/all_item_height"
+        android:layout_marginTop="@dimen/common_margin_normal"
+        android:background="@color/bg_color"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/common_margin_large"
+        android:text="QQ群"
+        android:textColor="@color/text_color_66" />
+
+
+    <TextView
+        android:id="@+id/tv_gg_group_0"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_marginTop="@dimen/common_margin_normal"
         android:background="@drawable/selector_card_bg"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/common_margin_large"
+        android:text="QQ-Alpha(272343970),加入付费群,享受不被踢的感觉!!!"
+        android:textColor="@color/text_color_66"
+        android:textSize="@dimen/txt_size_12" />
+
+    <TextView
+        android:id="@+id/tv_gg_group_1"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_marginTop="@dimen/common_margin_normal"
+        android:background="@drawable/selector_card_bg"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/common_margin_large"
+        android:text="QQ1群(1140723995)"
+        android:textColor="@color/text_color_66"
+        android:textSize="@dimen/txt_size_12" />
+
+    <TextView
         android:id="@+id/tv_version_check_update"
         android:layout_width="match_parent"
         android:layout_height="@dimen/all_item_height"
         android:layout_marginTop="@dimen/common_margin_normal"
+        android:background="@drawable/selector_card_bg"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/common_margin_normal"
         android:text="检查更新"
@@ -41,17 +76,17 @@
         android:id="@+id/tv_about_contact"
         android:layout_width="match_parent"
         android:layout_height="@dimen/all_item_height"
+        android:background="@drawable/selector_card_bg"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/common_margin_normal"
         android:text="联系开发者"
-        android:background="@drawable/selector_card_bg"
         android:textColor="@color/text_color_66" />
 
     <TextView
-        android:background="@drawable/selector_card_bg"
         android:id="@+id/tv_disclaimer"
         android:layout_width="match_parent"
         android:layout_height="@dimen/all_item_height"
+        android:background="@drawable/selector_card_bg"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/common_margin_normal"
         android:text="免责声明"

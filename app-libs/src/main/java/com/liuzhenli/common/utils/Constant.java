@@ -55,6 +55,7 @@ public class Constant extends AppConstant {
     @Retention(RetentionPolicy.SOURCE)
     public @interface QQGroup {
         String QQ_1140723995 = "py5-vU4j3y7mobTS3IkZMKKJAFbiKRgl";
+        String QQ_272343970 = "UoXpI_hoE2F4he8TsLJ0S3hk2cqLJvVH";
     }
 
     public static final int MIN_FILE_SIZE = 10;
