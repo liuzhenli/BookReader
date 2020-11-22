@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -29,6 +28,7 @@ import com.micoredu.readerlib.helper.ReadConfigManager;
 import com.micoredu.readerlib.page.PageView;
 import com.micoredu.readerlib.bean.BookChapterBean;
 import com.micoredu.readerlib.page.PageLoader;
+import com.micoredu.readerlib.utils.bar.BarHide;
 import com.microedu.reader.R;
 import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheet;
 
@@ -143,6 +143,13 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
             mBookShelf = (BookShelfBean) getInstance().getData(mDataKey);
             mNoteUrl = mBookShelf.getNoteUrl();
         }
+    }
+
+    @Override
+    protected void initImmersionBar() {
+        mImmersionBar.fullScreen(true);
+        mImmersionBar.hideBar(BarHide.FLAG_HIDE_STATUS_BAR);
+        mImmersionBar.init();
     }
 
     @Override
