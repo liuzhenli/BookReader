@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 public class FilterCheckedTextView extends TextView implements Checkable {
     private boolean mChecked;
+    private boolean mCanCheck = true;
 
     public FilterCheckedTextView(Context context) {
         this(context, null);
@@ -32,14 +33,23 @@ public class FilterCheckedTextView extends TextView implements Checkable {
         }
     }
 
+    public void setCanCheck(boolean canCheck) {
+        this.mCanCheck = canCheck;
+    }
+
     @Override
     public boolean isChecked() {
-        return mChecked;
+        if (mCanCheck) {
+            return mChecked;
+        }
+        return false;
     }
 
     @Override
     public void toggle() {
-        setChecked(!mChecked);
+        if (mCanCheck) {
+            setChecked(!mChecked);
+        }
     }
 
     private static final int[] CHECKED_STATE_SET = {
@@ -49,7 +59,7 @@ public class FilterCheckedTextView extends TextView implements Checkable {
     @Override
     protected int[] onCreateDrawableState(int extraSpace) {
         final int[] drawableState = super.onCreateDrawableState(extraSpace + 1);
-        if (isChecked()) {
+        if (isChecked() && mCanCheck) {
             mergeDrawableStates(drawableState, CHECKED_STATE_SET);
         }
         return drawableState;

@@ -21,6 +21,8 @@ public class BookSourceContract {
         void showLocalBookSource(List<BookSourceBean> list);
 
         void showAddNetSourceResult(List<BookSourceBean> list);
+
+        void shoDeleteBookSourceResult();
     }
 
     public interface Presenter<T> extends BaseContract.BasePresenter<T> {
@@ -48,5 +50,10 @@ public class BookSourceContract {
         void setTop(BookSourceBean bookSource, boolean enable);
 
         void getNetSource(String url);
+
+        /**
+         * delete book source
+         */
+        void deleteSelectedSource();
     }
 }

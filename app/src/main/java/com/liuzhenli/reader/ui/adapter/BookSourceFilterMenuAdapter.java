@@ -84,6 +84,11 @@ public class BookSourceFilterMenuAdapter implements MenuAdapter {
 
                     @Override
                     protected void initCheckedTextView(FilterCheckedTextView checkedTextView) {
+                        if (id != 1) {
+                            checkedTextView.setCanCheck(false);
+                        } else {
+                            checkedTextView.setCanCheck(true);
+                        }
                         int dp = DensityUtil.dip2px(mContext, 14);
                         checkedTextView.setPadding(dp, dp, 0, dp);
                     }

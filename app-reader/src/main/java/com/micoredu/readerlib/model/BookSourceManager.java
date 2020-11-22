@@ -114,6 +114,11 @@ public class BookSourceManager {
         }
         DbHelper.getDaoSession().getBookSourceBeanDao().delete(sourceBean);
     }
+    public static void deleteBookSource(BookSourceBean bookSourceBean) {
+        if (bookSourceBean != null) {
+            DbHelper.getDaoSession().getBookSourceBeanDao().delete(bookSourceBean);
+        }
+    }
 
     public static String getBookSourceSort() {
         switch (SharedPreferencesUtil.getInstance().getInt("SourceSort", 0)) {
@@ -159,12 +164,6 @@ public class BookSourceManager {
     public static void saveBookSource(List<BookSourceBean> bookSourceBeanList) {
         if (bookSourceBeanList != null) {
             DbHelper.getDaoSession().getBookSourceBeanDao().insertOrReplaceInTx(bookSourceBeanList);
-        }
-    }
-
-    public static void deleteBookSource(BookSourceBean bookSourceBean) {
-        if (bookSourceBean != null) {
-            DbHelper.getDaoSession().getBookSourceBeanDao().delete(bookSourceBean);
         }
     }
 

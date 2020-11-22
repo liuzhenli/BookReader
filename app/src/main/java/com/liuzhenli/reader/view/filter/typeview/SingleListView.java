@@ -15,7 +15,7 @@ import com.liuzhenli.reader.view.filter.interfaces.OnFilterItemClickListener;
 import java.util.List;
 
 /**
- * 双列ListView
+ * 单列ListView
  */
 public class SingleListView<DATA> extends ListView implements AdapterView.OnItemClickListener {
 
@@ -57,11 +57,11 @@ public class SingleListView<DATA> extends ListView implements AdapterView.OnItem
         return this;
     }
 
-    public void setList(List<DATA> list, int checkedPositoin) {
+    public void setList(List<DATA> list, int checkedPosition) {
         mAdapter.setList(list);
 
-        if (checkedPositoin != -1) {
-            setItemChecked(checkedPositoin, true);
+        if (checkedPosition != -1) {
+            setItemChecked(checkedPosition, true);
         }
     }
 

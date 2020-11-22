@@ -19,7 +19,7 @@
 
         <EditText
             android:id="@+id/et_book_source"
-            android:layout_width="240dp"
+            android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_gravity="center"
             android:background="@drawable/bg_white_radius"

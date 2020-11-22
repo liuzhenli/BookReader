@@ -2,6 +2,8 @@ package com.liuzhenli.reader.ui.presenter;
 
 import android.text.TextUtils;
 
+import androidx.appcompat.view.menu.MenuPresenter;
+
 import com.liuzhenli.common.utils.GsonUtils;
 import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.common.utils.StringUtils;
@@ -94,6 +96,26 @@ public class BookSourcePresenter extends RxPresenter<BookSourceContract.View> im
         addSubscribe(subscribe);
     }
 
+    @Override
+    public void deleteSelectedSource() {
+        DisposableObserver subscribe = RxUtil.subscribe(Observable.create(emitter -> {
+            List<BookSourceBean> bookSourceBeans = BookSourceManager.getSelectedBookSource();
+            if (bookSourceBeans == null || bookSourceBeans.size() == 0) {
+                return;
+            }
+            for (BookSourceBean bookSourceBean : bookSourceBeans) {
+                BookSourceManager.deleteBookSource(bookSourceBean);
+            }
+            emitter.onNext(bookSourceBeans.size());
+        }), new SampleProgressObserver<Integer>() {
+            @Override
+            public void onNext(Integer aBoolean) {
+                mView.shoDeleteBookSourceResult();
+            }
+        });
+        addSubscribe(subscribe);
+    }
+
     public void saveData(List<BookSourceBean> data) {
         ThreadUtils.getInstance().getExecutorService().execute(() -> BookSourceManager.saveBookSource(data));
     }
@@ -103,28 +125,25 @@ public class BookSourcePresenter extends RxPresenter<BookSourceContract.View> im
     }
 
     public void delData(BookSourceBean data) {
-        ThreadUtils.getInstance().getExecutorService().execute(() -> BookSourceManager.deleteBookSource(data));
+        ThreadUtils.getInstance().getExecutorService().execute(() -> BookSourceManager.removeBookSource(data));
     }
 
     private void configNetBookSource(ResponseBody data) {
-        Observable<List<BookSourceBean>> listObservable = Observable.create(new ObservableOnSubscribe<List<BookSourceBean>>() {
-            @Override
-            public void subscribe(ObservableEmitter<List<BookSourceBean>> emitter) throws Exception {
-                List<BookSourceBean> bookSourceList = new ArrayList<>();
-                byte[] bytes = new byte[0];
-                try {
-                    bytes = data.bytes();
-                    String s = new String(bytes);
-                    if (StringUtils.isJsonArray(s)) {
-                        bookSourceList = GsonUtils.parseJArray(s, BookSourceBean.class);
-                    }
-                    //存入数据库
-                    BookSourceManager.addBookSource(bookSourceList);
-                    //有发现项的书源
-                    emitter.onNext(bookSourceList);
-                } catch (IOException e) {
-                    e.printStackTrace();
+        Observable<List<BookSourceBean>> listObservable = Observable.create(emitter -> {
+            List<BookSourceBean> bookSourceList = new ArrayList<>();
+            byte[] bytes = new byte[0];
+            try {
+                bytes = data.bytes();
+                String s = new String(bytes);
+                if (StringUtils.isJsonArray(s)) {
+                    bookSourceList = GsonUtils.parseJArray(s, BookSourceBean.class);
                 }
+                //存入数据库
+                BookSourceManager.addBookSource(bookSourceList);
+                //有发现项的书源
+                emitter.onNext(bookSourceList);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
         DisposableObserver subscribe = RxUtil.subscribe(listObservable, new SampleProgressObserver<List<BookSourceBean>>() {

@@ -206,7 +206,7 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_empty="@layout/common_empty_view"
+            app:layout_empty="@layout/empty_view_common"
             app:layout_progress="@layout/common_progress_view"
             app:scrollbarStyle="insideOverlay" />
 

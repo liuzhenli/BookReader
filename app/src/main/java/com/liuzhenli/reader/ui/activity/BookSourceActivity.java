@@ -5,10 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.MenuItem;
 import android.widget.EditText;
-
-import androidx.appcompat.widget.Toolbar;
 
 import com.liuzhenli.reader.base.BaseRvActivity;
 import com.liuzhenli.reader.network.AppComponent;
@@ -88,7 +85,7 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
                     SearchActivity.start(mContext);
                     break;
                 case R.id.action_del_select:
-                    SearchActivity.start(mContext);
+                    mPresenter.deleteSelectedSource();
                     break;
                 case R.id.action_check_book_source:
                     SearchActivity.start(mContext);
@@ -137,7 +134,6 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
          */
         @Override
         public void onSortChange(int index) {
-            BookSourceAdapter adapter = (BookSourceAdapter) mAdapter;
             if (index == 0) {
                 mSortType = SORT_TYPE_HAND;
             } else if (index == 1) {
@@ -145,7 +141,6 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
             } else if (index == 2) {
                 mSortType = SORT_TYPE_PINYIN;
             }
-            adapter.setSortType(mSortType);
             AppConfigManager.setBookSourceSortType(mSortType);
             mPresenter.getLocalBookSource("");
             mDropdownMenu.close();
@@ -191,10 +186,14 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
                 mPresenter.getLocalBookSource(s.toString());
             }
         });
+
+        mRecyclerView.setEmptyView(R.layout.empty_view_souce);
     }
 
     @Override
     public void showLocalBookSource(List<BookSourceBean> list) {
+        BookSourceAdapter adapter = (BookSourceAdapter) mAdapter;
+        adapter.setSortType(mSortType);
         mAdapter.clear();
         mAdapter.addAll(list);
         hideDialog();
@@ -208,6 +207,11 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
             toast(String.format("成功导入%s个书源", list.size()));
         }
 
+    }
+
+    @Override
+    public void shoDeleteBookSourceResult() {
+        mPresenter.getLocalBookSource("");
     }
 
     @Override
