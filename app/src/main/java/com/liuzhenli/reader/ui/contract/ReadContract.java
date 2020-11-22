@@ -34,8 +34,7 @@ public class ReadContract {
         /***获取书的信息*/
         void getBookInfo(String url);
 
-        void saveProgress();
-
+        void saveProgress(BookShelfBean bookShelf);
     }
 
 

@@ -1,14 +1,20 @@
 package com.liuzhenli.reader.ui.presenter;
 
 
+import android.os.AsyncTask;
+
+import com.hwangjr.rxbus.RxBus;
+import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.reader.base.RxPresenter;
 import com.liuzhenli.reader.network.Api;
 import com.liuzhenli.reader.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.contract.ReadContract;
+import com.liuzhenli.reader.utils.ThreadUtils;
 import com.micoredu.readerlib.bean.BookChapterBean;
 import com.micoredu.readerlib.bean.BookShelfBean;
 import com.micoredu.readerlib.helper.BookshelfHelper;
+import com.micoredu.readerlib.helper.DbHelper;
 
 
 import java.util.ArrayList;
@@ -62,8 +68,18 @@ public class ReadPresenter extends RxPresenter<ReadContract.View> implements Rea
     }
 
     @Override
-    public void saveProgress() {
-
+    public void saveProgress(BookShelfBean bookShelf) {
+        if (bookShelf != null) {
+            ThreadUtils.getInstance().getExecutorService().execute(new Runnable() {
+                @Override
+                public void run() {
+                    bookShelf.setFinalDate(System.currentTimeMillis());
+                    bookShelf.setHasUpdate(false);
+                    DbHelper.getDaoSession().getBookShelfBeanDao().insertOrReplace(bookShelf);
+                    RxBus.get().post(RxBusTag.UPDATE_BOOK_PROGRESS, bookShelf);
+                }
+            });
+        }
     }
 
     public void setChapterList(List<BookChapterBean> chapters) {

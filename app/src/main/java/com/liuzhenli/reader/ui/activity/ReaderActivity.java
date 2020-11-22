@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -302,7 +303,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
                 mPresenter.setChapterList(chapters);
                 mBookShelf.setChapterListSize(chapters.size());
                 mCurrentChapterIndex = mBookShelf.getDurChapter();
-                mBookShelf.setDurChapterName(chapters.get(mCurrentChapterIndex).getDurChapterName());
+                mBookShelf.setDurChapterName(chapters.get(mBookShelf.getDurChapter()).getDurChapterName());
                 mBookShelf.setLastChapterName(chapters.get(chapters.size() - 1).getDurChapterName());
                 BookshelfHelper.saveBookToShelf(mBookShelf);
                 mTopBar.setChapterTitle(mPresenter.getChapterList().get(mCurrentChapterIndex).getDurChapterName());
@@ -314,7 +315,9 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
 
             @Override
             public void onPageChange(int chapterIndex, int pageIndex, boolean resetReadAloud) {
-
+                mBookShelf.setDurChapter(chapterIndex);
+                mBookShelf.setDurChapterPage(pageIndex);
+                mPresenter.saveProgress(mBookShelf);
             }
 
             @Override
@@ -426,4 +429,5 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
             overridePendingTransition(0, android.R.anim.fade_out);
         }
     }
+
 }
