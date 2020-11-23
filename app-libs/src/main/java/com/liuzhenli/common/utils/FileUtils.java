@@ -6,7 +6,10 @@ import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
+import android.util.Log;
 
+
+import androidx.annotation.NonNull;
 
 import com.orhanobut.logger.Logger;
 
@@ -34,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileUtils {
-
+    private static final String TAG = "FileUtils";
     private static final String[] filters = {".txt", ".pdf", ".epub"};
 
 
@@ -744,6 +747,17 @@ public class FileUtils {
 
     public static String getCapturePath(String img) {
         return Constant.CAPTURE_PATH + img;
+    }
+
+    @NonNull
+    public static String getSdCardPath() {
+        String sdCardDirectory = Environment.getExternalStorageDirectory().getAbsolutePath();
+        try {
+            sdCardDirectory = new File(sdCardDirectory).getCanonicalPath();
+        } catch (IOException ioe) {
+            Log.e(TAG, "Could not get SD directory", ioe);
+        }
+        return sdCardDirectory;
     }
 
 }

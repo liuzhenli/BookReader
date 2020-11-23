@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import com.liuzhenli.reader.network.AppComponent;
 import com.liuzhenli.reader.ui.contract.ReadContract;
 import com.liuzhenli.reader.ui.presenter.ReadPresenter;
 import com.liuzhenli.reader.utils.BatteryUtil;
+import com.liuzhenli.reader.view.loading.DialogUtil;
 import com.liuzhenli.reader.view.menu.ReadBottomMenu;
 import com.liuzhenli.reader.view.menu.ReadBrightnessMenu;
 import com.liuzhenli.reader.view.menu.ReadSettingMenu;
@@ -24,6 +26,7 @@ import com.micoredu.readerlib.animation.PageAnimation;
 import com.micoredu.readerlib.bean.BookInfoBean;
 import com.micoredu.readerlib.bean.BookShelfBean;
 import com.micoredu.readerlib.helper.BookshelfHelper;
+import com.micoredu.readerlib.helper.DocumentHelper;
 import com.micoredu.readerlib.helper.ReadConfigManager;
 import com.micoredu.readerlib.page.PageView;
 import com.micoredu.readerlib.bean.BookChapterBean;
@@ -32,6 +35,8 @@ import com.micoredu.readerlib.utils.bar.BarHide;
 import com.microedu.reader.R;
 import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheet;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -109,6 +114,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
         if (savedInstanceState != null) {
             mNoteUrl = savedInstanceState.getString("noteUrl");
         }
+        mPresenter.attachView(this);
     }
 
     @Override
@@ -240,7 +246,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
 
             @Override
             public void onTypeFaceClicked() {
-
+                mPresenter.getFontFile();
             }
 
             /***background changed*/
@@ -411,6 +417,39 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
     @Override
     public void showBookInfo(BookInfoBean bookInfo) {
 
+    }
+
+    @Override
+    public void showFontFile(File[] files) {
+        if (files == null || files.length == 0) {
+            //获取字体列表
+            DialogUtil.showOneButtonDialog(mContext, "添加字体",
+                    "本软件默认使用系统字体,若更换字体,请先下载字体文件,然后拷贝到根目录Fonts文件夹下即可.",
+                    (dialog, index) -> {
+                        dialog.dismiss();
+                    }
+            );
+        } else {
+            String[] fonts = new String[files.length + 1];
+            int current = 0;
+            String fontPath = ReadConfigManager.getInstance().getFontPath();
+            fonts[0] = "默认字体";
+            for (int i = 0; i < files.length; i++) {
+                fonts[i + 1] = files[i].getName();
+                if (TextUtils.equals(fontPath, files[i].getAbsolutePath())) {
+                    current = i + 1;
+                }
+            }
+            DialogUtil.sowSingleChoiceDialog(mContext, fonts, (dialog, index) -> {
+                if (index == 0) {
+                    ReadConfigManager.getInstance().setReadBookFont(null);
+                } else {
+                    ReadConfigManager.getInstance().setReadBookFont(files[index - 1].getAbsolutePath());
+                }
+                mPageLoader.refreshUi();
+                dialog.dismiss();
+            }, current);
+        }
     }
 
     @Override

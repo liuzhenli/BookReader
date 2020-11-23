@@ -3,6 +3,8 @@ package com.liuzhenli.reader.view.loading;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.text.InputType;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Toast;
 
 import com.liuzhenli.reader.utils.PermissionUtil;
@@ -35,6 +37,15 @@ public class DialogUtil {
                         PermissionUtil.jumpPermissionPage(context);
                     }
                 }))
+                .create()
+                .show();
+    }
+
+    public static void showOneButtonDialog(Context context, String title, String message, QMUIDialogAction.ActionListener action) {
+        new QMUIDialog.MessageDialogBuilder(context).setTitle(title)
+                .setCanceledOnTouchOutside(false)
+                .setMessage(message)
+                .addAction(new QMUIDialogAction(context.getResources().getString(R.string.ok), action))
                 .create()
                 .show();
     }

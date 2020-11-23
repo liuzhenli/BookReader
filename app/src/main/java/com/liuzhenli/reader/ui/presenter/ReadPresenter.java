@@ -1,10 +1,8 @@
 package com.liuzhenli.reader.ui.presenter;
 
-
-import android.os.AsyncTask;
-
 import com.hwangjr.rxbus.RxBus;
 import com.liuzhenli.common.constant.RxBusTag;
+import com.liuzhenli.common.utils.FileUtils;
 import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.reader.base.RxPresenter;
 import com.liuzhenli.reader.network.Api;
@@ -15,8 +13,10 @@ import com.micoredu.readerlib.bean.BookChapterBean;
 import com.micoredu.readerlib.bean.BookShelfBean;
 import com.micoredu.readerlib.helper.BookshelfHelper;
 import com.micoredu.readerlib.helper.DbHelper;
+import com.micoredu.readerlib.helper.DocumentHelper;
 
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,6 +79,20 @@ public class ReadPresenter extends RxPresenter<ReadContract.View> implements Rea
                     RxBus.get().post(RxBusTag.UPDATE_BOOK_PROGRESS, bookShelf);
                 }
             });
+        }
+    }
+
+    @Override
+    public void getFontFile() {
+        String fontPath = FileUtils.getSdCardPath() + "/Fonts";
+        try {
+            DocumentHelper.createDirIfNotExist(fontPath);
+            File file = new File(fontPath);
+            File[] files = file.listFiles(pathName -> pathName.getName().toLowerCase().matches(".*\\.[ot]tf"));
+            mView.showFontFile(files);
+        } catch (Exception e) {
+            e.printStackTrace();
+            mView.showFontFile(null);
         }
     }
 

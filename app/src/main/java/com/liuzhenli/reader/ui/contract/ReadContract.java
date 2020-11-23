@@ -6,6 +6,7 @@ import com.micoredu.readerlib.bean.BookInfoBean;
 import com.micoredu.readerlib.bean.BookShelfBean;
 import com.micoredu.readerlib.content.BookChapterList;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -27,6 +28,8 @@ public class ReadContract {
          */
         void showBookInfo(BookInfoBean bookInfo);
 
+        void showFontFile(File[] files);
+
     }
 
 
@@ -35,6 +38,8 @@ public class ReadContract {
         void getBookInfo(String url);
 
         void saveProgress(BookShelfBean bookShelf);
+
+        void getFontFile();
     }
 
 
