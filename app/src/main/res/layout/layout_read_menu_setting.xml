@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/view_setting_menu_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="#dd000000"
     android:paddingBottom="@dimen/common_margin_normal">
 
     <TextView
@@ -193,12 +194,12 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginLeft="@dimen/common_margin_large"
+        android:layout_marginRight="@dimen/common_margin_large"
         android:gravity="center"
         android:text="+"
         android:textColor="@color/text_color_99"
         android:textSize="@dimen/txt_size_18"
         app:layout_constraintBottom_toBottomOf="@+id/tv_setting_letter_space"
-        app:layout_constraintLeft_toRightOf="@+id/rg_menu_text_space"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_setting_letter_space"
         app:qmui_borderColor="@color/text_color_99" />
@@ -216,105 +217,115 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_setting_letter_space" />
 
-    <RadioGroup
-        android:id="@+id/rb_menu_setting_bg"
-        android:layout_width="wrap_content"
+    <HorizontalScrollView
+        android:id="@+id/view_menu_setting_bg"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_marginRight="@dimen/common_margin_large"
         app:layout_constraintBottom_toBottomOf="@+id/tv_setting_text_background"
         app:layout_constraintLeft_toRightOf="@+id/tv_setting_text_background"
+        app:layout_constraintRight_toLeftOf="@+id/view_more_read_theme"
         app:layout_constraintTop_toTopOf="@+id/tv_setting_text_background">
 
+        <RadioGroup
+            android:id="@+id/rb_menu_setting_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <com.liuzhenli.reader.view.RoundBorderRadioButton
-            android:id="@+id/tv_menu_background_0"
-            android:layout_width="30dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/common_margin_large"
-            android:button="@null"
-            android:textColor="@color/text_color_99"
-            android:textSize="@dimen/txt_size_18"
-            app:backgroundColor="@color/transparent"
-            app:checkedColor="@color/read_theme_checked"
-            app:solidColor="@color/white" />
 
-        <com.liuzhenli.reader.view.RoundBorderRadioButton
-            android:id="@+id/tv_menu_background_1"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="@dimen/common_margin_large"
-            android:gravity="center"
-            app:backgroundColor="@color/transparent"
-            app:checkedColor="@color/read_theme_checked"
-            app:solidColor="@color/skin_yellow_reader_scene_bg_color" />
+            <com.liuzhenli.reader.view.RoundBorderRadioButton
+                android:id="@+id/tv_menu_background_0"
+                android:layout_width="34dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/common_margin_large"
+                android:button="@null"
+                android:textColor="@color/text_color_99"
+                android:textSize="@dimen/txt_size_18"
+                app:backgroundColor="@color/transparent"
+                app:checkedColor="@color/read_theme_checked"
+                app:solidColor="@color/white" />
 
-        <com.liuzhenli.reader.view.RoundBorderRadioButton
-            android:id="@+id/tv_menu_background_2"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="@dimen/common_margin_large"
-            android:gravity="center"
-            app:backgroundColor="@color/transparent"
-            app:checkedColor="@color/read_theme_checked"
-            app:solidColor="@color/skin_green_reader_scene_bg_color" />
+            <com.liuzhenli.reader.view.RoundBorderRadioButton
+                android:id="@+id/tv_menu_background_1"
+                android:layout_width="34dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/common_margin_normal"
+                android:gravity="center"
+                app:backgroundColor="@color/transparent"
+                app:checkedColor="@color/read_theme_checked"
+                app:solidColor="@color/skin_yellow_reader_scene_bg_color" />
 
-        <com.liuzhenli.reader.view.RoundBorderRadioButton
-            android:id="@+id/tv_menu_background_3"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="@dimen/common_margin_large"
-            android:gravity="center"
-            app:backgroundColor="@color/transparent"
-            app:checkedColor="@color/read_theme_checked"
-            app:solidColor="@color/skin_pink_reader_scene_bg_color" />
+            <com.liuzhenli.reader.view.RoundBorderRadioButton
+                android:id="@+id/tv_menu_background_2"
+                android:layout_width="34dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/common_margin_normal"
+                android:gravity="center"
+                app:backgroundColor="@color/transparent"
+                app:checkedColor="@color/read_theme_checked"
+                app:solidColor="@color/skin_green_reader_scene_bg_color" />
 
-        <com.liuzhenli.reader.view.RoundBorderRadioButton
-            android:id="@+id/tv_menu_background_4"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="@dimen/common_margin_large"
-            android:gravity="center"
-            app:backgroundColor="@color/transparent"
-            app:checkedColor="@color/read_theme_checked"
-            app:solidColor="@color/skin_sblue_reader_scene_bg_color" />
+            <com.liuzhenli.reader.view.RoundBorderRadioButton
+                android:id="@+id/tv_menu_background_3"
+                android:layout_width="34dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/common_margin_normal"
+                android:gravity="center"
+                app:backgroundColor="@color/transparent"
+                app:checkedColor="@color/read_theme_checked"
+                app:solidColor="@color/skin_pink_reader_scene_bg_color" />
 
-        <com.liuzhenli.reader.view.RoundBorderRadioButton
-            android:id="@+id/tv_menu_background_5"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="@dimen/common_margin_large"
-            android:gravity="center"
-            app:backgroundColor="@color/transparent"
-            app:checkedColor="@color/read_theme_checked"
-            app:solidColor="@color/skin_blue_reader_scene_bg_color" />
+            <com.liuzhenli.reader.view.RoundBorderRadioButton
+                android:id="@+id/tv_menu_background_4"
+                android:layout_width="34dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/common_margin_normal"
+                android:gravity="center"
+                app:backgroundColor="@color/transparent"
+                app:checkedColor="@color/read_theme_checked"
+                app:solidColor="@color/skin_sblue_reader_scene_bg_color" />
 
-        <com.liuzhenli.reader.view.RoundBorderRadioButton
-            android:id="@+id/tv_menu_background_6"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="@dimen/common_margin_large"
-            android:gravity="center"
-            android:text="@string/night_theme"
-            android:textColor="@color/text_color_99"
-            android:textSize="@dimen/txt_size_18"
-            app:backgroundColor="@color/transparent"
-            app:checkedColor="@color/read_theme_checked"
-            app:solidColor="#000000" />
+            <com.liuzhenli.reader.view.RoundBorderRadioButton
+                android:id="@+id/tv_menu_background_5"
+                android:layout_width="34dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/common_margin_normal"
+                android:gravity="center"
+                app:backgroundColor="@color/transparent"
+                app:checkedColor="@color/read_theme_checked"
+                app:solidColor="@color/skin_blue_reader_scene_bg_color" />
 
-        <com.liuzhenli.reader.view.RoundBorderRadioButton
-            android:id="@+id/tv_menu_background_more"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="@dimen/common_margin_large"
-            android:gravity="center"
-            android:text="+"
-            android:textColor="@color/text_color_99"
-            android:textSize="@dimen/txt_size_18"
-            app:backgroundColor="@color/transparent"
-            app:checkedColor="@color/read_theme_checked"
-            app:solidColor="#000000" />
+            <com.liuzhenli.reader.view.RoundBorderRadioButton
+                android:id="@+id/tv_menu_background_6"
+                android:layout_width="34dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/common_margin_normal"
+                android:gravity="center"
+                android:text="@string/night_theme"
+                android:textColor="@color/text_color_99"
+                android:textSize="@dimen/txt_size_18"
+                app:backgroundColor="@color/transparent"
+                app:checkedColor="@color/read_theme_checked"
+                app:solidColor="#000000" />
+        </RadioGroup>
+    </HorizontalScrollView>
 
-    </RadioGroup>
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/view_more_read_theme"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="@dimen/common_margin_large"
+        android:layout_marginRight="@dimen/common_margin_large"
+        android:gravity="center"
+        android:text="+"
+        android:textColor="@color/text_color_99"
+        android:textSize="@dimen/txt_size_18"
+        app:layout_constraintBottom_toBottomOf="@+id/view_menu_setting_bg"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view_menu_setting_bg"
+        app:qmui_borderColor="@color/text_color_99" />
 
     <TextView
         android:id="@+id/tv_setting_page_mode"

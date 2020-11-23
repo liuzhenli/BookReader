@@ -3,6 +3,7 @@ package com.liuzhenli.reader.view.menu;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -26,6 +27,8 @@ import butterknife.BindView;
  * Email: 848808263@qq.com
  */
 public class ReadSettingMenu extends BaseMenu {
+    @BindView(R.id.view_setting_menu_root)
+    View mViewRoot;
     @BindView(R.id.tv_pre_chapter)
     TextView tvPreChapter;
     /***缩小字体*/
@@ -245,30 +248,37 @@ public class ReadSettingMenu extends BaseMenu {
         switch (checkedId) {
             //0 白天
             case R.id.tv_menu_background_0:
+                ReadConfigManager.getInstance().setIsNightTheme(false);
                 ReadConfigManager.getInstance().setTextDrawableIndex(ReaderConfig.PageBgColor.BG_COLOR_DAY);
                 break;
             //1 黄色
             case R.id.tv_menu_background_1:
+                ReadConfigManager.getInstance().setIsNightTheme(false);
                 ReadConfigManager.getInstance().setTextDrawableIndex(ReaderConfig.PageBgColor.BG_COLOR_YELLOW);
                 break;
             //2 绿色
             case R.id.tv_menu_background_2:
+                ReadConfigManager.getInstance().setIsNightTheme(false);
                 ReadConfigManager.getInstance().setTextDrawableIndex(ReaderConfig.PageBgColor.BG_COLOR_GREEN);
                 break;
             //3 粉色
             case R.id.tv_menu_background_3:
+                ReadConfigManager.getInstance().setIsNightTheme(false);
                 ReadConfigManager.getInstance().setTextDrawableIndex(ReaderConfig.PageBgColor.BG_COLOR_PINK);
                 break;
             //4 深蓝色
             case R.id.tv_menu_background_4:
+                ReadConfigManager.getInstance().setIsNightTheme(false);
                 ReadConfigManager.getInstance().setTextDrawableIndex(ReaderConfig.PageBgColor.BG_COLOR_SBLUE);
                 break;
             //5 蓝色
             case R.id.tv_menu_background_5:
+                ReadConfigManager.getInstance().setIsNightTheme(false);
                 ReadConfigManager.getInstance().setTextDrawableIndex(ReaderConfig.PageBgColor.BG_COLOR_BLUE);
                 break;
-            //6 夜间
-            case R.id.tv_menu_background_more:
+            //6 夜间  页面模式是一种皮肤,也需要一种开关
+            case R.id.tv_menu_background_6:
+                ReadConfigManager.getInstance().setIsNightTheme(true);
                 ReadConfigManager.getInstance().setTextDrawableIndex(ReaderConfig.PageBgColor.BG_COLOR_NIGHT);
                 break;
             default:

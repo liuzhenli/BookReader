@@ -194,11 +194,10 @@ public class ReadConfigManager {
 
             //6 夜间
             Map<String, Integer> temp7 = new HashMap<>();
-            temp6.put("textColor", BaseApplication.getInstance().getResources().getColor(R.color.skin_night_reader_scene_text_color));
-            temp6.put("bgIsColor", 1);
-            temp6.put("textBackground", BaseApplication.getInstance().getResources().getColor(R.color.skin_night_reader_scene_bg_color));
-            temp6.put("darkStatusIcon", 0);
-            mTextDrawable.add(temp6);
+            temp7.put("textColor", BaseApplication.getInstance().getResources().getColor(R.color.skin_night_reader_scene_text_color));
+            temp7.put("bgIsColor", 1);
+            temp7.put("textBackground", BaseApplication.getInstance().getResources().getColor(R.color.skin_night_reader_scene_bg_color));
+            temp7.put("darkStatusIcon", 0);
             mTextDrawable.add(temp7);
         }
     }
@@ -291,6 +290,8 @@ public class ReadConfigManager {
                 case 1:
                     color = getBgColor(textDrawableIndex);
                     return new ColorDrawable(color);
+                default:
+                    break;
             }
             if (mTextDrawable.get(textDrawableIndex).get("bgIsColor") != 0) {
                 color = mTextDrawable.get(textDrawableIndex).get("textBackground");
