@@ -216,12 +216,13 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
 
     @Override
     public void showError(Exception e) {
+        hideDialog();
 
     }
 
     @Override
     public void complete() {
-
+        hideDialog();
     }
 
     @Override

@@ -76,7 +76,7 @@ public class DiscoverFragment extends BaseRVFragment<DiscoverPresenter, BookSour
 
     @Override
     public void onItemClick(int position) {
-        BookListActivity.start(mContext,mAdapter.getItem(position));
+        BookListActivity.start(mContext, mAdapter.getItem(position));
     }
 
     @Override
@@ -87,5 +87,13 @@ public class DiscoverFragment extends BaseRVFragment<DiscoverPresenter, BookSour
     @Override
     public void complete() {
         mRecyclerView.setRefreshing(false);
+    }
+
+    @Override
+    protected void onFragmentVisibleChange(boolean isVisible) {
+        super.onFragmentVisibleChange(isVisible);
+        if (isVisible && mAdapter.getCount() == 0) {
+            onRefresh();
+        }
     }
 }
