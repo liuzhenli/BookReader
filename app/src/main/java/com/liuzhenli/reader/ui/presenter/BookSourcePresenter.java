@@ -2,8 +2,6 @@ package com.liuzhenli.reader.ui.presenter;
 
 import android.text.TextUtils;
 
-import androidx.appcompat.view.menu.MenuPresenter;
-
 import com.liuzhenli.common.utils.GsonUtils;
 import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.common.utils.StringUtils;
@@ -23,8 +21,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.observers.DisposableObserver;
 import okhttp3.ResponseBody;
 
@@ -137,6 +133,10 @@ public class BookSourcePresenter extends RxPresenter<BookSourceContract.View> im
                 String s = new String(bytes);
                 if (StringUtils.isJsonArray(s)) {
                     bookSourceList = GsonUtils.parseJArray(s, BookSourceBean.class);
+                }
+                //发现数据默认可见
+                for (int i = 0; i < bookSourceList.size(); i++) {
+                    bookSourceList.get(i).setRuleFindEnable(true);
                 }
                 //存入数据库
                 BookSourceManager.addBookSource(bookSourceList);
