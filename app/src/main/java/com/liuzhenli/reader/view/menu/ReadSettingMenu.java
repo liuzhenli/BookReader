@@ -19,6 +19,7 @@ import com.microedu.reader.R;
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 
 import butterknife.BindView;
+import io.reactivex.functions.Consumer;
 
 /**
  * Description:设置菜单
@@ -46,12 +47,6 @@ public class ReadSettingMenu extends BaseMenu {
     QMUIRoundButton tvMenuTextTypeFace;
     @BindView(R.id.tv_setting_letter_space)
     TextView tvSettingLetterSpace;
-    /***行距*/
-    @BindView(R.id.rg_menu_text_space)
-    RadioGroup rbTextSpace;
-
-    @BindView(R.id.tv_menu_text_space_more)
-    QMUIRoundButton tvMenuTextSpaceMore;
     @BindView(R.id.tv_setting_text_background)
     TextView tvSettingTextBackground;
     @BindView(R.id.rb_menu_setting_bg)
@@ -76,6 +71,22 @@ public class ReadSettingMenu extends BaseMenu {
     QMUIRoundButton tvSettingPageModeEmpty;
     @BindView(R.id.tv_setting_reset)
     QMUIRoundButton tvSettingReset;
+
+    @BindView(R.id.tv_menu_h_space_min)
+    QMUIRoundButton mHSpaceMin;
+    @BindView(R.id.tv_setting_menu_h_space_size)
+    TextView mHSpaceSize;
+    @BindView(R.id.tv_menu_h_space_enlarge)
+    QMUIRoundButton mHSpaceEnlarge;
+
+    @BindView(R.id.tv_menu_v_space_min)
+    QMUIRoundButton mVSpaceMin;
+    @BindView(R.id.tv_setting_menu_v_space_size)
+    TextView mVSpaceSize;
+    @BindView(R.id.tv_menu_v_space_enlarge)
+    QMUIRoundButton mVSpaceEnlarge;
+
+
     private ReadSettingCallBack callBack;
 
     public ReadSettingMenu(@NonNull Context context) {
@@ -162,11 +173,31 @@ public class ReadSettingMenu extends BaseMenu {
                 callBack.onTypeFaceClicked();
             }
         });
+
         //设置行间距
-        rbTextSpace.setOnCheckedChangeListener((group, checkedId) -> {
-            setLineSpace(checkedId);
-            if (callBack != null) {
-                callBack.onTextStyleChanged();
+        ClickUtils.click(mHSpaceMin, new Consumer() {
+            @Override
+            public void accept(Object o) throws Exception {
+                float lineMultiplier = ReadConfigManager.getInstance().getLineMultiplier();
+                lineMultiplier -= 0.1;
+                ReadConfigManager.getInstance().setLineMultiplier(lineMultiplier);
+                mHSpaceSize.setText(lineMultiplier + "");
+                if (callBack != null) {
+                    callBack.onTextStyleChanged();
+                }
+            }
+        });
+        //设置行间距
+        ClickUtils.click(mHSpaceEnlarge, new Consumer() {
+            @Override
+            public void accept(Object o) throws Exception {
+                float lineMultiplier = ReadConfigManager.getInstance().getLineMultiplier();
+                lineMultiplier += 0.1;
+                ReadConfigManager.getInstance().setLineMultiplier(lineMultiplier);
+                mHSpaceSize.setText(lineMultiplier + "");
+                if (callBack != null) {
+                    callBack.onTextStyleChanged();
+                }
             }
         });
 
@@ -188,7 +219,7 @@ public class ReadSettingMenu extends BaseMenu {
         setCnText();
         setTextBold();
         setPageMode(ReadConfigManager.getInstance().getPageMode());
-        setLineSpace(ReadConfigManager.getInstance().getLineMultiplier());
+        mHSpaceSize.setText(ReadConfigManager.getInstance().getLineMultiplier() + "");
     }
 
     /***繁体,简体*/
@@ -198,40 +229,6 @@ public class ReadSettingMenu extends BaseMenu {
         } else {
             tvMenuTextSimple.setText("繁体");
         }
-    }
-
-    /***设置行间距*/
-    private void setLineSpace(float lineMultiplier) {
-        if (lineMultiplier == 1.0) {
-            setLineSpace(R.id.tv_menu_text_space_4);
-        } else if (lineMultiplier == 2.0) {
-            setLineSpace(R.id.tv_menu_text_space_3);
-        } else if (lineMultiplier == 3.0) {
-            setLineSpace(R.id.tv_menu_text_space_2);
-        } else if (lineMultiplier == 0.5f) {
-            setLineSpace(R.id.tv_menu_text_space_5);
-        }
-    }
-
-    /***设置行间距*/
-    private void setLineSpace(int checkedId) {
-        switch (checkedId) {
-            case R.id.tv_menu_text_space_4:
-                ReadConfigManager.getInstance().setLineMultiplier(1.0f);
-                break;
-            case R.id.tv_menu_text_space_3:
-                ReadConfigManager.getInstance().setLineMultiplier(2);
-                break;
-            case R.id.tv_menu_text_space_2:
-                ReadConfigManager.getInstance().setLineMultiplier(3);
-                break;
-            case R.id.tv_menu_text_space_5:
-                ReadConfigManager.getInstance().setLineMultiplier(0.5f);
-                break;
-            default:
-                break;
-        }
-        rbTextSpace.check(checkedId);
     }
 
     static final int[] CHECKED_STATE_SET = new int[]{android.R.attr.state_checked};
