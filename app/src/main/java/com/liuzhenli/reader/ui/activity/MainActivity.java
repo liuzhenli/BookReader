@@ -83,25 +83,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initToolBar() {
-        mTvTitle.setText(getResources().getStringArray(R.array.main_tab_names)[mCurrentPosition]);
-        mToolBar.inflateMenu(R.menu.menu_main);
         mToolBar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_more));
-        mToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.item_search:
-                        SearchActivity.start(mContext);
-                        break;
-                    case R.id.item_add_from_local:
-                        ImportLocalBookActivity.start(mContext);
-                        break;
-                    default:
-                        break;
-                }
-                return false;
-            }
-        });
+        mTvTitle.setText(getResources().getStringArray(R.array.main_tab_names)[mCurrentPosition]);
     }
 
     @Override
@@ -111,6 +94,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void configViews() {
+        setMenu();
+
         mainTabAdapter = new MainTabAdapter(mContext, getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mViewPager.setAdapter(mainTabAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
@@ -132,6 +117,7 @@ public class MainActivity extends BaseActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 mCurrentPosition = tab.getPosition();
                 mTvTitle.setText(mainTabAdapter.getPageTitle(mCurrentPosition));
+                setMenu();
             }
 
             @Override
@@ -177,6 +163,59 @@ public class MainActivity extends BaseActivity {
             DonateActivity.start(mContext);
         });
         mViewPager.setOffscreenPageLimit(4);
+    }
+
+    private void setMenu() {
+        mToolBar.getMenu().clear();
+        switch (mCurrentPosition) {
+            case 0:
+                mToolBar.inflateMenu(R.menu.menu_main);
+                mToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.item_search:
+                                SearchActivity.start(mContext);
+                                break;
+                            case R.id.item_add_from_local:
+                                ImportLocalBookActivity.start(mContext);
+                                break;
+                            case R.id.item_arrange_bookshelf:
+                                ImportLocalBookActivity.start(mContext);
+                                break;
+                            default:
+                                break;
+                        }
+                        return false;
+                    }
+                });
+                break;
+            case 1:
+                mToolBar.inflateMenu(R.menu.menu_main);
+                mToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.item_search:
+                                SearchActivity.start(mContext);
+                                break;
+                            case R.id.item_add_from_local:
+                                ImportLocalBookActivity.start(mContext);
+                                break;
+                            case R.id.item_arrange_bookshelf:
+                                ImportLocalBookActivity.start(mContext);
+                                break;
+                            default:
+                                break;
+                        }
+                        return false;
+                    }
+                });
+                break;
+            default:
+                break;
+        }
+
     }
 
     private void requestPermissions() {
