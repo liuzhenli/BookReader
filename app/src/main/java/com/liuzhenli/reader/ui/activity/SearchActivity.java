@@ -26,12 +26,15 @@ import com.liuzhenli.reader.ui.contract.SearchContract;
 import com.liuzhenli.reader.ui.presenter.SearchPresenter;
 import com.liuzhenli.reader.utils.DensityUtil;
 import com.liuzhenli.reader.utils.SoftInputUtils;
+import com.liuzhenli.reader.view.loading.DialogUtil;
 import com.micoredu.readerlib.bean.SearchBookBean;
 import com.micoredu.readerlib.bean.SearchHistoryBean;
 import com.microedu.reader.R;
 import com.qmuiteam.qmui.layout.QMUIButton;
 import com.qmuiteam.qmui.skin.QMUISkinManager;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import com.qmuiteam.qmui.widget.popup.QMUIPopup;
 import com.qmuiteam.qmui.widget.popup.QMUIPopups;
 
@@ -124,8 +127,7 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
         initMenu();
         //click search button
         ClickUtils.click(tvActionSearch, o -> {
-            String s = mEtSearch.getText().toString();
-            startSearch(s);
+            mPresenter.checkBookSource();
         });
 
         ClickUtils.click(ivClearSearchHistory, o -> {
@@ -156,7 +158,7 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    startSearch(mEtSearch.getText().toString());
+                    mPresenter.checkBookSource();
                 }
                 return false;
             }
@@ -221,7 +223,6 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
                 ClickUtils.click(tvSearch, o -> {
                     mEtSearch.setText(tvSearch.getText());
                     mEtSearch.setSelection(tvSearch.getText().length());
-                    startSearch(tvSearch.getText().toString());
                 });
 
                 ClickUtils.longClick(tvSearch, o -> {
@@ -252,6 +253,16 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
     }
 
     @Override
+    public void showCheckBookSourceResult(boolean noSourceAvailable) {
+        if (noSourceAvailable) {
+            showEmptyBookSourceDialog();
+        } else {
+            startSearch(mEtSearch.getText().toString());
+        }
+
+    }
+
+    @Override
     public void showError(Exception e) {
 
     }
@@ -270,6 +281,7 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
 
     private void startSearch(String searchKey) {
         if (TextUtils.isEmpty(searchKey)) {
+            toast("需要输入关键词");
             return;
         }
         //如果当前搜索词相同,不需要重新搜索
@@ -336,5 +348,17 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
 
                     }
                 });
+    }
+
+    /**
+     * if no bookSource available, show
+     */
+    private void showEmptyBookSourceDialog() {
+        DialogUtil.showOneButtonDialog(mContext, getResources().getString(R.string.dialog_title), getResources().getString(R.string.string_book_source_is_empty), new QMUIDialogAction.ActionListener() {
+            @Override
+            public void onClick(QMUIDialog dialog, int index) {
+                dialog.dismiss();
+            }
+        });
     }
 }

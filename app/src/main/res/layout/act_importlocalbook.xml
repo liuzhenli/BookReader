@@ -28,24 +28,30 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/selector_card_bg"
             android:gravity="center"
-            android:text="@string/add_to_shelf" />
+            android:text="@string/add_to_shelf"
+            android:textColor="@color/s_text_66" />
 
         <TextView
             android:id="@+id/view_delete_file"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/selector_card_bg"
             android:gravity="center"
-            android:text="@string/delete" />
+            android:text="@string/delete"
+            android:textColor="@color/s_text_66" />
 
         <TextView
             android:id="@+id/view_select_all"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/selector_card_bg"
             android:gravity="center"
-            android:text="@string/select_all" />
+            android:text="@string/select_all"
+            android:textColor="@color/s_text_66" />
 
     </LinearLayout>
 </LinearLayout>

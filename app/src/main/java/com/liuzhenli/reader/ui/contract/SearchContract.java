@@ -24,6 +24,14 @@ public class SearchContract {
         void showSearchHistory(List<SearchHistoryBean> data);
 
         void showSearchResult(String key, List<SearchBookBean> bookList);
+
+        /**
+         * show check result
+         *
+         * @param noSourceAvailable true if book source is empty
+         */
+
+        void showCheckBookSourceResult(boolean noSourceAvailable);
     }
 
     public interface Presenter<T> extends BaseContract.BasePresenter<T> {
@@ -42,5 +50,10 @@ public class SearchContract {
         void search(int type, int page, String key, RecyclerArrayAdapter<SearchBookBean> mAdapter);
 
         void stopSearch();
+
+        /**
+         * check if book source is empty
+         */
+        void checkBookSource();
     }
 }

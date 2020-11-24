@@ -454,5 +454,10 @@
     <string name="refresh_cover">刷新封面</string>
     <string name="feed_back">意見反饋</string>
     <string name="total_chapter_count">共%s章</string>
+
+
+    <string name="string_book_source_is_empty">您还没有配置书源,无法完成搜索,点击右上角,先添加书源吧.</string>
+
+
     <string name="about_donate">\t本软件是由多位爱好读书的大佬共同开发制作的,特别是开发和书源的制作很费时间.如果您想请各位大佬喝杯咖啡,吃包辣条,请可以在此处给予他们一点支持.您的支持是大佬们的动力,相信在大家的共同努力下,我们一定能够让本软件发展的越来越好.</string>
 </resources>

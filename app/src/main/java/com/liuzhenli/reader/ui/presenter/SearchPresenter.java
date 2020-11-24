@@ -10,10 +10,12 @@ import com.liuzhenli.reader.ui.activity.SearchActivity;
 import com.liuzhenli.reader.ui.contract.SearchContract;
 import com.liuzhenli.reader.view.recyclerview.adapter.RecyclerArrayAdapter;
 import com.micoredu.readerlib.bean.BookShelfBean;
+import com.micoredu.readerlib.bean.BookSourceBean;
 import com.micoredu.readerlib.bean.SearchBookBean;
 import com.micoredu.readerlib.bean.SearchHistoryBean;
 import com.micoredu.readerlib.helper.BookshelfHelper;
 import com.micoredu.readerlib.helper.DbHelper;
+import com.micoredu.readerlib.model.BookSourceManager;
 import com.micoredu.readerlib.model.SearchBookModel;
 
 import java.util.ArrayList;
@@ -200,9 +202,31 @@ public class SearchPresenter extends RxPresenter<SearchContract.View> implements
 
     @Override
     public void stopSearch() {
-        isSearching=false;
+        isSearching = false;
         if (searchBookModel != null) {
             searchBookModel.stopSearch();
         }
+    }
+
+    @Override
+    public void checkBookSource() {
+        Observable<Boolean> observable = Observable.create(new ObservableOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
+                List<BookSourceBean> allBookSource = BookSourceManager.getAllBookSource();
+                emitter.onNext(allBookSource == null || allBookSource.size() == 0);
+
+            }
+        });
+
+        DisposableObserver subscribe = RxUtil.subscribe(observable, new SampleProgressObserver<Boolean>() {
+            @Override
+            public void onNext(Boolean aBoolean) {
+                mView.showCheckBookSourceResult(aBoolean);
+            }
+        });
+
+        addSubscribe(subscribe);
+
     }
 }
