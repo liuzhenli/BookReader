@@ -136,7 +136,9 @@ public class BookSourcePresenter extends RxPresenter<BookSourceContract.View> im
                 }
                 //发现数据默认可见
                 for (int i = 0; i < bookSourceList.size(); i++) {
-                    bookSourceList.get(i).setRuleFindEnable(true);
+                    if (!TextUtils.isEmpty(bookSourceList.get(i).getRuleFindUrl())) {
+                        bookSourceList.get(i).setRuleFindEnable(true);
+                    }
                 }
                 //存入数据库
                 BookSourceManager.addBookSource(bookSourceList);

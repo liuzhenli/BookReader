@@ -1,5 +1,7 @@
 package com.liuzhenli.reader.ui.presenter;
 
+import android.text.TextUtils;
+
 import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.reader.base.RxPresenter;
 import com.liuzhenli.reader.observer.SampleProgressObserver;
@@ -25,6 +27,10 @@ public class EditSourcePresenter extends RxPresenter<EditSourceContract.View> im
     @Override
     public void saveBookSource(BookSourceBean data) {
         Observable<Boolean> observable = Observable.create(emitter -> {
+            //发现数据默认可见
+            if (data != null && !TextUtils.isEmpty(data.getRuleFindUrl())) {
+                data.setRuleFindEnable(true);
+            }
             BookSourceManager.saveBookSource(data);
             emitter.onNext(true);
         });
