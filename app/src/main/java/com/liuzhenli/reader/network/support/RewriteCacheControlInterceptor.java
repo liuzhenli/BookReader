@@ -7,8 +7,8 @@ import com.google.gson.Gson;
 import com.liuzhenli.common.SharedPreferencesUtil;
 import com.liuzhenli.reader.ReaderApplication;
 import com.liuzhenli.reader.base.BaseBean;
-import com.liuzhenli.reader.exception.CrashHandler;
-import com.liuzhenli.reader.exception.ApiCodeException;
+import com.liuzhenli.common.exception.CrashHandler;
+import com.liuzhenli.common.exception.ApiCodeException;
 import com.liuzhenli.common.utils.Constant;
 
 import java.io.IOException;

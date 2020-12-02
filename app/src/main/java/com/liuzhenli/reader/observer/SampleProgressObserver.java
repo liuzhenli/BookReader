@@ -4,7 +4,7 @@ import android.os.Looper;
 
 import com.liuzhenli.reader.ReaderApplication;
 import com.liuzhenli.reader.base.BaseContract;
-import com.liuzhenli.reader.exception.ApiException;
+import com.liuzhenli.common.exception.ApiException;
 import com.liuzhenli.reader.utils.ToastUtil;
 
 

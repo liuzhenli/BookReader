@@ -14,7 +14,7 @@ import androidx.appcompat.widget.AppCompatCheckBox;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.reader.ui.activity.BookSourceActivity;
 import com.liuzhenli.reader.ui.activity.EditSourceActivity;
-import com.liuzhenli.reader.utils.LogUtils;
+import com.liuzhenli.common.utils.LogUtils;
 import com.liuzhenli.reader.utils.ToastUtil;
 import com.liuzhenli.common.utils.AppConfigManager;
 import com.liuzhenli.reader.view.loading.DialogUtil;

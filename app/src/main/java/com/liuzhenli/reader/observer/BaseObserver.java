@@ -1,8 +1,8 @@
 package com.liuzhenli.reader.observer;
 
 
-import com.liuzhenli.reader.exception.ApiException;
-import com.liuzhenli.reader.exception.ExceptionEngine;
+import com.liuzhenli.common.exception.ApiException;
+import com.liuzhenli.common.exception.ExceptionEngine;
 
 import io.reactivex.observers.DisposableObserver;
 

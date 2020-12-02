@@ -24,7 +24,7 @@ import com.liuzhenli.reader.ReaderApplication;
 import com.liuzhenli.reader.observer.SampleProgressObserver;
 import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.common.utils.FileUtils;
-import com.liuzhenli.reader.utils.LogUtils;
+import com.liuzhenli.common.utils.LogUtils;
 import com.microedu.reader.R;
 
 import java.io.ByteArrayOutputStream;

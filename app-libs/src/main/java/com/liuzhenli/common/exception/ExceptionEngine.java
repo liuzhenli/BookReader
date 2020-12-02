@@ -1,10 +1,10 @@
-package com.liuzhenli.reader.exception;
+package com.liuzhenli.common.exception;
 
 import android.net.ParseException;
 
 import com.google.gson.JsonParseException;
-import com.liuzhenli.reader.ReaderApplication;
-import com.liuzhenli.reader.utils.LogUtils;
+import com.liuzhenli.common.utils.LogUtils;
+import com.orhanobut.logger.BuildConfig;
 import com.orhanobut.logger.Logger;
 
 import org.json.JSONException;
@@ -56,7 +56,7 @@ public class ExceptionEngine {
         if (throwable instanceof HttpException) {
             HttpException httpException = (HttpException) throwable;
             String url = httpException.response().raw().request().url().toString();
-            if (ReaderApplication.isDebug) {
+            if (BuildConfig.DEBUG) {
                 Logger.e("httpException  ", url);
             }
             ex = new ApiException(Error.HTTP_ERROR, throwable);
@@ -78,7 +78,7 @@ public class ExceptionEngine {
                 || throwable instanceof JSONException
                 || throwable instanceof ParseException) {
             ex = new ApiException(Error.PARSE_ERROR, throwable);
-            if (ReaderApplication.isDebug) {
+            if (BuildConfig.DEBUG) {
                 ex.setDisplayMessage(LogUtils.getErrorString(throwable));
             } else {
                 ex.setDisplayMessage("数据解析失败");
@@ -98,7 +98,7 @@ public class ExceptionEngine {
             ex.setDisplayMessage(throwable.getMessage());
         } else {
             ex = new ApiException(Error.UNKNOWN, throwable);
-            if (ReaderApplication.isDebug) {
+            if (BuildConfig.DEBUG) {
                 ex.setDisplayMessage(LogUtils.getErrorString(throwable));
             } else {
                 ex.setDisplayMessage("发生未知错误");

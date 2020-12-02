@@ -20,6 +20,9 @@ import com.liuzhenli.reader.utils.ToastUtil;
 import com.micoredu.readerlib.utils.bar.ImmersionBar;
 import com.microedu.reader.R;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
@@ -148,4 +151,5 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
     protected void toast(String mst) {
         ToastUtil.showToast(mContext, mst);
     }
+
 }

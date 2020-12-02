@@ -16,6 +16,7 @@ import com.liuzhenli.reader.utils.DataDiffUtil;
 import com.micoredu.readerlib.bean.SearchBookBean;
 import com.microedu.reader.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.liuzhenli.common.BitIntentDataManager.DATA_KEY;
@@ -66,6 +67,7 @@ public class BookCategoryFragment extends BaseRVFragment<BookListPresenter, Sear
     @Override
     public void configViews() {
         initAdapter(BookListAdapter.class, true, true, true);
+        mAdapter.clear();
     }
 
     @Override
@@ -88,6 +90,9 @@ public class BookCategoryFragment extends BaseRVFragment<BookListPresenter, Sear
 
     @Override
     public void showError(Exception e) {
+        if (e.getMessage().contains("没有下一页")) {
+            mAdapter.addAll(new ArrayList<>());
+        }
         mRecyclerView.setRefreshing(false);
     }
 

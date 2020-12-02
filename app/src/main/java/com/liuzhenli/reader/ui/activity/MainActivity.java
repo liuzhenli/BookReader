@@ -3,6 +3,7 @@ package com.liuzhenli.reader.ui.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,20 +11,29 @@ import android.view.ViewGroup;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.balysv.materialmenu.MaterialMenuView;
 import com.google.android.material.tabs.TabLayout;
+import com.hwangjr.rxbus.annotation.Subscribe;
+import com.hwangjr.rxbus.annotation.Tag;
+import com.hwangjr.rxbus.thread.EventThread;
+import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.utils.ClickUtils;
+import com.liuzhenli.common.utils.FillContentUtil;
 import com.liuzhenli.reader.network.AppComponent;
 import com.liuzhenli.reader.base.BaseActivity;
 import com.liuzhenli.reader.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.adapter.MainTabAdapter;
 import com.liuzhenli.common.utils.Constant;
+import com.liuzhenli.reader.ui.fragment.DiscoverFragment;
 import com.liuzhenli.reader.utils.PermissionUtil;
 import com.liuzhenli.reader.utils.ToastUtil;
 import com.liuzhenli.reader.view.NoAnimViewPager;
+import com.micoredu.readerlib.bean.BookShelfBean;
+import com.micoredu.readerlib.bean.BookSourceBean;
 import com.microedu.reader.R;
 
 import butterknife.BindView;
@@ -58,6 +68,7 @@ public class MainActivity extends BaseActivity {
 
     private int mCurrentPosition;
     private MainTabAdapter mainTabAdapter;
+    private String mDiscoverBookSourceName;
 
     @OnClick(R.id.tv_night_mode)
     public void login() {
@@ -84,7 +95,18 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initToolBar() {
         mToolBar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_more));
-        mTvTitle.setText(getResources().getStringArray(R.array.main_tab_names)[mCurrentPosition]);
+        FillContentUtil.setText(mTvTitle, getResources().getStringArray(R.array.main_tab_names)[mCurrentPosition]);
+        mTvTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mCurrentPosition == 1) {
+                    DiscoverFragment fragment = (DiscoverFragment) mainTabAdapter.getItem(mCurrentPosition);
+                    fragment.showBookSourceView();
+                }
+            }
+        });
+
+
     }
 
     @Override
@@ -116,7 +138,11 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mCurrentPosition = tab.getPosition();
-                mTvTitle.setText(mainTabAdapter.getPageTitle(mCurrentPosition));
+                if (mCurrentPosition == 1 && !TextUtils.isEmpty(mDiscoverBookSourceName)) {
+                    FillContentUtil.setTextDrawable(mTvTitle, mDiscoverBookSourceName, getResources().getDrawable(R.drawable.common_filter_arrow_down), FillContentUtil.Place.right);
+                } else {
+                    FillContentUtil.setText(mTvTitle, mainTabAdapter.getPageTitle(mCurrentPosition));
+                }
                 setMenu();
             }
 
@@ -251,4 +277,15 @@ public class MainActivity extends BaseActivity {
             return false;
         }
     }
+
+
+    @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusTag.CHANGE_DISCOVER_BOOK_SOURCE)})
+    public void onBookSourceChange(BookSourceBean book) {
+        if (mCurrentPosition == 1 && book != null) {
+            DiscoverFragment fragment = (DiscoverFragment) mainTabAdapter.getItem(mCurrentPosition);
+            mDiscoverBookSourceName = book.getBookSourceName();
+            FillContentUtil.setTextDrawable(mTvTitle, mDiscoverBookSourceName, getResources().getDrawable(R.drawable.common_filter_arrow_down), FillContentUtil.Place.right);
+        }
+    }
+
 }

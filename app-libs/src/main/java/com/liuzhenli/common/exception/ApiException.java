@@ -1,4 +1,4 @@
-package com.liuzhenli.reader.exception;
+package com.liuzhenli.common.exception;
 
 /**
  * view层的exception,用来显示异常状态

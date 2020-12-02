@@ -5,7 +5,7 @@ import com.liuzhenli.reader.base.RxPresenter;
 import com.liuzhenli.reader.network.Api;
 import com.liuzhenli.reader.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.contract.BookListContract;
-import com.liuzhenli.reader.utils.LogUtils;
+import com.liuzhenli.common.utils.LogUtils;
 import com.micoredu.readerlib.bean.SearchBookBean;
 import com.micoredu.readerlib.model.WebBookModel;
 

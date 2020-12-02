@@ -1,11 +1,10 @@
-package com.liuzhenli.reader.utils;
+package com.liuzhenli.common.utils;
 
 import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
-import com.liuzhenli.reader.ReaderApplication;
-import com.orhanobut.logger.Logger;
+import com.liuzhenli.common.BaseApplication;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -37,7 +36,7 @@ public class LogUtils {
     private static String LOG_FILE_NAME;// 日志文件保存名称
 
     public static void init(Context context) { // 在Application中初始化
-        LOG_FILE_PATH = Environment.getExternalStorageDirectory().getPath() + File.separator + ReaderApplication.getInstance().getPackageName();
+        LOG_FILE_PATH = Environment.getExternalStorageDirectory().getPath() + File.separator + BaseApplication.getInstance().getPackageName();
         LOG_FILE_NAME = "Log";
     }
 

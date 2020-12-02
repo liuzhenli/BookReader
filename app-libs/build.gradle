@@ -86,4 +86,5 @@ dependencies {
     api 'com.umeng.umsdk:oaid_mi:1.0.0' // (可选)
     api 'com.umeng.umsdk:oaid_oppo:1.0.4' // (可选)
     api 'com.umeng.umsdk:oaid_vivo:1.0.0.1' // (可选)
+
 }

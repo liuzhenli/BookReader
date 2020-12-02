@@ -7,6 +7,7 @@ import androidx.annotation.Keep;
 
 import com.google.gson.Gson;
 import com.liuzhenli.common.constant.AppConstant;
+import com.liuzhenli.common.exception.ApiCodeException;
 import com.liuzhenli.common.utils.NetworkUtils;
 import com.liuzhenli.common.utils.StringUtils;
 import com.liuzhenli.common.utils.UrlEncoderUtils;
@@ -58,7 +59,7 @@ public class AnalyzeUrl {
         }
         //判断是否有下一页
         if (page != null && page > 1 && !ruleUrl.contains("searchPage")) {
-            throw new Exception("没有下一页");
+            throw new ApiCodeException(0, "#没有下一页");
         }
         //替换js
         ruleUrl = replaceJs(ruleUrl, baseUrl, page, key);

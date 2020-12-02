@@ -1,4 +1,4 @@
-package com.liuzhenli.reader.exception;
+package com.liuzhenli.common.exception;
 
 
 import com.liuzhenli.common.utils.Constant;

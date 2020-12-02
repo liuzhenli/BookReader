@@ -16,7 +16,7 @@ import com.liuzhenli.common.utils.NetworkUtils;
 import com.liuzhenli.reader.ui.activity.WebViewActivity;
 import com.liuzhenli.reader.utils.AppUtils;
 import com.liuzhenli.common.utils.Constant;
-import com.liuzhenli.reader.utils.LogUtils;
+import com.liuzhenli.common.utils.LogUtils;
 import com.liuzhenli.reader.utils.ToastUtil;
 
 import java.util.HashMap;
