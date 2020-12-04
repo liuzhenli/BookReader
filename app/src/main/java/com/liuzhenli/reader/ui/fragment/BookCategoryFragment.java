@@ -30,18 +30,20 @@ import static com.liuzhenli.common.BitIntentDataManager.DATA_KEY;
 public class BookCategoryFragment extends BaseRVFragment<BookListPresenter, SearchBookBean> implements BookListContract.View {
 
     public static final String URL = "url";
-    public static final String PAGE = "page";
+    public static final String BOOK_SOURCE_NAME = "source_name";
     public static final String TAG = "tag";
 
 
     private String mUrl;
     private String mTag;
+    private String mBookSourceName;
 
-    public static BookCategoryFragment getInstance(String url, String tag) {
+    public static BookCategoryFragment getInstance(String url, String tag, String bookSourceName) {
         BookCategoryFragment instance = new BookCategoryFragment();
         Bundle bundle = new Bundle();
         bundle.putString(URL, url);
         bundle.putString(TAG, tag);
+        bundle.putString(BOOK_SOURCE_NAME, bookSourceName);
         instance.setArguments(bundle);
         return instance;
     }
@@ -61,14 +63,14 @@ public class BookCategoryFragment extends BaseRVFragment<BookListPresenter, Sear
         if (getArguments() != null) {
             mUrl = getArguments().getString(URL);
             mTag = getArguments().getString(TAG);
+            mBookSourceName = getArguments().getString(BOOK_SOURCE_NAME);
         }
     }
 
     @Override
     public void configViews() {
         initAdapter(BookListAdapter.class, true, true, true);
-        mAdapter.clear();
-
+        ((BookListAdapter) mAdapter).setBookSourceName(mBookSourceName);
     }
 
     @Override
@@ -107,7 +109,6 @@ public class BookCategoryFragment extends BaseRVFragment<BookListPresenter, Sear
     @Override
     public void onRefresh() {
         super.onRefresh();
-        showDialog();
         mPage = 1;
         mPresenter.getBookList(mUrl, mPage, mTag);
     }

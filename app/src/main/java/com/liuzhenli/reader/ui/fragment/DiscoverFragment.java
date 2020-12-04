@@ -246,7 +246,7 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
             mBookCategory.add(new BookCategoryBean(categoryInfo[0], categoryInfo[1]));
             String url = categoryInfo[1];
             String tag = mBookSource.getBookSourceUrl();
-            mFragmentList.add(BookCategoryFragment.getInstance(url, tag));
+            mFragmentList.add(BookCategoryFragment.getInstance(url, tag, mBookSource.getBookSourceName()));
         }
 
         fragmentPagerAdapter.notifyDataSetChanged();

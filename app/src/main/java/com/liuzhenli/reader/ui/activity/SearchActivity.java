@@ -302,7 +302,7 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
         mSearchIndicator.setVisibility(View.VISIBLE);
         mVStopSearch.setVisibility(View.VISIBLE);
         mViewSearchHistory.setVisibility(View.GONE);
-        mTvSearchBookCount.setText(String.format("以\"%s\"为关键词进行搜索", mCurrentSearchKey));
+        mTvSearchBookCount.setText(String.format("正在搜\"%s\"", mCurrentSearchKey));
     }
 
     private void stopSearch() {

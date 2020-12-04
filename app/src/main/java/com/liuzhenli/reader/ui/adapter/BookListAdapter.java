@@ -52,8 +52,6 @@ public class BookListAdapter extends RecyclerArrayAdapter<SearchBookBean> {
         TextView mTvSummary;
         @BindView(R.id.tv_author_info)
         TextView mTvAuthor;
-        @BindView(R.id.vw_select)
-        View mVwSelect;
 
         public BookShelfHolder(ViewGroup parent, int res) {
             super(parent, res);
@@ -64,7 +62,6 @@ public class BookListAdapter extends RecyclerArrayAdapter<SearchBookBean> {
         public void setData(SearchBookBean item) {
             super.setData(item);
             mTvName.setText(TextUtils.isEmpty(item.getName()) ? "[未知书名]" : item.getName());
-            mTvSummary.setText(item.getIntroduce());
             mTvSummary.setText(getSummary(item));
             //数据源的数量
             mBvUnread.setText(String.format("%s", item.getOriginNum()));
@@ -85,6 +82,9 @@ public class BookListAdapter extends RecyclerArrayAdapter<SearchBookBean> {
     public String getSummary(SearchBookBean item) {
         if (item.getIntroduce() != null) {
             return item.getIntroduce();
+        }
+        if (item.getLastChapter() != null) {
+            return item.getLastChapter();
         }
         return mBookSourceName;
     }
