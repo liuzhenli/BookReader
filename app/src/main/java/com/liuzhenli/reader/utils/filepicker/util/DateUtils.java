@@ -225,12 +225,13 @@ public class DateUtils extends android.text.format.DateUtils {
     }
 
     /**
-     * 格式化更新时间
+     * 格式化更新时间  单位毫秒
      */
     public static String formatUpdateTime(long updateTime) {
         if (updateTime <= 0) {
             return "";
         }
+        updateTime /= 1000;
         Calendar cal = Calendar.getInstance();
         // 手机当前时间
         int currentYear = cal.get(Calendar.YEAR);

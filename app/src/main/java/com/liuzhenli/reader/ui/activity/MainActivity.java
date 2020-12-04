@@ -68,6 +68,7 @@ public class MainActivity extends BaseActivity {
 
     private int mCurrentPosition;
     private MainTabAdapter mainTabAdapter;
+    /***发现页面的书源名字*/
     private String mDiscoverBookSourceName;
 
     @OnClick(R.id.tv_night_mode)
@@ -139,7 +140,7 @@ public class MainActivity extends BaseActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 mCurrentPosition = tab.getPosition();
                 if (mCurrentPosition == 1 && !TextUtils.isEmpty(mDiscoverBookSourceName)) {
-                    FillContentUtil.setTextDrawable(mTvTitle, mDiscoverBookSourceName, getResources().getDrawable(R.drawable.common_filter_arrow_down), FillContentUtil.Place.right);
+                    FillContentUtil.setTextDrawable(mTvTitle, mDiscoverBookSourceName, getResources().getDrawable(R.drawable.ic_down_filled), FillContentUtil.Place.right);
                 } else {
                     FillContentUtil.setText(mTvTitle, mainTabAdapter.getPageTitle(mCurrentPosition));
                 }
@@ -281,10 +282,11 @@ public class MainActivity extends BaseActivity {
 
     @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusTag.CHANGE_DISCOVER_BOOK_SOURCE)})
     public void onBookSourceChange(BookSourceBean book) {
-        if (mCurrentPosition == 1 && book != null) {
-            DiscoverFragment fragment = (DiscoverFragment) mainTabAdapter.getItem(mCurrentPosition);
+        if (book != null) {
             mDiscoverBookSourceName = book.getBookSourceName();
-            FillContentUtil.setTextDrawable(mTvTitle, mDiscoverBookSourceName, getResources().getDrawable(R.drawable.common_filter_arrow_down), FillContentUtil.Place.right);
+        }
+        if (mCurrentPosition == 1) {
+            FillContentUtil.setTextDrawable(mTvTitle, mDiscoverBookSourceName, getResources().getDrawable(R.drawable.ic_down_filled), FillContentUtil.Place.right);
         }
     }
 

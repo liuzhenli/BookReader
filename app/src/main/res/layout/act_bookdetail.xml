@@ -46,7 +46,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/total_chapter_count"
+                    android:text=""
                     android:textColor="@color/text_color_99"
                     android:textSize="@dimen/txt_size_14" />
 
@@ -58,7 +58,7 @@
                     android:drawableRight="@drawable/icon_common_arrow_right_more"
                     android:drawablePadding="@dimen/common_margin_small"
                     android:gravity="right|center"
-                    android:text="10小时前"
+                    android:text=""
                     android:textColor="@color/text_color_99"
                     android:textSize="@dimen/txt_size_14" />
             </LinearLayout>

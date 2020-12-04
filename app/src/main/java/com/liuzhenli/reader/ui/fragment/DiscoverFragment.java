@@ -4,18 +4,14 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.hwangjr.rxbus.RxBus;
 import com.liuzhenli.common.constant.RxBusTag;
@@ -41,8 +37,11 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerInd
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.script.ScriptException;
 import javax.script.SimpleBindings;
@@ -65,14 +64,10 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
     NoAnimViewPager mViewPager;
     @BindView(R.id.view_book_source)
     BookSourceView mBookSourceView;
-
-
     private CommonNavigatorAdapter mCommonNavigationAdapter;
     private FragmentStatePagerAdapter fragmentPagerAdapter;
     private ArrayList<BookCategoryBean> mBookCategory = new ArrayList<>();
     protected List<BaseFragment> mFragmentList = new ArrayList<>();
-    //标识,重新设置fragment时全设为true
-    private boolean[] flags;
 
     public static DiscoverFragment getInstance() {
         DiscoverFragment instance = new DiscoverFragment();
@@ -110,8 +105,6 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
 
     @Override
     public void configViews() {
-        mPresenter.getSource();
-
         mViewPager.setOffscreenPageLimit(10);
         FragmentManager fm = getChildFragmentManager();
         fragmentPagerAdapter = new FragmentStatePagerAdapter(fm, BEHAVIOR_SET_USER_VISIBLE_HINT) {
@@ -132,74 +125,59 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
             }
 
             @Override
-            public int getItemPosition(Object object) {
+            public int getItemPosition(@NotNull Object object) {
                 if (mFragmentList.contains((Fragment) object)) {
                     // 如果当前 item 未被 remove，则返回 item 的真实 position
-                    Log.e("view is contains", true + "");
                     return mFragmentList.indexOf((Fragment) object);
                 } else {
                     // 否则返回状态值 POSITION_NONE
-                    Log.e("view is contains", false + "");
                     return POSITION_NONE;
                 }
             }
-
-
         };
         mViewPager.setAdapter(fragmentPagerAdapter);
 
         CommonNavigator commonNavigator7 = new CommonNavigator(mContext);
         //这个控制左右滑动的时候,选中文字的位置,0.5表示在中间
         commonNavigator7.setScrollPivotX(0.5f);
-        mCommonNavigationAdapter = new
+        mCommonNavigationAdapter = new CommonNavigatorAdapter() {
+            @Override
+            public int getCount() {
+                return mFragmentList.size();
+            }
 
-                CommonNavigatorAdapter() {
-                    @Override
-                    public int getCount() {
-                        return mFragmentList.size();
-                    }
+            @Override
+            public IPagerTitleView getTitleView(Context context, int index) {
+                ScaleTransitionPagerTitleView simplePagerTitleView = new ScaleTransitionPagerTitleView(context);
+                simplePagerTitleView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+                simplePagerTitleView.setText(mBookCategory.get(index).name);
+                simplePagerTitleView.setTextSize(20);
+                simplePagerTitleView.setNormalColor(getResources().getColor(R.color.text_color_99));
+                simplePagerTitleView.setSelectedColor(getResources().getColor(R.color.text_color_66));
+                simplePagerTitleView.setOnClickListener(v -> mViewPager.setCurrentItem(index));
+                return simplePagerTitleView;
+            }
 
-                    @Override
-                    public IPagerTitleView getTitleView(Context context, int index) {
-                        ScaleTransitionPagerTitleView simplePagerTitleView = new ScaleTransitionPagerTitleView(context);
-                        simplePagerTitleView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-                        simplePagerTitleView.setText(mBookCategory.get(index).name);
-                        simplePagerTitleView.setTextSize(20);
-                        simplePagerTitleView.setNormalColor(getResources().getColor(R.color.text_color_99));
-                        simplePagerTitleView.setSelectedColor(getResources().getColor(R.color.text_color_66));
-                        simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                mViewPager.setCurrentItem(index);
-                            }
-                        });
-                        return simplePagerTitleView;
-                    }
-
-                    @Override
-                    public IPagerIndicator getIndicator(Context context) {
-                        LinePagerIndicator indicator = new LinePagerIndicator(context);
-                        indicator.setMode(LinePagerIndicator.MODE_EXACTLY);
-                        indicator.setLineHeight(UIUtil.dip2px(context, 4));
-                        indicator.setLineWidth(UIUtil.dip2px(context, 10));
-                        indicator.setRoundRadius(UIUtil.dip2px(context, 3));
-                        indicator.setStartInterpolator(new AccelerateInterpolator());
-                        indicator.setEndInterpolator(new DecelerateInterpolator(2.0f));
-                        indicator.setColors(getResources().getColor(R.color.main_blue));
-                        return indicator;
-                    }
-                }
+            @Override
+            public IPagerIndicator getIndicator(Context context) {
+                LinePagerIndicator indicator = new LinePagerIndicator(context);
+                indicator.setMode(LinePagerIndicator.MODE_EXACTLY);
+                indicator.setLineHeight(UIUtil.dip2px(context, 4));
+                indicator.setLineWidth(UIUtil.dip2px(context, 10));
+                indicator.setRoundRadius(UIUtil.dip2px(context, 3));
+                indicator.setStartInterpolator(new AccelerateInterpolator());
+                indicator.setEndInterpolator(new DecelerateInterpolator(2.0f));
+                indicator.setColors(getResources().getColor(R.color.main_blue));
+                return indicator;
+            }
+        }
 
         ;
         commonNavigator7.setAdapter(mCommonNavigationAdapter);
         mIndicator.setNavigator(commonNavigator7);
         ViewPagerHelper.bind(mIndicator, mViewPager);
-        mBookSourceView.setOnItemClick(new BookSourceView.OnItemClick() {
-            @Override
-            public void onItemClick(BookSourceBean bookSourceBean) {
-                onBookSourceChange(bookSourceBean);
-            }
-        });
+        mBookSourceView.setOnItemClick(this::onBookSourceChange);
+        mBookSourceView.setVisibility(View.GONE);
     }
 
     public void onRefresh() {
@@ -210,7 +188,9 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
     public void showSource(List<BookSourceBean> bookSourceData) {
         mBookSourceView.setData(bookSourceData);
         if (bookSourceData != null && bookSourceData.size() > 0) {
-            onBookSourceChange(bookSourceData.get(0));
+            Random random = new Random();
+            int index = random.nextInt(bookSourceData.size());
+            onBookSourceChange(bookSourceData.get(index));
         }
     }
 
@@ -261,12 +241,6 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
         }
         //一个类目
         String[] findItem = ruleFindUrl.split("(&&|\n)+");
-        flags = new boolean[findItem.length];
-        for (int i = 0; i < findItem.length; i++) {
-
-            flags[i] = true;
-        }
-
         for (String s : findItem) {
             String[] categoryInfo = s.split("::");
             mBookCategory.add(new BookCategoryBean(categoryInfo[0], categoryInfo[1]));
@@ -279,4 +253,5 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
         mCommonNavigationAdapter.notifyDataSetChanged();
         RxBus.get().post(RxBusTag.CHANGE_DISCOVER_BOOK_SOURCE, mBookSource);
     }
+
 }

@@ -48,9 +48,6 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
     /***章节数*/
     @BindView(R.id.tv_total_chapter_count)
     TextView mTvChapterCount;
-    /***最后更新时间*/
-    @BindView(R.id.tv_last_update_time)
-    TextView mTvLastUpdateTime;
     @BindView(R.id.tv_book_description)
     TextView mTvDescription;
     @BindView(R.id.tv_net_matches)
@@ -168,7 +165,6 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
         //来源网站
         mTvBookSite.setText(book.getOrigin());
 
-        mTvLastUpdateTime.setText(DateUtils.formatUpdateTime(book.getFinalRefreshData()));
         mTvChapterCount.setText(String.format(getResources().getString(R.string.total_chapter_count), mChapterList.size() + ""));
         ImageUtil.setImage(mContext, book.getCoverUrl(), R.drawable.book_cover, mIvCover);
     }

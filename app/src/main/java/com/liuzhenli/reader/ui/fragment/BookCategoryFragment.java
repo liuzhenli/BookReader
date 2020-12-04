@@ -68,6 +68,7 @@ public class BookCategoryFragment extends BaseRVFragment<BookListPresenter, Sear
     public void configViews() {
         initAdapter(BookListAdapter.class, true, true, true);
         mAdapter.clear();
+
     }
 
     @Override
@@ -93,23 +94,27 @@ public class BookCategoryFragment extends BaseRVFragment<BookListPresenter, Sear
         if (e.getMessage().contains("没有下一页")) {
             mAdapter.addAll(new ArrayList<>());
         }
+        hideDialog();
         mRecyclerView.setRefreshing(false);
     }
 
     @Override
     public void complete() {
+        hideDialog();
         mRecyclerView.setRefreshing(false);
     }
 
     @Override
     public void onRefresh() {
         super.onRefresh();
+        showDialog();
         mPage = 1;
         mPresenter.getBookList(mUrl, mPage, mTag);
     }
 
     @Override
     public void showBookList(List<SearchBookBean> data) {
+        hideDialog();
         mRecyclerView.setRefreshing(false);
         if (mAdapter.getCount() != 0 && mPage == 1) {
             DataDiffUtil.diffResult(mAdapter, data, new DataDiffUtil.ItemSameCallBack<SearchBookBean>() {
