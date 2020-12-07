@@ -41,4 +41,10 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent" />
 
+    <FrameLayout
+        android:id="@+id/fl_protect_eye_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FF654C07 " />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

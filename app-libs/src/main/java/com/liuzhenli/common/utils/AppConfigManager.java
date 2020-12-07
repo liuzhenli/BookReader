@@ -55,4 +55,13 @@ public class AppConfigManager {
     public static void setRefreshBookShelf(boolean refresh) {
         SharedPreferencesUtil.getInstance().putBoolean("refresh_book_shelf", refresh);
     }
+
+
+    public static void setProtectEyeReadMode(boolean on) {
+        SharedPreferencesUtil.getInstance().putBoolean("protect_eye_read_mode", on);
+    }
+
+    public static boolean tetProtectEyeReadMode() {
+        return SharedPreferencesUtil.getInstance().getBoolean("protect_eye_read_mode", false);
+    }
 }

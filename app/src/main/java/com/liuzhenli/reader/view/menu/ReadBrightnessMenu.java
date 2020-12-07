@@ -62,11 +62,11 @@ public class ReadBrightnessMenu extends BaseMenu {
                 int light = ReadConfigManager.getInstance().getLight();
                 setBrightness(light);
             }
-
+            ReadConfigManager.getInstance().setLightFollowSys(isChecked);
         });
         //护眼模式
         swProtectEye.setOnCheckedChangeListener((buttonView, isChecked) -> {
-
+            mCallback.onProtectEyeClick(isChecked);
         });
 
         //亮度调节
@@ -86,6 +86,14 @@ public class ReadBrightnessMenu extends BaseMenu {
         if (mActivity != null) {
             ScreenUtils.setScreenBrightness(mActivity, value);
         }
+    }
+
+    public void setProtectedEyeMode(boolean on) {
+        swProtectEye.setChecked(on);
+    }
+
+    public void setBrightnessFollowSystem(boolean follow) {
+        swFollowSystem.setChecked(follow);
     }
 
     @Override

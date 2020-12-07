@@ -7,10 +7,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 
 import com.liuzhenli.common.constant.AppConstant;
+import com.liuzhenli.common.utils.AppConfigManager;
 import com.liuzhenli.reader.ReaderApplication;
 import com.liuzhenli.reader.network.AppComponent;
 import com.liuzhenli.reader.ui.contract.ReadContract;
@@ -82,7 +84,9 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
     /***亮度**/
     @BindView(R.id.view_read_brightness_setting)
     ReadBrightnessMenu mVBrightnessSettingMenu;
-
+    @BindView(R.id.fl_protect_eye_view)
+    FrameLayout mVProtectEye;
+    private float mAlpha = 0F;
     private PageLoader mPageLoader;
     private int mCurrentChapterIndex;
 
@@ -228,7 +232,14 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
         mVBrightnessSettingMenu.setCallback(this, new ReadBrightnessMenu.CallBack() {
             @Override
             public void onProtectEyeClick(boolean on) {
-
+                if (on) {
+                    mAlpha = 3E-1F;
+                } else {
+                    mAlpha = 0f;
+                }
+                AppConfigManager.setProtectEyeReadMode(on);
+                mVProtectEye.setAlpha(mAlpha);
+                mVProtectEye.invalidate();
             }
         });
         mVSettingMenu.setReadSettingCallBack(new ReadSettingMenu.ReadSettingCallBack() {
@@ -259,6 +270,9 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
                 }
             }
         });
+        mVBrightnessSettingMenu.setProtectedEyeMode(AppConfigManager.tetProtectEyeReadMode());
+        mVProtectEye.setAlpha(mAlpha);
+        mVBrightnessSettingMenu.setBrightnessFollowSystem(ReadConfigManager.getInstance().getLightFollowSys());
     }
 
     /***显示书目录**/
