@@ -217,7 +217,7 @@ abstract public class RecyclerArrayAdapter<T> extends RecyclerView.Adapter<BaseV
         return container;
     }
 
-    public View setZeroView(View view){
+    public View setZeroView(View view) {
 //        FrameLayout container = new FrameLayout(getContext());
 //        container.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 //        LayoutInflater.from(getContext()).inflate(res, container);
@@ -298,7 +298,7 @@ abstract public class RecyclerArrayAdapter<T> extends RecyclerView.Adapter<BaseV
             mEventDelegate.addData(collection == null ? 0 : collection.size());
         if (collection != null && collection.size() != 0) {
             synchronized (mLock) {
-                mObjects.addAll(position,collection);
+                mObjects.addAll(position, collection);
             }
         }
         int dataCount = collection == null ? 0 : collection.size();
@@ -543,10 +543,10 @@ abstract public class RecyclerArrayAdapter<T> extends RecyclerView.Adapter<BaseV
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position, List<Object> payloads) {
-        if (payloads.isEmpty()){
-            onBindViewHolder(holder,position);
-        }else {
-             holder.someRefresh(position);
+        if (payloads.isEmpty()) {
+            onBindViewHolder(holder, position);
+        } else {
+            holder.someRefresh(position);
         }
     }
 
@@ -606,6 +606,11 @@ abstract public class RecyclerArrayAdapter<T> extends RecyclerView.Adapter<BaseV
 
     public List<T> getRealAllData() {
         return mObjects;
+    }
+
+    public void setRealAllData(List<T> objects) {
+        this.mObjects = objects;
+        notifyDataSetChanged();
     }
 
     /**

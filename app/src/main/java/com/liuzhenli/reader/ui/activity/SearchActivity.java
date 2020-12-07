@@ -244,12 +244,9 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
         mViewSearchHistory.setVisibility(View.GONE);
         if (mAdapter.getCount() == 0) {
             mAdapter.addAll(searchResult);
-            return;
+        } else {
+            mAdapter.setRealAllData(searchResult);
         }
-        if (mAdapter.getCount() != 0) {
-            mAdapter.clear();
-        }
-        mAdapter.addAll(searchResult);
     }
 
     @Override

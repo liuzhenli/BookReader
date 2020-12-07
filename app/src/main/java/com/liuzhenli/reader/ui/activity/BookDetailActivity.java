@@ -12,6 +12,7 @@ import com.liuzhenli.reader.base.BaseActivity;
 import com.liuzhenli.reader.network.AppComponent;
 import com.liuzhenli.reader.ui.contract.BookDetailContract;
 import com.liuzhenli.reader.ui.presenter.BookDetailPresenter;
+import com.liuzhenli.reader.utils.ToastUtil;
 import com.liuzhenli.reader.utils.image.ImageUtil;
 import com.micoredu.readerlib.bean.BookChapterBean;
 import com.micoredu.readerlib.bean.BookInfoBean;
@@ -113,15 +114,21 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
 
     @Override
     protected void configViews() {
-        mPresenter.getBookInfo(mBookShelf, isInBookShelf);
+        //add to book shelf or remove from bookshelf
         ClickUtils.click(mTvAddToBookshelf, o -> {
             if (!isInBookShelf) {
                 BookshelfHelper.saveBookToShelf(mBookShelf);
                 if (mChapterList != null) {
                     DbHelper.getDaoSession().getBookChapterBeanDao().insertOrReplaceInTx(mChapterList);
                 }
+                ToastUtil.showToast("已加入书架");
+            } else {
+                BookshelfHelper.removeFromBookShelf(mBookShelf);
+                ToastUtil.showToast("已从书架中移除");
             }
+            setIsInBookShelf(!isInBookShelf);
         });
+        //read book button click
         ClickUtils.click(mTvRead, o -> {
             Intent intent = new Intent(BookDetailActivity.this, ReaderActivity.class);
             intent.putExtra("openFrom", AppConstant.BookOpenFrom.OPEN_FROM_APP);
@@ -140,23 +147,26 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
             mTvLastChapterName.setText(mSearchBook.getLastChapter());
             ImageUtil.setImage(mContext, mBookShelf.getBookInfoBean().getCoverUrl(), R.drawable.book_cover, mIvCover);
         }
-
+        mPresenter.getBookInfo(mBookShelf, isInBookShelf);
+        showDialog();
+        setIsInBookShelf(isInBookShelf);
     }
 
     @Override
     public void showError(Exception e) {
-
+        hideDialog();
     }
 
     @Override
     public void complete() {
-
+        hideDialog();
     }
 
     @Override
     public void showBookInfo(BookInfoBean data, List<BookChapterBean> bookChapterBeans) {
         this.mChapterList = bookChapterBeans;
         setBookInfo(data);
+        hideDialog();
     }
 
     private void setBookInfo(BookInfoBean book) {
@@ -168,6 +178,14 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
         mTvAuthor.setText(book.getAuthor());
         mTvChapterCount.setText(String.format(getResources().getString(R.string.total_chapter_count), mChapterList.size() + ""));
         ImageUtil.setImage(mContext, book.getCoverUrl(), R.drawable.book_cover, mIvCover);
+    }
+
+    private void setIsInBookShelf(boolean isInBookShelf) {
+        if (isInBookShelf) {
+            mTvAddToBookshelf.setText("移除书架");
+        } else {
+            mTvAddToBookshelf.setText("加入书架");
+        }
     }
 
 }
