@@ -38,6 +38,10 @@ import java.util.List;
  * @author Liuzhenli on 2019-11-09 22:28
  */
 public class BookShelfFragment extends BaseRVFragment<BookShelfPresenter, BookShelfBean> implements BookShelfContract.View {
+
+    /***是否启动第一次访问书架  如果是,需要检查更新*/
+    private boolean mFirstRequest = true;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,9 +123,22 @@ public class BookShelfFragment extends BaseRVFragment<BookShelfPresenter, BookSh
     }
 
     @Override
+    public void setRefreshingBook(BookShelfBean data) {
+        for (int i = 0; mAdapter != null && mAdapter.getRealAllData() != null
+                && mAdapter.getRealAllData().size() > 0
+                && i < mAdapter.getRealAllData().size(); i++) {
+            if (TextUtils.equals(mAdapter.getRealAllData().get(i).getNoteUrl(), data.getNoteUrl())) {
+                mAdapter.getRealAllData().get(i).setLoading(data.isLoading());
+                mAdapter.notifyItemChanged(i);
+            }
+        }
+    }
+
+    @Override
     public void onRefresh() {
         super.onRefresh();
-        mPresenter.queryBooks(false, 0);
+        mPresenter.queryBooks(mFirstRequest, 0);
+        mFirstRequest = false;
     }
 
     @Override
@@ -171,8 +188,12 @@ public class BookShelfFragment extends BaseRVFragment<BookShelfPresenter, BookSh
 
         tvBookName.setText(bookShelfBean.getBookInfoBean().getName());
         tvBookAuthor.setText(String.format("作者:%s", author));
-        tvBookSource.setText(String.format("书源:%s", "本地"));
-        tvProgress.setText(String.format("已阅读:%s", "1%"));
+        tvBookSource.setText(String.format("书源:%s", bookShelfBean.getBookInfoBean().getOrigin()));
+        if (bookShelfBean.getChapterListSize() == 0) {
+            tvProgress.setText("已阅读:0%");
+        } else {
+            tvProgress.setText(String.format("已阅读:%.2f%s", bookShelfBean.getDurChapter() * 100.f / bookShelfBean.getChapterListSize(), "%"));
+        }
         tvDes.setText(bookShelfBean.getBookInfoBean().getIntroduce());
         bottomSheetDialog.show();
         return false;

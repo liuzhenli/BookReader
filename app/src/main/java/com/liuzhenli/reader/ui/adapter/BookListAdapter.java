@@ -64,7 +64,12 @@ public class BookListAdapter extends RecyclerArrayAdapter<SearchBookBean> {
             mTvName.setText(TextUtils.isEmpty(item.getName()) ? "[未知书名]" : item.getName());
             mTvSummary.setText(getSummary(item));
             //数据源的数量
-            mBvUnread.setText(String.format("%s", item.getOriginNum()));
+            if (item.getOriginNum() > 1) {
+                mBvUnread.setVisibility(View.VISIBLE);
+                mBvUnread.setText(String.format("%s", item.getOriginNum()));
+            } else {
+                mBvUnread.setVisibility(View.GONE);
+            }
             //作者
             if (!TextUtils.isEmpty(item.getKind())) {
                 mTvAuthor.setText(String.format("%s  %s", getAuthor(item), item.getKind()));

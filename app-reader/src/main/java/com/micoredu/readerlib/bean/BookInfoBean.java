@@ -45,7 +45,7 @@ public class BookInfoBean implements Cloneable {
     private String author;
     /***图书简介**/
     private String introduce;
-    /***来源*/
+    /***来源  本地或者网站名字*/
     private String origin;
     /***编码*/
     private String charset;

@@ -151,7 +151,7 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
                 ScaleTransitionPagerTitleView simplePagerTitleView = new ScaleTransitionPagerTitleView(context);
                 simplePagerTitleView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
                 simplePagerTitleView.setText(mBookCategory.get(index).name);
-                simplePagerTitleView.setTextSize(20);
+                simplePagerTitleView.setTextSize(16);
                 simplePagerTitleView.setNormalColor(getResources().getColor(R.color.text_color_99));
                 simplePagerTitleView.setSelectedColor(getResources().getColor(R.color.text_color_66));
                 simplePagerTitleView.setOnClickListener(v -> mViewPager.setCurrentItem(index));

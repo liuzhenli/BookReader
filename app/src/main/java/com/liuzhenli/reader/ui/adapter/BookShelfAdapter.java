@@ -1,6 +1,7 @@
 package com.liuzhenli.reader.ui.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -49,16 +50,10 @@ public class BookShelfAdapter extends RecyclerArrayAdapter<BookShelfBean> {
         FrameLayout mFlHasNew;
         @BindView(R.id.tv_name)
         TextView mTvName;
-        @BindView(R.id.iv_author)
-        AppCompatImageView mIvAuthor;
         @BindView(R.id.tv_author)
         TextView mTvAuthor;
-        @BindView(R.id.iv_read)
-        AppCompatImageView mIvRead;
         @BindView(R.id.tv_read)
         TextView mTvRead;
-        @BindView(R.id.iv_last)
-        AppCompatImageView mIvLast;
         @BindView(R.id.tv_last)
         TextView mTvLast;
         @BindView(R.id.vw_select)
@@ -73,11 +68,25 @@ public class BookShelfAdapter extends RecyclerArrayAdapter<BookShelfBean> {
         public void setData(BookShelfBean item) {
             super.setData(item);
             mTvName.setText(item.getBookInfoBean().getName() == null ? "[未知书名]" : item.getBookInfoBean().getName());
-            mTvAuthor.setText(item.getBookInfoBean().getAuthor() == null ? "佚名" : item.getBookInfoBean().getAuthor());
-            mTvRead.setText(item.getDurChapterName() == null ? "0" : item.getDurChapterName());
-            mTvLast.setText(item.getLastChapterName() == null ? "0" : item.getLastChapterName());
+            mTvAuthor.setText(String.format("%s 著", TextUtils.isEmpty(item.getBookInfoBean().getAuthor()) ? "佚名" : item.getBookInfoBean().getAuthor()));
+            mTvRead.setText(String.format("读至:%s", item.getDurChapterName() == null ? "章节名未知" : item.getDurChapterName()));
+            mTvLast.setText(String.format("最新:%s", item.getLastChapterName() == null ? "章节名未知" : item.getLastChapterName()));
             if (item.getBookInfoBean() != null) {
                 ImageUtil.setImage(mContext, item.getBookInfoBean().getCoverUrl(), R.drawable.book_cover, mIvCover);
+            }
+            if (item.isLoading()) {
+                mBvUnread.setVisibility(View.GONE);
+                mRlLoading.setVisibility(View.VISIBLE);
+                mRlLoading.start();
+            } else {
+                mBvUnread.setVisibility(View.VISIBLE);
+                //未读章节数
+                mBvUnread.setBadgeCount(item.getUnreadChapterNum());
+                //显示有(无)更新
+                mBvUnread.setHighlight(item.getHasUpdate());
+                //停止loading
+                mRlLoading.setVisibility(View.GONE);
+                mRlLoading.stop();
             }
         }
     }

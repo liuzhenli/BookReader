@@ -81,7 +81,7 @@ public class BookCategoryFragment extends BaseRVFragment<BookListPresenter, Sear
         intent.putExtra(BookDetailActivity.OPEN_FROM, AppConstant.BookOpenFrom.OPEN_FROM_SEARCH);
         intent.putExtra(DATA_KEY, dataKey);
         BitIntentDataManager.getInstance().putData(dataKey, item);
-        ((BaseActivity) activity).startActivityByAnim(intent, android.R.anim.fade_in, android.R.anim.fade_out);
+        startActivity(intent);
     }
 
     @Override

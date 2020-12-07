@@ -39,4 +39,20 @@ public class AppConfigManager {
     public static void setMineFileSize(int size) {
         SharedPreferencesUtil.getInstance().putInt("mine_file_size", size);
     }
+
+    /**
+     * 检查书架书的更新
+     */
+    public static boolean isRefreshBookShelf() {
+        return SharedPreferencesUtil.getInstance().getBoolean("refresh_book_shelf", true);
+    }
+
+    /**
+     * 设置书架是否开机更新
+     *
+     * @param refresh 是否更新
+     */
+    public static void setRefreshBookShelf(boolean refresh) {
+        SharedPreferencesUtil.getInstance().putBoolean("refresh_book_shelf", refresh);
+    }
 }

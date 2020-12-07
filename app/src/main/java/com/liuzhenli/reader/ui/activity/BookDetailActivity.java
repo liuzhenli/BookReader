@@ -12,7 +12,6 @@ import com.liuzhenli.reader.base.BaseActivity;
 import com.liuzhenli.reader.network.AppComponent;
 import com.liuzhenli.reader.ui.contract.BookDetailContract;
 import com.liuzhenli.reader.ui.presenter.BookDetailPresenter;
-import com.liuzhenli.reader.utils.filepicker.util.DateUtils;
 import com.liuzhenli.reader.utils.image.ImageUtil;
 import com.micoredu.readerlib.bean.BookChapterBean;
 import com.micoredu.readerlib.bean.BookInfoBean;
@@ -42,24 +41,22 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
     TextView mTvBookName;
     @BindView(R.id.tv_author)
     TextView mTvAuthor;
-    /***书分类*/
-    @BindView(R.id.tv_category)
-    TextView mTvCategory;
+    /***书来源*/
+    @BindView(R.id.tv_book_source)
+    TextView mTvBookSource;
     /***章节数*/
     @BindView(R.id.tv_total_chapter_count)
     TextView mTvChapterCount;
     @BindView(R.id.tv_book_description)
     TextView mTvDescription;
-    @BindView(R.id.tv_net_matches)
-    TextView tvNetMatches;
     @BindView(R.id.tv_download)
     TextView mTvDownload;
     @BindView(R.id.tv_read)
     TextView mTvRead;
     @BindView(R.id.tv_add_to_bookshelf)
     TextView mTvAddToBookshelf;
-    @BindView(R.id.tv_open_vip)
-    TextView mTvBookSite;
+    @BindView(R.id.tv_last_chapter_name)
+    TextView mTvLastChapterName;
     private List<BookChapterBean> mChapterList = new ArrayList<>();
 
     private int mOpenFrom;
@@ -79,7 +76,7 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
 
     @Override
     protected void initToolBar() {
-
+        mTvTitle.setText("书详情");
     }
 
     @Override
@@ -135,6 +132,15 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
             BitIntentDataManager.getInstance().putData(bookKey, mBookShelf.clone());
             startActivityByAnim(intent, android.R.anim.fade_in, android.R.anim.fade_out);
         });
+        if (mBookShelf != null && mBookShelf.getBookInfoBean() != null) {
+            mTvBookName.setText(mBookShelf.getBookInfoBean().getName());
+            mTvAuthor.setText(mBookShelf.getBookInfoBean().getAuthor());
+            //来源网站
+            mTvBookSource.setText(mBookShelf.getBookInfoBean().getOrigin());
+            mTvLastChapterName.setText(mSearchBook.getLastChapter());
+            ImageUtil.setImage(mContext, mBookShelf.getBookInfoBean().getCoverUrl(), R.drawable.book_cover, mIvCover);
+        }
+
     }
 
     @Override
@@ -160,11 +166,6 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
         mTvDescription.setText(book.getIntroduce());
         mTvBookName.setText(book.getName());
         mTvAuthor.setText(book.getAuthor());
-
-        mTvCategory.setText(book.getTag());
-        //来源网站
-        mTvBookSite.setText(book.getOrigin());
-
         mTvChapterCount.setText(String.format(getResources().getString(R.string.total_chapter_count), mChapterList.size() + ""));
         ImageUtil.setImage(mContext, book.getCoverUrl(), R.drawable.book_cover, mIvCover);
     }
