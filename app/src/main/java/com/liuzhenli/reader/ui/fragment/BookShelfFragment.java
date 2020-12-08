@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +17,7 @@ import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
 import com.liuzhenli.common.BitIntentDataManager;
 import com.liuzhenli.common.constant.RxBusTag;
+import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.reader.base.BaseRVFragment;
 import com.liuzhenli.reader.network.AppComponent;
 import com.liuzhenli.reader.ui.activity.ReaderActivity;
@@ -31,6 +33,8 @@ import com.micoredu.readerlib.helper.BookshelfHelper;
 import com.microedu.reader.R;
 
 import java.util.List;
+
+import butterknife.BindView;
 
 /**
  * describe:书架
@@ -183,9 +187,16 @@ public class BookShelfFragment extends BaseRVFragment<BookShelfPresenter, BookSh
         TextView tvProgress = bottomSheetDialog.findViewById(R.id.tv_book_read_progress);
         TextView tvDes = bottomSheetDialog.findViewById(R.id.tv_book_des);
         ImageView mIvCover = bottomSheetDialog.findViewById(R.id.iv_book_cover);
+        CheckBox mVAllowUpdate = bottomSheetDialog.findViewById(R.id.cb_allow_update);
+
+        ClickUtils.click(mVAllowUpdate, o -> {
+            bookShelfBean.setAllowUpdate(!bookShelfBean.getAllowUpdate());
+            mVAllowUpdate.setChecked(bookShelfBean.getAllowUpdate());
+            mPresenter.updateBookInfo(bookShelfBean);
+        });
         ImageUtil.setImage(mContext, bookShelfBean.getBookInfoBean().getCoverUrl(), mIvCover);
         String author = TextUtils.isEmpty(bookShelfBean.getBookInfoBean().getAuthor()) ? "未知" : bookShelfBean.getBookInfoBean().getAuthor();
-
+        mVAllowUpdate.setChecked(bookShelfBean.getAllowUpdate());
         tvBookName.setText(bookShelfBean.getBookInfoBean().getName());
         tvBookAuthor.setText(String.format("作者:%s", author));
         tvBookSource.setText(String.format("书源:%s", bookShelfBean.getBookInfoBean().getOrigin()));

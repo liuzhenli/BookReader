@@ -7,6 +7,7 @@ import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.reader.base.RxPresenter;
 import com.liuzhenli.reader.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.contract.BookShelfContract;
+import com.liuzhenli.reader.utils.ThreadUtils;
 import com.micoredu.readerlib.bean.BookChapterBean;
 import com.micoredu.readerlib.bean.BookShelfBean;
 import com.micoredu.readerlib.helper.BookshelfHelper;
@@ -107,6 +108,11 @@ public class BookShelfPresenter extends RxPresenter<BookShelfContract.View> impl
             refreshBookShelf();
             return;
         }
+        //用户设置了不用更新
+        if (!bookShelfBean.getAllowUpdate()) {
+            refreshBookShelf();
+            return;
+        }
         if (AppConfigManager.isRefreshBookShelf()) {
             //view 显示更新状态
             bookShelfBean.setLoading(true);
@@ -148,6 +154,16 @@ public class BookShelfPresenter extends RxPresenter<BookShelfContract.View> impl
         }
     }
 
+    @Override
+    public void updateBookInfo(BookShelfBean book) {
+        ThreadUtils.getInstance().getExecutorService().execute(new Runnable() {
+            @Override
+            public void run() {
+                BookshelfHelper.saveBookToShelf(book);
+            }
+        });
+    }
+
     /**
      * 保存数据
      */
@@ -162,5 +178,6 @@ public class BookShelfPresenter extends RxPresenter<BookShelfContract.View> impl
             e.onComplete();
         });
     }
+
 
 }

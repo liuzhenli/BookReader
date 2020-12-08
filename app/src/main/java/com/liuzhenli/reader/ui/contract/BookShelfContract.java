@@ -43,5 +43,6 @@ public class BookShelfContract {
          */
         void refreshBookShelf();
 
+        void updateBookInfo(BookShelfBean book);
     }
 }
