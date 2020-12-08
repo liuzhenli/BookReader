@@ -5,8 +5,12 @@ import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hwangjr.rxbus.annotation.Subscribe;
+import com.hwangjr.rxbus.annotation.Tag;
+import com.hwangjr.rxbus.thread.EventThread;
 import com.liuzhenli.common.BitIntentDataManager;
 import com.liuzhenli.common.constant.AppConstant;
+import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.reader.base.BaseActivity;
 import com.liuzhenli.reader.network.AppComponent;
@@ -21,6 +25,7 @@ import com.micoredu.readerlib.bean.SearchBookBean;
 import com.micoredu.readerlib.helper.BookshelfHelper;
 import com.micoredu.readerlib.helper.DbHelper;
 import com.microedu.reader.R;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -188,4 +193,11 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
         }
     }
 
+    @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusTag.UPDATE_BOOK_PROGRESS)})
+    public void onBookAddToBookShelf(BookShelfBean bookShelfBean) {
+        if (TextUtils.equals(mSearchBook.getNoteUrl(), bookShelfBean.getNoteUrl())) {
+            isInBookShelf = true;
+            mTvAddToBookshelf.setText("移除书架");
+        }
+    }
 }

@@ -288,6 +288,8 @@ public class BookshelfHelper {
 
     /**
      * 是否在书架
+     *
+     * @param bookUrl mSearchBook.getNoteUrl()
      */
     public static boolean isInBookShelf(String bookUrl) {
         if (bookUrl == null) {

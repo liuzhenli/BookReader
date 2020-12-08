@@ -72,7 +72,7 @@ public class BookShelfFragment extends BaseRVFragment<BookShelfPresenter, BookSh
         super.onDestroy();
     }
 
-    @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusTag.REFRESH_BOOK_LIST)})
+    @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusTag.REFRESH_BOOK_LIST), @Tag(RxBusTag.UPDATE_BOOK_PROGRESS)})
     public void onAddOrRemoveBook(BookShelfBean book) {
         mPresenter.queryBooks(false, 0);
     }

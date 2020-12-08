@@ -36,8 +36,11 @@ import com.micoredu.readerlib.page.PageLoader;
 import com.micoredu.readerlib.utils.bar.BarHide;
 import com.microedu.reader.R;
 import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheet;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 
 import java.io.File;
+import java.io.PipedReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -332,7 +335,6 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
                 mCurrentChapterIndex = mBookShelf.getDurChapter();
                 mBookShelf.setDurChapterName(chapters.get(mBookShelf.getDurChapter()).getDurChapterName());
                 mBookShelf.setLastChapterName(chapters.get(chapters.size() - 1).getDurChapterName());
-                BookshelfHelper.saveBookToShelf(mBookShelf);
                 mTopBar.setChapterTitle(mPresenter.getChapterList().get(mCurrentChapterIndex).getDurChapterName());
             }
 
@@ -342,9 +344,12 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
 
             @Override
             public void onPageChange(int chapterIndex, int pageIndex, boolean resetReadAloud) {
+                //记录阅读位置
                 mBookShelf.setDurChapter(chapterIndex);
                 mBookShelf.setDurChapterPage(pageIndex);
-                mPresenter.saveProgress(mBookShelf);
+                if (isInBookShelf) {
+                    mPresenter.saveProgress(mBookShelf);
+                }
             }
 
             @Override
@@ -478,16 +483,27 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (startShareAnim) {
-                finishAfterTransition();
-            } else {
-                overridePendingTransition(0, android.R.anim.fade_out);
-            }
+        //如果不在书架,提示添加书架
+        if (!BookshelfHelper.isInBookShelf(mBookShelf.getNoteUrl())) {
+            showSaveDialog();
         } else {
-            overridePendingTransition(0, android.R.anim.fade_out);
+            super.onBackPressed();
         }
+    }
+
+    private void showSaveDialog() {
+        DialogUtil.showMessagePositiveDialog(mContext, "提示", "喜欢这本书就加入到书架吧?", "取消", new QMUIDialogAction.ActionListener() {
+            @Override
+            public void onClick(QMUIDialog dialog, int index) {
+                ReaderActivity.super.onBackPressed();
+            }
+        }, "添加", new QMUIDialogAction.ActionListener() {
+            @Override
+            public void onClick(QMUIDialog dialog, int index) {
+                mPresenter.saveProgress(mBookShelf);
+                ReaderActivity.super.onBackPressed();
+            }
+        }, true);
     }
 
 }

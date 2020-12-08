@@ -75,7 +75,7 @@ public class ReadPresenter extends RxPresenter<ReadContract.View> implements Rea
                 public void run() {
                     bookShelf.setFinalDate(System.currentTimeMillis());
                     bookShelf.setHasUpdate(false);
-                    DbHelper.getDaoSession().getBookShelfBeanDao().insertOrReplace(bookShelf);
+                    BookshelfHelper.saveBookToShelf(bookShelf);
                     RxBus.get().post(RxBusTag.UPDATE_BOOK_PROGRESS, bookShelf);
                 }
             });
