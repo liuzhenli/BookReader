@@ -226,7 +226,6 @@ public class MainActivity extends BaseActivity {
                                 break;
                             case R.id.item_arrange_book_source:
                                 BookSourceActivity.start(mContext);
-                                ImportLocalBookActivity.start(mContext);
                                 break;
                             default:
                                 break;
