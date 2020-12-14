@@ -1,24 +1,32 @@
 package com.liuzhenli.reader.ui.activity;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
 import com.liuzhenli.common.constant.AppConstant;
+import com.liuzhenli.common.observer.MyObserver;
 import com.liuzhenli.common.utils.AppConfigManager;
+import com.liuzhenli.common.utils.ScreenUtils;
 import com.liuzhenli.reader.ReaderApplication;
 import com.liuzhenli.reader.network.AppComponent;
 import com.liuzhenli.reader.ui.contract.ReadContract;
 import com.liuzhenli.reader.ui.presenter.ReadPresenter;
 import com.liuzhenli.reader.utils.BatteryUtil;
+import com.liuzhenli.reader.view.ReadLongPressPop;
 import com.liuzhenli.reader.view.loading.DialogUtil;
+import com.liuzhenli.reader.view.loading.ReplaceRuleDialog;
 import com.liuzhenli.reader.view.menu.ReadBottomMenu;
 import com.liuzhenli.reader.view.menu.ReadBrightnessMenu;
 import com.liuzhenli.reader.view.menu.ReadSettingMenu;
@@ -27,9 +35,10 @@ import com.micoredu.readerlib.BaseReaderActivity;
 import com.micoredu.readerlib.animation.PageAnimation;
 import com.micoredu.readerlib.bean.BookInfoBean;
 import com.micoredu.readerlib.bean.BookShelfBean;
+import com.micoredu.readerlib.bean.ReplaceRuleBean;
 import com.micoredu.readerlib.helper.BookshelfHelper;
-import com.micoredu.readerlib.helper.DocumentHelper;
 import com.micoredu.readerlib.helper.ReadConfigManager;
+import com.micoredu.readerlib.model.ReplaceRuleManager;
 import com.micoredu.readerlib.page.PageView;
 import com.micoredu.readerlib.bean.BookChapterBean;
 import com.micoredu.readerlib.page.PageLoader;
@@ -40,14 +49,15 @@ import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 
 import java.io.File;
-import java.io.PipedReader;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.SingleObserver;
+import io.reactivex.disposables.Disposable;
 
 import static com.liuzhenli.common.BitIntentDataManager.DATA_KEY;
 import static com.liuzhenli.common.BitIntentDataManager.getInstance;
@@ -73,6 +83,8 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
      */
     public final static int OPEN_FROM_APP = 1;
 
+    @BindView(R.id.view_read_root)
+    View mViewRoot;
     @BindView(R.id.menu_top_bar)
     ReadTopBarMenu mTopBar;
 
@@ -89,6 +101,13 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
     ReadBrightnessMenu mVBrightnessSettingMenu;
     @BindView(R.id.fl_protect_eye_view)
     FrameLayout mVProtectEye;
+    @BindView(R.id.readLongPress)
+    ReadLongPressPop readLongPress;
+    @BindView(R.id.cursor_left)
+    ImageView cursorLeft;
+    @BindView(R.id.cursor_right)
+    ImageView cursorRight;
+
     private float mAlpha = 0F;
     private PageLoader mPageLoader;
     private int mCurrentChapterIndex;
@@ -105,6 +124,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
 
     private String mNoteUrl;
     private BookShelfBean mBookShelf;
+    private int lastX, lastY;
 
     public static void start(Context context, String bookId, String chapterId, float progress, String openFrom) {
         Intent intent = new Intent(context, ReaderActivity.class);
@@ -276,6 +296,9 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
         mVBrightnessSettingMenu.setProtectedEyeMode(AppConfigManager.tetProtectEyeReadMode());
         mVProtectEye.setAlpha(mAlpha);
         mVBrightnessSettingMenu.setBrightnessFollowSystem(ReadConfigManager.getInstance().getLightFollowSys());
+        cursorLeft.setOnTouchListener(this);
+        cursorRight.setOnTouchListener(this);
+        mViewRoot.setOnTouchListener(this);
     }
 
     /***显示书目录**/
@@ -368,12 +391,17 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
 
             @Override
             public void onTouchClearCursor() {
-
+                cursorLeft.setVisibility(View.INVISIBLE);
+                cursorRight.setVisibility(View.INVISIBLE);
+                readLongPress.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onLongPress() {
-
+                if (!mPageView.isRunning()) {
+                    selectTextCursorShow();
+                    showAction(cursorLeft);
+                }
             }
 
             @Override
@@ -403,6 +431,56 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
 
         });
         mPageLoader.refreshChapterList();
+        initReadLongPressPop();
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        if (v.getId() == R.id.cursor_left || v.getId() == R.id.cursor_right) {
+            int ea = event.getAction();
+            switch (ea) {
+                case MotionEvent.ACTION_DOWN:
+                    // 获取触摸事件触摸位置的原始X坐标
+                    lastX = (int) event.getRawX();
+                    lastY = (int) event.getRawY();
+                    readLongPress.setVisibility(View.INVISIBLE);
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    int dx = (int) event.getRawX() - lastX;
+                    int dy = (int) event.getRawY() - lastY;
+                    int l = v.getLeft() + dx;
+                    int b = v.getBottom() + dy;
+                    int r = v.getRight() + dx;
+                    int t = v.getTop() + dy;
+
+                    v.layout(l, t, r, b);
+                    lastX = (int) event.getRawX();
+                    lastY = (int) event.getRawY();
+                    v.postInvalidate();
+
+                    //移动过程中要画线
+                    mPageView.setSelectMode(PageView.SelectMode.SelectMoveForward);
+
+                    int hh = cursorLeft.getHeight();
+                    int ww = cursorLeft.getWidth();
+
+                    if (v.getId() == R.id.cursor_left) {
+                        mPageView.setFirstSelectTxtChar(mPageView.getCurrentTxtChar(lastX + ww, lastY - hh));
+                    } else {
+                        mPageView.setLastSelectTxtChar(mPageView.getCurrentTxtChar(lastX - ww, lastY - hh));
+                    }
+
+                    mPageView.invalidate();
+
+                    break;
+                case MotionEvent.ACTION_UP:
+                    showAction(v);
+                    break;
+                default:
+                    break;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -487,6 +565,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
         if (!BookshelfHelper.isInBookShelf(mBookShelf.getNoteUrl())) {
             showSaveDialog();
         } else {
+            mPresenter.saveProgress(mBookShelf);
             super.onBackPressed();
         }
     }
@@ -504,6 +583,190 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
                 ReaderActivity.super.onBackPressed();
             }
         }, true);
+    }
+
+    /**
+     * 长按选择按钮
+     */
+    private void initReadLongPressPop() {
+        readLongPress.setListener(new ReadLongPressPop.OnBtnClickListener() {
+            @Override
+            public void copySelect() {
+                ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText(null, mPageView.getSelectStr());
+                if (clipboard != null) {
+                    clipboard.setPrimaryClip(clipData);
+                    toast("内容已经复制到剪贴板");
+                }
+                cursorLeft.setVisibility(View.INVISIBLE);
+                cursorRight.setVisibility(View.INVISIBLE);
+                readLongPress.setVisibility(View.INVISIBLE);
+                mPageView.clearSelect();
+            }
+
+            @Override
+            public void replaceSelect() {
+                ReplaceRuleBean oldRuleBean = new ReplaceRuleBean();
+                oldRuleBean.setReplaceSummary(mPageView.getSelectStr().trim());
+                oldRuleBean.setEnable(true);
+                oldRuleBean.setRegex(mPageView.getSelectStr().trim());
+                oldRuleBean.setIsRegex(false);
+                oldRuleBean.setReplacement("");
+                oldRuleBean.setSerialNumber(0);
+                oldRuleBean.setUseTo(String.format("%s,%s", mBookShelf.getBookInfoBean().getName(), mBookShelf.getTag()));
+
+                ReplaceRuleDialog.builder(mContext, oldRuleBean, mBookShelf, ReplaceRuleDialog.DefaultUI)
+                        .setPositiveButton(replaceRuleBean1 ->
+                                ReplaceRuleManager.saveData(replaceRuleBean1)
+                                        .subscribe(new SingleObserver<Boolean>() {
+                                            @Override
+                                            public void onSubscribe(Disposable d) {
+
+                                            }
+
+                                            @Override
+                                            public void onSuccess(Boolean aBoolean) {
+                                                cursorLeft.setVisibility(View.INVISIBLE);
+                                                cursorRight.setVisibility(View.INVISIBLE);
+                                                readLongPress.setVisibility(View.INVISIBLE);
+                                                mPageView.setSelectMode(PageView.SelectMode.Normal);
+//                                                moDialogHUD.dismiss();
+                                                refresh(false);
+                                            }
+
+                                            @Override
+                                            public void onError(Throwable e) {
+
+                                            }
+                                        })).show();
+            }
+
+            @Override
+            public void replaceSelectAd() {
+                String selectString = mPageView.getSelectStr();
+                if (selectString != null) {
+                    String spacer = null;
+                    String name = (mBookShelf.getBookInfoBean().getName());
+                    if (name != null) {
+                        if (name.trim().length() > 0) {
+                            spacer = "|" + Pattern.quote(name.trim());
+                        }
+                    }
+                    name = (mBookShelf.getBookInfoBean().getAuthor());
+                    if (name != null) {
+                        if (name.trim().length() > 0) {
+                            if (spacer != null) {
+                                spacer = spacer + "|" + Pattern.quote(name.trim());
+                            } else {
+                                spacer = "|" + Pattern.quote(name.trim());
+                            }
+                        }
+                    }
+                    String rule = "(\\s*\n\\s*" + spacer + ")";
+                    selectString = ReplaceRuleManager.formateAdRule(
+                            selectString.replaceAll(rule, "\n")
+                    );
+
+                    Log.i("selectString.afterAd2", selectString);
+
+                }
+                ReplaceRuleBean oldRuleBean = new ReplaceRuleBean();
+                oldRuleBean.setReplaceSummary(getString(R.string.replace_ad) + "-" + mBookShelf.getTag());
+                oldRuleBean.setEnable(true);
+                oldRuleBean.setRegex(selectString);
+                oldRuleBean.setIsRegex(false);
+                oldRuleBean.setReplacement("");
+                oldRuleBean.setSerialNumber(0);
+                oldRuleBean.setUseTo(String.format(mBookShelf.getTag()));
+
+                ReplaceRuleDialog.builder(mContext, oldRuleBean, mBookShelf, ReplaceRuleDialog.AddAdUI)
+                        .setPositiveButton(replaceRuleBean1 ->
+                                ReplaceRuleManager.mergeAdRules(replaceRuleBean1)
+                                        .subscribe(new SingleObserver<Boolean>() {
+                                            @Override
+                                            public void onSubscribe(Disposable d) {
+
+                                            }
+
+                                            @Override
+                                            public void onSuccess(Boolean aBoolean) {
+                                                cursorLeft.setVisibility(View.INVISIBLE);
+                                                cursorRight.setVisibility(View.INVISIBLE);
+                                                readLongPress.setVisibility(View.INVISIBLE);
+                                                mPageView.setSelectMode(PageView.SelectMode.Normal);
+//                                                moDialogHUD.dismiss();
+                                                refresh(false);
+                                            }
+
+                                            @Override
+                                            public void onError(Throwable e) {
+
+                                            }
+
+                                        })).show();
+
+            }
+        });
+    }
+
+    /**
+     * 显示
+     */
+    private void selectTextCursorShow() {
+        if (mPageView.getFirstSelectTxtChar() == null || mPageView.getLastSelectTxtChar() == null) {
+            return;
+        }
+        //show Cursor on current position
+        cursorShow();
+        //set current word selected
+        mPageView.invalidate();
+    }
+
+    private void cursorShow() {
+        cursorLeft.setVisibility(View.VISIBLE);
+        cursorRight.setVisibility(View.VISIBLE);
+        int hh = cursorLeft.getHeight();
+        int ww = cursorLeft.getWidth();
+        if (mPageView.getFirstSelectTxtChar() != null) {
+            cursorLeft.setX(mPageView.getFirstSelectTxtChar().getTopLeftPosition().x - ww);
+            cursorLeft.setY(mPageView.getFirstSelectTxtChar().getBottomLeftPosition().y);
+            cursorRight.setX(mPageView.getFirstSelectTxtChar().getBottomRightPosition().x);
+            cursorRight.setY(mPageView.getFirstSelectTxtChar().getBottomRightPosition().y);
+        }
+    }
+
+    public void showAction(View clickView) {
+        readLongPress.setVisibility(View.VISIBLE);
+        //如果太靠右，则靠左
+        int[] aa = ScreenUtils.getScreenSize(this);
+        if ((cursorLeft.getX() + ScreenUtils.dpToPx(200)) > aa[0]) {
+            readLongPress.setX(aa[0] - ScreenUtils.dpToPx(200));
+        } else {
+            readLongPress.setX(cursorLeft.getX() + cursorLeft.getWidth() + ScreenUtils.dpToPx(5));
+        }
+
+        //如果太靠上
+        if ((cursorLeft.getY() - ScreenUtils.spToPx(ReadConfigManager.getInstance().getTextSize()) - ScreenUtils.dpToPx(60)) < 0) {
+            readLongPress.setY(cursorLeft.getY() - ScreenUtils.spToPx(ReadConfigManager.getInstance().getTextSize()));
+        } else {
+            readLongPress.setY(cursorLeft.getY() - ScreenUtils.spToPx(ReadConfigManager.getInstance().getTextSize()) - ScreenUtils.dpToPx(40));
+        }
+    }
+
+    /**
+     * 刷新
+     */
+    public void refresh(boolean recreate) {
+        if (recreate) {
+            recreate();
+        } else {
+            mViewRoot.setBackground(ReadConfigManager.getInstance().getTextBackground(this));
+            if (mPageLoader != null) {
+                mPageLoader.refreshUi();
+            }
+            //readInterfacePop.setBg();
+            initImmersionBar();
+        }
     }
 
 }

@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Toast;
 
 import com.micoredu.readerlib.page.PageView;
@@ -13,7 +15,7 @@ import com.micoredu.readerlib.utils.bar.ImmersionBar;
 /**
  * @author liuzhenli
  */
-public abstract class BaseReaderActivity extends AppCompatActivity {
+public abstract class BaseReaderActivity extends AppCompatActivity implements View.OnTouchListener {
 
     protected Context mContext;
     /***状态栏*/

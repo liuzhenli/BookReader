@@ -69,7 +69,7 @@ public class PageView extends View implements PageAnimation.OnPageChangeListener
     /***文字选择画笔*/
     private Paint mTextSelectPaint = null;
     /***文字选择画笔颜色*/
-    private int TextSelectColor = Color.parseColor("#77fadb08");
+    private int TextSelectColor = Color.parseColor("#22333333");
 
     private Path mSelectTextPath = new Path();
 
@@ -488,8 +488,8 @@ public class PageView extends View implements PageAnimation.OnPageChangeListener
                 RectF rect = new RectF(fistChar.getTopLeftPosition().x, fistChar.getTopLeftPosition().y,
                         lastChar.getTopRightPosition().x, lastChar.getBottomRightPosition().y);
 
-                canvas.drawRoundRect(rect, fw / 2,
-                        textHeight / 2, mTextSelectPaint);
+                canvas.drawRoundRect(rect, fw / 8,
+                        textHeight / 8, mTextSelectPaint);
             }
         }
     }

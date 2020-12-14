@@ -79,7 +79,8 @@ public class ReadConfigManager {
     private int tipPaddingRight;
     private int tipPaddingBottom;
     private float textLetterSpacing;
-    private boolean canSelectText;
+    /***是否支持复制功能*/
+    private boolean canSelectText = true;
 
     private SharedPreferencesUtil preferences;
 
@@ -136,7 +137,7 @@ public class ReadConfigManager {
         this.screenDirection = preferences.getInt("screenDirection", 0);
         this.navBarColor = preferences.getInt("navBarColorInt", 0);
         this.textLetterSpacing = preferences.getFloat("textLetterSpacing", 0);
-        this.canSelectText = preferences.getBoolean("canSelectText", false);
+        this.canSelectText = preferences.getBoolean("canSelectText", true);
         initTextDrawableIndex();
     }
 

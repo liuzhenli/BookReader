@@ -13,6 +13,8 @@ import com.micoredu.readerlib.helper.DbHelper;
 import com.micoredu.readerlib.impl.IHttpGetApi;
 import com.micoredu.readerlib.observe.BaseModelImpl;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -35,6 +37,89 @@ public class ReplaceRuleManager {
                     .list();
         }
         return replaceRuleBeansEnabled;
+    }
+
+    /**
+     * 合并广告话术规则
+     */
+    public static Single<Boolean> mergeAdRules(ReplaceRuleBean replaceRuleBean) {
+
+
+        String rule = formateAdRule(replaceRuleBean.getRegex());
+        int sn = replaceRuleBean.getSerialNumber();
+        if (sn == 0) {
+            sn = (int) (DbHelper.getDaoSession().getReplaceRuleBeanDao().queryBuilder().count() + 1);
+            replaceRuleBean.setSerialNumber(sn);
+        }
+
+        List<ReplaceRuleBean> list = DbHelper.getDaoSession()
+                .getReplaceRuleBeanDao().queryBuilder()
+                .where(ReplaceRuleBeanDao.Properties.Enable.eq(true))
+                .where(ReplaceRuleBeanDao.Properties.ReplaceSummary.eq(replaceRuleBean.getReplaceSummary()))
+                .where(ReplaceRuleBeanDao.Properties.SerialNumber.notEq(sn))
+                .orderAsc(ReplaceRuleBeanDao.Properties.SerialNumber)
+                .list();
+        if (list.size() < 1) {
+            replaceRuleBean.setRegex(rule);
+            return saveData(replaceRuleBean);
+        } else {
+            StringBuffer buffer = new StringBuffer(rule);
+            for (ReplaceRuleBean li : list) {
+                buffer.append('\n');
+                buffer.append(li.getRegex());
+//                    buffer.append(formateAdRule(rule.getRegex()));
+            }
+            replaceRuleBean.setRegex(formateAdRule(buffer.toString()));
+
+            return Single.create((SingleOnSubscribe<Boolean>) emitter -> {
+
+                DbHelper.getDaoSession().getReplaceRuleBeanDao().insertOrReplace(replaceRuleBean);
+                for (ReplaceRuleBean li : list) {
+                    DbHelper.getDaoSession().getReplaceRuleBeanDao().delete(li);
+                }
+                refreshDataS();
+                emitter.onSuccess(true);
+            }).compose(RxUtil::toSimpleSingle);
+
+        }
+    }
+
+    // 把输入的规则进行预处理（分段、排序、去重）。保存的是普通多行文本。
+    public static String formateAdRule(String rule) {
+
+        if (rule == null)
+            return "";
+        String result = rule.trim();
+        if (result.length() < 1)
+            return "";
+
+        String string = rule
+//                用中文中的.视为。进行分段
+                .replaceAll("(?<=([^a-zA-Z\\p{P}]{4,8}))\\.+(?![^a-zA-Z\\p{P}]{4,8})", "\n")
+//                用常见的适合分段的标点进行分段，句首句尾除外
+//                .replaceAll("([^\\p{P}\n^])([…,，:：？。！?!~<>《》【】（）()]+)([^\\p{P}\n$])", "$1\n$3")
+//                表达式无法解决句尾连续多个符号的问题
+//                .replaceAll("[…,，:：？。！?!~<>《》【】（）()]+(?!\\s*\n|$)", "\n")
+                .replaceAll("(?<![\\p{P}\n^])([…,，:：？。！?!~<>《》【】（）()]+)(?![\\p{P}\n$])", "\n");
+
+        String[] lines = string.split("\n");
+        List<String> list = new ArrayList<>();
+
+        for (String s : lines) {
+            s = s.trim()
+//                    .replaceAll("\\s+", "\\s")
+            ;
+            if (!list.contains(s)) {
+                list.add(s);
+            }
+        }
+        Collections.sort(list);
+        StringBuffer buffer = new StringBuffer(rule.length() + 1);
+        for (int i = 0; i < list.size(); i++) {
+            buffer.append('\n');
+            buffer.append(list.get(i));
+        }
+        return buffer.toString().trim();
     }
 
     public static Single<List<ReplaceRuleBean>> getAll() {
@@ -83,9 +168,13 @@ public class ReplaceRuleManager {
     }
 
     public static Observable<Boolean> importReplaceRule(String text) {
-        if (TextUtils.isEmpty(text)) return null;
+        if (TextUtils.isEmpty(text)) {
+            return null;
+        }
         text = text.trim();
-        if (text.length() == 0) return null;
+        if (text.length() == 0) {
+            return null;
+        }
         if (StringUtils.isJsonType(text)) {
             return importReplaceRuleO(text)
                     .compose(RxUtil::toSimpleSingle);

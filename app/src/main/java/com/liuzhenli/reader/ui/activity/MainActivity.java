@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.balysv.materialmenu.MaterialMenuDrawable;
@@ -32,7 +31,6 @@ import com.liuzhenli.reader.ui.fragment.DiscoverFragment;
 import com.liuzhenli.reader.utils.PermissionUtil;
 import com.liuzhenli.reader.utils.ToastUtil;
 import com.liuzhenli.reader.view.NoAnimViewPager;
-import com.micoredu.readerlib.bean.BookShelfBean;
 import com.micoredu.readerlib.bean.BookSourceBean;
 import com.microedu.reader.R;
 
@@ -218,7 +216,7 @@ public class MainActivity extends BaseActivity {
                 });
                 break;
             case 1:
-                mToolBar.inflateMenu(R.menu.menu_main);
+                mToolBar.inflateMenu(R.menu.menu_discover);
                 mToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
@@ -226,10 +224,8 @@ public class MainActivity extends BaseActivity {
                             case R.id.item_search:
                                 SearchActivity.start(mContext);
                                 break;
-                            case R.id.item_add_from_local:
-                                ImportLocalBookActivity.start(mContext);
-                                break;
-                            case R.id.item_arrange_bookshelf:
+                            case R.id.item_arrange_book_source:
+                                BookSourceActivity.start(mContext);
                                 ImportLocalBookActivity.start(mContext);
                                 break;
                             default:

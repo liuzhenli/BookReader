@@ -18,6 +18,10 @@ import com.micoredu.readerlib.utils.ReaderConfig;
 import com.microedu.reader.R;
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 
+import org.mozilla.javascript.ast.VariableDeclaration;
+
+import java.text.DecimalFormat;
+
 import butterknife.BindView;
 import io.reactivex.functions.Consumer;
 
@@ -85,6 +89,8 @@ public class ReadSettingMenu extends BaseMenu {
     TextView mVSpaceSize;
     @BindView(R.id.tv_menu_v_space_enlarge)
     QMUIRoundButton mVSpaceEnlarge;
+
+    private DecimalFormat decimalFormat = new DecimalFormat(".#");
 
 
     private ReadSettingCallBack callBack;
