@@ -46,6 +46,7 @@ public class FileHelp {
                 file.createNewFile();
             }
         } catch (IOException e) {
+            e.printStackTrace();
         }
         return file;
     }
@@ -230,10 +231,27 @@ public class FileHelp {
         return dotIndex > 0 ? fileName.substring(dotIndex) : "";
     }
 
-    public static void createFolderIfNotExists(String path) {
+    public static File createFolderIfNotExists(String path) {
         File folder = new File(path);
         if (!folder.exists()) {
             folder.mkdirs();
         }
+        return folder;
     }
+
+    /***获取文件*/
+    public static synchronized File createFileIfNotExist(String filePath) {
+        File file = new File(filePath);
+        try {
+            if (!file.exists()) {
+                //创建父类文件夹
+                getFolder(file.getParent());
+                //创建文件
+                file.createNewFile();
+            }
+        } catch (IOException e) {
+        }
+        return file;
+    }
+
 }

@@ -67,6 +67,7 @@ public class BaseApplication extends Application {
             e.printStackTrace();
         }
     }
+
     /**
      * 设置下载地址
      */
@@ -130,6 +131,12 @@ public class BaseApplication extends Application {
     public void upDonateHb() {
         SharedPreferencesUtil.getInstance().putLong("DonateHb", System.currentTimeMillis());
         donateHb = true;
+    }
+
+    public void upThemeStore() {
+    }
+
+    public void initNightTheme() {
     }
 
 }

@@ -24,6 +24,7 @@ import com.liuzhenli.reader.network.AppComponent;
 import com.liuzhenli.reader.ui.contract.ReadContract;
 import com.liuzhenli.reader.ui.presenter.ReadPresenter;
 import com.liuzhenli.reader.utils.BatteryUtil;
+import com.liuzhenli.reader.utils.storage.Backup;
 import com.liuzhenli.reader.view.ReadLongPressPop;
 import com.liuzhenli.reader.view.loading.DialogUtil;
 import com.liuzhenli.reader.view.loading.ReplaceRuleDialog;
@@ -561,6 +562,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
 
     @Override
     public void onBackPressed() {
+        Backup.INSTANCE.autoBack();
         //如果不在书架,提示添加书架
         if (!BookshelfHelper.isInBookShelf(mBookShelf.getNoteUrl())) {
             showSaveDialog();

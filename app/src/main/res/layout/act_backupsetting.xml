@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_common_toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/ItemSubTitleStyle"
+                android:layout_marginTop="@dimen/common_margin_normal"
+                android:drawableLeft="@drawable/ic_ligth"
+                android:padding="@dimen/common_margin_normal"
+                android:text="提示:如果是坚果云,您可以在[WebDAV网址]一栏中直接填入[坚果云]或者不填" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/view_setting_backup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_card_bg"
+                android:padding="@dimen/common_margin_normal">
+
+                <TextView
+                    android:id="@+id/tv_setting_backup_title"
+                    style="@style/ItemTitleStyle"
+                    android:text="@string/web_dav_address"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_backup_title"
+                    style="@style/ItemSubTitleStyle"
+                    android:layout_marginTop="@dimen/common_margin_small"
+                    android:hint="未设置"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_setting_backup_title" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/view_setting_web_dav_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_card_bg"
+                android:padding="@dimen/common_margin_normal">
+
+                <TextView
+                    android:id="@+id/tv_setting_web_dav_account"
+                    style="@style/ItemTitleStyle"
+                    android:text="@string/web_dav_account"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_web_dav_account"
+                    style="@style/ItemSubTitleStyle"
+                    android:layout_marginTop="@dimen/common_margin_small"
+                    android:hint="未设置"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_setting_web_dav_account" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/view_setting_web_dav_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_card_bg"
+                android:padding="@dimen/common_margin_normal">
+
+                <TextView
+                    android:id="@+id/tv_setting_web_dav_password"
+                    style="@style/ItemTitleStyle"
+                    android:text="@string/web_dav_password"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_web_dav_password"
+                    style="@style/ItemSubTitleStyle"
+                    android:layout_marginTop="@dimen/common_margin_small"
+                    android:hint="未设置"
+                    android:inputType="textPassword"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_setting_web_dav_password" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <include
+                layout="@layout/item_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1px" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/view_restore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_card_bg"
+                android:padding="@dimen/common_margin_normal">
+
+                <TextView
+                    android:id="@+id/tv_view_restore"
+                    style="@style/ItemTitleStyle"
+                    android:text="恢复备份"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_view_restore_vis"
+                    style="@style/ItemSubTitleStyle"
+                    android:layout_marginTop="@dimen/common_margin_small"
+                    android:hint="备份将从手机文件夹/backups和您的WebDAV或Dropbox或GoogleDrive云盘中读取"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_view_restore" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/view_back_guide"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_card_bg"
+                android:padding="@dimen/common_margin_normal">
+
+                <TextView
+                    android:id="@+id/tv_view_back_guide"
+                    style="@style/ItemTitleStyle"
+                    android:text="自动备份与云备份教程"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_view_back_guide_vis"
+                    style="@style/ItemSubTitleStyle"
+                    android:layout_marginTop="@dimen/common_margin_small"
+                    android:hint="点击此项获得教程《自动备份与云备份教程"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_view_back_guide" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/view_backup_path_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_card_bg"
+                android:padding="@dimen/common_margin_normal">
+
+                <TextView
+                    android:id="@+id/tv_view_backup_path_info"
+                    style="@style/ItemTitleStyle"
+                    android:text="@string/web_dav_backup_local"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_view_backup_path_info_vis"
+                    style="@style/ItemSubTitleStyle"
+                    android:layout_marginTop="@dimen/common_margin_small"
+                    android:hint="备份文件将被保存到/backups"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_view_backup_path_info" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/view_backup_to_web"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_card_bg"
+                android:padding="@dimen/common_margin_normal">
+
+                <TextView
+                    android:id="@+id/tv_view_backup_to_web"
+                    style="@style/ItemTitleStyle"
+                    android:text="@string/web_dav_backup_to_web"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_view_backup_to_webo_vis"
+                    style="@style/ItemSubTitleStyle"
+                    android:layout_marginTop="@dimen/common_margin_small"
+                    android:hint="若果您已经设置云备份,备份文件将存储到您的云端存储空间"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_view_backup_to_web" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/view_setting_web_dav_net"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_card_bg"
+                android:padding="@dimen/common_margin_normal">
+
+                <TextView
+                    android:id="@+id/tv_setting_web_dav_net"
+                    style="@style/ItemTitleStyle"
+                    android:text="@string/web_dav_backup_net"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_web_dav_net"
+                    style="@style/ItemSubTitleStyle"
+                    android:layout_marginTop="@dimen/common_margin_small"
+                    android:hint="在所有网络下都允许自动备份到云盘"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_setting_web_dav_net" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <CheckBox
+                style="@style/ItemSubTitleStyle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/all_item_height"
+                android:checked="true"
+                android:text="自动备份" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

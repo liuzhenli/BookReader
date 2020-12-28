@@ -87,4 +87,24 @@ dependencies {
     api 'com.umeng.umsdk:oaid_oppo:1.0.4' // (可选)
     api 'com.umeng.umsdk:oaid_vivo:1.0.0.1' // (可选)
 
+    api('com.thegrizzlylabs.sardine-android:sardine-android:0.7'){
+        exclude group: 'com.squareup.okhttp3'
+    }
+
+    //J_SOUP
+    api 'org.jsoup:jsoup:1.12.1'
+    api 'cn.wanghaomiao:JsoupXpath:2.3.2'
+    api 'com.jayway.jsonpath:json-path:2.4.0'
+
+    //JS
+    api 'com.github.gedoor:rhino-android:1.3'
+    //字符串比较
+    api 'net.ricecode:string-similarity:1.0.0'
+
+    //epub
+    api('nl.siegmann.epublib:epublib-core:3.1') {
+        exclude group: 'org.slf4j'
+        exclude group: 'xmlpull'
+    }
+
 }

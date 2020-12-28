@@ -16,20 +16,55 @@
 
         <TextView
             android:id="@+id/tv_setting_clear_cache_title"
+            style="@style/ItemTitleStyle"
+            android:text="@string/clear_cache"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            style="@style/ItemSubTitleStyle"
+            android:text="@string/clear_cache_des"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_setting_clear_cache_title" />
+
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/clear_cache"
-            android:textColor="@color/s_text_66"
+            android:src="@drawable/icon_common_arrow_right_more"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/view_setting_backup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_card_bg"
+        android:padding="@dimen/common_margin_normal">
+
+        <TextView
+            android:id="@+id/tv_setting_backup_title"
+            style="@style/ItemTitleStyle"
+            android:text="@string/backup_restore"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/clear_cache_des"
+            android:text=""
             android:textColor="@color/text_color_99"
             android:textSize="@dimen/txt_size_10"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_setting_clear_cache_title" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_setting_backup_title" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_common_arrow_right_more"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

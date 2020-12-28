@@ -19,10 +19,12 @@ import com.micoredu.readerlib.impl.IHttpPostApi;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import okhttp3.ConnectionSpec;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Protocol;
@@ -32,7 +34,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 public class BaseModelImpl {
-    private static OkHttpClient.Builder clientBuilder;
+    private static OkHttpClient httpClient;
 
     public static BaseModelImpl getInstance() {
         return new BaseModelImpl();
@@ -41,19 +43,19 @@ public class BaseModelImpl {
     public Observable<Response<String>> getResponseO(AnalyzeUrl analyzeUrl) {
         switch (analyzeUrl.getUrlMode()) {
             case POST:
-                return getRetrofitString(analyzeUrl.getHost())
+                return getRetrofitString(analyzeUrl.getHost(), analyzeUrl.getCharCode())
                         .create(IHttpPostApi.class)
                         .postMap(analyzeUrl.getPath(),
                                 analyzeUrl.getQueryMap(),
                                 analyzeUrl.getHeaderMap());
             case GET:
-                return getRetrofitString(analyzeUrl.getHost())
+                return getRetrofitString(analyzeUrl.getHost(), analyzeUrl.getCharCode())
                         .create(IHttpGetApi.class)
                         .getMap(analyzeUrl.getPath(),
                                 analyzeUrl.getQueryMap(),
                                 analyzeUrl.getHeaderMap());
             default:
-                return getRetrofitString(analyzeUrl.getHost())
+                return getRetrofitString(analyzeUrl.getHost(), analyzeUrl.getCharCode())
                         .create(IHttpGetApi.class)
                         .get(analyzeUrl.getPath(),
                                 analyzeUrl.getHeaderMap());
@@ -66,7 +68,7 @@ public class BaseModelImpl {
                 .addConverterFactory(EncodeConverter.create())
                 //增加返回值为Observable<T>的支持
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(getClientBuilder().build())
+                .client(getClient())
                 .build();
     }
 
@@ -76,23 +78,31 @@ public class BaseModelImpl {
                 .addConverterFactory(EncodeConverter.create(encode))
                 //增加返回值为Observable<T>的支持
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(getClientBuilder().build())
+                .client(getClient())
                 .build();
     }
 
-    private static OkHttpClient.Builder getClientBuilder() {
-        if (clientBuilder == null) {
-            clientBuilder = new OkHttpClient.Builder()
+    synchronized public static OkHttpClient getClient() {
+        if (httpClient == null) {
+            ArrayList<ConnectionSpec> specs = new ArrayList<>();
+            specs.add(ConnectionSpec.MODERN_TLS);
+            specs.add(ConnectionSpec.COMPATIBLE_TLS);
+            specs.add(ConnectionSpec.CLEARTEXT);
+            httpClient = new OkHttpClient.Builder()
                     .connectTimeout(15, TimeUnit.SECONDS)
                     .writeTimeout(15, TimeUnit.SECONDS)
                     .readTimeout(15, TimeUnit.SECONDS)
                     .retryOnConnectionFailure(true)
                     .sslSocketFactory(SSLSocketClient.getSSLSocketFactory(), SSLSocketClient.createTrustAllManager())
                     .hostnameVerifier(SSLSocketClient.getHostnameVerifier())
+                    .followRedirects(true)
+                    .followSslRedirects(true)
+                    .connectionSpecs(specs)
                     .protocols(Collections.singletonList(Protocol.HTTP_1_1))
-                    .addInterceptor(getHeaderInterceptor());
+                    .addInterceptor(getHeaderInterceptor())
+                    .build();
         }
-        return clientBuilder;
+        return httpClient;
     }
 
     private static Interceptor getHeaderInterceptor() {
@@ -190,7 +200,7 @@ public class BaseModelImpl {
         });
     }
 
-    private class Web {
+    private static class Web {
         private String content;
         private String js = "document.documentElement.outerHTML";
 

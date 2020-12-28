@@ -6,8 +6,6 @@ import android.text.TextUtils;
 import androidx.annotation.Keep;
 
 import com.google.gson.Gson;
-import com.liuzhenli.common.constant.AppConstant;
-import com.liuzhenli.common.exception.ApiCodeException;
 import com.liuzhenli.common.utils.NetworkUtils;
 import com.liuzhenli.common.utils.StringUtils;
 import com.liuzhenli.common.utils.UrlEncoderUtils;
@@ -24,12 +22,18 @@ import java.util.regex.Pattern;
 
 import javax.script.SimpleBindings;
 
+import static com.liuzhenli.common.constant.AppConstant.EXP_PATTERN;
+import static com.liuzhenli.common.constant.AppConstant.JS_PATTERN;
+import static com.liuzhenli.common.constant.AppConstant.MAP_STRING;
+import static com.liuzhenli.common.constant.AppConstant.SCRIPT_ENGINE;
+import static com.liuzhenli.common.constant.AppConstant.headerPattern;
+
 /**
  * 搜索URL规则解析
  */
 @Keep
-public class AnalyzeUrl {
-    private static final Pattern PAGE_PATTERN = Pattern.compile("\\{(.*?)\\}");
+public class AnalyzeUrl implements JsExtensions {
+    private static final Pattern pagePattern = Pattern.compile("\\{(.*?)\\}");
     private String baseUrl;
     private String url;
     private String host;
@@ -51,15 +55,20 @@ public class AnalyzeUrl {
     @SuppressLint("DefaultLocale")
     public AnalyzeUrl(String ruleUrl, final String key, final Integer page, Map<String, String> headerMapF, String baseUrl) throws Exception {
         if (!TextUtils.isEmpty(baseUrl)) {
-            this.baseUrl = AppConstant.headerPattern.matcher(baseUrl).replaceAll("");
+            this.baseUrl = headerPattern.matcher(baseUrl).replaceAll("");
         }
         //替换关键字
         if (!StringUtils.isTrimEmpty(key)) {
-            ruleUrl = ruleUrl.replace("searchKey", key);
+            // 处理searchKey=searchKey的情况
+            if (ruleUrl.matches("=[\\s{(]*searchKey")) {
+                ruleUrl = ruleUrl.replaceFirst("=[\\s{(]*searchKey", "=" + key);
+            } else {
+                ruleUrl = ruleUrl.replace("searchKey", key);
+            }
         }
         //判断是否有下一页
         if (page != null && page > 1 && !ruleUrl.contains("searchPage")) {
-            throw new ApiCodeException(0, "#没有下一页");
+            throw new Exception("没有下一页");
         }
         //替换js
         ruleUrl = replaceJs(ruleUrl, baseUrl, page, key);
@@ -106,13 +115,13 @@ public class AnalyzeUrl {
         if (headerMapF != null) {
             headerMap.putAll(headerMapF);
         }
-        Matcher matcher = AppConstant.headerPattern.matcher(ruleUrl);
+        Matcher matcher = headerPattern.matcher(ruleUrl);
         if (matcher.find()) {
             String find = matcher.group(0);
             ruleUrl = ruleUrl.replace(find, "");
             find = find.substring(8);
             try {
-                Map<String, String> map = new Gson().fromJson(find, AppConstant.MAP_STRING);
+                Map<String, String> map = new Gson().fromJson(find, MAP_STRING);
                 headerMap.putAll(map);
             } catch (Exception ignored) {
             }
@@ -146,7 +155,7 @@ public class AnalyzeUrl {
         if (searchPage == null) {
             return ruleUrl;
         }
-        Matcher matcher = PAGE_PATTERN.matcher(ruleUrl);
+        Matcher matcher = pagePattern.matcher(ruleUrl);
         while (matcher.find()) {
             String[] pages = matcher.group(1).split(",");
             if (searchPage <= pages.length) {
@@ -173,9 +182,9 @@ public class AnalyzeUrl {
                 this.put("searchPage", searchPage);
                 this.put("searchKey", searchKey);
             }};
-            Matcher expMatcher = AppConstant.EXP_PATTERN.matcher(ruleUrl);
+            Matcher expMatcher = EXP_PATTERN.matcher(ruleUrl);
             while (expMatcher.find()) {
-                jsEval = AppConstant.SCRIPT_ENGINE.eval(expMatcher.group(1), simpleBindings);
+                jsEval = SCRIPT_ENGINE.eval(expMatcher.group(1), simpleBindings);
                 if (jsEval instanceof String) {
                     expMatcher.appendReplacement(sb, (String) jsEval);
                 } else if (jsEval instanceof Double && ((Double) jsEval) % 1.0 == 0) {
@@ -218,7 +227,7 @@ public class AnalyzeUrl {
      */
     private List<String> splitRule(String ruleStr) {
         List<String> ruleList = new ArrayList<>();
-        Matcher jsMatcher = AppConstant.JS_PATTERN.matcher(ruleStr);
+        Matcher jsMatcher = JS_PATTERN.matcher(ruleStr);
         int start = 0;
         String tmp;
         while (jsMatcher.find()) {
@@ -255,7 +264,11 @@ public class AnalyzeUrl {
     private Object evalJS(String jsStr, Object result) throws Exception {
         SimpleBindings bindings = new SimpleBindings();
         bindings.put("result", result);
-        return AppConstant.SCRIPT_ENGINE.eval(jsStr, bindings);
+        return SCRIPT_ENGINE.eval(jsStr, bindings);
+    }
+
+    public String getCharCode() {
+        return charCode;
     }
 
     public String getHost() {
@@ -300,3 +313,4 @@ public class AnalyzeUrl {
         GET, POST, DEFAULT
     }
 }
+

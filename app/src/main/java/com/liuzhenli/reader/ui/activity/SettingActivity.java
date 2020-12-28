@@ -28,6 +28,8 @@ public class SettingActivity extends BaseActivity {
 
     @BindView(R.id.view_setting_clear_cache)
     View mViewClearCache;
+    @BindView(R.id.view_setting_backup)
+    View mViewBackUp;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, SettingActivity.class);
@@ -65,10 +67,13 @@ public class SettingActivity extends BaseActivity {
             }), new SampleProgressObserver<Boolean>() {
                 @Override
                 public void onNext(Boolean aBoolean) {
-                    ToastUtil.showToast("");
                 }
             });
 
+        });
+
+        ClickUtils.click(mViewBackUp, o -> {
+            BackupSettingActivity.start(mContext);
         });
     }
 

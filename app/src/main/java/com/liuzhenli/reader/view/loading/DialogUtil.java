@@ -3,6 +3,7 @@ package com.liuzhenli.reader.view.loading;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
@@ -116,8 +117,10 @@ public class DialogUtil {
                     if (text != null && text.length() > 0) {
                         actionListener.onClick(text.toString());
                         dialog.dismiss();
-                    } else {
+                    } else if (!TextUtils.isEmpty(toast)) {
                         ToastUtil.showToast(toast);
+                    } else {
+                        dialog.dismiss();
                     }
                 }).create(mCurrentDialogStyle).show();
     }

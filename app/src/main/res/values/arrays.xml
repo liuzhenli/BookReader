@@ -13,4 +13,10 @@
         <item>.json</item>
         <item>.xml</item>
     </string-array>
+
+    <string-array name="select_folder">
+        <item>@string/default_path</item>
+        <item>@string/sys_folder_picker</item>
+        <item>@string/app_folder_picker</item>
+    </string-array>
 </resources>

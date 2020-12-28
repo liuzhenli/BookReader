@@ -50,7 +50,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             android.applicationVariants.all { variant ->
                 variant.outputs.all {
-                    outputFileName = outputFileName.replace("release", "${variant.versionName}_build${defaultConfig.versionCode}")
+                    outputFileName = outputFileName.replace("release", "${variant.versionName}_build_${defaultConfig.versionCode}")
                 }
             }
         }
@@ -62,18 +62,18 @@ android {
     }
     flavorDimensions "app", "ndkfilter"
     productFlavors {
-        def apphead = "hello"
+        def apphead = "iReader"
         "app" {
             manifestPlaceholders = [
-                    UMENG_KEY   : "5fb8761f690bda19c786950a",
+                    UMENG_KEY: "5fb8761f690bda19c786950a",
             ]
             ndk {
-                abiFilters "armeabi", "x86_64", "armeabi-v7a"
+                abiFilters /*"armeabi", "x86_64",*/ "armeabi-v7a"
             }
             dimension "app"
         }
         "reader" {
-            manifestPlaceholders = [CHANNEL_NAME: "${apphead}Reader",
+            manifestPlaceholders = [CHANNEL_NAME: "reader",
                                     CHNL        : "999999",
             ]
             dimension "ndkfilter"
@@ -125,6 +125,11 @@ dependencies {
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
     implementation project(path: ':app-libs')
     implementation project(path: ':app-reader')
+
+    //anko
+    def anko_version = '0.10.8'
+    implementation "org.jetbrains.anko:anko-sdk27:$anko_version"
+    implementation "org.jetbrains.anko:anko-sdk27-listeners:$anko_version"
 
 
 }
