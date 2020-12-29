@@ -208,13 +208,14 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
         super.onResume();
     }
 
-
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
+        if (isFragmentVisible != hidden) {
+            onFragmentVisibleChange(hidden);
+            isFragmentVisible = hidden;
+        }
     }
-
-
     /**
      * rootView是否初始化标志，防止回调函数在rootView为空的时候触发
      */

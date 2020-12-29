@@ -285,4 +285,9 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusTag.RECREATE)})
+    public void onRecreateEvent(Boolean recreate) {
+        recreate();
+    }
+
 }
