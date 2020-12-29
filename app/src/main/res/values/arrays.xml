@@ -19,4 +19,9 @@
         <item>@string/sys_folder_picker</item>
         <item>@string/app_folder_picker</item>
     </string-array>
+
+    <string-array name="backup_network_type_des">
+        <item>@string/backup_net_type_all</item>
+        <item>@string/backup_net_type_wifi_only</item>
+    </string-array>
 </resources>

@@ -23,6 +23,14 @@ public class AppConfigManager {
         int SORT_TYPE_PINYIN = 2;
     }
 
+    /***自动备份网络设置*/
+    public static final String AUTO_BACKUP_NET_TYPE = "auto_backup_wifi_type";
+
+    public interface BackupNetType {
+        int ALL_ALLOWED = 0;
+        int WIFI_ONLY = 1;
+    }
+
     public static void setBookSourceSortType(int sortType) {
         SharedPreferencesUtil.getInstance().putInt("SourceSort", sortType);
     }

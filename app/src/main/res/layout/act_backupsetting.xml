@@ -140,7 +140,7 @@
                     android:id="@+id/tv_view_back_guide_vis"
                     style="@style/ItemSubTitleStyle"
                     android:layout_marginTop="@dimen/common_margin_small"
-                    android:hint="点击此项获得教程《自动备份与云备份教程"
+                    android:hint="点击此项获得教程《自动备份与云备份教程》"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_view_back_guide" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -163,7 +163,7 @@
                     android:id="@+id/tv_view_backup_path_info_vis"
                     style="@style/ItemSubTitleStyle"
                     android:layout_marginTop="@dimen/common_margin_small"
-                    android:hint="备份文件将被保存到/backups"
+                    android:hint="备份文件将被保存到/BookReadApp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_view_backup_path_info" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -220,6 +220,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/all_item_height"
                 android:checked="true"
+                android:enabled="false"
                 android:text="自动备份" />
         </LinearLayout>
     </ScrollView>

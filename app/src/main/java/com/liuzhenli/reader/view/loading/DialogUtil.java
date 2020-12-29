@@ -106,11 +106,16 @@ public class DialogUtil {
     }
 
     public static void showEditTextDialog(Context context, String title, String placeHolder, String toast, DialogActionListener actionListener) {
+        showEditTextDialog(context, title, placeHolder, toast, null, actionListener);
+    }
+
+    public static void showEditTextDialog(Context context, String title, String placeHolder, String defaultText, String toast, DialogActionListener actionListener) {
         final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(context);
         builder.setTitle(title)
                 .setSkinManager(QMUISkinManager.defaultInstance(context))
                 .setPlaceholder(placeHolder)
                 .setInputType(InputType.TYPE_CLASS_TEXT)
+                .setDefaultText(defaultText)
                 .addAction("取消", (dialog, index) -> dialog.dismiss())
                 .addAction("确定", (dialog, index) -> {
                     CharSequence text = builder.getEditText().getText();

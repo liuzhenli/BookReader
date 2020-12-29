@@ -5,7 +5,6 @@ import android.os.Handler
 import android.os.Looper
 import android.text.TextUtils
 import com.liuzhenli.common.FileHelp
-import com.liuzhenli.common.SharedPreferencesUtil
 import com.liuzhenli.common.constant.AppConstant
 import com.liuzhenli.common.utils.AppConfigManager
 import com.liuzhenli.common.utils.ZipUtils
@@ -118,7 +117,7 @@ object WebDavHelp {
     /**
      * 备份到服务器
      */
-    fun backUpWebDav(path: String) {
+    fun backUpWebDav(path: String, callBack: Backup.CallBack?) {
         try {
             if (initWebDav()) {
                 val paths = arrayListOf(*Backup.backupFileNames)
@@ -133,11 +132,11 @@ object WebDavHelp {
                                     .format(Date(System.currentTimeMillis())) + ".zip"
                     WebDav(putUrl).upload(zipFilePath)
                 }
+            } else {
+                callBack?.backupError("WebDav:未配置云端地址")
             }
         } catch (e: Exception) {
-            Handler(Looper.getMainLooper()).post {
-                ToastUtil.showToast("WebDav\n${e.localizedMessage}")
-            }
+            callBack?.backupError("WebDav${e.localizedMessage}")
         }
     }
 }

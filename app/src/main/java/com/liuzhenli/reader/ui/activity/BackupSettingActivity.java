@@ -1,6 +1,7 @@
 package com.liuzhenli.reader.ui.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
@@ -8,6 +9,10 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.hwangjr.rxbus.RxBus;
+import com.liuzhenli.common.SharedPreferencesUtil;
+import com.liuzhenli.common.constant.AppConstant;
+import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.utils.AppConfigManager;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.reader.base.BaseActivity;
@@ -70,11 +75,21 @@ public class BackupSettingActivity extends BaseActivity implements Backup.CallBa
      */
     @BindView(R.id.view_backup_path_info)
     View mVBackup;
-    /**
-     * 备份到云端
-     */
+    /*** 备份到云端*/
     @BindView(R.id.view_backup_to_web)
     View mVBackupToWeb;
+
+    /***设置备份的网络*/
+    @BindView(R.id.view_setting_web_dav_net)
+    View mVBackupNetSetting;
+
+    @BindView(R.id.tv_web_dav_net)
+    TextView mTVBackupNetType;
+
+    @BindView(R.id.tv_web_dav_net)
+    View mTVBackupGuide;
+
+    private String[] mBackupNetDes;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, BackupSettingActivity.class);
@@ -98,13 +113,13 @@ public class BackupSettingActivity extends BaseActivity implements Backup.CallBa
 
     @Override
     protected void initData() {
-
+        mBackupNetDes = getResources().getStringArray(R.array.backup_network_type_des);
     }
 
     @Override
     protected void configViews() {
         ClickUtils.click(mViewNetAddress, o -> {
-            DialogUtil.showEditTextDialog(mContext, getResources().getString(R.string.web_dav_address), "请输入网址", null, new DialogUtil.DialogActionListener() {
+            DialogUtil.showEditTextDialog(mContext, getResources().getString(R.string.web_dav_address), "请输入网址", AppConfigManager.getWebDavAddress(), null, new DialogUtil.DialogActionListener() {
                 @Override
                 public void onClick(String s) {
                     mTvNetAddress.setText(s);
@@ -115,7 +130,7 @@ public class BackupSettingActivity extends BaseActivity implements Backup.CallBa
             });
         });
         ClickUtils.click(mVAccount, o -> {
-            DialogUtil.showEditTextDialog(mContext, getResources().getString(R.string.web_dav_account), "请输入账号", null, new DialogUtil.DialogActionListener() {
+            DialogUtil.showEditTextDialog(mContext, getResources().getString(R.string.web_dav_account), "请输入账号", AppConfigManager.getWebDavAccountName(), null, new DialogUtil.DialogActionListener() {
                 @Override
                 public void onClick(String s) {
                     mTvAccount.setText(s);
@@ -124,7 +139,7 @@ public class BackupSettingActivity extends BaseActivity implements Backup.CallBa
             });
         });
         ClickUtils.click(mVPassword, o -> {
-            DialogUtil.showEditTextDialog(mContext, getResources().getString(R.string.web_dav_password), "请输入密码", null, new DialogUtil.DialogActionListener() {
+            DialogUtil.showEditTextDialog(mContext, getResources().getString(R.string.web_dav_password), "请输入密码", AppConfigManager.getWebDavAddPwd(), null, new DialogUtil.DialogActionListener() {
                 @Override
                 public void onClick(String s) {
                     AppConfigManager.saveWebDavAddPwd(s);
@@ -136,6 +151,7 @@ public class BackupSettingActivity extends BaseActivity implements Backup.CallBa
         ClickUtils.click(mVRestore, new Consumer() {
             @Override
             public void accept(Object o) throws Exception {
+                showDialog();
                 restoreFile();
             }
         });
@@ -143,24 +159,59 @@ public class BackupSettingActivity extends BaseActivity implements Backup.CallBa
         ClickUtils.click(mVBackup, new Consumer() {
             @Override
             public void accept(Object o) throws Exception {
-                BackupRestoreUi.INSTANCE.backup(BackupSettingActivity.this);
+                showDialog();
+                BackupRestoreUi.INSTANCE.backup(BackupSettingActivity.this, false, BackupSettingActivity.this, BackupSettingActivity.this);
             }
         });
         //备份到云端
         ClickUtils.click(mVBackupToWeb, new Consumer() {
             @Override
             public void accept(Object o) throws Exception {
-                BackupRestoreUi.INSTANCE.backup(BackupSettingActivity.this);
+                showDialog();
+                BackupRestoreUi.INSTANCE.backup(BackupSettingActivity.this, true, BackupSettingActivity.this, BackupSettingActivity.this);
             }
         });
+
+        //备份网络
+        ClickUtils.click(mVBackupNetSetting, new Consumer() {
+            @Override
+            public void accept(Object o) throws Exception {
+                int selection = SharedPreferencesUtil.getInstance().getInt(AppConfigManager.AUTO_BACKUP_NET_TYPE,
+                        AppConfigManager.BackupNetType.WIFI_ONLY) == AppConfigManager.BackupNetType.ALL_ALLOWED ? 0 : 1;
+
+                DialogUtil.sowSingleChoiceDialog(mContext, mBackupNetDes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == 0) {
+                            SharedPreferencesUtil.getInstance().putInt(AppConfigManager.AUTO_BACKUP_NET_TYPE, AppConfigManager.BackupNetType.ALL_ALLOWED);
+                        } else {
+                            SharedPreferencesUtil.getInstance().putInt(AppConfigManager.AUTO_BACKUP_NET_TYPE, AppConfigManager.BackupNetType.WIFI_ONLY);
+                        }
+                        setBackupNetMode();
+                    }
+                }, selection);
+            }
+        });
+
+        ClickUtils.click(mTVBackupGuide, o -> {
+            WebViewActivity.start(mContext, AppConstant.URL_BACKUP_GUIDE);
+        });
+
         mTvNetAddress.setText(AppConfigManager.getWebDavAddress());
-
-
         mTvAccount.setText(AppConfigManager.getWebDavAccountName());
         mTvPassword.setText(AppConfigManager.getWebDavAddPwd());
-
+        setBackupNetMode();
     }
 
+
+    private void setBackupNetMode() {
+        if (SharedPreferencesUtil.getInstance().getInt(AppConfigManager.AUTO_BACKUP_NET_TYPE,
+                AppConfigManager.BackupNetType.WIFI_ONLY) == AppConfigManager.BackupNetType.ALL_ALLOWED) {
+            mTVBackupNetType.setText(mBackupNetDes[0]);
+        } else {
+            mTVBackupNetType.setText(mBackupNetDes[1]);
+        }
+    }
 
     /**
      * 恢复
@@ -168,7 +219,6 @@ public class BackupSettingActivity extends BaseActivity implements Backup.CallBa
     private void restoreFile() {
         WebDavHelp webDavHelp = WebDavHelp.INSTANCE;
         if (!webDavHelp.initWebDav()) {
-            toast("你还配置云备份");
             showBackups(null);
             return;
         }
@@ -201,10 +251,11 @@ public class BackupSettingActivity extends BaseActivity implements Backup.CallBa
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        BackupRestoreUi.INSTANCE.onActivityResult(requestCode, resultCode, data);
+        BackupRestoreUi.INSTANCE.onActivityResult(requestCode, resultCode, data, BackupSettingActivity.this, BackupSettingActivity.this);
     }
 
     private void showBackups(List<String> list) {
+        hideDialog();
         QMUIBottomSheet.BottomListSheetBuilder builder = new QMUIBottomSheet.BottomListSheetBuilder(this);
         builder.setGravityCenter(false)
                 .setTitle("选择恢复的文件")
@@ -234,12 +285,12 @@ public class BackupSettingActivity extends BaseActivity implements Backup.CallBa
         builder.addItem(local);
 
         if (list == null || list.size() == 0) {
-            QMUIBottomSheetListItemModel itemData = new QMUIBottomSheetListItemModel("云备份内容为空,请先配置", "webDav");
+            QMUIBottomSheetListItemModel itemData = new QMUIBottomSheetListItemModel("云备份内容为空,请先配置", "webDav_empty");
             itemData.image(R.drawable.ic_cloud);
             builder.addItem(itemData);
         } else {
             for (int i = 0; i < list.size(); i++) {
-                QMUIBottomSheetListItemModel itemData = new QMUIBottomSheetListItemModel(list.get(i), "webDav_empty");
+                QMUIBottomSheetListItemModel itemData = new QMUIBottomSheetListItemModel(list.get(i), "webDav");
                 itemData.image(R.drawable.ic_cloud);
                 builder.addItem(itemData);
             }
@@ -249,21 +300,26 @@ public class BackupSettingActivity extends BaseActivity implements Backup.CallBa
 
     @Override
     public void backupSuccess() {
+        hideDialog();
         toast("备份成功");
     }
 
     @Override
     public void backupError(@NotNull String msg) {
+        hideDialog();
         toast(msg);
     }
 
     @Override
     public void restoreSuccess() {
+        hideDialog();
         toast("恢复成功");
+        RxBus.get().post(RxBusTag.RECREATE, true);
     }
 
     @Override
     public void restoreError(@NotNull String msg) {
+        hideDialog();
         toast(msg);
     }
 }

@@ -57,7 +57,7 @@ object Restore {
                 })
     }
 
-    fun restore(path: String, callBack: CallBack?) {
+    fun restore(path: String, callBack: Restore.CallBack?) {
         Single.create(SingleOnSubscribe<Boolean> { e ->
             try {
                 val file = FileHelp.createFileIfNotExist(path + File.separator + "myBookShelf.json")

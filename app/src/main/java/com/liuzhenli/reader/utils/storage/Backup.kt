@@ -61,8 +61,10 @@ object Backup {
 
     /**
      * 备份
+     * @param isBackupToWebDav 是否备份到云端
      */
-    fun backup(context: Context, path: String, callBack: CallBack?, isAuto: Boolean = false) {
+    fun backup(context: Context, path: String, callBack: CallBack?, isBackupToWebDav: Boolean = true, isAuto: Boolean = false) {
+
         SharedPreferencesUtil.getInstance().putLong("lastBackup", System.currentTimeMillis())
         Single.create(SingleOnSubscribe<Boolean> { e ->
             BookshelfHelper.getAllBook().let {
@@ -109,18 +111,21 @@ object Backup {
                 }
                 edit.commit()
             }
-            WebDavHelp.backUpWebDav(backupPath)
             if (path.isContentPath()) {
                 copyBackup(context, Uri.parse(path), isAuto)
             } else {
                 copyBackup(path, isAuto)
+            }
+            if (isBackupToWebDav) {
+                WebDavHelp.backUpWebDav(backupPath,callBack)
+            } else {
+                callBack?.backupSuccess()
             }
             e.onSuccess(true)
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : SingleObserver<Boolean> {
                     override fun onSuccess(t: Boolean) {
-                        callBack?.backupSuccess()
                     }
 
                     override fun onError(e: Throwable) {

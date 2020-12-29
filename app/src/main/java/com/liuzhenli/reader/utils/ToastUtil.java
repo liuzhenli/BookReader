@@ -1,6 +1,7 @@
 package com.liuzhenli.reader.utils;
 
 import android.content.Context;
+import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -17,11 +18,11 @@ public class ToastUtil {
         if (TextUtils.isEmpty(ex)) {
             return;
         }
-        Toast.makeText(ReaderApplication.getInstance(), ex, Toast.LENGTH_SHORT).show();
+        showToast(ReaderApplication.getInstance(), ex);
     }
 
     public static void showToast(int resId) {
-        Toast.makeText(ReaderApplication.getInstance(), ReaderApplication.getInstance().getResources().getString(resId), Toast.LENGTH_SHORT).show();
+        showToast(ReaderApplication.getInstance(), ReaderApplication.getInstance().getResources().getString(resId));
     }
 
     private static Toast sToast;
