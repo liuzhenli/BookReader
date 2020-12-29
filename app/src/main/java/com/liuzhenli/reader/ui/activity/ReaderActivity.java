@@ -299,6 +299,8 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
         cursorLeft.setOnTouchListener(this);
         cursorRight.setOnTouchListener(this);
         mViewRoot.setOnTouchListener(this);
+
+        setBrightness();
     }
 
     /***显示书目录**/
@@ -770,4 +772,12 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
         }
     }
 
+
+    private void setBrightness() {
+        if (ReadConfigManager.getInstance().getLightFollowSys()) {
+            ScreenUtils.setScreenBrightness(this, -1);
+        } else {
+            ScreenUtils.setScreenBrightness(this, ReadConfigManager.getInstance().getLight());
+        }
+    }
 }

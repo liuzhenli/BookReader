@@ -74,12 +74,12 @@ public class ReadBrightnessMenu extends BaseMenu {
             @Override
             public void onProgressChange(QMUISlider slider, int progress, int tickCount, boolean fromUser) {
                 super.onProgressChange(slider, progress, tickCount, fromUser);
-                int light = (int) (progress * 2.55);
-                setBrightness(light);
-                ReadConfigManager.getInstance().setLight(light);
+                setBrightness(progress);
+                ReadConfigManager.getInstance().setLight(progress);
             }
         });
         sbMenuSettingBrightness.setCurrentProgress(ReadConfigManager.getInstance().getLight());
+        sbMenuSettingBrightness.setTickCount(255);
     }
 
     private void setBrightness(int value) {

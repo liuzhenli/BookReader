@@ -178,9 +178,6 @@ public class ScreenUtils {
 
     /**
      * 判断是否开启了自动亮度调节
-     *
-     * @param activity
-     * @return
      */
     public static boolean isAutoBrightness(Activity activity) {
         boolean isAutoAdjustBright = false;
@@ -197,8 +194,6 @@ public class ScreenUtils {
 
     /**
      * 开启亮度自动调节
-     *
-     * @param activity
      */
 
     public static void startAutoBrightness(Activity activity) {
@@ -208,7 +203,6 @@ public class ScreenUtils {
     /**
      * 获得当前屏幕亮度值
      *
-     * @param mContext
      * @return 0~100
      */
     public static float getScreenBrightness(Context mContext) {
@@ -225,7 +219,6 @@ public class ScreenUtils {
      * 设置当前屏幕亮度值
      *
      * @param paramInt 0~100
-     * @param mContext
      */
     public static void saveScreenBrightness(int paramInt, Context mContext) {
         if (paramInt <= 5) {
@@ -251,8 +244,8 @@ public class ScreenUtils {
         if (brightness == -1) {
             lp.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
         } else {
-            if (brightness < 10) {
-                brightness = 10;
+            if (brightness < 2) {
+                brightness = 2;
             }
             lp.screenBrightness = Float.valueOf(brightness / 255f);
         }
