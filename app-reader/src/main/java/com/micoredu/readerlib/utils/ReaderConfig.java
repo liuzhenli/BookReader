@@ -21,10 +21,15 @@ public class ReaderConfig {
      * 翻页模式
      */
     public @interface PageMode {
+        /***覆盖*/
         int COVER = 0;
+        /***仿真*/
         int SIMULATION = 1;
+        /***滑动*/
         int SLIDE = 2;
+        /***滑动*/
         int SCROLL = 3;
+        /***无动画*/
         int NONE = 4;
     }
 

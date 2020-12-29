@@ -1,5 +1,7 @@
 package com.liuzhenli.reader.ui.presenter;
 
+import android.os.AsyncTask;
+
 import com.hwangjr.rxbus.RxBus;
 import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.utils.FileUtils;
@@ -51,9 +53,13 @@ public class ReadPresenter extends RxPresenter<ReadContract.View> implements Rea
             public void subscribe(ObservableEmitter<BookShelfBean> emitter) throws Exception {
                 //1.数据库的书
                 //2.本地的书  根据存储地址
-                BookShelfBean book = BookshelfHelper.getBook(url);
+                BookShelfBean bookShelf = BookshelfHelper.getBook(url);
+
+                if (bookShelf != null && chapterList.isEmpty()) {
+                    chapterList = BookshelfHelper.getChapterList(bookShelf.getNoteUrl());
+                }
                 //3.服务器的书
-                emitter.onNext(book);
+                emitter.onNext(bookShelf);
             }
         });
 
@@ -61,7 +67,7 @@ public class ReadPresenter extends RxPresenter<ReadContract.View> implements Rea
         DisposableObserver subscribe = RxUtil.subscribe(observable, new SampleProgressObserver<BookShelfBean>() {
             @Override
             public void onNext(BookShelfBean book) {
-
+                mView.showBookInfo(book);
             }
         });
         addSubscribe(subscribe);
@@ -98,6 +104,7 @@ public class ReadPresenter extends RxPresenter<ReadContract.View> implements Rea
 
     public void setChapterList(List<BookChapterBean> chapters) {
         this.chapterList = chapters;
+        ThreadUtils.getInstance().getExecutorService().execute(() -> DbHelper.getDaoSession().getBookChapterBeanDao().insertOrReplaceInTx(chapterList));
     }
 
     public List<BookChapterBean> getChapterList() {

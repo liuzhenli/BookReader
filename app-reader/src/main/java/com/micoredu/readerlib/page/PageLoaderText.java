@@ -64,7 +64,7 @@ public class PageLoaderText extends PageLoader {
                 book.setFinalRefreshData(lastModified);
                 book.setHasUpdate(true);
             }
-            if (book.getHasUpdate() || callback.getChapterList().size() == 0) {
+            if (book.getHasUpdate() || mCallback.getChapterList().size() == 0) {
                 List<BookChapterBean> chapterBeanList = loadChapters();
                 book.setHasUpdate(false);
                 e.onSuccess(chapterBeanList);
@@ -83,7 +83,7 @@ public class PageLoaderText extends PageLoader {
                         isChapterListPrepare = true;
                         // 目录加载完成，执行回调操作。
                         if (!bookChapterBeans.isEmpty()) {
-                            callback.onCategoryFinish(bookChapterBeans);
+                            mCallback.onCategoryFinish(bookChapterBeans);
                         }
                         // 打开章节
                         skipToChapter(book.getDurChapter(), book.getDurChapterPage());
@@ -134,8 +134,8 @@ public class PageLoaderText extends PageLoader {
                         book.setHasUpdate(false);
 
                         // 提示目录加载完成
-                        if (callback != null) {
-                            callback.onCategoryFinish(value);
+                        if (mCallback != null) {
+                            mCallback.onCategoryFinish(value);
                         }
 
                         // 加载并显示当前章节

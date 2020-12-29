@@ -26,7 +26,7 @@ public class ReadContract {
          *
          * @param bookInfo 书信息
          */
-        void showBookInfo(BookInfoBean bookInfo);
+        void showBookInfo(BookShelfBean bookInfo);
 
         void showFontFile(File[] files);
 

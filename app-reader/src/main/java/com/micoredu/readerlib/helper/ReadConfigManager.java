@@ -25,6 +25,8 @@ import com.micoredu.readerlib.R;
 import com.micoredu.readerlib.ReaderLibManager;
 import com.micoredu.readerlib.utils.ReaderConfig;
 
+import static com.micoredu.readerlib.utils.ReaderConfig.PageMode.SLIDE;
+
 /****阅读参数设置*/
 public class ReadConfigManager {
     private static final int DEFAULT_BG = 1;
@@ -133,7 +135,7 @@ public class ReadConfigManager {
         this.tipPaddingTop = preferences.getInt("tipPaddingTop", 0);
         this.tipPaddingRight = preferences.getInt("tipPaddingRight", ReaderConfig.DEFAULT_MARGIN_WIDTH);
         this.tipPaddingBottom = preferences.getInt("tipPaddingBottom", 0);
-        this.pageMode = preferences.getInt("pageMode", 0);
+        this.pageMode = preferences.getInt("pageMode", SLIDE);
         this.screenDirection = preferences.getInt("screenDirection", 0);
         this.navBarColor = preferences.getInt("navBarColorInt", 0);
         this.textLetterSpacing = preferences.getFloat("textLetterSpacing", 0);

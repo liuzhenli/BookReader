@@ -45,7 +45,7 @@ public class PageLoaderNet extends PageLoader {
 
     @Override
     public void refreshChapterList() {
-        if (!callback.getChapterList().isEmpty()) {
+        if (!mCallback.getChapterList().isEmpty()) {
             isChapterListPrepare = true;
             // 打开章节
             skipToChapter(book.getDurChapter(), book.getDurChapterPage());
@@ -64,7 +64,7 @@ public class PageLoaderNet extends PageLoader {
                             // 目录加载完成
                             if (!chapterBeanList.isEmpty()) {
                                 BookshelfHelper.delChapterList(book.getNoteUrl());
-                                callback.onCategoryFinish(chapterBeanList);
+                                mCallback.onCategoryFinish(chapterBeanList);
                             }
                             // 加载并显示当前章节
                             skipToChapter(book.getDurChapter(), book.getDurChapterPage());
@@ -95,18 +95,18 @@ public class PageLoaderNet extends PageLoader {
     @SuppressLint("DefaultLocale")
     private synchronized void loadContent(final int chapterIndex) {
         if (downloadingChapterList.size() >= 20) return;
-        if (chapterIndex >= callback.getChapterList().size()
-                || DownloadingList(listHandle.CHECK, callback.getChapterList().get(chapterIndex).getDurChapterUrl()))
+        if (chapterIndex >= mCallback.getChapterList().size()
+                || DownloadingList(listHandle.CHECK, mCallback.getChapterList().get(chapterIndex).getDurChapterUrl()))
             return;
-        if (null != book && callback.getChapterList().size() > 0) {
+        if (null != book && mCallback.getChapterList().size() > 0) {
             Observable.create((ObservableOnSubscribe<Integer>) e -> {
                 if (shouldRequestChapter(chapterIndex)) {
-                    DownloadingList(listHandle.ADD, callback.getChapterList().get(chapterIndex).getDurChapterUrl());
+                    DownloadingList(listHandle.ADD, mCallback.getChapterList().get(chapterIndex).getDurChapterUrl());
                     e.onNext(chapterIndex);
                 }
                 e.onComplete();
             })
-                    .flatMap(index -> WebBookModel.getInstance().getBookContent(book, callback.getChapterList().get(chapterIndex), null))
+                    .flatMap(index -> WebBookModel.getInstance().getBookContent(book, mCallback.getChapterList().get(chapterIndex), null))
                     .subscribeOn(scheduler)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new MyObserver<BookContentBean>() {
@@ -124,12 +124,12 @@ public class PageLoaderNet extends PageLoader {
 
                         @Override
                         public void onError(Throwable e) {
-                            DownloadingList(listHandle.REMOVE, callback.getChapterList().get(chapterIndex).getDurChapterUrl());
+                            DownloadingList(listHandle.REMOVE, mCallback.getChapterList().get(chapterIndex).getDurChapterUrl());
                             if (chapterIndex == book.getDurChapter()) {
                                 if (e instanceof WebBook.NoSourceThrowable) {
                                     mPageView.autoChangeSource();
                                 } else if (e instanceof VipThrowable) {
-                                    callback.vipPop();
+                                    mCallback.vipPop();
                                 } else {
                                     durDhapterError(e.getMessage());
                                 }
@@ -174,15 +174,15 @@ public class PageLoaderNet extends PageLoader {
      */
     @SuppressLint("DefaultLocale")
     public void refreshDurChapter() {
-        if (callback.getChapterList().isEmpty()) {
+        if (mCallback.getChapterList().isEmpty()) {
             updateChapter();
             return;
         }
-        if (callback.getChapterList().size() - 1 < mCurChapterPos) {
-            mCurChapterPos = callback.getChapterList().size() - 1;
+        if (mCallback.getChapterList().size() - 1 < mCurChapterPos) {
+            mCurChapterPos = mCallback.getChapterList().size() - 1;
         }
         BookshelfHelper.delChapter(BookshelfHelper.getCachePathName(book.getBookInfoBean().getName(), book.getTag()),
-                mCurChapterPos, callback.getChapterList().get(mCurChapterPos).getDurChapterName());
+                mCurChapterPos, mCallback.getChapterList().get(mCurChapterPos).getDurChapterName());
         skipToChapter(mCurChapterPos, 0);
     }
 
@@ -198,7 +198,7 @@ public class PageLoaderNet extends PageLoader {
     }
 
     private boolean shouldRequestChapter(Integer chapterIndex) {
-        return NetworkUtils.isNetWorkAvailable(BaseApplication.getInstance()) && noChapterData(callback.getChapterList().get(chapterIndex));
+        return NetworkUtils.isNetWorkAvailable(BaseApplication.getInstance()) && noChapterData(mCallback.getChapterList().get(chapterIndex));
     }
 
     // 装载上一章节的内容
@@ -244,9 +244,9 @@ public class PageLoaderNet extends PageLoader {
                     public void onNext(List<BookChapterBean> chapterBeanList) {
                         isChapterListPrepare = true;
 
-                        if (chapterBeanList.size() > callback.getChapterList().size()) {
+                        if (chapterBeanList.size() > mCallback.getChapterList().size()) {
                             mPageView.getActivity().toast("更新完成,有新章节");
-                            callback.onCategoryFinish(chapterBeanList);
+                            mCallback.onCategoryFinish(chapterBeanList);
                         } else {
                             mPageView.getActivity().toast("更新完成,无新章节");
                         }

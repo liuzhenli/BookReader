@@ -190,7 +190,6 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
     protected void configViews() {
         ButterKnife.bind(this);
         mTopBar.getToolBar().setNavigationOnClickListener(v -> onBackPressed());
-        initPageView();
         //获取本书的信息  本地书
         if (mOpenFrom == OPEN_FROM_APP) {
             mPresenter.getBookInfo(mNoteUrl);
@@ -326,9 +325,9 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
     /***
      * 阅读页面信息
      */
-    private void initPageView() {
+    private void initPageView(BookShelfBean bookShelf) {
 
-        mPageLoader = mPageView.getPageLoader((BaseReaderActivity) mContext, mBookShelf, new PageLoader.Callback() {
+        mPageLoader = mPageView.getPageLoader((BaseReaderActivity) mContext, bookShelf, new PageLoader.Callback() {
             @Override
             public List<BookChapterBean> getChapterList() {
                 return mPresenter.getChapterList();
@@ -357,7 +356,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
                 mPresenter.setChapterList(chapters);
                 mBookShelf.setChapterListSize(chapters.size());
                 mCurrentChapterIndex = mBookShelf.getDurChapter();
-                mBookShelf.setDurChapterName(chapters.get(mBookShelf.getDurChapter()).getDurChapterName());
+                mBookShelf.setDurChapterName(chapters.get(bookShelf.getDurChapter()).getDurChapterName());
                 mBookShelf.setLastChapterName(chapters.get(chapters.size() - 1).getDurChapterName());
                 mTopBar.setChapterTitle(mPresenter.getChapterList().get(mCurrentChapterIndex).getDurChapterName());
             }
@@ -513,8 +512,8 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
     }
 
     @Override
-    public void showBookInfo(BookInfoBean bookInfo) {
-
+    public void showBookInfo(BookShelfBean bookInfo) {
+        initPageView(bookInfo);
     }
 
     @Override

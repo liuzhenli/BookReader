@@ -231,7 +231,7 @@ public class PageLoaderEpub extends PageLoader {
     }
 
     private Observable<BookShelfBean> checkChapterList(BookShelfBean collBook) {
-        if (!collBook.getHasUpdate() && !callback.getChapterList().isEmpty()) {
+        if (!collBook.getHasUpdate() && !mCallback.getChapterList().isEmpty()) {
             return Observable.just(collBook);
         } else {
             return Observable.create((ObservableOnSubscribe<List<BookChapterBean>>) e -> {
@@ -245,7 +245,7 @@ public class PageLoaderEpub extends PageLoader {
             })
                     .flatMap(chapterList -> {
                         collBook.setChapterListSize(chapterList.size());
-                        callback.onCategoryFinish(chapterList);
+                        mCallback.onCategoryFinish(chapterList);
                         return Observable.just(collBook);
                     })
                     .doOnNext(bookShelfBean -> {
@@ -271,7 +271,7 @@ public class PageLoaderEpub extends PageLoader {
             mCharset = Charset.forName(book.getBookInfoBean().getCharset());
             //清除原目录
             BookshelfHelper.delChapterList(book.getNoteUrl());
-            callback.getChapterList().clear();
+            mCallback.getChapterList().clear();
             e.onNext(book);
             e.onComplete();
         }).flatMap(this::checkChapterList)
