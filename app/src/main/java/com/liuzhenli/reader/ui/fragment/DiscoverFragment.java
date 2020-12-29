@@ -248,7 +248,6 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
             String tag = mBookSource.getBookSourceUrl();
             mFragmentList.add(BookCategoryFragment.getInstance(url, tag, mBookSource.getBookSourceName()));
         }
-
         fragmentPagerAdapter.notifyDataSetChanged();
         mCommonNavigationAdapter.notifyDataSetChanged();
         RxBus.get().post(RxBusTag.CHANGE_DISCOVER_BOOK_SOURCE, mBookSource);

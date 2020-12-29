@@ -194,7 +194,13 @@ public class BookShelfFragment extends BaseRVFragment<BookShelfPresenter, BookSh
             mVAllowUpdate.setChecked(bookShelfBean.getAllowUpdate());
             mPresenter.updateBookInfo(bookShelfBean);
         });
-        ImageUtil.setImage(mContext, bookShelfBean.getBookInfoBean().getCoverUrl(), mIvCover);
+        //本地书,不显示允许更新
+        if (TextUtils.equals(bookShelfBean.getTag(), BookShelfBean.LOCAL_TAG)) {
+            mVAllowUpdate.setVisibility(View.GONE);
+        } else {
+            mVAllowUpdate.setVisibility(View.VISIBLE);
+        }
+        ImageUtil.setImage(mContext, bookShelfBean.getBookInfoBean().getCoverUrl(), R.drawable.book_cover, mIvCover);
         String author = TextUtils.isEmpty(bookShelfBean.getBookInfoBean().getAuthor()) ? "未知" : bookShelfBean.getBookInfoBean().getAuthor();
         mVAllowUpdate.setChecked(bookShelfBean.getAllowUpdate());
         tvBookName.setText(bookShelfBean.getBookInfoBean().getName());
