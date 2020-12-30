@@ -1,5 +1,6 @@
 package com.liuzhenli.reader.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
+import com.liuzhenli.common.BitIntentDataManager;
 import com.liuzhenli.common.constant.AppConstant;
 import com.liuzhenli.common.observer.MyObserver;
 import com.liuzhenli.common.utils.AppConfigManager;
@@ -116,7 +118,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
     private int mOpenFrom;
     private String mDataKey;
     /***是否在书架里*/
-    private boolean isInBookShelf;
+    private boolean mIsInBookShelf = false;
 
     private String mNoteUrl;
     private BookShelfBean mBookShelf;
@@ -136,6 +138,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             mNoteUrl = savedInstanceState.getString("noteUrl");
+            mIsInBookShelf = savedInstanceState.getBoolean("isAdd");
         }
         mPresenter.attachView(this);
     }
@@ -143,6 +146,17 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+        if (mBookShelf != null) {
+            outState.putString("noteUrl", mBookShelf.getNoteUrl());
+            outState.putBoolean("isAdd", mIsInBookShelf);
+            String key = String.valueOf(System.currentTimeMillis());
+            String bookKey = "book" + key;
+            getIntent().putExtra("bookKey", bookKey);
+            BitIntentDataManager.getInstance().putData(bookKey, mBookShelf.clone());
+            String chapterListKey = "chapterList" + key;
+            getIntent().putExtra("chapterListKey", chapterListKey);
+            BitIntentDataManager.getInstance().putData(chapterListKey, mPresenter.getChapterList());
+        }
     }
 
     @Override
@@ -168,6 +182,25 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
             mBookShelf = (BookShelfBean) getInstance().getData(mDataKey);
             mNoteUrl = mBookShelf.getNoteUrl();
         }
+
+        if (mBookShelf == null) {
+            mBookShelf = BookshelfHelper.getBook(mNoteUrl);
+        }
+
+        if (mBookShelf == null) {
+            List<BookShelfBean> allBook = BookshelfHelper.getAllBook();
+            if (allBook != null && allBook.size() > 0) {
+                mBookShelf = allBook.get(0);
+            }
+        }
+
+        if (mBookShelf != null && mPresenter.getChapterList().isEmpty()) {
+            mPresenter.setChapterList(BookshelfHelper.getChapterList(mBookShelf.getNoteUrl()));
+            mIsInBookShelf = BookshelfHelper.isInBookShelf(mBookShelf.getNoteUrl());
+        } else {
+            finish();
+        }
+
     }
 
     @Override
@@ -177,18 +210,12 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
         mImmersionBar.init();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void configViews() {
         ButterKnife.bind(this);
         mTopBar.getToolBar().setNavigationOnClickListener(v -> onBackPressed());
-        //app内
-        if (mOpenFrom == OPEN_FROM_APP) {
-            mPresenter.getBookInfo(mNoteUrl);
-            //App外
-        } else {
-
-        }
-
+        initPageView();
         //底部menu中 菜单按钮点击从底部弹出一个章节菜单
         mVBottomMenu.setOnMenuElementClickListener(new ReadBottomMenu.OnElementClickListener() {
             @Override
@@ -318,9 +345,8 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
     /***
      * 阅读页面信息
      */
-    private void initPageView(BookShelfBean bookShelf) {
-
-        mPageLoader = mPageView.getPageLoader((BaseReaderActivity) mContext, bookShelf, new PageLoader.Callback() {
+    private void initPageView() {
+        mPageLoader = mPageView.getPageLoader((BaseReaderActivity) mContext, mBookShelf, new PageLoader.Callback() {
             @Override
             public List<BookChapterBean> getChapterList() {
                 return mPresenter.getChapterList();
@@ -349,7 +375,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
                 mPresenter.setChapterList(chapters);
                 mBookShelf.setChapterListSize(chapters.size());
                 mCurrentChapterIndex = mBookShelf.getDurChapter();
-                mBookShelf.setDurChapterName(chapters.get(bookShelf.getDurChapter()).getDurChapterName());
+                mBookShelf.setDurChapterName(chapters.get(mBookShelf.getDurChapter()).getDurChapterName());
                 mBookShelf.setLastChapterName(chapters.get(chapters.size() - 1).getDurChapterName());
                 mTopBar.setChapterTitle(mPresenter.getChapterList().get(mCurrentChapterIndex).getDurChapterName());
             }
@@ -363,7 +389,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
                 //记录阅读位置
                 mBookShelf.setDurChapter(chapterIndex);
                 mBookShelf.setDurChapterPage(pageIndex);
-                if (isInBookShelf) {
+                if (mIsInBookShelf) {
                     mPresenter.saveProgress(mBookShelf);
                 }
             }
@@ -419,7 +445,6 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
                 }
                 mTopBar.getToolBar().setTitle(mBookShelf.getBookInfoBean().getName());
                 mTopBar.getToolBar().setTitleTextColor(Color.WHITE);
-
             }
 
         });
@@ -506,7 +531,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
 
     @Override
     public void showBookInfo(BookShelfBean bookInfo) {
-        initPageView(bookInfo);
+
     }
 
     @Override
@@ -554,7 +579,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
 
     @Override
     public boolean isInBookShelf() {
-        return isInBookShelf;
+        return mIsInBookShelf;
     }
 
     @Override
@@ -595,7 +620,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
                 ClipData clipData = ClipData.newPlainText(null, mPageView.getSelectStr());
                 if (clipboard != null) {
                     clipboard.setPrimaryClip(clipData);
-                    toast("内容已经复制到剪贴板");
+                    toast("内容已经复制");
                 }
                 cursorLeft.setVisibility(View.INVISIBLE);
                 cursorRight.setVisibility(View.INVISIBLE);

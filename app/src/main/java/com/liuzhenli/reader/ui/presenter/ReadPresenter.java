@@ -1,7 +1,5 @@
 package com.liuzhenli.reader.ui.presenter;
 
-import android.os.AsyncTask;
-import android.text.TextUtils;
 
 import com.hwangjr.rxbus.RxBus;
 import com.liuzhenli.common.constant.RxBusTag;
@@ -28,7 +26,6 @@ import javax.inject.Inject;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.observers.DisposableObserver;
 
 /**
  * describe:
@@ -54,33 +51,18 @@ public class ReadPresenter extends RxPresenter<ReadContract.View> implements Rea
             @Override
             public void subscribe(ObservableEmitter<BookShelfBean> emitter) throws Exception {
                 BookShelfBean bookShelf = mView.getBookShelf();
-                if (bookShelf == null) {
-                    bookShelf = BookshelfHelper.getBook(url);
-                }
 
-                if (bookShelf == null) {
-                    List<BookShelfBean> allBook = BookshelfHelper.getAllBook();
-                    if (allBook != null && allBook.size() > 0) {
-                        bookShelf = allBook.get(0);
-                    }
-                }
-
-                if (bookShelf != null && chapterList.isEmpty()) {
-                    chapterList = BookshelfHelper.getChapterList(bookShelf.getNoteUrl());
-                }
-
-                emitter.onNext(bookShelf);
+                emitter.onNext(null);
             }
         });
 
 
-        DisposableObserver subscribe = RxUtil.subscribe(observable, new SampleProgressObserver<BookShelfBean>() {
+        addSubscribe(RxUtil.subscribe(observable, new SampleProgressObserver<BookShelfBean>() {
             @Override
             public void onNext(BookShelfBean book) {
                 mView.showBookInfo(book);
             }
-        });
-        addSubscribe(subscribe);
+        }));
     }
 
     @Override
