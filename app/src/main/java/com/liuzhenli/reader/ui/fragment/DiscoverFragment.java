@@ -250,6 +250,7 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
         }
         fragmentPagerAdapter.notifyDataSetChanged();
         mCommonNavigationAdapter.notifyDataSetChanged();
+        mViewPager.setCurrentItem(0);
         RxBus.get().post(RxBusTag.CHANGE_DISCOVER_BOOK_SOURCE, mBookSource);
     }
 

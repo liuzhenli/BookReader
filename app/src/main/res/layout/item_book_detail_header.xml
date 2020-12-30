@@ -92,7 +92,20 @@
             app:layout_constraintBottom_toTopOf="@+id/tv_last_chapter_name"
             app:layout_constraintLeft_toLeftOf="@+id/tv_book_name"
             app:layout_constraintTop_toBottomOf="@+id/tv_author"
-            tools:text="111" />
+            tools:text="" />
+
+        <com.qmuiteam.qmui.alpha.QMUIAlphaTextView
+            android:id="@+id/view_change_book_source"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="换源"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_size_12"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_book_source"
+            app:layout_constraintLeft_toRightOf="@+id/tv_book_source"
+            app:layout_constraintRight_toLeftOf="@+id/rl_cover"
+            app:layout_constraintTop_toTopOf="@+id/tv_book_source"
+            app:qmui_radius="4dp" />
 
         <TextView
             android:id="@+id/tv_net_matches"

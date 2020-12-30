@@ -71,6 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/common_margin_normal"
                 android:layout_marginRight="@dimen/common_margin_normal"
+                style="@style/ItemSubTitleStyle"
                 android:text="简介"
                 android:textColor="@color/s_text_66"
                 android:textSize="@dimen/txt_size_14" />

@@ -12,18 +12,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_card_bg"
+        android:minHeight="@dimen/all_item_height"
         android:padding="@dimen/common_margin_normal">
 
         <TextView
             android:id="@+id/tv_setting_clear_cache_title"
             style="@style/ItemTitleStyle"
             android:text="@string/clear_cache"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             style="@style/ItemSubTitleStyle"
+            android:layout_marginLeft="8dp"
             android:text="@string/clear_cache_des"
+            android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_setting_clear_cache_title" />
 
@@ -41,12 +45,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_card_bg"
+        android:minHeight="@dimen/all_item_height"
         android:padding="@dimen/common_margin_normal">
 
         <TextView
             android:id="@+id/tv_setting_backup_title"
             style="@style/ItemTitleStyle"
             android:text="@string/backup_restore"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,6 +62,7 @@
             android:text=""
             android:textColor="@color/text_color_99"
             android:textSize="@dimen/txt_size_10"
+            android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_setting_backup_title" />
 

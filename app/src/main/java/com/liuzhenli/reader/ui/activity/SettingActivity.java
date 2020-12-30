@@ -59,14 +59,17 @@ public class SettingActivity extends BaseActivity {
     @Override
     protected void configViews() {
         ClickUtils.click(mViewClearCache, o -> {
-            clearCache();
-            ImageUtil.clearMemoryCache(getApplicationContext());
+            showDialog();
             RxUtil.subscribe(Observable.create(emitter -> {
+                ImageUtil.clearMemoryCache(getApplicationContext());
                 ImageUtil.clearDiskCache(getApplicationContext());
+                BookshelfHelper.clearCaches(true);
                 emitter.onNext(true);
             }), new SampleProgressObserver<Boolean>() {
                 @Override
                 public void onNext(Boolean aBoolean) {
+                    hideDialog();
+                    toast("缓存已清理");
                 }
             });
 
@@ -75,16 +78,5 @@ public class SettingActivity extends BaseActivity {
         ClickUtils.click(mViewBackUp, o -> {
             BackupSettingActivity.start(mContext);
         });
-    }
-
-    private void clearCache() {
-        DialogUtil.showMessagePositiveDialog(mContext, getResources().getString(R.string.clear_cache),
-                getResources().getString(R.string.sure_del_download_book),
-                getResources().getString(R.string.no), (dialog, index) -> {
-                    BookshelfHelper.clearCaches(false);
-                }, getResources().getString(R.string.yes), (dialog, index) -> {
-                    BookshelfHelper.clearCaches(true);
-                }, true);
-
     }
 }

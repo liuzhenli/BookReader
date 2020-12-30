@@ -30,6 +30,8 @@ public class ReadContract {
 
         void showFontFile(File[] files);
 
+        BookShelfBean getBookShelf();
+
     }
 
 

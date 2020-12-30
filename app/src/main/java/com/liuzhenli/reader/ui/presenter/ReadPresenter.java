@@ -1,6 +1,7 @@
 package com.liuzhenli.reader.ui.presenter;
 
 import android.os.AsyncTask;
+import android.text.TextUtils;
 
 import com.hwangjr.rxbus.RxBus;
 import com.liuzhenli.common.constant.RxBusTag;
@@ -46,19 +47,28 @@ public class ReadPresenter extends RxPresenter<ReadContract.View> implements Rea
         this.mApi = api;
     }
 
+
     @Override
     public void getBookInfo(String url) {
         Observable<BookShelfBean> observable = Observable.create(new ObservableOnSubscribe<BookShelfBean>() {
             @Override
             public void subscribe(ObservableEmitter<BookShelfBean> emitter) throws Exception {
-                //1.数据库的书
-                //2.本地的书  根据存储地址
-                BookShelfBean bookShelf = BookshelfHelper.getBook(url);
+                BookShelfBean bookShelf = mView.getBookShelf();
+                if (bookShelf == null) {
+                    bookShelf = BookshelfHelper.getBook(url);
+                }
+
+                if (bookShelf == null) {
+                    List<BookShelfBean> allBook = BookshelfHelper.getAllBook();
+                    if (allBook != null && allBook.size() > 0) {
+                        bookShelf = allBook.get(0);
+                    }
+                }
 
                 if (bookShelf != null && chapterList.isEmpty()) {
                     chapterList = BookshelfHelper.getChapterList(bookShelf.getNoteUrl());
                 }
-                //3.服务器的书
+
                 emitter.onNext(bookShelf);
             }
         });
@@ -104,7 +114,9 @@ public class ReadPresenter extends RxPresenter<ReadContract.View> implements Rea
 
     public void setChapterList(List<BookChapterBean> chapters) {
         this.chapterList = chapters;
-        ThreadUtils.getInstance().getExecutorService().execute(() -> DbHelper.getDaoSession().getBookChapterBeanDao().insertOrReplaceInTx(chapterList));
+        if (chapterList != null && chapterList.size() > 0) {
+            ThreadUtils.getInstance().getExecutorService().execute(() -> DbHelper.getDaoSession().getBookChapterBeanDao().insertOrReplaceInTx(chapterList));
+        }
     }
 
     public List<BookChapterBean> getChapterList() {

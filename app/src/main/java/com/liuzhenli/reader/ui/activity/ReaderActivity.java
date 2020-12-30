@@ -62,6 +62,7 @@ import io.reactivex.disposables.Disposable;
 
 import static com.liuzhenli.common.BitIntentDataManager.DATA_KEY;
 import static com.liuzhenli.common.BitIntentDataManager.getInstance;
+import static com.liuzhenli.common.constant.AppConstant.BookOpenFrom.OPEN_FROM_APP;
 import static com.liuzhenli.reader.base.BaseActivity.START_SHEAR_ELE;
 
 /**
@@ -77,12 +78,6 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
     public static final String OPEN_FROM = "openFrom";
 
     private Boolean startShareAnim = false;
-    /***app外部打开*/
-    private final static int OPEN_FROM_OTHER = 0;
-    /**
-     * 从app内部打开
-     */
-    public final static int OPEN_FROM_APP = 1;
 
     @BindView(R.id.view_read_root)
     View mViewRoot;
@@ -158,21 +153,17 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
 
     @Override
     protected void initData() {
-        if (getIntent() != null) {
-            startShareAnim = getIntent().getBooleanExtra(START_SHEAR_ELE, false);
-            mOpenFrom = getIntent().getIntExtra(OPEN_FROM, AppConstant.BookOpenFrom.OPEN_FROM_APP);
-        }
-
         AppComponent appComponent = ReaderApplication.getInstance().getAppComponent();
         appComponent.inject(this);
 
-        mDataKey = getIntent().getStringExtra(DATA_KEY);
-        mBookId = getIntent().getLongExtra(BOOK_ID, -1);
-        mChapterId = getIntent().getIntExtra(CHAPTER_ID, 0);
-        mProgress = getIntent().getFloatExtra(PROGRESS, 0);
-        mOpenFrom = getIntent().getIntExtra(OPEN_FROM, OPEN_FROM_OTHER);
-
-
+        if (getIntent() != null) {
+            startShareAnim = getIntent().getBooleanExtra(START_SHEAR_ELE, false);
+            mOpenFrom = getIntent().getIntExtra(OPEN_FROM, OPEN_FROM_APP);
+            mDataKey = getIntent().getStringExtra(DATA_KEY);
+            mBookId = getIntent().getLongExtra(BOOK_ID, -1);
+            mChapterId = getIntent().getIntExtra(CHAPTER_ID, 0);
+            mProgress = getIntent().getFloatExtra(PROGRESS, 0);
+        }
         if (mDataKey != null) {
             mBookShelf = (BookShelfBean) getInstance().getData(mDataKey);
             mNoteUrl = mBookShelf.getNoteUrl();
@@ -190,10 +181,10 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
     protected void configViews() {
         ButterKnife.bind(this);
         mTopBar.getToolBar().setNavigationOnClickListener(v -> onBackPressed());
-        //获取本书的信息  本地书
+        //app内
         if (mOpenFrom == OPEN_FROM_APP) {
             mPresenter.getBookInfo(mNoteUrl);
-            //网络书籍
+            //App外
         } else {
 
         }
@@ -549,6 +540,11 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
                 dialog.dismiss();
             }, current);
         }
+    }
+
+    @Override
+    public BookShelfBean getBookShelf() {
+        return this.mBookShelf;
     }
 
     @Override

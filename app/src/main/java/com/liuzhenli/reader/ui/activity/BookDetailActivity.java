@@ -2,6 +2,7 @@ package com.liuzhenli.reader.ui.activity;
 
 import android.content.Intent;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.functions.Consumer;
 
 import static com.liuzhenli.common.BitIntentDataManager.DATA_KEY;
 
@@ -63,6 +65,8 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
     TextView mTvAddToBookshelf;
     @BindView(R.id.tv_last_chapter_name)
     TextView mTvLastChapterName;
+    @BindView(R.id.view_change_book_source)
+    View mVChangeBookSource;
     private List<BookChapterBean> mChapterList = new ArrayList<>();
 
     private int mOpenFrom;
@@ -155,6 +159,13 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
         mPresenter.getBookInfo(mBookShelf, isInBookShelf);
         showDialog();
         setIsInBookShelf(isInBookShelf);
+
+        ClickUtils.click(mVChangeBookSource, new Consumer() {
+            @Override
+            public void accept(Object o) throws Exception {
+
+            }
+        });
     }
 
     @Override
@@ -180,7 +191,7 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
         }
         mTvDescription.setText(book.getIntroduce());
         mTvBookName.setText(book.getName());
-        mTvAuthor.setText(book.getAuthor());
+        mTvAuthor.setText(book.getAuthor() == null ? "未知作者" : book.getAuthor());
         mTvChapterCount.setText(String.format(getResources().getString(R.string.total_chapter_count), mChapterList.size() + ""));
         ImageUtil.setImage(mContext, book.getCoverUrl(), R.drawable.book_cover, mIvCover);
     }
