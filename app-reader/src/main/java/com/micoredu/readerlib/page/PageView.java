@@ -69,7 +69,7 @@ public class PageView extends View implements PageAnimation.OnPageChangeListener
     /***文字选择画笔*/
     private Paint mTextSelectPaint = null;
     /***文字选择画笔颜色*/
-    private int TextSelectColor = Color.parseColor("#22333333");
+    private int TextSelectColor = Color.parseColor("#22ff5000");
 
     private Path mSelectTextPath = new Path();
 
@@ -402,9 +402,12 @@ public class PageView extends View implements PageAnimation.OnPageChangeListener
         TxtPage txtPage = mPageLoader.curChapter().txtChapter.getPage(mPageLoader.getCurPagePos());
         if (txtPage != null) {
             mLinesData = txtPage.getTxtLists();
+            if (mLinesData == null) {
+                return;
+            }
 
-            Boolean Started = false;
-            Boolean Ended = false;
+            boolean started = false;
+            boolean ended = false;
 
             mSelectLines.clear();
 
@@ -415,18 +418,18 @@ public class PageView extends View implements PageAnimation.OnPageChangeListener
                 selectline.setCharsData(new ArrayList<>());
 
                 for (TxtChar c : l.getCharsData()) {
-                    if (!Started) {
+                    if (!started) {
                         if (c.getIndex() == firstSelectTxtChar.getIndex()) {
-                            Started = true;
+                            started = true;
                             selectline.getCharsData().add(c);
                             if (c.getIndex() == lastSelectTxtChar.getIndex()) {
-                                Ended = true;
+                                ended = true;
                                 break;
                             }
                         }
                     } else {
                         if (c.getIndex() == lastSelectTxtChar.getIndex()) {
-                            Ended = true;
+                            ended = true;
                             if (!selectline.getCharsData().contains(c)) {
                                 selectline.getCharsData().add(c);
                             }
@@ -439,7 +442,7 @@ public class PageView extends View implements PageAnimation.OnPageChangeListener
 
                 mSelectLines.add(selectline);
 
-                if (Started && Ended) {
+                if (started && ended) {
                     break;
                 }
             }

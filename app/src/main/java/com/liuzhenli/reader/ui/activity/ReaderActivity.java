@@ -759,14 +759,21 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
         }
     }
 
+
     public void showAction(View clickView) {
         readLongPress.setVisibility(View.VISIBLE);
+        //弹窗的宽度
+        int width = readLongPress.getWidth();
+        //弹窗的起始位置
+        int x = (int) (cursorLeft.getX() / 2 + cursorLeft.getWidth() / 2 + cursorRight.getX() / 2 + cursorLeft.getWidth() / 2);
         //如果太靠右，则靠左
         int[] aa = ScreenUtils.getScreenSize(this);
-        if ((cursorLeft.getX() + ScreenUtils.dpToPx(200)) > aa[0]) {
-            readLongPress.setX(aa[0] - ScreenUtils.dpToPx(200));
+        if (x < width / 2 + ScreenUtils.dpToPx(8)) {
+            readLongPress.setX(ScreenUtils.dpToPx(8));
+        } else if (x > (aa[0] - width / 2 - ScreenUtils.dpToPx(8))) {
+            readLongPress.setX(aa[0] - width - ScreenUtils.dpToPx(8));
         } else {
-            readLongPress.setX(cursorLeft.getX() + cursorLeft.getWidth() + ScreenUtils.dpToPx(5));
+            readLongPress.setX(x - width / 2f);
         }
 
         //如果太靠上
@@ -774,6 +781,18 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
             readLongPress.setY(cursorLeft.getY() - ScreenUtils.spToPx(ReadConfigManager.getInstance().getTextSize()));
         } else {
             readLongPress.setY(cursorLeft.getY() - ScreenUtils.spToPx(ReadConfigManager.getInstance().getTextSize()) - ScreenUtils.dpToPx(40));
+        }
+
+
+        cursorLeft.setVisibility(View.VISIBLE);
+        cursorRight.setVisibility(View.VISIBLE);
+        int hh = cursorLeft.getHeight();
+        int ww = cursorLeft.getWidth();
+        if (mPageView.getFirstSelectTxtChar() != null && mPageView.getLastSelectTxtChar() != null) {
+            cursorLeft.setX(mPageView.getFirstSelectTxtChar().getTopLeftPosition().x - ww);
+            cursorLeft.setY(mPageView.getFirstSelectTxtChar().getBottomLeftPosition().y);
+            cursorRight.setX(mPageView.getLastSelectTxtChar().getBottomRightPosition().x);
+            cursorRight.setY(mPageView.getLastSelectTxtChar().getBottomRightPosition().y);
         }
     }
 
