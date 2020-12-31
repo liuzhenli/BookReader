@@ -33,6 +33,8 @@ public class ReadLongPressPop extends FrameLayout {
     FrameLayout flCp;
     @BindView(R.id.fl_replace_ad)
     FrameLayout flReplaceAd;
+    @BindView(R.id.fl_search)
+    FrameLayout flSearch;
 
 
     private ReadConfigManager readBookControl = ReadConfigManager.getInstance();
@@ -56,7 +58,7 @@ public class ReadLongPressPop extends FrameLayout {
     @Override
     protected void dispatchDraw(Canvas canvas) {
         Path path = new Path();
-        path.addRoundRect(new RectF(0, 0, getMeasuredWidth(), getMeasuredHeight()), DensityUtil.dip2px(getContext(), 4), DensityUtil.dip2px(getContext(), 4), Path.Direction.CW);
+        path.addRoundRect(new RectF(0, 0, getMeasuredWidth(), getMeasuredHeight()), DensityUtil.dip2px(getContext(), 8), DensityUtil.dip2px(getContext(), 8), Path.Direction.CW);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             canvas.clipPath(path);
         } else {
@@ -88,16 +90,18 @@ public class ReadLongPressPop extends FrameLayout {
 
         //复制
         flCp.setOnClickListener(v -> clickListener.copySelect());
-
         //替换
         flReplace.setOnClickListener(v -> clickListener.replaceSelect());
-
         //标记广告
         flReplaceAd.setOnClickListener(v -> clickListener.replaceSelectAd());
+        //搜索
+        flSearch.setOnClickListener(v -> clickListener.search());
     }
 
     public interface OnBtnClickListener {
         void copySelect();
+
+        void search();
 
         void replaceSelect();
 

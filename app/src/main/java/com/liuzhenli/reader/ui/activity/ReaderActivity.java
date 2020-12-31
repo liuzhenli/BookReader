@@ -26,6 +26,7 @@ import com.liuzhenli.reader.network.AppComponent;
 import com.liuzhenli.reader.ui.contract.ReadContract;
 import com.liuzhenli.reader.ui.presenter.ReadPresenter;
 import com.liuzhenli.reader.utils.BatteryUtil;
+import com.liuzhenli.reader.utils.IntentUtils;
 import com.liuzhenli.reader.utils.storage.Backup;
 import com.liuzhenli.reader.view.ReadLongPressPop;
 import com.liuzhenli.reader.view.loading.DialogUtil;
@@ -53,6 +54,7 @@ import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 
 import java.io.File;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
@@ -629,6 +631,11 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
             }
 
             @Override
+            public void search() {
+                IntentUtils.openBrowser(mContext, String.format("https://www.baidu.com/s?wd=%s", mPageView.getSelectStr()));
+            }
+
+            @Override
             public void replaceSelect() {
                 ReplaceRuleBean oldRuleBean = new ReplaceRuleBean();
                 oldRuleBean.setReplaceSummary(mPageView.getSelectStr().trim());
@@ -789,13 +796,12 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
         int hh = cursorLeft.getHeight();
         int ww = cursorLeft.getWidth();
         if (mPageView.getFirstSelectTxtChar() != null && mPageView.getLastSelectTxtChar() != null) {
-            cursorLeft.setX(mPageView.getFirstSelectTxtChar().getTopLeftPosition().x - ww);
-            cursorLeft.setY(mPageView.getFirstSelectTxtChar().getBottomLeftPosition().y);
-            cursorRight.setX(mPageView.getLastSelectTxtChar().getBottomRightPosition().x);
+            cursorLeft.setX(Objects.requireNonNull(mPageView.getFirstSelectTxtChar().getTopLeftPosition()).x - ww);
+            cursorLeft.setY(Objects.requireNonNull(mPageView.getFirstSelectTxtChar().getBottomLeftPosition()).y);
+            cursorRight.setX(Objects.requireNonNull(mPageView.getLastSelectTxtChar().getBottomRightPosition()).x);
             cursorRight.setY(mPageView.getLastSelectTxtChar().getBottomRightPosition().y);
         }
     }
-
     /**
      * 刷新
      */
