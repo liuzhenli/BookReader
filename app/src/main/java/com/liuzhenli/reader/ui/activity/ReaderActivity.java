@@ -17,8 +17,6 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 
 import com.liuzhenli.common.BitIntentDataManager;
-import com.liuzhenli.common.constant.AppConstant;
-import com.liuzhenli.common.observer.MyObserver;
 import com.liuzhenli.common.utils.AppConfigManager;
 import com.liuzhenli.common.utils.ScreenUtils;
 import com.liuzhenli.reader.ReaderApplication;
@@ -37,7 +35,6 @@ import com.liuzhenli.reader.view.menu.ReadSettingMenu;
 import com.liuzhenli.reader.view.menu.ReadTopBarMenu;
 import com.micoredu.readerlib.BaseReaderActivity;
 import com.micoredu.readerlib.animation.PageAnimation;
-import com.micoredu.readerlib.bean.BookInfoBean;
 import com.micoredu.readerlib.bean.BookShelfBean;
 import com.micoredu.readerlib.bean.ReplaceRuleBean;
 import com.micoredu.readerlib.helper.BookshelfHelper;
@@ -737,6 +734,11 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
                                         })).show();
 
             }
+
+            @Override
+            public void share() {
+
+            }
         });
     }
 
@@ -768,6 +770,16 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
 
 
     public void showAction(View clickView) {
+
+        int hh = cursorLeft.getHeight();
+        int ww = cursorLeft.getWidth();
+        if (mPageView.getFirstSelectTxtChar() != null && mPageView.getLastSelectTxtChar() != null) {
+            cursorLeft.setX(Objects.requireNonNull(mPageView.getFirstSelectTxtChar().getTopLeftPosition()).x - ww);
+            cursorLeft.setY(Objects.requireNonNull(mPageView.getFirstSelectTxtChar().getBottomLeftPosition()).y);
+            cursorRight.setX(Objects.requireNonNull(mPageView.getLastSelectTxtChar().getBottomRightPosition()).x);
+            cursorRight.setY(mPageView.getLastSelectTxtChar().getBottomRightPosition().y);
+        }
+
         readLongPress.setVisibility(View.VISIBLE);
         //弹窗的宽度
         int width = readLongPress.getWidth();
@@ -787,21 +799,10 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
         if ((cursorLeft.getY() - ScreenUtils.spToPx(ReadConfigManager.getInstance().getTextSize()) - ScreenUtils.dpToPx(60)) < 0) {
             readLongPress.setY(cursorLeft.getY() - ScreenUtils.spToPx(ReadConfigManager.getInstance().getTextSize()));
         } else {
-            readLongPress.setY(cursorLeft.getY() - ScreenUtils.spToPx(ReadConfigManager.getInstance().getTextSize()) - ScreenUtils.dpToPx(40));
-        }
-
-
-        cursorLeft.setVisibility(View.VISIBLE);
-        cursorRight.setVisibility(View.VISIBLE);
-        int hh = cursorLeft.getHeight();
-        int ww = cursorLeft.getWidth();
-        if (mPageView.getFirstSelectTxtChar() != null && mPageView.getLastSelectTxtChar() != null) {
-            cursorLeft.setX(Objects.requireNonNull(mPageView.getFirstSelectTxtChar().getTopLeftPosition()).x - ww);
-            cursorLeft.setY(Objects.requireNonNull(mPageView.getFirstSelectTxtChar().getBottomLeftPosition()).y);
-            cursorRight.setX(Objects.requireNonNull(mPageView.getLastSelectTxtChar().getBottomRightPosition()).x);
-            cursorRight.setY(mPageView.getLastSelectTxtChar().getBottomRightPosition().y);
+            readLongPress.setY(cursorLeft.getY() - ScreenUtils.spToPx(ReadConfigManager.getInstance().getTextSize()) - ScreenUtils.dpToPx(60));
         }
     }
+
     /**
      * 刷新
      */

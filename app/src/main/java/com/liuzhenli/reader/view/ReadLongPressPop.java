@@ -35,6 +35,8 @@ public class ReadLongPressPop extends FrameLayout {
     FrameLayout flReplaceAd;
     @BindView(R.id.fl_search)
     FrameLayout flSearch;
+    @BindView(R.id.fl_share)
+    FrameLayout flShare;
 
 
     private ReadConfigManager readBookControl = ReadConfigManager.getInstance();
@@ -92,6 +94,8 @@ public class ReadLongPressPop extends FrameLayout {
         flCp.setOnClickListener(v -> clickListener.copySelect());
         //替换
         flReplace.setOnClickListener(v -> clickListener.replaceSelect());
+        //分享
+        flShare.setOnClickListener(v -> clickListener.share());
         //标记广告
         flReplaceAd.setOnClickListener(v -> clickListener.replaceSelectAd());
         //搜索
@@ -107,5 +111,6 @@ public class ReadLongPressPop extends FrameLayout {
 
         void replaceSelectAd();
 
+        void share();
     }
 }

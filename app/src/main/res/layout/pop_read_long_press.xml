@@ -23,14 +23,15 @@
             android:id="@+id/fl_cp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/common_margin_normal"
             android:layout_weight="1">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:drawableTop="@drawable/icon_long_press_action_copy"
                 android:gravity="center"
+                android:padding="@dimen/common_margin_normal"
                 android:text="复制"
                 android:textColor="#ffbbbbbb"
                 android:textSize="14sp" />
@@ -41,15 +42,35 @@
             android:id="@+id/fl_search"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/common_margin_normal"
             android:layout_weight="1">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:drawableTop="@drawable/icon_long_press_action_search"
                 android:gravity="center"
+                android:padding="@dimen/common_margin_normal"
                 android:text="搜索"
+                android:textColor="#ffbbbbbb"
+                android:textSize="14sp" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_share"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableTop="@drawable/icon_quick_action_share"
+                android:gravity="center"
+                android:padding="@dimen/common_margin_normal"
+                android:text="分享"
                 android:textColor="#ffbbbbbb"
                 android:textSize="14sp" />
 
@@ -59,14 +80,15 @@
             android:id="@+id/fl_replace"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/common_margin_normal"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
+                android:padding="@dimen/common_margin_normal"
                 android:text="替换"
                 android:textColor="#ffbbbbbb"
                 android:textSize="14sp" />
@@ -78,14 +100,15 @@
             android:id="@+id/fl_replace_ad"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/common_margin_normal"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
+                android:padding="@dimen/common_margin_normal"
                 android:text="广告"
                 android:textColor="#ffbbbbbb"
                 android:textSize="14sp" />
