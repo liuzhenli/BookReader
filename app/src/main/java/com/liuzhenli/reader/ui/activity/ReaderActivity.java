@@ -25,6 +25,7 @@ import com.liuzhenli.reader.ui.contract.ReadContract;
 import com.liuzhenli.reader.ui.presenter.ReadPresenter;
 import com.liuzhenli.reader.utils.BatteryUtil;
 import com.liuzhenli.reader.utils.IntentUtils;
+import com.liuzhenli.reader.utils.ShareUtils;
 import com.liuzhenli.reader.utils.storage.Backup;
 import com.liuzhenli.reader.view.ReadLongPressPop;
 import com.liuzhenli.reader.view.loading.DialogUtil;
@@ -737,7 +738,9 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
 
             @Override
             public void share() {
-
+                ShareUtils.INSTANCE.share(mContext, mPageView.getSelectStr());
+                mPageView.clearSelect();
+                readLongPress.setVisibility(View.GONE);
             }
         });
     }
