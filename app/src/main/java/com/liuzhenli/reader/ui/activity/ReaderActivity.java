@@ -410,9 +410,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
 
             @Override
             public void onTouchClearCursor() {
-                cursorLeft.setVisibility(View.INVISIBLE);
-                cursorRight.setVisibility(View.INVISIBLE);
-                readLongPress.setVisibility(View.INVISIBLE);
+                clearSelect();
             }
 
             @Override
@@ -622,15 +620,13 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
                     clipboard.setPrimaryClip(clipData);
                     toast("内容已经复制");
                 }
-                cursorLeft.setVisibility(View.INVISIBLE);
-                cursorRight.setVisibility(View.INVISIBLE);
-                readLongPress.setVisibility(View.INVISIBLE);
-                mPageView.clearSelect();
+                clearSelect();
             }
 
             @Override
             public void search() {
                 IntentUtils.openBrowser(mContext, String.format("https://www.baidu.com/s?wd=%s", mPageView.getSelectStr()));
+                clearSelect();
             }
 
             @Override
@@ -739,8 +735,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
             @Override
             public void share() {
                 ShareUtils.INSTANCE.share(mContext, mPageView.getSelectStr());
-                mPageView.clearSelect();
-                readLongPress.setVisibility(View.GONE);
+                clearSelect();
             }
         });
     }
@@ -831,5 +826,12 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
         } else {
             ScreenUtils.setScreenBrightness(this, ReadConfigManager.getInstance().getLight());
         }
+    }
+
+    private void clearSelect() {
+        cursorLeft.setVisibility(View.INVISIBLE);
+        cursorRight.setVisibility(View.INVISIBLE);
+        readLongPress.setVisibility(View.INVISIBLE);
+        mPageView.clearSelect();
     }
 }
