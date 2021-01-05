@@ -453,6 +453,15 @@ public class PageView extends View implements PageAnimation.OnPageChangeListener
         return selectMode;
     }
 
+    /**
+     * 选中的文字行数
+     *
+     * @return 选中的文字行数
+     */
+    public int getSelectLines() {
+        return mSelectLines.size();
+    }
+
     public void setSelectMode(SelectMode mCurrentMode) {
         this.selectMode = mCurrentMode;
     }

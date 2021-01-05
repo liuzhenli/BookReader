@@ -788,9 +788,11 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
         int width = readLongPress.getWidth();
         //弹窗的起始位置
         int x = (int) (cursorLeft.getX() / 2 + cursorLeft.getWidth() / 2 + cursorRight.getX() / 2 + cursorLeft.getWidth() / 2);
-        //如果太靠右，则靠左
+        //1.如果选择的文本行数大于1,则靠中间防止  2.如果太靠右，则靠左
         int[] aa = ScreenUtils.getScreenSize(this);
-        if (x < width / 2 + ScreenUtils.dpToPx(8)) {
+        if (mPageView.getSelectLines() > 1) {
+            readLongPress.setX(ScreenUtils.getScreenWidth(ReaderActivity.this) / 2f - readLongPress.getWidth() / 2f);
+        } else if (x < width / 2 + ScreenUtils.dpToPx(8)) {
             readLongPress.setX(ScreenUtils.dpToPx(8));
         } else if (x > (aa[0] - width / 2 - ScreenUtils.dpToPx(8))) {
             readLongPress.setX(aa[0] - width - ScreenUtils.dpToPx(8));
