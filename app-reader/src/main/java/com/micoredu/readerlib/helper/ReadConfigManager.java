@@ -417,12 +417,13 @@ public class ReadConfigManager {
         return mTextDrawableIndex;
     }
 
+    /***文字颜色,夜间模式时存入非夜间模式的文字颜色 这样记录到上一次的主题,可以切换*/
     public void setTextDrawableIndex(int textDrawableIndex) {
-        this.mTextDrawableIndex = textDrawableIndex;
         if (getIsNightTheme()) {
             preferences.putInt("textDrawableIndexNight", textDrawableIndex);
         } else {
             preferences.putInt("textDrawableIndex", textDrawableIndex);
+            this.mTextDrawableIndex = textDrawableIndex;
         }
         setTextDrawable();
     }

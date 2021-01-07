@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.liuzhenli.common.utils.ClickUtils;
+import com.micoredu.readerlib.helper.ReadConfigManager;
 import com.microedu.reader.R;
 
 import butterknife.BindView;
@@ -89,6 +90,7 @@ public class ReadBottomMenu extends BaseMenu {
         ClickUtils.click(mTvNightMode, o -> {
             if (listener != null) {
                 listener.onNightModeClick();
+
             }
         });
         //设置
@@ -130,8 +132,12 @@ public class ReadBottomMenu extends BaseMenu {
     }
 
     @Override
-    protected void changeTheme() {
-
+    public void changeTheme() {
+        if (ReadConfigManager.getInstance().getIsNightTheme()) {
+            mTvNightMode.setText("日间模式");
+        } else {
+            mTvNightMode.setText("夜间模式");
+        }
     }
 
     public interface OnElementClickListener {

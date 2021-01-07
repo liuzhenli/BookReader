@@ -87,7 +87,7 @@ dependencies {
     api 'com.umeng.umsdk:oaid_oppo:1.0.4' // (可选)
     api 'com.umeng.umsdk:oaid_vivo:1.0.0.1' // (可选)
 
-    api('com.thegrizzlylabs.sardine-android:sardine-android:0.7'){
+    api('com.thegrizzlylabs.sardine-android:sardine-android:0.7') {
         exclude group: 'com.squareup.okhttp3'
     }
 
@@ -107,4 +107,7 @@ dependencies {
         exclude group: 'xmlpull'
     }
 
+    //Z-Xing  二维码 封装
+    api 'cn.bingoogolapple:bga-qrcode-zxing:1.3.7'
 }
+

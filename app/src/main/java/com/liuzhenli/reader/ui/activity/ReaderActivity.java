@@ -44,6 +44,7 @@ import com.micoredu.readerlib.model.ReplaceRuleManager;
 import com.micoredu.readerlib.page.PageView;
 import com.micoredu.readerlib.bean.BookChapterBean;
 import com.micoredu.readerlib.page.PageLoader;
+import com.micoredu.readerlib.utils.ReaderConfig;
 import com.micoredu.readerlib.utils.bar.BarHide;
 import com.microedu.reader.R;
 import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheet;
@@ -244,7 +245,11 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
             public void onNightModeClick() {
                 boolean isNightTheme = ReadConfigManager.getInstance().getIsNightTheme();
                 ReadConfigManager.getInstance().setIsNightTheme(!isNightTheme);
+                ReadConfigManager.getInstance().initTextDrawableIndex();
+                ReadConfigManager.getInstance().setTextDrawableIndex(ReadConfigManager.getInstance().getTextDrawableIndex());
+                mPageView.setBackground(ReadConfigManager.getInstance().getTextBackground(mContext));
                 mPageLoader.refreshUi();
+                mVBottomMenu.changeTheme();
             }
 
             @Override
@@ -319,6 +324,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
         mViewRoot.setOnTouchListener(this);
 
         setBrightness();
+        mVBottomMenu.changeTheme();
     }
 
     /***显示书目录**/
