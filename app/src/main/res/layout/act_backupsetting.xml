@@ -87,6 +87,7 @@
                     android:id="@+id/tv_web_dav_password"
                     style="@style/ItemSubTitleStyle"
                     android:layout_marginTop="@dimen/common_margin_small"
+                    android:enabled="false"
                     android:hint="未设置"
                     android:inputType="textPassword"
                     app:layout_constraintLeft_toLeftOf="parent"

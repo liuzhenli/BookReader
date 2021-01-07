@@ -27,5 +27,14 @@
         android:textColor="@color/white"
         android:textSize="18sp" />
 
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_toolbar_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="@dimen/common_margin_large"
+        android:text="关闭"
+        android:textColor="@color/white" />
 
 </androidx.appcompat.widget.Toolbar>

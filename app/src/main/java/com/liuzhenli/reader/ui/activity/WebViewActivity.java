@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.view.View;
 import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -30,11 +31,12 @@ public class WebViewActivity extends BaseActivity {
     @BindView(R.id.web_view)
     WebView mWebView;
 
-    public static void start(Context context,String url){
+    public static void start(Context context, String url) {
         Intent intent = new Intent(context, WebViewActivity.class);
-        intent.putExtra(INTENT_ID,url);
+        intent.putExtra(INTENT_ID, url);
         context.startActivity(intent);
     }
+
     @Override
     public int getLayoutId() {
         return R.layout.act_webview;
@@ -47,7 +49,8 @@ public class WebViewActivity extends BaseActivity {
 
     @Override
     public void initToolBar() {
-
+        mTvRight.setText("关闭");
+        mTvRight.setOnClickListener(v -> onBackPressed());
     }
 
     @Override
@@ -83,6 +86,16 @@ public class WebViewActivity extends BaseActivity {
         // 设置可以访问文件
         settings.setAllowFileAccess(true);
         mWebView.loadUrl(mUrl);
+        mToolBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mWebView.canGoBack()) {
+                    mWebView.goBack();
+                } else {
+                    onBackPressed();
+                }
+            }
+        });
     }
 
     public void setRefresh(boolean b) {

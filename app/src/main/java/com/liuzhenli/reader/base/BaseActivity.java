@@ -34,7 +34,7 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extends RxAppCompatActivity {
     public final static String START_SHEAR_ELE = "start_with_share_ele";
     protected Context mContext;
-    public TextView mTvTitle;
+    public TextView mTvTitle, mTvRight;
     public Toolbar mToolBar;
     @Inject
     public T1 mPresenter;
@@ -70,6 +70,7 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
         mToolBar = findViewById(R.id.toolbar);
         if (mToolBar != null) {
             mTvTitle = findViewById(R.id.tv_toolbar_title);
+            mTvRight = findViewById(R.id.tv_toolbar_right);
             mToolBar.setNavigationOnClickListener(v -> onBackPressed());
             mToolBar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_more));
             initToolBar();
