@@ -94,7 +94,7 @@ public class AppUtils {
      */
     public static String resetGameUrl(String url) {
         if (url.contains("?") && !url.endsWith("?")) {
-            url = url + "&";
+           // url = url + "&";
         }
 
         return url;

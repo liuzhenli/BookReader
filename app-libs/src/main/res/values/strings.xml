@@ -65,6 +65,7 @@
     <string name="web_dav_backup_net">云备份网络</string>
     <string name="web_dav_backup_local">立即备份到本地存储空间</string>
     <string name="web_dav_backup_to_web">立即备份到云端网盘</string>
+    <string name="web_dav_backup_help">坚果云授权教程</string>
 
 
     <string name="restore_permission">恢复请给与存储权限</string>

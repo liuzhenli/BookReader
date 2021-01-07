@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
@@ -50,6 +52,7 @@ public class WebViewActivity extends BaseActivity {
     @Override
     public void initToolBar() {
         mTvRight.setText("关闭");
+        mTvRight.setVisibility(View.VISIBLE);
         mTvRight.setOnClickListener(v -> onBackPressed());
     }
 
@@ -82,6 +85,15 @@ public class WebViewActivity extends BaseActivity {
         settings.setDatabasePath(cacheDirPath);
         // 设置 Application Caches 缓存目录
         settings.setAppCachePath(cacheDirPath);
+
+        //设置支持缩放
+        settings.setSupportZoom(true);
+        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+        settings.setUseWideViewPort(true);
+
+        settings.setAllowFileAccess(true); // 允许访问文件
+        settings.setBuiltInZoomControls(true); // 设置显示缩放
+
         settings.setAppCacheEnabled(true);
         // 设置可以访问文件
         settings.setAllowFileAccess(true);

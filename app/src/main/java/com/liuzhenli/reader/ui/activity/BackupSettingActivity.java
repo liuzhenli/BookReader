@@ -86,7 +86,7 @@ public class BackupSettingActivity extends BaseActivity implements Backup.CallBa
     @BindView(R.id.tv_web_dav_net)
     TextView mTVBackupNetType;
 
-    @BindView(R.id.view_back_guide)
+    @BindView(R.id.view_backup_help)
     View mTVBackupGuide;
 
     private String[] mBackupNetDes;

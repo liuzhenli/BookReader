@@ -69,12 +69,6 @@ public class ZLWebViewClient extends WebViewClient {
         url = AppUtils.resetGameUrl(url);
         LogUtils.e("ZLWebViewClient", url);
         view.loadUrl(url); // 在当前的webview中跳转到新的url
-        //获取cookies
-        if (url.contains("kefu.easemob.com")) {
-            CookieManager cm = CookieManager.getInstance();
-            String cookies = cm.getCookie(url);
-            SharedPreferencesUtil.getInstance().putString("cook", cookies);
-        }
         return super.shouldOverrideUrlLoading(view, url);
     }
 

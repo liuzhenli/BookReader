@@ -59,5 +59,5 @@ public class AppConstant {
     public static final ScriptEngine SCRIPT_ENGINE = new ScriptEngineManager().getEngineByName("rhino");
 
     public static final MediaType jsonMediaType = MediaType.parse("Content-Type, application/json");
-    public static final String URL_BACKUP_GUIDE = "https://www.baidu.com";
+    public static final String URL_BACKUP_GUIDE = "http://help.jianguoyun.com?p=2064";
 }
