@@ -74,6 +74,7 @@
         <activity android:name="com.liuzhenli.reader.ui.activity.ContentActivity" />
         <activity android:name="com.liuzhenli.reader.ui.activity.TestSourceActivity" />
         <activity android:name="com.liuzhenli.reader.ui.activity.BackupSettingActivity" />
+        <activity android:name="com.liuzhenli.reader.ui.activity.FilePathsListActivity" />
 
         <meta-data
             android:name="UMENG_APPKEY"

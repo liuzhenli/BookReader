@@ -124,6 +124,8 @@
     <string name="aloud_stop">朗读停止</string>
     <string name="clear_cache">清除缓存</string>
     <string name="clear_cache_des">清除已缓存章节,书封面,已下载字体等缓存文件</string>
+    <string name="set_file_path">文件路径</string>
+
     <string name="action_save">保存</string>
     <string name="edit_book_source">编辑书源</string>
     <string name="disable_book_source">禁用书源</string>

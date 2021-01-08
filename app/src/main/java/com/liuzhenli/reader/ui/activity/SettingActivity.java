@@ -1,5 +1,6 @@
 package com.liuzhenli.reader.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -24,7 +25,12 @@ import io.reactivex.Observable;
  * @author liuzhenli 2020/10/26
  * Email: 848808263@qq.com
  */
+@SuppressLint("NonConstantResourceId")
 public class SettingActivity extends BaseActivity {
+
+
+    @BindView(R.id.view_setting_file_path)
+    View mVFilePath;
 
     @BindView(R.id.view_setting_clear_cache)
     View mViewClearCache;
@@ -77,6 +83,10 @@ public class SettingActivity extends BaseActivity {
 
         ClickUtils.click(mViewBackUp, o -> {
             BackupSettingActivity.start(mContext);
+        });
+
+        ClickUtils.click(mVFilePath, o -> {
+            FilePathsListActivity.start(mContext);
         });
     }
 }

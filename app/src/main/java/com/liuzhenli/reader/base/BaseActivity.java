@@ -135,8 +135,10 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        SoftInputUtils.hideSoftInput(mContext, getWindow().getCurrentFocus());
+
+        if (SoftInputUtils.isSoftShowing(this)) {
+            SoftInputUtils.toggleSoftInput(mContext);
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (startShareAnim) {
                 finishAfterTransition();
@@ -146,7 +148,7 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
         } else {
             overridePendingTransition(0, android.R.anim.fade_out);
         }
-
+        super.onBackPressed();
     }
 
     protected void toast(String mst) {

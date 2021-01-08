@@ -8,6 +8,39 @@
     <include layout="@layout/layout_common_toolbar" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/view_setting_file_path"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_card_bg"
+        android:minHeight="@dimen/all_item_height"
+        android:padding="@dimen/common_margin_normal">
+
+        <TextView
+            android:id="@+id/tv_setting_clear_file_path"
+            style="@style/ItemTitleStyle"
+            android:text="@string/set_file_path"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            style="@style/ItemSubTitleStyle"
+            android:layout_marginLeft="8dp"
+            android:text="@string/clear_cache_des"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_setting_clear_file_path" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_common_arrow_right_more"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/view_setting_clear_cache"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

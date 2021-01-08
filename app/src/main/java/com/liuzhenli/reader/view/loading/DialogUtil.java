@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.liuzhenli.reader.utils.PermissionUtil;
+import com.liuzhenli.reader.utils.SoftInputUtils;
 import com.liuzhenli.reader.utils.ToastUtil;
 import com.microedu.reader.R;
 import com.qmuiteam.qmui.skin.QMUISkinManager;
@@ -111,7 +112,7 @@ public class DialogUtil {
 
     public static void showEditTextDialog(Context context, String title, String placeHolder, String defaultText, String toast, DialogActionListener actionListener) {
         final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(context);
-        builder.setTitle(title)
+        QMUIDialog qmuiDialog = builder.setTitle(title)
                 .setSkinManager(QMUISkinManager.defaultInstance(context))
                 .setPlaceholder(placeHolder)
                 .setInputType(InputType.TYPE_CLASS_TEXT)
@@ -127,7 +128,8 @@ public class DialogUtil {
                     } else {
                         dialog.dismiss();
                     }
-                }).create(mCurrentDialogStyle).show();
+                }).create(mCurrentDialogStyle);
+        qmuiDialog.show();
     }
 
     public interface DialogActionListener {
