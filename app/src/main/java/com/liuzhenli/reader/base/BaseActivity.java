@@ -135,7 +135,7 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
 
     @Override
     public void onBackPressed() {
-
+        super.onBackPressed();
         if (SoftInputUtils.isSoftShowing(this)) {
             SoftInputUtils.toggleSoftInput(mContext);
         }
@@ -148,7 +148,6 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
         } else {
             overridePendingTransition(0, android.R.anim.fade_out);
         }
-        super.onBackPressed();
     }
 
     protected void toast(String mst) {

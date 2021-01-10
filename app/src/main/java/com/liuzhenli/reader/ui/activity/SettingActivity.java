@@ -16,6 +16,8 @@ import com.liuzhenli.reader.view.loading.DialogUtil;
 import com.micoredu.readerlib.helper.BookshelfHelper;
 import com.microedu.reader.R;
 
+import org.jetbrains.annotations.NotNull;
+
 import butterknife.BindView;
 import io.reactivex.Observable;
 
@@ -66,14 +68,14 @@ public class SettingActivity extends BaseActivity {
     protected void configViews() {
         ClickUtils.click(mViewClearCache, o -> {
             showDialog();
-            RxUtil.subscribe(Observable.create(emitter -> {
+           RxUtil.subscribe(Observable.create(emitter -> {
                 ImageUtil.clearMemoryCache(getApplicationContext());
                 ImageUtil.clearDiskCache(getApplicationContext());
                 BookshelfHelper.clearCaches(true);
                 emitter.onNext(true);
             }), new SampleProgressObserver<Boolean>() {
                 @Override
-                public void onNext(Boolean aBoolean) {
+                public void onNext(@NotNull Boolean aBoolean) {
                     hideDialog();
                     toast("缓存已清理");
                 }

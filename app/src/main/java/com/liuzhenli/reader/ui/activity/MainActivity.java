@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,6 +34,7 @@ import com.liuzhenli.reader.utils.ToastUtil;
 import com.liuzhenli.reader.view.NoAnimViewPager;
 import com.micoredu.readerlib.bean.BookSourceBean;
 import com.microedu.reader.R;
+import com.umeng.cconfig.UMRemoteConfig;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -111,6 +113,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initData() {
         requestPermissions();
+        String appConfig = UMRemoteConfig.getInstance().getConfigValue("appConfig");
     }
 
     @Override

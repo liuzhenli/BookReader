@@ -18,6 +18,8 @@ import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 import com.tencent.mmkv.MMKV;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.cconfig.RemoteConfigSettings;
+import com.umeng.cconfig.UMRemoteConfig;
 import com.umeng.commonsdk.UMConfigure;
 
 import java.util.concurrent.TimeUnit;
@@ -66,6 +68,9 @@ public class ReaderApplication extends BaseApplication {
      * UMConfigure.init调用中appkey和channel参数请置为null）。
      */
     private void initUmeng() {
+        UMRemoteConfig umRemoteConfig = UMRemoteConfig.getInstance();
+        UMRemoteConfig.getInstance().setConfigSettings(new RemoteConfigSettings.Builder().setAutoUpdateModeEnabled(true).build());
+
         UMConfigure.setLogEnabled(BuildConfig.DEBUG);
         UMConfigure.init(this, "5fb8761f690bda19c786950a", mVersionChannel, UMConfigure.DEVICE_TYPE_PHONE, "");
         //选择AUTO页面采集模式，统计SDK基础指标无需手动埋点可自动采集。
