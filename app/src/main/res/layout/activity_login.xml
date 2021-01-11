@@ -12,7 +12,7 @@
         android:id="@+id/tv_login"
         android:layout_width="100dp"
         android:layout_height="30dp"
-        android:layout_margin="@dimen/common_margin_large"
+        android:layout_margin="@dimen/common_space_large"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:background="#2196F3"

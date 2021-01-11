@@ -12,29 +12,54 @@
         android:id="@+id/tv_about_donate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/common_margin_large"
-        android:layout_marginTop="@dimen/common_margin_large"
-        android:layout_marginRight="@dimen/common_margin_large"
+        android:layout_marginLeft="@dimen/common_space_large"
+        android:layout_marginTop="@dimen/common_space_large"
+        android:layout_marginRight="@dimen/common_space_large"
         android:text="@string/about_donate"
         android:textColor="@color/s_text_66" />
 
     <TextView
         android:id="@+id/tv_donate_zhifubao_kouling"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/common_margin_large"
-        android:layout_marginTop="@dimen/common_margin_large"
-        android:layout_marginRight="@dimen/common_margin_large"
-        android:text="@string/get_ali_pay_hb"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/all_item_height"
+        android:layout_marginLeft="@dimen/common_space_large"
+        android:layout_marginTop="@dimen/common_space_large"
+        android:layout_marginRight="@dimen/common_space_large"
+        android:background="@drawable/selector_card_bg"
+        android:gravity="center_vertical"
+        android:text="@string/pay_ali"
         android:textColor="@color/s_text_66" />
+
+    <TextView
+        android:id="@+id/tv_donate_weixin"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/all_item_height"
+        android:layout_marginLeft="@dimen/common_space_large"
+        android:layout_marginRight="@dimen/common_space_large"
+        android:background="@drawable/selector_card_bg"
+        android:gravity="center_vertical"
+        android:text="@string/pay_weixin"
+        android:textColor="@color/s_text_66" />
+
+    <TextView
+        android:id="@+id/tv_donate_qq"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/all_item_height"
+        android:layout_marginLeft="@dimen/common_space_large"
+        android:layout_marginRight="@dimen/common_space_large"
+        android:background="@drawable/selector_card_bg"
+        android:gravity="center_vertical"
+        android:text="@string/pay_qq"
+        android:textColor="@color/s_text_66" />
+
 
     <TextView
         android:id="@+id/tv_donate_zhifubao"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/common_margin_large"
-        android:layout_marginTop="@dimen/common_margin_large"
-        android:layout_marginRight="@dimen/common_margin_large"
+        android:layout_marginLeft="@dimen/common_space_large"
+        android:layout_marginTop="@dimen/common_space_large"
+        android:layout_marginRight="@dimen/common_space_large"
         android:text="扫码支持"
         android:textColor="@color/s_text_66" />
 
@@ -42,9 +67,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="@dimen/common_margin_large"
-        android:layout_marginTop="@dimen/common_margin_large"
-        android:layout_marginRight="@dimen/common_margin_large"
+        android:layout_marginLeft="@dimen/common_space_large"
+        android:layout_marginTop="@dimen/common_space_large"
+        android:layout_marginRight="@dimen/common_space_large"
         android:src="@mipmap/ic_launcher"
         android:text="扫码支持"
         android:textColor="@color/s_text_66" />

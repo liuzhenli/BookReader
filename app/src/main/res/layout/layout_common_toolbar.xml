@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:layout_marginRight="@dimen/common_margin_large"
+        android:layout_marginRight="@dimen/common_space_large"
         android:text="关闭"
         android:textColor="@color/white" />
 

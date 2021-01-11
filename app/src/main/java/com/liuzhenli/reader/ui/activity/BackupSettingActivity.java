@@ -13,7 +13,7 @@ import com.hwangjr.rxbus.RxBus;
 import com.liuzhenli.common.SharedPreferencesUtil;
 import com.liuzhenli.common.constant.AppConstant;
 import com.liuzhenli.common.constant.RxBusTag;
-import com.liuzhenli.common.utils.AppConfigManager;
+import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.reader.base.BaseActivity;
 import com.liuzhenli.reader.network.AppComponent;
@@ -119,30 +119,30 @@ public class BackupSettingActivity extends BaseActivity implements Backup.CallBa
     @Override
     protected void configViews() {
         ClickUtils.click(mViewNetAddress, o -> {
-            DialogUtil.showEditTextDialog(mContext, getResources().getString(R.string.web_dav_address), "请输入网址", AppConfigManager.getWebDavAddress(), null, new DialogUtil.DialogActionListener() {
+            DialogUtil.showEditTextDialog(mContext, getResources().getString(R.string.web_dav_address), "请输入网址", AppSharedPreferenceHelper.getWebDavAddress(), null, new DialogUtil.DialogActionListener() {
                 @Override
                 public void onClick(String s) {
                     mTvNetAddress.setText(s);
                     if (!TextUtils.isEmpty(s) && !TextUtils.isEmpty(s.trim())) {
-                        AppConfigManager.saveWebDavAddress(s);
+                        AppSharedPreferenceHelper.saveWebDavAddress(s);
                     }
                 }
             });
         });
         ClickUtils.click(mVAccount, o -> {
-            DialogUtil.showEditTextDialog(mContext, getResources().getString(R.string.web_dav_account), "请输入账号", AppConfigManager.getWebDavAccountName(), null, new DialogUtil.DialogActionListener() {
+            DialogUtil.showEditTextDialog(mContext, getResources().getString(R.string.web_dav_account), "请输入账号", AppSharedPreferenceHelper.getWebDavAccountName(), null, new DialogUtil.DialogActionListener() {
                 @Override
                 public void onClick(String s) {
                     mTvAccount.setText(s);
-                    AppConfigManager.saveWebDavAccountName(s);
+                    AppSharedPreferenceHelper.saveWebDavAccountName(s);
                 }
             });
         });
         ClickUtils.click(mVPassword, o -> {
-            DialogUtil.showEditTextDialog(mContext, getResources().getString(R.string.web_dav_password), "请输入密码", AppConfigManager.getWebDavAddPwd(), null, new DialogUtil.DialogActionListener() {
+            DialogUtil.showEditTextDialog(mContext, getResources().getString(R.string.web_dav_password), "请输入密码", AppSharedPreferenceHelper.getWebDavAddPwd(), null, new DialogUtil.DialogActionListener() {
                 @Override
                 public void onClick(String s) {
-                    AppConfigManager.saveWebDavAddPwd(s);
+                    AppSharedPreferenceHelper.saveWebDavAddPwd(s);
                 }
             });
         });
@@ -176,16 +176,16 @@ public class BackupSettingActivity extends BaseActivity implements Backup.CallBa
         ClickUtils.click(mVBackupNetSetting, new Consumer() {
             @Override
             public void accept(Object o) throws Exception {
-                int selection = SharedPreferencesUtil.getInstance().getInt(AppConfigManager.AUTO_BACKUP_NET_TYPE,
-                        AppConfigManager.BackupNetType.WIFI_ONLY) == AppConfigManager.BackupNetType.ALL_ALLOWED ? 0 : 1;
+                int selection = SharedPreferencesUtil.getInstance().getInt(AppSharedPreferenceHelper.AUTO_BACKUP_NET_TYPE,
+                        AppSharedPreferenceHelper.BackupNetType.WIFI_ONLY) == AppSharedPreferenceHelper.BackupNetType.ALL_ALLOWED ? 0 : 1;
 
                 DialogUtil.sowSingleChoiceDialog(mContext, mBackupNetDes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
-                            SharedPreferencesUtil.getInstance().putInt(AppConfigManager.AUTO_BACKUP_NET_TYPE, AppConfigManager.BackupNetType.ALL_ALLOWED);
+                            SharedPreferencesUtil.getInstance().putInt(AppSharedPreferenceHelper.AUTO_BACKUP_NET_TYPE, AppSharedPreferenceHelper.BackupNetType.ALL_ALLOWED);
                         } else {
-                            SharedPreferencesUtil.getInstance().putInt(AppConfigManager.AUTO_BACKUP_NET_TYPE, AppConfigManager.BackupNetType.WIFI_ONLY);
+                            SharedPreferencesUtil.getInstance().putInt(AppSharedPreferenceHelper.AUTO_BACKUP_NET_TYPE, AppSharedPreferenceHelper.BackupNetType.WIFI_ONLY);
                         }
                         setBackupNetMode();
                     }
@@ -197,16 +197,16 @@ public class BackupSettingActivity extends BaseActivity implements Backup.CallBa
             WebViewActivity.start(mContext, AppConstant.URL_BACKUP_GUIDE);
         });
 
-        mTvNetAddress.setText(AppConfigManager.getWebDavAddress());
-        mTvAccount.setText(AppConfigManager.getWebDavAccountName());
-        mTvPassword.setText(AppConfigManager.getWebDavAddPwd());
+        mTvNetAddress.setText(AppSharedPreferenceHelper.getWebDavAddress());
+        mTvAccount.setText(AppSharedPreferenceHelper.getWebDavAccountName());
+        mTvPassword.setText(AppSharedPreferenceHelper.getWebDavAddPwd());
         setBackupNetMode();
     }
 
 
     private void setBackupNetMode() {
-        if (SharedPreferencesUtil.getInstance().getInt(AppConfigManager.AUTO_BACKUP_NET_TYPE,
-                AppConfigManager.BackupNetType.WIFI_ONLY) == AppConfigManager.BackupNetType.ALL_ALLOWED) {
+        if (SharedPreferencesUtil.getInstance().getInt(AppSharedPreferenceHelper.AUTO_BACKUP_NET_TYPE,
+                AppSharedPreferenceHelper.BackupNetType.WIFI_ONLY) == AppSharedPreferenceHelper.BackupNetType.ALL_ALLOWED) {
             mTVBackupNetType.setText(mBackupNetDes[0]);
         } else {
             mTVBackupNetType.setText(mBackupNetDes[1]);

@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 
 import com.liuzhenli.common.BitIntentDataManager;
-import com.liuzhenli.common.utils.AppConfigManager;
+import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.common.utils.ScreenUtils;
 import com.liuzhenli.reader.ReaderApplication;
 import com.liuzhenli.reader.network.AppComponent;
@@ -44,7 +44,6 @@ import com.micoredu.readerlib.model.ReplaceRuleManager;
 import com.micoredu.readerlib.page.PageView;
 import com.micoredu.readerlib.bean.BookChapterBean;
 import com.micoredu.readerlib.page.PageLoader;
-import com.micoredu.readerlib.utils.ReaderConfig;
 import com.micoredu.readerlib.utils.bar.BarHide;
 import com.microedu.reader.R;
 import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheet;
@@ -283,7 +282,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
                 } else {
                     mAlpha = 0f;
                 }
-                AppConfigManager.setProtectEyeReadMode(on);
+                AppSharedPreferenceHelper.setProtectEyeReadMode(on);
                 mVProtectEye.setAlpha(mAlpha);
                 mVProtectEye.invalidate();
             }
@@ -316,7 +315,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
                 }
             }
         });
-        mVBrightnessSettingMenu.setProtectedEyeMode(AppConfigManager.tetProtectEyeReadMode());
+        mVBrightnessSettingMenu.setProtectedEyeMode(AppSharedPreferenceHelper.tetProtectEyeReadMode());
         mVProtectEye.setAlpha(mAlpha);
         mVBrightnessSettingMenu.setBrightnessFollowSystem(ReadConfigManager.getInstance().getLightFollowSys());
         cursorLeft.setOnTouchListener(this);

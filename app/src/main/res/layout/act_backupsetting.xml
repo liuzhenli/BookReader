@@ -18,9 +18,9 @@
 
             <TextView
                 style="@style/ItemSubTitleStyle"
-                android:layout_marginTop="@dimen/common_margin_normal"
+                android:layout_marginTop="@dimen/common_space_normal"
                 android:drawableLeft="@drawable/ic_ligth"
-                android:padding="@dimen/common_margin_normal"
+                android:padding="@dimen/common_space_normal"
                 android:text="提示:如果是坚果云,您可以在[WebDAV网址]一栏中直接填入[坚果云]或者不填" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/selector_card_bg"
-                android:padding="@dimen/common_margin_normal">
+                android:padding="@dimen/common_space_normal">
 
                 <TextView
                     android:id="@+id/tv_setting_backup_title"
@@ -40,7 +40,7 @@
                 <TextView
                     android:id="@+id/tv_backup_title"
                     style="@style/ItemSubTitleStyle"
-                    android:layout_marginTop="@dimen/common_margin_small"
+                    android:layout_marginTop="@dimen/common_space_small"
                     android:hint="未设置"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_setting_backup_title" />
@@ -51,7 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/selector_card_bg"
-                android:padding="@dimen/common_margin_normal">
+                android:padding="@dimen/common_space_normal">
 
                 <TextView
                     android:id="@+id/tv_setting_web_dav_account"
@@ -63,7 +63,7 @@
                 <TextView
                     android:id="@+id/tv_web_dav_account"
                     style="@style/ItemSubTitleStyle"
-                    android:layout_marginTop="@dimen/common_margin_small"
+                    android:layout_marginTop="@dimen/common_space_small"
                     android:hint="未设置"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_setting_web_dav_account" />
@@ -74,7 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/selector_card_bg"
-                android:padding="@dimen/common_margin_normal">
+                android:padding="@dimen/common_space_normal">
 
                 <TextView
                     android:id="@+id/tv_setting_web_dav_password"
@@ -86,7 +86,7 @@
                 <TextView
                     android:id="@+id/tv_web_dav_password"
                     style="@style/ItemSubTitleStyle"
-                    android:layout_marginTop="@dimen/common_margin_small"
+                    android:layout_marginTop="@dimen/common_space_small"
                     android:enabled="false"
                     android:hint="未设置"
                     android:inputType="textPassword"
@@ -104,7 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/selector_card_bg"
-                android:padding="@dimen/common_margin_normal">
+                android:padding="@dimen/common_space_normal">
 
                 <TextView
                     android:id="@+id/tv_view_restore"
@@ -116,7 +116,7 @@
                 <TextView
                     android:id="@+id/tv_view_restore_vis"
                     style="@style/ItemSubTitleStyle"
-                    android:layout_marginTop="@dimen/common_margin_small"
+                    android:layout_marginTop="@dimen/common_space_small"
                     android:hint="备份将从手机文件夹/backups和您的WebDAV或Dropbox或GoogleDrive云盘中读取"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_view_restore" />
@@ -127,7 +127,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/selector_card_bg"
-                android:padding="@dimen/common_margin_normal">
+                android:padding="@dimen/common_space_normal">
 
                 <TextView
                     android:id="@+id/tv_view_backup_path_info"
@@ -139,7 +139,7 @@
                 <TextView
                     android:id="@+id/tv_view_backup_path_info_vis"
                     style="@style/ItemSubTitleStyle"
-                    android:layout_marginTop="@dimen/common_margin_small"
+                    android:layout_marginTop="@dimen/common_space_small"
                     android:hint="备份文件将被保存到/BookReadApp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_view_backup_path_info" />
@@ -150,7 +150,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/selector_card_bg"
-                android:padding="@dimen/common_margin_normal">
+                android:padding="@dimen/common_space_normal">
 
                 <TextView
                     android:id="@+id/tv_view_backup_to_web"
@@ -162,7 +162,7 @@
                 <TextView
                     android:id="@+id/tv_view_backup_to_webo_vis"
                     style="@style/ItemSubTitleStyle"
-                    android:layout_marginTop="@dimen/common_margin_small"
+                    android:layout_marginTop="@dimen/common_space_small"
                     android:hint="若果您已经设置云备份,备份文件将存储到您的云端存储空间"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_view_backup_to_web" />
@@ -174,7 +174,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/selector_card_bg"
-                android:padding="@dimen/common_margin_normal">
+                android:padding="@dimen/common_space_normal">
 
                 <TextView
                     android:id="@+id/tv_setting_web_dav_net"
@@ -186,7 +186,7 @@
                 <TextView
                     android:id="@+id/tv_web_dav_net"
                     style="@style/ItemSubTitleStyle"
-                    android:layout_marginTop="@dimen/common_margin_small"
+                    android:layout_marginTop="@dimen/common_space_small"
                     android:hint="在所有网络下都允许自动备份到云盘"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_setting_web_dav_net" />
@@ -197,7 +197,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/selector_card_bg"
-                android:padding="@dimen/common_margin_normal">
+                android:padding="@dimen/common_space_normal">
 
                 <TextView
                     android:id="@+id/tv_view_backup_help"
@@ -209,7 +209,7 @@
                 <TextView
                     android:id="@+id/tv_view_backup_help_vis"
                     style="@style/ItemSubTitleStyle"
-                    android:layout_marginTop="@dimen/common_margin_small"
+                    android:layout_marginTop="@dimen/common_space_small"
                     android:text="http://help.jianguoyun.com?p=2064"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_view_backup_help" />

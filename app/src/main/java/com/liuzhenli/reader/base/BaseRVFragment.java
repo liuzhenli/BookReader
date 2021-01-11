@@ -42,7 +42,7 @@ public abstract class BaseRVFragment<T1 extends BaseContract.BasePresenter, T2> 
         if (mRecyclerView != null) {
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             if (dividerAble) {
-                mRecyclerView.setItemDecoration(getResources().getColor(R.color.common_divider_narrow), 1, 0, 0);
+                mRecyclerView.setItemDecoration(getResources().getColor(R.color.divider), 1, 0, 0);
             }
             mRecyclerView.setAdapterWithProgress(mAdapter);
         }

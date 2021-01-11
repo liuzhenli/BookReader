@@ -3,16 +3,20 @@ package com.liuzhenli.reader.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.core.text.StringKt;
 
+import com.liuzhenli.common.BaseApplication;
 import com.liuzhenli.common.BitIntentDataManager;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.reader.ReaderApplication;
 import com.liuzhenli.reader.base.BaseActivity;
 import com.liuzhenli.reader.network.AppComponent;
+import com.liuzhenli.reader.utils.AppConfigManager;
 import com.liuzhenli.reader.utils.ToastUtil;
 import com.microedu.reader.R;
 
@@ -39,6 +43,11 @@ public class AboutActivity extends BaseActivity {
     TextView mTvQQGroup1;
     @BindView(R.id.tv_gg_group_0)
     TextView mTvQQGroup0;
+
+    @BindView(R.id.iv_new_version_icon)
+    ImageView mIvNewVersionIcon;
+    @BindView(R.id.tv_new_version_info)
+    TextView mTvNewVersionInfo;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, AboutActivity.class);
@@ -73,7 +82,12 @@ public class AboutActivity extends BaseActivity {
         String channel = ReaderApplication.getInstance().mVersionChannel;
         tvVersionInfo.setText(String.format("%s %s Build#%s %s ", appName, versionName, versionCode, channel));
         ClickUtils.click(tvVersionCheckUpdate, o -> {
-            ToastUtil.showToast("程序猿正在努力开发该功能~");
+            //版本有更新
+            if (AppConfigManager.getInstance().getNewVersion() > BaseApplication.getInstance().mVersionCode) {
+                toast(AppConfigManager.getInstance().getNewVersionIntro());
+            } else {
+                toast("已经是最新版本");
+            }
         });
 
         ClickUtils.click(tvAboutContact, o -> {
@@ -88,6 +102,15 @@ public class AboutActivity extends BaseActivity {
         });
 
         configQQGroup();
+
+        //版本有更新
+        if (AppConfigManager.getInstance().getNewVersion() > BaseApplication.getInstance().mVersionCode) {
+            mIvNewVersionIcon.setVisibility(View.VISIBLE);
+            mTvNewVersionInfo.setVisibility(View.VISIBLE);
+        } else {
+            mIvNewVersionIcon.setVisibility(View.GONE);
+            mTvNewVersionInfo.setVisibility(View.GONE);
+        }
 
     }
 

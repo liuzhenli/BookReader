@@ -11,7 +11,7 @@
         android:id="@+id/magic_indicator"
         android:layout_width="match_parent"
         android:layout_height="36dp"
-        android:paddingLeft="@dimen/common_margin_normal" />
+        android:paddingLeft="@dimen/common_space_normal" />
 
     <com.liuzhenli.reader.view.NoAnimViewPager
         android:id="@+id/view_pager"

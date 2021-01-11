@@ -42,7 +42,7 @@
         android:id="@+id/tv_top_menu_chapter_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/common_margin_large"
+        android:layout_marginLeft="@dimen/common_space_large"
         android:text=""
         android:textColor="@color/qmui_config_color_75_white" />
 </LinearLayout>

@@ -57,7 +57,7 @@ public abstract class BaseRvActivity<T1 extends BaseContract.BasePresenter, T2> 
         }
         if (mRecyclerView != null) {
             mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-            mRecyclerView.setItemDecoration(ContextCompat.getColor(this, R.color.common_divider_narrow), 1, 0, 0);
+            mRecyclerView.setItemDecoration(ContextCompat.getColor(this, R.color.divider), 1, 0, 0);
             mRecyclerView.setAdapterWithProgress(mAdapter);
         }
     }

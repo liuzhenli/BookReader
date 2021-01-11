@@ -34,7 +34,6 @@ import com.liuzhenli.reader.utils.ToastUtil;
 import com.liuzhenli.reader.view.NoAnimViewPager;
 import com.micoredu.readerlib.bean.BookSourceBean;
 import com.microedu.reader.R;
-import com.umeng.cconfig.UMRemoteConfig;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -60,11 +59,13 @@ public class MainActivity extends BaseActivity {
     View mViewDonate;
     @BindView(R.id.tv_main_feedback)
     View mViewFeedBack;
-    @BindView(R.id.tv_qq_group)
-    View mViewJoinQQGroup;
+    @BindView(R.id.tv_main_left_source_manage)
+    View mViewBookSourceManag;
     /***关于**/
     @BindView(R.id.tv_main_draw_about)
     View mViewAbout;
+    @BindView(R.id.tv_night_mode)
+    View mViewNightMode;
 
     private int mCurrentPosition;
     private MainTabAdapter mainTabAdapter;
@@ -73,14 +74,7 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.tv_night_mode)
     public void login() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-    }
 
-    @OnClick(R.id.tv_login_tab)
-    public void tabTest() {
-        Intent intent = new Intent(this, TabActivity.class);
-        startActivity(intent);
     }
 
     @Override
@@ -113,7 +107,6 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initData() {
         requestPermissions();
-        String appConfig = UMRemoteConfig.getInstance().getConfigValue("appConfig");
     }
 
     @Override
@@ -165,9 +158,10 @@ public class MainActivity extends BaseActivity {
         ClickUtils.click(mViewFeedBack, o -> {
             WebViewActivity.start(mContext, Constant.FEEDBACK);
         });
-        //加qq群
-        ClickUtils.click(mViewJoinQQGroup, o -> {
-            joinQQGroup(Constant.QQGroup.QQ_1140723995);
+
+        //书源管理
+        ClickUtils.click(mViewBookSourceManag, o -> {
+            BookSourceActivity.start(mContext);
         });
 
         //drawableLayout 滑动监听
@@ -191,6 +185,7 @@ public class MainActivity extends BaseActivity {
             DonateActivity.start(mContext);
         });
         mViewPager.setOffscreenPageLimit(4);
+        mViewNightMode.setVisibility(View.GONE);
     }
 
     private void setMenu() {

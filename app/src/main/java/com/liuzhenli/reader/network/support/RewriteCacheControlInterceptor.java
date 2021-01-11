@@ -72,19 +72,12 @@ public class RewriteCacheControlInterceptor implements Interceptor {
             try {
                 httpStatus = new Gson().fromJson(buffer.clone().readString(charset), BaseBean.class);
             } catch (Exception e) {
-//                String s = request.url().toString();
-//                if (!s.contains("graph.qq.com")) {
-////                    StatisticsManager.getInstance().sendErrorReport(s);
-//                    FileUtils.writeFile(Constant.LOG_PATH, format.format(System.currentTimeMillis()) + ":格式错误:" + originalResponse.code() + ":" + s + "\n", true);
-//                    Logger.i(s);
-//                }
+                e.printStackTrace();
             }
             if (httpStatus != null) {
-                if (!TextUtils.isEmpty(httpStatus.accessToken)) {
-                    SharedPreferencesUtil.getInstance().putString(Constant.SP_TOKEN, httpStatus.accessToken);
-                }
+
                 if (httpStatus.isCodeInvalid()) {
-                    throw new ApiCodeException(httpStatus.status.code, httpStatus.status.msg);
+                    throw new ApiCodeException(httpStatus.code, httpStatus.msg);
                 }
                 if (ReaderApplication.isDebug) {
                     Log.e("request---ulr--:\n", request.url().toString());

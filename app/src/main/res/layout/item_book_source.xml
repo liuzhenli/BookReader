@@ -18,7 +18,7 @@
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/common_margin_normal">
+        android:paddingLeft="@dimen/common_space_normal">
 
         <TextView
             android:id="@+id/tv_source_name"
@@ -67,7 +67,7 @@
         android:id="@+id/iv_book_source_visible"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:padding="@dimen/common_margin_normal"
+        android:padding="@dimen/common_space_normal"
         android:src="@drawable/icon_delete" />
 
 </LinearLayout>

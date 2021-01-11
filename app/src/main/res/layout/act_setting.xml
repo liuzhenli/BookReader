@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/selector_card_bg"
         android:minHeight="@dimen/all_item_height"
-        android:padding="@dimen/common_margin_normal">
+        android:padding="@dimen/common_space_normal">
 
         <TextView
             android:id="@+id/tv_setting_clear_file_path"
@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/selector_card_bg"
         android:minHeight="@dimen/all_item_height"
-        android:padding="@dimen/common_margin_normal">
+        android:padding="@dimen/common_space_normal">
 
         <TextView
             android:id="@+id/tv_setting_clear_cache_title"
@@ -79,7 +79,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/selector_card_bg"
         android:minHeight="@dimen/all_item_height"
-        android:padding="@dimen/common_margin_normal">
+        android:padding="@dimen/common_space_normal">
 
         <TextView
             android:id="@+id/tv_setting_backup_title"

@@ -7,6 +7,8 @@
     android:background="@color/bg_color"
     android:orientation="vertical">
 
+    <include layout="@layout/layout_common_toolbar" />
+
     <include
         android:id="@+id/include"
         layout="@layout/layout_common_toolbar"
@@ -19,7 +21,7 @@
         android:layout_height="30dp"
         android:background="@color/gray_e7e7e7"
         android:gravity="center_vertical"
-        android:paddingStart="@dimen/common_padding_large"
+        android:paddingStart="@dimen/common_space_large"
         android:text="文件路径"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include" />
@@ -30,12 +32,15 @@
         android:id="@+id/view_source_path"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:background="@drawable/selector_card_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <TextView
             style="@style/ItemTitleStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/common_space_large"
             android:text="书源导出路径" />
 
         <TextView
@@ -46,16 +51,21 @@
             android:text="" />
     </LinearLayout>
 
+    <include layout="@layout/item_divider" />
+
     <LinearLayout
         android:id="@+id/view_backup_path"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="@dimen/all_item_height"
+        android:background="@drawable/selector_card_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <TextView
             style="@style/ItemTitleStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/common_space_large"
             android:text="书源备份路径" />
 
         <TextView

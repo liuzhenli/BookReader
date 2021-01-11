@@ -11,7 +11,7 @@ import com.liuzhenli.common.constant.AppConstant;
  * @author Liuzhenli
  * @since 2019-07-06 16:28
  */
-public class AppConfigManager {
+public class AppSharedPreferenceHelper {
 
     /***书源排序方式*/
     public interface SortType {

@@ -8,8 +8,8 @@
         android:id="@+id/view_source_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/common_margin_large"
-        android:paddingRight="@dimen/common_margin_large"
+        android:paddingLeft="@dimen/common_space_large"
+        android:paddingRight="@dimen/common_space_large"
         android:textColor="@color/text_color_33"
         android:textSize="@dimen/txt_size_14" />
 
@@ -20,8 +20,8 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:hint="在此输入~"
-        android:paddingLeft="@dimen/common_margin_large"
-        android:paddingRight="@dimen/common_margin_large"
+        android:paddingLeft="@dimen/common_space_large"
+        android:paddingRight="@dimen/common_space_large"
         android:textColor="@color/main"
         android:textColorHint="@color/text_color_99"
         android:textSize="@dimen/txt_size_12" />

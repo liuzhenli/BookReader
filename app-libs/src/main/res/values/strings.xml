@@ -12,6 +12,7 @@
     <string name="book_library">书城</string>
     <string name="book_local">添加本地</string>
     <string name="book_source_manage">书源管理</string>
+    <string name="book_source">书源</string>
 
     <string name="setting">设置</string>
     <string name="theme_setting">主题设置</string>
@@ -412,6 +413,9 @@
     <string name="non_null_source_name_url">书源名称和URL不能为空</string>
     <string name="gallery">图库</string>
     <string name="get_ali_pay_hb">领支付宝红包</string>
+    <string name="pay_ali">支付宝收款,点击跳转支付宝</string>
+    <string name="pay_qq">QQ</string>
+    <string name="pay_weixin">微信赞赏码</string>
     <string name="non_update_url">没有获取到更新地址</string>
     <string name="check_host_cookie">正在打开首页，成功自动返回主界面</string>
     <string name="click_check_after_success">登录成功后请点击右上角图标进行首页访问测试</string>
@@ -465,7 +469,7 @@
     <string name="cover_change_source">封面换源</string>
     <string name="select_local_image">选择本地图片</string>
     <string name="refresh_cover">刷新封面</string>
-    <string name="feed_back">意見反饋</string>
+    <string name="feed_back">反饋</string>
     <string name="total_chapter_count">共%s章</string>
 
 

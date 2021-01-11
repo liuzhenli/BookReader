@@ -9,8 +9,8 @@
         android:id="@+id/iv_book_cover"
         android:layout_width="78dp"
         android:layout_height="104dp"
-        android:layout_marginLeft="@dimen/common_margin_normal"
-        android:layout_marginTop="@dimen/common_margin_large"
+        android:layout_marginLeft="@dimen/common_space_normal"
+        android:layout_marginTop="@dimen/common_space_large"
         android:elevation="4dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,8 +20,8 @@
         android:id="@+id/tv_book_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/common_margin_normal"
-        android:layout_marginRight="@dimen/common_margin_normal"
+        android:layout_marginLeft="@dimen/common_space_normal"
+        android:layout_marginRight="@dimen/common_space_normal"
         android:ellipsize="end"
         android:maxLines="2"
         android:text="@string/book_name"
@@ -36,7 +36,7 @@
         android:id="@+id/tv_book_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/common_margin_small"
+        android:layout_marginTop="@dimen/common_space_small"
         android:text="@string/author"
         android:textColor="@color/text_color_66"
         android:textSize="@dimen/txt_size_12"
@@ -47,7 +47,7 @@
         android:id="@+id/tv_book_read_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/common_margin_small"
+        android:layout_marginTop="@dimen/common_space_small"
         android:text="@string/progress_show"
         android:textColor="@color/text_color_66"
         android:textSize="@dimen/txt_size_12"
@@ -58,7 +58,7 @@
         android:id="@+id/tv_book_source"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/common_margin_small"
+        android:layout_marginTop="@dimen/common_space_small"
         android:text="@string/book_source_name"
         android:textColor="@color/text_color_66"
         android:textSize="@dimen/txt_size_12"
@@ -76,7 +76,7 @@
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/common_margin_small"
+            android:layout_marginTop="@dimen/common_space_small"
             android:orientation="horizontal">
 
             <CheckBox
@@ -90,7 +90,7 @@
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/common_margin_large"
+                android:layout_marginLeft="@dimen/common_space_large"
                 android:button="@null"
                 android:text="追更"
                 android:textColor="@color/s_book_tag"
@@ -99,7 +99,7 @@
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/common_margin_normal"
+                android:layout_marginLeft="@dimen/common_space_normal"
                 android:button="@null"
                 android:text="养肥"
                 android:textColor="@color/s_book_tag"
@@ -108,7 +108,7 @@
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/common_margin_normal"
+                android:layout_marginLeft="@dimen/common_space_normal"
                 android:button="@null"
                 android:text="完结"
                 android:textColor="@color/s_book_tag"
@@ -117,7 +117,7 @@
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/common_margin_normal"
+                android:layout_marginLeft="@dimen/common_space_normal"
                 android:button="@null"
                 android:text="本地"
                 android:textColor="@color/s_book_tag"
@@ -130,7 +130,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:lineSpacingMultiplier="1.3"
-        android:padding="@dimen/common_margin_normal"
+        android:padding="@dimen/common_space_normal"
         android:textColor="@color/text_color_66"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_book_cover" />

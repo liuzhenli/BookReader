@@ -3,7 +3,7 @@
     android:id="@+id/tv_testing"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="@dimen/common_margin_normal"
-    android:paddingRight="@dimen/common_margin_normal"
+    android:paddingLeft="@dimen/common_space_normal"
+    android:paddingRight="@dimen/common_space_normal"
     android:textColor="@color/text_color_66"
     android:textSize="@dimen/txt_size_12" />

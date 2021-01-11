@@ -10,8 +10,8 @@
         android:id="@+id/ll_import_local_books"
         android:layout_width="match_parent"
         android:layout_height="@dimen/all_item_height"
-        android:layout_marginStart="@dimen/common_margin_normal"
-        android:layout_marginEnd="@dimen/common_margin_normal"
+        android:layout_marginStart="@dimen/common_space_normal"
+        android:layout_marginEnd="@dimen/common_space_normal"
         android:gravity="center_vertical">
 
         <TextView

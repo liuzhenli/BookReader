@@ -8,8 +8,8 @@
     android:clickable="true"
     android:focusable="true"
     android:orientation="vertical"
-    android:paddingLeft="@dimen/common_margin_small"
-    android:paddingRight="@dimen/common_margin_small">
+    android:paddingLeft="@dimen/common_space_small"
+    android:paddingRight="@dimen/common_space_small">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -31,7 +31,7 @@
                 android:layout_gravity="center"
                 android:drawableTop="@drawable/icon_long_press_action_copy"
                 android:gravity="center"
-                android:padding="@dimen/common_margin_normal"
+                android:padding="@dimen/common_space_normal"
                 android:text="复制"
                 android:textColor="#ffbbbbbb"
                 android:textSize="14sp" />
@@ -50,7 +50,7 @@
                 android:layout_gravity="center"
                 android:drawableTop="@drawable/icon_long_press_action_search"
                 android:gravity="center"
-                android:padding="@dimen/common_margin_normal"
+                android:padding="@dimen/common_space_normal"
                 android:text="搜索"
                 android:textColor="#ffbbbbbb"
                 android:textSize="14sp" />
@@ -69,7 +69,7 @@
                 android:layout_gravity="center"
                 android:drawableTop="@drawable/icon_quick_action_share"
                 android:gravity="center"
-                android:padding="@dimen/common_margin_normal"
+                android:padding="@dimen/common_space_normal"
                 android:text="分享"
                 android:textColor="#ffbbbbbb"
                 android:textSize="14sp" />
@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:padding="@dimen/common_margin_normal"
+                android:padding="@dimen/common_space_normal"
                 android:text="替换"
                 android:textColor="#ffbbbbbb"
                 android:textSize="14sp" />
@@ -108,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:padding="@dimen/common_margin_normal"
+                android:padding="@dimen/common_space_normal"
                 android:text="广告"
                 android:textColor="#ffbbbbbb"
                 android:textSize="14sp" />

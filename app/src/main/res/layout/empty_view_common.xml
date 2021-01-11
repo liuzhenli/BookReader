@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/common_margin_normal"
+        android:layout_marginTop="@dimen/common_space_normal"
         android:text="暂无数据"
         android:textColor="@color/text_color_99"
         android:textSize="@dimen/txt_size_12"

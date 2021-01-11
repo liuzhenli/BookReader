@@ -1,14 +1,11 @@
 package com.liuzhenli.reader.utils.storage
 
 import android.content.Context
-import android.os.Handler
-import android.os.Looper
 import android.text.TextUtils
 import com.liuzhenli.common.FileHelp
 import com.liuzhenli.common.constant.AppConstant
-import com.liuzhenli.common.utils.AppConfigManager
+import com.liuzhenli.common.utils.AppSharedPreferenceHelper
 import com.liuzhenli.common.utils.ZipUtils
-import com.liuzhenli.reader.utils.ToastUtil
 import com.liuzhenli.reader.utils.webdav.WebDav
 import com.liuzhenli.reader.utils.webdav.http.HttpAuth
 import io.reactivex.Single
@@ -31,7 +28,7 @@ object WebDavHelp {
 
     private fun getWebDavUrl(): String {
 
-        var url = AppConfigManager.getWebDavAddress()
+        var url = AppSharedPreferenceHelper.getWebDavAddress()
         if (url.isNullOrEmpty() || TextUtils.equals(url, "坚果云")) {
             url = AppConstant.DEFAULT_WEB_DAV_URL
         }
@@ -40,8 +37,8 @@ object WebDavHelp {
     }
 
     fun initWebDav(): Boolean {
-        val account = AppConfigManager.getWebDavAccountName()
-        val password = AppConfigManager.getWebDavAddPwd()
+        val account = AppSharedPreferenceHelper.getWebDavAccountName()
+        val password = AppSharedPreferenceHelper.getWebDavAddPwd()
         if (!account.isNullOrBlank() && !password.isNullOrBlank()) {
             HttpAuth.auth = HttpAuth.Auth(account, password)
             return true

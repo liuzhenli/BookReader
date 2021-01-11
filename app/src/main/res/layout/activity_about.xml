@@ -9,89 +9,137 @@
 
     <include layout="@layout/layout_common_toolbar" />
 
-    <com.qmuiteam.qmui.widget.QMUIRadiusImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/common_margin_large"
-        android:src="@mipmap/ic_launcher"
-        app:qmui_corner_radius="6dp" />
-
-    <TextView
-        android:id="@+id/tv_version_info"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/common_margin_normal"
-        android:gravity="center"
-        android:text="阅读 v1.0.0 Build#11 tq_group_1"
-        android:textColor="@color/text_color_66" />
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/all_item_height"
-        android:layout_marginTop="@dimen/common_margin_normal"
-        android:background="@color/bg_color"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/common_margin_large"
-        android:text="QQ群"
-        android:textColor="@color/text_color_66" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/common_space_large"
+                android:src="@mipmap/ic_launcher"
+                app:qmui_border_color="@color/divider"
+                app:qmui_corner_radius="6dp" />
+
+            <TextView
+                android:id="@+id/tv_version_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/common_space_normal"
+                android:gravity="center"
+                android:text="阅读 v1.0.0 Build#11 tq_group_1"
+                android:textColor="@color/text_color_66" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_30"
+                android:layout_marginTop="@dimen/common_space_normal"
+                android:background="@color/bg_color"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/common_space_large"
+                android:text="QQ群"
+                android:textColor="@color/text_color_66" />
+
+            <TextView
+                android:id="@+id/tv_gg_group_0"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:background="@drawable/selector_card_bg"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/common_space_large"
+                android:text="QQ-Alpha(272343970),加入付费群,享受不被踢的感觉!!!"
+                android:textColor="@color/text_color_66"
+                android:textSize="@dimen/txt_size_12" />
+
+            <include
+                layout="@layout/item_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="@dimen/common_space_xlarge" />
+
+            <TextView
+                android:id="@+id/tv_gg_group_1"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:background="@drawable/selector_card_bg"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/common_space_large"
+                android:text="QQ1群(1140723995)"
+                android:textColor="@color/text_color_66"
+                android:textSize="@dimen/txt_size_12" />
+
+            <include layout="@layout/item_divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+
+                    android:id="@+id/tv_version_check_update"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/all_item_height"
+                    android:background="@drawable/selector_card_bg"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/common_space_large"
+                    android:text="检查更新"
+                    android:textColor="@color/text_color_66" />
+
+                <ImageView
+                    android:id="@+id/iv_new_version_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/ic_baseline_fiber_new" />
+
+                <TextView
+                    android:id="@+id/tv_new_version_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/all_item_height"
+                    android:layout_marginLeft="@dimen/common_space_normal"
+                    android:background="@drawable/selector_card_bg"
+                    android:gravity="center_vertical"
+                    android:text="(有新版本1.0.2)"
+                    android:textColor="@color/text_color_99"
+                    android:textSize="@dimen/txt_size_12" />
+
+            </LinearLayout>
 
 
-    <TextView
-        android:id="@+id/tv_gg_group_0"
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_marginTop="@dimen/common_margin_normal"
-        android:background="@drawable/selector_card_bg"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/common_margin_large"
-        android:text="QQ-Alpha(272343970),加入付费群,享受不被踢的感觉!!!"
-        android:textColor="@color/text_color_66"
-        android:textSize="@dimen/txt_size_12" />
+            <include layout="@layout/item_divider" />
 
-    <TextView
-        android:id="@+id/tv_gg_group_1"
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_marginTop="@dimen/common_margin_normal"
-        android:background="@drawable/selector_card_bg"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/common_margin_large"
-        android:text="QQ1群(1140723995)"
-        android:textColor="@color/text_color_66"
-        android:textSize="@dimen/txt_size_12" />
+            <TextView
+                android:id="@+id/tv_about_contact"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/all_item_height"
+                android:background="@drawable/selector_card_bg"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/common_space_large"
+                android:text="联系开发者"
+                android:textColor="@color/text_color_66" />
 
-    <TextView
-        android:id="@+id/tv_version_check_update"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/all_item_height"
-        android:layout_marginTop="@dimen/common_margin_normal"
-        android:background="@drawable/selector_card_bg"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/common_margin_normal"
-        android:text="检查更新"
-        android:textColor="@color/text_color_66" />
+            <include layout="@layout/item_divider" />
 
-    <TextView
-        android:id="@+id/tv_about_contact"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/all_item_height"
-        android:background="@drawable/selector_card_bg"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/common_margin_normal"
-        android:text="联系开发者"
-        android:textColor="@color/text_color_66" />
+            <TextView
+                android:id="@+id/tv_disclaimer"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/all_item_height"
+                android:background="@drawable/selector_card_bg"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/common_space_large"
+                android:text="免责声明"
+                android:textColor="@color/text_color_66" />
 
-    <TextView
-        android:id="@+id/tv_disclaimer"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/all_item_height"
-        android:background="@drawable/selector_card_bg"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/common_margin_normal"
-        android:text="免责声明"
-        android:textColor="@color/text_color_66" />
+            <include layout="@layout/item_divider" />
 
+        </LinearLayout>
+    </ScrollView>
 
     <Space
         android:layout_width="match_parent"
@@ -101,10 +149,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/common_margin_normal"
+        android:layout_marginBottom="@dimen/common_space_normal"
         android:gravity="center"
         android:text="Lovely Made by liuzhenli \n@2019-2020 All Rights Reserved"
         android:textColor="@color/text_color_99"
         android:textSize="@dimen/txt_size_10" />
-
 </LinearLayout>

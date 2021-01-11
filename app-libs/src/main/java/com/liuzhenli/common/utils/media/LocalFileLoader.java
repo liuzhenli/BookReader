@@ -9,7 +9,7 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.loader.content.CursorLoader;
 
-import com.liuzhenli.common.utils.AppConfigManager;
+import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -59,7 +59,7 @@ public class LocalFileLoader extends CursorLoader {
                 //判断有效路径
                 if (!TextUtils.isEmpty(path)) {
                     File file = new File(path);
-                    if (!file.isDirectory() && file.length() > 1024 * AppConfigManager.getMinFileSize()) {
+                    if (!file.isDirectory() && file.length() > 1024 * AppSharedPreferenceHelper.getMinFileSize()) {
                         files.add(file);
                     }
                 }

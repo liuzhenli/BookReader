@@ -2,6 +2,7 @@ package com.liuzhenli.reader.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.widget.TextView;
 
 import com.liuzhenli.common.utils.ClickUtils;
@@ -21,6 +22,12 @@ import butterknife.BindView;
  */
 public class DonateActivity extends BaseActivity {
 
+    @BindView(R.id.tv_donate_zhifubao_kouling)
+    TextView mViewDonateAliPay;
+    @BindView(R.id.tv_donate_qq)
+    TextView mViewQQ;
+    @BindView(R.id.tv_donate_weixin)
+    TextView mViewWX;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, DonateActivity.class);
@@ -49,7 +56,20 @@ public class DonateActivity extends BaseActivity {
 
     @Override
     protected void configViews() {
-
+        ClickUtils.click(mViewDonateAliPay, o -> {
+            Uri uri = Uri.parse("https://qr.alipay.com/fkx16537qfnbficmp9dohb4");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        });
+        ClickUtils.click(mViewQQ, o -> {
+            Uri uri = Uri.parse("https://gitee.com/liuzhenli/Donate/blob/master/imgs/img_qq.png");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        });
+        ClickUtils.click(mViewWX, o -> {
+            Uri uri = Uri.parse("https://gitee.com/liuzhenli/Donate/blob/master/imgs/img_weixin.png");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        });
     }
-
 }

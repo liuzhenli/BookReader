@@ -20,7 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:lineSpacingMultiplier="1.3"
-                android:padding="@dimen/common_margin_large"
+                android:padding="@dimen/common_space_large"
                 android:textColor="@color/text_color_99"
                 android:textSize="@dimen/txt_size_14" />
         </LinearLayout>

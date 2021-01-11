@@ -16,7 +16,7 @@ import com.liuzhenli.reader.ui.activity.BookSourceActivity;
 import com.liuzhenli.reader.ui.activity.EditSourceActivity;
 import com.liuzhenli.common.utils.LogUtils;
 import com.liuzhenli.reader.utils.ToastUtil;
-import com.liuzhenli.common.utils.AppConfigManager;
+import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.reader.view.loading.DialogUtil;
 import com.liuzhenli.reader.view.recyclerview.adapter.BaseViewHolder;
 import com.liuzhenli.reader.view.recyclerview.adapter.RecyclerArrayAdapter;
@@ -82,7 +82,7 @@ public class BookSourceAdapter extends RecyclerArrayAdapter<BookSourceBean> {
             viewShowRecommend.setChecked(item.getRuleFindEnable());
 
             //手动排序显示置顶
-            if (mSortType != AppConfigManager.SortType.SORT_TYPE_HAND) {
+            if (mSortType != AppSharedPreferenceHelper.SortType.SORT_TYPE_HAND) {
                 viewSetTop.setVisibility(View.GONE);
             } else {
                 viewSetTop.setVisibility(View.VISIBLE);
@@ -144,7 +144,7 @@ public class BookSourceAdapter extends RecyclerArrayAdapter<BookSourceBean> {
                     mObjects.add(0, bookSourceBean);
                     notifyItemInserted(0);
                     //如果是手动排序
-                    if (mSortType == AppConfigManager.SortType.SORT_TYPE_AUTO) {
+                    if (mSortType == AppSharedPreferenceHelper.SortType.SORT_TYPE_AUTO) {
                         int maxWeight = mObjects.get(0).getWeight();
                         item.setWeight(maxWeight + 1);
                     }

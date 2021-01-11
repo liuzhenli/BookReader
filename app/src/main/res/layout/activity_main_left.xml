@@ -17,45 +17,28 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_night_mode"
+        android:id="@+id/tv_main_left_source_manage"
         style="@style/ItemTitleStyle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/all_item_height"
         android:background="@drawable/selector_card_bg"
+        android:drawableLeft="@drawable/ic_main_left_book_source"
+        android:drawablePadding="@dimen/common_space_normal"
         android:gravity="center_vertical"
-        android:paddingLeft="@dimen/common_margin_large"
-        android:text="@string/night_theme" />
-
-    <TextView
-        android:id="@+id/tv_login_tab"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/all_item_height"
-        android:background="@drawable/selector_card_bg"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/common_margin_large"
-        android:text="皮肤"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_night_mode" />
+        android:paddingLeft="@dimen/common_space_large"
+        android:text="@string/book_source" />
 
     <TextView
         android:id="@+id/tv_main_feedback"
+        style="@style/ItemTitleStyle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/all_item_height"
         android:background="@drawable/selector_card_bg"
+        android:drawableLeft="@drawable/ic_main_left_feedback"
+        android:drawablePadding="@dimen/common_space_normal"
         android:gravity="center_vertical"
-        style="@style/ItemTitleStyle"
-        android:paddingLeft="@dimen/common_margin_large"
+        android:paddingLeft="@dimen/common_space_large"
         android:text="@string/feed_back" />
-
-    <TextView
-        android:id="@+id/tv_qq_group"
-        style="@style/ItemTitleStyle"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/all_item_height"
-        android:background="@drawable/selector_card_bg"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/common_margin_large"
-        android:text="@string/join_qq_group" />
 
     <TextView
         android:id="@+id/tv_donate"
@@ -63,19 +46,23 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/all_item_height"
         android:background="@drawable/selector_card_bg"
+        android:drawableLeft="@drawable/ic_main_left_denote"
+        android:drawablePadding="@dimen/common_space_normal"
         android:gravity="center_vertical"
-        android:paddingLeft="@dimen/common_margin_large"
+        android:paddingLeft="@dimen/common_space_large"
         android:text="@string/donate" />
 
     <TextView
-        android:id="@+id/tv_main_draw_setting"
+        android:id="@+id/tv_night_mode"
         style="@style/ItemTitleStyle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/all_item_height"
         android:background="@drawable/selector_card_bg"
+        android:drawableLeft="@drawable/ic_main_left_night_mode"
+        android:drawablePadding="@dimen/common_space_normal"
         android:gravity="center_vertical"
-        android:paddingLeft="@dimen/common_margin_large"
-        android:text="@string/setting" />
+        android:paddingLeft="@dimen/common_space_large"
+        android:text="@string/night_theme" />
 
     <TextView
         android:id="@+id/tv_main_draw_about"
@@ -83,9 +70,21 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/all_item_height"
         android:background="@drawable/selector_card_bg"
+        android:drawableLeft="@drawable/ic_left_menu_about"
+        android:drawablePadding="@dimen/common_space_normal"
         android:gravity="center_vertical"
-        android:paddingLeft="@dimen/common_margin_large"
+        android:paddingLeft="@dimen/common_space_large"
         android:text="@string/about" />
 
-
+    <TextView
+        android:id="@+id/tv_main_draw_setting"
+        style="@style/ItemTitleStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/all_item_height"
+        android:background="@drawable/selector_card_bg"
+        android:drawableLeft="@drawable/ic_left_menu_setting"
+        android:drawablePadding="@dimen/common_space_normal"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/common_space_large"
+        android:text="@string/setting" />
 </LinearLayout>

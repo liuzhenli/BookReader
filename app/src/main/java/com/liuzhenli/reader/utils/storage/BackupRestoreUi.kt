@@ -9,10 +9,9 @@ import android.text.TextUtils
 import androidx.core.content.ContextCompat
 import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.FragmentActivity
-import com.bumptech.glide.request.ResourceCallback
 import com.liuzhenli.common.BaseApplication
 import com.liuzhenli.common.observer.MyObserver
-import com.liuzhenli.common.utils.AppConfigManager
+import com.liuzhenli.common.utils.AppSharedPreferenceHelper
 import com.liuzhenli.reader.utils.PermissionUtil
 import com.liuzhenli.reader.utils.filepicker.picker.FilePicker
 import com.liuzhenli.reader.utils.storage.WebDavHelp.getWebDavFileNames
@@ -37,7 +36,7 @@ object BackupRestoreUi {
      * 备份
      */
     fun backup(activity: FragmentActivity, isBackupToWebDav: Boolean = false, callBack: Backup.CallBack?, restoreCallBack: Restore.CallBack?) {
-        val backupPath = AppConfigManager.getBackupPath(Backup.defaultPath)
+        val backupPath = AppSharedPreferenceHelper.getBackupPath(Backup.defaultPath)
         if (backupPath.isNullOrEmpty()) {
             selectBackupFolder(activity, isBackupToWebDav, callBack,restoreCallBack)
         } else {
@@ -61,7 +60,7 @@ object BackupRestoreUi {
     private fun backupUsePermission(activity: FragmentActivity, isBackupToWebDav: Boolean = true, path: String = Backup.defaultPath, callBack: Backup.CallBack?) {
         PermissionUtil.requestPermission(activity, object : MyObserver<Boolean>() {
             override fun onNext(t: Boolean) {
-                AppConfigManager.setBackupPath(path)
+                AppSharedPreferenceHelper.setBackupPath(path)
                 Backup.backup(activity, path, callBack, isBackupToWebDav)
             }
         }, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -76,7 +75,7 @@ object BackupRestoreUi {
             items(activity.resources.getStringArray(R.array.select_folder).toList()) { _, index ->
                 when (index) {
                     0 -> {
-                        AppConfigManager.setBackupPath(Backup.defaultPath)
+                        AppSharedPreferenceHelper.setBackupPath(Backup.defaultPath)
                         backupUsePermission(activity, isBackupToWebDav, Backup.defaultPath, callBack)
                     }
                     1 -> {
@@ -110,7 +109,7 @@ object BackupRestoreUi {
         picker.setTopBackgroundColor(ContextCompat.getColor(activity, R.color.background))
         picker.setItemHeight(30)
         picker.setOnFilePickListener { currentPath: String ->
-            AppConfigManager.setBackupPath(currentPath)
+            AppSharedPreferenceHelper.setBackupPath(currentPath)
             if (isRestore) {
                 Restore.restore(currentPath, restoreCallBack)
             } else {
@@ -131,7 +130,7 @@ object BackupRestoreUi {
                 .subscribe(object : SingleObserver<ArrayList<String>?> {
                     override fun onSuccess(strings: ArrayList<String>) {
                         if (!showRestoreDialog(activity, strings, callBack)) {
-                            val path = AppConfigManager.getBackupPath(Backup.defaultPath)
+                            val path = AppSharedPreferenceHelper.getBackupPath(Backup.defaultPath)
                             if (TextUtils.isEmpty(path)) {
                                 selectRestoreFolder(activity, backupCallBack,callBack)
                             } else {
@@ -165,7 +164,7 @@ object BackupRestoreUi {
     private fun restoreUsePermission(activity: FragmentActivity, path: String = Backup.defaultPath, callBack: Restore.CallBack?) {
         PermissionUtil.requestPermission(activity, object : MyObserver<Boolean>() {
             override fun onNext(t: Boolean) {
-                AppConfigManager.setBackupPath(path)
+                AppSharedPreferenceHelper.setBackupPath(path)
                 Restore.restore(path, callBack)
             }
         }, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -210,7 +209,7 @@ object BackupRestoreUi {
                             uri,
                             Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
                     )
-                    AppConfigManager.setBackupPath(uri.toString())
+                    AppSharedPreferenceHelper.setBackupPath(uri.toString())
                     Backup.backup(BaseApplication.getInstance(), uri.toString(), callBack)
                 }
             }
@@ -220,7 +219,7 @@ object BackupRestoreUi {
                             uri,
                             Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
                     )
-                    AppConfigManager.setBackupPath(uri.toString())
+                    AppSharedPreferenceHelper.setBackupPath(uri.toString())
                     Restore.restore(BaseApplication.getInstance(), uri, restoreCallBack)
                 }
             }

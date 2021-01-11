@@ -2,18 +2,16 @@
 <resources>
     <!-- 全局 条形item固定高度 -->
     <dimen name="all_item_height">46dp</dimen>
+    <dimen name="height_30">30dp</dimen>
 
     <dimen name="loading_icon_80x80">28.0dip</dimen>
 
-    <dimen name="common_padding_small">4dp</dimen>
-    <dimen name="common_padding_normal">8dp</dimen>
-    <dimen name="common_padding_large">16dp</dimen>
-    <dimen name="common_padding_xlarge">24dp</dimen>
-
-    <dimen name="common_margin_small">4dp</dimen>
-    <dimen name="common_margin_normal">8dp</dimen>
-    <dimen name="common_margin_large">16dp</dimen>
-    <dimen name="common_margin_xlarge">24dp</dimen>
+    <dimen name="common_space_small">4dp</dimen>
+    <dimen name="common_space_normal">8dp</dimen>
+    <dimen name="common_space_large">16dp</dimen>
+    <dimen name="common_space_xlarge">24dp</dimen>
+    <dimen name="common_space_xxlarge">36dp</dimen>
+    <dimen name="common_space_xxxlarge">48dp</dimen>
 
     <dimen name="txt_size_10">10sp</dimen>
     <dimen name="txt_size_12">12sp</dimen>

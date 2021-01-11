@@ -13,7 +13,7 @@ import com.liuzhenli.reader.ui.adapter.BookSourceAdapter;
 import com.liuzhenli.reader.ui.adapter.BookSourceFilterMenuAdapter;
 import com.liuzhenli.reader.ui.contract.BookSourceContract;
 import com.liuzhenli.reader.ui.presenter.BookSourcePresenter;
-import com.liuzhenli.common.utils.AppConfigManager;
+import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.reader.view.filter.DropDownMenu;
 import com.liuzhenli.reader.view.loading.DialogUtil;
 import com.micoredu.readerlib.bean.BookSourceBean;
@@ -24,9 +24,9 @@ import java.util.List;
 
 import butterknife.BindView;
 
-import static com.liuzhenli.common.utils.AppConfigManager.SortType.SORT_TYPE_AUTO;
-import static com.liuzhenli.common.utils.AppConfigManager.SortType.SORT_TYPE_HAND;
-import static com.liuzhenli.common.utils.AppConfigManager.SortType.SORT_TYPE_PINYIN;
+import static com.liuzhenli.common.utils.AppSharedPreferenceHelper.SortType.SORT_TYPE_AUTO;
+import static com.liuzhenli.common.utils.AppSharedPreferenceHelper.SortType.SORT_TYPE_HAND;
+import static com.liuzhenli.common.utils.AppSharedPreferenceHelper.SortType.SORT_TYPE_PINYIN;
 
 
 /**
@@ -102,7 +102,7 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
 
     @Override
     protected void initData() {
-        mSortType = AppConfigManager.getBookSourceSortType();
+        mSortType = AppSharedPreferenceHelper.getBookSourceSortType();
     }
 
     private BookSourceFilterMenuAdapter.MenuItemClickListener filterMenuClickListener = new BookSourceFilterMenuAdapter.MenuItemClickListener() {
@@ -141,7 +141,7 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
             } else if (index == 2) {
                 mSortType = SORT_TYPE_PINYIN;
             }
-            AppConfigManager.setBookSourceSortType(mSortType);
+            AppSharedPreferenceHelper.setBookSourceSortType(mSortType);
             mPresenter.getLocalBookSource("");
             mDropdownMenu.close();
         }

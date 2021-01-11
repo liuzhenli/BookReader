@@ -25,7 +25,7 @@
             android:layout_gravity="center"
             android:background="@color/background"
             android:hint="输入测试内容"
-            android:paddingLeft="@dimen/common_margin_normal"
+            android:paddingLeft="@dimen/common_space_normal"
             android:textSize="@dimen/txt_size_14" />
 
         <TextView
@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|end"
-            android:layout_marginRight="@dimen/common_margin_large"
+            android:layout_marginRight="@dimen/common_space_large"
             android:text="搜索"
             android:textColor="@color/white" />
     </androidx.appcompat.widget.Toolbar>
@@ -44,8 +44,8 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="@dimen/common_padding_large"
-        android:layout_marginRight="@dimen/common_padding_large"
+        android:layout_marginLeft="@dimen/common_space_large"
+        android:layout_marginRight="@dimen/common_space_large"
         android:visibility="gone"
         app:indicatorColor="@color/main"
         app:indicatorName="BallPulseIndicator"

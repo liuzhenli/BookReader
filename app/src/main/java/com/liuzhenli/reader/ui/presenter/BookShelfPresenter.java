@@ -1,7 +1,7 @@
 package com.liuzhenli.reader.ui.presenter;
 
 import com.liuzhenli.common.BaseApplication;
-import com.liuzhenli.common.utils.AppConfigManager;
+import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.common.utils.NetworkUtils;
 import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.reader.base.RxPresenter;
@@ -113,7 +113,7 @@ public class BookShelfPresenter extends RxPresenter<BookShelfContract.View> impl
             refreshBookShelf();
             return;
         }
-        if (AppConfigManager.isRefreshBookShelf()) {
+        if (AppSharedPreferenceHelper.isRefreshBookShelf()) {
             //view 显示更新状态
             bookShelfBean.setLoading(true);
             mView.setRefreshingBook(bookShelfBean);

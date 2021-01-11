@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.liuzhenli.reader.utils.DensityUtil;
-import com.liuzhenli.common.utils.AppConfigManager;
+import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.reader.view.filter.adapter.MenuAdapter;
 import com.liuzhenli.reader.view.filter.adapter.SimpleTextAdapter;
 import com.liuzhenli.reader.view.filter.typeview.SingleListView;
@@ -55,7 +55,7 @@ public class BookSourceFilterMenuAdapter implements MenuAdapter {
             case 0:
                 return createSingleListView(list1, 0, -1);
             case 1:
-                return createSingleListView(list2, 1, AppConfigManager.getBookSourceSortType());
+                return createSingleListView(list2, 1, AppSharedPreferenceHelper.getBookSourceSortType());
             case 2:
                 return createSingleListView(groupList, 2, -1);
             default:
