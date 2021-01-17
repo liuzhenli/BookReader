@@ -14,6 +14,7 @@ import android.widget.EditText;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.liuzhenli.common.constant.AppConstant;
 import com.liuzhenli.common.constant.BookType;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.ClipboardUtil;
@@ -119,6 +120,7 @@ public class EditSourceActivity extends BaseRvActivity<EditSourcePresenter, Edit
                     ClipboardUtil.copyToClipboard(getBookSourceStr(false));
                     break;
                 case R.id.item_to_source_rule:
+                    WebViewActivity.start(mContext, AppConstant.URL_SOURCE_RULE);
                     break;
                 default:
                     break;

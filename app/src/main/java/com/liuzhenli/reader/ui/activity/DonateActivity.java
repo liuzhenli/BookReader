@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.widget.TextView;
 
+import com.liuzhenli.common.constant.AppConstant;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.reader.ReaderApplication;
 import com.liuzhenli.reader.base.BaseActivity;
@@ -59,22 +60,22 @@ public class DonateActivity extends BaseActivity {
     @Override
     protected void configViews() {
         ClickUtils.click(mViewDonateAliPay, o -> {
-            Uri uri = Uri.parse("https://qr.alipay.com/fkx16537qfnbficmp9dohb4");
+            Uri uri = Uri.parse(AppConstant.DonateUrl.ali);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         });
         ClickUtils.click(mViewZFB, o -> {
-            Uri uri = Uri.parse("https://gitee.com/liuzhenli/Donate/blob/master/imgs/img_zhifubao.jpg");
+            Uri uri = Uri.parse(AppConstant.DonateUrl.zfbCode);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         });
         ClickUtils.click(mViewQQ, o -> {
-            Uri uri = Uri.parse("https://gitee.com/liuzhenli/Donate/blob/master/imgs/img_qq.png");
+            Uri uri = Uri.parse(AppConstant.DonateUrl.wxCode);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         });
         ClickUtils.click(mViewWX, o -> {
-            Uri uri = Uri.parse("https://gitee.com/liuzhenli/Donate/blob/master/imgs/img_weixin.png");
+            Uri uri = Uri.parse(AppConstant.DonateUrl.qqCode);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         });

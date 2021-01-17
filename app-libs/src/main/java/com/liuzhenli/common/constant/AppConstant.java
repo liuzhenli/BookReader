@@ -60,4 +60,14 @@ public class AppConstant {
 
     public static final MediaType jsonMediaType = MediaType.parse("Content-Type, application/json");
     public static final String URL_BACKUP_GUIDE = "http://help.jianguoyun.com?p=2064";
+
+    public interface DonateUrl {
+        String ali = "https://qr.alipay.com/fkx16537qfnbficmp9dohb4";
+        String zfbCode = "https://gitee.com/liuzhenli/HelloBook/blob/master/imgs/img_zhifubao.jpg";
+        String wxCode = "https://gitee.com/liuzhenli/HelloBook/blob/master/imgs/img_qq.png";
+        String qqCode = "https://gitee.com/liuzhenli/HelloBook/blob/master/imgs/img_weixin.png";
+    }
+
+   // public static final String URL_SOURCE_RULE = "https://gitee.com/liuzhenli/HelloBook/wikis/SourceRule?sort_id=3422218";
+    public static final String URL_SOURCE_RULE = "https://gitee.com/liuzhenli/HelloBook/wikis/pages?sort_id=3422218&doc_id=1192633";
 }
