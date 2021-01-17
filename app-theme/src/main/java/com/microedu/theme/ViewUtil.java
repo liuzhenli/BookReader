@@ -1,5 +1,7 @@
 package com.microedu.theme;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
@@ -47,4 +49,142 @@ public final class ViewUtil {
 
     private ViewUtil() {
     }
+
+    public static void showTopView(final View... views) {
+        for (final View view : views) {
+            if (view.getVisibility() == View.VISIBLE) {
+                return;
+            }
+            if (view.getAnimation() != null) {
+                view.getAnimation().cancel();
+            }
+            ObjectAnimator showAnimation = ObjectAnimator.ofFloat(view, "translationY", -view.getHeight(), 0);
+            showAnimation.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    view.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
+            showAnimation.setDuration(300).start();
+        }
+    }
+
+    public static void hideTopView(final View... views) {
+        for (final View view : views) {
+            if (view.getVisibility() == View.GONE) {
+                return;
+            }
+            if (view.getAnimation() != null) {
+                view.getAnimation().cancel();
+            }
+            ObjectAnimator hideAnimation = ObjectAnimator.ofFloat(view, "translationY", 0, -view.getHeight());
+            hideAnimation.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    view.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
+            hideAnimation.setDuration(300).start();
+        }
+    }
+
+    public static void showBottomView(final View... views) {
+        for (final View view : views) {
+            if (view.getVisibility() == View.VISIBLE) {
+                return;
+            }
+            if (view.getAnimation() != null) {
+                view.getAnimation().cancel();
+            }
+            ObjectAnimator showAnimation = ObjectAnimator.ofFloat(view, "translationY", view.getHeight(), 0);
+            showAnimation.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    view.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
+            showAnimation.setDuration(300).start();
+        }
+    }
+
+    public static void hideBottomView(final View... views) {
+        for (final View view : views) {
+            if (view.getVisibility() == View.GONE) {
+                return;
+            }
+            if (view.getAnimation() != null) {
+                view.getAnimation().cancel();
+            }
+            ObjectAnimator hideAnimation = ObjectAnimator.ofFloat(view, "translationY", 0, view.getHeight());
+            hideAnimation.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    view.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
+            hideAnimation.setDuration(300).start();
+        }
+    }
+
+
 }

@@ -414,7 +414,8 @@
     <string name="gallery">图库</string>
     <string name="get_ali_pay_hb">领支付宝红包</string>
     <string name="pay_ali">支付宝收款,点击跳转支付宝</string>
-    <string name="pay_qq">QQ</string>
+    <string name="pay_zfb">支付宝赞赏码</string>
+    <string name="pay_qq">QQ赞赏码</string>
     <string name="pay_weixin">微信赞赏码</string>
     <string name="non_update_url">没有获取到更新地址</string>
     <string name="check_host_cookie">正在打开首页，成功自动返回主界面</string>
@@ -476,5 +477,5 @@
     <string name="string_book_source_is_empty">您还没有配置书源,无法完成搜索,点击右上角,先添加书源吧.</string>
 
 
-    <string name="about_donate">\t本软件是由多位爱好读书的大佬共同开发制作的,特别是开发和书源的制作很费时间.如果您想请各位大佬喝杯咖啡,吃包辣条,请可以在此处给予他们一点支持.您的支持是大佬们的动力,相信在大家的共同努力下,我们一定能够让本软件发展的越来越好.</string>
+    <string name="about_donate">\t本软件是由多位爱好读书的大佬共同开发制作的,特别是开发和书源的制作很费时间.如果您想请各位大佬喝杯咖啡,吃包辣条,您可以在此处给予他们一点支持.您的支持是大佬们的动力,相信在大家的共同努力下,我们一定能够让本软件发展的越来越好.</string>
 </resources>

@@ -11,6 +11,7 @@
     <color name="colorAccent">@color/main</color>
     <!--textColor-->
     <color name="text_color_33">#4a4a4a</color>
+    <color name="text_color_33_88">#884a4a4a</color>
     <color name="text_color_66">#565656</color>
     <color name="text_color_99">#979797</color>
     <color name="text_color_99_88">#88979797</color>
@@ -20,7 +21,6 @@
     <!--通用分割线细-->
     <color name="divider">#f5f5f5</color>
     <color name="ripple_color">#ffdddddd</color>
-
 
 
     <color name="black_p50">#7f000000</color>

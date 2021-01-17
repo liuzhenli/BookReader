@@ -6,15 +6,19 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.liuzhenli.common.BitIntentDataManager;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
@@ -26,6 +30,7 @@ import com.liuzhenli.reader.ui.presenter.ReadPresenter;
 import com.liuzhenli.reader.utils.BatteryUtil;
 import com.liuzhenli.reader.utils.IntentUtils;
 import com.liuzhenli.reader.utils.ShareUtils;
+import com.liuzhenli.reader.utils.StatusBarCompat;
 import com.liuzhenli.reader.utils.storage.Backup;
 import com.liuzhenli.reader.view.ReadLongPressPop;
 import com.liuzhenli.reader.view.loading.DialogUtil;
@@ -46,6 +51,7 @@ import com.micoredu.readerlib.bean.BookChapterBean;
 import com.micoredu.readerlib.page.PageLoader;
 import com.micoredu.readerlib.utils.bar.BarHide;
 import com.microedu.reader.R;
+import com.microedu.theme.ViewUtil;
 import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheet;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
@@ -165,6 +171,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void initData() {
         AppComponent appComponent = ReaderApplication.getInstance().getAppComponent();
@@ -203,13 +210,6 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
 
     }
 
-    @Override
-    protected void initImmersionBar() {
-        mImmersionBar.fullScreen(true);
-        mImmersionBar.hideBar(BarHide.FLAG_HIDE_STATUS_BAR);
-        mImmersionBar.init();
-    }
-
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void configViews() {
@@ -235,9 +235,9 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
 
             @Override
             public void onBrightnessClick() {
-                mVBottomMenu.setVisibility(View.GONE);
-                mTopBar.setVisibility(View.GONE);
-                mVBrightnessSettingMenu.setVisibility(View.VISIBLE);
+                ViewUtil.hideBottomView(mVBottomMenu);
+                ViewUtil.hideTopView(mTopBar);
+                ViewUtil.showBottomView(mVBrightnessSettingMenu);
             }
 
             @Override
@@ -253,9 +253,9 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
 
             @Override
             public void onSettingClick() {
-                mVBottomMenu.setVisibility(View.GONE);
-                mTopBar.setVisibility(View.GONE);
-                mVSettingMenu.setVisibility(View.VISIBLE);
+                ViewUtil.hideBottomView(mVBottomMenu);
+                ViewUtil.hideTopView(mTopBar);
+                ViewUtil.showBottomView(mVSettingMenu);
             }
 
             @Override
@@ -429,22 +429,22 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
             @Override
             public void center() {
                 if (mVBottomMenu.getVisibility() == View.VISIBLE) {
-                    mVBottomMenu.setVisibility(View.GONE);
-                    mTopBar.setVisibility(View.GONE);
+                    ViewUtil.hideBottomView(mVBottomMenu);
+                    ViewUtil.hideTopView(mTopBar);
                 } else {
-                    mVBottomMenu.setVisibility(View.VISIBLE);
-                    mTopBar.setVisibility(View.VISIBLE);
+                    ViewUtil.showBottomView(mVBottomMenu);
+                    ViewUtil.showTopView(mTopBar);
                 }
                 if (mVSettingMenu.getVisibility() == View.VISIBLE) {
-                    mVSettingMenu.setVisibility(View.GONE);
-                    mTopBar.setVisibility(View.GONE);
-                    mVBottomMenu.setVisibility(View.GONE);
+                    ViewUtil.hideBottomView(mVSettingMenu);
+                    ViewUtil.hideTopView(mTopBar);
+                    ViewUtil.hideBottomView(mVBottomMenu);
                 }
 
                 if (mVBrightnessSettingMenu.getVisibility() == View.VISIBLE) {
-                    mVBrightnessSettingMenu.setVisibility(View.GONE);
-                    mVBottomMenu.setVisibility(View.GONE);
-                    mTopBar.setVisibility(View.GONE);
+                    ViewUtil.hideBottomView(mVBrightnessSettingMenu);
+                    ViewUtil.hideBottomView(mVBottomMenu);
+                    ViewUtil.hideTopView(mTopBar);
                 }
                 mTopBar.getToolBar().setTitle(mBookShelf.getBookInfoBean().getName());
                 mTopBar.getToolBar().setTitleTextColor(Color.WHITE);
@@ -522,6 +522,13 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
     @Override
     public void showSnackBar(PageView pageView, String msg) {
 
+    }
+
+    @Override
+    protected void initImmersionBar() {
+        mImmersionBar.fullScreen(true);
+        mImmersionBar.hideBar(BarHide.FLAG_HIDE_STATUS_BAR);
+        mImmersionBar.init();
     }
 
     @Override
@@ -820,7 +827,6 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
                 mPageLoader.refreshUi();
             }
             //readInterfacePop.setBg();
-            initImmersionBar();
         }
     }
 

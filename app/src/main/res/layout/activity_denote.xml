@@ -15,43 +15,87 @@
         android:layout_marginLeft="@dimen/common_space_large"
         android:layout_marginTop="@dimen/common_space_large"
         android:layout_marginRight="@dimen/common_space_large"
+        android:lineSpacingMultiplier="1.3"
+        android:paddingBottom="@dimen/common_space_normal"
         android:text="@string/about_donate"
-        android:textColor="@color/s_text_66" />
+        android:textColor="@color/s_text_99"
+        android:textSize="@dimen/txt_size_14" />
+
+    <include layout="@layout/item_divider" />
 
     <TextView
         android:id="@+id/tv_donate_zhifubao_kouling"
         android:layout_width="match_parent"
         android:layout_height="@dimen/all_item_height"
-        android:layout_marginLeft="@dimen/common_space_large"
-        android:layout_marginTop="@dimen/common_space_large"
-        android:layout_marginRight="@dimen/common_space_large"
         android:background="@drawable/selector_card_bg"
+        android:drawableLeft="@drawable/ic_pay_zfb"
+        android:drawablePadding="@dimen/common_space_normal"
         android:gravity="center_vertical"
+        android:paddingLeft="@dimen/common_space_large"
+        android:paddingRight="@dimen/common_space_large"
         android:text="@string/pay_ali"
-        android:textColor="@color/s_text_66" />
+        android:textColor="@color/s_text_66"
+        android:textSize="@dimen/txt_size_14" />
+
+    <include
+        layout="@layout/item_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/common_space_large" />
+
+    <TextView
+        android:id="@+id/tv_donate_zfb"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/all_item_height"
+        android:background="@drawable/selector_card_bg"
+        android:drawableLeft="@drawable/ic_pay_zfb"
+        android:drawablePadding="@dimen/common_space_normal"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/common_space_large"
+        android:paddingRight="@dimen/common_space_large"
+        android:text="@string/pay_zfb"
+        android:textColor="@color/s_text_66"
+        android:textSize="@dimen/txt_size_14" />
+
+    <include layout="@layout/item_divider" />
 
     <TextView
         android:id="@+id/tv_donate_weixin"
         android:layout_width="match_parent"
         android:layout_height="@dimen/all_item_height"
-        android:layout_marginLeft="@dimen/common_space_large"
-        android:layout_marginRight="@dimen/common_space_large"
         android:background="@drawable/selector_card_bg"
+        android:drawableLeft="@drawable/ic_pay_weixin"
+        android:drawablePadding="@dimen/common_space_normal"
         android:gravity="center_vertical"
+        android:paddingLeft="@dimen/common_space_large"
+        android:paddingRight="@dimen/common_space_large"
         android:text="@string/pay_weixin"
-        android:textColor="@color/s_text_66" />
+        android:textColor="@color/s_text_66"
+        android:textSize="@dimen/txt_size_14" />
+
+
+    <include
+        layout="@layout/item_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/common_space_large" />
+
 
     <TextView
         android:id="@+id/tv_donate_qq"
         android:layout_width="match_parent"
         android:layout_height="@dimen/all_item_height"
-        android:layout_marginLeft="@dimen/common_space_large"
-        android:layout_marginRight="@dimen/common_space_large"
         android:background="@drawable/selector_card_bg"
+        android:drawableLeft="@drawable/ic_pay_qq"
+        android:drawablePadding="@dimen/common_space_normal"
         android:gravity="center_vertical"
+        android:paddingLeft="@dimen/common_space_large"
+        android:paddingRight="@dimen/common_space_large"
         android:text="@string/pay_qq"
-        android:textColor="@color/s_text_66" />
+        android:textColor="@color/s_text_66"
+        android:textSize="@dimen/txt_size_14" />
 
+    <include layout="@layout/item_divider" />
 
     <TextView
         android:id="@+id/tv_donate_zhifubao"
@@ -61,7 +105,9 @@
         android:layout_marginTop="@dimen/common_space_large"
         android:layout_marginRight="@dimen/common_space_large"
         android:text="扫码支持"
-        android:textColor="@color/s_text_66" />
+        android:textColor="@color/s_text_66"
+        android:textSize="@dimen/txt_size_14"
+        android:visibility="gone" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -72,6 +118,7 @@
         android:layout_marginRight="@dimen/common_space_large"
         android:src="@mipmap/ic_launcher"
         android:text="扫码支持"
-        android:textColor="@color/s_text_66" />
+        android:textColor="@color/s_text_66"
+        android:visibility="gone" />
 
 </LinearLayout>

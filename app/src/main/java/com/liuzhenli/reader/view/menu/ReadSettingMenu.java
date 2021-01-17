@@ -26,7 +26,7 @@ import butterknife.BindView;
 import io.reactivex.functions.Consumer;
 
 /**
- * Description:设置菜单
+ * Description:设置菜单  文字大小,间距,背景,翻页
  *
  * @author liuzhenli 2020/8/16
  * Email: 848808263@qq.com
@@ -180,30 +180,57 @@ public class ReadSettingMenu extends BaseMenu {
             }
         });
 
+        //文字间距
+        ClickUtils.click(mHSpaceMin, o -> {
+            float lineMultiplier = ReadConfigManager.getInstance().getTextLetterSpacing();
+            int tem = (int) (100 * lineMultiplier);
+            if (tem <= 0) {
+                ToastUtil.showToast("不能再小了哦");
+                return;
+            }
+            tem -= 5;
+            ReadConfigManager.getInstance().setTextLetterSpacing(tem / 100.f);
+            mHSpaceSize.setText(tem / 100.f + "");
+            if (callBack != null) {
+                callBack.onTextStyleChanged();
+            }
+        });
+        //文字间距
+        ClickUtils.click(mHSpaceEnlarge, o -> {
+            float lineMultiplier = ReadConfigManager.getInstance().getTextLetterSpacing();
+            int tem = (int) (100 * lineMultiplier);
+            tem += 5;
+            ReadConfigManager.getInstance().setTextLetterSpacing(tem / 100.f);
+            mHSpaceSize.setText(tem / 100.f + "");
+            if (callBack != null) {
+                callBack.onTextStyleChanged();
+            }
+        });
+
         //设置行间距
-        ClickUtils.click(mHSpaceMin, new Consumer() {
-            @Override
-            public void accept(Object o) throws Exception {
-                float lineMultiplier = ReadConfigManager.getInstance().getLineMultiplier();
-                lineMultiplier -= 0.1;
-                ReadConfigManager.getInstance().setLineMultiplier(lineMultiplier);
-                mHSpaceSize.setText(lineMultiplier + "");
-                if (callBack != null) {
-                    callBack.onTextStyleChanged();
-                }
+        ClickUtils.click(mVSpaceMin, o -> {
+            float lineMultiplier = ReadConfigManager.getInstance().getLineMultiplier();
+            int tem = (int) (10 * lineMultiplier);
+            if (tem <= 0) {
+                ToastUtil.showToast("不能再小了哦");
+                return;
+            }
+            tem -= 2;
+            ReadConfigManager.getInstance().setLineMultiplier(tem / 10.f);
+            mVSpaceSize.setText(tem / 10.f + "");
+            if (callBack != null) {
+                callBack.onTextStyleChanged();
             }
         });
         //设置行间距
-        ClickUtils.click(mHSpaceEnlarge, new Consumer() {
-            @Override
-            public void accept(Object o) throws Exception {
-                float lineMultiplier = ReadConfigManager.getInstance().getLineMultiplier();
-                lineMultiplier += 0.1;
-                ReadConfigManager.getInstance().setLineMultiplier(lineMultiplier);
-                mHSpaceSize.setText(lineMultiplier + "");
-                if (callBack != null) {
-                    callBack.onTextStyleChanged();
-                }
+        ClickUtils.click(mVSpaceEnlarge, o -> {
+            float lineMultiplier = ReadConfigManager.getInstance().getLineMultiplier();
+            int tem = (int) (10 * lineMultiplier);
+            tem += 1;
+            ReadConfigManager.getInstance().setLineMultiplier(tem / 10.f);
+            mVSpaceSize.setText(tem / 10.f + "");
+            if (callBack != null) {
+                callBack.onTextStyleChanged();
             }
         });
 
@@ -220,12 +247,15 @@ public class ReadSettingMenu extends BaseMenu {
     /**
      * 默认菜单选项设置
      */
+    @SuppressLint("SetTextI18n")
     private void fillDefaultContent() {
         FillContentUtil.setNumberText(tvSettingMenuTextSize, ReadConfigManager.getInstance().getTextSize());
         setCnText();
         setTextBold();
         setPageMode(ReadConfigManager.getInstance().getPageMode());
-        mHSpaceSize.setText(ReadConfigManager.getInstance().getLineMultiplier() + "");
+        mHSpaceSize.setText(ReadConfigManager.getInstance().getTextLetterSpacing() + "");
+        mVSpaceSize.setText(ReadConfigManager.getInstance().getLineMultiplier() + "");
+        tvSettingReset.setVisibility(GONE);
     }
 
     /***繁体,简体*/

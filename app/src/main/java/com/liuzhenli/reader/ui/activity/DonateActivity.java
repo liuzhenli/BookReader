@@ -28,6 +28,8 @@ public class DonateActivity extends BaseActivity {
     TextView mViewQQ;
     @BindView(R.id.tv_donate_weixin)
     TextView mViewWX;
+    @BindView(R.id.tv_donate_zfb)
+    TextView mViewZFB;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, DonateActivity.class);
@@ -58,6 +60,11 @@ public class DonateActivity extends BaseActivity {
     protected void configViews() {
         ClickUtils.click(mViewDonateAliPay, o -> {
             Uri uri = Uri.parse("https://qr.alipay.com/fkx16537qfnbficmp9dohb4");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        });
+        ClickUtils.click(mViewZFB, o -> {
+            Uri uri = Uri.parse("https://gitee.com/liuzhenli/Donate/blob/master/imgs/img_zhifubao.jpg");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         });

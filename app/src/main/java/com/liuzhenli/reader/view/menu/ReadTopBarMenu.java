@@ -75,4 +75,5 @@ public class ReadTopBarMenu extends BaseMenu {
          */
         void onBackClick();
     }
+
 }
