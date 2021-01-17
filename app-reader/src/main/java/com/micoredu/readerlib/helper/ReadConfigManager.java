@@ -65,6 +65,7 @@ public class ReadConfigManager {
     private Boolean clickAllNext;
     private Boolean showTitle;
     private Boolean showTimeBattery;
+    /***文章正文和标题之间的分割线*/
     private Boolean showLine;
     /**
      * 根据阅读页的主题,配置不同的图标
@@ -106,7 +107,7 @@ public class ReadConfigManager {
     }
 
     public void updateReaderSettings() {
-        this.hideStatusBar = preferences.getBoolean("hide_status_bar", false);
+        this.hideStatusBar = preferences.getBoolean("hide_status_bar", true);
         this.hideNavigationBar = preferences.getBoolean("hide_navigation_bar", false);
         this.indent = preferences.getInt("indent", 2);
         this.textSize = preferences.getInt("textSize", 20);

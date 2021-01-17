@@ -12,25 +12,23 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.liuzhenli.common.BitIntentDataManager;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.common.utils.ScreenUtils;
 import com.liuzhenli.reader.ReaderApplication;
 import com.liuzhenli.reader.network.AppComponent;
+import com.liuzhenli.reader.reciever.BatteryAndTimeChangeReceiver;
 import com.liuzhenli.reader.ui.contract.ReadContract;
 import com.liuzhenli.reader.ui.presenter.ReadPresenter;
 import com.liuzhenli.reader.utils.BatteryUtil;
 import com.liuzhenli.reader.utils.IntentUtils;
 import com.liuzhenli.reader.utils.ShareUtils;
-import com.liuzhenli.reader.utils.StatusBarCompat;
 import com.liuzhenli.reader.utils.storage.Backup;
 import com.liuzhenli.reader.view.ReadLongPressPop;
 import com.liuzhenli.reader.view.loading.DialogUtil;
@@ -129,6 +127,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
     private String mNoteUrl;
     private BookShelfBean mBookShelf;
     private int lastX, lastY;
+    private BatteryAndTimeChangeReceiver batteryAndTimeChangeReceiver;
 
     public static void start(Context context, String bookId, String chapterId, float progress, String openFrom) {
         Intent intent = new Intent(context, ReaderActivity.class);
@@ -147,6 +146,15 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
             mIsInBookShelf = savedInstanceState.getBoolean("isAdd");
         }
         mPresenter.attachView(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (batteryAndTimeChangeReceiver == null && mPageLoader != null) {
+            batteryAndTimeChangeReceiver = new BatteryAndTimeChangeReceiver(mPageLoader);
+            batteryAndTimeChangeReceiver.register(mContext, batteryAndTimeChangeReceiver);
+        }
     }
 
     @Override
@@ -536,6 +544,10 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
         super.onDestroy();
         if (mPresenter != null) {
             mPresenter.detachView();
+        }
+        unregisterReceiver(batteryAndTimeChangeReceiver);
+        if (mPageLoader != null) {
+            mPageLoader.closeBook();
         }
     }
 

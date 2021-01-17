@@ -915,8 +915,9 @@ public abstract class PageLoader {
                     float progressTipBottom = showTimeBattery ? tipBottomTop : tipBottomBot;
                     canvas.drawText(progress, progressTipLeft, progressTipBottom, mTipPaint);
                 }
+
                 if (readBookControl.getShowLine()) {
-                    //绘制分隔线
+                    //绘制分隔线   阅读页章节和正文间的分割线
                     tipBottom = tipMarginTop - 2;
                     canvas.drawRect(tipMarginLeft, tipBottom, displayRightEnd, tipBottom + 2, mTipPaint);
                 }
