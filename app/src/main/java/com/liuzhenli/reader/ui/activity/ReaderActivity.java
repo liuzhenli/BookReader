@@ -418,7 +418,15 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
         mPageView.setTouchListener(new PageView.TouchListener() {
             @Override
             public void onTouch() {
-
+                mPageView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ViewUtil.hideBottomView(mVBrightnessSettingMenu);
+                        ViewUtil.hideBottomView(mVBottomMenu);
+                        ViewUtil.hideTopView(mTopBar);
+                        ViewUtil.hideBottomView(mVSettingMenu);
+                    }
+                });
             }
 
             @Override
@@ -436,23 +444,9 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
 
             @Override
             public void center() {
-                if (mVBottomMenu.getVisibility() == View.VISIBLE) {
-                    ViewUtil.hideBottomView(mVBottomMenu);
-                    ViewUtil.hideTopView(mTopBar);
-                } else {
+                if (mVBottomMenu.getVisibility() != View.VISIBLE) {
                     ViewUtil.showBottomView(mVBottomMenu);
                     ViewUtil.showTopView(mTopBar);
-                }
-                if (mVSettingMenu.getVisibility() == View.VISIBLE) {
-                    ViewUtil.hideBottomView(mVSettingMenu);
-                    ViewUtil.hideTopView(mTopBar);
-                    ViewUtil.hideBottomView(mVBottomMenu);
-                }
-
-                if (mVBrightnessSettingMenu.getVisibility() == View.VISIBLE) {
-                    ViewUtil.hideBottomView(mVBrightnessSettingMenu);
-                    ViewUtil.hideBottomView(mVBottomMenu);
-                    ViewUtil.hideTopView(mTopBar);
                 }
                 mTopBar.getToolBar().setTitle(mBookShelf.getBookInfoBean().getName());
                 mTopBar.getToolBar().setTitleTextColor(Color.WHITE);
