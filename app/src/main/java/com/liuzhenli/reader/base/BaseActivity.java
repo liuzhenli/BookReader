@@ -128,7 +128,7 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
     protected void initImmersionBar() {
         mImmersionBar = ImmersionBar.with(this);
         mImmersionBar.statusBarColor(R.color.main);
-        mImmersionBar.statusBarDarkFont(true);
+        mImmersionBar.statusBarDarkFont(false);
         mImmersionBar.fitsSystemWindows(true);
         mImmersionBar.init();
     }
@@ -141,9 +141,9 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (startShareAnim) {
-                finishAfterTransition();
-            } else {
                 overridePendingTransition(0, android.R.anim.fade_out);
+            } else {
+                finishAfterTransition();
             }
         } else {
             overridePendingTransition(0, android.R.anim.fade_out);

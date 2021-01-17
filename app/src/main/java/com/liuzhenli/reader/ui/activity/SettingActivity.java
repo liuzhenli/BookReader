@@ -68,18 +68,21 @@ public class SettingActivity extends BaseActivity {
     protected void configViews() {
         ClickUtils.click(mViewClearCache, o -> {
             showDialog();
-           RxUtil.subscribe(Observable.create(emitter -> {
-                ImageUtil.clearMemoryCache(getApplicationContext());
-                ImageUtil.clearDiskCache(getApplicationContext());
-                BookshelfHelper.clearCaches(true);
-                emitter.onNext(true);
-            }), new SampleProgressObserver<Boolean>() {
-                @Override
-                public void onNext(@NotNull Boolean aBoolean) {
-                    hideDialog();
-                    toast("缓存已清理");
-                }
-            });
+            BookshelfHelper.clearCaches(true);
+            toast("缓存已清理");
+            hideDialog();
+//           RxUtil.subscribe(Observable.create(emitter -> {
+//                ImageUtil.clearMemoryCache(getApplicationContext());
+//                ImageUtil.clearDiskCache(getApplicationContext());
+//                BookshelfHelper.clearCaches(true);
+//                emitter.onNext(true);
+//            }), new SampleProgressObserver<Boolean>() {
+//                @Override
+//                public void onNext(@NotNull Boolean aBoolean) {
+//                    hideDialog();
+//                    toast("缓存已清理");
+//                }
+//            });
 
         });
 
