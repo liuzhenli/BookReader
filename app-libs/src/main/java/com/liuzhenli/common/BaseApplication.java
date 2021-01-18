@@ -55,6 +55,9 @@ public class BaseApplication extends Application {
             setDownloadPath(null);
         }
         initAppVersion();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createChannelId();
+        }
     }
 
     private void initAppVersion() {

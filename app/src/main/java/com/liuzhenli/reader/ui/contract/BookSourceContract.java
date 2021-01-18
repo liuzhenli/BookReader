@@ -1,5 +1,8 @@
 package com.liuzhenli.reader.ui.contract;
 
+import android.content.Context;
+
+import com.liuzhenli.reader.base.BaseBean;
 import com.liuzhenli.reader.base.BaseContract;
 import com.micoredu.readerlib.bean.BookSourceBean;
 
@@ -23,6 +26,8 @@ public class BookSourceContract {
         void showAddNetSourceResult(List<BookSourceBean> list);
 
         void shoDeleteBookSourceResult();
+
+        void showCheckBookSourceResult(BaseBean data);
     }
 
     public interface Presenter<T> extends BaseContract.BasePresenter<T> {
@@ -55,5 +60,7 @@ public class BookSourceContract {
          * delete book source
          */
         void deleteSelectedSource();
+
+        void checkBookSource(Context context, List<BookSourceBean> selectedBookSource);
     }
 }

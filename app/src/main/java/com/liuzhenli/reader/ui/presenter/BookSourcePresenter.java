@@ -1,5 +1,6 @@
 package com.liuzhenli.reader.ui.presenter;
 
+import android.content.Context;
 import android.text.TextUtils;
 
 import com.liuzhenli.common.utils.GsonUtils;
@@ -8,6 +9,7 @@ import com.liuzhenli.common.utils.StringUtils;
 import com.liuzhenli.reader.base.RxPresenter;
 import com.liuzhenli.reader.network.Api;
 import com.liuzhenli.reader.observer.SampleProgressObserver;
+import com.liuzhenli.reader.service.CheckSourceService;
 import com.liuzhenli.reader.ui.contract.BookSourceContract;
 import com.liuzhenli.reader.utils.ApiManager;
 import com.liuzhenli.reader.utils.ThreadUtils;
@@ -110,6 +112,11 @@ public class BookSourcePresenter extends RxPresenter<BookSourceContract.View> im
             }
         });
         addSubscribe(subscribe);
+    }
+
+    @Override
+    public void checkBookSource(Context context, List<BookSourceBean> selectedBookSource) {
+        CheckSourceService.start(context, selectedBookSource);
     }
 
     public void saveData(List<BookSourceBean> data) {

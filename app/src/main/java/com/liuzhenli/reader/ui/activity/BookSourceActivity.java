@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
+import com.liuzhenli.reader.base.BaseBean;
 import com.liuzhenli.reader.base.BaseRvActivity;
 import com.liuzhenli.reader.network.AppComponent;
 import com.liuzhenli.reader.ui.adapter.BookSourceAdapter;
@@ -88,7 +89,8 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
                     mPresenter.deleteSelectedSource();
                     break;
                 case R.id.action_check_book_source:
-                    SearchActivity.start(mContext);
+                    List<BookSourceBean> selectedBookSource = BookSourceManager.getSelectedBookSource();
+                    mPresenter.checkBookSource(mContext, selectedBookSource);
                     break;
                 case R.id.action_share_wifi:
                     SearchActivity.start(mContext);
@@ -212,6 +214,11 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
     @Override
     public void shoDeleteBookSourceResult() {
         mPresenter.getLocalBookSource("");
+    }
+
+    @Override
+    public void showCheckBookSourceResult(BaseBean data) {
+
     }
 
     @Override
