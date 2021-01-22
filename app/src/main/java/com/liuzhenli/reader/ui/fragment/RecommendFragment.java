@@ -12,7 +12,7 @@ import com.microedu.reader.R;
 public class RecommendFragment extends BaseFragment {
     @Override
     public int getLayoutResId() {
-        return R.layout.fragment_test;
+        return R.layout.fragment_book_recommend;
     }
 
     @Override

@@ -21,6 +21,10 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/magic_indicator" />
 
+    <include
+        android:id="@+id/view_empty"
+        layout="@layout/empty_view_common" />
+
     <com.liuzhenli.reader.view.BookSourceView
         android:id="@+id/view_book_source"
         android:layout_width="match_parent"

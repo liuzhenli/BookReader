@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.liuzhenli.reader.base.BaseBean;
 import com.liuzhenli.reader.base.BaseRvActivity;
@@ -190,6 +191,10 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
         });
 
         mRecyclerView.setEmptyView(R.layout.empty_view_souce);
+        if (mRecyclerView.getEmptyView() != null) {
+            TextView mTvEmptyText = mRecyclerView.getEmptyView().findViewById(R.id.tv_empty_text);
+            mTvEmptyText.setText("暂无书源,搜索微信公众号:异书房,\n回复\"书源\"获取书源~");
+        }
     }
 
     @Override

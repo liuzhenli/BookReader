@@ -24,6 +24,9 @@ android {
         //targetGenDirTests: 测试单元的生成目录默认是 src/androidTest/java
     }
 
+    dataBinding {
+        enabled = true;
+    }
     signingConfigs {
         debug {
             storeFile file('debug.jks')

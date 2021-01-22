@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -62,6 +63,8 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
     MagicIndicator mIndicator;
     @BindView(R.id.view_pager)
     NoAnimViewPager mViewPager;
+    @BindView(R.id.view_empty)
+    View mViewEmpty;
     @BindView(R.id.view_book_source)
     BookSourceView mBookSourceView;
     private CommonNavigatorAdapter mCommonNavigationAdapter;
@@ -178,6 +181,11 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
         ViewPagerHelper.bind(mIndicator, mViewPager);
         mBookSourceView.setOnItemClick(this::onBookSourceChange);
         mBookSourceView.setVisibility(View.GONE);
+
+        if (mViewEmpty != null) {
+            TextView mTvEmptyText = mViewEmpty.findViewById(R.id.tv_empty_text);
+            mTvEmptyText.setText("暂无书源,搜索微信公众号:异书房,\n回复\"书源\"获取书源~");
+        }
     }
 
     public void onRefresh() {
@@ -191,6 +199,9 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
             Random random = new Random();
             int index = random.nextInt(bookSourceData.size());
             onBookSourceChange(bookSourceData.get(index));
+            mViewEmpty.setVisibility(View.GONE);
+        } else {
+            mViewEmpty.setVisibility(View.VISIBLE);
         }
     }
 
