@@ -9,7 +9,11 @@ import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.net.URL;
+import java.util.Enumeration;
 import java.util.regex.Pattern;
 
 import retrofit2.Response;
@@ -263,6 +267,33 @@ public class NetworkUtils {
             }
             return ((ipAddress & 0xff) + "." + (ipAddress >> 8 & 0xff) + "."
                     + (ipAddress >> 16 & 0xff) + "." + (ipAddress >> 24 & 0xff));
+        }
+        return null;
+    }
+
+    /**
+     * Get local Ip address.
+     */
+    public static InetAddress getLocalIPAddress() {
+        Enumeration<NetworkInterface> enumeration = null;
+        try {
+            enumeration = NetworkInterface.getNetworkInterfaces();
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+        if (enumeration != null) {
+            while (enumeration.hasMoreElements()) {
+                NetworkInterface nif = enumeration.nextElement();
+                Enumeration<InetAddress> inetAddresses = nif.getInetAddresses();
+                if (inetAddresses != null) {
+                    while (inetAddresses.hasMoreElements()) {
+                        InetAddress inetAddress = inetAddresses.nextElement();
+                        if (!inetAddress.isLoopbackAddress() && isIPv4Address(inetAddress.getHostAddress())) {
+                            return inetAddress;
+                        }
+                    }
+                }
+            }
         }
         return null;
     }

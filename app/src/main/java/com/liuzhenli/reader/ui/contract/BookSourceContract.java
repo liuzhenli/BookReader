@@ -62,5 +62,7 @@ public class BookSourceContract {
         void deleteSelectedSource(List<BookSourceBean> bookSource);
 
         void checkBookSource(Context context, List<BookSourceBean> selectedBookSource);
+
+        void loadBookSourceFromFile(String filePath);
     }
 }

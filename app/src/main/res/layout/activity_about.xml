@@ -53,7 +53,7 @@
                 android:background="@drawable/selector_card_bg"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/common_space_large"
-                android:text="QQ-Alpha(272343970),加入付费群,享受不被踢的感觉!!!"
+                android:text="🍎异书房vip群(272343970),加入付费群,享受不被踢的感觉!!!"
                 android:textColor="@color/text_color_66"
                 android:textSize="@dimen/txt_size_12" />
 
@@ -70,7 +70,7 @@
                 android:background="@drawable/selector_card_bg"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/common_space_large"
-                android:text="QQ1群(1140723995)"
+                android:text="🍓异书房①群(1140723995)"
                 android:textColor="@color/text_color_66"
                 android:textSize="@dimen/txt_size_12" />
 

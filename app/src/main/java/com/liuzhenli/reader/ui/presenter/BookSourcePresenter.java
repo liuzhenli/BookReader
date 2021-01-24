@@ -3,9 +3,14 @@ package com.liuzhenli.reader.ui.presenter;
 import android.content.Context;
 import android.text.TextUtils;
 
+import androidx.documentfile.provider.DocumentFile;
+
+import com.google.android.material.snackbar.Snackbar;
+import com.liuzhenli.common.exception.ApiException;
 import com.liuzhenli.common.utils.GsonUtils;
 import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.common.utils.StringUtils;
+import com.liuzhenli.reader.ReaderApplication;
 import com.liuzhenli.reader.base.RxPresenter;
 import com.liuzhenli.reader.network.Api;
 import com.liuzhenli.reader.observer.SampleProgressObserver;
@@ -14,8 +19,11 @@ import com.liuzhenli.reader.ui.contract.BookSourceContract;
 import com.liuzhenli.reader.utils.ApiManager;
 import com.liuzhenli.reader.utils.ThreadUtils;
 import com.micoredu.readerlib.bean.BookSourceBean;
+import com.micoredu.readerlib.helper.DocumentHelper;
 import com.micoredu.readerlib.model.BookSourceManager;
+import com.microedu.reader.R;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +31,13 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.observers.DisposableObserver;
 import okhttp3.ResponseBody;
+
+import static android.text.TextUtils.isEmpty;
 
 
 /**
@@ -44,7 +57,7 @@ public class BookSourcePresenter extends RxPresenter<BookSourceContract.View> im
     @Override
     public void getLocalBookSource(String key) {
 
-        DisposableObserver subscribe = RxUtil.subscribe(Observable.create(emitter -> {
+        addSubscribe(RxUtil.subscribe(Observable.create(emitter -> {
             //获取全部书源
             if (TextUtils.isEmpty(key)) {
                 emitter.onNext(BookSourceManager.getAllBookSource());
@@ -59,8 +72,7 @@ public class BookSourcePresenter extends RxPresenter<BookSourceContract.View> im
             public void onNext(List<BookSourceBean> list) {
                 mView.showLocalBookSource(list);
             }
-        });
-        addSubscribe(subscribe);
+        }));
     }
 
     @Override
@@ -85,18 +97,17 @@ public class BookSourcePresenter extends RxPresenter<BookSourceContract.View> im
     @Override
     public void getNetSource(String url) {
         ApiManager.getInstance().settBookSource(url);
-        DisposableObserver subscribe = RxUtil.subscribe(mApi.getBookSource(""), new SampleProgressObserver<ResponseBody>(mView) {
+        addSubscribe(RxUtil.subscribe(mApi.getBookSource(""), new SampleProgressObserver<ResponseBody>(mView) {
             @Override
             public void onNext(ResponseBody data) {
                 configNetBookSource(data);
             }
-        });
-        addSubscribe(subscribe);
+        }));
     }
 
     @Override
     public void deleteSelectedSource(List<BookSourceBean> bookSourceBeans) {
-        DisposableObserver subscribe = RxUtil.subscribe(Observable.create(emitter -> {
+        addSubscribe(RxUtil.subscribe(Observable.create(emitter -> {
             if (bookSourceBeans == null || bookSourceBeans.size() == 0) {
                 return;
             }
@@ -109,8 +120,7 @@ public class BookSourcePresenter extends RxPresenter<BookSourceContract.View> im
             public void onNext(Integer aBoolean) {
                 mView.shoDeleteBookSourceResult();
             }
-        });
-        addSubscribe(subscribe);
+        }));
     }
 
     @Override
@@ -118,17 +128,47 @@ public class BookSourcePresenter extends RxPresenter<BookSourceContract.View> im
         CheckSourceService.start(context, selectedBookSource);
     }
 
-    public void saveData(List<BookSourceBean> data) {
+    @Override
+    public void loadBookSourceFromFile(String filePath) {
+        if (TextUtils.isEmpty(filePath)) {
+            mView.showError(new ApiException(1000, new Throwable(ReaderApplication.getInstance().getString(R.string.read_file_error))));
+            return;
+        }
+        String json;
+        DocumentFile file;
+        try {
+            file = DocumentFile.fromFile(new File(filePath));
+        } catch (Exception e) {
+            mView.showError(new ApiException(1000, new Throwable(ReaderApplication.getInstance().getString(R.string.can_not_open))));
+            return;
+        }
+        json = DocumentHelper.readString(file);
+        if (!isEmpty(json)) {
+            Observable<List<BookSourceBean>> observable = BookSourceManager.importSource(json);
+            if (observable != null) {
+                RxUtil.subscribe(observable, new SampleProgressObserver<List<BookSourceBean>>(mView) {
+                    @Override
+                    public void onNext(@NonNull List<BookSourceBean> bookSource) {
+                        mView.showLocalBookSource(bookSource);
+                    }
+                });
+            } else {
+                mView.showError(new ApiException(1000, new Throwable(ReaderApplication.getInstance().getString(R.string.type_un_correct))));
+            }
+        } else {
+            mView.showError(new ApiException(1000, new Throwable(ReaderApplication.getInstance().getString(R.string.read_file_error))));
+        }
+    }
 
-        DisposableObserver subscribe = RxUtil.subscribe(Observable.create(emitter -> {
+    public void saveData(List<BookSourceBean> data) {
+        addSubscribe(RxUtil.subscribe(Observable.create(emitter -> {
             ThreadUtils.getInstance().getExecutorService().execute(() -> BookSourceManager.saveBookSource(data));
             emitter.onNext(data == null ? 0 : data.size());
         }), new SampleProgressObserver<Integer>() {
             @Override
             public void onNext(Integer aBoolean) {
             }
-        });
-        addSubscribe(subscribe);
+        }));
 
     }
 
@@ -164,12 +204,11 @@ public class BookSourcePresenter extends RxPresenter<BookSourceContract.View> im
                 e.printStackTrace();
             }
         });
-        DisposableObserver subscribe = RxUtil.subscribe(listObservable, new SampleProgressObserver<List<BookSourceBean>>() {
+        addSubscribe(RxUtil.subscribe(listObservable, new SampleProgressObserver<List<BookSourceBean>>() {
             @Override
             public void onNext(List<BookSourceBean> bookSourceList) {
                 mView.showAddNetSourceResult(bookSourceList);
             }
-        });
-        addSubscribe(subscribe);
+        }));
     }
 }

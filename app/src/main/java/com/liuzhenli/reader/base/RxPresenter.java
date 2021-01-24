@@ -1,6 +1,10 @@
 package com.liuzhenli.reader.base;
 
 
+import android.app.Activity;
+
+import com.liuzhenli.reader.utils.ToastUtil;
+
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;

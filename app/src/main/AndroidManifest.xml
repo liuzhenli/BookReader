@@ -83,6 +83,7 @@
 
         <service android:name="com.liuzhenli.reader.service.CheckSourceService" />
         <service android:name="com.micoredu.readerlib.service.ReadAloudService" />
+        <service android:name="com.liuzhenli.reader.service.ShareService" />
 
         <meta-data
             android:name="UMENG_APPKEY"

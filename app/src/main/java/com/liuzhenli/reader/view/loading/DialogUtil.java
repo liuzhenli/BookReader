@@ -107,7 +107,7 @@ public class DialogUtil {
     }
 
     public static void showEditTextDialog(Context context, String title, String placeHolder, String toast, DialogActionListener actionListener) {
-        showEditTextDialog(context, title, placeHolder, toast, null, actionListener);
+        showEditTextDialog(context, title, placeHolder, null, toast, actionListener);
     }
 
     public static void showEditTextDialog(Context context, String title, String placeHolder, String defaultText, String toast, DialogActionListener actionListener) {
