@@ -26,6 +26,10 @@ import com.microedu.reader.R;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.functions.Consumer;
@@ -175,5 +179,17 @@ public class BookSourceAdapter extends RecyclerArrayAdapter<BookSourceBean> {
     public void setSortType(int sortType) {
         mSortType = sortType;
         notifyDataSetChanged();
+    }
+
+
+    public List<BookSourceBean> getSelectedBookSource() {
+        List<BookSourceBean> selected = new ArrayList<>();
+        List<BookSourceBean> realAllData = getRealAllData();
+        for (BookSourceBean data : realAllData) {
+            if (data.getEnable()) {
+                selected.add(data);
+            }
+        }
+        return selected;
     }
 }

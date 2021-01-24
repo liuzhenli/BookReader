@@ -95,9 +95,8 @@ public class BookSourcePresenter extends RxPresenter<BookSourceContract.View> im
     }
 
     @Override
-    public void deleteSelectedSource() {
+    public void deleteSelectedSource(List<BookSourceBean> bookSourceBeans) {
         DisposableObserver subscribe = RxUtil.subscribe(Observable.create(emitter -> {
-            List<BookSourceBean> bookSourceBeans = BookSourceManager.getSelectedBookSource();
             if (bookSourceBeans == null || bookSourceBeans.size() == 0) {
                 return;
             }
@@ -120,7 +119,17 @@ public class BookSourcePresenter extends RxPresenter<BookSourceContract.View> im
     }
 
     public void saveData(List<BookSourceBean> data) {
-        ThreadUtils.getInstance().getExecutorService().execute(() -> BookSourceManager.saveBookSource(data));
+
+        DisposableObserver subscribe = RxUtil.subscribe(Observable.create(emitter -> {
+            ThreadUtils.getInstance().getExecutorService().execute(() -> BookSourceManager.saveBookSource(data));
+            emitter.onNext(data == null ? 0 : data.size());
+        }), new SampleProgressObserver<Integer>() {
+            @Override
+            public void onNext(Integer aBoolean) {
+            }
+        });
+        addSubscribe(subscribe);
+
     }
 
     public void saveData(BookSourceBean data) {

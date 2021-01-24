@@ -36,7 +36,7 @@ public class AppSharedPreferenceHelper {
     }
 
     public static int getBookSourceSortType() {
-        return SharedPreferencesUtil.getInstance().getInt("SourceSort", SortType.SORT_TYPE_AUTO);
+        return SharedPreferencesUtil.getInstance().getInt("SourceSort", SortType.SORT_TYPE_PINYIN);
     }
 
     /***手机文件,最小值*/

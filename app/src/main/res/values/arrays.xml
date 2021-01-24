@@ -4,8 +4,8 @@
     <string-array name="main_tab_names">
         <item>@string/book_shelf</item>
         <item>@string/discover</item>
-        <item>@string/book_recommend</item>
-        <item>@string/me</item>
+<!--        <item>@string/book_recommend</item>-->
+<!--        <item>@string/me</item>-->
     </string-array>
 
     <string-array name="text_suffix">

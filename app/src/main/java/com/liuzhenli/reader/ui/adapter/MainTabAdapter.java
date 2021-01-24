@@ -39,8 +39,8 @@ public class MainTabAdapter extends FragmentPagerAdapter {
         fragments = new ArrayList<>();
         fragments.add(new BookShelfFragment());
         fragments.add(DiscoverFragment.getInstance());
-        fragments.add(new RecommendFragment());
-        fragments.add(new MeFragment());
+//        fragments.add(new RecommendFragment());
+//        fragments.add(new MeFragment());
     }
 
     @NonNull
@@ -64,8 +64,9 @@ public class MainTabAdapter extends FragmentPagerAdapter {
     public View getTabView(int position) {
         int[] tabIcon = {R.drawable.icon_main_tab_bookshelf,
                 R.drawable.icon_main_tab_discover,
-                R.drawable.icon_main_tab_book_shop,
-                R.drawable.icon_main_tab_me};
+//                R.drawable.icon_main_tab_book_shop,
+//                R.drawable.icon_main_tab_me
+        };
         View v = LayoutInflater.from(mContext).inflate(R.layout.layout_main_tab_icon_view, null);
         ImageView iv = v.findViewById(R.id.iv_main_tab_icon);
         TextView tv = v.findViewById(R.id.tv_main_tab_name);

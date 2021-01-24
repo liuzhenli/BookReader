@@ -52,7 +52,7 @@ public class CheckSourceService extends Service {
             return;
         }
         String key = String.valueOf(System.currentTimeMillis());
-        //BitIntentDataManager.getInstance().putData(key, sourceBeans);
+        BitIntentDataManager.getInstance().putData(key, sourceBeans);
         Intent intent = new Intent(context, CheckSourceService.class);
         intent.putExtra("data_key", key);
         intent.setAction(ActionStartService);

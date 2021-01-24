@@ -4,13 +4,20 @@ package com.liuzhenli.reader.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.hwangjr.rxbus.annotation.Subscribe;
+import com.hwangjr.rxbus.annotation.Tag;
+import com.hwangjr.rxbus.thread.EventThread;
+import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.reader.base.BaseBean;
 import com.liuzhenli.reader.base.BaseRvActivity;
 import com.liuzhenli.reader.network.AppComponent;
+import com.liuzhenli.reader.service.CheckSourceService;
 import com.liuzhenli.reader.ui.adapter.BookSourceAdapter;
 import com.liuzhenli.reader.ui.adapter.BookSourceFilterMenuAdapter;
 import com.liuzhenli.reader.ui.contract.BookSourceContract;
@@ -21,6 +28,8 @@ import com.liuzhenli.reader.view.loading.DialogUtil;
 import com.micoredu.readerlib.bean.BookSourceBean;
 import com.micoredu.readerlib.model.BookSourceManager;
 import com.microedu.reader.R;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 
 import java.util.List;
 
@@ -44,6 +53,12 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
     DropDownMenu mDropdownMenu;
     @BindView(R.id.et_book_source)
     EditText mEtSearchKey;
+    @BindView(R.id.view_check_source_info)
+    View mVCheckSource;
+    @BindView(R.id.tv_book_source_check_progress)
+    TextView mTvCheckProgress;
+    @BindView(R.id.tv_stop_check)
+    TextView mTvStopCheck;
     /***书源排序方式*/
     private int mSortType;
 
@@ -86,12 +101,24 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
                 case R.id.action_import_book_source_rwm:
                     SearchActivity.start(mContext);
                     break;
+                //删除选中
                 case R.id.action_del_select:
-                    mPresenter.deleteSelectedSource();
+                    List<BookSourceBean> bookSourceBeans = ((BookSourceAdapter) mAdapter).getSelectedBookSource();
+                    if (bookSourceBeans.size() > 0) {
+                        DialogUtil.showMessagePositiveDialog(mContext, "提示",
+                                String.format("您共选中%s个书源,是否删除?", bookSourceBeans.size()),
+                                "取消", null, "确定", (dialog, index) -> {
+                                    mPresenter.deleteSelectedSource(bookSourceBeans);
+                                }, true);
+                    }
                     break;
                 case R.id.action_check_book_source:
                     List<BookSourceBean> selectedBookSource = BookSourceManager.getSelectedBookSource();
-                    mPresenter.checkBookSource(mContext, selectedBookSource);
+                    if (selectedBookSource == null || selectedBookSource.size() == 0) {
+                        toast("请选择书源~");
+                    } else {
+                        mPresenter.checkBookSource(mContext, selectedBookSource);
+                    }
                     break;
                 case R.id.action_share_wifi:
                     SearchActivity.start(mContext);
@@ -127,7 +154,7 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
                     mAdapter.notifyItemChanged(i);
                 }
             }
-
+            mPresenter.saveData(mAdapter.getAllData());
             mDropdownMenu.close();
         }
 
@@ -195,6 +222,9 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
             TextView mTvEmptyText = mRecyclerView.getEmptyView().findViewById(R.id.tv_empty_text);
             mTvEmptyText.setText("暂无书源,搜索微信公众号:异书房,\n回复\"书源\"获取书源~");
         }
+        mTvStopCheck.setOnClickListener(v -> {
+            CheckSourceService.stop(mContext);
+        });
     }
 
     @Override
@@ -218,7 +248,7 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
 
     @Override
     public void shoDeleteBookSourceResult() {
-        mPresenter.getLocalBookSource("");
+        mPresenter.getLocalBookSource(mEtSearchKey.getText().toString());
     }
 
     @Override
@@ -241,6 +271,15 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
     public void onItemClick(int position) {
     }
 
+    @Override
+    public void onBackPressed() {
+        if (TextUtils.isEmpty(mEtSearchKey.getText())) {
+            super.onBackPressed();
+        } else {
+            mEtSearchKey.setText("");
+        }
+    }
+
     public void saveBookSource(List<BookSourceBean> bookSourceBeanList) {
         mPresenter.saveData(bookSourceBeanList);
     }
@@ -258,6 +297,19 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
         List<String> groupList = BookSourceManager.getGroupList();
         groupList.add(0, "全部");
         mFilterMenuAdapter.setGroupList(groupList);
+    }
+
+
+    /****检测书源是否可用发来的消息*/
+    @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusTag.CHECK_SOURCE_STATE)})
+    public void onSourceCheckChanged(String msg) {
+        mVCheckSource.setVisibility(View.VISIBLE);
+        mTvCheckProgress.setText(msg);
+    }
+
+    @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusTag.CHECK_SOURCE_FINISH)})
+    public void onStopCheckService(String msg) {
+        mVCheckSource.setVisibility(View.GONE);
     }
 
 }

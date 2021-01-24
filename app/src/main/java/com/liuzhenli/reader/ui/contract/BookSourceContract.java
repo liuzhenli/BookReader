@@ -59,7 +59,7 @@ public class BookSourceContract {
         /**
          * delete book source
          */
-        void deleteSelectedSource();
+        void deleteSelectedSource(List<BookSourceBean> bookSource);
 
         void checkBookSource(Context context, List<BookSourceBean> selectedBookSource);
     }

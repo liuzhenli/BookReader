@@ -22,6 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_gravity="center"
+            android:layout_marginRight="@dimen/common_space_normal"
             android:background="@drawable/bg_white_radius"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -41,9 +42,51 @@
     <com.liuzhenli.reader.view.filter.DropDownMenu
         android:id="@+id/view_dropdown_menu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <include layout="@layout/layout_easy_recyclerview" />
     </com.liuzhenli.reader.view.filter.DropDownMenu>
+
+    <LinearLayout
+        android:id="@+id/view_check_source_info"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/all_item_height"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_book_source_check_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/common_space_normal"
+            android:layout_weight="1"
+            android:text="正在校验书源1/100" />
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/view_search_indicator"
+            style="@style/AVLoadingIndicatorView"
+            android:layout_width="30dp"
+            android:layout_height="@dimen/height_30"
+            android:layout_marginLeft="@dimen/common_space_large"
+            android:layout_marginRight="@dimen/common_space_large"
+            android:visibility="visible"
+            app:indicatorColor="@color/text_color_99_88"
+            app:indicatorName="BallPulseIndicator"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_stop_check"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/common_space_large"
+            android:paddingRight="@dimen/common_space_large"
+            android:text="停止"
+            android:textColor="@color/main"
+            android:textSize="@dimen/txt_size_16" />
+    </LinearLayout>
 
 </LinearLayout>
