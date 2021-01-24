@@ -148,14 +148,9 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
                     }
                     break;
                 case R.id.action_share_wifi:
-
                     bookSourceBeans = ((BookSourceAdapter) mAdapter).getSelectedBookSource();
                     if (bookSourceBeans.size() > 0) {
-                        DialogUtil.showMessagePositiveDialog(mContext, "提示",
-                                String.format("您共选中%s个书源,是否删除?", bookSourceBeans.size()),
-                                "取消", null, "确定", (dialog, index) -> {
-                                    ShareService.startThis(mContext, bookSourceBeans);
-                                }, true);
+                        ShareService.startThis(mContext, bookSourceBeans);
                     } else {
                         toast("没有选中书源哦");
                     }
