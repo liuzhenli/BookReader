@@ -99,6 +99,7 @@ public class EditSourceActivity extends BaseRvActivity<EditSourcePresenter, Edit
         }
 
         mToolBar.inflateMenu(R.menu.menu_edit_source);
+        //菜单
         mToolBar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.item_save_source:
@@ -122,6 +123,15 @@ public class EditSourceActivity extends BaseRvActivity<EditSourcePresenter, Edit
                 case R.id.item_to_source_rule:
                     WebViewActivity.start(mContext, AppConstant.URL_SOURCE_RULE);
                     break;
+
+                case R.id.item_to_source_past:
+                    String content = ClipboardUtil.getContent();
+                    if (TextUtils.isEmpty(content) || content.trim().length() < 10) {
+                        toast("好像不是书源哦");
+                    } else {
+                        mPresenter.getBookSourceFromString(content);
+                    }
+                    break;
                 default:
                     break;
 
@@ -140,8 +150,10 @@ public class EditSourceActivity extends BaseRvActivity<EditSourcePresenter, Edit
                 mIsEditFind = !mIsEditFind;
                 mAdapter.clear();
                 if (mIsEditFind) {
+                    mEditFind.setText(R.string.back);
                     mAdapter.addAll(findEditList);
                 } else {
+                    mEditFind.setText(R.string.edit_find);
                     mAdapter.addAll(sourceEditList);
                 }
             }
@@ -263,7 +275,7 @@ public class EditSourceActivity extends BaseRvActivity<EditSourcePresenter, Edit
         findEditList.add(new EditSource("ruleFindLastChapter", bookSourceBean.getRuleFindLastChapter(), R.string.rule_find_last_chapter));
         findEditList.add(new EditSource("ruleFindCoverUrl", bookSourceBean.getRuleFindCoverUrl(), R.string.rule_find_cover_url));
         findEditList.add(new EditSource("ruleFindNoteUrl", bookSourceBean.getRuleFindNoteUrl(), R.string.rule_find_note_url));
-
+        mAdapter.clear();
         mAdapter.addAll(sourceEditList);
     }
 
@@ -423,6 +435,20 @@ public class EditSourceActivity extends BaseRvActivity<EditSourcePresenter, Edit
     @Override
     public void showSaveBookResult() {
         ToastUtil.showLongToast(mContext, getResources().getString(R.string.success));
+    }
+
+    @Override
+    public void showBookSource(BookSourceBean data) {
+        try {
+            if (data != null) {
+                setText(data);
+            } else {
+                toast("好像不是书源内容");
+            }
+        } catch (Exception e) {
+            toast("数据格式不对");
+            e.printStackTrace();
+        }
     }
 
     public String getBookSourceStr(boolean hasFind) {

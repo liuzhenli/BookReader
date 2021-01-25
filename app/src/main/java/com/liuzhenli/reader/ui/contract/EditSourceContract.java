@@ -12,9 +12,13 @@ import com.micoredu.readerlib.bean.BookSourceBean;
 public class EditSourceContract {
     public interface View extends BaseContract.BaseView {
         void showSaveBookResult();
+
+        void showBookSource(BookSourceBean data);
     }
 
     public interface Presenter<T> extends BaseContract.BasePresenter<T> {
         void saveBookSource(BookSourceBean data);
+
+        void getBookSourceFromString(String str);
     }
 }
