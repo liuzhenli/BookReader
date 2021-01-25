@@ -21,4 +21,9 @@ public class Error {
      * 协议出错
      */
     public static final int HTTP_ERROR = 1003;
+
+    /**
+     * 其他已知错误,如没有更多数据
+     */
+    public static final int KNOWN_ERROR = 1004;
 }

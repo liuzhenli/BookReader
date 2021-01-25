@@ -6,6 +6,8 @@ import android.text.TextUtils;
 import androidx.annotation.Keep;
 
 import com.google.gson.Gson;
+import com.liuzhenli.common.exception.ApiCodeException;
+import com.liuzhenli.common.exception.Error;
 import com.liuzhenli.common.utils.NetworkUtils;
 import com.liuzhenli.common.utils.StringUtils;
 import com.liuzhenli.common.utils.UrlEncoderUtils;
@@ -68,7 +70,7 @@ public class AnalyzeUrl implements JsExtensions {
         }
         //判断是否有下一页
         if (page != null && page > 1 && !ruleUrl.contains("searchPage")) {
-            throw new Exception("没有下一页");
+            throw new ApiCodeException(Error.KNOWN_ERROR,"###没有下一页");
         }
         //替换js
         ruleUrl = replaceJs(ruleUrl, baseUrl, page, key);
@@ -123,7 +125,8 @@ public class AnalyzeUrl implements JsExtensions {
             try {
                 Map<String, String> map = new Gson().fromJson(find, MAP_STRING);
                 headerMap.putAll(map);
-            } catch (Exception ignored) {
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return ruleUrl;

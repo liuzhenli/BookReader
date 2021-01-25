@@ -24,7 +24,7 @@ public class ApiCodeException extends RuntimeException {
      *
      * @return 失效返回true, 否则返回false;
      */
-    public boolean isTokenExpried() {
+    public boolean isTokenExperiod() {
         return mErrorCode == Constant.TOKEN_EXPRIED;
     }
 }

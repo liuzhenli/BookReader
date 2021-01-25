@@ -265,4 +265,12 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
         RxBus.get().post(RxBusTag.CHANGE_DISCOVER_BOOK_SOURCE, mBookSource);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        //如果没有书源显示,再刷新一次
+        if (mViewEmpty != null && mViewEmpty.getVisibility() == View.VISIBLE) {
+            onRefresh();
+        }
+    }
 }

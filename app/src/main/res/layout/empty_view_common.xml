@@ -25,6 +25,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginTop="@dimen/common_space_normal"
         android:gravity="center"
+        android:lineSpacingMultiplier="1.3"
         android:text="空空如也^_^"
         android:textColor="@color/text_color_99"
         android:textSize="@dimen/txt_size_16"

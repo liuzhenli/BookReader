@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.hwangjr.rxbus.RxBus;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
@@ -274,6 +275,7 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
             showDialog();
             mPresenter.getLocalBookSource("");
             toast(String.format("成功导入%s个书源", list.size()));
+            //发送消息,通知发现页
         }
 
     }

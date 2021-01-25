@@ -9,6 +9,8 @@ import com.liuzhenli.common.utils.LogUtils;
 import com.micoredu.readerlib.bean.SearchBookBean;
 import com.micoredu.readerlib.model.WebBookModel;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -31,13 +33,11 @@ public class BookListPresenter extends RxPresenter<BookListContract.View> implem
 
     @Override
     public void getBookList(String url, int page, String tag) {
-        LogUtils.e("1111111", url + "\n" + tag);
-        DisposableObserver subscribe = RxUtil.subscribe(WebBookModel.getInstance().findBook(url, page, tag), new SampleProgressObserver<List<SearchBookBean>>(mView) {
+        addSubscribe(RxUtil.subscribe(WebBookModel.getInstance().findBook(url, page, tag), new SampleProgressObserver<List<SearchBookBean>>(mView) {
             @Override
-            public void onNext(List<SearchBookBean> searchBookBeans) {
+            public void onNext(@NotNull List<SearchBookBean> searchBookBeans) {
                 mView.showBookList(searchBookBeans);
             }
-        });
-        addSubscribe(subscribe);
+        }));
     }
 }
