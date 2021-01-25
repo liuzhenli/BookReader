@@ -34,7 +34,8 @@ public abstract class SampleProgressObserver<T> extends BaseObserver<T> {
         //定义什么类型的的错误信息不弹吐司
         if (mView != null) {
             String displayMessage = e.getDisplayMessage();
-            if (displayMessage != null && !displayMessage.contains("#")) {
+            String message = e.getMessage();
+            if (displayMessage != null && !displayMessage.contains("#") && message != null && !message.contains("###")) {
                 showErrorToast(displayMessage);
             }
         }
