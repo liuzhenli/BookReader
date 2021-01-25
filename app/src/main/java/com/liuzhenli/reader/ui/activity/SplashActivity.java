@@ -38,6 +38,8 @@ public class SplashActivity extends BaseActivity {
     @BindView(R.id.tv_saying_author)
     TextView mTvAuthor;
 
+    private boolean hasGoHome = false;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         mIsFullScreen = true;
@@ -70,8 +72,11 @@ public class SplashActivity extends BaseActivity {
         mCountDownView.startProgress(4000);
         mCountDownView.setOnClickListener(v -> {
             mCountDownView.setHasClickClip(true);
-            SplashActivity.this.startActivity(new Intent(SplashActivity.this, MainActivity.class));
-            SplashActivity.this.finish();
+            if (!hasGoHome) {
+                hasGoHome = true;
+                SplashActivity.this.startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                SplashActivity.this.finish();
+            }
         });
         mTvSaying.setText(getSayings().getSaying());
         mTvAuthor.setText(String.format("BY:%s", getSayings().getAuthor()));

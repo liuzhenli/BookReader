@@ -12,11 +12,15 @@
         android:layout_height="30dp"
         android:layout_gravity="center"
         android:layout_margin="@dimen/common_space_small"
+        android:background="@color/bg_color"
         android:gravity="center"
         android:paddingLeft="@dimen/common_space_normal"
         android:paddingRight="@dimen/common_space_normal"
         android:text="@string/book_name"
+        android:textColor="@color/s_text_66"
         android:textSize="@dimen/txt_size_14"
+        app:qmui_backgroundColor="@color/background_card"
+        app:qmui_borderColor="@color/transparent"
         app:qmui_radius="4dp" />
 
 </LinearLayout>

@@ -37,7 +37,9 @@
             android:name="com.liuzhenli.reader.ui.activity.BookSourceActivity"
             android:launchMode="singleTop" />
         <activity android:name="com.liuzhenli.reader.ui.activity.TabActivity" />
-        <activity android:name="com.liuzhenli.reader.ui.activity.MainActivity">
+        <activity
+            android:name="com.liuzhenli.reader.ui.activity.MainActivity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>

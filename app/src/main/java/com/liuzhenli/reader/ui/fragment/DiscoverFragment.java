@@ -194,7 +194,6 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
 
     @Override
     public void showSource(List<BookSourceBean> bookSourceData) {
-        mBookSourceView.setData(bookSourceData);
         if (bookSourceData != null && bookSourceData.size() > 0) {
             Random random = new Random();
             int index = random.nextInt(bookSourceData.size());
@@ -203,6 +202,7 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
         } else {
             mViewEmpty.setVisibility(View.VISIBLE);
         }
+        mBookSourceView.setData(bookSourceData);
     }
 
 
@@ -224,9 +224,9 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
 
     public void showBookSourceView() {
         if (mBookSourceView.getVisibility() == View.GONE) {
-            mBookSourceView.setVisibility(View.VISIBLE);
+            mBookSourceView.show();
         } else {
-            mBookSourceView.setVisibility(View.GONE);
+            mBookSourceView.close();
         }
     }
 
@@ -273,4 +273,16 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
             onRefresh();
         }
     }
+
+
+    public boolean isShowBookSourceMenu() {
+        return mBookSourceView != null && mBookSourceView.isShowing();
+    }
+
+    public void dismissBookSourceMenu() {
+        if (mBookSourceView != null) {
+            mBookSourceView.close();
+        }
+    }
+
 }

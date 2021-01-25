@@ -88,6 +88,7 @@ public class MainActivity extends BaseActivity {
     public void initToolBar() {
         mToolBar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_more));
         FillContentUtil.setText(mTvTitle, getResources().getStringArray(R.array.main_tab_names)[mCurrentPosition]);
+        mTvTitle.requestFocus();
         mTvTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,8 +98,6 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
-
-
     }
 
     @Override
@@ -263,4 +262,19 @@ public class MainActivity extends BaseActivity {
         recreate();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mCurrentPosition == 1) {
+            DiscoverFragment fragment = (DiscoverFragment) mainTabAdapter.getItem(mCurrentPosition);
+            if (fragment.isShowBookSourceMenu()) {
+                fragment.dismissBookSourceMenu();
+            } else {
+                super.onBackPressed();
+            }
+        } else {
+            super.onBackPressed();
+        }
+
+
+    }
 }

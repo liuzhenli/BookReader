@@ -4,7 +4,7 @@
     android:id="@+id/recycler_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/bg_color"
     app:layout_empty="@layout/empty_view_common"
     app:layout_progress="@layout/common_progress_view"
     app:scrollbarStyle="insideOverlay" />
