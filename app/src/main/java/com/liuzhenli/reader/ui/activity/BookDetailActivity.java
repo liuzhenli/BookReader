@@ -25,6 +25,7 @@ import com.micoredu.readerlib.bean.BookShelfBean;
 import com.micoredu.readerlib.bean.SearchBookBean;
 import com.micoredu.readerlib.helper.BookshelfHelper;
 import com.micoredu.readerlib.helper.DbHelper;
+import com.micoredu.readerlib.utils.bar.ImmersionBar;
 import com.microedu.reader.R;
 
 
@@ -150,11 +151,12 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
         });
         if (mBookShelf != null && mBookShelf.getBookInfoBean() != null) {
             mTvBookName.setText(mBookShelf.getBookInfoBean().getName());
-            mTvAuthor.setText(mBookShelf.getBookInfoBean().getAuthor());
+            mTvAuthor.setText(String.format("%s 著", mBookShelf.getBookInfoBean().getAuthor()));
             //来源网站
             mTvBookSource.setText(mBookShelf.getBookInfoBean().getOrigin());
             mTvLastChapterName.setText(mSearchBook.getLastChapter());
-            ImageUtil.setImage(mContext, mBookShelf.getBookInfoBean().getCoverUrl(), R.drawable.book_cover, mIvCover);
+            mTvDescription.setText(mBookShelf.getBookInfoBean().getIntroduce());
+            ImageUtil.setRoundedCornerImage(mContext, mBookShelf.getBookInfoBean().getCoverUrl(), R.drawable.book_cover, mIvCover, 4);
         }
         mPresenter.getBookInfo(mBookShelf, isInBookShelf);
         showDialog();
@@ -191,9 +193,9 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
         }
         mTvDescription.setText(book.getIntroduce());
         mTvBookName.setText(book.getName());
-        mTvAuthor.setText(book.getAuthor() == null ? "未知作者" : book.getAuthor());
+        mTvAuthor.setText(String.format("%s 著", mBookShelf.getBookInfoBean().getAuthor()));
         mTvChapterCount.setText(String.format(getResources().getString(R.string.total_chapter_count), mChapterList.size() + ""));
-        ImageUtil.setImage(mContext, book.getCoverUrl(), R.drawable.book_cover, mIvCover);
+        ImageUtil.setRoundedCornerImage(mContext, book.getCoverUrl(), R.drawable.book_cover, mIvCover, 4);
     }
 
     private void setIsInBookShelf(boolean isInBookShelf) {
@@ -210,5 +212,16 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
             isInBookShelf = true;
             mTvAddToBookshelf.setText("移除书架");
         }
+    }
+
+    /**
+     * 沉浸状态栏
+     */
+    protected void initImmersionBar() {
+        mImmersionBar = ImmersionBar.with(this);
+        mImmersionBar.statusBarColor(R.color.book_index_bg_color);
+        mImmersionBar.statusBarDarkFont(false);
+        mImmersionBar.fitsSystemWindows(true);
+        mImmersionBar.init();
     }
 }

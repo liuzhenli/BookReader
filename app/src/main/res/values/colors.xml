@@ -21,6 +21,7 @@
     <!--通用分割线细-->
     <color name="divider">#f5f5f5</color>
     <color name="ripple_color">#ffdddddd</color>
+    <color name="book_index_bg_color">#464646</color>
 
 
     <color name="black_p50">#7f000000</color>
