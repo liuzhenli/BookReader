@@ -64,6 +64,7 @@
             <include layout="@layout/item_divider" />
 
             <LinearLayout
+                android:id="@+id/view_chapter_list"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/all_item_height"
                 android:layout_marginLeft="@dimen/common_space_normal"

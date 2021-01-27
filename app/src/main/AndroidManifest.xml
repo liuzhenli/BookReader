@@ -82,6 +82,7 @@
         <activity android:name="com.liuzhenli.reader.ui.activity.BackupSettingActivity" />
         <activity android:name="com.liuzhenli.reader.ui.activity.FilePathsListActivity" />
         <activity android:name="com.liuzhenli.reader.ui.activity.WriteBookActivity" />
+        <activity android:name="com.liuzhenli.reader.ui.activity.BookChapterListActivity" />
 
         <service android:name="com.liuzhenli.reader.service.CheckSourceService" />
         <service android:name="com.micoredu.readerlib.service.ReadAloudService" />

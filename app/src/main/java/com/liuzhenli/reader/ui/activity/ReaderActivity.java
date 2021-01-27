@@ -18,7 +18,11 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
+import com.hwangjr.rxbus.annotation.Subscribe;
+import com.hwangjr.rxbus.annotation.Tag;
+import com.hwangjr.rxbus.thread.EventThread;
 import com.liuzhenli.common.BitIntentDataManager;
+import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.common.utils.ScreenUtils;
 import com.liuzhenli.reader.ReaderApplication;
@@ -29,6 +33,7 @@ import com.liuzhenli.reader.ui.presenter.ReadPresenter;
 import com.liuzhenli.reader.utils.BatteryUtil;
 import com.liuzhenli.reader.utils.IntentUtils;
 import com.liuzhenli.reader.utils.ShareUtils;
+import com.liuzhenli.reader.utils.ToastUtil;
 import com.liuzhenli.reader.utils.storage.Backup;
 import com.liuzhenli.reader.view.ReadLongPressPop;
 import com.liuzhenli.reader.view.loading.DialogUtil;
@@ -40,6 +45,8 @@ import com.liuzhenli.reader.view.menu.ReadTopBarMenu;
 import com.micoredu.readerlib.BaseReaderActivity;
 import com.micoredu.readerlib.animation.PageAnimation;
 import com.micoredu.readerlib.bean.BookShelfBean;
+import com.micoredu.readerlib.bean.BookmarkBean;
+import com.micoredu.readerlib.bean.OpenChapterBean;
 import com.micoredu.readerlib.bean.ReplaceRuleBean;
 import com.micoredu.readerlib.helper.BookshelfHelper;
 import com.micoredu.readerlib.helper.ReadConfigManager;
@@ -78,7 +85,7 @@ import static com.liuzhenli.reader.base.BaseActivity.START_SHEAR_ELE;
  * @since 1.0.0
  */
 public class ReaderActivity extends BaseReaderActivity implements ReadContract.View {
-    public static final String BOOK_ID = "bookId";
+    public static final String NOTE_URL = "noteUrl";
     public static final String CHAPTER_ID = "chapterID";
     public static final String PROGRESS = "progress";
     public static final String OPEN_FROM = "openFrom";
@@ -116,7 +123,8 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
 
     @Inject
     ReadPresenter mPresenter;
-    private long mBookId;
+
+    /***章节id mChapterId  durChapterIndex*/
     private int mChapterId;
     private float mProgress;
     private int mOpenFrom;
@@ -129,9 +137,9 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
     private int lastX, lastY;
     private BatteryAndTimeChangeReceiver batteryAndTimeChangeReceiver;
 
-    public static void start(Context context, String bookId, String chapterId, float progress, String openFrom) {
+    public static void start(Context context, String noteUrl, String chapterId, float progress, String openFrom) {
         Intent intent = new Intent(context, ReaderActivity.class);
-        intent.putExtra(BOOK_ID, bookId);
+        intent.putExtra(NOTE_URL, noteUrl);
         intent.putExtra(CHAPTER_ID, chapterId);
         intent.putExtra(PROGRESS, progress);
         intent.putExtra(OPEN_FROM, openFrom);
@@ -142,7 +150,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            mNoteUrl = savedInstanceState.getString("noteUrl");
+            mNoteUrl = savedInstanceState.getString(NOTE_URL);
             mIsInBookShelf = savedInstanceState.getBoolean("isAdd");
         }
         mPresenter.attachView(this);
@@ -189,7 +197,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
             startShareAnim = getIntent().getBooleanExtra(START_SHEAR_ELE, false);
             mOpenFrom = getIntent().getIntExtra(OPEN_FROM, OPEN_FROM_APP);
             mDataKey = getIntent().getStringExtra(DATA_KEY);
-            mBookId = getIntent().getLongExtra(BOOK_ID, -1);
+            mNoteUrl = getIntent().getStringExtra(NOTE_URL);
             mChapterId = getIntent().getIntExtra(CHAPTER_ID, 0);
             mProgress = getIntent().getFloatExtra(PROGRESS, 0);
         }
@@ -216,6 +224,9 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
             finish();
         }
 
+        if (mChapterId > 0) {
+            mBookShelf.setDurChapter(mChapterId);
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -228,7 +239,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
         mVBottomMenu.setOnMenuElementClickListener(new ReadBottomMenu.OnElementClickListener() {
             @Override
             public void onMenuClick() {
-                showBookChapterListView();
+                BookChapterListActivity.start(mContext, mBookShelf, mPresenter.getChapterList());
             }
 
             @Override
@@ -329,33 +340,35 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
         cursorLeft.setOnTouchListener(this);
         cursorRight.setOnTouchListener(this);
         mViewRoot.setOnTouchListener(this);
+        mTopBar.setOnMenuElementClickListener(new ReadTopBarMenu.OnElementClickListener() {
+            @Override
+            public void onBackClick() {
 
+            }
+
+            @Override
+            public void onMenuClick() {
+                toast("已添加书签");
+                String content = mPageLoader.getContent();
+                String saveContent = null;
+                if (!TextUtils.isEmpty(content) && content.trim().length() > 0) {
+                    String[] split = content.trim().split("\n");
+                    for (int i = 1; i < split.length; i++) {
+                        if (split[i].length() > 0) {
+                            saveContent = split[i];
+                            break;
+                        }
+                    }
+                }
+                BookshelfHelper.saveBookmark(new BookmarkBean(System.currentTimeMillis(), mNoteUrl,
+                        mBookShelf.getBookInfoBean().getName(), mBookShelf.getDurChapterName(), mBookShelf.getDurChapter(), mBookShelf.getDurChapterPage(), saveContent));
+            }
+        });
         setBrightness();
         mVBottomMenu.changeTheme();
     }
 
-    /***显示书目录**/
-    private void showBookChapterListView() {
-        QMUIBottomSheet.BottomListSheetBuilder builder = new QMUIBottomSheet.BottomListSheetBuilder(this);
-        builder.setGravityCenter(false)
-                .setTitle("目录")
-                .setAddCancelBtn(false)
-                .setAllowDrag(false)
-                .setNeedRightMark(true)
-                .setOnSheetItemClickListener((dialog, itemView, position, tag) -> {
-                    dialog.dismiss();
-                    mCurrentChapterIndex = position;
-                    mChapterId = mPresenter.getChapterList().get(mCurrentChapterIndex).getDurChapterIndex();
-                    mPageLoader.skipToChapter(mChapterId, 0);
-                });
-        builder.setCheckedIndex(mCurrentChapterIndex);
-        for (int i = 1; i <= mPresenter.getChapterList().size(); i++) {
-            builder.addItem(mPresenter.getChapterList().get(i - 1).getDurChapterName().trim());
-        }
-        builder.build().show();
-    }
-
-    /***
+    /**
      * 阅读页面信息
      */
     private void initPageView() {
@@ -850,5 +863,10 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
         cursorRight.setVisibility(View.INVISIBLE);
         readLongPress.setVisibility(View.INVISIBLE);
         mPageView.clearSelect();
+    }
+
+    @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusTag.SKIP_TO_CHAPTER)})
+    public void skipToChapter(OpenChapterBean openChapterBean) {
+        mPageLoader.skipToChapter(openChapterBean.getChapterIndex(), openChapterBean.getPageIndex());
     }
 }

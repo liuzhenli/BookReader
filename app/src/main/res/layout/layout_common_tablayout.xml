@@ -7,9 +7,7 @@
     android:id="@+id/tab_tl_indicator"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
-    app:tabBackground="@color/white"
     app:tabIndicatorColor="@color/main"
     app:tabSelectedTextColor="@color/main"
-    app:tabTextColor="#4a4a4a"
+    app:tabTextColor="@color/text_color_33"
     tools:showIn="@layout/activity_tab" />

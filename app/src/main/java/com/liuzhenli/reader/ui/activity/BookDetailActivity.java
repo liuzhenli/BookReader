@@ -68,6 +68,8 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
     TextView mTvLastChapterName;
     @BindView(R.id.view_change_book_source)
     View mVChangeBookSource;
+    @BindView(R.id.view_chapter_list)
+    View mVChapterList;
     private List<BookChapterBean> mChapterList = new ArrayList<>();
 
     private int mOpenFrom;
@@ -166,6 +168,13 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
             @Override
             public void accept(Object o) throws Exception {
 
+            }
+        });
+
+        ClickUtils.click(mVChapterList, new Consumer() {
+            @Override
+            public void accept(Object o) throws Exception {
+                BookChapterListActivity.start(mContext,mBookShelf,mChapterList);
             }
         });
     }

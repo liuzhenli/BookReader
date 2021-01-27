@@ -223,6 +223,9 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
     }
 
     public void showBookSourceView() {
+        if (mBookSourceView == null) {
+            return;
+        }
         if (mBookSourceView.getVisibility() == View.GONE) {
             mBookSourceView.show();
         } else {

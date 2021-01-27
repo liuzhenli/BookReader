@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/view_book_chapter"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="@drawable/selector_card_bg"
+    tools:targetApi="m">
+
+    <TextView
+        android:id="@+id/tv_book_chapter_name"
+        style="@style/ItemTitleStyle"
+        android:layout_width="match_parent"
+        android:padding="@dimen/common_space_normal" />
+</LinearLayout>

@@ -26,10 +26,19 @@
             android:focusableInTouchMode="true"
             android:gravity="center"
             android:marqueeRepeatLimit="marquee_forever"
+            android:maxWidth="280dp"
             android:scrollHorizontally="true"
             android:singleLine="true"
             android:textColor="@color/text_color_33"
             android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/iv_menu_book_mark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="@dimen/common_space_large"
+            app:srcCompat="@drawable/ic_baseline_bookmark" />
 
     </androidx.appcompat.widget.Toolbar>
 

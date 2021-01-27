@@ -2,54 +2,54 @@
 <resources>
 
     <!--0 白天-->
-    <color name="skin_day_reader_scene_bg_color">#ffffffff</color>
-    <color name="skin_day_reader_scene_text_color">#ff4a4a4a</color>
-    <color name="skin_day_reader_scene_title_color">#ff4a4a4a</color>
-    <color name="skin_day_reader_scene_tail_color">#ffbb1a00</color>
-    <color name="skin_day_reader_scene_top_bottom_extra_txt_color">#ff4a4a4a</color>
+    <color name="skin_day_reader_scene_bg_color">#ffffff</color>
+    <color name="skin_day_reader_scene_text_color">#4a4a4a</color>
+    <color name="skin_day_reader_scene_title_color">#4a4a4a</color>
+    <color name="skin_day_reader_scene_tail_color">#bb1a00</color>
+    <color name="skin_day_reader_scene_top_bottom_extra_txt_color">#4a4a4a</color>
 
     <!--1 黄-->
-    <color name="skin_yellow_reader_scene_bg_color">#ffFBE6B5</color>
-    <color name="skin_yellow_reader_scene_text_color">#ff6A482E</color>
-    <color name="skin_yellow_reader_scene_title_color">#ff6A482E</color>
-    <color name="skin_yellow_reader_scene_tail_color">#ffbb1a00</color>
-    <color name="skin_yellow_reader_scene_top_bottom_extra_txt_color">#ff6a5d2e</color>
+    <color name="skin_yellow_reader_scene_bg_color">#FBE6B5</color>
+    <color name="skin_yellow_reader_scene_text_color">#6A482E</color>
+    <color name="skin_yellow_reader_scene_title_color">#6A482E</color>
+    <color name="skin_yellow_reader_scene_tail_color">#bb1a00</color>
+    <color name="skin_yellow_reader_scene_top_bottom_extra_txt_color">#6a5d2e</color>
 
     <!--2 绿-->
-    <color name="skin_green_reader_scene_bg_color">#ffD5E9D4</color>
-    <color name="skin_green_reader_scene_text_color">#ff425340</color>
-    <color name="skin_green_reader_scene_title_color">#ff425340</color>
-    <color name="skin_green_reader_scene_tail_color">#ff03816f</color>
-    <color name="skin_green_reader_scene_top_bottom_extra_txt_color">#ff425340</color>
+    <color name="skin_green_reader_scene_bg_color">#D5E9D4</color>
+    <color name="skin_green_reader_scene_text_color">#425340</color>
+    <color name="skin_green_reader_scene_title_color">#425340</color>
+    <color name="skin_green_reader_scene_tail_color">#03816f</color>
+    <color name="skin_green_reader_scene_top_bottom_extra_txt_color">#425340</color>
 
     <!--3 粉-->
-    <color name="skin_pink_reader_scene_bg_color">#ffFFE1DC</color>
-    <color name="skin_pink_reader_scene_text_color">#ff814156</color>
-    <color name="skin_pink_reader_scene_title_color">#ff814156</color>
-    <color name="skin_pink_reader_scene_tail_color">#ff03816f</color>
-    <color name="skin_pink_reader_scene_top_bottom_extra_txt_color">#ff814156</color>
+    <color name="skin_pink_reader_scene_bg_color">#FFE1DC</color>
+    <color name="skin_pink_reader_scene_text_color">#814156</color>
+    <color name="skin_pink_reader_scene_title_color">#814156</color>
+    <color name="skin_pink_reader_scene_tail_color">#03816f</color>
+    <color name="skin_pink_reader_scene_top_bottom_extra_txt_color">#814156</color>
 
     <!--4 深蓝 -->
-    <color name="skin_sblue_reader_scene_bg_color">#ff28334c</color>
-    <color name="skin_sblue_reader_scene_text_color">#ff607799</color>
-    <color name="skin_sblue_reader_scene_title_color">#ff607799</color>
-    <color name="skin_sblue_reader_scene_tail_color">#ffb2bfcf</color>
-    <color name="skin_sblue_reader_scene_top_bottom_extra_txt_color">#ff607799</color>
+    <color name="skin_sblue_reader_scene_bg_color">#28334c</color>
+    <color name="skin_sblue_reader_scene_text_color">#607799</color>
+    <color name="skin_sblue_reader_scene_title_color">#607799</color>
+    <color name="skin_sblue_reader_scene_tail_color">#b2bfcf</color>
+    <color name="skin_sblue_reader_scene_top_bottom_extra_txt_color">#607799</color>
 
 
     <!--5 蓝色-->
-    <color name="skin_blue_reader_scene_bg_color">#ffCEE7FF</color>
-    <color name="skin_blue_reader_scene_text_color">#ff52648A</color>
-    <color name="skin_blue_reader_scene_title_color">#ff52648A</color>
-    <color name="skin_blue_reader_scene_tail_color">#ff03816f</color>
-    <color name="skin_blue_reader_scene_top_bottom_extra_txt_color">#ff52648a</color>
+    <color name="skin_blue_reader_scene_bg_color">#CEE7FF</color>
+    <color name="skin_blue_reader_scene_text_color">#52648A</color>
+    <color name="skin_blue_reader_scene_title_color">#52648A</color>
+    <color name="skin_blue_reader_scene_tail_color">#03816f</color>
+    <color name="skin_blue_reader_scene_top_bottom_extra_txt_color">#52648a</color>
 
     <!--6 夜间-->
-    <color name="skin_night_reader_scene_bg_color">#ff292929</color>
-    <color name="skin_night_reader_scene_text_color">#ff959595</color>
-    <color name="skin_night_reader_scene_title_color">#ff959595</color>
-    <color name="skin_night_reader_scene_tail_color">#ff475b68</color>
-    <color name="skin_night_reader_scene_top_bottom_extra_txt_color">#ff959595</color>
+    <color name="skin_night_reader_scene_bg_color">#292929</color>
+    <color name="skin_night_reader_scene_text_color">#959595</color>
+    <color name="skin_night_reader_scene_title_color">#959595</color>
+    <color name="skin_night_reader_scene_tail_color">#475b68</color>
+    <color name="skin_night_reader_scene_top_bottom_extra_txt_color">#959595</color>
 
 
 </resources>
