@@ -23,9 +23,11 @@ import butterknife.ButterKnife;
  * Email: 848808263@qq.com
  */
 public class BookMarkAdapter extends RecyclerArrayAdapter<BookmarkBean> {
+    boolean isFromReadPage;
 
-    public BookMarkAdapter(Context context) {
+    public BookMarkAdapter(Context context, boolean isFromReadPage) {
         super(context);
+        this.isFromReadPage = isFromReadPage;
     }
 
     @Override
@@ -56,8 +58,10 @@ public class BookMarkAdapter extends RecyclerArrayAdapter<BookmarkBean> {
             }
             mTvBookChapterName.setText(item.getChapterName());
             mTvBookMarkContent.setText(item.getContent());
-            mTvBookChapterName.setTextColor(ReadConfigManager.getInstance().getTextColor());
-            mVItemRoot.setBackground(ReadConfigManager.getInstance().getTextBackground(mContext));
+            if (isFromReadPage) {
+                mTvBookChapterName.setTextColor(ReadConfigManager.getInstance().getTextColor());
+                mVItemRoot.setBackground(ReadConfigManager.getInstance().getTextBackground(mContext));
+            }
         }
     }
 }

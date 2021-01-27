@@ -239,7 +239,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
         mVBottomMenu.setOnMenuElementClickListener(new ReadBottomMenu.OnElementClickListener() {
             @Override
             public void onMenuClick() {
-                BookChapterListActivity.start(mContext, mBookShelf, mPresenter.getChapterList());
+                BookChapterListActivity.start(mContext, mBookShelf, mPresenter.getChapterList(),false,true);
             }
 
             @Override

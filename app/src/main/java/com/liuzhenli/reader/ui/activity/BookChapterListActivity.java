@@ -45,15 +45,17 @@ public class BookChapterListActivity extends BaseTabActivity {
     private List<BookmarkBean> mBookMarkDesc = new ArrayList<>();
 
     private boolean mIsBookMark;
+    private boolean mIsFromReadPage;
 
     private boolean isAsc = true;
 
-    public static void start(Context context, BookShelfBean bookShelf, List<BookChapterBean> chapterBeanList, boolean isBookMark) {
+    public static void start(Context context, BookShelfBean bookShelf, List<BookChapterBean> chapterBeanList, boolean isBookMark, boolean isFromReadPage) {
         Intent intent = new Intent(context, BookChapterListActivity.class);
         String key = String.valueOf(System.currentTimeMillis());
 
         String bookKey = "book" + key;
         intent.putExtra("isBookMark", isBookMark);
+        intent.putExtra("isFromReadPage", isFromReadPage);
         intent.putExtra("bookKey", bookKey);
         BitIntentDataManager.getInstance().putData(bookKey, bookShelf.clone());
 
@@ -65,7 +67,7 @@ public class BookChapterListActivity extends BaseTabActivity {
     }
 
     public static void start(Context context, BookShelfBean bookShelf, List<BookChapterBean> chapterBeanList) {
-        start(context, bookShelf, chapterBeanList, false);
+        start(context, bookShelf, chapterBeanList, false, false);
     }
 
     @Override
@@ -103,6 +105,7 @@ public class BookChapterListActivity extends BaseTabActivity {
         String bookshelfKey = getIntent().getStringExtra("bookKey");
         mBookShelf = (BookShelfBean) BitIntentDataManager.getInstance().getData(bookshelfKey);
         mIsBookMark = getIntent().getBooleanExtra("isBookMark", false);
+        mIsFromReadPage = getIntent().getBooleanExtra("isFromReadPage", false);
         String chapterListKey = getIntent().getStringExtra("chapterListKey");
         mChapterBeanList = (List<BookChapterBean>) BitIntentDataManager.getInstance().getData(chapterListKey);
         if (mBookShelf != null && mBookShelf.getBookInfoBean() != null) {
@@ -126,7 +129,7 @@ public class BookChapterListActivity extends BaseTabActivity {
 
     @Override
     protected List<Fragment> createTabFragments() {
-        return Arrays.asList(BookChapterListFragment.getInstance(), BookMarkFragment.getInstance());
+        return Arrays.asList(BookChapterListFragment.getInstance(mIsFromReadPage), BookMarkFragment.getInstance(mIsFromReadPage));
     }
 
     @Override
@@ -166,7 +169,10 @@ public class BookChapterListActivity extends BaseTabActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        changeTheme();
+        //如果来自阅读页面,则需要改变一下颜色
+        if (mIsFromReadPage) {
+            changeTheme();
+        }
     }
 
     private void changeTheme() {

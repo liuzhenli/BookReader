@@ -33,9 +33,12 @@ public class BookChapterListFragment extends BaseFragment {
     RecyclerView mRecyclerView;
     private BookChapterAdapter mAdapter;
 
-    public static BookChapterListFragment getInstance() {
+    private boolean mIsFromReadPage;
+
+    public static BookChapterListFragment getInstance(boolean isFromReadPage) {
         BookChapterListFragment instance = new BookChapterListFragment();
         Bundle bundle = new Bundle();
+        bundle.putBoolean("isFromReadPage", isFromReadPage);
         instance.setArguments(bundle);
         return instance;
     }
@@ -56,39 +59,31 @@ public class BookChapterListFragment extends BaseFragment {
 
     @Override
     public void initData() {
-
+        mIsFromReadPage = getArguments() != null && getArguments().getBoolean("isFromReadPage");
     }
 
     @Override
     public void configViews() {
-        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mRefreshLayout.setRefreshing(false);
-            }
-        });
+        mRefreshLayout.setOnRefreshListener(() -> mRefreshLayout.setRefreshing(false));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        mAdapter = new BookChapterAdapter(mContext);
+        mAdapter = new BookChapterAdapter(mContext, mIsFromReadPage);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.addAll(getParentActivity().getChapterBeanList());
-        mAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                BookChapterBean item = mAdapter.getItem(position);
-                getParentActivity().getBookShelf().setFinalDate(System.currentTimeMillis());
-                BookshelfHelper.saveBookToShelf(getParentActivity().getBookShelf());
+        mAdapter.setOnItemClickListener(position -> {
+            BookChapterBean item = mAdapter.getItem(position);
+            getParentActivity().getBookShelf().setFinalDate(System.currentTimeMillis());
+            BookshelfHelper.saveBookToShelf(getParentActivity().getBookShelf());
 
-                Intent intent = new Intent(getContext(), ReaderActivity.class);
-                intent.putExtra(ReaderActivity.OPEN_FROM, Constant.BookOpenFrom.FROM_BOOKSHELF);
-                intent.putExtra(ReaderActivity.CHAPTER_ID, item.getDurChapterIndex());
+            Intent intent = new Intent(getContext(), ReaderActivity.class);
+            intent.putExtra(ReaderActivity.OPEN_FROM, Constant.BookOpenFrom.FROM_BOOKSHELF);
+            intent.putExtra(ReaderActivity.CHAPTER_ID, item.getDurChapterIndex());
 
-                String bookKey = String.valueOf(System.currentTimeMillis());
-                intent.putExtra(BitIntentDataManager.DATA_KEY, bookKey);
-                BitIntentDataManager.getInstance().putData(bookKey, getParentActivity().getBookShelf().clone());
+            String bookKey = String.valueOf(System.currentTimeMillis());
+            intent.putExtra(BitIntentDataManager.DATA_KEY, bookKey);
+            BitIntentDataManager.getInstance().putData(bookKey, getParentActivity().getBookShelf().clone());
 
-                mContext.startActivity(intent);
+            mContext.startActivity(intent);
 
-            }
         });
     }
 

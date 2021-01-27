@@ -38,9 +38,12 @@ public class BookMarkFragment extends BaseFragment {
     RecyclerView mRecyclerView;
     private BookMarkAdapter mAdapter;
 
-    public static BookMarkFragment getInstance() {
+    private boolean mIsFromReadPage;
+
+    public static BookMarkFragment getInstance(boolean isFromReadPage) {
         BookMarkFragment instance = new BookMarkFragment();
         Bundle bundle = new Bundle();
+        bundle.putBoolean("isFromReadPage", isFromReadPage);
         instance.setArguments(bundle);
         return instance;
     }
@@ -61,7 +64,7 @@ public class BookMarkFragment extends BaseFragment {
 
     @Override
     public void initData() {
-
+        mIsFromReadPage = getArguments() != null && getArguments().getBoolean("isFromReadPage");
     }
 
     @Override
@@ -73,7 +76,8 @@ public class BookMarkFragment extends BaseFragment {
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        mAdapter = new BookMarkAdapter(mContext);
+        mAdapter = new BookMarkAdapter(mContext,mIsFromReadPage);
+
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.addAll(getParentActivity().getBookMarkList());
         mAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {

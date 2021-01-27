@@ -23,8 +23,11 @@ import butterknife.ButterKnife;
  */
 public class BookChapterAdapter extends RecyclerArrayAdapter<BookChapterBean> {
 
-    public BookChapterAdapter(Context context) {
+    private boolean isFromReadPage;
+
+    public BookChapterAdapter(Context context, boolean isFromReadPage) {
         super(context);
+        this.isFromReadPage = isFromReadPage;
     }
 
     @Override
@@ -51,8 +54,10 @@ public class BookChapterAdapter extends RecyclerArrayAdapter<BookChapterBean> {
                 item.setDurChapterName("章节未命名");
             }
             mTvBookChapterName.setText(item.getDurChapterName());
-            mTvBookChapterName.setTextColor(ReadConfigManager.getInstance().getTextColor());
-            mVItemRoot.setBackground(ReadConfigManager.getInstance().getTextBackground(mContext));
+            if (isFromReadPage) {
+                mTvBookChapterName.setTextColor(ReadConfigManager.getInstance().getTextColor());
+                mVItemRoot.setBackground(ReadConfigManager.getInstance().getTextBackground(mContext));
+            }
         }
     }
 }
