@@ -12,6 +12,7 @@ import org.json.JSONException;
 import java.net.ConnectException;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 
 import retrofit2.adapter.rxjava2.HttpException;
 
@@ -96,7 +97,10 @@ public class ExceptionEngine {
         } else if (throwable instanceof ApiCodeException) {
             ex = new ApiException(((ApiCodeException) throwable).getErrorCode(), throwable);
             ex.setDisplayMessage(throwable.getMessage());
-        } else {
+        } else if (throwable instanceof UnknownHostException){
+            ex = new ApiException(Error.NETWORK_ERROR, throwable);
+            ex.setDisplayMessage("网络错误");
+        }else {
             ex = new ApiException(Error.UNKNOWN, throwable);
             if (BuildConfig.DEBUG) {
                 ex.setDisplayMessage(LogUtils.getErrorString(throwable));

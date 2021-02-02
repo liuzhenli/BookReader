@@ -4,22 +4,19 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+import android.widget.TextView;
 
 import com.liuzhenli.common.utils.ClickUtils;
-import com.liuzhenli.common.utils.RxUtil;
+import com.liuzhenli.common.utils.FileUtils;
 import com.liuzhenli.reader.base.BaseActivity;
 import com.liuzhenli.reader.network.AppComponent;
-import com.liuzhenli.reader.observer.SampleProgressObserver;
-import com.liuzhenli.reader.utils.ToastUtil;
-import com.liuzhenli.reader.utils.image.ImageUtil;
-import com.liuzhenli.reader.view.loading.DialogUtil;
+import com.liuzhenli.reader.ui.contract.SettingContract;
+import com.liuzhenli.reader.ui.presenter.SettingPresenter;
 import com.micoredu.readerlib.helper.BookshelfHelper;
 import com.microedu.reader.R;
 
-import org.jetbrains.annotations.NotNull;
 
 import butterknife.BindView;
-import io.reactivex.Observable;
 
 /**
  * Description:设置页面
@@ -28,7 +25,7 @@ import io.reactivex.Observable;
  * Email: 848808263@qq.com
  */
 @SuppressLint("NonConstantResourceId")
-public class SettingActivity extends BaseActivity {
+public class SettingActivity extends BaseActivity<SettingPresenter> implements SettingContract.View {
 
 
     @BindView(R.id.view_setting_file_path)
@@ -38,6 +35,8 @@ public class SettingActivity extends BaseActivity {
     View mViewClearCache;
     @BindView(R.id.view_setting_backup)
     View mViewBackUp;
+    @BindView(R.id.tv_setting_clear_cache_size)
+    TextView mTvCacheSize;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, SettingActivity.class);
@@ -51,7 +50,7 @@ public class SettingActivity extends BaseActivity {
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-
+        appComponent.inject(this);
     }
 
     @Override
@@ -69,21 +68,10 @@ public class SettingActivity extends BaseActivity {
         ClickUtils.click(mViewClearCache, o -> {
             showDialog();
             BookshelfHelper.clearCaches(true);
+            FileUtils.deleteFileOrDirectory(mContext.getCacheDir());
             toast("缓存已清理");
             hideDialog();
-//           RxUtil.subscribe(Observable.create(emitter -> {
-//                ImageUtil.clearMemoryCache(getApplicationContext());
-//                ImageUtil.clearDiskCache(getApplicationContext());
-//                BookshelfHelper.clearCaches(true);
-//                emitter.onNext(true);
-//            }), new SampleProgressObserver<Boolean>() {
-//                @Override
-//                public void onNext(@NotNull Boolean aBoolean) {
-//                    hideDialog();
-//                    toast("缓存已清理");
-//                }
-//            });
-
+            mPresenter.getCacheSize();
         });
 
         ClickUtils.click(mViewBackUp, o -> {
@@ -93,5 +81,21 @@ public class SettingActivity extends BaseActivity {
         ClickUtils.click(mVFilePath, o -> {
             FilePathsListActivity.start(mContext);
         });
+        mPresenter.getCacheSize();
+    }
+
+    @Override
+    public void showCacheSize(String size) {
+        mTvCacheSize.setText(size);
+    }
+
+    @Override
+    public void showError(Exception e) {
+
+    }
+
+    @Override
+    public void complete() {
+
     }
 }

@@ -89,8 +89,9 @@ public class BookshelfHelper {
     public static void clearCaches(boolean clearChapterList) {
         FileHelp.deleteFile(AppConstant.BOOK_CACHE_PATH);
         FileHelp.getFolder(AppConstant.BOOK_CACHE_PATH);
-        if (clearChapterList)
+        if (clearChapterList) {
             DbHelper.getDaoSession().getBookChapterBeanDao().deleteAll();
+        }
     }
 
     /**
