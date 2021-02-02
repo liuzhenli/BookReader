@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="com.liuzhenli.reader.ui.activity.ChangeSourceActivity">
+
+    <include layout="@layout/layout_common_toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/divider"
+        android:orientation="vertical">
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/view_search_indicator"
+            style="@style/AVLoadingIndicatorView"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="@dimen/common_space_large"
+            android:layout_marginRight="@dimen/common_space_large"
+            android:visibility="visible"
+            app:indicatorColor="@color/darker_gray"
+            app:indicatorName="BallPulseIndicator"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/ev_book_name"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginLeft="@dimen/common_space_large"
+            android:layout_marginRight="@dimen/common_space_normal"
+            android:layout_marginBottom="@dimen/common_space_normal"
+            android:layout_weight="1"
+            android:background="@drawable/bg_white_radius"
+            android:drawablePadding="6dp"
+            android:gravity="center"
+            android:hint="@string/search_book_source"
+            android:imeOptions="actionSearch"
+            android:paddingLeft="@dimen/common_space_normal"
+            android:paddingTop="4dp"
+            android:paddingRight="@dimen/common_space_normal"
+            android:paddingBottom="4dp"
+            android:singleLine="true"
+            android:textColor="@color/s_text_66"
+            android:textColorHint="@color/text_color_99"
+            android:textSize="@dimen/txt_size_12" />
+
+    </LinearLayout>
+
+
+    <include
+        layout="@layout/layout_easy_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+</LinearLayout>

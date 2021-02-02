@@ -16,7 +16,7 @@
         android:elevation="1px"
         app:contentInsetStart="0dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/titlebar_back_white_icon"
+        app:navigationIcon="@drawable/icon_back_white_icon"
         tools:targetApi="lollipop">
 
         <TextView

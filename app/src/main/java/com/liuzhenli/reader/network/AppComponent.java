@@ -3,7 +3,7 @@ package com.liuzhenli.reader.network;
 
 import com.liuzhenli.reader.module.ApiModule;
 import com.liuzhenli.reader.module.AppModule;
-import com.liuzhenli.reader.ui.activity.BookCatalogActivity;
+import com.liuzhenli.reader.ui.activity.ChangeSourceActivity;
 import com.liuzhenli.reader.ui.activity.BookDetailActivity;
 import com.liuzhenli.reader.ui.activity.BookSourceActivity;
 import com.liuzhenli.reader.ui.activity.EditSourceActivity;
@@ -40,7 +40,7 @@ public interface AppComponent {
 
     void inject(ReaderActivity readActivity);
 
-    void inject(BookCatalogActivity bookCatalogActivity);
+    void inject(ChangeSourceActivity bookCatalogActivity);
 
     void inject(LocalTxtFragment localTxtFragment);
 

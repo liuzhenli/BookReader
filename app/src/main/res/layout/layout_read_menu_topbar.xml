@@ -13,7 +13,7 @@
         android:layout_height="@dimen/all_item_height"
         android:elevation="1px"
         app:contentInsetStart="0dp"
-        app:navigationIcon="@drawable/titlebar_back_white_icon"
+        app:navigationIcon="@drawable/icon_back_white_icon"
         tools:targetApi="lollipop">
 
         <TextView

@@ -140,7 +140,7 @@ public class SearchPresenter extends RxPresenter<SearchContract.View> implements
     }
 
 
-    private void configSearchResult(String key, List<SearchBookBean> searchResult, RecyclerArrayAdapter<SearchBookBean> mAdapter) {
+    private synchronized void configSearchResult(String key, List<SearchBookBean> searchResult, RecyclerArrayAdapter<SearchBookBean> mAdapter) {
 
         List<SearchBookBean> bookList = new ArrayList<>();
         Observable<List<SearchBookBean>> listObservable = Observable.create(new ObservableOnSubscribe<List<SearchBookBean>>() {

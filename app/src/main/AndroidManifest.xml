@@ -31,7 +31,7 @@
         tools:ignore="AllowBackup,UnusedAttribute"
         tools:replace="android:theme"
         tools:targetApi="n">
-        <activity android:name="com.liuzhenli.reader.ui.activity.BookCatalogActivity" />
+        <activity android:name="com.liuzhenli.reader.ui.activity.ChangeSourceActivity" />
         <activity android:name="com.liuzhenli.reader.ui.activity.BookDetailActivity" />
         <activity
             android:name="com.liuzhenli.reader.ui.activity.BookSourceActivity"

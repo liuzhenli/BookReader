@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
@@ -44,6 +46,7 @@ import static com.liuzhenli.common.BitIntentDataManager.DATA_KEY;
  */
 public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implements BookDetailContract.View {
     public static final String OPEN_FROM = "openFrom";
+    public static final int REQUEST_CODE_CHANGE_SOURCE = 1000;
     @BindView(R.id.iv_cover)
     ImageView mIvCover;
     @BindView(R.id.tv_book_name)
@@ -111,7 +114,6 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
             mSearchBook = new SearchBookBean();
             mSearchBook.setNoteUrl(mBookShelf.getNoteUrl());
             mSearchBook.setTag(mBookShelf.getBookInfoBean().getTag());
-            setBookInfo(mBookShelf.getBookInfoBean());
         } else {
             String key = getIntent().getStringExtra(DATA_KEY);
             if (!TextUtils.isEmpty(key)) {
@@ -138,7 +140,8 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
                 BookshelfHelper.removeFromBookShelf(mBookShelf);
                 ToastUtil.showToast("已从书架中移除");
             }
-            setIsInBookShelf(!isInBookShelf);
+            isInBookShelf = !isInBookShelf;
+            setIsInBookShelf(isInBookShelf);
         });
         //read book button click
         ClickUtils.click(mTvRead, o -> {
@@ -152,31 +155,17 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
             startActivityByAnim(intent, android.R.anim.fade_in, android.R.anim.fade_out);
         });
         if (mBookShelf != null && mBookShelf.getBookInfoBean() != null) {
-            mTvBookName.setText(mBookShelf.getBookInfoBean().getName());
-            mTvAuthor.setText(String.format("%s 著", mBookShelf.getBookInfoBean().getAuthor()));
-            //来源网站
-            mTvBookSource.setText(mBookShelf.getBookInfoBean().getOrigin());
-            mTvLastChapterName.setText(mSearchBook.getLastChapter());
-            mTvDescription.setText(mBookShelf.getBookInfoBean().getIntroduce());
-            ImageUtil.setRoundedCornerImage(mContext, mBookShelf.getBookInfoBean().getCoverUrl(), R.drawable.book_cover, mIvCover, 4);
+            setBookInfo(mBookShelf.getBookInfoBean());
         }
         mPresenter.getBookInfo(mBookShelf, isInBookShelf);
         showDialog();
         setIsInBookShelf(isInBookShelf);
 
-        ClickUtils.click(mVChangeBookSource, new Consumer() {
-            @Override
-            public void accept(Object o) throws Exception {
-
-            }
+        ClickUtils.click(mVChangeBookSource, o -> {
+            ChangeSourceActivity.startForResult(BookDetailActivity.this, mBookShelf, REQUEST_CODE_CHANGE_SOURCE);
         });
 
-        ClickUtils.click(mVChapterList, new Consumer() {
-            @Override
-            public void accept(Object o) throws Exception {
-                BookChapterListActivity.start(mContext,mBookShelf,mChapterList);
-            }
-        });
+        ClickUtils.click(mVChapterList, o -> BookChapterListActivity.start(mContext, mBookShelf, mChapterList));
     }
 
     @Override
@@ -204,6 +193,7 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
         mTvBookName.setText(book.getName());
         mTvAuthor.setText(String.format("%s 著", mBookShelf.getBookInfoBean().getAuthor()));
         mTvChapterCount.setText(String.format(getResources().getString(R.string.total_chapter_count), mChapterList.size() + ""));
+        mTvBookSource.setText(mBookShelf.getBookInfoBean().getOrigin());
         ImageUtil.setRoundedCornerImage(mContext, book.getCoverUrl(), R.drawable.book_cover, mIvCover, 4);
     }
 
@@ -232,5 +222,28 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
         mImmersionBar.statusBarDarkFont(false);
         mImmersionBar.fitsSystemWindows(true);
         mImmersionBar.init();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null && resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_CODE_CHANGE_SOURCE:
+                    String key = data.getStringExtra(DATA_KEY);
+                    if (!TextUtils.isEmpty(key)) {
+                        mSearchBook = (SearchBookBean) BitIntentDataManager.getInstance().getData(key);
+                        if (mSearchBook != null) {
+                            isInBookShelf = BookshelfHelper.isInBookShelf(mSearchBook.getNoteUrl());
+                            mBookShelf = BookshelfHelper.getBookFromSearchBook(mSearchBook);
+                            showDialog();
+                            mPresenter.getBookInfo(mBookShelf, isInBookShelf);
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

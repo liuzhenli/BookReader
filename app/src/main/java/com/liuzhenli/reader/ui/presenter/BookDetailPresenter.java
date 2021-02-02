@@ -6,14 +6,12 @@ import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.reader.base.RxPresenter;
 import com.liuzhenli.reader.network.Api;
 import com.liuzhenli.reader.observer.SampleProgressObserver;
-import com.liuzhenli.reader.ui.contract.BookCatalogContract;
 import com.liuzhenli.reader.ui.contract.BookDetailContract;
 import com.micoredu.readerlib.bean.BookChapterBean;
 import com.micoredu.readerlib.bean.BookShelfBean;
 import com.micoredu.readerlib.helper.BookshelfHelper;
 import com.micoredu.readerlib.helper.DbHelper;
 import com.micoredu.readerlib.model.WebBookModel;
-import com.microedu.reader.R;
 
 import java.util.List;
 
@@ -46,14 +44,13 @@ public class BookDetailPresenter extends RxPresenter<BookDetailContract.View> im
                 .flatMap((Function<List<BookChapterBean>, ObservableSource<List<BookChapterBean>>>)
                         bookChapterBeans -> saveBookToShelfO(bookShelfBean, bookChapterBeans, isInBookShelf));
 
-        DisposableObserver subscribe = RxUtil.subscribe(listObservable, new SampleProgressObserver<List<BookChapterBean>>() {
+        addSubscribe(RxUtil.subscribe(listObservable, new SampleProgressObserver<List<BookChapterBean>>() {
             @Override
             public void onNext(List<BookChapterBean> bookChapterBeans) {
                 bookShelfBean.setChapterListSize(bookChapterBeans.size());
                 mView.showBookInfo(bookShelfBean.getBookInfoBean(), bookChapterBeans);
             }
-        });
-        addSubscribe(subscribe);
+        }));
     }
 
     @Override
