@@ -67,8 +67,8 @@
                 android:id="@+id/view_chapter_list"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/all_item_height"
-                android:layout_marginLeft="@dimen/common_space_normal"
-                android:layout_marginRight="@dimen/common_space_normal">
+                android:layout_marginLeft="@dimen/common_space_large"
+                android:layout_marginRight="@dimen/common_space_large">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -109,10 +109,11 @@
                 style="@style/ItemSubTitleStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/common_space_normal"
-                android:layout_marginRight="@dimen/common_space_normal"
+                android:layout_marginLeft="@dimen/common_space_large"
+                android:layout_marginTop="@dimen/common_space_large"
+                android:layout_marginRight="@dimen/common_space_large"
                 android:text="简介"
-                android:textColor="@color/s_text_66"
+                android:textColor="@color/s_text_99"
                 android:textSize="@dimen/txt_size_14" />
         </LinearLayout>
     </ScrollView>

@@ -1,6 +1,7 @@
 package com.liuzhenli.reader.ui.activity;
 
 import android.content.Intent;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -35,7 +36,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.functions.Consumer;
 
 import static com.liuzhenli.common.BitIntentDataManager.DATA_KEY;
 
@@ -189,7 +189,7 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
         if (book == null) {
             return;
         }
-        mTvDescription.setText(book.getIntroduce());
+        mTvDescription.setText(Html.fromHtml(String.format("简介:\n%s", book.getIntroduce())));
         mTvBookName.setText(book.getName());
         mTvAuthor.setText(String.format("%s 著", mBookShelf.getBookInfoBean().getAuthor()));
         mTvChapterCount.setText(String.format(getResources().getString(R.string.total_chapter_count), mChapterList.size() + ""));
