@@ -54,7 +54,7 @@ object WebDavHelp {
         val names = arrayListOf<String>()
         try {
             if (initWebDav()) {
-                var files = WebDav(url + "YiShuFang/backups/").listFiles()
+                var files = WebDav(url + "YiShuFang/").listFiles()
                 files = files.reversed()
                 for (index: Int in 0 until min(10, files.size)) {
                     files[index].displayName?.let {
@@ -87,7 +87,7 @@ object WebDavHelp {
     fun restoreWebDav(name: String, callBack: Restore.CallBack?) {
         Single.create(SingleOnSubscribe<Boolean> { e ->
             getWebDavUrl().let {
-                val file = WebDav(it + "YiShuFang/backups/" + name)
+                val file = WebDav(it + "YiShuFang/" + name)
                 file.downloadTo(zipFilePath, true)
                 @Suppress("BlockingMethodInNonBlockingContext")
                 ZipUtils.unzipFile(zipFilePath, unzipFilesPath)
@@ -123,11 +123,16 @@ object WebDavHelp {
                 }
                 FileHelp.deleteFile(zipFilePath)
                 if (ZipUtils.zipFiles(paths, zipFilePath)) {
-                    WebDav(getWebDavUrl() + "YiShuFang/backups").makeAsDir()
-                    val putUrl = getWebDavUrl() + "YiShuFang/backups" +
+                    WebDav(getWebDavUrl() + "YiShuFang").makeAsDir()
+                    val putUrl = getWebDavUrl() + "YiShuFang/backup" +
                             SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                                     .format(Date(System.currentTimeMillis())) + ".zip"
-                    WebDav(putUrl).upload(zipFilePath)
+                    var success = WebDav(putUrl).upload(zipFilePath)
+                    if (success) {
+                        callBack?.backupSuccess()
+                    } else {
+                        callBack?.backupError("WebDav 备份失败了")
+                    }
                 }
             } else {
                 callBack?.backupError("WebDav:未配置云端地址")
