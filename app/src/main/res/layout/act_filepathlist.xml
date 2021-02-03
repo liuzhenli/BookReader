@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_color"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <include layout="@layout/layout_common_toolbar" />
@@ -26,12 +26,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include" />
 
-    <include layout="@layout/item_divider" />
+    <include
+        layout="@layout/item_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
 
     <LinearLayout
-        android:id="@+id/view_source_path"
+        android:id="@+id/view_book_cache_path"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/all_item_height"
         android:background="@drawable/selector_card_bg"
         android:gravity="center_vertical"
         android:orientation="horizontal">
@@ -41,17 +44,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/common_space_large"
-            android:text="书源导出路径" />
+            android:text="章节缓存路径" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/tv_book_cache_path"
             style="@style/ItemSubTitleStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="" />
     </LinearLayout>
 
-    <include layout="@layout/item_divider" />
+    <include
+        layout="@layout/item_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
 
     <LinearLayout
         android:id="@+id/view_backup_path"
@@ -76,5 +82,29 @@
             android:text="" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/view_source_path"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/all_item_height"
+        android:background="@drawable/selector_card_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone">
 
+        <TextView
+            style="@style/ItemTitleStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/common_space_large"
+            android:text="书源导出路径" />
+
+        <TextView
+            android:id="@+id/textView3"
+            style="@style/ItemSubTitleStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="" />
+    </LinearLayout>
+
+    <include layout="@layout/item_divider" />
 </LinearLayout>

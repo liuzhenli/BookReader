@@ -196,6 +196,9 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
         if (book == null) {
             return;
         }
+        if (TextUtils.isEmpty(book.getIntroduce())) {
+            book.setIntroduce("2333");
+        }
         mTvDescription.setText(Html.fromHtml(String.format("简介:\n%s", book.getIntroduce())));
         mTvBookName.setText(book.getName());
         mTvAuthor.setText(String.format("%s 著", mBookShelf.getBookInfoBean().getAuthor()));
@@ -264,6 +267,7 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
             //加入书架
             if (mChapterList != null) {
                 BookshelfHelper.saveBookToShelf(mBookShelf);
+                setIsInBookShelf(true);
                 DbHelper.getDaoSession().getBookChapterBeanDao().insertOrReplaceInTx(mChapterList);
                 //弹出离线下载界面
                 int endIndex = mBookShelf.getChapterListSize() - 1;

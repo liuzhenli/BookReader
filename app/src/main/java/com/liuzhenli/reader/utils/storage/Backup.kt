@@ -31,7 +31,7 @@ object Backup {
 
     /***恢复备份默认地址*/
     val defaultPath by lazy {
-        FileUtils.getSdCardPath() + File.separator + "BookReaderApp"
+        FileUtils.getSdCardPath() + File.separator + "YiShuFang/backups"
     }
 
     val backupFileNames by lazy {
@@ -117,7 +117,7 @@ object Backup {
                 copyBackup(path, isAuto)
             }
             if (isBackupToWebDav) {
-                WebDavHelp.backUpWebDav(backupPath,callBack)
+                WebDavHelp.backUpWebDav(backupPath, callBack)
             } else {
                 callBack?.backupSuccess()
             }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">阅读</string>
+    <string name="app_name">异书房</string>
     <string name="bookshelf">书架</string>
     <string name="last_read">最后阅读</string>
     <string name="read_summary">让阅读成为一种习惯。</string>
@@ -74,7 +74,7 @@
     <string name="ok">确认</string>
     <string name="cancel">取消</string>
     <string name="backup_confirmation">确认备份吗？</string>
-    <string name="backup_message">新备份会替换原有备份。\n备份文件夹BookReaderApp</string>
+    <string name="backup_message">新备份会替换原有备份。\n备份文件夹YiShuFang/backups</string>
     <string name="restore_confirmation">确认恢复吗？</string>
     <string name="restore_message">恢复书架会覆盖现有书架。</string>
     <string name="backup_success">备份成功</string>

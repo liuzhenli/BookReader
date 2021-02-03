@@ -276,11 +276,11 @@ public class BackupSettingActivity extends BaseActivity implements Backup.CallBa
                 });
         builder.setCheckedIndex(-1);
 
-        QMUIBottomSheetListItemModel auto = new QMUIBottomSheetListItemModel("自动备份(位于:BookReadApp/auto)", "auto");
+        QMUIBottomSheetListItemModel auto = new QMUIBottomSheetListItemModel("自动备份(位于:YiShuFang/backups/auto)", "auto");
         auto.image(R.drawable.dir);
         builder.addItem(auto);
 
-        QMUIBottomSheetListItemModel local = new QMUIBottomSheetListItemModel("本地备份(位于:BookReadApp/)", "local");
+        QMUIBottomSheetListItemModel local = new QMUIBottomSheetListItemModel("本地备份(位于:YiShuFang/backups/)", "local");
         local.image(R.drawable.dir);
         builder.addItem(local);
 

@@ -54,7 +54,7 @@ object WebDavHelp {
         val names = arrayListOf<String>()
         try {
             if (initWebDav()) {
-                var files = WebDav(url + "BookReaderApp/").listFiles()
+                var files = WebDav(url + "YiShuFang/backups/").listFiles()
                 files = files.reversed()
                 for (index: Int in 0 until min(10, files.size)) {
                     files[index].displayName?.let {
@@ -87,7 +87,7 @@ object WebDavHelp {
     fun restoreWebDav(name: String, callBack: Restore.CallBack?) {
         Single.create(SingleOnSubscribe<Boolean> { e ->
             getWebDavUrl().let {
-                val file = WebDav(it + "BookReaderApp/" + name)
+                val file = WebDav(it + "YiShuFang/backups/" + name)
                 file.downloadTo(zipFilePath, true)
                 @Suppress("BlockingMethodInNonBlockingContext")
                 ZipUtils.unzipFile(zipFilePath, unzipFilesPath)
@@ -123,8 +123,8 @@ object WebDavHelp {
                 }
                 FileHelp.deleteFile(zipFilePath)
                 if (ZipUtils.zipFiles(paths, zipFilePath)) {
-                    WebDav(getWebDavUrl() + "BookReaderApp").makeAsDir()
-                    val putUrl = getWebDavUrl() + "BookReaderApp/backup" +
+                    WebDav(getWebDavUrl() + "YiShuFang/backups").makeAsDir()
+                    val putUrl = getWebDavUrl() + "YiShuFang/backups" +
                             SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                                     .format(Date(System.currentTimeMillis())) + ".zip"
                     WebDav(putUrl).upload(zipFilePath)

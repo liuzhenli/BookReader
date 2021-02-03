@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">悦阅读</string>
+    <string name="app_name">异书房</string>
     <string name="network_unusable">似乎没有网络哦</string>
 
     <!--CountDownView-->

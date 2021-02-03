@@ -35,6 +35,9 @@ public class FilePathsListActivity extends BaseActivity {
     @BindView(R.id.tv_backup_path)
     TextView mTvBookSourceBackupPath;
 
+    @BindView(R.id.tv_book_cache_path)
+    TextView mTvBookCachePath;
+
     public static void start(Context context) {
         Intent intent = new Intent(context, FilePathsListActivity.class);
         context.startActivity(intent);
@@ -64,5 +67,6 @@ public class FilePathsListActivity extends BaseActivity {
     protected void configViews() {
         mTvBookSourcePath.setText(BaseApplication.getInstance().getFilesDir().getAbsolutePath());
         mTvBookSourceBackupPath.setText(Backup.INSTANCE.getDefaultPath());
+        mTvBookCachePath.setText(BaseApplication.getInstance().getDownloadPath());
     }
 }
