@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.liuzhenli.common.FileHelp;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.FileUtils;
 import com.liuzhenli.reader.base.BaseActivity;
@@ -69,6 +70,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
             showDialog();
             BookshelfHelper.clearCaches(true);
             FileUtils.deleteFileOrDirectory(mContext.getCacheDir());
+            FileUtils.deleteFile(FileHelp.getCachePath());
             toast("缓存已清理");
             hideDialog();
             mPresenter.getCacheSize();
