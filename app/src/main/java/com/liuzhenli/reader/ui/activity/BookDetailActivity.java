@@ -16,15 +16,19 @@ import com.liuzhenli.common.BitIntentDataManager;
 import com.liuzhenli.common.constant.AppConstant;
 import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.utils.ClickUtils;
+import com.liuzhenli.common.utils.NetworkUtils;
 import com.liuzhenli.reader.base.BaseActivity;
 import com.liuzhenli.reader.network.AppComponent;
+import com.liuzhenli.reader.service.DownloadService;
 import com.liuzhenli.reader.ui.contract.BookDetailContract;
 import com.liuzhenli.reader.ui.presenter.BookDetailPresenter;
 import com.liuzhenli.reader.utils.ToastUtil;
 import com.liuzhenli.reader.utils.image.ImageUtil;
+import com.liuzhenli.reader.view.loading.DownLoadDialog;
 import com.micoredu.readerlib.bean.BookChapterBean;
 import com.micoredu.readerlib.bean.BookInfoBean;
 import com.micoredu.readerlib.bean.BookShelfBean;
+import com.micoredu.readerlib.bean.DownloadBookBean;
 import com.micoredu.readerlib.bean.SearchBookBean;
 import com.micoredu.readerlib.helper.BookshelfHelper;
 import com.micoredu.readerlib.helper.DbHelper;
@@ -166,6 +170,9 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
         });
 
         ClickUtils.click(mVChapterList, o -> BookChapterListActivity.start(mContext, mBookShelf, mChapterList));
+        ClickUtils.click(mTvDownload, o -> download());
+
+        DownloadService.obtainDownloadList(this);
     }
 
     @Override
@@ -244,6 +251,37 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
                 default:
                     break;
             }
+        }
+    }
+
+    private void download() {
+        if (!NetworkUtils.isNetWorkAvailable(mContext.getApplicationContext())) {
+            toast(getResources().getString(R.string.network_connection_unavailable));
+            return;
+        }
+        if (mBookShelf != null) {
+
+            //加入书架
+            if (mChapterList != null) {
+                BookshelfHelper.saveBookToShelf(mBookShelf);
+                DbHelper.getDaoSession().getBookChapterBeanDao().insertOrReplaceInTx(mChapterList);
+                //弹出离线下载界面
+                int endIndex = mBookShelf.getChapterListSize() - 1;
+                DownLoadDialog.builder(this, mBookShelf.getDurChapter(), endIndex, mBookShelf.getChapterListSize())
+                        .setPositiveButton((start, end) -> {
+                            DownloadBookBean downloadBook = new DownloadBookBean();
+                            downloadBook.setName(mBookShelf.getBookInfoBean().getName());
+                            downloadBook.setNoteUrl(mBookShelf.getNoteUrl());
+                            downloadBook.setCoverUrl(mBookShelf.getBookInfoBean().getCoverUrl());
+                            downloadBook.setStart(start);
+                            downloadBook.setEnd(end);
+                            downloadBook.setFinalDate(System.currentTimeMillis());
+                            DownloadService.addDownload(mContext, downloadBook);
+                        }).show();
+            } else {
+                toast("没有加载到章节");
+            }
+
         }
     }
 }
