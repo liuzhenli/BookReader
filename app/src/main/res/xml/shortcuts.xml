@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shortcuts xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <shortcut
-        android:shortcutId="bookRead"
         android:enabled="true"
         android:icon="@mipmap/ic_launcher"
-        android:shortcutShortLabel="@string/last_read"
-        android:shortcutLongLabel="@string/last_read"
         android:shortcutDisabledMessage="@string/last_read"
+        android:shortcutId="bookRead"
+        android:shortcutLongLabel="@string/last_read"
+        android:shortcutShortLabel="@string/last_read"
         tools:ignore="UnusedAttribute">
 
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetPackage="${applicationId}"
-            android:targetClass="com.liuzhenli.reader.ui.activity.MainActivity" />
+            android:targetClass="com.liuzhenli.reader.ui.activity.MainActivity"
+            android:targetPackage="com.microedu.reader" />
         <categories android:name="android.shortcut.conversation" />
 
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetPackage="${applicationId}"
-            android:targetClass="com.liuzhenli.reader.ui.activity.ReaderActivity" />
-        <categories android:name="android.shortcut.conversation"/>
+            android:targetClass="com.liuzhenli.reader.ui.activity.ReaderActivity"
+            android:targetPackage="com.microedu.reader" />
+        <categories android:name="android.shortcut.conversation" />
     </shortcut>
 
     <shortcut
-        android:shortcutId="bookshelf"
         android:enabled="true"
         android:icon="@mipmap/ic_launcher"
-        android:shortcutShortLabel="@string/bookshelf"
-        android:shortcutLongLabel="@string/bookshelf"
         android:shortcutDisabledMessage="@string/bookshelf"
+        android:shortcutId="bookshelf"
+        android:shortcutLongLabel="@string/bookshelf"
+        android:shortcutShortLabel="@string/bookshelf"
         tools:ignore="UnusedAttribute">
 
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetPackage="${applicationId}"
-            android:targetClass="com.liuzhenli.reader.ui.activity.MainActivity" />
+            android:targetClass="com.liuzhenli.reader.ui.activity.MainActivity"
+            android:targetPackage="com.microedu.reader" />
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
 </shortcuts>
