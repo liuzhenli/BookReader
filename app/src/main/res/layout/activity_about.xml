@@ -134,9 +134,9 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/common_space_large"
                 android:text="免责声明"
-                android:textColor="@color/text_color_66" />
+                android:textColor="@color/text_color_66"
+                android:visibility="gone" />
 
-            <include layout="@layout/item_divider" />
 
         </LinearLayout>
     </ScrollView>
@@ -151,7 +151,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/common_space_normal"
         android:gravity="center"
-        android:text="Lovely Made by liuzhenli \n@2019-2020 All Rights Reserved"
+        android:text="Lovely Made by liuzhenli \n@2019-2021 All Rights Reserved"
         android:textColor="@color/text_color_99"
         android:textSize="@dimen/txt_size_10" />
 </LinearLayout>
