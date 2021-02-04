@@ -7,21 +7,18 @@ import android.content.Intent;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import com.hwangjr.rxbus.RxBus;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
 import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.observer.MyObserver;
 import com.liuzhenli.common.utils.FileUtils;
-import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.reader.base.BaseBean;
 import com.liuzhenli.reader.base.BaseRvActivity;
 import com.liuzhenli.reader.network.AppComponent;
@@ -39,9 +36,6 @@ import com.liuzhenli.reader.view.loading.DialogUtil;
 import com.micoredu.readerlib.bean.BookSourceBean;
 import com.micoredu.readerlib.model.BookSourceManager;
 import com.microedu.reader.R;
-import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
-import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.List;
 

@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/common_space_normal"
-                android:background="@drawable/selector_card_bg"
+                android:background="?android:attr/selectableItemBackground"
                 android:padding="@dimen/common_space_normal">
 
                 <TextView
@@ -63,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/common_space_normal"
-                android:background="@drawable/selector_card_bg"
+                android:background="?android:attr/selectableItemBackground"
                 android:padding="@dimen/common_space_normal">
 
                 <TextView
@@ -92,7 +92,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/common_space_normal"
-                android:background="@drawable/selector_card_bg"
+                android:background="?android:attr/selectableItemBackground"
                 android:padding="@dimen/common_space_normal">
 
                 <TextView
@@ -123,7 +123,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/common_space_normal"
-                android:background="@drawable/selector_card_bg"
+                android:background="?android:attr/selectableItemBackground"
                 android:padding="@dimen/common_space_normal">
 
                 <TextView
@@ -149,7 +149,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/common_space_normal"
-                android:background="@drawable/selector_card_bg"
+                android:background="?android:attr/selectableItemBackground"
                 android:padding="@dimen/common_space_normal">
 
                 <TextView
@@ -173,7 +173,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/common_space_normal"
-                android:background="@drawable/selector_card_bg"
+                android:background="?android:attr/selectableItemBackground"
                 android:padding="@dimen/common_space_normal">
 
                 <TextView
@@ -199,7 +199,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/common_space_normal"
-                android:background="@drawable/selector_card_bg"
+                android:background="?android:attr/selectableItemBackground"
                 android:padding="@dimen/common_space_normal">
 
                 <TextView
@@ -226,7 +226,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/common_space_normal"
-                android:background="@drawable/selector_card_bg"
+                android:background="?android:attr/selectableItemBackground"
                 android:padding="@dimen/common_space_normal">
 
                 <TextView

@@ -132,7 +132,7 @@ public class ShareService extends Service {
      */
     private void updateNotification(String content) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, ReaderApplication.channelIdWeb)
-                .setSmallIcon(R.drawable.ic_main_left_feedback)
+                .setSmallIcon(R.drawable.ic_air_plane)
                 .setOngoing(true)
                 .setContentTitle(getString(R.string.wifi_share))
                 .setContentText(content);

@@ -95,8 +95,7 @@ public class BookCategoryFragment extends BaseRVFragment<BookListPresenter, Sear
     public void showError(Exception e) {
         if (e.getMessage().contains("没有下一页")) {
             mAdapter.addAll(new ArrayList<>());
-        }
-        if (mAdapter.getCount() == 0) {
+        } else if (mAdapter.getCount() == 0) {
             mRecyclerView.showError();
         } else {
             loadError();
