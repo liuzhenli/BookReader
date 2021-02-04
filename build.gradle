@@ -47,7 +47,7 @@ ext {
     compileSdkVersion = 28
     buildToolsVersion = "29.0.0"
     minSdkVersion = 19
-    targetSdkVersion = 28
+    targetSdkVersion = 29
     supportLibraryVersion = "28.0.0"
     skinSupportVersion = "2.2.2"
     qmui_arch_version = '2.0.0-alpha10'
