@@ -51,7 +51,7 @@ public class DownloadAdapter extends RecyclerArrayAdapter<DownloadBookBean> {
     }
 
     class ViewHolder extends BaseViewHolder<DownloadBookBean> {
-        @BindView(R.id.iv_cover)
+        @BindView(R.id.iv_download_book_cover)
         ImageView ivCover;
         @BindView(R.id.tv_name)
         TextView tvName;
@@ -72,7 +72,7 @@ public class DownloadAdapter extends RecyclerArrayAdapter<DownloadBookBean> {
             ivDel.getDrawable().mutate();
             ivDel.getDrawable().setColorFilter(mContext.getResources().getColor(R.color.tv_text_default), PorterDuff.Mode.SRC_ATOP);
 
-            ImageUtil.setRoundedCornerImage(mContext, item.getCoverUrl(), R.id.iv_book_cover, ivCover);
+            ImageUtil.setRoundedCornerImage(mContext, item.getCoverUrl(), R.drawable.book_cover, ivCover);
             if (item.getSuccessCount() > 0) {
                 tvName.setText(String.format(Locale.getDefault(), "%s(正在下载)", item.getName()));
             } else {

@@ -7,7 +7,6 @@ import android.content.IntentFilter;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.liuzhenli.reader.base.BaseActivity;
 import com.liuzhenli.reader.base.BaseRvActivity;
 import com.liuzhenli.reader.network.AppComponent;
 import com.liuzhenli.reader.service.DownloadService;
@@ -37,7 +36,7 @@ public class DownloadActivity extends BaseRvActivity<DownloadPresenter, Download
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-
+        appComponent.inject(this);
     }
 
     @Override
@@ -128,7 +127,11 @@ public class DownloadActivity extends BaseRvActivity<DownloadPresenter, Download
                     case DownloadService.progressDownloadAction:
                         downloadBook = intent.getParcelableExtra("downloadBook");
                         int index = adapter.getRealAllData().indexOf(downloadBook);
-                        adapter.getRealAllData().set(index, downloadBook);
+                        if (index == -1) {
+                            adapter.add(downloadBook);
+                        } else {
+                            adapter.getRealAllData().set(index, downloadBook);
+                        }
                         adapter.notifyDataSetChanged();
                         //adapter.upData(downloadBook);
                         break;
@@ -144,6 +147,14 @@ public class DownloadActivity extends BaseRvActivity<DownloadPresenter, Download
                         break;
                 }
             }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (receiver != null) {
+            unregisterReceiver(receiver);
         }
     }
 }
