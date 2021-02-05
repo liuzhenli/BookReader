@@ -11,7 +11,7 @@ android {
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
         vectorDrawables.useSupportLibrary = true
-        versionCode 1
+        versionCode 2
         versionName "1.0.0"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -71,7 +71,7 @@ android {
                     UMENG_KEY: "5fb8761f690bda19c786950a",
             ]
             ndk {
-                abiFilters /*"armeabi", "x86_64",*/ "armeabi-v7a"
+                abiFilters /*"armeabi", "x86_64",*/ "armeabi-v7a",'arm64-v8a'
             }
             dimension "app"
         }
