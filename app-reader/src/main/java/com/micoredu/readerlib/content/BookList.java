@@ -5,6 +5,8 @@ import android.text.TextUtils;
 
 
 import com.liuzhenli.common.BaseApplication;
+import com.liuzhenli.common.exception.ApiCodeException;
+import com.liuzhenli.common.exception.Error;
 import com.liuzhenli.common.utils.NetworkUtils;
 import com.liuzhenli.common.utils.StringUtils;
 import com.micoredu.readerlib.R;
@@ -138,7 +140,7 @@ class BookList {
                 }
             }
             if (books.isEmpty()) {
-                e.onError(new Throwable(BaseApplication.getInstance().getString(R.string.no_book_name)));
+                e.onError(new ApiCodeException(Error.KNOWN_ERROR, "###没有下一页"));
                 return;
             }
             Debug.printLog(tag, "-书籍列表解析结束");
