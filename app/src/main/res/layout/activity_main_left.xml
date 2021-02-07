@@ -64,17 +64,6 @@
         android:paddingLeft="@dimen/common_space_large"
         android:text="@string/night_theme" />
 
-    <TextView
-        android:id="@+id/tv_main_draw_about"
-        style="@style/ItemTitleStyle"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/all_item_height"
-        android:background="?android:attr/selectableItemBackground"
-        android:drawableLeft="@drawable/ic_left_menu_about"
-        android:drawablePadding="@dimen/common_space_normal"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/common_space_large"
-        android:text="@string/about" />
 
     <TextView
         android:id="@+id/tv_main_draw_setting"
@@ -87,4 +76,16 @@
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/common_space_large"
         android:text="@string/setting" />
+
+    <TextView
+        android:id="@+id/tv_main_draw_about"
+        style="@style/ItemTitleStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/all_item_height"
+        android:background="?android:attr/selectableItemBackground"
+        android:drawableLeft="@drawable/ic_left_menu_about"
+        android:drawablePadding="@dimen/common_space_normal"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/common_space_large"
+        android:text="@string/about" />
 </LinearLayout>
