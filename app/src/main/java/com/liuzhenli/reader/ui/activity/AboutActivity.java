@@ -2,19 +2,28 @@ package com.liuzhenli.reader.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.core.text.StringKt;
 
 import com.liuzhenli.common.BaseApplication;
 import com.liuzhenli.common.BitIntentDataManager;
+import com.liuzhenli.common.constant.AppConstant;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.reader.ReaderApplication;
 import com.liuzhenli.reader.base.BaseActivity;
+import com.liuzhenli.reader.bean.Sayings;
 import com.liuzhenli.reader.network.AppComponent;
 import com.liuzhenli.reader.utils.AppConfigManager;
 import com.liuzhenli.reader.utils.ToastUtil;
@@ -48,6 +57,22 @@ public class AboutActivity extends BaseActivity {
     ImageView mIvNewVersionIcon;
     @BindView(R.id.tv_new_version_info)
     TextView mTvNewVersionInfo;
+
+    @BindView(R.id.tv_about_donate)
+    TextView mTvAbout;
+
+    @BindView(R.id.tv_about_saying)
+    TextView mTvSaying;
+
+    @BindView(R.id.tv_donate_zhifubao_kouling)
+    TextView mViewDonateAliPay;
+    @BindView(R.id.tv_donate_qq)
+    TextView mViewQQ;
+    @BindView(R.id.tv_donate_weixin)
+    TextView mViewWX;
+    @BindView(R.id.tv_donate_zfb)
+    TextView mViewZFB;
+
 
     public static void start(Context context) {
         Intent intent = new Intent(context, AboutActivity.class);
@@ -111,6 +136,54 @@ public class AboutActivity extends BaseActivity {
             mIvNewVersionIcon.setVisibility(View.GONE);
             mTvNewVersionInfo.setVisibility(View.GONE);
         }
+
+        Sayings sayings = AppConfigManager.getInstance().getSayings();
+        mTvSaying.setText(sayings.getSaying());
+
+        String aboutDes = getResources().getString(R.string.about_donate);
+        SpannableString spannableString = new SpannableString(aboutDes);
+        String donate = getResources().getString(R.string.donate);
+        spannableString.setSpan(new ClickableSpan() {
+            @Override
+            public void updateDrawState(@NonNull TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(getResources().getColor(R.color.text_color_66));
+                ds.setUnderlineText(false);
+            }
+
+            @Override
+            public void onClick(@NonNull View widget) {
+                Intent intent = new Intent(mContext, DonateActivity.class);
+                intent.putExtra(START_SHEAR_ELE, true);
+                //startActivityByAnim(intent, android.R.anim.fade_in, android.R.anim.fade_out);
+            }
+        }, aboutDes.indexOf(donate), aboutDes.indexOf(donate) + donate.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        //设置点击后的颜色为透明
+        mTvAbout.setHighlightColor(Color.TRANSPARENT);
+        mTvAbout.setMovementMethod(LinkMovementMethod.getInstance());
+        mTvAbout.setText(spannableString);
+
+        ClickUtils.click(mViewDonateAliPay, o -> {
+            Uri uri = Uri.parse(AppConstant.DonateUrl.ali);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        });
+        ClickUtils.click(mViewZFB, o -> {
+            Uri uri = Uri.parse(AppConstant.DonateUrl.zfbCode);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        });
+        ClickUtils.click(mViewQQ, o -> {
+            Uri uri = Uri.parse(AppConstant.DonateUrl.wxCode);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        });
+        ClickUtils.click(mViewWX, o -> {
+            Uri uri = Uri.parse(AppConstant.DonateUrl.qqCode);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        });
 
     }
 

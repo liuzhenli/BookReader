@@ -2,10 +2,18 @@ package com.liuzhenli.reader.utils;
 
 import android.text.TextUtils;
 
+import com.liuzhenli.common.BaseApplication;
+import com.liuzhenli.common.utils.IOUtils;
 import com.liuzhenli.reader.bean.AppConfig;
+import com.liuzhenli.reader.bean.Sayings;
 import com.liuzhenli.reader.gson.GsonUtils;
 import com.umeng.cconfig.UMRemoteConfig;
 import com.umeng.cconfig.UMRemoteConfig;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Description:
@@ -47,5 +55,20 @@ public class AppConfigManager {
             }
         }
         return "";
+    }
+
+    public Sayings getSayings() {
+        try {
+            InputStream open = BaseApplication.getInstance().getAssets().open("sayings.json");
+            String json = IOUtils.toString(open);
+            open.close();
+            List<Sayings> sayings = com.liuzhenli.common.utils.GsonUtils.parseJArray(json, Sayings.class);
+            Random random = new Random();
+            int i = random.nextInt(sayings.size());
+            return sayings.get(i);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new Sayings("发奋识遍天下字，立志读尽人间书", "苏轼");
     }
 }

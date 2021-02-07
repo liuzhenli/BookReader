@@ -180,6 +180,7 @@ public class MainActivity extends BaseActivity {
         ClickUtils.click(mViewDonate, o -> {
             DonateActivity.start(mContext);
         });
+        mViewDonate.setVisibility(View.GONE);
         mViewPager.setOffscreenPageLimit(4);
         mViewNightMode.setVisibility(View.GONE);
     }

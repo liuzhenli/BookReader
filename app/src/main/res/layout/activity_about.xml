@@ -11,7 +11,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,46 +33,149 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/common_space_normal"
+                android:layout_marginBottom="@dimen/common_space_large"
                 android:gravity="center"
                 android:text="阅读 v1.0.0 Build#11 tq_group_1"
                 android:textColor="@color/text_color_66" />
 
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_30"
-                android:layout_marginTop="@dimen/common_space_normal"
                 android:background="@color/bg_color"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/common_space_large"
-                android:text="QQ群"
-                android:textColor="@color/text_color_66" />
+                android:text="拾穗"
+                android:textColor="@color/text_color_66"
+                android:textSize="@dimen/txt_size_16" />
+
+            <TextView
+                android:id="@+id/tv_about_saying"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_space_large"
+                android:layout_marginRight="@dimen/common_space_large"
+                android:lineSpacingMultiplier="1.3"
+                android:paddingTop="@dimen/common_space_normal"
+                android:paddingBottom="@dimen/common_space_normal"
+                android:text="有一言而可以终身行之者乎?"
+                android:textColor="@color/s_text_99"
+                android:textIsSelectable="true"
+                android:textSize="@dimen/txt_size_14" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_30"
+                android:background="@color/bg_color"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/common_space_large"
+                android:text="联系"
+                android:textColor="@color/text_color_66"
+                android:textSize="@dimen/txt_size_16" />
 
             <TextView
                 android:id="@+id/tv_gg_group_0"
                 android:layout_width="match_parent"
-                android:layout_height="36dp"
+                android:layout_height="@dimen/height_30"
                 android:background="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/common_space_large"
-                android:text="🍎异书房@官方结社群(272343970)-闲聊"
-                android:textColor="@color/text_color_66"
+                android:text="异书房@官方结社群(272343970)-闲聊"
+                android:textColor="@color/main_blue"
                 android:textSize="@dimen/txt_size_12" />
-
-            <include
-                layout="@layout/item_divider"
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginLeft="@dimen/common_space_xlarge" />
 
             <TextView
                 android:id="@+id/tv_gg_group_1"
                 android:layout_width="match_parent"
-                android:layout_height="36dp"
+                android:layout_height="30dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/common_space_large"
-                android:text="🍓异书房@官方结社No.1(1140723995)"
+                android:text="异书房@官方结社No.1(1140723995)-反馈问题"
+                android:textColor="@color/main_blue"
+                android:textSize="@dimen/txt_size_12" />
+
+            <TextView
+                android:id="@+id/tv_about_contact"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_30"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/common_space_large"
+                android:text="发送邮件给开发者-反馈问题"
+                android:textColor="@color/main_blue"
+                android:textSize="@dimen/txt_size_12" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_30"
+                android:background="@color/bg_color"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/common_space_large"
+                android:text="捐赠"
                 android:textColor="@color/text_color_66"
+                android:textSize="@dimen/txt_size_16" />
+
+            <TextView
+                android:id="@+id/tv_about_donate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_space_large"
+                android:layout_marginRight="@dimen/common_space_large"
+                android:lineSpacingMultiplier="1.3"
+                android:paddingTop="@dimen/common_space_normal"
+                android:paddingBottom="@dimen/common_space_normal"
+                android:text="@string/about_donate"
+                android:textColor="@color/s_text_99"
+                android:textSize="@dimen/txt_size_14" />
+
+            <TextView
+                android:id="@+id/tv_donate_zhifubao_kouling"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_30"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/common_space_large"
+                android:paddingRight="@dimen/common_space_large"
+                android:text="@string/pay_ali"
+                android:textColor="@color/main_blue"
+                android:textSize="@dimen/txt_size_12" />
+
+
+            <TextView
+                android:id="@+id/tv_donate_zfb"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_30"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/common_space_large"
+                android:paddingRight="@dimen/common_space_large"
+                android:text="@string/pay_zfb"
+                android:textColor="@color/main_blue"
+                android:textSize="@dimen/txt_size_12" />
+
+            <TextView
+                android:id="@+id/tv_donate_weixin"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_30"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/common_space_large"
+                android:paddingRight="@dimen/common_space_large"
+                android:text="@string/pay_weixin"
+                android:textColor="@color/main_blue"
+                android:textSize="@dimen/txt_size_12" />
+
+            <TextView
+                android:id="@+id/tv_donate_qq"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_30"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/common_space_large"
+                android:paddingRight="@dimen/common_space_large"
+                android:text="@string/pay_qq"
+                android:textColor="@color/main_blue"
                 android:textSize="@dimen/txt_size_12" />
 
             <include layout="@layout/item_divider" />
@@ -104,27 +208,19 @@
                     android:layout_height="@dimen/all_item_height"
                     android:layout_marginLeft="@dimen/common_space_normal"
                     android:background="?android:attr/selectableItemBackground"
+                    android:drawableRight="@drawable/icon_common_arrow_right_more"
                     android:gravity="center_vertical"
+                    android:paddingRight="@dimen/common_space_large"
                     android:text="(有新版本1.0.2)"
                     android:textColor="@color/text_color_99"
                     android:textSize="@dimen/txt_size_12" />
+
 
             </LinearLayout>
 
 
             <include layout="@layout/item_divider" />
 
-            <TextView
-                android:id="@+id/tv_about_contact"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/all_item_height"
-                android:background="?android:attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:paddingLeft="@dimen/common_space_large"
-                android:text="联系开发者"
-                android:textColor="@color/text_color_66" />
-
-            <include layout="@layout/item_divider" />
 
             <TextView
                 android:id="@+id/tv_disclaimer"
@@ -137,21 +233,15 @@
                 android:textColor="@color/text_color_66"
                 android:visibility="gone" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/common_space_normal"
+                android:gravity="center"
+                android:text="Lovely made by liuzhenli and its friends \n@2019-2021 All Rights Reserved"
+                android:textColor="@color/text_color_99"
+                android:textSize="@dimen/txt_size_10" />
 
         </LinearLayout>
     </ScrollView>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/common_space_normal"
-        android:gravity="center"
-        android:text="Lovely Made by liuzhenli \n@2019-2021 All Rights Reserved"
-        android:textColor="@color/text_color_99"
-        android:textSize="@dimen/txt_size_10" />
 </LinearLayout>

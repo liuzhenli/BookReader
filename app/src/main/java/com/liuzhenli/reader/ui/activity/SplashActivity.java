@@ -16,6 +16,7 @@ import com.liuzhenli.common.utils.IOUtils;
 import com.liuzhenli.reader.bean.Sayings;
 import com.liuzhenli.reader.network.AppComponent;
 import com.liuzhenli.reader.base.BaseActivity;
+import com.liuzhenli.reader.utils.AppConfigManager;
 import com.liuzhenli.reader.view.CountDownView;
 import com.microedu.reader.R;
 
@@ -78,23 +79,8 @@ public class SplashActivity extends BaseActivity {
                 SplashActivity.this.finish();
             }
         });
-        mTvSaying.setText(getSayings().getSaying());
-        mTvAuthor.setText(String.format("BY:%s", getSayings().getAuthor()));
-    }
-
-
-    private Sayings getSayings() {
-        try {
-            InputStream open = BaseApplication.getInstance().getAssets().open("sayings.json");
-            String json = IOUtils.toString(open);
-            open.close();
-            List<Sayings> sayings = GsonUtils.parseJArray(json, Sayings.class);
-            Random random = new Random();
-            int i = random.nextInt(sayings.size());
-            return sayings.get(i);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return new Sayings("发奋识遍天下字，立志读尽人间书", "苏轼");
+        Sayings sayings = AppConfigManager.getInstance().getSayings();
+        mTvSaying.setText(sayings.getSaying());
+        mTvAuthor.setText(String.format("BY:%s", sayings.getAuthor()));
     }
 }
