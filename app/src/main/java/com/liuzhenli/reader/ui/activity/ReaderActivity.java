@@ -239,7 +239,7 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
         mVBottomMenu.setOnMenuElementClickListener(new ReadBottomMenu.OnElementClickListener() {
             @Override
             public void onMenuClick() {
-                BookChapterListActivity.start(mContext, mBookShelf, mPresenter.getChapterList(),false,true);
+                BookChapterListActivity.start(mContext, mBookShelf, mPresenter.getChapterList(), false, true);
             }
 
             @Override
@@ -534,9 +534,12 @@ public class ReaderActivity extends BaseReaderActivity implements ReadContract.V
 
     }
 
+    /***
+     * 没有上一页或者没有下一页
+     */
     @Override
     public void showSnackBar(PageView pageView, String msg) {
-
+        ToastUtil.showToast(msg);
     }
 
     @Override
