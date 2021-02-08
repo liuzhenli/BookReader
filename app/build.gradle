@@ -71,7 +71,7 @@ android {
                     UMENG_KEY: "5fb8761f690bda19c786950a",
             ]
             ndk {
-                abiFilters /*"armeabi", "x86_64",*/ "armeabi-v7a",'arm64-v8a'
+                abiFilters /*"armeabi", "x86_64",*/ "armeabi-v7a"
             }
             dimension "app"
         }
@@ -79,6 +79,9 @@ android {
             manifestPlaceholders = [CHANNEL_NAME: "google",
                                     CHNL        : "1",
             ]
+            ndk {
+                abiFilters /*"armeabi", "x86_64",*/ "armeabi-v7a",'arm64-v8a'
+            }
             dimension "ndkfilter"
         }
         "reader" {
