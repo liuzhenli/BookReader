@@ -20,6 +20,9 @@ public class ReaderConfig {
      */
     public static final boolean SHOW_LINE = false;
 
+    /***翻页时间  动画速度*/
+    public static final int ANIMATION_SPEED = 300;
+
     /**
      * 翻页模式
      */

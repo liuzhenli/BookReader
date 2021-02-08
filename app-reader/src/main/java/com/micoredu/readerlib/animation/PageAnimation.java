@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import com.micoredu.readerlib.R;
 import com.micoredu.readerlib.ReaderLibManager;
 import com.micoredu.readerlib.helper.ReadConfigManager;
+import com.micoredu.readerlib.utils.ReaderConfig;
 
 
 /**
@@ -20,47 +21,47 @@ import com.micoredu.readerlib.helper.ReadConfigManager;
 
 public abstract class PageAnimation {
     //动画速度
-    static final int animationSpeed = 300;
+    protected int animationSpeed = ReaderConfig.ANIMATION_SPEED;
     //正在使用的View
     protected View mView;
     protected ReadConfigManager readBookControl = ReadConfigManager.getInstance();
     //滑动装置
-    Scroller mScroller;
+    protected Scroller mScroller;
     //监听器
     protected OnPageChangeListener mListener;
     //移动方向
-    Direction mDirection = Direction.NONE;
+    protected Direction mDirection = Direction.NONE;
 
     //屏幕的尺寸
-    int mScreenWidth;
-    int mScreenHeight;
-    int mMarginTop;
+    protected int mScreenWidth;
+    protected int mScreenHeight;
+    protected int mMarginTop;
     //视图的尺寸
-    int mViewWidth;
-    int mViewHeight;
+    protected int mViewWidth;
+    protected int mViewHeight;
     //起始点
-    float mStartX;
-    float mStartY;
+    protected float mStartX;
+    protected float mStartY;
     //触碰点
-    float mTouchX;
-    float mTouchY;
+    protected float mTouchX;
+    protected float mTouchY;
     //上一个触碰点
-    float mLastX;
-    float mLastY;
+    protected float mLastX;
+    protected float mLastY;
     private boolean isMoving = false;
-    boolean isRunning = false;
+    protected boolean isRunning = false;
     private boolean touchInit = false;
     //是否取消翻页
-    boolean isCancel = false;
+    protected boolean isCancel = false;
     //可以使用 mLast代替
-    int mMoveX = 0;
-    int mMoveY = 0;
+    protected int mMoveX = 0;
+    protected int mMoveY = 0;
     //是否移动了
-    boolean isMove = false;
+    protected boolean isMove = false;
     //是否翻阅下一页。true表示翻到下一页，false表示上一页。
-    boolean isNext = false;
+    protected boolean isNext = false;
     //是否没下一页或者上一页
-    boolean noNext = false;
+    protected boolean noNext = false;
 
     PageAnimation(int w, int h, View view, OnPageChangeListener listener) {
         this(w, h, 0, 0, 0, view, listener);
@@ -215,15 +216,15 @@ public abstract class PageAnimation {
 
         public static Mode getPageMode(int pageMode) {
             switch (pageMode) {
-                case 0:
+                case ReaderConfig.PageMode.COVER:
                     return COVER;
-                case 1:
+                case ReaderConfig.PageMode.SIMULATION:
                     return SIMULATION;
-                case 2:
+                case ReaderConfig.PageMode.SLIDE:
                     return SLIDE;
-                case 3:
+                case ReaderConfig.PageMode.SCROLL:
                     return SCROLL;
-                case 4:
+                case ReaderConfig.PageMode.NONE:
                     return NONE;
                 default:
                     return COVER;

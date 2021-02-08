@@ -180,15 +180,19 @@ public class PageView extends View implements PageAnimation.OnPageChangeListener
             case SIMULATION:
                 mPageAnim = new SimulationPageAnim(mViewWidth, mViewHeight, this, this);
                 break;
+            //覆盖
             case COVER:
                 mPageAnim = new CoverPageAnim(mViewWidth, mViewHeight, this, this);
                 break;
+            //滑动
             case SLIDE:
                 mPageAnim = new SlidePageAnim(mViewWidth, mViewHeight, this, this);
                 break;
+            //无动画
             case NONE:
                 mPageAnim = new NonePageAnim(mViewWidth, mViewHeight, this, this);
                 break;
+            //上下
             case SCROLL:
                 mPageAnim = new ScrollPageAnim(mViewWidth, mViewHeight, 0,
                         marginTop, marginBottom, this, this);
