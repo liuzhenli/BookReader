@@ -50,15 +50,16 @@ import static com.micoredu.readerlib.utils.ReaderConfig.DEFAULT_MARGIN_WIDTH;
 
 public abstract class PageLoader {
     private static final String TAG = "PageLoader";
+    private List<ChapterContainer> chapterContainers = new ArrayList<>();
+    /*** 阅读器的配置选项*/
+    protected ReadConfigManager readBookControl = ReadConfigManager.getInstance();
 
     /*** 监听器*/
     protected Callback mCallback;
     private Context mContext;
-    BookShelfBean book;
+    protected BookShelfBean book;
     /*** 页面显示类*/
-    PageView mPageView;
-    private List<ChapterContainer> chapterContainers = new ArrayList<>();
-
+    protected PageView mPageView;
     /*** 绘制电池的画笔*/
     private TextPaint mBatteryPaint;
     /*** 绘制提示的画笔(章节名称和时间)*/
@@ -70,21 +71,19 @@ public abstract class PageLoader {
     public TextPaint mTextPaint;
     /*** 绘制结束的画笔*/
     private TextPaint mTextEndPaint;
-    /*** 阅读器的配置选项*/
-    protected ReadConfigManager readBookControl = ReadConfigManager.getInstance();
     /***缩进*/
     protected String indent;
     /*****************params**************************/
     /*** 判断章节列表是否加载完成*/
-    boolean isChapterListPrepare;
+    protected boolean isChapterListPrepare;
     private boolean isClose;
     /*** 页面的翻页效果模式*/
     private PageAnimation.Mode mPageMode;
     /***书籍绘制区域的宽高*/
-    int mVisibleWidth;
-    int mVisibleHeight;
+    protected int mVisibleWidth;
+    protected int mVisibleHeight;
     /***应用的宽高*/
-    int mDisplayWidth;
+    protected int mDisplayWidth;
     private int mDisplayHeight;
     /***间距*/
     private int mMarginTop;
@@ -92,6 +91,7 @@ public abstract class PageLoader {
     private int mMarginLeft;
     private int mMarginRight;
     protected int contentMarginHeight;
+    /***章节标题 padding*/
     private int tipMarginTop;
     private int tipMarginBottom;
     private int oneSpPx;
@@ -103,23 +103,23 @@ public abstract class PageLoader {
     /***行间距*/
     protected int mTextInterval;
     /***标题的行间距*/
-    int mTitleInterval;
+    protected int mTitleInterval;
     /***段落距离(基于行间距的额外距离)*/
-    int mTextPara;
-    int mTitlePara;
-    int textInterval;
-    int textPara;
-    int titleInterval;
-    int titlePara;
-    float tipBottomTop;
-    float tipBottomBot;
-    float tipDistance;
-    float tipMarginLeft;
-    float displayRightEnd;
-    float tipVisibleWidth;
+    protected int mTextPara;
+    protected int mTitlePara;
+    private int textInterval;
+    private int textPara;
+    private int titleInterval;
+    private int titlePara;
+    private float tipBottomTop;
+    private float tipBottomBot;
+    private float tipDistance;
+    private float tipMarginLeft;
+    private float displayRightEnd;
+    private float tipVisibleWidth;
 
-    boolean hideStatusBar;
-    boolean showTimeBattery;
+    private boolean hideStatusBar;
+    private boolean showTimeBattery;
 
     /***电池的百分比***/
     private int mBatteryLevel;
@@ -516,7 +516,7 @@ public abstract class PageLoader {
     /**
      * 加载错误
      */
-    void durDhapterError(String msg) {
+    void durChapterError(String msg) {
         if (curChapter().txtChapter == null) {
             curChapter().txtChapter = new TxtChapter(mCurChapterPos);
         }
@@ -864,9 +864,11 @@ public abstract class PageLoader {
         if (!mCallback.getChapterList().isEmpty()) {
             String title = mCallback.getChapterList().size() > txtChapter.getPosition() ? mCallback.getChapterList().get(txtChapter.getPosition()).getDurChapterName() : "";
             title = ChapterContentHelp.getInstance().replaceContent(book.getBookInfoBean().getName(), book.getTag(), title, book.getReplaceEnable());
-            String page = (txtChapter.getStatus() != TxtChapter.Status.FINISH || txtPage == null) ? ""
+            //页码
+            String pageStr = (txtChapter.getStatus() != TxtChapter.Status.FINISH || txtPage == null) ? ""
                     : String.format("%d/%d", txtPage.getPosition() + 1, txtChapter.getPageSize());
-            String progress = (txtChapter.getStatus() != TxtChapter.Status.FINISH) ? ""
+            //整体进度
+            String progressStr = (txtChapter.getStatus() != TxtChapter.Status.FINISH) ? ""
                     : BookshelfHelper.getReadProgress(mCurChapterPos, book.getChapterListSize(), mCurPagePos, curChapter().txtChapter.getPageSize());
 
             float tipBottom;
@@ -882,11 +884,11 @@ public abstract class PageLoader {
                     }
                 } else {
                     //绘制总进度
-                    tipLeft = displayRightEnd - mTipPaint.measureText(progress);
-                    canvas.drawText(progress, tipLeft, tipBottomBot, mTipPaint);
+                    tipLeft = displayRightEnd - mTipPaint.measureText(pageStr);
+                    canvas.drawText(pageStr, tipLeft, tipBottomBot, mTipPaint);
                     //绘制页码
-                    tipLeft = tipLeft - tipDistance - mTipPaint.measureText(page);
-                    canvas.drawText(page, tipLeft, tipBottomBot, mTipPaint);
+                    tipLeft = tipLeft - tipDistance - mTipPaint.measureText(progressStr);
+                    canvas.drawText(progressStr, tipLeft, tipBottomBot, mTipPaint);
                     //绘制标题
                     title = TextUtils.ellipsize(title, mTipPaint, tipLeft - tipDistance, TextUtils.TruncateAt.END).toString();
                     canvas.drawText(title, tipMarginLeft, tipBottomBot, mTipPaint);
@@ -905,15 +907,15 @@ public abstract class PageLoader {
                     }
                 } else {
                     //绘制标题
-                    float titleTipLength = showTimeBattery ? tipVisibleWidth - mTipPaint.measureText(progress) - tipDistance : tipVisibleWidth;
+                    float titleTipLength = showTimeBattery ? tipVisibleWidth - mTipPaint.measureText(pageStr) - tipDistance : tipVisibleWidth;
                     title = TextUtils.ellipsize(title, mTipPaint, titleTipLength, TextUtils.TruncateAt.END).toString();
                     canvas.drawText(title, tipMarginLeft, tipBottomTop, mTipPaint);
                     // 绘制页码
-                    canvas.drawText(page, tipMarginLeft, tipBottomBot, mTipPaint);
+                    canvas.drawText(progressStr, tipMarginLeft, tipBottomBot, mTipPaint);
                     //绘制总进度
-                    float progressTipLeft = displayRightEnd - mTipPaint.measureText(progress);
+                    float progressTipLeft = displayRightEnd - mTipPaint.measureText(pageStr);
                     float progressTipBottom = showTimeBattery ? tipBottomTop : tipBottomBot;
-                    canvas.drawText(progress, progressTipLeft, progressTipBottom, mTipPaint);
+                    canvas.drawText(pageStr, progressTipLeft, progressTipBottom, mTipPaint);
                 }
 
                 if (readBookControl.getShowLine()) {

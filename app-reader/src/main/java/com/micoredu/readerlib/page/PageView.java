@@ -364,7 +364,12 @@ public class PageView extends View implements PageAnimation.OnPageChangeListener
 
     private void drawPressSelectText(Canvas canvas) {
         // 找到了选择的字符
-        if (lastSelectTxtChar != null) {
+        if (lastSelectTxtChar != null
+                && firstSelectTxtChar != null
+                && firstSelectTxtChar.getTopLeftPosition() != null
+                && firstSelectTxtChar.getTopRightPosition() != null
+                && firstSelectTxtChar.getBottomRightPosition() != null
+                && firstSelectTxtChar.getBottomLeftPosition() != null) {
             mSelectTextPath.reset();
             mSelectTextPath.moveTo(firstSelectTxtChar.getTopLeftPosition().x, firstSelectTxtChar.getTopLeftPosition().y);
             mSelectTextPath.lineTo(firstSelectTxtChar.getTopRightPosition().x, firstSelectTxtChar.getTopRightPosition().y);
@@ -413,15 +418,17 @@ public class PageView extends View implements PageAnimation.OnPageChangeListener
 
             // 找到选择的字符数据，转化为选择的行，然后将行选择背景画出来
             for (TxtLine l : mLinesData) {
-
-                TxtLine selectline = new TxtLine();
-                selectline.setCharsData(new ArrayList<>());
+                if (l.getCharsData() == null) {
+                    return;
+                }
+                TxtLine selectLine = new TxtLine();
+                selectLine.setCharsData(new ArrayList<>());
 
                 for (TxtChar c : l.getCharsData()) {
                     if (!started) {
                         if (c.getIndex() == firstSelectTxtChar.getIndex()) {
                             started = true;
-                            selectline.getCharsData().add(c);
+                            selectLine.getCharsData().add(c);
                             if (c.getIndex() == lastSelectTxtChar.getIndex()) {
                                 ended = true;
                                 break;
@@ -430,17 +437,17 @@ public class PageView extends View implements PageAnimation.OnPageChangeListener
                     } else {
                         if (c.getIndex() == lastSelectTxtChar.getIndex()) {
                             ended = true;
-                            if (!selectline.getCharsData().contains(c)) {
-                                selectline.getCharsData().add(c);
+                            if (!selectLine.getCharsData().contains(c)) {
+                                selectLine.getCharsData().add(c);
                             }
                             break;
                         } else {
-                            selectline.getCharsData().add(c);
+                            selectLine.getCharsData().add(c);
                         }
                     }
                 }
 
-                mSelectLines.add(selectline);
+                mSelectLines.add(selectLine);
 
                 if (started && ended) {
                     break;

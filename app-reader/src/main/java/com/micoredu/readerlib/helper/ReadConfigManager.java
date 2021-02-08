@@ -49,6 +49,7 @@ public class ReadConfigManager {
     private boolean bgIsColor;
     private int mBackgroundColor;
     private float lineMultiplier;
+    /***段落间距*/
     private float paragraphSize;
     private int pageMode;
     /***隐藏状态栏*/
@@ -110,12 +111,12 @@ public class ReadConfigManager {
         this.hideStatusBar = preferences.getBoolean("hide_status_bar", true);
         this.hideNavigationBar = preferences.getBoolean("hide_navigation_bar", false);
         this.indent = preferences.getInt("indent", 2);
-        this.textSize = preferences.getInt("textSize", 20);
+        this.textSize = preferences.getInt("textSize", 16);
         this.canClickTurn = preferences.getBoolean("canClickTurn", true);
         this.canKeyTurn = preferences.getBoolean("canKeyTurn", true);
         this.readAloudCanKeyTurn = preferences.getBoolean("readAloudCanKeyTurn", false);
         this.lineMultiplier = preferences.getFloat("lineMultiplier", 1);
-        this.paragraphSize = preferences.getFloat("paragraphSize", 1);
+        this.paragraphSize = preferences.getFloat("paragraphSize", 2);
         this.clickSensitivity = preferences.getInt("clickSensitivity", 50) > 100
                 ? 50 : preferences.getInt("clickSensitivity", 50);
         this.clickAllNext = preferences.getBoolean("clickAllNext", false);
@@ -126,16 +127,16 @@ public class ReadConfigManager {
         this.speechRateFollowSys = preferences.getBoolean("speechRateFollowSys", true);
         this.showTitle = preferences.getBoolean("showTitle", true);
         this.showTimeBattery = preferences.getBoolean("showTimeBattery", true);
-        this.showLine = preferences.getBoolean("showLine", true);
+        this.showLine = preferences.getBoolean("showLine", ReaderConfig.SHOW_LINE);
         this.screenTimeOut = preferences.getInt("screenTimeOut", 0);
         this.paddingLeft = preferences.getInt("paddingLeft", ReaderConfig.DEFAULT_MARGIN_WIDTH);
         this.paddingTop = preferences.getInt("paddingTop", 0);
         this.paddingRight = preferences.getInt("paddingRight", ReaderConfig.DEFAULT_MARGIN_WIDTH);
         this.paddingBottom = preferences.getInt("paddingBottom", 0);
         this.tipPaddingLeft = preferences.getInt("tipPaddingLeft", ReaderConfig.DEFAULT_MARGIN_WIDTH);
-        this.tipPaddingTop = preferences.getInt("tipPaddingTop", 0);
+        this.tipPaddingTop = preferences.getInt("tipPaddingTop", ReaderConfig.DEFAULT_TIPS_PADDING);
         this.tipPaddingRight = preferences.getInt("tipPaddingRight", ReaderConfig.DEFAULT_MARGIN_WIDTH);
-        this.tipPaddingBottom = preferences.getInt("tipPaddingBottom", 0);
+        this.tipPaddingBottom = preferences.getInt("tipPaddingBottom", ReaderConfig.DEFAULT_TIPS_PADDING);
         this.pageMode = preferences.getInt("pageMode", SLIDE);
         this.screenDirection = preferences.getInt("screenDirection", 0);
         this.navBarColor = preferences.getInt("navBarColorInt", 0);
