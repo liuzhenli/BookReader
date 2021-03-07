@@ -1,17 +1,15 @@
 package com.liuzhenli.reader.ui.activity;
 
-import android.widget.EditText;
+import android.view.View;
 
-import com.liuzhenli.reader.network.AppComponent;
-import com.liuzhenli.reader.base.BaseActivity;
-import com.liuzhenli.reader.base.BaseBean;
+import com.liuzhenli.common.base.BaseActivity;
+import com.liuzhenli.common.base.BaseBean;
+import com.liuzhenli.common.AppComponent;
+import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.reader.ui.contract.LoginContract;
 import com.liuzhenli.reader.ui.presenter.LoginPresenter;
-import com.microedu.reader.R;
+import com.microedu.reader.databinding.ActivityLoginBinding;
 
-
-import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * @author Liuzhenli
@@ -20,14 +18,12 @@ import butterknife.OnClick;
 public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginContract.View {
 
 
-    @BindView(R.id.et_username)
-    EditText mEtUserName;
-    @BindView(R.id.et_password)
-    EditText mEtPassword;
+    private ActivityLoginBinding inflate;
 
     @Override
-    public int getLayoutId() {
-        return R.layout.activity_login;
+    protected View bindContentView() {
+        inflate = ActivityLoginBinding.inflate(getLayoutInflater());
+        return inflate.getRoot();
     }
 
     @Override
@@ -47,7 +43,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void configViews() {
-
+        ClickUtils.click(inflate.tvLogin, o ->
+                mPresenter.login(inflate.mEtUserName.getText().toString(), inflate.mEtPassword.getText().toString()));
     }
 
     @Override
@@ -69,8 +66,5 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     protected void onDestroy() {
         super.onDestroy();
     }
-    @OnClick(R.id.tv_login)
-    public void login(){
-        mPresenter.login(mEtUserName.getText().toString(), mEtPassword.getText().toString());
-    }
+
 }

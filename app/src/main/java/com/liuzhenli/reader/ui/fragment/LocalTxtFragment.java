@@ -1,14 +1,18 @@
 package com.liuzhenli.reader.ui.fragment;
 
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import androidx.fragment.app.FragmentActivity;
 
-import com.liuzhenli.reader.base.BaseRVFragment;
+import com.liuzhenli.common.base.BaseRVFragment;
+import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.reader.bean.LocalFileBean;
-import com.liuzhenli.reader.network.AppComponent;
 import com.liuzhenli.reader.ui.adapter.LocalTxtAdapter;
 import com.liuzhenli.reader.ui.contract.LocalTxtContract;
 import com.liuzhenli.reader.ui.presenter.LocalTxtPresenter;
-import com.microedu.reader.R;
+import com.microedu.reader.databinding.FragmentLocaltxtBinding;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -20,9 +24,13 @@ import java.util.List;
  * @author Liuzhenli on 2019-12-15 10:06
  */
 public class LocalTxtFragment extends BaseRVFragment<LocalTxtPresenter, LocalFileBean> implements LocalTxtContract.View {
+
+    private FragmentLocaltxtBinding inflate;
+
     @Override
-    public int getLayoutResId() {
-        return R.layout.fragment_localtxt;
+    public View bindContentView(LayoutInflater inflater, ViewGroup container, boolean attachParent) {
+        inflate = FragmentLocaltxtBinding.inflate(inflater, container, attachParent);
+        return inflate.getRoot();
     }
 
     @Override

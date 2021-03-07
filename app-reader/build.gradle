@@ -45,7 +45,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.10'
-    implementation project(path: ':app-libs')
+    implementation project(path: ':app-base')
     //简繁转换
     implementation 'com.luhuiguo:chinese-utils:1.0'
     implementation 'androidx.documentfile:documentfile:1.0.1'

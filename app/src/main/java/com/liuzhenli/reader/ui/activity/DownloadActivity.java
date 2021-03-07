@@ -6,15 +6,17 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
-import com.liuzhenli.reader.base.BaseRvActivity;
-import com.liuzhenli.reader.network.AppComponent;
+import com.liuzhenli.common.base.BaseRvActivity;
+import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.reader.service.DownloadService;
 import com.liuzhenli.reader.ui.adapter.DownloadAdapter;
 import com.liuzhenli.reader.ui.contract.DownloadContract;
 import com.liuzhenli.reader.ui.presenter.DownloadPresenter;
 import com.micoredu.readerlib.bean.DownloadBookBean;
 import com.microedu.reader.R;
+import com.microedu.reader.databinding.ActDownloadBinding;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -28,10 +30,12 @@ import java.util.ArrayList;
 public class DownloadActivity extends BaseRvActivity<DownloadPresenter, DownloadBookBean> implements DownloadContract.View {
 
     private DownloadReceiver receiver;
+    private ActDownloadBinding binding;
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.act_download;
+    protected View bindContentView() {
+        binding = ActDownloadBinding.inflate(getLayoutInflater());
+        return binding.getRoot();
     }
 
     @Override

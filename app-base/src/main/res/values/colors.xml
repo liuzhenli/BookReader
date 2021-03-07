@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="concept_card_bg_pressed">#44f8f8f8</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="bg_color">#f5f5f5</color>     <!--背景颜色-->
+    <color name="main">#00a0e9</color>
+    <color name="main_touming">#99008577</color>
+    <color name="transparent">#00ffffff</color>
+
+    <!--textColor-->
+    <color name="text_color_33">#4a4a4a</color>
+    <color name="text_color_33_88">#884a4a4a</color>
+    <color name="text_color_66">#565656</color>
+    <color name="text_color_99">#979797</color>
+    <color name="text_color_99_88">#88979797</color>
+
+
+    <!--通用背景色-->
+    <color name="common_bg">@color/white</color>
+    <!--通用分割线细-->
+    <color name="divider">#f5f5f5</color>
+    <color name="ripple_color">#ffdddddd</color>
+    <color name="book_index_bg_color">#464646</color>
+
+</resources>

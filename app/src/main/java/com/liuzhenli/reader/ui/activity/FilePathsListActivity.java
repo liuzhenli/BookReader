@@ -2,19 +2,14 @@ package com.liuzhenli.reader.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.widget.TextView;
+import android.view.View;
 
 import com.liuzhenli.common.BaseApplication;
-import com.liuzhenli.reader.base.BaseActivity;
-import com.liuzhenli.reader.network.AppComponent;
+import com.liuzhenli.common.base.BaseActivity;
+import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.reader.utils.storage.Backup;
-import com.microedu.reader.R;
+import com.microedu.reader.databinding.ActFilepathlistBinding;
 
-import butterknife.BindView;
-
-import com.liuzhenli.common.BaseApplication;
-
-import com.liuzhenli.reader.utils.storage.Backup;
 
 /**
  * Description:
@@ -24,19 +19,7 @@ import com.liuzhenli.reader.utils.storage.Backup;
  */
 public class FilePathsListActivity extends BaseActivity {
 
-    /**
-     * 书源导出路径
-     */
-    @BindView(R.id.textView3)
-    TextView mTvBookSourcePath;
-    /**
-     * 书源导备份路径
-     */
-    @BindView(R.id.tv_backup_path)
-    TextView mTvBookSourceBackupPath;
-
-    @BindView(R.id.tv_book_cache_path)
-    TextView mTvBookCachePath;
+    private ActFilepathlistBinding inflate;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, FilePathsListActivity.class);
@@ -44,8 +27,9 @@ public class FilePathsListActivity extends BaseActivity {
     }
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.act_filepathlist;
+    protected View bindContentView() {
+        inflate = ActFilepathlistBinding.inflate(getLayoutInflater());
+        return inflate.getRoot();
     }
 
     @Override
@@ -65,8 +49,8 @@ public class FilePathsListActivity extends BaseActivity {
 
     @Override
     protected void configViews() {
-        mTvBookSourcePath.setText(BaseApplication.getInstance().getFilesDir().getAbsolutePath());
-        mTvBookSourceBackupPath.setText(Backup.INSTANCE.getDefaultPath());
-        mTvBookCachePath.setText(BaseApplication.getInstance().getDownloadPath());
+        inflate.mTvBookSourcePath.setText(BaseApplication.getInstance().getFilesDir().getAbsolutePath());
+        inflate.mTvBookSourceBackupPath.setText(Backup.INSTANCE.getDefaultPath());
+        inflate.mTvBookCachePath.setText(BaseApplication.getInstance().getDownloadPath());
     }
 }

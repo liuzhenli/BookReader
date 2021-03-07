@@ -4,13 +4,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Toast;
 
 import com.liuzhenli.reader.utils.PermissionUtil;
-import com.liuzhenli.reader.utils.SoftInputUtils;
-import com.liuzhenli.reader.utils.ToastUtil;
+import com.liuzhenli.common.utils.ToastUtil;
 import com.microedu.reader.R;
 import com.qmuiteam.qmui.skin.QMUISkinManager;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;

@@ -1,54 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/view_read_root"
+    android:id="@+id/mViewRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <com.micoredu.readerlib.page.PageView
-        android:id="@+id/reader_page_view"
+        android:id="@+id/mPageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
         android:focusable="true" />
     <!--顶部菜单-->
     <com.liuzhenli.reader.view.menu.ReadTopBarMenu
-        android:id="@+id/menu_top_bar"
+        android:id="@+id/mTopBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent" />
     <!--底部菜单-->
     <com.liuzhenli.reader.view.menu.ReadBottomMenu
-        android:id="@+id/view_read_bottom_menu"
+        android:id="@+id/mVBottomMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent" />
     <!--设置菜单-->
     <com.liuzhenli.reader.view.menu.ReadSettingMenu
-        android:id="@+id/view_read_setting_menu"
+        android:id="@+id/mVSettingMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent" />
     <!--亮度设置菜单-->
     <com.liuzhenli.reader.view.menu.ReadBrightnessMenu
-        android:id="@+id/view_read_brightness_setting"
+        android:id="@+id/mVBrightnessSettingMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <FrameLayout
-        android:id="@+id/fl_protect_eye_view"
+        android:id="@+id/mVProtectEye"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#FF654C07 " />
 
     <ImageView
-        android:id="@+id/cursor_left"
+        android:id="@+id/cursorLeft"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@null"
@@ -58,7 +58,7 @@
         app:srcCompat="@drawable/ic_cursor_left" />
 
     <ImageView
-        android:id="@+id/cursor_right"
+        android:id="@+id/cursorRight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@null"

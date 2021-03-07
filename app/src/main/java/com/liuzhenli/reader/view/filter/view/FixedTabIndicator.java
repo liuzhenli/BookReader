@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.liuzhenli.reader.utils.DensityUtil;
+import com.liuzhenli.common.utils.DensityUtil;
 import com.liuzhenli.reader.view.filter.adapter.MenuAdapter;
 import com.microedu.reader.R;
 

@@ -4,8 +4,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.liuzhenli.common.utils.RxUtil;
-import com.liuzhenli.reader.base.RxPresenter;
-import com.liuzhenli.reader.observer.SampleProgressObserver;
+import com.liuzhenli.common.base.RxPresenter;
+import com.liuzhenli.common.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.contract.DatabaseTableListContract;
 import com.micoredu.readerlib.helper.DbHelper;
 

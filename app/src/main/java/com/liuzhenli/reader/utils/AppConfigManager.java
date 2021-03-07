@@ -5,11 +5,9 @@ import android.text.TextUtils;
 import com.liuzhenli.common.BaseApplication;
 import com.liuzhenli.common.utils.ChannelUtil;
 import com.liuzhenli.common.utils.IOUtils;
-import com.liuzhenli.reader.ReaderApplication;
 import com.liuzhenli.reader.bean.AppConfig;
 import com.liuzhenli.reader.bean.Sayings;
-import com.liuzhenli.reader.gson.GsonUtils;
-import com.umeng.cconfig.UMRemoteConfig;
+import com.liuzhenli.common.gson.GsonUtils;
 import com.umeng.cconfig.UMRemoteConfig;
 
 import java.io.IOException;

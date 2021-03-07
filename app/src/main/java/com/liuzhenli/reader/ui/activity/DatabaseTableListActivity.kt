@@ -4,14 +4,13 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import android.widget.AdapterView
-import android.widget.ListView
-import butterknife.BindView
-import com.liuzhenli.reader.base.BaseActivity
-import com.liuzhenli.reader.network.AppComponent
+import com.liuzhenli.common.base.BaseActivity
+import com.liuzhenli.common.AppComponent
 import com.liuzhenli.reader.ui.adapter.DatabaseTableListAdapter
 import com.liuzhenli.reader.ui.contract.DatabaseTableListContract
 import com.liuzhenli.reader.ui.presenter.DatabaseTableListPresenter
-import com.microedu.reader.R
+import com.microedu.reader.databinding.ActDatabasetablelistBinding
+import kotlinx.android.synthetic.main.act_databasetablelist.*
 import nl.siegmann.epublib.util.StringUtil
 import java.util.*
 
@@ -23,12 +22,14 @@ import java.util.*
  */
 class DatabaseTableListActivity : BaseActivity<DatabaseTableListPresenter?>(), DatabaseTableListContract.View {
 
-    var databaseTablesList: ListView? = null
     private var tablesAdapter: DatabaseTableListAdapter? = null
     private val tableList: MutableList<String> = ArrayList()
 
-    override fun getLayoutId(): Int {
-        return R.layout.act_databasetablelist
+    private var binding: ActDatabasetablelistBinding? = null
+
+    override fun bindContentView(): View {
+        binding = ActDatabasetablelistBinding.inflate(layoutInflater)
+        return binding!!.root;
     }
 
     override fun setupActivityComponent(appComponent: AppComponent) {
@@ -42,7 +43,6 @@ class DatabaseTableListActivity : BaseActivity<DatabaseTableListPresenter?>(), D
     override fun initData() {}
 
     override fun configViews() {
-        databaseTablesList = findViewById(R.id.list_diagnose_database_tables)
         tablesAdapter = DatabaseTableListAdapter(this)
         databaseTablesList!!.adapter = tablesAdapter
         databaseTablesList!!.onItemClickListener = AdapterView.OnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->

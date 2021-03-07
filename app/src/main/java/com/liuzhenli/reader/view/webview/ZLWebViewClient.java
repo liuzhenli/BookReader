@@ -4,20 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.webkit.CookieManager;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.liuzhenli.common.SharedPreferencesUtil;
 import com.liuzhenli.common.utils.NetworkUtils;
 import com.liuzhenli.reader.ui.activity.WebViewActivity;
-import com.liuzhenli.reader.utils.AppUtils;
+import com.liuzhenli.common.utils.AppUtils;
 import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.common.utils.LogUtils;
-import com.liuzhenli.reader.utils.ToastUtil;
+import com.liuzhenli.common.utils.ToastUtil;
 
 import java.util.HashMap;
 import java.util.Map;

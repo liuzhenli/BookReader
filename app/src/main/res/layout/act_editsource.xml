@@ -17,13 +17,13 @@
         android:paddingRight="@dimen/common_space_large">
 
         <CheckBox
-            android:id="@+id/cb_source_enable"
+            android:id="@+id/mCbSourceEnable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/is_enable" />
 
         <CheckBox
-            android:id="@+id/cb_source_audio"
+            android:id="@+id/cbIsAudio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/audio"
@@ -35,7 +35,7 @@
             android:layout_weight="1" />
 
         <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
-            android:id="@+id/cb_source_edit_find"
+            android:id="@+id/mEditFind"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/common_space_small"
@@ -51,7 +51,7 @@
         android:layout_weight="1" />
 
     <com.liuzhenli.reader.view.KeyboardTopView
-        android:id="@+id/keyboard_top_view"
+        android:id="@+id/mRvPunctuation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

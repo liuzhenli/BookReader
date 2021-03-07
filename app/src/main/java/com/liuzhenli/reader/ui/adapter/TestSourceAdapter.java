@@ -4,8 +4,8 @@ import android.content.Context;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.liuzhenli.reader.view.recyclerview.adapter.BaseViewHolder;
-import com.liuzhenli.reader.view.recyclerview.adapter.RecyclerArrayAdapter;
+import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
+import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
 import com.microedu.reader.R;
 
 import butterknife.BindView;

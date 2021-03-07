@@ -1,7 +1,7 @@
 package com.liuzhenli.reader.bean;
 
 
-import com.liuzhenli.reader.base.BaseBean;
+import com.liuzhenli.common.base.BaseBean;
 
 
 public class CommonConfigData extends BaseBean {

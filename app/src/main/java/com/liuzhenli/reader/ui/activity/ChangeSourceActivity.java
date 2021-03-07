@@ -1,54 +1,41 @@
 package com.liuzhenli.reader.ui.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 
-import com.hwangjr.rxbus.RxBus;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
 import com.liuzhenli.common.BitIntentDataManager;
 import com.liuzhenli.common.constant.AppConstant;
 import com.liuzhenli.common.constant.RxBusTag;
+import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.StringUtils;
 import com.liuzhenli.greendao.SearchBookBeanDao;
-import com.liuzhenli.reader.ReaderApplication;
-import com.liuzhenli.reader.base.BaseActivity;
-import com.liuzhenli.reader.base.BaseRvActivity;
-import com.liuzhenli.reader.network.AppComponent;
+import com.liuzhenli.common.base.BaseRvActivity;
 import com.liuzhenli.reader.ui.adapter.ChangeSourceAdapter;
 import com.liuzhenli.reader.ui.contract.ChangeSourceContract;
 import com.liuzhenli.reader.ui.presenter.ChangeSourcePresenter;
 import com.liuzhenli.reader.utils.DataDiffUtil;
 import com.micoredu.readerlib.bean.BookShelfBean;
 import com.micoredu.readerlib.bean.BookSourceBean;
-import com.micoredu.readerlib.bean.ReadHistory;
 import com.micoredu.readerlib.bean.SearchBookBean;
-import com.micoredu.readerlib.content.UpLastChapterModel;
 import com.micoredu.readerlib.helper.BookshelfHelper;
 import com.micoredu.readerlib.helper.DbHelper;
 import com.micoredu.readerlib.model.BookSourceManager;
 import com.micoredu.readerlib.model.SearchBookModel;
-import com.microedu.reader.R;
+import com.microedu.reader.databinding.ActChangesourceBinding;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-
-import butterknife.BindView;
 
 import static com.liuzhenli.common.BitIntentDataManager.DATA_KEY;
 
@@ -60,11 +47,7 @@ import static com.liuzhenli.common.BitIntentDataManager.DATA_KEY;
 public class ChangeSourceActivity extends BaseRvActivity<ChangeSourcePresenter, SearchBookBean> implements ChangeSourceContract.View {
 
     public static final String BOOK_SHELF = "book_shelf";
-    private Handler handler = new Handler(Looper.getMainLooper());
-    @BindView(R.id.view_search_indicator)
-    View mSearchIndicator;
-    @BindView(R.id.ev_book_name)
-    EditText mEtBookName;
+    private static Handler handler = new Handler(Looper.getMainLooper());
 
     private BookShelfBean mBookShelf;
     private String bookTag;
@@ -72,6 +55,7 @@ public class ChangeSourceActivity extends BaseRvActivity<ChangeSourcePresenter, 
     private String bookAuthor;
     private int shelfLastChapter;
     private SearchBookModel searchBookModel;
+    private ActChangesourceBinding binding;
 
     public static void startForResult(Activity context, BookShelfBean bookShelf, int requestCode) {
         Intent intent = new Intent(context, ChangeSourceActivity.class);
@@ -82,8 +66,9 @@ public class ChangeSourceActivity extends BaseRvActivity<ChangeSourcePresenter, 
     }
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.act_changesource;
+    protected View bindContentView() {
+        binding = ActChangesourceBinding.inflate(getLayoutInflater());
+        return binding.getRoot();
     }
 
     @Override
@@ -108,7 +93,7 @@ public class ChangeSourceActivity extends BaseRvActivity<ChangeSourcePresenter, 
         mTvRight.setText("停止搜索");
         mTvRight.setVisibility(View.VISIBLE);
         ClickUtils.click(mTvRight, o -> {
-            mSearchIndicator.setVisibility(View.GONE);
+            binding.mSearchIndicator.setVisibility(View.GONE);
             mTvRight.setVisibility(View.GONE);
             searchBookModel.stopSearch();
         });
@@ -125,19 +110,19 @@ public class ChangeSourceActivity extends BaseRvActivity<ChangeSourcePresenter, 
         searchBookModel = new SearchBookModel(new SearchBookModel.OnSearchListener() {
             @Override
             public void refreshSearchBook() {
-                mSearchIndicator.setVisibility(View.VISIBLE);
+                binding.mSearchIndicator.setVisibility(View.VISIBLE);
                 mTvRight.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void refreshFinish(Boolean isAll) {
-                mSearchIndicator.setVisibility(View.GONE);
+                binding.mSearchIndicator.setVisibility(View.GONE);
                 mTvRight.setVisibility(View.GONE);
             }
 
             @Override
             public void loadMoreFinish(Boolean isAll) {
-                mSearchIndicator.setVisibility(View.GONE);
+                binding.mSearchIndicator.setVisibility(View.GONE);
                 mTvRight.setVisibility(View.GONE);
             }
 
@@ -148,7 +133,7 @@ public class ChangeSourceActivity extends BaseRvActivity<ChangeSourcePresenter, 
 
             @Override
             public void searchBookError(Throwable throwable) {
-                mSearchIndicator.setVisibility(View.GONE);
+                binding.mSearchIndicator.setVisibility(View.GONE);
                 mTvRight.setVisibility(View.GONE);
             }
 
@@ -164,7 +149,7 @@ public class ChangeSourceActivity extends BaseRvActivity<ChangeSourcePresenter, 
     @Override
     protected void configViews() {
         initAdapter(ChangeSourceAdapter.class, true, false);
-        mEtBookName.addTextChangedListener(new TextWatcher() {
+        binding.mEtBookName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -273,7 +258,7 @@ public class ChangeSourceActivity extends BaseRvActivity<ChangeSourcePresenter, 
                         DbHelper.getDaoSession().getBookSourceBeanDao().insertOrReplace(bookSourceBean);
                     }
                     DbHelper.getDaoSession().getSearchBookBeanDao().insertOrReplace(searchBookBean);
-                    if (StringUtils.isTrimEmpty(mEtBookName.getText().toString()) || searchBookBean.getOrigin().equals(mEtBookName.getText().toString())) {
+                    if (StringUtils.isTrimEmpty(binding.mEtBookName.getText().toString()) || searchBookBean.getOrigin().equals(binding.mEtBookName.getText().toString())) {
                         handler.post(() -> mAdapter.add(searchBookBean));
                     }
                     break;

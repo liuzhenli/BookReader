@@ -9,7 +9,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
-import com.liuzhenli.reader.utils.DensityUtil;
+import com.liuzhenli.common.utils.DensityUtil;
 import com.liuzhenli.reader.view.filter.adapter.MenuAdapter;
 import com.liuzhenli.reader.view.filter.util.SimpleAnimationListener;
 import com.liuzhenli.reader.view.filter.view.FixedTabIndicator;

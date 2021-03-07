@@ -4,19 +4,17 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.GridView;
 
-import com.liuzhenli.reader.base.BaseActivity;
-import com.liuzhenli.reader.network.AppComponent;
+import com.liuzhenli.common.base.BaseActivity;
+import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.reader.ui.adapter.DatabaseTableDataGridAdapter;
-import com.liuzhenli.reader.utils.ToastUtil;
+import com.liuzhenli.common.utils.ToastUtil;
 import com.micoredu.readerlib.helper.DbHelper;
-import com.microedu.reader.R;
+import com.microedu.reader.databinding.ActivityDiagnoseDatabaseTableRecordBinding;
 
 import net.lucode.hackware.magicindicator.buildins.UIUtil;
 
@@ -37,15 +35,15 @@ public class DatabaseTableRecordsActivity extends BaseActivity {
     public static final String EXTRA_TABLE_NAME = "TableName";
 
 
-    private GridView girdTableData;
     private DatabaseTableDataGridAdapter tableDataAdapter;
 
     private String tableName;
-
+    private ActivityDiagnoseDatabaseTableRecordBinding binding;
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_diagnose_database_table_record;
+    protected View bindContentView() {
+        binding = ActivityDiagnoseDatabaseTableRecordBinding.inflate(getLayoutInflater());
+        return binding.getRoot();
     }
 
     @Override
@@ -69,11 +67,10 @@ public class DatabaseTableRecordsActivity extends BaseActivity {
             mTvTitle.setText(tableName);
         }
 
-        girdTableData = (GridView) findViewById(R.id.gird_diagnose_database_table_data);
         tableDataAdapter = new DatabaseTableDataGridAdapter(DatabaseTableRecordsActivity.this);
-        girdTableData.setAdapter(tableDataAdapter);
+        binding.girdTableData.setAdapter(tableDataAdapter);
 
-        girdTableData.setOnItemClickListener(new OnItemClickListener() {
+        binding.girdTableData.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 tableDataAdapter.setSelectedRow(position);
@@ -134,11 +131,11 @@ public class DatabaseTableRecordsActivity extends BaseActivity {
             hideDialog();
             if (result != null) {
                 int columnCount = result.get(0).length;
-                girdTableData.setNumColumns(columnCount);
+                binding.girdTableData.setNumColumns(columnCount);
 
-                ViewGroup.LayoutParams gridLayoutParams = girdTableData.getLayoutParams();
+                ViewGroup.LayoutParams gridLayoutParams = binding.girdTableData.getLayoutParams();
                 gridLayoutParams.width = columnCount * UIUtil.dip2px(DatabaseTableRecordsActivity.this, 96);
-                girdTableData.setLayoutParams(gridLayoutParams);
+                binding.girdTableData.setLayoutParams(gridLayoutParams);
                 tableDataAdapter.setDataset(result);
             } else {
                 ToastUtil.showToast(DatabaseTableRecordsActivity.this, "加载数据表记录失败!!!");

@@ -3,7 +3,7 @@ package com.liuzhenli.reader.ui.presenter;
 import com.hwangjr.rxbus.RxBus;
 import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.utils.RxUtil;
-import com.liuzhenli.reader.base.RxPresenter;
+import com.liuzhenli.common.base.RxPresenter;
 import com.liuzhenli.reader.bean.ImportBookModel;
 import com.liuzhenli.reader.ui.contract.ImportLocalBookContract;
 import com.micoredu.readerlib.bean.LocBookShelfBean;

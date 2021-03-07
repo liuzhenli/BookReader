@@ -7,9 +7,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.liuzhenli.reader.service.DownloadService;
-import com.liuzhenli.reader.utils.image.ImageUtil;
-import com.liuzhenli.reader.view.recyclerview.adapter.BaseViewHolder;
-import com.liuzhenli.reader.view.recyclerview.adapter.RecyclerArrayAdapter;
+import com.liuzhenli.common.utils.image.ImageUtil;
+import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
+import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
 import com.micoredu.readerlib.bean.DownloadBookBean;
 import com.microedu.reader.R;
 
@@ -55,7 +55,7 @@ public class DownloadAdapter extends RecyclerArrayAdapter<DownloadBookBean> {
         ImageView ivCover;
         @BindView(R.id.tv_name)
         TextView tvName;
-        @BindView(R.id.tv_download)
+        @BindView(R.id.mTvDownload)
         TextView tvDownload;
         @BindView(R.id.iv_delete)
         ImageView ivDel;

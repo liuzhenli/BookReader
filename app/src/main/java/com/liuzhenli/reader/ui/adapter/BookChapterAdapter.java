@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.liuzhenli.reader.view.recyclerview.adapter.BaseViewHolder;
-import com.liuzhenli.reader.view.recyclerview.adapter.RecyclerArrayAdapter;
+import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
+import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
 import com.micoredu.readerlib.bean.BookChapterBean;
 import com.micoredu.readerlib.helper.ReadConfigManager;
 import com.microedu.reader.R;

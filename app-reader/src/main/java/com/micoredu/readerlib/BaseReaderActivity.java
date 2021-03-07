@@ -1,36 +1,20 @@
 package com.micoredu.readerlib;
 
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.liuzhenli.common.base.BaseActivity;
+import com.liuzhenli.common.base.BaseContract;
 import com.micoredu.readerlib.page.PageView;
-import com.micoredu.readerlib.utils.bar.BarHide;
-import com.micoredu.readerlib.utils.bar.ImmersionBar;
 
 /**
  * @author liuzhenli
  */
-public abstract class BaseReaderActivity extends AppCompatActivity implements View.OnTouchListener {
+public abstract class BaseReaderActivity<T1 extends BaseContract.BasePresenter> extends BaseActivity<T1> implements View.OnTouchListener {
 
     protected Context mContext;
-    /***状态栏*/
-    protected ImmersionBar mImmersionBar;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(getLayoutId());
-        mImmersionBar = ImmersionBar.with(this);
-        initImmersionBar();
-        mContext = this;
-        initData();
-        configViews();
-    }
 
     protected abstract int getLayoutId();
 

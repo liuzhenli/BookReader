@@ -12,18 +12,15 @@ import androidx.annotation.Nullable;
 
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.FillContentUtil;
-import com.liuzhenli.reader.utils.ToastUtil;
+import com.liuzhenli.common.utils.ToastUtil;
 import com.micoredu.readerlib.helper.ReadConfigManager;
 import com.micoredu.readerlib.utils.ReaderConfig;
 import com.microedu.reader.R;
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 
-import org.mozilla.javascript.ast.VariableDeclaration;
-
 import java.text.DecimalFormat;
 
 import butterknife.BindView;
-import io.reactivex.functions.Consumer;
 
 /**
  * Description:设置菜单  文字大小,间距,背景,翻页

@@ -8,7 +8,7 @@
     tools:context="com.liuzhenli.reader.ui.activity.SplashActivity">
 
     <com.liuzhenli.reader.view.CountDownView
-        android:id="@+id/countdown_view"
+        android:id="@+id/countDownView"
         android:layout_width="42dp"
         android:layout_height="42dp"
         android:layout_marginStart="8dp"
@@ -36,11 +36,11 @@
         android:textColor="@color/text_color_99"
         android:textSize="@dimen/txt_size_14"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/tv_saying"
+        app:layout_constraintBottom_toTopOf="@+id/tvSaying"
         app:srcCompat="@drawable/ic_book" />
 
     <TextView
-        android:id="@+id/tv_saying"
+        android:id="@+id/tvSaying"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -49,10 +49,10 @@
         android:textColor="@color/text_color_99"
         android:textSize="@dimen/txt_size_14"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/tv_saying_author" />
+        app:layout_constraintBottom_toTopOf="@+id/tvSayingAuthor" />
 
     <TextView
-        android:id="@+id/tv_saying_author"
+        android:id="@+id/tvSayingAuthor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="56dp"

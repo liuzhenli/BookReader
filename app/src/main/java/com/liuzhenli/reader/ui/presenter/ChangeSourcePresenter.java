@@ -2,9 +2,9 @@ package com.liuzhenli.reader.ui.presenter;
 
 import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.greendao.SearchBookBeanDao;
-import com.liuzhenli.reader.base.RxPresenter;
+import com.liuzhenli.common.base.RxPresenter;
 import com.liuzhenli.reader.network.Api;
-import com.liuzhenli.reader.observer.SampleProgressObserver;
+import com.liuzhenli.common.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.contract.ChangeSourceContract;
 import com.micoredu.readerlib.bean.BookShelfBean;
 import com.micoredu.readerlib.bean.BookSourceBean;
@@ -22,8 +22,6 @@ import java.util.Objects;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.annotations.NonNull;
 
 /**

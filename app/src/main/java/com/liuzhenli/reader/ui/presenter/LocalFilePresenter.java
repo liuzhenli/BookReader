@@ -1,16 +1,12 @@
 package com.liuzhenli.reader.ui.presenter;
 
-import android.text.TextUtils;
-
 import com.liuzhenli.common.utils.RxUtil;
-import com.liuzhenli.reader.base.RxPresenter;
+import com.liuzhenli.common.base.RxPresenter;
 import com.liuzhenli.reader.network.Api;
-import com.liuzhenli.reader.observer.SampleProgressObserver;
+import com.liuzhenli.common.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.contract.LocalFileContract;
 import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.common.utils.FileUtils;
-
-import org.mozilla.javascript.ast.VariableDeclaration;
 
 import java.io.File;
 import java.util.ArrayList;

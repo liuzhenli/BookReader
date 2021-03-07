@@ -24,7 +24,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/view_add_book_shelf"
+            android:id="@+id/mViewAddBookShelf"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -34,7 +34,7 @@
             android:textColor="@color/s_text_66" />
 
         <TextView
-            android:id="@+id/view_delete_file"
+            android:id="@+id/mViewDeleteFile"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -44,7 +44,7 @@
             android:textColor="@color/s_text_66" />
 
         <TextView
-            android:id="@+id/view_select_all"
+            android:id="@+id/mViewSelectAll"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

@@ -30,7 +30,7 @@
                 android:layout_height="1px" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/view_setting_backup"
+                android:id="@+id/mViewNetAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/common_space_normal"
@@ -45,7 +45,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_backup_title"
+                    android:id="@+id/mTvNetAddress"
                     style="@style/ItemSubTitleStyle"
                     android:layout_marginTop="@dimen/common_space_small"
                     android:hint="未设置"
@@ -59,7 +59,7 @@
                 android:layout_height="1px" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/view_setting_web_dav_account"
+                android:id="@+id/viewAccount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/common_space_normal"
@@ -74,7 +74,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_web_dav_account"
+                    android:id="@+id/mTvAccount"
                     style="@style/ItemSubTitleStyle"
                     android:layout_marginTop="@dimen/common_space_small"
                     android:hint="未设置"
@@ -88,7 +88,7 @@
                 android:layout_height="1px" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/view_setting_web_dav_password"
+                android:id="@+id/mVPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/common_space_normal"
@@ -103,7 +103,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_web_dav_password"
+                    android:id="@+id/mTvPassword"
                     style="@style/ItemSubTitleStyle"
                     android:layout_marginTop="@dimen/common_space_small"
                     android:enabled="false"
@@ -119,7 +119,7 @@
                 android:layout_height="1px" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/view_backup_help"
+                android:id="@+id/mTVBackupGuide"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/common_space_normal"
@@ -145,7 +145,7 @@
             <include layout="@layout/item_divider" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/view_backup_path_info"
+                android:id="@+id/mVBackup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/common_space_normal"
@@ -169,7 +169,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/view_backup_to_web"
+                android:id="@+id/mVBackupToWeb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/common_space_normal"
@@ -195,7 +195,7 @@
             <include layout="@layout/item_divider" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/view_restore"
+                android:id="@+id/mVRestore"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/common_space_normal"
@@ -222,7 +222,7 @@
             <include layout="@layout/item_divider" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/view_setting_web_dav_net"
+                android:id="@+id/mVBackupNetSetting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/common_space_normal"
@@ -237,7 +237,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_web_dav_net"
+                    android:id="@+id/mTVBackupNetType"
                     style="@style/ItemSubTitleStyle"
                     android:layout_marginTop="@dimen/common_space_small"
                     android:hint="在所有网络下都允许自动备份到云盘"

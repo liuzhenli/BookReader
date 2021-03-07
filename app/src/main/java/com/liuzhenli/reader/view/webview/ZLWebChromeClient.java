@@ -9,7 +9,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 import com.liuzhenli.reader.ui.activity.WebViewActivity;
-import com.liuzhenli.reader.utils.ToastUtil;
+import com.liuzhenli.common.utils.ToastUtil;
 
 
 /**

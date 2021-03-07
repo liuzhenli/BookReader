@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/view_search_title_bar"
+        android:id="@+id/mViewTitleBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/all_item_height"
         android:background="@color/main"
@@ -16,7 +16,7 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/iv_back"
+            android:id="@+id/mViewBack"
             android:layout_width="@dimen/all_item_height"
             android:layout_height="@dimen/all_item_height"
             android:src="@drawable/icon_back_white_icon"
@@ -25,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.qmuiteam.qmui.layout.QMUIButton
-            android:id="@+id/view_search_bg"
+            android:id="@+id/mEditBg"
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_marginLeft="50dp"
@@ -38,7 +38,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/edit_general_search_content"
+            android:id="@+id/mEtSearch"
             android:layout_width="260dp"
             android:layout_height="35dp"
             android:layout_centerVertical="true"
@@ -61,23 +61,23 @@
             android:textSize="@dimen/txt_size_12"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.1"
-            app:layout_constraintLeft_toLeftOf="@+id/view_search_bg"
+            app:layout_constraintLeft_toLeftOf="@+id/mEditBg"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
-            android:id="@+id/btn_general_search_clear"
+            android:id="@+id/btnGeneralSearchClear"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:src="@drawable/icon_edit_box_clear"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/tv_action_cancel"
+            app:layout_constraintRight_toLeftOf="@+id/tvActionSearch"
             app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView
-            android:id="@+id/tv_action_cancel"
+            android:id="@+id/tvActionSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/common_space_normal"
@@ -86,13 +86,13 @@
             android:text="@string/search"
             android:textColor="@color/main"
             android:textSize="@dimen/txt_size_14"
-            app:layout_constraintBottom_toBottomOf="@+id/view_search_bg"
-            app:layout_constraintRight_toRightOf="@+id/view_search_bg"
-            app:layout_constraintTop_toTopOf="@+id/view_search_bg"
+            app:layout_constraintBottom_toBottomOf="@+id/mEditBg"
+            app:layout_constraintRight_toRightOf="@+id/mEditBg"
+            app:layout_constraintTop_toTopOf="@+id/mEditBg"
             app:layout_constraintVertical_bias="0.4" />
 
         <ImageButton
-            android:id="@+id/btn_general_search_more"
+            android:id="@+id/mViewMore"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_centerVertical="true"
@@ -104,7 +104,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/view_search_result_info"
+        android:id="@+id/mViewGroupSearchResult"
         android:layout_width="match_parent"
         android:layout_height="@dimen/all_item_height"
         android:background="@color/main"
@@ -112,7 +112,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/tv_search_book_count"
+            android:id="@+id/mTvSearchBookCount"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:ellipsize="marquee"
@@ -128,7 +128,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/view_stop_search"
+            android:id="@+id/mVStopSearch"
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -138,7 +138,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.wang.avi.AVLoadingIndicatorView
-            android:id="@+id/view_search_indicator"
+            android:id="@+id/mSearchIndicator"
             style="@style/AVLoadingIndicatorView"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -158,10 +158,10 @@
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.Group
-            android:id="@+id/view_search_history"
+            android:id="@+id/mViewSearchHistory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="tv_general_search_history_title,iv_clear_search_history,fl_general_search_history" />
+            app:constraint_referenced_ids="tv_general_search_history_title,ivClearSearchHistory,flGeneralSearchHistory" />
         <!-- 搜索历史-->
         <TextView
             android:id="@+id/tv_general_search_history_title"
@@ -176,7 +176,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/iv_clear_search_history"
+            android:id="@+id/ivClearSearchHistory"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"
@@ -188,7 +188,7 @@
             app:layout_constraintTop_toTopOf="@+id/tv_general_search_history_title" />
 
         <com.google.android.material.internal.FlowLayout
-            android:id="@+id/fl_general_search_history"
+            android:id="@+id/flGeneralSearchHistory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/common_space_normal"
@@ -199,7 +199,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_general_search_history_title"
             app:lineSpacing="8dp" />
 
-        <com.liuzhenli.reader.view.recyclerview.EasyRecyclerView
+        <com.liuzhenli.common.widget.recyclerview.EasyRecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"

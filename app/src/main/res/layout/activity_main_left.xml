@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cl_main_left"
+    android:id="@+id/mDrawLeft"
     android:layout_width="260dp"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_main_left_source_manage"
+        android:id="@+id/mViewBookSourceManager"
         style="@style/ItemTitleStyle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/all_item_height"
@@ -29,7 +29,7 @@
         android:text="@string/book_source" />
 
     <TextView
-        android:id="@+id/tv_main_feedback"
+        android:id="@+id/mViewFeedBack"
         style="@style/ItemTitleStyle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/all_item_height"
@@ -41,7 +41,7 @@
         android:text="@string/feed_back" />
 
     <TextView
-        android:id="@+id/tv_donate"
+        android:id="@+id/mViewDonate"
         style="@style/ItemTitleStyle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/all_item_height"
@@ -53,7 +53,7 @@
         android:text="@string/donate" />
 
     <TextView
-        android:id="@+id/tv_night_mode"
+        android:id="@+id/mViewNightMode"
         style="@style/ItemTitleStyle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/all_item_height"
@@ -66,7 +66,7 @@
 
 
     <TextView
-        android:id="@+id/tv_main_draw_setting"
+        android:id="@+id/mViewSetting"
         style="@style/ItemTitleStyle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/all_item_height"
@@ -78,7 +78,7 @@
         android:text="@string/setting" />
 
     <TextView
-        android:id="@+id/tv_main_draw_about"
+        android:id="@+id/mViewAbout"
         style="@style/ItemTitleStyle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/all_item_height"

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.liuzhenli.reader.utils.DensityUtil;
+import com.liuzhenli.common.utils.DensityUtil;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.reader.view.filter.adapter.MenuAdapter;
 import com.liuzhenli.reader.view.filter.adapter.SimpleTextAdapter;

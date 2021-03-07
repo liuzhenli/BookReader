@@ -4,21 +4,18 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
-import android.widget.TextView;
 
 import com.liuzhenli.common.FileHelp;
+import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.FileUtils;
 import com.liuzhenli.reader.ReaderApplication;
-import com.liuzhenli.reader.base.BaseActivity;
-import com.liuzhenli.reader.network.AppComponent;
+import com.liuzhenli.common.base.BaseActivity;
 import com.liuzhenli.reader.ui.contract.SettingContract;
 import com.liuzhenli.reader.ui.presenter.SettingPresenter;
 import com.micoredu.readerlib.helper.BookshelfHelper;
 import com.microedu.reader.R;
-
-
-import butterknife.BindView;
+import com.microedu.reader.databinding.ActSettingBinding;
 
 /**
  * Description:设置页面
@@ -29,18 +26,7 @@ import butterknife.BindView;
 @SuppressLint("NonConstantResourceId")
 public class SettingActivity extends BaseActivity<SettingPresenter> implements SettingContract.View {
 
-
-    @BindView(R.id.view_setting_file_path)
-    View mVFilePath;
-
-    @BindView(R.id.view_setting_clear_cache)
-    View mViewClearCache;
-    @BindView(R.id.view_setting_backup)
-    View mViewBackUp;
-    @BindView(R.id.tv_setting_clear_cache_size)
-    TextView mTvCacheSize;
-    @BindView(R.id.view_app_database)
-    View mViewAppDatabase;
+    private ActSettingBinding inflate;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, SettingActivity.class);
@@ -48,8 +34,9 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     }
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.act_setting;
+    protected View bindContentView() {
+        inflate = ActSettingBinding.inflate(getLayoutInflater());
+        return inflate.getRoot();
     }
 
     @Override
@@ -69,7 +56,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
 
     @Override
     protected void configViews() {
-        ClickUtils.click(mViewClearCache, o -> {
+        ClickUtils.click(inflate.mViewClearCache, o -> {
             showDialog();
             BookshelfHelper.clearCaches(true);
             FileUtils.deleteFileOrDirectory(mContext.getCacheDir());
@@ -79,25 +66,25 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
             mPresenter.getCacheSize();
         });
 
-        ClickUtils.click(mViewBackUp, o -> {
+        ClickUtils.click(inflate.viewSettingBackup, o -> {
             BackupSettingActivity.start(mContext);
         });
 
-        ClickUtils.click(mVFilePath, o -> {
+        ClickUtils.click(inflate.mVFilePath, o -> {
             FilePathsListActivity.start(mContext);
         });
-        ClickUtils.click(mViewAppDatabase, o -> {
+        ClickUtils.click(inflate.mViewAppDatabase, o -> {
             DatabaseTableListActivity.start(mContext);
         });
         if (ReaderApplication.isDebug) {
-            mViewAppDatabase.setVisibility(View.VISIBLE);
+            inflate.mViewAppDatabase.setVisibility(View.VISIBLE);
         }
         mPresenter.getCacheSize();
     }
 
     @Override
     public void showCacheSize(String size) {
-        mTvCacheSize.setText(size);
+        inflate.mTvCacheSize.setText(size);
     }
 
     @Override

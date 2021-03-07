@@ -5,78 +5,45 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.balysv.materialmenu.MaterialMenuDrawable;
-import com.balysv.materialmenu.MaterialMenuView;
 import com.google.android.material.tabs.TabLayout;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
 import com.liuzhenli.common.constant.RxBusTag;
+import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.FillContentUtil;
-import com.liuzhenli.reader.network.AppComponent;
-import com.liuzhenli.reader.base.BaseActivity;
-import com.liuzhenli.reader.observer.SampleProgressObserver;
+import com.liuzhenli.common.base.BaseActivity;
+import com.liuzhenli.common.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.adapter.MainTabAdapter;
 import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.reader.ui.fragment.DiscoverFragment;
 import com.liuzhenli.reader.utils.PermissionUtil;
-import com.liuzhenli.reader.utils.ToastUtil;
-import com.liuzhenli.reader.view.NoAnimViewPager;
+import com.liuzhenli.common.utils.ToastUtil;
 import com.micoredu.readerlib.bean.BookSourceBean;
 import com.microedu.reader.R;
-
-import butterknife.BindView;
-import butterknife.OnClick;
+import com.microedu.reader.databinding.ActivityMainContainerBinding;
 
 /**
  * @author liuzhenli
  */
 public class MainActivity extends BaseActivity {
-    @BindView(R.id.drawer_layout)
-    DrawerLayout mDrawLayout;
-    @BindView(R.id.material_menu)
-    MaterialMenuView mMaterialMenu;
-    @BindView(R.id.cl_main_left)
-    ViewGroup mDrawLeft;
-
-    @BindView(R.id.view_pager_main)
-    NoAnimViewPager mViewPager;
-    @BindView(R.id.tab_layout_main)
-    TabLayout mTabLayout;
-    @BindView(R.id.tv_main_draw_setting)
-    View mViewSetting;
-    @BindView(R.id.tv_donate)
-    View mViewDonate;
-    @BindView(R.id.tv_main_feedback)
-    View mViewFeedBack;
-    @BindView(R.id.tv_main_left_source_manage)
-    View mViewBookSourceManag;
-    /***关于**/
-    @BindView(R.id.tv_main_draw_about)
-    View mViewAbout;
-    @BindView(R.id.tv_night_mode)
-    View mViewNightMode;
-
     private int mCurrentPosition;
     private MainTabAdapter mainTabAdapter;
     /***发现页面的书源名字*/
     private String mDiscoverBookSourceName;
-
-    @OnClick(R.id.tv_night_mode)
-    public void login() {
-
-    }
+    private ActivityMainContainerBinding inflate;
 
     @Override
-    public int getLayoutId() {
-        return R.layout.activity_main_container;
+    protected View bindContentView() {
+        inflate = ActivityMainContainerBinding.inflate(getLayoutInflater());
+        return inflate.getRoot();
     }
 
     @Override
@@ -110,22 +77,22 @@ public class MainActivity extends BaseActivity {
         setMenu();
 
         mainTabAdapter = new MainTabAdapter(mContext, getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        mViewPager.setAdapter(mainTabAdapter);
-        mTabLayout.setupWithViewPager(mViewPager);
+        inflate.viewMain.mViewPager.setAdapter(mainTabAdapter);
+        inflate.viewMain.mTabLayout.setupWithViewPager(inflate.viewMain.mViewPager);
         //打开左侧的设置页面
-        ClickUtils.click(mMaterialMenu, o -> {
-            if (!mDrawLayout.isDrawerOpen(mDrawLeft)) {
-                mDrawLayout.openDrawer(Gravity.LEFT, true);
+        ClickUtils.click(inflate.mMaterialMenu, o -> {
+            if (!inflate.mDrawLayout.isDrawerOpen(inflate.viewMainLeft.mDrawLeft)) {
+                inflate.mDrawLayout.openDrawer(Gravity.LEFT, true);
             } else {
-                mDrawLayout.closeDrawer(mDrawLeft);
+                inflate.mDrawLayout.closeDrawer(inflate.viewMainLeft.mDrawLeft);
             }
 
         });
 
-        for (int i = 0; i < mTabLayout.getTabCount(); i++) {
-            mTabLayout.getTabAt(i).setCustomView(mainTabAdapter.getTabView(i));
+        for (int i = 0; i < inflate.viewMain.mTabLayout.getTabCount(); i++) {
+            inflate.viewMain.mTabLayout.getTabAt(i).setCustomView(mainTabAdapter.getTabView(i));
         }
-        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        inflate.viewMain.mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mCurrentPosition = tab.getPosition();
@@ -148,41 +115,40 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        mDrawLeft.setOnClickListener(null);
+        inflate.viewMainLeft.mDrawLeft.setOnClickListener(null);
 
         //意见反馈
-        ClickUtils.click(mViewFeedBack, o -> {
+        ClickUtils.click(inflate.viewMainLeft.mViewFeedBack, o -> {
             WebViewActivity.start(mContext, Constant.FEEDBACK);
         });
 
         //书源管理
-        ClickUtils.click(mViewBookSourceManag, o -> {
+        ClickUtils.click(inflate.viewMainLeft.mViewBookSourceManager, o -> {
             BookSourceActivity.start(mContext);
         });
 
         //drawableLayout 滑动监听
-        mDrawLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+        inflate.mDrawLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 super.onDrawerSlide(drawerView, slideOffset);
-                mMaterialMenu.setTransformationOffset(MaterialMenuDrawable.AnimationState.BURGER_ARROW, 2 - slideOffset);
+                inflate.mMaterialMenu.setTransformationOffset(MaterialMenuDrawable.AnimationState.BURGER_ARROW, 2 - slideOffset);
             }
         });
         //设置
-        ClickUtils.click(mViewSetting, o -> {
+        ClickUtils.click(inflate.viewMainLeft.mViewSetting, o -> {
             SettingActivity.start(mContext);
         });
         //关于
-        ClickUtils.click(mViewAbout, o -> {
+        ClickUtils.click(inflate.viewMainLeft.mViewAbout, o -> {
             AboutActivity.start(mContext);
         });
         //捐赠
-        ClickUtils.click(mViewDonate, o -> {
-            DonateActivity.start(mContext);
+        ClickUtils.click(inflate.viewMainLeft.mViewDonate, o -> {
         });
-        mViewDonate.setVisibility(View.GONE);
-        mViewPager.setOffscreenPageLimit(4);
-        mViewNightMode.setVisibility(View.GONE);
+        inflate.viewMainLeft.mViewDonate.setVisibility(View.GONE);
+        inflate.viewMain.mViewPager.setOffscreenPageLimit(4);
+        inflate.viewMainLeft.mViewNightMode.setVisibility(View.GONE);
     }
 
     private void setMenu() {

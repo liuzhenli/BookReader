@@ -3,14 +3,12 @@ package com.liuzhenli.reader.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.widget.TextView;
+import android.view.View;
 
 import com.liuzhenli.common.BitIntentDataManager;
-import com.liuzhenli.reader.base.BaseActivity;
-import com.liuzhenli.reader.network.AppComponent;
-import com.microedu.reader.R;
-
-import butterknife.BindView;
+import com.liuzhenli.common.base.BaseActivity;
+import com.liuzhenli.common.AppComponent;
+import com.microedu.reader.databinding.ActContentBinding;
 
 /**
  * Description:
@@ -20,11 +18,9 @@ import butterknife.BindView;
  */
 public class ContentActivity extends BaseActivity {
 
-    @BindView(R.id.tv_content)
-    TextView mTvContent;
-
     private String mTitle;
     private String mContent;
+    private ActContentBinding binding;
 
     public static void start(Context context, String contentKey, String title) {
         Intent intent = new Intent(context, ContentActivity.class);
@@ -34,8 +30,9 @@ public class ContentActivity extends BaseActivity {
     }
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.act_content;
+    protected View bindContentView() {
+        binding = ActContentBinding.inflate(getLayoutInflater());
+        return binding.getRoot();
     }
 
     @Override
@@ -59,6 +56,6 @@ public class ContentActivity extends BaseActivity {
     @Override
     protected void configViews() {
         mTvTitle.setText(mTitle);
-        mTvContent.setText(mContent);
+        binding.mTvContent.setText(mContent);
     }
 }

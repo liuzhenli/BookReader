@@ -7,11 +7,9 @@ import androidx.multidex.MultiDex;
 import com.liuzhenli.common.BaseApplication;
 import com.liuzhenli.common.SharedPreferencesUtil;
 import com.liuzhenli.common.utils.AppFrontBackHelper;
-import com.liuzhenli.reader.network.AppComponent;
-import com.liuzhenli.reader.network.DaggerAppComponent;
-import com.liuzhenli.reader.module.ApiModule;
-import com.liuzhenli.reader.module.AppModule;
-import com.liuzhenli.reader.utils.AppUtils;
+import com.liuzhenli.common.module.ApiModule;
+import com.liuzhenli.common.module.AppModule;
+import com.liuzhenli.common.utils.AppUtils;
 import com.micoredu.readerlib.content.UpLastChapterModel;
 import com.microedu.reader.BuildConfig;
 import com.orhanobut.logger.AndroidLogAdapter;
@@ -28,16 +26,14 @@ import java.util.concurrent.TimeUnit;
  * @since 2019-07-06 16:28
  */
 public class ReaderApplication extends BaseApplication {
-    public static boolean isDebug = BuildConfig.DEBUG;
+
     private static ReaderApplication mInstance;
-    private AppComponent appComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
         mInstance = this;
         MultiDex.install(this);
-        initComponent();
         AppUtils.init(this);
         AppFrontBackHelper.getInstance().register(this, new AppFrontBackHelper.OnAppStatusListener() {
             @Override
@@ -81,15 +77,5 @@ public class ReaderApplication extends BaseApplication {
         return mInstance;
     }
 
-    public AppComponent getAppComponent() {
-        return appComponent;
-    }
 
-    private void initComponent() {
-        appComponent = DaggerAppComponent.builder()
-                .appModule(new AppModule(this))
-                .apiModule(new ApiModule())
-                .build();
-
-    }
 }

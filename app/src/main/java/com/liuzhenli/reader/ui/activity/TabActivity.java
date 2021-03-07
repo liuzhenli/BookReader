@@ -4,11 +4,12 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.View;
 
-import com.liuzhenli.reader.base.BaseTabActivity;
-import com.liuzhenli.reader.network.AppComponent;
+import com.liuzhenli.common.base.BaseTabActivity;
+import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.reader.ui.fragment.TestFragment;
-import com.microedu.reader.R;
+import com.microedu.reader.databinding.ActivityAboutBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +19,16 @@ import java.util.List;
  */
 public class TabActivity extends BaseTabActivity {
 
+    private ActivityAboutBinding inflate;
+
     public static void start(Context context) {
         context.startActivity(new Intent(context, TabActivity.class));
     }
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_tab;
+    protected View bindContentView() {
+        inflate = ActivityAboutBinding.inflate(getLayoutInflater());
+        return inflate.getRoot();
     }
 
     @Override

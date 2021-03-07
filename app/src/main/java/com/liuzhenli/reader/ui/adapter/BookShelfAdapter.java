@@ -9,11 +9,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import com.liuzhenli.reader.utils.image.ImageUtil;
+import com.liuzhenli.common.utils.image.ImageUtil;
 import com.liuzhenli.reader.view.BadgeView;
 import com.liuzhenli.reader.view.RotateLoading;
-import com.liuzhenli.reader.view.recyclerview.adapter.BaseViewHolder;
-import com.liuzhenli.reader.view.recyclerview.adapter.RecyclerArrayAdapter;
+import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
+import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
 import com.micoredu.readerlib.bean.BookShelfBean;
 import com.microedu.reader.R;
 
@@ -38,7 +38,7 @@ public class BookShelfAdapter extends RecyclerArrayAdapter<BookShelfBean> {
     }
 
     public static class BookShelfHolder extends BaseViewHolder<BookShelfBean> {
-        @BindView(R.id.iv_cover)
+        @BindView(R.id.mIvCover)
         ImageView mIvCover;
         @BindView(R.id.bv_unread)
         BadgeView mBvUnread;
@@ -48,9 +48,9 @@ public class BookShelfAdapter extends RecyclerArrayAdapter<BookShelfBean> {
         FrameLayout mFlHasNew;
         @BindView(R.id.tv_name)
         TextView mTvName;
-        @BindView(R.id.tv_author)
+        @BindView(R.id.mTvAuthor)
         TextView mTvAuthor;
-        @BindView(R.id.tv_read)
+        @BindView(R.id.mTvRead)
         TextView mTvRead;
         @BindView(R.id.tv_last)
         TextView mTvLast;

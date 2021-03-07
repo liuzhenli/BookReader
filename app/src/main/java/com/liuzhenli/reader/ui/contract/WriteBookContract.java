@@ -1,7 +1,7 @@
 package com.liuzhenli.reader.ui.contract;
 
 
-import com.liuzhenli.reader.base.BaseContract;
+import com.liuzhenli.common.base.BaseContract;
 
 /**
  * Description:

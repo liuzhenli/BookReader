@@ -21,7 +21,7 @@
             app:qmui_corner_radius="8dp" />
 
         <TextView
-            android:id="@+id/tv_book_name"
+            android:id="@+id/mTvBookName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/common_space_normal"
@@ -45,8 +45,8 @@
             android:text="@string/author"
             android:textColor="@color/text_color_66"
             android:textSize="@dimen/txt_size_12"
-            app:layout_constraintLeft_toLeftOf="@+id/tv_book_name"
-            app:layout_constraintTop_toBottomOf="@+id/tv_book_name" />
+            app:layout_constraintLeft_toLeftOf="@+id/mTvBookName"
+            app:layout_constraintTop_toBottomOf="@+id/mTvBookName" />
 
         <TextView
             android:id="@+id/tv_book_read_progress"
@@ -56,26 +56,26 @@
             android:text="@string/progress_show"
             android:textColor="@color/text_color_66"
             android:textSize="@dimen/txt_size_12"
-            app:layout_constraintLeft_toLeftOf="@+id/tv_book_name"
+            app:layout_constraintLeft_toLeftOf="@+id/mTvBookName"
             app:layout_constraintTop_toBottomOf="@+id/tv_book_author" />
 
         <TextView
-            android:id="@+id/tv_book_source"
+            android:id="@+id/mTvBookSource"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/common_space_small"
             android:text="@string/book_source_name"
             android:textColor="@color/text_color_66"
             android:textSize="@dimen/txt_size_12"
-            app:layout_constraintLeft_toLeftOf="@+id/tv_book_name"
+            app:layout_constraintLeft_toLeftOf="@+id/mTvBookName"
             app:layout_constraintTop_toBottomOf="@+id/tv_book_read_progress" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintLeft_toLeftOf="@+id/tv_book_name"
-            app:layout_constraintTop_toBottomOf="@+id/tv_book_source">
+            app:layout_constraintLeft_toLeftOf="@+id/mTvBookName"
+            app:layout_constraintTop_toBottomOf="@+id/mTvBookSource">
 
 
             <RadioGroup

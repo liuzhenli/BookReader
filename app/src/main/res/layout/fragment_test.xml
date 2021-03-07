@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.liuzhenli.reader.view.recyclerview.swipe.ZLSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.liuzhenli.common.widget.recyclerview.swipe.ZLSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/zl_swipe_refresh"
+    android:id="@+id/mRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -15,4 +15,4 @@
         app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
         app:fastScrollVerticalTrackDrawable="@drawable/line_drawable" />
 
-</com.liuzhenli.reader.view.recyclerview.swipe.ZLSwipeRefreshLayout>
+</com.liuzhenli.common.widget.recyclerview.swipe.ZLSwipeRefreshLayout>

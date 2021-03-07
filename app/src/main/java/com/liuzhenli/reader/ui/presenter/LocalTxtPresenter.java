@@ -5,7 +5,7 @@ import android.util.Log;
 import androidx.fragment.app.FragmentActivity;
 
 import com.liuzhenli.common.utils.media.ImportBookFileHelper;
-import com.liuzhenli.reader.base.RxPresenter;
+import com.liuzhenli.common.base.RxPresenter;
 import com.liuzhenli.reader.bean.LocalFileBean;
 import com.liuzhenli.reader.network.Api;
 import com.liuzhenli.reader.ui.contract.LocalTxtContract;

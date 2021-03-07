@@ -2,38 +2,30 @@ package com.liuzhenli.reader.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.liuzhenli.common.BitIntentDataManager;
+import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.Constant;
-import com.liuzhenli.reader.base.BaseFragment;
-import com.liuzhenli.reader.network.AppComponent;
+import com.liuzhenli.common.base.BaseFragment;
 import com.liuzhenli.reader.ui.activity.BookChapterListActivity;
 import com.liuzhenli.reader.ui.activity.ReaderActivity;
 import com.liuzhenli.reader.ui.adapter.BookChapterAdapter;
 import com.liuzhenli.reader.utils.DataDiffUtil;
-import com.liuzhenli.reader.view.recyclerview.adapter.RecyclerArrayAdapter;
-import com.liuzhenli.reader.view.recyclerview.swipe.OnRefreshListener;
-import com.liuzhenli.reader.view.recyclerview.swipe.ZLSwipeRefreshLayout;
 import com.micoredu.readerlib.bean.BookChapterBean;
-import com.micoredu.readerlib.bean.BookShelfBean;
 import com.micoredu.readerlib.helper.BookshelfHelper;
-import com.microedu.reader.R;
-
-import butterknife.BindView;
+import com.microedu.reader.databinding.FragmentBookchapterlistBinding;
 
 public class BookChapterListFragment extends BaseFragment {
 
-    @BindView(R.id.zl_swipe_refresh)
-    ZLSwipeRefreshLayout mRefreshLayout;
-
-    @BindView(R.id.recyclerView)
-    RecyclerView mRecyclerView;
     private BookChapterAdapter mAdapter;
 
     private boolean mIsFromReadPage;
+    private FragmentBookchapterlistBinding inflate;
 
     public static BookChapterListFragment getInstance(boolean isFromReadPage) {
         BookChapterListFragment instance = new BookChapterListFragment();
@@ -44,8 +36,9 @@ public class BookChapterListFragment extends BaseFragment {
     }
 
     @Override
-    public int getLayoutResId() {
-        return R.layout.fragment_bookchapterlist;
+    public View bindContentView(LayoutInflater inflater, ViewGroup container, boolean attachParent) {
+        inflate = FragmentBookchapterlistBinding.inflate(inflater, container, attachParent);
+        return inflate.getRoot();
     }
 
     @Override
@@ -64,10 +57,10 @@ public class BookChapterListFragment extends BaseFragment {
 
     @Override
     public void configViews() {
-        mRefreshLayout.setOnRefreshListener(() -> mRefreshLayout.setRefreshing(false));
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        inflate.mRefreshLayout.setOnRefreshListener(() -> inflate.mRefreshLayout.setRefreshing(false));
+        inflate.recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mAdapter = new BookChapterAdapter(mContext, mIsFromReadPage);
-        mRecyclerView.setAdapter(mAdapter);
+        inflate.recyclerView.setAdapter(mAdapter);
         mAdapter.addAll(getParentActivity().getChapterBeanList());
         mAdapter.setOnItemClickListener(position -> {
             BookChapterBean item = mAdapter.getItem(position);
@@ -108,6 +101,5 @@ public class BookChapterListFragment extends BaseFragment {
             mAdapter.clear();
             mAdapter.addAll(getParentActivity().getChapterBeanList());
         }
-
     }
 }

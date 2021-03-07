@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,16 +14,15 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.hwangjr.rxbus.RxBus;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
 import com.liuzhenli.common.BitIntentDataManager;
 import com.liuzhenli.common.constant.AppConstant;
 import com.liuzhenli.common.constant.RxBusTag;
+import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.ClickUtils;
-import com.liuzhenli.reader.base.BaseRVFragment;
-import com.liuzhenli.reader.network.AppComponent;
+import com.liuzhenli.common.base.BaseRVFragment;
 import com.liuzhenli.reader.ui.activity.BookDetailActivity;
 import com.liuzhenli.reader.ui.activity.ReaderActivity;
 import com.liuzhenli.reader.ui.adapter.BookShelfAdapter;
@@ -29,15 +30,14 @@ import com.liuzhenli.reader.ui.contract.BookShelfContract;
 import com.liuzhenli.reader.ui.presenter.BookShelfPresenter;
 import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.reader.utils.DataDiffUtil;
-import com.liuzhenli.reader.utils.ToastUtil;
-import com.liuzhenli.reader.utils.image.ImageUtil;
+import com.liuzhenli.common.utils.ToastUtil;
+import com.liuzhenli.common.utils.image.ImageUtil;
 import com.micoredu.readerlib.bean.BookShelfBean;
 import com.micoredu.readerlib.helper.BookshelfHelper;
 import com.microedu.reader.R;
+import com.microedu.reader.databinding.FragmentBookshelfBinding;
 
 import java.util.List;
-
-import butterknife.BindView;
 
 import static com.liuzhenli.common.BitIntentDataManager.DATA_KEY;
 
@@ -50,6 +50,7 @@ public class BookShelfFragment extends BaseRVFragment<BookShelfPresenter, BookSh
 
     /***是否启动第一次访问书架  如果是,需要检查更新*/
     private boolean mFirstRequest = true;
+    private FragmentBookshelfBinding inflate;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,8 +58,9 @@ public class BookShelfFragment extends BaseRVFragment<BookShelfPresenter, BookSh
     }
 
     @Override
-    public int getLayoutResId() {
-        return R.layout.fragment_bookshelf;
+    public View bindContentView(LayoutInflater inflater, ViewGroup container, boolean attachParent) {
+        inflate = FragmentBookshelfBinding.inflate(inflater, container, attachParent);
+        return inflate.getRoot();
     }
 
     @Override
@@ -187,9 +189,9 @@ public class BookShelfFragment extends BaseRVFragment<BookShelfPresenter, BookSh
                 bottomSheetDialog.dismiss();
             }
         });
-        TextView tvBookName = bottomSheetDialog.findViewById(R.id.tv_book_name);
+        TextView tvBookName = bottomSheetDialog.findViewById(R.id.mTvBookName);
         TextView tvBookAuthor = bottomSheetDialog.findViewById(R.id.tv_book_author);
-        TextView tvBookSource = bottomSheetDialog.findViewById(R.id.tv_book_source);
+        TextView tvBookSource = bottomSheetDialog.findViewById(R.id.mTvBookSource);
         TextView tvProgress = bottomSheetDialog.findViewById(R.id.tv_book_read_progress);
         TextView tvDes = bottomSheetDialog.findViewById(R.id.tv_book_des);
         ImageView mIvCover = bottomSheetDialog.findViewById(R.id.iv_book_cover);

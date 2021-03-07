@@ -15,18 +15,17 @@ import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.reader.ui.activity.BookSourceActivity;
 import com.liuzhenli.reader.ui.activity.EditSourceActivity;
 import com.liuzhenli.common.utils.LogUtils;
-import com.liuzhenli.reader.utils.ToastUtil;
+import com.liuzhenli.common.utils.ToastUtil;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.reader.view.loading.DialogUtil;
-import com.liuzhenli.reader.view.recyclerview.adapter.BaseViewHolder;
-import com.liuzhenli.reader.view.recyclerview.adapter.RecyclerArrayAdapter;
+import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
+import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
 import com.micoredu.readerlib.bean.BookSourceBean;
 import com.micoredu.readerlib.model.BookSourceManager;
 import com.microedu.reader.R;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -8,7 +8,7 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.liuzhenli.common.FileHelp;
 import com.liuzhenli.common.constant.BookType;
-import com.liuzhenli.common.utils.MD5Utils;
+import com.liuzhenli.common.encript.MD5Utils;
 import com.liuzhenli.common.utils.StringUtils;
 import com.micoredu.readerlib.R;
 import com.micoredu.readerlib.helper.BookshelfHelper;

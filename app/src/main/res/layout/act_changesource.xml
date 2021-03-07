@@ -18,7 +18,7 @@
         android:orientation="vertical">
 
         <com.wang.avi.AVLoadingIndicatorView
-            android:id="@+id/view_search_indicator"
+            android:id="@+id/mSearchIndicator"
             style="@style/AVLoadingIndicatorView"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -33,7 +33,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/ev_book_name"
+            android:id="@+id/mEtBookName"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_marginLeft="@dimen/common_space_large"

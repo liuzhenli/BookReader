@@ -6,9 +6,7 @@ import android.graphics.Rect;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.CheckBox;
 import android.widget.EditText;
 
 
@@ -16,26 +14,22 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.liuzhenli.common.constant.AppConstant;
 import com.liuzhenli.common.constant.BookType;
+import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.ClipboardUtil;
 import com.liuzhenli.common.utils.ScreenUtils;
-import com.liuzhenli.reader.base.BaseRvActivity;
+import com.liuzhenli.common.base.BaseRvActivity;
 import com.liuzhenli.reader.bean.EditSource;
-import com.liuzhenli.reader.network.AppComponent;
 import com.liuzhenli.reader.ui.adapter.EditSourceAdapter;
 import com.liuzhenli.reader.ui.contract.EditSourceContract;
 import com.liuzhenli.reader.ui.presenter.EditSourcePresenter;
-import com.liuzhenli.reader.utils.ToastUtil;
-import com.liuzhenli.reader.view.KeyboardTopView;
+import com.liuzhenli.common.utils.ToastUtil;
 import com.micoredu.readerlib.bean.BookSourceBean;
 import com.microedu.reader.R;
-import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
+import com.microedu.reader.databinding.ActEditsourceBinding;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import io.reactivex.functions.Consumer;
 
 import static android.text.TextUtils.isEmpty;
 
@@ -48,23 +42,13 @@ import static android.text.TextUtils.isEmpty;
 public class EditSourceActivity extends BaseRvActivity<EditSourcePresenter, EditSource> implements EditSourceContract.View {
 
     public static final String BOOK_SOURCE = "book_source";
-    @BindView(R.id.cb_source_enable)
-    CheckBox mCbSourceEnable;
-    @BindView(R.id.cb_source_audio)
-    CheckBox cbIsAudio;
-    @BindView(R.id.cb_source_edit_find)
-    QMUIRoundButton mEditFind;
-    @BindView(R.id.ll_root)
-    ViewGroup mRootView;
-    /***标点符号*/
-    @BindView(R.id.keyboard_top_view)
-    KeyboardTopView mRvPunctuation;
-    private List<EditSource> sourceEditList = new ArrayList<>();
-    private List<EditSource> findEditList = new ArrayList<>();
+    private final List<EditSource> sourceEditList = new ArrayList<>();
+    private final List<EditSource> findEditList = new ArrayList<>();
 
     private boolean mIsEditFind;
     private BookSourceBean mBookSource;
     private int serialNumber;
+    private ActEditsourceBinding inflate;
     private boolean mIsSoftKeyBoardShowing;
 
     public static void start(Context context, BookSourceBean data) {
@@ -74,8 +58,9 @@ public class EditSourceActivity extends BaseRvActivity<EditSourcePresenter, Edit
     }
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.act_editsource;
+    protected View bindContentView() {
+        inflate = ActEditsourceBinding.inflate(getLayoutInflater());
+        return inflate.getRoot();
     }
 
     @Override
@@ -144,23 +129,20 @@ public class EditSourceActivity extends BaseRvActivity<EditSourcePresenter, Edit
     protected void configViews() {
         initAdapter(EditSourceAdapter.class, false, false);
         setText(mBookSource);
-        ClickUtils.click(mEditFind, new Consumer() {
-            @Override
-            public void accept(Object o) throws Exception {
-                mIsEditFind = !mIsEditFind;
-                mAdapter.clear();
-                if (mIsEditFind) {
-                    mEditFind.setText(R.string.back);
-                    mAdapter.addAll(findEditList);
-                } else {
-                    mEditFind.setText(R.string.edit_find);
-                    mAdapter.addAll(sourceEditList);
-                }
+        ClickUtils.click(inflate.mEditFind, o -> {
+            mIsEditFind = !mIsEditFind;
+            mAdapter.clear();
+            if (mIsEditFind) {
+                inflate.mEditFind.setText(R.string.back);
+                mAdapter.addAll(findEditList);
+            } else {
+                inflate.mEditFind.setText(R.string.edit_find);
+                mAdapter.addAll(sourceEditList);
             }
         });
-        mCbSourceEnable.setChecked(mBookSource.getEnable());
+        inflate.mCbSourceEnable.setChecked(mBookSource.getEnable());
 
-        mRvPunctuation.setData(key -> {
+        inflate.mRvPunctuation.setData(key -> {
             if (isEmpty(key)) {
                 return;
             }
@@ -427,8 +409,8 @@ public class EditSourceActivity extends BaseRvActivity<EditSourcePresenter, Edit
             }
         }
         bookSource.setSerialNumber(serialNumber);
-        bookSource.setEnable(mCbSourceEnable.isChecked());
-        bookSource.setBookSourceType(cbIsAudio.isChecked() ? BookType.AUDIO : null);
+        bookSource.setEnable(inflate.mCbSourceEnable.isChecked());
+        bookSource.setBookSourceType(inflate.cbIsAudio.isChecked() ? BookType.AUDIO : null);
         return bookSource;
     }
 
@@ -463,17 +445,17 @@ public class EditSourceActivity extends BaseRvActivity<EditSourcePresenter, Edit
         if (isFinishing()) {
             return;
         }
-        if (mRvPunctuation != null && mRvPunctuation.getVisibility() == View.VISIBLE) {
+        if (inflate.mRvPunctuation != null && inflate.mRvPunctuation.getVisibility() == View.VISIBLE) {
             return;
         }
-        if (mRvPunctuation != null & !this.isFinishing()) {
-            mRvPunctuation.setVisibility(View.VISIBLE);
+        if (inflate.mRvPunctuation != null & !this.isFinishing()) {
+            inflate.mRvPunctuation.setVisibility(View.VISIBLE);
         }
     }
 
     private void closePopupWindow() {
-        if (mRvPunctuation != null && mRvPunctuation.getVisibility() == View.VISIBLE) {
-            mRvPunctuation.setVisibility(View.GONE);
+        if (inflate.mRvPunctuation != null && inflate.mRvPunctuation.getVisibility() == View.VISIBLE) {
+            inflate.mRvPunctuation.setVisibility(View.GONE);
         }
     }
 }

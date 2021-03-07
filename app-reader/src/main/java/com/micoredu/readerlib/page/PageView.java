@@ -19,6 +19,7 @@ import androidx.annotation.RequiresApi;
 
 import com.liuzhenli.common.FileHelp;
 import com.liuzhenli.common.utils.ScreenUtils;
+import com.liuzhenli.common.widget.bar.ImmersionBar;
 import com.micoredu.readerlib.BaseReaderActivity;
 import com.micoredu.readerlib.animation.CoverPageAnim;
 import com.micoredu.readerlib.animation.HorizonPageAnim;
@@ -29,7 +30,6 @@ import com.micoredu.readerlib.animation.SimulationPageAnim;
 import com.micoredu.readerlib.animation.SlidePageAnim;
 import com.micoredu.readerlib.bean.BookShelfBean;
 import com.micoredu.readerlib.helper.ReadConfigManager;
-import com.micoredu.readerlib.utils.bar.ImmersionBar;
 
 import org.jetbrains.annotations.NotNull;
 

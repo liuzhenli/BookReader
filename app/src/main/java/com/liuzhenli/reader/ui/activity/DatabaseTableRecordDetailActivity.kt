@@ -1,12 +1,12 @@
 package com.liuzhenli.reader.ui.activity
 
 import android.os.Bundle
-import android.widget.ListView
-import com.liuzhenli.reader.base.BaseActivity
-import com.liuzhenli.reader.base.BaseContract.BasePresenter
-import com.liuzhenli.reader.network.AppComponent
+import android.view.View
+import com.liuzhenli.common.base.BaseActivity
+import com.liuzhenli.common.base.BaseContract.BasePresenter
+import com.liuzhenli.common.AppComponent
 import com.liuzhenli.reader.ui.adapter.DatabaseTableRecordDetailAdapter
-import com.microedu.reader.R
+import com.microedu.reader.databinding.ActivityDiagnoseDatabaseTableRecordDetailBinding
 
 /**
  * 数据表，行数据详情 (由于内容长度过长，需要查看完整内容)
@@ -16,7 +16,8 @@ import com.microedu.reader.R
  */
 class DatabaseTableRecordDetailActivity : BaseActivity<BasePresenter<*>>() {
 
-    private var listTableRecordDetail: ListView? = null
+
+    private var binding: ActivityDiagnoseDatabaseTableRecordDetailBinding? = null
     private var recordDetailAdapter: DatabaseTableRecordDetailAdapter? = null
     private var tableTitles: Array<String>? = null
     private var rowData: Array<String>? = null
@@ -25,11 +26,12 @@ class DatabaseTableRecordDetailActivity : BaseActivity<BasePresenter<*>>() {
         tableTitles = intent.getStringArrayExtra(EXTRA_TABLE_TITLES)
         rowData = intent.getStringArrayExtra(EXTRA_ROW_DATA)
         recordDetailAdapter = DatabaseTableRecordDetailAdapter(this, tableTitles, rowData)
-        listTableRecordDetail!!.adapter = recordDetailAdapter
+        binding!!.listTableRecordDetail!!.adapter = recordDetailAdapter
     }
 
-    override fun getLayoutId(): Int {
-        return R.layout.activity_diagnose_database_table_record_detail
+    override fun bindContentView(): View {
+        binding = ActivityDiagnoseDatabaseTableRecordDetailBinding.inflate(layoutInflater)
+        return binding!!.root;
     }
 
     override fun setupActivityComponent(appComponent: AppComponent) {}
@@ -39,7 +41,6 @@ class DatabaseTableRecordDetailActivity : BaseActivity<BasePresenter<*>>() {
 
     override fun initData() {}
     override fun configViews() {
-        listTableRecordDetail = findViewById(R.id.list_diagnose_table_record_detail)
     }
 
     companion object {

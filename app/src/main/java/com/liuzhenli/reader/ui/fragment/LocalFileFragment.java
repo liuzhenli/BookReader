@@ -1,29 +1,28 @@
 package com.liuzhenli.reader.ui.fragment;
 
 import android.os.Environment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.liuzhenli.reader.base.BaseFragment;
-import com.liuzhenli.reader.network.AppComponent;
+import com.liuzhenli.common.base.BaseFragment;
+import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.reader.ui.adapter.LocalFileAdapter;
 import com.liuzhenli.reader.ui.contract.LocalFileContract;
 import com.liuzhenli.reader.ui.presenter.LocalFilePresenter;
 import com.liuzhenli.common.utils.Constant;
-import com.liuzhenli.reader.utils.ToastUtil;
+import com.liuzhenli.common.utils.ToastUtil;
 import com.liuzhenli.reader.utils.filepicker.adapter.PathAdapter;
-import com.liuzhenli.reader.view.recyclerview.EasyRecyclerView;
-import com.microedu.reader.R;
+import com.microedu.reader.databinding.FragmentLocalfileBinding;
 import com.orhanobut.logger.Logger;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-
-import butterknife.BindView;
 
 /**
  * describe:
@@ -33,19 +32,17 @@ import butterknife.BindView;
  * @author Liuzhenli on 2019-12-15 10:06
  */
 public class LocalFileFragment extends BaseFragment<LocalFilePresenter> implements LocalFileContract.View, PathAdapter.CallBack {
-    @BindView(R.id.rv_path)
-    RecyclerView mFilePathView;
-    @BindView(R.id.recyclerView)
-    EasyRecyclerView mRecyclerView;
 
     private LocalFileAdapter mAdapter;
     /*** 初始文件路径***/
     private File rootDir;
     private PathAdapter pathAdapter = new PathAdapter();
+    private FragmentLocalfileBinding inflate;
 
     @Override
-    public int getLayoutResId() {
-        return R.layout.fragment_localfile;
+    public View bindContentView(LayoutInflater inflater, ViewGroup container, boolean attachParent) {
+        inflate = FragmentLocalfileBinding.inflate(inflater, container, attachParent);
+        return inflate.getRoot();
     }
 
     @Override
@@ -55,7 +52,7 @@ public class LocalFileFragment extends BaseFragment<LocalFilePresenter> implemen
 
     @Override
     public void attachView() {
-
+        mPresenter.attachView(this);
     }
 
 
@@ -72,9 +69,9 @@ public class LocalFileFragment extends BaseFragment<LocalFilePresenter> implemen
 
     @Override
     public void configViews() {
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        inflate.rvPath.setLayoutManager(new LinearLayoutManager(mContext));
         mAdapter = new LocalFileAdapter(mContext);
-        mRecyclerView.setAdapter(mAdapter);
+        inflate.recyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(position -> {
             HashMap<String, Object> item = mAdapter.getItem(position);
             rootDir = (File) item.get(Constant.FileAttr.FILE);
@@ -89,10 +86,10 @@ public class LocalFileFragment extends BaseFragment<LocalFilePresenter> implemen
             }
             mAdapter.notifyDataSetChanged();
         });
-        mFilePathView.setLayoutManager(new LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false));
+        inflate.rvPath.setLayoutManager(new LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false));
         pathAdapter.setCallBack(this);
         refreshCurrentDirPath(rootDir.getPath());
-        mFilePathView.setAdapter(pathAdapter);
+        inflate.rvPath.setAdapter(pathAdapter);
     }
 
     @Override

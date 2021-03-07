@@ -17,7 +17,7 @@
 
 
         <ImageView
-            android:id="@+id/iv_cover"
+            android:id="@+id/mIvCover"
             android:layout_width="82dp"
             android:layout_height="108dp"
             android:layout_centerInParent="true"
@@ -30,7 +30,7 @@
 
 
         <TextView
-            android:id="@+id/tv_book_name"
+            android:id="@+id/mTvBookName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/common_space_normal"
@@ -42,12 +42,12 @@
             android:textSize="@dimen/txt_size_16"
             android:textStyle="bold"
             android:typeface="sans"
-            app:layout_constraintLeft_toRightOf="@+id/iv_cover"
-            app:layout_constraintTop_toTopOf="@+id/iv_cover"
+            app:layout_constraintLeft_toRightOf="@+id/mIvCover"
+            app:layout_constraintTop_toTopOf="@+id/mIvCover"
             tools:text="@string/book_name" />
 
         <TextView
-            android:id="@+id/tv_author"
+            android:id="@+id/mTvAuthor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/common_space_normal"
@@ -57,12 +57,12 @@
             android:textColor="#F5A623"
             android:textSize="@dimen/txt_size_14"
             android:typeface="sans"
-            app:layout_constraintBottom_toTopOf="@+id/tv_book_source"
-            app:layout_constraintLeft_toLeftOf="@+id/tv_book_name"
-            app:layout_constraintTop_toBottomOf="@+id/tv_book_name" />
+            app:layout_constraintBottom_toTopOf="@+id/mTvBookSource"
+            app:layout_constraintLeft_toLeftOf="@+id/mTvBookName"
+            app:layout_constraintTop_toBottomOf="@+id/mTvBookName" />
 
         <TextView
-            android:id="@+id/tv_book_source"
+            android:id="@+id/mTvBookSource"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/common_space_normal"
@@ -70,26 +70,26 @@
             android:textColor="@color/white"
             android:textSize="@dimen/txt_size_12"
             android:typeface="sans"
-            app:layout_constraintBottom_toTopOf="@+id/tv_last_chapter_name"
-            app:layout_constraintLeft_toLeftOf="@+id/tv_book_name"
-            app:layout_constraintTop_toBottomOf="@+id/tv_author" />
+            app:layout_constraintBottom_toTopOf="@+id/mTvLastChapterName"
+            app:layout_constraintLeft_toLeftOf="@+id/mTvBookName"
+            app:layout_constraintTop_toBottomOf="@+id/mTvAuthor" />
 
         <com.qmuiteam.qmui.alpha.QMUIAlphaTextView
-            android:id="@+id/view_change_book_source"
+            android:id="@+id/mVChangeBookSource"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="换源"
             android:textColor="@color/white"
             android:textSize="@dimen/txt_size_12"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_book_source"
-            app:layout_constraintLeft_toRightOf="@+id/tv_book_source"
+            app:layout_constraintBottom_toBottomOf="@+id/mTvBookSource"
+            app:layout_constraintLeft_toRightOf="@+id/mTvBookSource"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_book_source"
+            app:layout_constraintTop_toTopOf="@+id/mTvBookSource"
             app:qmui_radius="4dp" />
 
 
         <TextView
-            android:id="@+id/tv_last_chapter_name"
+            android:id="@+id/mTvLastChapterName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/common_space_normal"
@@ -99,8 +99,8 @@
             android:textColor="#8F5900"
             android:textIsSelectable="true"
             android:textSize="@dimen/txt_size_12"
-            app:layout_constraintLeft_toLeftOf="@id/tv_book_name"
-            app:layout_constraintTop_toBottomOf="@+id/tv_book_source" />
+            app:layout_constraintLeft_toLeftOf="@id/mTvBookName"
+            app:layout_constraintTop_toBottomOf="@+id/mTvBookSource" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

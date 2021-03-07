@@ -7,9 +7,9 @@ import android.view.View;
 import androidx.fragment.app.Fragment;
 
 import com.liuzhenli.common.BitIntentDataManager;
+import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.ClickUtils;
-import com.liuzhenli.reader.base.BaseTabActivity;
-import com.liuzhenli.reader.network.AppComponent;
+import com.liuzhenli.common.base.BaseTabActivity;
 import com.liuzhenli.reader.ui.fragment.BookChapterListFragment;
 import com.liuzhenli.reader.ui.fragment.BookMarkFragment;
 import com.micoredu.readerlib.bean.BookChapterBean;
@@ -18,13 +18,11 @@ import com.micoredu.readerlib.bean.BookmarkBean;
 import com.micoredu.readerlib.helper.BookshelfHelper;
 import com.micoredu.readerlib.helper.ReadConfigManager;
 import com.microedu.reader.R;
+import com.microedu.reader.databinding.ActBookchapterlistBinding;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import butterknife.BindView;
-import io.reactivex.functions.Consumer;
 
 /**
  * Description:
@@ -34,20 +32,19 @@ import io.reactivex.functions.Consumer;
  */
 public class BookChapterListActivity extends BaseTabActivity {
 
-    @BindView(R.id.view_root_chapter_list)
-    View mViewRoot;
     private BookShelfBean mBookShelf;
     /***正序*/
     private List<BookChapterBean> mChapterBeanList;
     /***倒序*/
-    private List<BookChapterBean> mChapterList = new ArrayList<>();
+    private final List<BookChapterBean> mChapterList = new ArrayList<>();
     private List<BookmarkBean> mBookMarkList = new ArrayList<>();
-    private List<BookmarkBean> mBookMarkDesc = new ArrayList<>();
+    private final List<BookmarkBean> mBookMarkDesc = new ArrayList<>();
 
     private boolean mIsBookMark;
     private boolean mIsFromReadPage;
 
     private boolean isAsc = true;
+    private ActBookchapterlistBinding mContentView;
 
     public static void start(Context context, BookShelfBean bookShelf, List<BookChapterBean> chapterBeanList, boolean isBookMark, boolean isFromReadPage) {
         Intent intent = new Intent(context, BookChapterListActivity.class);
@@ -71,8 +68,9 @@ public class BookChapterListActivity extends BaseTabActivity {
     }
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.act_bookchapterlist;
+    protected View bindContentView() {
+        mContentView = ActBookchapterlistBinding.inflate(getLayoutInflater());
+        return mContentView.getRoot();
     }
 
     @Override
@@ -83,17 +81,14 @@ public class BookChapterListActivity extends BaseTabActivity {
     @Override
     protected void initToolBar() {
         mTvRight.setText("倒序");
-        ClickUtils.click(mTvRight, new Consumer() {
-            @Override
-            public void accept(Object o) throws Exception {
-                isAsc = !isAsc;
-                ((BookChapterListFragment) mFragmentList.get(0)).refreshData();
-                ((BookMarkFragment) mFragmentList.get(1)).refreshData();
-                if (isAsc) {
-                    mTvRight.setText("倒序");
-                } else {
-                    mTvRight.setText("正序");
-                }
+        ClickUtils.click(mTvRight, o -> {
+            isAsc = !isAsc;
+            ((BookChapterListFragment) mFragmentList.get(0)).refreshData();
+            ((BookMarkFragment) mFragmentList.get(1)).refreshData();
+            if (isAsc) {
+                mTvRight.setText("倒序");
+            } else {
+                mTvRight.setText("正序");
             }
         });
         mTvRight.setVisibility(View.VISIBLE);
@@ -186,7 +181,7 @@ public class BookChapterListActivity extends BaseTabActivity {
             mImmersionBar.statusBarColor(R.color.main);
             mToolBar.setBackgroundColor(getResources().getColor(R.color.main));
         }
-        mViewRoot.setBackground(ReadConfigManager.getInstance().getTextBackground(mContext));
+        mContentView.mViewRoot.setBackground(ReadConfigManager.getInstance().getTextBackground(mContext));
         mTabLayout.setTabTextColors(getResources().getColor(R.color.text_color_99), ReadConfigManager.getInstance().getTextColor());
         mImmersionBar.statusBarDarkFont(false);
         mImmersionBar.init();

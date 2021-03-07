@@ -2,8 +2,8 @@ package com.liuzhenli.reader.utils;
 
 import androidx.recyclerview.widget.DiffUtil;
 
-import com.liuzhenli.reader.view.recyclerview.adapter.DefaultEventDelegate;
-import com.liuzhenli.reader.view.recyclerview.adapter.RecyclerArrayAdapter;
+import com.liuzhenli.common.widget.recyclerview.adapter.DefaultEventDelegate;
+import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
 
 import java.util.List;
 

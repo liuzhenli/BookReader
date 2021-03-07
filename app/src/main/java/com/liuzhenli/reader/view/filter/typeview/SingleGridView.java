@@ -11,7 +11,7 @@ import android.widget.ListView;
 
 import com.liuzhenli.common.base.CommonAdapter;
 import com.liuzhenli.common.utils.ClickUtils;
-import com.liuzhenli.reader.utils.DensityUtil;
+import com.liuzhenli.common.utils.DensityUtil;
 import com.liuzhenli.reader.view.filter.interfaces.OnFilterItemClickListener;
 
 import java.util.List;

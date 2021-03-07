@@ -1,18 +1,13 @@
 package com.liuzhenli.reader.ui.presenter;
 
-import com.liuzhenli.common.utils.GsonUtils;
 import com.liuzhenli.common.utils.RxUtil;
-import com.liuzhenli.common.utils.StringUtils;
-import com.liuzhenli.reader.base.RxPresenter;
+import com.liuzhenli.common.base.RxPresenter;
 import com.liuzhenli.reader.network.Api;
-import com.liuzhenli.reader.observer.SampleProgressObserver;
+import com.liuzhenli.common.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.contract.DiscoverContract;
 import com.micoredu.readerlib.bean.BookSourceBean;
 import com.micoredu.readerlib.model.BookSourceManager;
-import com.micoredu.readerlib.model.WebBookModel;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -21,7 +16,6 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.observers.DisposableObserver;
-import okhttp3.ResponseBody;
 
 /**
  * Description:

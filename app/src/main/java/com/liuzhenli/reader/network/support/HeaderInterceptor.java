@@ -6,8 +6,8 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.liuzhenli.reader.ReaderApplication;
 import com.liuzhenli.reader.utils.AccountManager;
-import com.liuzhenli.reader.utils.ApiManager;
-import com.liuzhenli.reader.utils.AppUtils;
+import com.liuzhenli.common.utils.ApiManager;
+import com.liuzhenli.common.utils.AppUtils;
 
 import java.io.IOException;
 import java.util.HashMap;

@@ -2,22 +2,23 @@ package com.liuzhenli.reader.ui.fragment;
 
 import android.Manifest;
 import android.content.Intent;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.view.ViewGroup;
 
+import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.observer.MyObserver;
 import com.liuzhenli.common.utils.ClickUtils;
-import com.liuzhenli.reader.base.BaseFragment;
-import com.liuzhenli.reader.network.AppComponent;
+import com.liuzhenli.common.base.BaseFragment;
 import com.liuzhenli.reader.ui.activity.ImportLocalBookActivity;
 import com.liuzhenli.reader.ui.activity.WebViewActivity;
 import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.reader.utils.PermissionUtil;
 import com.liuzhenli.reader.utils.filepicker.picker.FilePicker;
 import com.microedu.reader.R;
+import com.microedu.reader.databinding.FragmentMeBinding;
 import com.orhanobut.logger.Logger;
 
-import butterknife.BindView;
 
 /**
  * describe:
@@ -28,14 +29,12 @@ public class MeFragment extends BaseFragment {
     private final int IMPORT_SOURCE = 102;
     private final int REQUEST_QR = 202;
 
-    @BindView(R.id.ll_import_local_books)
-    LinearLayout mViewImportLocalBooks;
-    @BindView(R.id.tv_feedback)
-    View mViewFeedBack;
+    private FragmentMeBinding inflate;
 
     @Override
-    public int getLayoutResId() {
-        return R.layout.fragment_me;
+    public View bindContentView(LayoutInflater inflater, ViewGroup container, boolean attachParent) {
+        inflate = FragmentMeBinding.inflate(inflater, container, attachParent);
+        return inflate.getRoot();
     }
 
     @Override
@@ -55,7 +54,7 @@ public class MeFragment extends BaseFragment {
 
     @Override
     public void configViews() {
-        ClickUtils.click(mViewImportLocalBooks, o -> {
+        ClickUtils.click(inflate.llImportLocalBooks, o -> {
             PermissionUtil.requestPermission(getActivity(), new MyObserver() {
                 @Override
                 public void onNext(Object o) {
@@ -64,7 +63,7 @@ public class MeFragment extends BaseFragment {
             }, Manifest.permission.READ_EXTERNAL_STORAGE);
         });
 
-        ClickUtils.click(mViewFeedBack, o -> {
+        ClickUtils.click(inflate.tvFeedback, o -> {
             WebViewActivity.start(mContext, Constant.FEEDBACK);
         });
     }

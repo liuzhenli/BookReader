@@ -14,7 +14,7 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 
 
-import com.liuzhenli.reader.utils.DensityUtil;
+import com.liuzhenli.common.utils.DensityUtil;
 import com.micoredu.readerlib.helper.ReadConfigManager;
 import com.microedu.reader.R;
 

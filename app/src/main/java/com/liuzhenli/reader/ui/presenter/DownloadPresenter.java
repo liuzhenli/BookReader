@@ -1,8 +1,7 @@
 package com.liuzhenli.reader.ui.presenter;
 
-import com.liuzhenli.reader.base.RxPresenter;
+import com.liuzhenli.common.base.RxPresenter;
 import com.liuzhenli.reader.ui.contract.DownloadContract;
-import com.liuzhenli.reader.ui.contract.HistoryContract;
 
 import javax.inject.Inject;
 

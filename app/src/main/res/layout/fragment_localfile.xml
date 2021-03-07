@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.liuzhenli.reader.ui.fragment.MeFragment">
 
@@ -12,5 +13,11 @@
         android:layout_width="match_parent"
         android:layout_height="30dp" />
     <!--文件/文件夹-->
-    <include layout="@layout/layout_easy_recyclerview" />
+    <com.liuzhenli.common.widget.recyclerview.EasyRecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_empty="@layout/empty_view_common"
+        app:layout_progress="@layout/common_progress_view"
+        app:scrollbarStyle="insideOverlay" />
 </LinearLayout>

@@ -3,8 +3,8 @@ package com.micoredu.readerlib.page;
 import android.text.TextUtils;
 
 import com.liuzhenli.common.FileHelp;
+import com.liuzhenli.common.encript.MD5Utils;
 import com.liuzhenli.common.utils.IOUtils;
-import com.liuzhenli.common.utils.MD5Utils;
 import com.liuzhenli.common.utils.RxUtil;
 import com.micoredu.readerlib.bean.BookChapterBean;
 import com.micoredu.readerlib.bean.BookShelfBean;

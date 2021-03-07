@@ -2,13 +2,13 @@ package com.liuzhenli.reader.ui.activity;
 
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -17,11 +17,11 @@ import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
 import com.liuzhenli.common.constant.RxBusTag;
+import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.observer.MyObserver;
 import com.liuzhenli.common.utils.FileUtils;
-import com.liuzhenli.reader.base.BaseBean;
-import com.liuzhenli.reader.base.BaseRvActivity;
-import com.liuzhenli.reader.network.AppComponent;
+import com.liuzhenli.common.base.BaseBean;
+import com.liuzhenli.common.base.BaseRvActivity;
 import com.liuzhenli.reader.service.CheckSourceService;
 import com.liuzhenli.reader.service.ShareService;
 import com.liuzhenli.reader.ui.adapter.BookSourceAdapter;
@@ -31,15 +31,14 @@ import com.liuzhenli.reader.ui.presenter.BookSourcePresenter;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.reader.utils.PermissionUtil;
 import com.liuzhenli.reader.utils.filepicker.picker.FilePicker;
-import com.liuzhenli.reader.view.filter.DropDownMenu;
 import com.liuzhenli.reader.view.loading.DialogUtil;
 import com.micoredu.readerlib.bean.BookSourceBean;
 import com.micoredu.readerlib.model.BookSourceManager;
 import com.microedu.reader.R;
+import com.microedu.reader.databinding.ActivityBookSourceBinding;
 
 import java.util.List;
 
-import butterknife.BindView;
 import io.reactivex.annotations.NonNull;
 
 import static com.liuzhenli.common.utils.AppSharedPreferenceHelper.SortType.SORT_TYPE_AUTO;
@@ -56,18 +55,9 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
     private final int IMPORT_BOOK_SOURCE = 1000;
 
     private BookSourceFilterMenuAdapter mFilterMenuAdapter;
-    @BindView(R.id.view_dropdown_menu)
-    DropDownMenu mDropdownMenu;
-    @BindView(R.id.et_book_source)
-    EditText mEtSearchKey;
-    @BindView(R.id.view_check_source_info)
-    View mVCheckSource;
-    @BindView(R.id.tv_book_source_check_progress)
-    TextView mTvCheckProgress;
-    @BindView(R.id.tv_stop_check)
-    TextView mTvStopCheck;
     /***书源排序方式*/
     private int mSortType;
+    private ActivityBookSourceBinding binding;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, BookSourceActivity.class);
@@ -75,8 +65,9 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
     }
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_book_source;
+    protected View bindContentView() {
+        binding = ActivityBookSourceBinding.inflate(getLayoutInflater());
+        return binding.getRoot();
     }
 
     @Override
@@ -163,7 +154,9 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
         mSortType = AppSharedPreferenceHelper.getBookSourceSortType();
     }
 
-    private BookSourceFilterMenuAdapter.MenuItemClickListener filterMenuClickListener = new BookSourceFilterMenuAdapter.MenuItemClickListener() {
+    private final BookSourceFilterMenuAdapter.MenuItemClickListener filterMenuClickListener
+            = new BookSourceFilterMenuAdapter.MenuItemClickListener() {
+        @SuppressLint("SetTextI18n")
         @Override
         public void onSelectChange(int index) {
             //全选
@@ -174,7 +167,7 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
                 }
                 //已选
             } else if (index == 1) {
-                mEtSearchKey.setText("enable");
+                binding.mEtSearchKey.setText("enable");
                 //反选
             } else if (index == 2) {
                 for (int i = 0; i < mAdapter.getRealAllData().size(); i++) {
@@ -183,7 +176,7 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
                 }
             }
             mPresenter.saveData(mAdapter.getAllData());
-            mDropdownMenu.close();
+            binding.mDropdownMenu.close();
         }
 
         /**
@@ -201,7 +194,7 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
             }
             AppSharedPreferenceHelper.setBookSourceSortType(mSortType);
             mPresenter.getLocalBookSource("");
-            mDropdownMenu.close();
+            binding.mDropdownMenu.close();
         }
 
         /**
@@ -212,11 +205,11 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
         @Override
         public void onGroupChange(int index, String groupName) {
             if (index == 0) {
-                mEtSearchKey.setText("");
+                binding.mEtSearchKey.setText("");
             } else {
-                mEtSearchKey.setText(groupName);
+                binding.mEtSearchKey.setText(groupName);
             }
-            mDropdownMenu.close();
+            binding.mDropdownMenu.close();
         }
     };
 
@@ -226,9 +219,9 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
         mPresenter.getLocalBookSource("");
         mFilterMenuAdapter = new BookSourceFilterMenuAdapter(mContext);
         updateSortMenu();
-        mDropdownMenu.setMenuAdapter(mFilterMenuAdapter);
+        binding.mDropdownMenu.setMenuAdapter(mFilterMenuAdapter);
         mFilterMenuAdapter.setMenuItemClickListener(filterMenuClickListener);
-        mEtSearchKey.addTextChangedListener(new TextWatcher() {
+        binding.mEtSearchKey.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -250,9 +243,7 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
             TextView mTvEmptyText = mRecyclerView.getEmptyView().findViewById(R.id.tv_empty_text);
             mTvEmptyText.setText("暂无书源,搜索微信公众号:异书房,\n回复\"书源\"获取书源~");
         }
-        mTvStopCheck.setOnClickListener(v -> {
-            CheckSourceService.stop(mContext);
-        });
+        binding.mTvStopCheck.setOnClickListener(v -> CheckSourceService.stop(mContext));
     }
 
     @Override
@@ -277,7 +268,7 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
 
     @Override
     public void shoDeleteBookSourceResult() {
-        mPresenter.getLocalBookSource(mEtSearchKey.getText().toString());
+        mPresenter.getLocalBookSource(binding.mEtSearchKey.getText().toString());
     }
 
     @Override
@@ -302,10 +293,10 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
 
     @Override
     public void onBackPressed() {
-        if (TextUtils.isEmpty(mEtSearchKey.getText())) {
+        if (TextUtils.isEmpty(binding.mEtSearchKey.getText())) {
             super.onBackPressed();
         } else {
-            mEtSearchKey.setText("");
+            binding.mEtSearchKey.setText("");
         }
     }
 
@@ -332,14 +323,14 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
     /****检测书源是否可用发来的消息*/
     @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusTag.CHECK_SOURCE_STATE)})
     public void onSourceCheckChanged(String msg) {
-        mVCheckSource.setVisibility(View.VISIBLE);
-        mTvCheckProgress.setText(msg);
+        binding.mVCheckSource.setVisibility(View.VISIBLE);
+        binding.mTvCheckProgress.setText(msg);
     }
 
     @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusTag.CHECK_SOURCE_FINISH)})
     public void onStopCheckService(String msg) {
         toast("校验完成");
-        mVCheckSource.setVisibility(View.GONE);
+        binding.mVCheckSource.setVisibility(View.GONE);
     }
 
     private void selectFileSys() {
@@ -354,12 +345,10 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case IMPORT_BOOK_SOURCE:
-                    if (data != null && data.getData() != null) {
-                        mPresenter.loadBookSourceFromFile(FileUtils.getPath(this, data.getData()));
-                    }
-                    break;
+            if (requestCode == IMPORT_BOOK_SOURCE) {
+                if (data != null && data.getData() != null) {
+                    mPresenter.loadBookSourceFromFile(FileUtils.getPath(this, data.getData()));
+                }
             }
         }
     }

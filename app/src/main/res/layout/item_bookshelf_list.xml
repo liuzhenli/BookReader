@@ -11,7 +11,7 @@
     tools:ignore="UnusedAttribute">
 
     <ImageView
-        android:id="@+id/iv_cover"
+        android:id="@+id/mIvCover"
         android:layout_width="60dp"
         android:layout_height="80dp"
         android:layout_margin="8dp"
@@ -61,13 +61,13 @@
         android:text="@string/book_name"
         android:textColor="@color/text_color_33"
         android:textSize="16sp"
-        app:layout_constraintLeft_toRightOf="@+id/iv_cover"
+        app:layout_constraintLeft_toRightOf="@+id/mIvCover"
         app:layout_constraintRight_toLeftOf="@id/fl_has_new"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="RtlHardcoded,RtlSymmetry" />
 
     <TextView
-        android:id="@+id/tv_author"
+        android:id="@+id/mTvAuthor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:includeFontPadding="false"
@@ -76,7 +76,7 @@
         android:text="@string/author"
         android:textColor="@color/text_color_99"
         android:textSize="13sp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_read"
+        app:layout_constraintBottom_toTopOf="@+id/mTvRead"
         app:layout_constraintLeft_toLeftOf="@+id/tv_name"
         app:layout_constraintRight_toLeftOf="@+id/fl_has_new"
         app:layout_constraintTop_toBottomOf="@+id/tv_name"
@@ -84,7 +84,7 @@
         tools:ignore="RtlHardcoded,RtlSymmetry" />
 
     <TextView
-        android:id="@+id/tv_read"
+        android:id="@+id/mTvRead"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:includeFontPadding="false"
@@ -95,7 +95,7 @@
         app:layout_constraintBottom_toTopOf="@id/tv_last"
         app:layout_constraintLeft_toLeftOf="@+id/tv_name"
         app:layout_constraintRight_toLeftOf="@id/fl_has_new"
-        app:layout_constraintTop_toBottomOf="@+id/tv_author" />
+        app:layout_constraintTop_toBottomOf="@+id/mTvAuthor" />
 
 
     <TextView

@@ -8,11 +8,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.liuzhenli.reader.utils.image.ImageUtil;
+import com.liuzhenli.common.utils.image.ImageUtil;
 import com.liuzhenli.reader.view.BadgeView;
 import com.liuzhenli.reader.view.RotateLoading;
-import com.liuzhenli.reader.view.recyclerview.adapter.BaseViewHolder;
-import com.liuzhenli.reader.view.recyclerview.adapter.RecyclerArrayAdapter;
+import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
+import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
 import com.micoredu.readerlib.bean.SearchBookBean;
 import com.microedu.reader.R;
 
@@ -38,7 +38,7 @@ public class BookListAdapter extends RecyclerArrayAdapter<SearchBookBean> {
     }
 
     public class BookShelfHolder extends BaseViewHolder<SearchBookBean> {
-        @BindView(R.id.iv_cover)
+        @BindView(R.id.mIvCover)
         ImageView mIvCover;
         @BindView(R.id.bv_unread)
         BadgeView mBvUnread;

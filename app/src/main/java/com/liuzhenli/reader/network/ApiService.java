@@ -1,7 +1,8 @@
 package com.liuzhenli.reader.network;
 
-import com.liuzhenli.reader.base.BaseBean;
-import com.liuzhenli.reader.utils.ApiManager;
+import com.liuzhenli.common.base.BaseBean;
+import com.liuzhenli.common.network.BaseApiService;
+import com.liuzhenli.common.utils.ApiManager;
 
 import java.util.Map;
 
@@ -18,7 +19,7 @@ import retrofit2.http.Query;
  * @author Liuzhenli
  * @since 2019-07-06 19:37
  */
-public interface ApiService {
+public interface ApiService extends BaseApiService {
     @FormUrlEncoded
     @POST("https://microedu.com/login/phone.json")
     Observable<BaseBean> getLoginData(@FieldMap Map<String, String> body);

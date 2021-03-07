@@ -29,7 +29,7 @@
                 app:qmui_corner_radius="50dp" />
 
             <TextView
-                android:id="@+id/tv_version_info"
+                android:id="@+id/tvVersionInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/common_space_normal"
@@ -50,7 +50,7 @@
                 android:textSize="@dimen/txt_size_16" />
 
             <TextView
-                android:id="@+id/tv_about_saying"
+                android:id="@+id/mTvSaying"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/common_space_large"
@@ -74,7 +74,7 @@
                 android:textSize="@dimen/txt_size_16" />
 
             <TextView
-                android:id="@+id/tv_gg_group_0"
+                android:id="@+id/tvQQGroup0"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_30"
                 android:background="?android:attr/selectableItemBackground"
@@ -85,7 +85,7 @@
                 android:textSize="@dimen/txt_size_12" />
 
             <TextView
-                android:id="@+id/tv_gg_group_1"
+                android:id="@+id/tvQQGroup1"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:background="?android:attr/selectableItemBackground"
@@ -96,7 +96,7 @@
                 android:textSize="@dimen/txt_size_12" />
 
             <TextView
-                android:id="@+id/tv_about_contact"
+                android:id="@+id/tvAboutContact"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_30"
                 android:background="?android:attr/selectableItemBackground"
@@ -107,7 +107,7 @@
                 android:textSize="@dimen/txt_size_12" />
 
             <TextView
-                android:id="@+id/tv_donate_title"
+                android:id="@+id/tvDonateTitle"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_30"
                 android:background="@color/bg_color"
@@ -118,7 +118,7 @@
                 android:textSize="@dimen/txt_size_16" />
 
             <TextView
-                android:id="@+id/tv_about_donate"
+                android:id="@+id/mTvAbout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/common_space_large"
@@ -131,7 +131,7 @@
                 android:textSize="@dimen/txt_size_14" />
 
             <TextView
-                android:id="@+id/tv_donate_zhifubao_kouling"
+                android:id="@+id/mViewDonateAliPay"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_30"
                 android:background="?android:attr/selectableItemBackground"
@@ -144,7 +144,7 @@
 
 
             <TextView
-                android:id="@+id/tv_donate_zfb"
+                android:id="@+id/mViewZFB"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_30"
                 android:background="?android:attr/selectableItemBackground"
@@ -156,7 +156,7 @@
                 android:textSize="@dimen/txt_size_12" />
 
             <TextView
-                android:id="@+id/tv_donate_weixin"
+                android:id="@+id/mViewWX"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_30"
                 android:background="?android:attr/selectableItemBackground"
@@ -168,7 +168,7 @@
                 android:textSize="@dimen/txt_size_12" />
 
             <TextView
-                android:id="@+id/tv_donate_qq"
+                android:id="@+id/mViewQQ"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_30"
                 android:background="?android:attr/selectableItemBackground"
@@ -187,7 +187,7 @@
 
                 <TextView
 
-                    android:id="@+id/tv_version_check_update"
+                    android:id="@+id/tvVersionCheckUpdate"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/all_item_height"
                     android:background="@drawable/selector_card_bg"
@@ -197,14 +197,14 @@
                     android:textColor="@color/text_color_66" />
 
                 <ImageView
-                    android:id="@+id/iv_new_version_icon"
+                    android:id="@+id/ivNewVersionIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     app:srcCompat="@drawable/ic_baseline_fiber_new" />
 
                 <TextView
-                    android:id="@+id/tv_new_version_info"
+                    android:id="@+id/tvNewVersionInfo"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/all_item_height"
                     android:layout_marginLeft="@dimen/common_space_normal"
@@ -224,7 +224,7 @@
 
 
             <TextView
-                android:id="@+id/tv_disclaimer"
+                android:id="@+id/tvDisclaimer"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/all_item_height"
                 android:background="?android:attr/selectableItemBackground"

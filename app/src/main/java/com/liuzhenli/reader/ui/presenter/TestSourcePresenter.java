@@ -1,6 +1,6 @@
 package com.liuzhenli.reader.ui.presenter;
 
-import com.liuzhenli.reader.base.RxPresenter;
+import com.liuzhenli.common.base.RxPresenter;
 import com.liuzhenli.reader.ui.contract.TestSourceContract;
 
 import javax.inject.Inject;

@@ -1,12 +1,15 @@
 package com.liuzhenli.reader.ui.fragment;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import com.liuzhenli.reader.base.BaseFragment;
-import com.liuzhenli.reader.network.AppComponent;
+import com.liuzhenli.common.base.BaseFragment;
+import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.reader.ui.contract.HistoryContract;
 import com.liuzhenli.reader.ui.presenter.HistoryPresenter;
-import com.microedu.reader.R;
+import com.microedu.reader.databinding.FragmentHistoryBinding;
 
 /**
  * Description:
@@ -15,6 +18,8 @@ import com.microedu.reader.R;
  * Email: 848808263@qq.com
  */
 public class HistoryFragment extends BaseFragment<HistoryPresenter> implements HistoryContract.View {
+
+    private FragmentHistoryBinding inflate;
 
     public static HistoryFragment getInstance() {
         HistoryFragment instance = new HistoryFragment();
@@ -34,8 +39,9 @@ public class HistoryFragment extends BaseFragment<HistoryPresenter> implements H
     }
 
     @Override
-    public int getLayoutResId() {
-        return R.layout.fragment_history;
+    public View bindContentView(LayoutInflater inflater, ViewGroup container, boolean attachParent) {
+        inflate = FragmentHistoryBinding.inflate(inflater, container, attachParent);
+        return inflate.getRoot();
     }
 
     @Override

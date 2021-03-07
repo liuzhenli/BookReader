@@ -4,7 +4,9 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
@@ -16,20 +18,18 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.hwangjr.rxbus.RxBus;
 import com.liuzhenli.common.constant.RxBusTag;
-import com.liuzhenli.reader.base.BaseFragment;
-import com.liuzhenli.reader.network.AppComponent;
+import com.liuzhenli.common.base.BaseFragment;
+import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.reader.ui.contract.DiscoverContract;
 import com.liuzhenli.reader.ui.presenter.DiscoverPresenter;
-import com.liuzhenli.reader.view.BookSourceView;
-import com.liuzhenli.reader.view.NoAnimViewPager;
 import com.liuzhenli.reader.view.ScaleTransitionPagerTitleView;
 import com.micoredu.readerlib.analyzerule.AnalyzeRule;
 import com.micoredu.readerlib.bean.BookCategoryBean;
 import com.micoredu.readerlib.bean.BookSourceBean;
 import com.microedu.reader.R;
+import com.microedu.reader.databinding.FragmentDiscoverBinding;
 
 
-import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
 import net.lucode.hackware.magicindicator.buildins.UIUtil;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
@@ -47,8 +47,6 @@ import java.util.Random;
 import javax.script.ScriptException;
 import javax.script.SimpleBindings;
 
-import butterknife.BindView;
-
 import static androidx.fragment.app.FragmentPagerAdapter.BEHAVIOR_SET_USER_VISIBLE_HINT;
 import static com.liuzhenli.common.constant.AppConstant.SCRIPT_ENGINE;
 
@@ -59,18 +57,11 @@ import static com.liuzhenli.common.constant.AppConstant.SCRIPT_ENGINE;
  */
 public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements DiscoverContract.View {
 
-    @BindView(R.id.magic_indicator)
-    MagicIndicator mIndicator;
-    @BindView(R.id.view_pager)
-    NoAnimViewPager mViewPager;
-    @BindView(R.id.view_empty)
-    View mViewEmpty;
-    @BindView(R.id.view_book_source)
-    BookSourceView mBookSourceView;
     private CommonNavigatorAdapter mCommonNavigationAdapter;
     private FragmentStatePagerAdapter fragmentPagerAdapter;
     private ArrayList<BookCategoryBean> mBookCategory = new ArrayList<>();
     protected List<BaseFragment> mFragmentList = new ArrayList<>();
+    private FragmentDiscoverBinding inflate;
 
     public static DiscoverFragment getInstance() {
         DiscoverFragment instance = new DiscoverFragment();
@@ -80,8 +71,9 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
     }
 
     @Override
-    public int getLayoutResId() {
-        return R.layout.fragment_discover;
+    public View bindContentView(LayoutInflater inflater, ViewGroup container, boolean attachParent) {
+        inflate = FragmentDiscoverBinding.inflate(inflater, container, attachParent);
+        return inflate.getRoot();
     }
 
     @Override
@@ -108,7 +100,7 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
 
     @Override
     public void configViews() {
-        mViewPager.setOffscreenPageLimit(10);
+        inflate.mViewPager.setOffscreenPageLimit(10);
         FragmentManager fm = getChildFragmentManager();
         fragmentPagerAdapter = new FragmentStatePagerAdapter(fm, BEHAVIOR_SET_USER_VISIBLE_HINT) {
             @Override
@@ -138,7 +130,7 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
                 }
             }
         };
-        mViewPager.setAdapter(fragmentPagerAdapter);
+        inflate.mViewPager.setAdapter(fragmentPagerAdapter);
 
         CommonNavigator commonNavigator7 = new CommonNavigator(mContext);
         //这个控制左右滑动的时候,选中文字的位置,0.5表示在中间
@@ -157,7 +149,7 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
                 simplePagerTitleView.setTextSize(16);
                 simplePagerTitleView.setNormalColor(getResources().getColor(R.color.text_color_99));
                 simplePagerTitleView.setSelectedColor(getResources().getColor(R.color.text_color_66));
-                simplePagerTitleView.setOnClickListener(v -> mViewPager.setCurrentItem(index));
+                simplePagerTitleView.setOnClickListener(v -> inflate.mViewPager.setCurrentItem(index));
                 return simplePagerTitleView;
             }
 
@@ -177,14 +169,13 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
 
         ;
         commonNavigator7.setAdapter(mCommonNavigationAdapter);
-        mIndicator.setNavigator(commonNavigator7);
-        ViewPagerHelper.bind(mIndicator, mViewPager);
-        mBookSourceView.setOnItemClick(this::onBookSourceChange);
-        mBookSourceView.setVisibility(View.GONE);
-
-        if (mViewEmpty != null) {
-            TextView mTvEmptyText = mViewEmpty.findViewById(R.id.tv_empty_text);
-            mTvEmptyText.setText("暂无书源,搜索微信公众号:异书房,\n回复\"书源\"获取书源~");
+        inflate.mIndicator.setNavigator(commonNavigator7);
+        ViewPagerHelper.bind(inflate.mIndicator, inflate.mViewPager);
+        inflate.mBookSourceView.setOnItemClick(this::onBookSourceChange);
+        inflate.mBookSourceView.setVisibility(View.GONE);
+        TextView tvText = inflate.mViewEmpty.findViewById(R.id.tv_empty_text);
+        if (inflate.mViewEmpty != null) {
+            tvText.setText("暂无书源,搜索微信公众号:异书房,\n回复\"书源\"获取书源~");
         }
     }
 
@@ -198,11 +189,11 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
             Random random = new Random();
             int index = random.nextInt(bookSourceData.size());
             onBookSourceChange(bookSourceData.get(index));
-            mViewEmpty.setVisibility(View.GONE);
+            inflate.mViewEmpty.setVisibility(View.GONE);
         } else {
-            mViewEmpty.setVisibility(View.VISIBLE);
+            inflate.mViewEmpty.setVisibility(View.VISIBLE);
         }
-        mBookSourceView.setData(bookSourceData);
+        inflate.mBookSourceView.setData(bookSourceData);
     }
 
 
@@ -223,13 +214,13 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
     }
 
     public void showBookSourceView() {
-        if (mBookSourceView == null) {
+        if (inflate.mBookSourceView == null) {
             return;
         }
-        if (mBookSourceView.getVisibility() == View.GONE) {
-            mBookSourceView.show();
+        if (inflate.mBookSourceView.getVisibility() == View.GONE) {
+            inflate.mBookSourceView.show();
         } else {
-            mBookSourceView.close();
+            inflate.mBookSourceView.close();
         }
     }
 
@@ -264,7 +255,7 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
         }
         fragmentPagerAdapter.notifyDataSetChanged();
         mCommonNavigationAdapter.notifyDataSetChanged();
-        mViewPager.setCurrentItem(0);
+        inflate.mViewPager.setCurrentItem(0);
         RxBus.get().post(RxBusTag.CHANGE_DISCOVER_BOOK_SOURCE, mBookSource);
     }
 
@@ -272,19 +263,19 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
     public void onResume() {
         super.onResume();
         //如果没有书源显示,再刷新一次
-        if (mViewEmpty != null && mViewEmpty.getVisibility() == View.VISIBLE) {
+        if (inflate.mViewEmpty != null && inflate.mViewEmpty.getVisibility() == View.VISIBLE) {
             onRefresh();
         }
     }
 
 
     public boolean isShowBookSourceMenu() {
-        return mBookSourceView != null && mBookSourceView.isShowing();
+        return inflate.mBookSourceView != null && inflate.mBookSourceView.isShowing();
     }
 
     public void dismissBookSourceMenu() {
-        if (mBookSourceView != null) {
-            mBookSourceView.close();
+        if (inflate.mBookSourceView != null) {
+            inflate.mBookSourceView.close();
         }
     }
 

@@ -59,12 +59,14 @@
             android:orientation="vertical"
             android:paddingTop="@dimen/all_item_height">
 
-            <include layout="@layout/item_book_detail_header" />
+            <include
+                android:id="@+id/viewBookInfo"
+                layout="@layout/item_book_detail_header" />
 
             <include layout="@layout/item_divider" />
 
             <LinearLayout
-                android:id="@+id/view_chapter_list"
+                android:id="@+id/mVChapterList"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/all_item_height"
                 android:layout_marginLeft="@dimen/common_space_large"
@@ -79,7 +81,7 @@
                     android:textSize="@dimen/txt_size_16" />
 
                 <TextView
-                    android:id="@+id/tv_total_chapter_count"
+                    android:id="@+id/mTvChapterCount"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -105,7 +107,7 @@
             <include layout="@layout/item_divider" />
 
             <TextView
-                android:id="@+id/tv_book_description"
+                android:id="@+id/mTvDescription"
                 style="@style/ItemSubTitleStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -127,7 +129,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
-            android:id="@+id/tv_download"
+            android:id="@+id/mTvDownload"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -136,7 +138,7 @@
             android:text="下载" />
 
         <TextView
-            android:id="@+id/tv_read"
+            android:id="@+id/mTvRead"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -145,7 +147,7 @@
             android:text="开始阅读" />
 
         <TextView
-            android:id="@+id/tv_add_to_bookshelf"
+            android:id="@+id/mTvAddToBookshelf"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

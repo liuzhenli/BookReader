@@ -1,14 +1,21 @@
 package com.liuzhenli.reader.ui.fragment;
 
-import com.liuzhenli.reader.base.BaseFragment;
-import com.liuzhenli.reader.network.AppComponent;
-import com.microedu.reader.R;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.liuzhenli.common.base.BaseFragment;
+import com.liuzhenli.common.AppComponent;
+import com.microedu.reader.databinding.FragmentTestBinding;
 
 public class TestFragment extends BaseFragment {
 
+    private FragmentTestBinding inflate;
+
     @Override
-    public int getLayoutResId() {
-        return R.layout.fragment_test;
+    public View bindContentView(LayoutInflater inflater, ViewGroup container, boolean attachParent) {
+        inflate = FragmentTestBinding.inflate(inflater, container, attachParent);
+        return inflate.getRoot();
     }
 
     @Override

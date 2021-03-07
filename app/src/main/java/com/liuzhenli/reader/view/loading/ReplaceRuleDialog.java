@@ -14,7 +14,7 @@ import android.widget.TextView;
 import androidx.appcompat.widget.AppCompatEditText;
 
 import com.liuzhenli.common.SharedPreferencesUtil;
-import com.liuzhenli.reader.utils.SoftInputUtils;
+import com.liuzhenli.common.utils.SoftInputUtils;
 import com.micoredu.readerlib.bean.BookShelfBean;
 import com.micoredu.readerlib.bean.ReplaceRuleBean;
 import com.microedu.reader.R;

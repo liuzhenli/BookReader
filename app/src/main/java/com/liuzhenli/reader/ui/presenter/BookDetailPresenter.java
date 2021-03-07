@@ -3,9 +3,9 @@ package com.liuzhenli.reader.ui.presenter;
 import com.hwangjr.rxbus.RxBus;
 import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.utils.RxUtil;
-import com.liuzhenli.reader.base.RxPresenter;
+import com.liuzhenli.common.base.RxPresenter;
 import com.liuzhenli.reader.network.Api;
-import com.liuzhenli.reader.observer.SampleProgressObserver;
+import com.liuzhenli.common.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.contract.BookDetailContract;
 import com.micoredu.readerlib.bean.BookChapterBean;
 import com.micoredu.readerlib.bean.BookShelfBean;
@@ -20,7 +20,6 @@ import javax.inject.Inject;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.functions.Function;
-import io.reactivex.observers.DisposableObserver;
 
 /**
  * describe:

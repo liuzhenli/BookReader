@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:background="@color/white"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
@@ -21,7 +21,7 @@
         tools:targetApi="lollipop">
 
         <com.balysv.materialmenu.MaterialMenuView
-            android:id="@+id/material_menu"
+            android:id="@+id/mMaterialMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:mm_color="@color/white"
@@ -47,18 +47,20 @@
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawer_layout"
+        android:id="@+id/mDrawLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         tools:openDrawer="start">
 
         <include
+            android:id="@+id/viewMain"
             layout="@layout/activity_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
         <include
+            android:id="@+id/viewMainLeft"
             layout="@layout/activity_main_left"
             android:layout_width="240dp"
             android:layout_height="match_parent"

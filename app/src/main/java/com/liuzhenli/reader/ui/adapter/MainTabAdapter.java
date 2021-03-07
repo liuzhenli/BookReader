@@ -12,11 +12,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.liuzhenli.reader.base.BaseFragment;
+import com.liuzhenli.common.base.BaseFragment;
 import com.liuzhenli.reader.ui.fragment.DiscoverFragment;
 import com.liuzhenli.reader.ui.fragment.BookShelfFragment;
-import com.liuzhenli.reader.ui.fragment.RecommendFragment;
-import com.liuzhenli.reader.ui.fragment.MeFragment;
 import com.microedu.reader.R;
 
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package com.liuzhenli.reader.ui.contract;
 
-import com.liuzhenli.reader.base.BaseContract;
+import com.liuzhenli.common.base.BaseContract;
 import com.micoredu.readerlib.bean.BookShelfBean;
 import com.micoredu.readerlib.bean.SearchBookBean;
 import com.micoredu.readerlib.model.SearchBookModel;

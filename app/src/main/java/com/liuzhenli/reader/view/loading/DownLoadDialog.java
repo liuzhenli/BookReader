@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.liuzhenli.reader.utils.SoftInputUtils;
+import com.liuzhenli.common.utils.SoftInputUtils;
 import com.microedu.reader.R;
 
 
@@ -40,7 +40,7 @@ public class DownLoadDialog extends Dialog {
         edtStart = view.findViewById(R.id.edt_start);
         edtEnd = view.findViewById(R.id.edt_end);
         tvCancel = view.findViewById(R.id.tv_cancel);
-        tvDownload = view.findViewById(R.id.tv_download);
+        tvDownload = view.findViewById(R.id.mTvDownload);
         edtStart.setText(String.valueOf(startIndex + 1));
         edtEnd.setText(String.valueOf(endIndex + 1));
         edtStart.addTextChangedListener(new TextWatcher() {

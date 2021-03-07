@@ -5,18 +5,17 @@ import android.text.TextUtils;
 
 import androidx.documentfile.provider.DocumentFile;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.liuzhenli.common.exception.ApiException;
 import com.liuzhenli.common.utils.GsonUtils;
 import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.common.utils.StringUtils;
 import com.liuzhenli.reader.ReaderApplication;
-import com.liuzhenli.reader.base.RxPresenter;
+import com.liuzhenli.common.base.RxPresenter;
 import com.liuzhenli.reader.network.Api;
-import com.liuzhenli.reader.observer.SampleProgressObserver;
+import com.liuzhenli.common.observer.SampleProgressObserver;
 import com.liuzhenli.reader.service.CheckSourceService;
 import com.liuzhenli.reader.ui.contract.BookSourceContract;
-import com.liuzhenli.reader.utils.ApiManager;
+import com.liuzhenli.common.utils.ApiManager;
 import com.liuzhenli.reader.utils.ThreadUtils;
 import com.micoredu.readerlib.bean.BookSourceBean;
 import com.micoredu.readerlib.helper.DocumentHelper;
@@ -31,10 +30,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.observers.DisposableObserver;
 import okhttp3.ResponseBody;
 
 import static android.text.TextUtils.isEmpty;

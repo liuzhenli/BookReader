@@ -2,8 +2,8 @@ package com.liuzhenli.reader.ui.contract;
 
 import android.content.Context;
 
-import com.liuzhenli.reader.base.BaseBean;
-import com.liuzhenli.reader.base.BaseContract;
+import com.liuzhenli.common.base.BaseBean;
+import com.liuzhenli.common.base.BaseContract;
 import com.micoredu.readerlib.bean.BookSourceBean;
 
 import java.util.List;

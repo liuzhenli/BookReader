@@ -3,7 +3,7 @@ package com.liuzhenli.reader.ui.contract;
 
 import androidx.fragment.app.FragmentActivity;
 
-import com.liuzhenli.reader.base.BaseContract;
+import com.liuzhenli.common.base.BaseContract;
 import com.liuzhenli.reader.bean.LocalFileBean;
 
 import java.util.List;

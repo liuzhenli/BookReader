@@ -4,42 +4,26 @@ package com.liuzhenli.reader.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import com.liuzhenli.common.BaseApplication;
-import com.liuzhenli.common.utils.GsonUtils;
-import com.liuzhenli.common.utils.IOUtils;
+import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.reader.bean.Sayings;
-import com.liuzhenli.reader.network.AppComponent;
-import com.liuzhenli.reader.base.BaseActivity;
+import com.liuzhenli.common.base.BaseActivity;
 import com.liuzhenli.reader.utils.AppConfigManager;
-import com.liuzhenli.reader.view.CountDownView;
-import com.microedu.reader.R;
+import com.microedu.reader.databinding.ActivitySplashBinding;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.Random;
-
-import butterknife.BindView;
 
 /**
  * @author Liuzhenli
  * @since 2019-07-07 08:54
  */
 public class SplashActivity extends BaseActivity {
-    @BindView(R.id.countdown_view)
-    CountDownView mCountDownView;
-    @BindView(R.id.tv_saying)
-    TextView mTvSaying;
-    @BindView(R.id.tv_saying_author)
-    TextView mTvAuthor;
-
     private boolean hasGoHome = false;
+    private ActivitySplashBinding inflate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,8 +35,9 @@ public class SplashActivity extends BaseActivity {
     }
 
     @Override
-    public int getLayoutId() {
-        return R.layout.activity_splash;
+    protected View bindContentView() {
+        inflate = ActivitySplashBinding.inflate(getLayoutInflater());
+        return inflate.getRoot();
     }
 
     @Override
@@ -70,9 +55,9 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void configViews() {
-        mCountDownView.startProgress(4000);
-        mCountDownView.setOnClickListener(v -> {
-            mCountDownView.setHasClickClip(true);
+        inflate.countDownView.startProgress(4000);
+        inflate.countDownView.setOnClickListener(v -> {
+            inflate.countDownView.setHasClickClip(true);
             if (!hasGoHome) {
                 hasGoHome = true;
                 SplashActivity.this.startActivity(new Intent(SplashActivity.this, MainActivity.class));
@@ -80,7 +65,7 @@ public class SplashActivity extends BaseActivity {
             }
         });
         Sayings sayings = AppConfigManager.getInstance().getSayings();
-        mTvSaying.setText(sayings.getSaying());
-        mTvAuthor.setText(String.format("BY:%s", sayings.getAuthor()));
+        inflate.tvSaying.setText(sayings.getSaying());
+        inflate.tvSayingAuthor.setText(String.format("BY:%s", sayings.getAuthor()));
     }
 }

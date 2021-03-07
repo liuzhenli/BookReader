@@ -10,27 +10,24 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.google.android.material.internal.FlowLayout;
 import com.liuzhenli.common.BitIntentDataManager;
 import com.liuzhenli.common.constant.AppConstant;
+import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.ClickUtils;
-import com.liuzhenli.reader.base.BaseRvActivity;
-import com.liuzhenli.reader.network.AppComponent;
+import com.liuzhenli.common.base.BaseRvActivity;
 import com.liuzhenli.reader.ui.adapter.BookListAdapter;
 import com.liuzhenli.reader.ui.contract.SearchContract;
 import com.liuzhenli.reader.ui.presenter.SearchPresenter;
-import com.liuzhenli.reader.utils.DensityUtil;
-import com.liuzhenli.reader.utils.SoftInputUtils;
+import com.liuzhenli.common.utils.DensityUtil;
+import com.liuzhenli.common.utils.SoftInputUtils;
 import com.liuzhenli.reader.view.loading.DialogUtil;
 import com.micoredu.readerlib.bean.SearchBookBean;
 import com.micoredu.readerlib.bean.SearchHistoryBean;
 import com.microedu.reader.R;
-import com.qmuiteam.qmui.layout.QMUIButton;
+import com.microedu.reader.databinding.ActivitySearchBinding;
 import com.qmuiteam.qmui.skin.QMUISkinManager;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
@@ -40,8 +37,6 @@ import com.qmuiteam.qmui.widget.popup.QMUIPopups;
 
 import java.util.Arrays;
 import java.util.List;
-
-import butterknife.BindView;
 
 import static com.liuzhenli.common.BitIntentDataManager.DATA_KEY;
 
@@ -54,41 +49,12 @@ import static com.liuzhenli.common.BitIntentDataManager.DATA_KEY;
 public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBean> implements SearchContract.View {
 
 
+    private ActivitySearchBinding inflate;
+
     public interface SearchType {
         int BOOK = 0;
     }
 
-    @BindView(R.id.edit_general_search_content)
-    EditText mEtSearch;
-    @BindView(R.id.btn_general_search_clear)
-    View btnGeneralSearchClear;
-    @BindView(R.id.tv_action_cancel)
-    TextView tvActionSearch;
-    @BindView(R.id.tv_general_search_history_title)
-    TextView tvGeneralSearchHistoryTitle;
-    @BindView(R.id.iv_clear_search_history)
-    ImageView ivClearSearchHistory;
-    @BindView(R.id.fl_general_search_history)
-    FlowLayout flGeneralSearchHistory;
-    @BindView(R.id.iv_back)
-    View mViewBack;
-    @BindView(R.id.view_search_history)
-    View mViewSearchHistory;
-    /*** search book result view group*/
-    @BindView(R.id.view_search_result_info)
-    View mViewGroupSearchResult;
-    @BindView(R.id.view_search_title_bar)
-    View mVtitleBar;
-    @BindView(R.id.view_stop_search)
-    View mVStopSearch;
-    @BindView(R.id.view_search_indicator)
-    View mSearchIndicator;
-    @BindView(R.id.tv_search_book_count)
-    TextView mTvSearchBookCount;
-    @BindView(R.id.view_search_bg)
-    QMUIButton mEditBg;
-    @BindView(R.id.btn_general_search_more)
-    View mViewMore;
     private String mCurrentSearchKey;
     private QMUIPopup mMenu;
 
@@ -98,8 +64,9 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
     }
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_search;
+    protected View bindContentView() {
+        inflate = ActivitySearchBinding.inflate(getLayoutInflater());
+        return inflate.getRoot();
     }
 
     @Override
@@ -118,22 +85,22 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
 
     @Override
     protected void configViews() {
-        mEditBg.setRadius(DensityUtil.dip2px(mContext, 6));
+        inflate.mEditBg.setRadius(DensityUtil.dip2px(mContext, 6));
         initAdapter(BookListAdapter.class, false, false);
-        mViewBack.setOnClickListener(v -> onBackPressed());
+        inflate.mViewBack.setOnClickListener(v -> onBackPressed());
         mPresenter.getSearchHistory();
-        btnGeneralSearchClear.setVisibility(View.GONE);
+        inflate.btnGeneralSearchClear.setVisibility(View.GONE);
 
         initMenu();
         //click search button
-        ClickUtils.click(tvActionSearch, o -> {
+        ClickUtils.click(inflate.tvActionSearch, o -> {
             mPresenter.checkBookSource();
         });
 
-        ClickUtils.click(ivClearSearchHistory, o -> {
+        ClickUtils.click(inflate.ivClearSearchHistory, o -> {
             mPresenter.clearSearchHistory();
         });
-        mEtSearch.addTextChangedListener(new TextWatcher() {
+        inflate.mEtSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -147,14 +114,14 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
             @Override
             public void afterTextChanged(Editable s) {
                 if (TextUtils.isEmpty(s.toString())) {
-                    btnGeneralSearchClear.setVisibility(View.GONE);
+                    inflate.btnGeneralSearchClear.setVisibility(View.GONE);
                     stopSearch();
                 } else {
-                    btnGeneralSearchClear.setVisibility(View.VISIBLE);
+                    inflate.btnGeneralSearchClear.setVisibility(View.VISIBLE);
                 }
             }
         });
-        mEtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        inflate.mEtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -164,31 +131,31 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
             }
         });
         //click stop search button
-        ClickUtils.click(mVStopSearch, o -> {
+        ClickUtils.click(inflate.mVStopSearch, o -> {
             if (mAdapter.getCount() == 0) {
                 stopSearch();
             } else {
                 mPresenter.stopSearch();
-                mSearchIndicator.setVisibility(View.GONE);
-                mVStopSearch.setVisibility(View.GONE);
+                inflate.mSearchIndicator.setVisibility(View.GONE);
+                inflate.mVStopSearch.setVisibility(View.GONE);
             }
-            mVtitleBar.setVisibility(View.VISIBLE);
+            inflate.mViewTitleBar.setVisibility(View.VISIBLE);
         });
 
         //click delete search content
-        ClickUtils.click(btnGeneralSearchClear, o -> {
-            mEtSearch.setText("");
+        ClickUtils.click(inflate.btnGeneralSearchClear, o -> {
+            inflate.mEtSearch.setText("");
         });
-        ClickUtils.click(mViewMore, o -> {
-            mMenu.show(mViewMore);
+        ClickUtils.click(inflate.mViewMore, o -> {
+            mMenu.show(inflate.mViewMore);
         });
-        mViewGroupSearchResult.setVisibility(View.GONE);
+        inflate.mViewGroupSearchResult.setVisibility(View.GONE);
 
-        mEtSearch.postDelayed(new Runnable() {
+        inflate.mEtSearch.postDelayed(new Runnable() {
             @Override
             public void run() {
-                mEtSearch.requestFocus();
-                SoftInputUtils.showSoftInput(mContext, mEtSearch);
+                inflate.mEtSearch.requestFocus();
+                SoftInputUtils.showSoftInput(mContext, inflate.mEtSearch);
             }
         }, 500);
     }
@@ -211,9 +178,9 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
 
     @Override
     public void showSearchHistory(List<SearchHistoryBean> data) {
-        flGeneralSearchHistory.removeAllViews();
+        inflate.flGeneralSearchHistory.removeAllViews();
         if (data != null) {
-            mViewSearchHistory.setVisibility(View.VISIBLE);
+            inflate.mViewSearchHistory.setVisibility(View.VISIBLE);
             for (int i = 0; i < data.size(); i++) {
                 TextView tvSearch = new TextView(mContext);
                 tvSearch.setTextSize(12);
@@ -221,15 +188,15 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
                 tvSearch.setText(data.get(i).getContent());
                 tvSearch.setTag(data.get(i));
                 ClickUtils.click(tvSearch, o -> {
-                    mEtSearch.setText(tvSearch.getText());
-                    mEtSearch.setSelection(tvSearch.getText().length());
+                    inflate.mEtSearch.setText(tvSearch.getText());
+                    inflate.mEtSearch.setSelection(tvSearch.getText().length());
                 });
 
                 ClickUtils.longClick(tvSearch, o -> {
-                    flGeneralSearchHistory.removeView(tvSearch);
+                    inflate.flGeneralSearchHistory.removeView(tvSearch);
                     mPresenter.removeSearchHistoryItem((SearchHistoryBean) tvSearch.getTag());
                 });
-                flGeneralSearchHistory.addView(tvSearch);
+                inflate.flGeneralSearchHistory.addView(tvSearch);
             }
         }
     }
@@ -237,11 +204,11 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
 
     @Override
     public void showSearchResult(String key, List<SearchBookBean> searchResult) {
-        mTvSearchBookCount.setText(String.format("找到%s部相关书籍", searchResult.size()));
+        inflate.mTvSearchBookCount.setText(String.format("找到%s部相关书籍", searchResult.size()));
         mRecyclerView.setVisibility(View.VISIBLE);
-        mViewGroupSearchResult.setVisibility(View.VISIBLE);
-        mVtitleBar.setVisibility(View.GONE);
-        mViewSearchHistory.setVisibility(View.GONE);
+        inflate.mViewGroupSearchResult.setVisibility(View.VISIBLE);
+        inflate.mViewTitleBar.setVisibility(View.GONE);
+        inflate.mViewSearchHistory.setVisibility(View.GONE);
         if (mAdapter.getCount() == 0) {
             mAdapter.addAll(searchResult);
         } else {
@@ -254,7 +221,7 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
         if (noSourceAvailable) {
             showEmptyBookSourceDialog();
         } else {
-            startSearch(mEtSearch.getText().toString());
+            startSearch(inflate.mEtSearch.getText().toString());
         }
 
     }
@@ -285,7 +252,7 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
         if (TextUtils.equals(mCurrentSearchKey, searchKey) && mPresenter.isSearching) {
             return;
         }
-        SoftInputUtils.hideSoftInput(mContext, mEtSearch);
+        SoftInputUtils.hideSoftInput(mContext, inflate.mEtSearch);
         mCurrentSearchKey = searchKey;
         mPresenter.addToSearchHistory(SearchType.BOOK, searchKey);
 
@@ -294,20 +261,20 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
             mAdapter.clear();
         }
         mPresenter.search(SearchType.BOOK, 0, searchKey, mAdapter);
-        mViewGroupSearchResult.setVisibility(View.VISIBLE);
-        mVtitleBar.setVisibility(View.GONE);
-        mSearchIndicator.setVisibility(View.VISIBLE);
-        mVStopSearch.setVisibility(View.VISIBLE);
-        mViewSearchHistory.setVisibility(View.GONE);
-        mTvSearchBookCount.setText(String.format("正在搜\"%s\"", mCurrentSearchKey));
+        inflate.mViewGroupSearchResult.setVisibility(View.VISIBLE);
+        inflate.mViewTitleBar.setVisibility(View.GONE);
+        inflate.mSearchIndicator.setVisibility(View.VISIBLE);
+        inflate.mVStopSearch.setVisibility(View.VISIBLE);
+        inflate.mViewSearchHistory.setVisibility(View.GONE);
+        inflate.mTvSearchBookCount.setText(String.format("正在搜\"%s\"", mCurrentSearchKey));
     }
 
     private void stopSearch() {
         mPresenter.stopSearch();
         mAdapter.clear();
         mRecyclerView.setVisibility(View.GONE);
-        mViewGroupSearchResult.setVisibility(View.GONE);
-        mVtitleBar.setVisibility(View.VISIBLE);
+        inflate.mViewGroupSearchResult.setVisibility(View.GONE);
+        inflate.mViewTitleBar.setVisibility(View.VISIBLE);
         mPresenter.getSearchHistory();
     }
 

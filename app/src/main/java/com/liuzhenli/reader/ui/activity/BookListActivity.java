@@ -12,18 +12,17 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.liuzhenli.reader.base.BaseActivity;
-import com.liuzhenli.reader.base.BaseFragment;
-import com.liuzhenli.reader.network.AppComponent;
+import com.liuzhenli.common.base.BaseActivity;
+import com.liuzhenli.common.base.BaseFragment;
+import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.reader.ui.fragment.BookCategoryFragment;
-import com.liuzhenli.reader.view.NoAnimViewPager;
 import com.liuzhenli.reader.view.ScaleTransitionPagerTitleView;
 import com.micoredu.readerlib.analyzerule.AnalyzeRule;
 import com.micoredu.readerlib.bean.BookCategoryBean;
 import com.micoredu.readerlib.bean.BookSourceBean;
 import com.microedu.reader.R;
+import com.microedu.reader.databinding.ActBooklistBinding;
 
-import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
 import net.lucode.hackware.magicindicator.buildins.UIUtil;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
@@ -38,8 +37,6 @@ import java.util.List;
 import javax.script.ScriptException;
 import javax.script.SimpleBindings;
 
-import butterknife.BindView;
-
 import static androidx.fragment.app.FragmentPagerAdapter.BEHAVIOR_SET_USER_VISIBLE_HINT;
 import static com.liuzhenli.common.constant.AppConstant.SCRIPT_ENGINE;
 
@@ -52,16 +49,10 @@ import static com.liuzhenli.common.constant.AppConstant.SCRIPT_ENGINE;
 public class BookListActivity extends BaseActivity {
     public static final String BOOK_SOURCE_DATA = "book_source_data";
 
-    @BindView(R.id.magic_indicator)
-    MagicIndicator mIndicator;
-    @BindView(R.id.view_pager)
-    NoAnimViewPager mViewPager;
-    private CommonNavigatorAdapter mCommonNavigationAdapter;
-
-    private FragmentPagerAdapter fragmentPagerAdapter;
     private BookSourceBean mBookSource;
-    private ArrayList<BookCategoryBean> mBookCategory = new ArrayList<>();
+    private final ArrayList<BookCategoryBean> mBookCategory = new ArrayList<>();
     protected List<BaseFragment> mFragmentList = new ArrayList<>();
+    private ActBooklistBinding binding;
 
     public static void start(Context context, BookSourceBean data) {
         Intent intent = new Intent(context, BookListActivity.class);
@@ -70,8 +61,9 @@ public class BookListActivity extends BaseActivity {
     }
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.act_booklist;
+    protected View bindContentView() {
+        binding = ActBooklistBinding.inflate(getLayoutInflater());
+        return binding.getRoot();
     }
 
     @Override
@@ -120,8 +112,8 @@ public class BookListActivity extends BaseActivity {
 
     @Override
     protected void configViews() {
-        mViewPager.setOffscreenPageLimit(10);
-        fragmentPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager(), BEHAVIOR_SET_USER_VISIBLE_HINT) {
+        binding.mViewPager.setOffscreenPageLimit(10);
+        FragmentPagerAdapter fragmentPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager(), BEHAVIOR_SET_USER_VISIBLE_HINT) {
             @Override
             public Fragment getItem(int position) {
                 return mFragmentList.get(position);
@@ -138,12 +130,12 @@ public class BookListActivity extends BaseActivity {
                 return mBookCategory.get(position).name;
             }
         };
-        mViewPager.setAdapter(fragmentPagerAdapter);
+        binding.mViewPager.setAdapter(fragmentPagerAdapter);
 
         CommonNavigator commonNavigator7 = new CommonNavigator(mContext);
         //这个控制左右滑动的时候,选中文字的位置,0.5表示在中间
         commonNavigator7.setScrollPivotX(0.5f);
-        mCommonNavigationAdapter = new CommonNavigatorAdapter() {
+        CommonNavigatorAdapter mCommonNavigationAdapter = new CommonNavigatorAdapter() {
             @Override
             public int getCount() {
                 return mFragmentList.size();
@@ -157,12 +149,7 @@ public class BookListActivity extends BaseActivity {
                 simplePagerTitleView.setTextSize(20);
                 simplePagerTitleView.setNormalColor(getResources().getColor(R.color.text_color_99));
                 simplePagerTitleView.setSelectedColor(getResources().getColor(R.color.text_color_66));
-                simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mViewPager.setCurrentItem(index);
-                    }
-                });
+                simplePagerTitleView.setOnClickListener(v -> binding.mViewPager.setCurrentItem(index));
                 return simplePagerTitleView;
             }
 
@@ -180,8 +167,8 @@ public class BookListActivity extends BaseActivity {
             }
         };
         commonNavigator7.setAdapter(mCommonNavigationAdapter);
-        mIndicator.setNavigator(commonNavigator7);
-        ViewPagerHelper.bind(mIndicator, mViewPager);
+        binding.mIndicator.setNavigator(commonNavigator7);
+        ViewPagerHelper.bind(binding.mIndicator, binding.mViewPager);
     }
 
 }

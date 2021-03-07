@@ -3,19 +3,21 @@ package com.liuzhenli.reader.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.liuzhenli.common.BitIntentDataManager;
 import com.liuzhenli.common.constant.AppConstant;
-import com.liuzhenli.reader.base.BaseActivity;
-import com.liuzhenli.reader.base.BaseRVFragment;
-import com.liuzhenli.reader.network.AppComponent;
+import com.liuzhenli.common.base.BaseRVFragment;
+import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.reader.ui.activity.BookDetailActivity;
 import com.liuzhenli.reader.ui.adapter.BookListAdapter;
 import com.liuzhenli.reader.ui.contract.BookListContract;
 import com.liuzhenli.reader.ui.presenter.BookListPresenter;
 import com.liuzhenli.reader.utils.DataDiffUtil;
 import com.micoredu.readerlib.bean.SearchBookBean;
-import com.microedu.reader.R;
+import com.microedu.reader.databinding.FragmentBooklistBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,7 @@ public class BookCategoryFragment extends BaseRVFragment<BookListPresenter, Sear
     private String mUrl;
     private String mTag;
     private String mBookSourceName;
+    private FragmentBooklistBinding inflate;
 
     public static BookCategoryFragment getInstance(String url, String tag, String bookSourceName) {
         BookCategoryFragment instance = new BookCategoryFragment();
@@ -50,8 +53,9 @@ public class BookCategoryFragment extends BaseRVFragment<BookListPresenter, Sear
     }
 
     @Override
-    public int getLayoutResId() {
-        return R.layout.fragment_booklist;
+    public View bindContentView(LayoutInflater inflater, ViewGroup container, boolean attachParent) {
+        inflate = FragmentBooklistBinding.inflate(inflater, container, attachParent);
+        return inflate.getRoot();
     }
 
     @Override

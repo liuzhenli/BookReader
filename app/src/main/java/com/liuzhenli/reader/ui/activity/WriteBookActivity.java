@@ -2,12 +2,13 @@ package com.liuzhenli.reader.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.View;
 
-import com.liuzhenli.reader.base.BaseActivity;
-import com.liuzhenli.reader.network.AppComponent;
+import com.liuzhenli.common.base.BaseActivity;
+import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.reader.ui.contract.WriteBookContract;
 import com.liuzhenli.reader.ui.presenter.WriteBookPresenter;
-import com.microedu.reader.R;
+import com.microedu.reader.databinding.ActWirtebookBinding;
 
 /**
  * Description:
@@ -24,8 +25,9 @@ public class WriteBookActivity extends BaseActivity<WriteBookPresenter> implemen
     }
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.act_wirtebook;
+    protected View bindContentView() {
+        ActWirtebookBinding inflate = ActWirtebookBinding.inflate(getLayoutInflater());
+        return inflate.getRoot();
     }
 
     @Override

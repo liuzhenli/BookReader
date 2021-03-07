@@ -19,7 +19,7 @@
             android:orientation="horizontal">
 
             <GridView
-                android:id="@+id/gird_diagnose_database_table_data"
+                android:id="@+id/girdTableData"
                 android:layout_width="800dip"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"

@@ -1,11 +1,10 @@
 package com.liuzhenli.reader.ui.presenter;
 
 import com.liuzhenli.common.utils.RxUtil;
-import com.liuzhenli.reader.base.RxPresenter;
+import com.liuzhenli.common.base.RxPresenter;
 import com.liuzhenli.reader.network.Api;
-import com.liuzhenli.reader.observer.SampleProgressObserver;
+import com.liuzhenli.common.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.contract.BookListContract;
-import com.liuzhenli.common.utils.LogUtils;
 import com.liuzhenli.reader.utils.ThreadUtils;
 import com.micoredu.readerlib.bean.SearchBookBean;
 import com.micoredu.readerlib.helper.DbHelper;
@@ -16,8 +15,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import io.reactivex.observers.DisposableObserver;
 
 /**
  * Description:
