@@ -158,7 +158,6 @@ public class BaseApplication extends Application {
                 .appModule(new AppModule(this))
                 .apiModule(new ApiModule())
                 .build();
-
     }
 
 }

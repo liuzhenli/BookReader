@@ -1,17 +1,14 @@
 package com.liuzhenli.reader.ui.adapter;
 
 import android.content.Context;
-import android.view.View;
+import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
 import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
 import com.micoredu.readerlib.bean.BookSourceBean;
 import com.microedu.reader.R;
-import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import com.microedu.reader.databinding.ItemBookSiteBinding;
 
 /**
  * Description:
@@ -29,25 +26,19 @@ public class BookSourceViewAdapter extends RecyclerArrayAdapter<BookSourceBean> 
         return new ItemViewHolder(parent, R.layout.item_book_site);
     }
 
-    class ItemViewHolder extends BaseViewHolder<BookSourceBean> {
-        @BindView(R.id.tv_source_web_name)
-        QMUIRoundButton mTvSite;
+    static class ItemViewHolder extends BaseViewHolder<BookSourceBean> {
+        ItemBookSiteBinding binding;
 
         public ItemViewHolder(ViewGroup parent, int res) {
             super(parent, res);
-            ButterKnife.bind(this, itemView);
+            binding = ItemBookSiteBinding.inflate(LayoutInflater.from(mContext));
         }
 
         @Override
         public void setData(BookSourceBean item) {
             super.setData(item);
-            mTvSite.setText(item.getBookSourceName());
-            mTvSite.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    itemView.callOnClick();
-                }
-            });
+            binding.tvSourceWebName.setText(item.getBookSourceName());
+            binding.tvSourceWebName.setOnClickListener(v -> itemView.callOnClick());
         }
     }
 }

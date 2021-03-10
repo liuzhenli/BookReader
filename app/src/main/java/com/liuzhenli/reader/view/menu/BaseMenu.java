@@ -8,10 +8,6 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.microedu.reader.R;
-
-import butterknife.ButterKnife;
-
 /**
  * Description:设置菜单
  *
@@ -31,7 +27,6 @@ public abstract class BaseMenu extends FrameLayout {
         super(context, attrs, defStyleAttr);
         setOnClickListener(null);
         LayoutInflater.from(getContext()).inflate(getLayoutResId(),this);
-        ButterKnife.bind(this);
         init(context, attrs, defStyleAttr);
     }
 

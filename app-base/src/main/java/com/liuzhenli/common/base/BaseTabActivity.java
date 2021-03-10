@@ -7,13 +7,11 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
-import com.liuzhenli.common.R2;
+import com.liuzhenli.common.R;
 import com.liuzhenli.common.utils.UiUtils;
 
 
 import java.util.List;
-
-import butterknife.BindView;
 
 /**
  * describe: base TabActivity
@@ -21,9 +19,7 @@ import butterknife.BindView;
  * @author Liuzhenli on 2019-10-18 15:44
  */
 public abstract class BaseTabActivity<T extends BaseContract.BasePresenter> extends BaseActivity<T> implements ViewPager.OnPageChangeListener {
-    @BindView(R2.id.tab_tl_indicator)
     protected TabLayout mTabLayout;
-    @BindView(R2.id.tab_vp)
     protected ViewPager mVp;
     protected TabFragmentPageAdapter tabFragmentPageAdapter;
     protected List<Fragment> mFragmentList;
@@ -37,6 +33,8 @@ public abstract class BaseTabActivity<T extends BaseContract.BasePresenter> exte
 
     @Override
     protected void configViews() {
+        mTabLayout = findViewById(R.id.tab_tl_indicator);
+        mVp = findViewById(R.id.tab_vp);
         setUpTabLayout();
         mVp.addOnPageChangeListener(this);
     }

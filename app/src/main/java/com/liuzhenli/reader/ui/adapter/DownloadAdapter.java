@@ -2,9 +2,8 @@ package com.liuzhenli.reader.ui.adapter;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
+import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.liuzhenli.reader.service.DownloadService;
 import com.liuzhenli.common.utils.image.ImageUtil;
@@ -12,14 +11,12 @@ import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
 import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
 import com.micoredu.readerlib.bean.DownloadBookBean;
 import com.microedu.reader.R;
+import com.microedu.reader.databinding.ItemDownloadBinding;
 
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * describe:
@@ -50,36 +47,29 @@ public class DownloadAdapter extends RecyclerArrayAdapter<DownloadBookBean> {
         super.onBindViewHolder(holder, position, payloads);
     }
 
-    class ViewHolder extends BaseViewHolder<DownloadBookBean> {
-        @BindView(R.id.iv_download_book_cover)
-        ImageView ivCover;
-        @BindView(R.id.tv_name)
-        TextView tvName;
-        @BindView(R.id.mTvDownload)
-        TextView tvDownload;
-        @BindView(R.id.iv_delete)
-        ImageView ivDel;
+    static class ViewHolder extends BaseViewHolder<DownloadBookBean> {
+        ItemDownloadBinding inflate;
 
         public ViewHolder(ViewGroup parent, int res) {
             super(parent, res);
-            ButterKnife.bind(this, itemView);
+            inflate = ItemDownloadBinding.inflate(LayoutInflater.from(mContext));
         }
 
         @Override
         public void setData(DownloadBookBean item) {
             super.setData(item);
 
-            ivDel.getDrawable().mutate();
-            ivDel.getDrawable().setColorFilter(mContext.getResources().getColor(R.color.tv_text_default), PorterDuff.Mode.SRC_ATOP);
+            inflate.ivDelete.getDrawable().mutate();
+            inflate.ivDelete.getDrawable().setColorFilter(mContext.getResources().getColor(R.color.tv_text_default), PorterDuff.Mode.SRC_ATOP);
 
-            ImageUtil.setRoundedCornerImage(mContext, item.getCoverUrl(), R.drawable.book_cover, ivCover);
+            ImageUtil.setRoundedCornerImage(mContext, item.getCoverUrl(), R.drawable.book_cover, inflate.ivDownloadBookCover);
             if (item.getSuccessCount() > 0) {
-                tvName.setText(String.format(Locale.getDefault(), "%s(正在下载)", item.getName()));
+                inflate.tvName.setText(String.format(Locale.getDefault(), "%s(正在下载)", item.getName()));
             } else {
-                tvName.setText(String.format(Locale.getDefault(), "%s(等待下载)", item.getName()));
+                inflate.tvName.setText(String.format(Locale.getDefault(), "%s(等待下载)", item.getName()));
             }
-            tvDownload.setText(mContext.getString(R.string.un_download, item.getDownloadCount() - item.getSuccessCount()));
-            ivDel.setOnClickListener(view -> DownloadService.removeDownload(mContext, item.getNoteUrl()));
+            inflate.mTvDownload.setText(mContext.getString(R.string.un_download, item.getDownloadCount() - item.getSuccessCount()));
+            inflate.ivDelete.setOnClickListener(view -> DownloadService.removeDownload(mContext, item.getNoteUrl()));
         }
     }
 }

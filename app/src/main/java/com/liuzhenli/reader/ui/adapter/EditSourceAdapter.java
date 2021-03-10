@@ -4,17 +4,15 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import com.liuzhenli.reader.bean.EditSource;
 import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
 import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
 import com.microedu.reader.R;
+import com.microedu.reader.databinding.ItemEditSourceBinding;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Description:
@@ -33,27 +31,24 @@ public class EditSourceAdapter extends RecyclerArrayAdapter<EditSource> {
     }
 
     public class ItemViewHolder extends BaseViewHolder<EditSource> {
-        @BindView(R.id.et_source_item_content)
-        EditText mEditContent;
-        @BindView(R.id.view_source_item)
-        TextView mTv;
+        ItemEditSourceBinding inflate;
 
         public ItemViewHolder(ViewGroup parent, int res) {
             super(parent, res);
-            ButterKnife.bind(this, itemView);
+            inflate = ItemEditSourceBinding.inflate(LayoutInflater.from(mContext));
         }
 
         @Override
         public void setData(EditSource item) {
             super.setData(item);
-            mTv.setText(mContext.getResources().getString(item.getHint()));
+            inflate.viewSourceItem.setText(mContext.getResources().getString(item.getHint()));
             if (TextUtils.isEmpty(item.getValue())) {
-                mEditContent.setText("");
+                inflate.etSourceItemContent.setText("");
             } else {
-                mEditContent.setText(item.getValue());
+                inflate.etSourceItemContent.setText(item.getValue());
             }
 
-            mEditContent.addTextChangedListener(new TextWatcher() {
+            inflate.etSourceItemContent.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 

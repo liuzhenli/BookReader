@@ -20,7 +20,6 @@ import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 
 import java.text.DecimalFormat;
 
-import butterknife.BindView;
 
 /**
  * Description:设置菜单  文字大小,间距,背景,翻页
@@ -29,62 +28,38 @@ import butterknife.BindView;
  * Email: 848808263@qq.com
  */
 public class ReadSettingMenu extends BaseMenu {
-    @BindView(R.id.view_setting_menu_root)
     View mViewRoot;
-    @BindView(R.id.tv_pre_chapter)
     TextView tvPreChapter;
     /***缩小字体*/
-    @BindView(R.id.tv_menu_text_min)
     QMUIRoundButton tvMenuTextMin;
-    @BindView(R.id.tv_setting_menu_text_size)
     TextView tvSettingMenuTextSize;
-    @BindView(R.id.tv_menu_text_enlarge)
     QMUIRoundButton tvMenuTextEnlarge;
-    @BindView(R.id.tv_menu_text_simple)
     QMUIRoundButton tvMenuTextSimple;
-    @BindView(R.id.tv_menu_text_style)
     QMUIRoundButton tvMenuTextStyle;
-    @BindView(R.id.tv_menu_text_type_face)
     QMUIRoundButton tvMenuTextTypeFace;
-    @BindView(R.id.tv_setting_letter_space)
     TextView tvSettingLetterSpace;
-    @BindView(R.id.tv_setting_text_background)
     TextView tvSettingTextBackground;
-    @BindView(R.id.rb_menu_setting_bg)
     RadioGroup rbPageBg;
 
-    @BindView(R.id.tv_setting_page_mode)
     TextView tvSettingPageMode;
     /****仿真*/
-    @BindView(R.id.tv_setting_page_mode_paper)
     QMUIRoundButton tvSettingPageModePaper;
     /****覆盖*/
-    @BindView(R.id.tv_setting_page_mode_cover)
     QMUIRoundButton tvSettingPageModeCover;
     /***滑动*/
-    @BindView(R.id.tv_setting_page_mode_slide)
     QMUIRoundButton tvSettingPageModeSlide;
     /***上下*/
-    @BindView(R.id.tv_setting_page_mode_vertical)
     QMUIRoundButton tvSettingPageModeVertical;
     /***无动画*/
-    @BindView(R.id.tv_setting_page_mode_empty)
     QMUIRoundButton tvSettingPageModeEmpty;
-    @BindView(R.id.tv_setting_reset)
     QMUIRoundButton tvSettingReset;
 
-    @BindView(R.id.tv_menu_h_space_min)
     QMUIRoundButton mHSpaceMin;
-    @BindView(R.id.tv_setting_menu_h_space_size)
     TextView mHSpaceSize;
-    @BindView(R.id.tv_menu_h_space_enlarge)
     QMUIRoundButton mHSpaceEnlarge;
 
-    @BindView(R.id.tv_menu_v_space_min)
     QMUIRoundButton mVSpaceMin;
-    @BindView(R.id.tv_setting_menu_v_space_size)
     TextView mVSpaceSize;
-    @BindView(R.id.tv_menu_v_space_enlarge)
     QMUIRoundButton mVSpaceEnlarge;
 
     private DecimalFormat decimalFormat = new DecimalFormat(".#");
@@ -112,6 +87,35 @@ public class ReadSettingMenu extends BaseMenu {
     @SuppressLint("SetTextI18n")
     @Override
     protected void init(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        mViewRoot = findViewById(R.id.view_setting_menu_root);
+        tvPreChapter = findViewById(R.id.tv_pre_chapter);
+        /***缩小字体*/
+        tvMenuTextMin = findViewById(R.id.tv_menu_text_min);
+        tvSettingMenuTextSize = findViewById(R.id.tv_setting_menu_text_size);
+        tvMenuTextEnlarge = findViewById(R.id.tv_menu_text_enlarge);
+        tvMenuTextSimple = findViewById(R.id.tv_menu_text_simple);
+        tvMenuTextStyle = findViewById(R.id.tv_menu_text_style);
+        tvMenuTextTypeFace = findViewById(R.id.tv_menu_text_type_face);
+        tvSettingLetterSpace = findViewById(R.id.tv_setting_letter_space);
+        tvSettingTextBackground = findViewById(R.id.tv_setting_text_background);
+        rbPageBg = findViewById(R.id.rb_menu_setting_bg);
+
+        tvSettingPageMode = findViewById(R.id.tv_setting_page_mode);
+        tvSettingPageModePaper = findViewById(R.id.tv_setting_page_mode_paper);
+        tvSettingPageModeCover = findViewById(R.id.tv_setting_page_mode_cover);
+        tvSettingPageModeSlide = findViewById(R.id.tv_setting_page_mode_slide);
+        tvSettingPageModeVertical = findViewById(R.id.tv_setting_page_mode_vertical);
+        tvSettingPageModeEmpty = findViewById(R.id.tv_setting_page_mode_empty);
+        tvSettingReset = findViewById(R.id.tv_setting_reset);
+        mHSpaceMin = findViewById(R.id.tv_menu_h_space_min);
+        mHSpaceSize = findViewById(R.id.tv_setting_menu_h_space_size);
+        mHSpaceEnlarge = findViewById(R.id.tv_menu_h_space_enlarge);
+
+        mVSpaceMin = findViewById(R.id.tv_menu_v_space_min);
+        mVSpaceSize = findViewById(R.id.tv_setting_menu_v_space_size);
+        QMUIRoundButton mVSpaceEnlarge = findViewById(R.id.tv_menu_v_space_enlarge);
+
+
         fillDefaultContent();
         //仿真模式
         ClickUtils.click(tvSettingPageModePaper, o -> setPageMode(ReaderConfig.PageMode.SIMULATION));

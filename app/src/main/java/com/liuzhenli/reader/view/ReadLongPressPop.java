@@ -18,24 +18,16 @@ import com.liuzhenli.common.utils.DensityUtil;
 import com.micoredu.readerlib.helper.ReadConfigManager;
 import com.microedu.reader.R;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class ReadLongPressPop extends FrameLayout {
 
 
     /**
      * 翻页相关
      */
-    @BindView(R.id.fl_replace)
     FrameLayout flReplace;
-    @BindView(R.id.fl_cp)
     FrameLayout flCp;
-    @BindView(R.id.fl_replace_ad)
     FrameLayout flReplaceAd;
-    @BindView(R.id.fl_search)
     FrameLayout flSearch;
-    @BindView(R.id.fl_share)
     FrameLayout flShare;
 
 
@@ -73,7 +65,12 @@ public class ReadLongPressPop extends FrameLayout {
     private void init(Context context) {
         View view = LayoutInflater.from(context).inflate(R.layout.pop_read_long_press, null);
         addView(view);
-        ButterKnife.bind(this, view);
+        flReplace = findViewById(R.id.fl_replace);
+        flCp = findViewById(R.id.fl_cp);
+        flReplaceAd = findViewById(R.id.fl_replace_ad);
+        flSearch = findViewById(R.id.fl_search);
+        flShare = findViewById(R.id.fl_share);
+
         view.setOnClickListener(null);
     }
 

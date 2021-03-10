@@ -2,7 +2,6 @@ package com.liuzhenli.reader.view.menu;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -14,9 +13,6 @@ import com.liuzhenli.common.utils.ClickUtils;
 import com.micoredu.readerlib.helper.ReadConfigManager;
 import com.microedu.reader.R;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * Description:阅读页底部菜单栏
  *
@@ -25,21 +21,13 @@ import butterknife.ButterKnife;
  */
 public class ReadBottomMenu extends BaseMenu {
 
-    @BindView(R.id.tv_menu)
     TextView mTvMenu;
-    @BindView(R.id.tv_pre_chapter)
     View mVPreChapter;
-    @BindView(R.id.tv_next_chapter)
     View mVNextChapter;
-    @BindView(R.id.tv_change_night_skin)
     View mVBrightness;
-    @BindView(R.id.tv_reader_night_mode)
     TextView mTvNightMode;
-    @BindView(R.id.tv_reader_setting)
     TextView mVSetting;
-    @BindView(R.id.view_listen_book)
     TextView mVListenBook;
-    @BindView(R.id.sb_chapters)
     SeekBar mVChapter;
     private OnElementClickListener listener;
 
@@ -62,6 +50,17 @@ public class ReadBottomMenu extends BaseMenu {
 
     @Override
     protected void init(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+
+        mTvMenu = findViewById(R.id.tv_menu);
+        mVPreChapter = findViewById(R.id.tv_pre_chapter);
+        mVNextChapter = findViewById(R.id.tv_next_chapter);
+        mVBrightness = findViewById(R.id.tv_change_night_skin);
+        mTvNightMode = findViewById(R.id.tv_reader_night_mode);
+        mVSetting = findViewById(R.id.tv_reader_setting);
+        mVListenBook = findViewById(R.id.view_listen_book);
+        mVChapter = findViewById(R.id.sb_chapters);
+
+
         //菜单
         ClickUtils.click(mTvMenu, o -> {
             if (listener != null) {

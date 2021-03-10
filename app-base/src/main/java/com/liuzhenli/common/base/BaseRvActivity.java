@@ -1,13 +1,14 @@
 package com.liuzhenli.common.base;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.liuzhenli.common.R;
-import com.liuzhenli.common.R2;
 import com.liuzhenli.common.utils.NetworkUtils;
 import com.liuzhenli.common.widget.recyclerview.EasyRecyclerView;
 import com.liuzhenli.common.widget.recyclerview.adapter.OnLoadMoreListener;
@@ -16,14 +17,11 @@ import com.liuzhenli.common.widget.recyclerview.swipe.OnRefreshListener;
 
 import java.lang.reflect.Constructor;
 
-import butterknife.BindView;
-
 /**
  * @author Liuzhenli
  * @since 2019-07-07 08:38
  */
 public abstract class BaseRvActivity<T1 extends BaseContract.BasePresenter, T2> extends BaseActivity<T1> implements OnLoadMoreListener, OnRefreshListener, RecyclerArrayAdapter.OnItemClickListener {
-    @BindView(R2.id.recyclerView)
     protected EasyRecyclerView mRecyclerView;
     protected RecyclerArrayAdapter<T2> mAdapter;
 
@@ -35,6 +33,12 @@ public abstract class BaseRvActivity<T1 extends BaseContract.BasePresenter, T2> 
      * 每页有几条数据
      */
     protected int mCount = 20;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        mRecyclerView = findViewById(R.id.recyclerView);
+        super.onCreate(savedInstanceState);
+    }
 
     protected void initAdapter(boolean refreshable, boolean loadMoreAble) {
         initAdapter(refreshable, loadMoreAble, null);

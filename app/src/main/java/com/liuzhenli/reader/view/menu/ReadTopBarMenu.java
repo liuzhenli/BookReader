@@ -12,8 +12,6 @@ import androidx.appcompat.widget.Toolbar;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.microedu.reader.R;
 
-import butterknife.BindView;
-import io.reactivex.functions.Consumer;
 
 /**
  * Description:阅读页底部菜单栏
@@ -23,14 +21,10 @@ import io.reactivex.functions.Consumer;
  */
 public class ReadTopBarMenu extends BaseMenu {
 
-    @BindView(R.id.toolbar)
-    Toolbar mToolBar;
-    @BindView(R.id.tv_toolbar_title)
-    TextView mTvTitle;
-    @BindView(R.id.tv_top_menu_chapter_id)
-    TextView mTvChapterTitle;
-    @BindView(R.id.iv_menu_book_mark)
-    View mViewMenu;
+    protected Toolbar mToolBar;
+    protected TextView mTvTitle;
+    protected TextView mTvChapterTitle;
+    protected View mViewMenu;
 
     public ReadTopBarMenu(@NonNull Context context) {
         this(context, null);
@@ -51,12 +45,15 @@ public class ReadTopBarMenu extends BaseMenu {
 
     @Override
     protected void init(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        ClickUtils.click(mViewMenu, new Consumer() {
-            @Override
-            public void accept(Object o) throws Exception {
-                if (listener != null) {
-                    listener.onMenuClick();
-                }
+
+        mToolBar = findViewById(R.id.toolbar);
+        mTvTitle = findViewById(R.id.tv_toolbar_title);
+        mTvChapterTitle = findViewById(R.id.tv_top_menu_chapter_id);
+        mViewMenu = findViewById(R.id.iv_menu_book_mark);
+
+        ClickUtils.click(mViewMenu, o -> {
+            if (listener != null) {
+                listener.onMenuClick();
             }
         });
     }

@@ -14,8 +14,6 @@ import com.micoredu.readerlib.helper.ReadConfigManager;
 import com.microedu.reader.R;
 import com.qmuiteam.qmui.widget.QMUISlider;
 
-import butterknife.BindView;
-
 /**
  * Description:亮度菜单
  *
@@ -23,15 +21,10 @@ import butterknife.BindView;
  * Email: 848808263@qq.com
  */
 public class ReadBrightnessMenu extends BaseMenu {
-    @BindView(R.id.sb_menu_setting_brightness)
     QMUISlider sbMenuSettingBrightness;
-    @BindView(R.id.tv_bright_follow_sys)
     TextView tvBrightFollowSys;
-    @BindView(R.id.tv_bright_protect_eye)
     TextView tvBrightProtectEye;
-    @BindView(R.id.sw_brightness_follow_system)
     Switch swFollowSystem;
-    @BindView(R.id.sw_brightness_protect_eye)
     Switch swProtectEye;
 
 
@@ -54,6 +47,13 @@ public class ReadBrightnessMenu extends BaseMenu {
 
     @Override
     protected void init(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        sbMenuSettingBrightness = findViewById(R.id.sb_menu_setting_brightness);
+        tvBrightFollowSys = findViewById(R.id.tv_bright_follow_sys);
+        tvBrightProtectEye = findViewById(R.id.tv_bright_protect_eye);
+        swFollowSystem = findViewById(R.id.sw_brightness_follow_system);
+        swProtectEye = findViewById(R.id.sw_brightness_protect_eye);
+
+
         //跟随系统 即自动调节
         swFollowSystem.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {

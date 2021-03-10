@@ -2,18 +2,16 @@ package com.liuzhenli.reader.ui.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.view.View;
+import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
 import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
 import com.micoredu.readerlib.bean.BookChapterBean;
 import com.micoredu.readerlib.helper.ReadConfigManager;
 import com.microedu.reader.R;
+import com.microedu.reader.databinding.ItemBookChapterBinding;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Description:book item
@@ -37,14 +35,12 @@ public class BookChapterAdapter extends RecyclerArrayAdapter<BookChapterBean> {
 
 
     public class BookChapterItemAdapter extends BaseViewHolder<BookChapterBean> {
-        @BindView(R.id.tv_book_chapter_name)
-        TextView mTvBookChapterName;
-        @BindView(R.id.view_book_chapter)
-        View mVItemRoot;
+
+        ItemBookChapterBinding binding;
 
         public BookChapterItemAdapter(ViewGroup parent, int resId) {
             super(parent, resId);
-            ButterKnife.bind(this, itemView);
+            binding = ItemBookChapterBinding.inflate(LayoutInflater.from(mContext));
         }
 
         @Override
@@ -53,10 +49,10 @@ public class BookChapterAdapter extends RecyclerArrayAdapter<BookChapterBean> {
             if (TextUtils.isEmpty(item.getDurChapterName())) {
                 item.setDurChapterName("章节未命名");
             }
-            mTvBookChapterName.setText(item.getDurChapterName());
+            binding.tvBookChapterName.setText(item.getDurChapterName());
             if (isFromReadPage) {
-                mTvBookChapterName.setTextColor(ReadConfigManager.getInstance().getTextColor());
-                mVItemRoot.setBackground(ReadConfigManager.getInstance().getTextBackground(mContext));
+                binding.tvBookChapterName.setTextColor(ReadConfigManager.getInstance().getTextColor());
+                binding.viewBookChapter.setBackground(ReadConfigManager.getInstance().getTextBackground(mContext));
             }
         }
     }

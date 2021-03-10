@@ -65,7 +65,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-import butterknife.ButterKnife;
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
 
@@ -213,7 +212,6 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void configViews() {
-        ButterKnife.bind(this);
         inflate.mTopBar.getToolBar().setNavigationOnClickListener(v -> onBackPressed());
         initPageView();
         //底部menu中 菜单按钮点击从底部弹出一个章节菜单

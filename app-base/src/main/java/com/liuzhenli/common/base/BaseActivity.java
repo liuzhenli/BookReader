@@ -22,8 +22,6 @@ import com.liuzhenli.common.widget.bar.ImmersionBar;
 
 import javax.inject.Inject;
 
-import butterknife.ButterKnife;
-
 /**
  * @author Liuzhenli
  * @since 2019-07-06 17:18
@@ -59,8 +57,6 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             getWindow().getDecorView().setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS);
         }
-
-        ButterKnife.bind(this);
         setupActivityComponent(BaseApplication.getInstance().getAppComponent());
         mToolBar = findViewById(R.id.toolbar);
         if (mToolBar != null) {

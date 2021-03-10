@@ -137,19 +137,6 @@
  -keep class com.google.gson.** {*;}
  -keep class com.google.protobuf.** {*;}
 
-
- ## butterknife start
- -keep class butterknife.** { *; }
- -dontwarn butterknife.internal.**
- -keep class **$$ViewBinder { *; }
- -keepclasseswithmembernames class * {
-     @butterknife.* <fields>;
- }
- -keepclasseswithmembernames class * {
-     @butterknife.* <methods>;
- }
- ## butterknife end
-
  # 保留androidx下的所有类及其内部类
  -keep class androidx.** {*;}
  # 保留继承的

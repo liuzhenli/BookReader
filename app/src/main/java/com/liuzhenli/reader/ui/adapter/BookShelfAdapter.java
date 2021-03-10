@@ -2,23 +2,16 @@ package com.liuzhenli.reader.ui.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 
 import com.liuzhenli.common.utils.image.ImageUtil;
-import com.liuzhenli.reader.view.BadgeView;
-import com.liuzhenli.reader.view.RotateLoading;
 import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
 import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
 import com.micoredu.readerlib.bean.BookShelfBean;
 import com.microedu.reader.R;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import com.microedu.reader.databinding.ItemBookshelfListBinding;
 
 /**
  * describe:书架
@@ -38,53 +31,36 @@ public class BookShelfAdapter extends RecyclerArrayAdapter<BookShelfBean> {
     }
 
     public static class BookShelfHolder extends BaseViewHolder<BookShelfBean> {
-        @BindView(R.id.mIvCover)
-        ImageView mIvCover;
-        @BindView(R.id.bv_unread)
-        BadgeView mBvUnread;
-        @BindView(R.id.rl_loading)
-        RotateLoading mRlLoading;
-        @BindView(R.id.fl_has_new)
-        FrameLayout mFlHasNew;
-        @BindView(R.id.tv_name)
-        TextView mTvName;
-        @BindView(R.id.mTvAuthor)
-        TextView mTvAuthor;
-        @BindView(R.id.mTvRead)
-        TextView mTvRead;
-        @BindView(R.id.tv_last)
-        TextView mTvLast;
-        @BindView(R.id.vw_select)
-        View mVwSelect;
+        ItemBookshelfListBinding binding;
 
         public BookShelfHolder(ViewGroup parent, int res) {
             super(parent, res);
-            ButterKnife.bind(this, itemView);
+            binding = ItemBookshelfListBinding.inflate(LayoutInflater.from(mContext));
         }
 
         @Override
         public void setData(BookShelfBean item) {
             super.setData(item);
-            mTvName.setText(item.getBookInfoBean().getName() == null ? "[未知书名]" : item.getBookInfoBean().getName());
-            mTvAuthor.setText(String.format("%s 著", TextUtils.isEmpty(item.getBookInfoBean().getAuthor()) ? "佚名" : item.getBookInfoBean().getAuthor()));
-            mTvRead.setText(String.format("读至:%s", item.getDurChapterName() == null ? "章节名未知" : item.getDurChapterName()));
-            mTvLast.setText(String.format("最新:%s", item.getLastChapterName() == null ? "章节名未知" : item.getLastChapterName()));
+            binding.tvName.setText(item.getBookInfoBean().getName() == null ? "[未知书名]" : item.getBookInfoBean().getName());
+            binding.mTvAuthor.setText(String.format("%s 著", TextUtils.isEmpty(item.getBookInfoBean().getAuthor()) ? "佚名" : item.getBookInfoBean().getAuthor()));
+            binding.mTvRead.setText(String.format("读至:%s", item.getDurChapterName() == null ? "章节名未知" : item.getDurChapterName()));
+            binding.tvLast.setText(String.format("最新:%s", item.getLastChapterName() == null ? "章节名未知" : item.getLastChapterName()));
             if (item.getBookInfoBean() != null) {
-                ImageUtil.setImage(mContext, item.getBookInfoBean().getCoverUrl(), R.drawable.book_cover, R.drawable.book_cover, mIvCover);
+                ImageUtil.setImage(mContext, item.getBookInfoBean().getCoverUrl(), R.drawable.book_cover, R.drawable.book_cover, binding.mIvCover);
             }
             if (item.isLoading()) {
-                mBvUnread.setVisibility(View.GONE);
-                mRlLoading.setVisibility(View.VISIBLE);
-                mRlLoading.start();
+                binding.bvUnread.setVisibility(View.GONE);
+                binding.rlLoading.setVisibility(View.VISIBLE);
+                binding.rlLoading.start();
             } else {
-                mBvUnread.setVisibility(View.VISIBLE);
+                binding.bvUnread.setVisibility(View.VISIBLE);
                 //未读章节数
-                mBvUnread.setBadgeCount(item.getUnreadChapterNum());
+                binding.bvUnread.setBadgeCount(item.getUnreadChapterNum());
                 //显示有(无)更新
-                mBvUnread.setHighlight(item.getHasUpdate());
+                binding.bvUnread.setHighlight(item.getHasUpdate());
                 //停止loading
-                mRlLoading.setVisibility(View.GONE);
-                mRlLoading.stop();
+                binding.rlLoading.setVisibility(View.GONE);
+                binding.rlLoading.stop();
             }
         }
     }

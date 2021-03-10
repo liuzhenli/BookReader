@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'org.greenrobot.greendao' // apply plugin
-apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 android {
@@ -129,11 +128,7 @@ dependencies {
     //依赖注入框架
     api 'com.google.dagger:dagger:2.7'
 
-    api 'org.glassfish:javax.annotation:10.0-b28'
+    compileOnly 'org.glassfish:javax.annotation:10.0-b28'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.7'
-
-
-    api 'com.jakewharton:butterknife:10.2.3'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
 }
 

@@ -1,17 +1,15 @@
 package com.liuzhenli.reader.ui.adapter;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
 import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
 import com.micoredu.readerlib.bean.SearchBookBean;
 import com.microedu.reader.R;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import com.microedu.reader.databinding.ItemChangeSourceBinding;
 
 /**
  * Description:
@@ -30,28 +28,22 @@ public class ChangeSourceAdapter extends RecyclerArrayAdapter<SearchBookBean> {
     }
 
     public static class ChangeSourceViewHolder extends BaseViewHolder<SearchBookBean> {
-        @BindView(R.id.tv_book_source_site)
-        TextView mTvBookSite;
-        @BindView(R.id.tv_book_last_chapter)
-        TextView mTvBookLastChapterName;
-
-        @BindView(R.id.tv_is_current_selected)
-        View mViewIsSelected;
+        ItemChangeSourceBinding inflate;
 
         public ChangeSourceViewHolder(ViewGroup parent, int layoutResID) {
             super(parent, layoutResID);
-            ButterKnife.bind(this, itemView);
+            inflate = ItemChangeSourceBinding.inflate(LayoutInflater.from(mContext));
         }
 
         @Override
         public void setData(SearchBookBean item) {
             super.setData(item);
-            mTvBookSite.setText(item.getOrigin());
-            mTvBookLastChapterName.setText(item.getLastChapter());
+            inflate.tvBookSourceSite.setText(item.getOrigin());
+            inflate.tvBookLastChapter.setText(item.getLastChapter());
             if (item.getIsCurrentSource()) {
-                mViewIsSelected.setVisibility(View.VISIBLE);
+                inflate.tvIsCurrentSelected.setVisibility(View.VISIBLE);
             } else {
-                mViewIsSelected.setVisibility(View.GONE);
+                inflate.tvIsCurrentSelected.setVisibility(View.GONE);
             }
         }
     }

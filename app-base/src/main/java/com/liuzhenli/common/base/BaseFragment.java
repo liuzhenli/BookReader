@@ -24,8 +24,6 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
 
-import butterknife.ButterKnife;
-
 /**
  * @author Liuzhenli
  * @since 2019-07-06 17:18
@@ -70,7 +68,6 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
 
 
         super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this, view);
         mCommonToolbar = view.findViewById(R.id.toolbar);
         if (mCommonToolbar != null) {
             initToolBar();

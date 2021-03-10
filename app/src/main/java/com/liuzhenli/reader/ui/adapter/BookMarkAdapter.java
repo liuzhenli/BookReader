@@ -2,18 +2,15 @@ package com.liuzhenli.reader.ui.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.view.View;
+import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
 import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
 import com.micoredu.readerlib.bean.BookmarkBean;
 import com.micoredu.readerlib.helper.ReadConfigManager;
 import com.microedu.reader.R;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import com.microedu.reader.databinding.ItemBookMarkBinding;
 
 /**
  * Description:bookmark item
@@ -36,17 +33,12 @@ public class BookMarkAdapter extends RecyclerArrayAdapter<BookmarkBean> {
 
 
     public class BookChapterItemAdapter extends BaseViewHolder<BookmarkBean> {
-        @BindView(R.id.tv_book_chapter_name)
-        TextView mTvBookChapterName;
 
-        @BindView(R.id.tv_book_chapter_content)
-        TextView mTvBookMarkContent;
-        @BindView(R.id.view_book_chapter)
-        View mVItemRoot;
+        ItemBookMarkBinding binding;
 
         public BookChapterItemAdapter(ViewGroup parent, int resId) {
             super(parent, resId);
-            ButterKnife.bind(this, itemView);
+            binding = ItemBookMarkBinding.inflate(LayoutInflater.from(mContext));
         }
 
         @Override
@@ -55,11 +47,11 @@ public class BookMarkAdapter extends RecyclerArrayAdapter<BookmarkBean> {
             if (TextUtils.isEmpty(item.getChapterName())) {
                 item.setChapterName("章节未命名");
             }
-            mTvBookChapterName.setText(item.getChapterName());
-            mTvBookMarkContent.setText(item.getContent());
+            binding.tvBookChapterName.setText(item.getChapterName());
+            binding.tvBookChapterContent.setText(item.getContent());
             if (isFromReadPage) {
-                mTvBookChapterName.setTextColor(ReadConfigManager.getInstance().getTextColor());
-                mVItemRoot.setBackground(ReadConfigManager.getInstance().getTextBackground(mContext));
+                binding.tvBookChapterName.setTextColor(ReadConfigManager.getInstance().getTextColor());
+                binding.viewBookChapter.setBackground(ReadConfigManager.getInstance().getTextBackground(mContext));
             }
         }
     }
