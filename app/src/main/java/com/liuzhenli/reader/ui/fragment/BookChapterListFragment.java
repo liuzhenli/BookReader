@@ -13,11 +13,11 @@ import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.common.base.BaseFragment;
 import com.liuzhenli.reader.ui.activity.BookChapterListActivity;
-import com.liuzhenli.reader.ui.activity.ReaderActivity;
+import com.micoredu.reader.ui.activity.ReaderActivity;
 import com.liuzhenli.reader.ui.adapter.BookChapterAdapter;
 import com.liuzhenli.reader.utils.DataDiffUtil;
-import com.micoredu.readerlib.bean.BookChapterBean;
-import com.micoredu.readerlib.helper.BookshelfHelper;
+import com.micoredu.reader.bean.BookChapterBean;
+import com.micoredu.reader.helper.BookshelfHelper;
 import com.microedu.reader.databinding.FragmentBookchapterlistBinding;
 
 public class BookChapterListFragment extends BaseFragment {

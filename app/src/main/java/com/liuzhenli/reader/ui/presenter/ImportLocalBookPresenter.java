@@ -6,7 +6,7 @@ import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.common.base.RxPresenter;
 import com.liuzhenli.reader.bean.ImportBookModel;
 import com.liuzhenli.reader.ui.contract.ImportLocalBookContract;
-import com.micoredu.readerlib.bean.LocBookShelfBean;
+import com.micoredu.reader.bean.LocBookShelfBean;
 
 import java.io.File;
 import java.util.List;

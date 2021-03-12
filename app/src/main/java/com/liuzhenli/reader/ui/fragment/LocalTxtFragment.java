@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.liuzhenli.common.base.BaseRVFragment;
 import com.liuzhenli.common.AppComponent;
+import com.liuzhenli.reader.DaggerReadBookComponent;
 import com.liuzhenli.reader.bean.LocalFileBean;
 import com.liuzhenli.reader.ui.adapter.LocalTxtAdapter;
 import com.liuzhenli.reader.ui.contract.LocalTxtContract;
@@ -35,7 +36,7 @@ public class LocalTxtFragment extends BaseRVFragment<LocalTxtPresenter, LocalFil
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-        appComponent.inject(this);
+        DaggerReadBookComponent.builder().appComponent(appComponent).build().inject(this);
     }
 
     @Override

@@ -9,11 +9,13 @@ import com.liuzhenli.common.FileHelp;
 import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.FileUtils;
+import com.liuzhenli.reader.DaggerReadBookComponent;
 import com.liuzhenli.reader.ReaderApplication;
 import com.liuzhenli.common.base.BaseActivity;
 import com.liuzhenli.reader.ui.contract.SettingContract;
 import com.liuzhenli.reader.ui.presenter.SettingPresenter;
-import com.micoredu.readerlib.helper.BookshelfHelper;
+import com.micoredu.reader.DaggerReaderComponent;
+import com.micoredu.reader.helper.BookshelfHelper;
 import com.microedu.reader.R;
 import com.microedu.reader.databinding.ActSettingBinding;
 
@@ -41,7 +43,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-        appComponent.inject(this);
+        DaggerReadBookComponent.builder().appComponent(appComponent).build().inject(this);
     }
 
     @Override

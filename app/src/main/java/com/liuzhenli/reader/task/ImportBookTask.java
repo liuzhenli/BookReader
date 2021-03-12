@@ -1,11 +1,11 @@
 package com.liuzhenli.reader.task;
 
 import com.liuzhenli.common.utils.StringUtils;
-import com.micoredu.readerlib.bean.BookInfoBean;
-import com.micoredu.readerlib.bean.BookShelfBean;
-import com.micoredu.readerlib.bean.LocBookShelfBean;
-import com.micoredu.readerlib.helper.BookshelfHelper;
-import com.micoredu.readerlib.helper.DbHelper;
+import com.micoredu.reader.bean.BookInfoBean;
+import com.micoredu.reader.bean.BookShelfBean;
+import com.micoredu.reader.bean.LocBookShelfBean;
+import com.micoredu.reader.helper.BookshelfHelper;
+import com.micoredu.reader.helper.DbHelper;
 import com.microedu.reader.R;
 
 import java.io.File;

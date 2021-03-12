@@ -23,8 +23,9 @@ import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.base.BaseRVFragment;
+import com.liuzhenli.reader.DaggerReadBookComponent;
 import com.liuzhenli.reader.ui.activity.BookDetailActivity;
-import com.liuzhenli.reader.ui.activity.ReaderActivity;
+import com.micoredu.reader.ui.activity.ReaderActivity;
 import com.liuzhenli.reader.ui.adapter.BookShelfAdapter;
 import com.liuzhenli.reader.ui.contract.BookShelfContract;
 import com.liuzhenli.reader.ui.presenter.BookShelfPresenter;
@@ -32,8 +33,8 @@ import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.reader.utils.DataDiffUtil;
 import com.liuzhenli.common.utils.ToastUtil;
 import com.liuzhenli.common.utils.image.ImageUtil;
-import com.micoredu.readerlib.bean.BookShelfBean;
-import com.micoredu.readerlib.helper.BookshelfHelper;
+import com.micoredu.reader.bean.BookShelfBean;
+import com.micoredu.reader.helper.BookshelfHelper;
 import com.microedu.reader.R;
 import com.microedu.reader.databinding.FragmentBookshelfBinding;
 
@@ -65,7 +66,7 @@ public class BookShelfFragment extends BaseRVFragment<BookShelfPresenter, BookSh
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-        appComponent.inject(this);
+        DaggerReadBookComponent.builder().appComponent(appComponent).build().inject(this);
     }
 
     @Override

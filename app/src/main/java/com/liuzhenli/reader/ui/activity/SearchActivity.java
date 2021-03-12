@@ -18,14 +18,16 @@ import com.liuzhenli.common.constant.AppConstant;
 import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.base.BaseRvActivity;
+import com.liuzhenli.reader.DaggerReadBookComponent;
 import com.liuzhenli.reader.ui.adapter.BookListAdapter;
 import com.liuzhenli.reader.ui.contract.SearchContract;
 import com.liuzhenli.reader.ui.presenter.SearchPresenter;
 import com.liuzhenli.common.utils.DensityUtil;
 import com.liuzhenli.common.utils.SoftInputUtils;
-import com.liuzhenli.reader.view.loading.DialogUtil;
-import com.micoredu.readerlib.bean.SearchBookBean;
-import com.micoredu.readerlib.bean.SearchHistoryBean;
+import com.micoredu.reader.ui.activity.BookSourceActivity;
+import com.micoredu.reader.widgets.DialogUtil;
+import com.micoredu.reader.bean.SearchBookBean;
+import com.micoredu.reader.bean.SearchHistoryBean;
 import com.microedu.reader.R;
 import com.microedu.reader.databinding.ActivitySearchBinding;
 import com.qmuiteam.qmui.skin.QMUISkinManager;
@@ -71,7 +73,7 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-        appComponent.inject(this);
+        DaggerReadBookComponent.builder().appComponent(appComponent).build().inject(this);
     }
 
     @Override

@@ -1,9 +1,9 @@
 package com.liuzhenli.reader.ui.contract;
 
 import com.liuzhenli.common.base.BaseContract;
-import com.micoredu.readerlib.bean.BookChapterBean;
-import com.micoredu.readerlib.bean.BookInfoBean;
-import com.micoredu.readerlib.bean.BookShelfBean;
+import com.micoredu.reader.bean.BookChapterBean;
+import com.micoredu.reader.bean.BookInfoBean;
+import com.micoredu.reader.bean.BookShelfBean;
 
 import java.util.List;
 

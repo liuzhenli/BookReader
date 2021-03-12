@@ -2,8 +2,8 @@ package com.liuzhenli.reader.ui.contract;
 
 import com.liuzhenli.common.base.BaseContract;
 import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
-import com.micoredu.readerlib.bean.SearchBookBean;
-import com.micoredu.readerlib.bean.SearchHistoryBean;
+import com.micoredu.reader.bean.SearchBookBean;
+import com.micoredu.reader.bean.SearchHistoryBean;
 
 import java.util.List;
 

@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import androidx.annotation.RequiresApi;
 import androidx.multidex.MultiDex;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.liuzhenli.common.constant.AppConstant;
 import com.liuzhenli.common.module.ApiModule;
 import com.liuzhenli.common.module.AppModule;
@@ -40,6 +41,7 @@ public class BaseApplication extends Application {
     public String mVersionName;
     public String mVersionChannel;
     private AppComponent appComponent;
+
     public static BaseApplication getInstance() {
         return sInstance;
     }
@@ -62,6 +64,7 @@ public class BaseApplication extends Application {
             createChannelId();
         }
         initComponent();
+        initARouter();
     }
 
     private void initAppVersion() {
@@ -149,6 +152,7 @@ public class BaseApplication extends Application {
     private void initMMKV() {
         String rootDir = MMKV.initialize(this);
     }
+
     public AppComponent getAppComponent() {
         return appComponent;
     }
@@ -160,4 +164,18 @@ public class BaseApplication extends Application {
                 .build();
     }
 
+
+    private void initARouter() {
+        if (isDebug) {
+            ARouter.openDebug();
+            ARouter.openLog();
+        }
+        ARouter.init(this);
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        ARouter.getInstance().destroy();
+    }
 }

@@ -7,7 +7,7 @@ import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.common.base.RxPresenter;
 import com.liuzhenli.common.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.contract.DatabaseTableListContract;
-import com.micoredu.readerlib.helper.DbHelper;
+import com.micoredu.reader.helper.DbHelper;
 
 import java.util.ArrayList;
 import java.util.List;

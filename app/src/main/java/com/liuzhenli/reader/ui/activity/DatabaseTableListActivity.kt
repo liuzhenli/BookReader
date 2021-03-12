@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.AdapterView
 import com.liuzhenli.common.base.BaseActivity
 import com.liuzhenli.common.AppComponent
+import com.liuzhenli.reader.DaggerReadBookComponent
 import com.liuzhenli.reader.ui.adapter.DatabaseTableListAdapter
 import com.liuzhenli.reader.ui.contract.DatabaseTableListContract
 import com.liuzhenli.reader.ui.presenter.DatabaseTableListPresenter
@@ -20,7 +21,7 @@ import java.util.*
  * @author liuzhenli
  * @date 2021.02.18
  */
-class DatabaseTableListActivity : BaseActivity<DatabaseTableListPresenter?>(), DatabaseTableListContract.View {
+class DatabaseTableListActivity : BaseActivity<DatabaseTableListPresenter>(), DatabaseTableListContract.View {
 
     private var tablesAdapter: DatabaseTableListAdapter? = null
     private val tableList: MutableList<String> = ArrayList()
@@ -33,7 +34,7 @@ class DatabaseTableListActivity : BaseActivity<DatabaseTableListPresenter?>(), D
     }
 
     override fun setupActivityComponent(appComponent: AppComponent) {
-        appComponent.inject(this)
+        DaggerReadBookComponent.builder().appComponent(appComponent).build().inject(this)
     }
 
     override fun initToolBar() {

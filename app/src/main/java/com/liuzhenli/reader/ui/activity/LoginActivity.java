@@ -6,6 +6,7 @@ import com.liuzhenli.common.base.BaseActivity;
 import com.liuzhenli.common.base.BaseBean;
 import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.ClickUtils;
+import com.liuzhenli.reader.DaggerReadBookComponent;
 import com.liuzhenli.reader.ui.contract.LoginContract;
 import com.liuzhenli.reader.ui.presenter.LoginPresenter;
 import com.microedu.reader.databinding.ActivityLoginBinding;
@@ -28,7 +29,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-        appComponent.inject(this);
+        DaggerReadBookComponent.builder().appComponent(appComponent).build().inject(this);
     }
 
     @Override

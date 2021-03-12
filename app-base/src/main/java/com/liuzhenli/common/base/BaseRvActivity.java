@@ -22,7 +22,7 @@ import java.lang.reflect.Constructor;
  * @since 2019-07-07 08:38
  */
 public abstract class BaseRvActivity<T1 extends BaseContract.BasePresenter, T2> extends BaseActivity<T1> implements OnLoadMoreListener, OnRefreshListener, RecyclerArrayAdapter.OnItemClickListener {
-    protected EasyRecyclerView mRecyclerView;
+
     protected RecyclerArrayAdapter<T2> mAdapter;
 
     /**
@@ -36,7 +36,6 @@ public abstract class BaseRvActivity<T1 extends BaseContract.BasePresenter, T2> 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        mRecyclerView = findViewById(R.id.recyclerView);
         super.onCreate(savedInstanceState);
     }
 

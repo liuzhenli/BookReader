@@ -18,7 +18,7 @@
 
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetClass="com.liuzhenli.reader.ui.activity.ReaderActivity"
+            android:targetClass="com.micoredu.reader.ui.activity.ReaderActivity"
             android:targetPackage="com.microedu.reader" />
         <categories android:name="android.shortcut.conversation" />
     </shortcut>

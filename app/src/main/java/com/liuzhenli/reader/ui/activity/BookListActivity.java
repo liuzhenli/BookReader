@@ -17,9 +17,9 @@ import com.liuzhenli.common.base.BaseFragment;
 import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.reader.ui.fragment.BookCategoryFragment;
 import com.liuzhenli.reader.view.ScaleTransitionPagerTitleView;
-import com.micoredu.readerlib.analyzerule.AnalyzeRule;
-import com.micoredu.readerlib.bean.BookCategoryBean;
-import com.micoredu.readerlib.bean.BookSourceBean;
+import com.micoredu.reader.analyzerule.AnalyzeRule;
+import com.micoredu.reader.bean.BookCategoryBean;
+import com.micoredu.reader.bean.BookSourceBean;
 import com.microedu.reader.R;
 import com.microedu.reader.databinding.ActBooklistBinding;
 

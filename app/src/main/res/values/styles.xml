@@ -75,13 +75,4 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:lineSpacingMultiplier">1.2</item>
     </style>
-
-
-    <declare-styleable name="DrawableRadioButton">
-        <!-- 图标 -->
-        <attr name="solidColor" format="color" />
-        <attr name="checkedColor" format="color" />
-        <attr name="backgroundColor" format="color" />
-        <!-- 文字 -->
-    </declare-styleable>
 </resources>

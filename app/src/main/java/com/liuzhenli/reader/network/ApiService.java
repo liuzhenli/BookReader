@@ -24,7 +24,4 @@ public interface ApiService extends BaseApiService {
     @POST("https://microedu.com/login/phone.json")
     Observable<BaseBean> getLoginData(@FieldMap Map<String, String> body);
 
-    @Headers({"url_name:" + ApiManager.apiName.BOOK_SOURCE})
-    @GET(ApiManager.apiName.BOOK_SOURCE)
-    Observable<ResponseBody> getBookSource(@Query("id")String id);
 }

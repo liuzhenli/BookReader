@@ -3,16 +3,15 @@ package com.liuzhenli.reader.ui.presenter;
 import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.greendao.SearchBookBeanDao;
 import com.liuzhenli.common.base.RxPresenter;
-import com.liuzhenli.reader.network.Api;
 import com.liuzhenli.common.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.contract.ChangeSourceContract;
-import com.micoredu.readerlib.bean.BookShelfBean;
-import com.micoredu.readerlib.bean.BookSourceBean;
-import com.micoredu.readerlib.bean.SearchBookBean;
-import com.micoredu.readerlib.content.UpLastChapterModel;
-import com.micoredu.readerlib.helper.DbHelper;
-import com.micoredu.readerlib.model.BookSourceManager;
-import com.micoredu.readerlib.model.SearchBookModel;
+import com.micoredu.reader.bean.BookShelfBean;
+import com.micoredu.reader.bean.BookSourceBean;
+import com.micoredu.reader.bean.SearchBookBean;
+import com.micoredu.reader.content.UpLastChapterModel;
+import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.model.BookSourceManager;
+import com.micoredu.reader.model.SearchBookModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,12 +30,11 @@ import io.reactivex.annotations.NonNull;
  */
 public class ChangeSourcePresenter extends RxPresenter<ChangeSourceContract.View> implements ChangeSourceContract.Presenter<ChangeSourceContract.View> {
 
-    private Api mApi;
     private String bookTag;
 
     @Inject
-    public ChangeSourcePresenter(Api api) {
-        this.mApi = api;
+    public ChangeSourcePresenter() {
+
     }
 
     @Override

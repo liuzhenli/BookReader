@@ -11,12 +11,13 @@ import com.liuzhenli.common.BitIntentDataManager;
 import com.liuzhenli.common.constant.AppConstant;
 import com.liuzhenli.common.base.BaseRVFragment;
 import com.liuzhenli.common.AppComponent;
+import com.liuzhenli.reader.DaggerReadBookComponent;
 import com.liuzhenli.reader.ui.activity.BookDetailActivity;
 import com.liuzhenli.reader.ui.adapter.BookListAdapter;
 import com.liuzhenli.reader.ui.contract.BookListContract;
 import com.liuzhenli.reader.ui.presenter.BookListPresenter;
 import com.liuzhenli.reader.utils.DataDiffUtil;
-import com.micoredu.readerlib.bean.SearchBookBean;
+import com.micoredu.reader.bean.SearchBookBean;
 import com.microedu.reader.databinding.FragmentBooklistBinding;
 
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class BookCategoryFragment extends BaseRVFragment<BookListPresenter, Sear
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-        appComponent.inject(this);
+        DaggerReadBookComponent.builder().appComponent(appComponent).build().inject(this);
     }
 
     @Override

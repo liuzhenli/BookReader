@@ -25,11 +25,10 @@ import javax.inject.Inject;
  */
 public class LocalTxtPresenter extends RxPresenter<LocalTxtContract.View> implements LocalTxtContract.Presenter<LocalTxtContract.View> {
 
-    private Api mApi;
 
     @Inject
-    public LocalTxtPresenter(Api api) {
-        this.mApi = api;
+    public LocalTxtPresenter() {
+
     }
 
     @Override
@@ -40,7 +39,6 @@ public class LocalTxtPresenter extends RxPresenter<LocalTxtContract.View> implem
 
             for (int i = 0; i < bookList.size(); i++) {
                 File file = bookList.get(i);
-                Log.e("1111",file.getPath());
                 LocalFileBean localFile = new LocalFileBean();
                 localFile.file = file;
                 String fileName = file.getName();

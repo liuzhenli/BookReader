@@ -13,10 +13,10 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.liuzhenli.reader.ui.adapter.BookSourceViewAdapter;
-import com.liuzhenli.reader.view.filter.util.SimpleAnimationListener;
+import com.liuzhenli.common.widget.filter.util.SimpleAnimationListener;
 import com.liuzhenli.common.widget.recyclerview.EasyRecyclerView;
 import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
-import com.micoredu.readerlib.bean.BookSourceBean;
+import com.micoredu.reader.bean.BookSourceBean;
 import com.microedu.reader.R;
 
 import java.util.List;

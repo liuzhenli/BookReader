@@ -10,12 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.liuzhenli.common.base.BaseFragment;
 import com.liuzhenli.common.AppComponent;
+import com.liuzhenli.reader.DaggerReadBookComponent;
 import com.liuzhenli.reader.ui.adapter.LocalFileAdapter;
 import com.liuzhenli.reader.ui.contract.LocalFileContract;
 import com.liuzhenli.reader.ui.presenter.LocalFilePresenter;
 import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.common.utils.ToastUtil;
-import com.liuzhenli.reader.utils.filepicker.adapter.PathAdapter;
+import com.liuzhenli.common.utils.filepicker.adapter.PathAdapter;
 import com.microedu.reader.databinding.FragmentLocalfileBinding;
 import com.orhanobut.logger.Logger;
 
@@ -47,7 +48,7 @@ public class LocalFileFragment extends BaseFragment<LocalFilePresenter> implemen
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-        appComponent.inject(this);
+        DaggerReadBookComponent.builder().appComponent(appComponent).build().inject(this);
     }
 
     @Override

@@ -31,11 +31,10 @@ import static com.liuzhenli.common.utils.Constant.Fileuffix.TET;
  */
 public class LocalFilePresenter extends RxPresenter<LocalFileContract.View> implements LocalFileContract.Presenter<LocalFileContract.View> {
 
-    private Api mApi;
 
     @Inject
-    public LocalFilePresenter(Api api) {
-        this.mApi = api;
+    public LocalFilePresenter() {
+
     }
 
     @Override

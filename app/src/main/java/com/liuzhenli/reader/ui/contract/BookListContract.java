@@ -1,7 +1,7 @@
 package com.liuzhenli.reader.ui.contract;
 
 import com.liuzhenli.common.base.BaseContract;
-import com.micoredu.readerlib.bean.SearchBookBean;
+import com.micoredu.reader.bean.SearchBookBean;
 
 import java.util.List;
 

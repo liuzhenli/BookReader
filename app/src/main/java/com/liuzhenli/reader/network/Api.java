@@ -1,17 +1,12 @@
 package com.liuzhenli.reader.network;
 
 import com.liuzhenli.common.base.BaseBean;
-import com.liuzhenli.common.gson.CustomGsonConverterFactory;
 import com.liuzhenli.common.network.BaseApi;
-import com.liuzhenli.common.utils.Constant;
 
 import java.util.Map;
 
 import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
-import okhttp3.ResponseBody;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 /**
  * @author Liuzhenli
@@ -29,9 +24,5 @@ public class Api extends BaseApi {
 
     public Observable<BaseBean> getLoginData(Map<String, String> params) {
         return mApiservice.getLoginData(params);
-    }
-
-    public Observable<ResponseBody> getBookSource(String id) {
-        return mApiservice.getBookSource(id);
     }
 }

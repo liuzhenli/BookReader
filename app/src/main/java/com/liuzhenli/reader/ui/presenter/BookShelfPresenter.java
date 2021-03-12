@@ -7,12 +7,12 @@ import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.common.base.RxPresenter;
 import com.liuzhenli.common.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.contract.BookShelfContract;
-import com.liuzhenli.reader.utils.ThreadUtils;
-import com.micoredu.readerlib.bean.BookChapterBean;
-import com.micoredu.readerlib.bean.BookShelfBean;
-import com.micoredu.readerlib.helper.BookshelfHelper;
-import com.micoredu.readerlib.helper.DbHelper;
-import com.micoredu.readerlib.model.WebBookModel;
+import com.liuzhenli.common.utils.ThreadUtils;
+import com.micoredu.reader.bean.BookChapterBean;
+import com.micoredu.reader.bean.BookShelfBean;
+import com.micoredu.reader.helper.BookshelfHelper;
+import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.model.WebBookModel;
 
 import java.util.ArrayList;
 import java.util.List;

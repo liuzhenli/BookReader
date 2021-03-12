@@ -4,14 +4,13 @@ import com.hwangjr.rxbus.RxBus;
 import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.common.base.RxPresenter;
-import com.liuzhenli.reader.network.Api;
 import com.liuzhenli.common.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.contract.BookDetailContract;
-import com.micoredu.readerlib.bean.BookChapterBean;
-import com.micoredu.readerlib.bean.BookShelfBean;
-import com.micoredu.readerlib.helper.BookshelfHelper;
-import com.micoredu.readerlib.helper.DbHelper;
-import com.micoredu.readerlib.model.WebBookModel;
+import com.micoredu.reader.bean.BookChapterBean;
+import com.micoredu.reader.bean.BookShelfBean;
+import com.micoredu.reader.helper.BookshelfHelper;
+import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.model.WebBookModel;
 
 import java.util.List;
 
@@ -28,11 +27,8 @@ import io.reactivex.functions.Function;
  */
 public class BookDetailPresenter extends RxPresenter<BookDetailContract.View> implements BookDetailContract.Presenter<BookDetailContract.View> {
 
-    private Api mApi;
-
     @Inject
-    public BookDetailPresenter(Api api) {
-        this.mApi = api;
+    public BookDetailPresenter() {
     }
 
     @Override

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.hwangjr.rxbus.RxBus;
 import com.liuzhenli.common.BaseApplication;
 import com.liuzhenli.common.R;
@@ -19,6 +20,7 @@ import com.liuzhenli.common.utils.SoftInputUtils;
 import com.liuzhenli.common.utils.ToastUtil;
 import com.liuzhenli.common.base.rxlife.RxAppCompatActivity;
 import com.liuzhenli.common.widget.bar.ImmersionBar;
+import com.liuzhenli.common.widget.recyclerview.EasyRecyclerView;
 
 import javax.inject.Inject;
 
@@ -31,6 +33,7 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
     protected Context mContext;
     public TextView mTvTitle, mTvRight;
     public Toolbar mToolBar;
+    protected EasyRecyclerView mRecyclerView;
     @Inject
     public T1 mPresenter;
     /**
@@ -46,6 +49,7 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
         super.onCreate(savedInstanceState);
         setContentView(bindContentView());
         RxBus.get().register(this);
+        ARouter.getInstance().inject(this);
         if (getIntent() != null) {
             startShareAnim = getIntent().getBooleanExtra(START_SHEAR_ELE, false);
         }
@@ -71,6 +75,7 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
             mPresenter.attachView(this);
         }
         initData();
+        mRecyclerView = findViewById(R.id.recyclerView);
         configViews();
         if (savedInstanceState != null) {
             restoreState(savedInstanceState);

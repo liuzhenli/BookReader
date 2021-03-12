@@ -2,13 +2,12 @@ package com.liuzhenli.reader.ui.presenter;
 
 import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.common.base.RxPresenter;
-import com.liuzhenli.reader.network.Api;
 import com.liuzhenli.common.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.contract.BookListContract;
-import com.liuzhenli.reader.utils.ThreadUtils;
-import com.micoredu.readerlib.bean.SearchBookBean;
-import com.micoredu.readerlib.helper.DbHelper;
-import com.micoredu.readerlib.model.WebBookModel;
+import com.liuzhenli.common.utils.ThreadUtils;
+import com.micoredu.reader.bean.SearchBookBean;
+import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.model.WebBookModel;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -23,11 +22,10 @@ import javax.inject.Inject;
  * Email: 848808263@qq.com
  */
 public class BookListPresenter extends RxPresenter<BookListContract.View> implements BookListContract.Presenter<BookListContract.View> {
-    private Api mApi;
 
     @Inject
-    public BookListPresenter(Api mApi) {
-        this.mApi = mApi;
+    public BookListPresenter() {
+
     }
 
     @Override

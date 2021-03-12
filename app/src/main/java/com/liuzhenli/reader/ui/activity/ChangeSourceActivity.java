@@ -20,17 +20,18 @@ import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.StringUtils;
 import com.liuzhenli.greendao.SearchBookBeanDao;
 import com.liuzhenli.common.base.BaseRvActivity;
+import com.liuzhenli.reader.DaggerReadBookComponent;
 import com.liuzhenli.reader.ui.adapter.ChangeSourceAdapter;
 import com.liuzhenli.reader.ui.contract.ChangeSourceContract;
 import com.liuzhenli.reader.ui.presenter.ChangeSourcePresenter;
 import com.liuzhenli.reader.utils.DataDiffUtil;
-import com.micoredu.readerlib.bean.BookShelfBean;
-import com.micoredu.readerlib.bean.BookSourceBean;
-import com.micoredu.readerlib.bean.SearchBookBean;
-import com.micoredu.readerlib.helper.BookshelfHelper;
-import com.micoredu.readerlib.helper.DbHelper;
-import com.micoredu.readerlib.model.BookSourceManager;
-import com.micoredu.readerlib.model.SearchBookModel;
+import com.micoredu.reader.bean.BookShelfBean;
+import com.micoredu.reader.bean.BookSourceBean;
+import com.micoredu.reader.bean.SearchBookBean;
+import com.micoredu.reader.helper.BookshelfHelper;
+import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.model.BookSourceManager;
+import com.micoredu.reader.model.SearchBookModel;
 import com.microedu.reader.databinding.ActChangesourceBinding;
 
 import java.util.Collections;
@@ -73,7 +74,7 @@ public class ChangeSourceActivity extends BaseRvActivity<ChangeSourcePresenter, 
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-        appComponent.inject(this);
+        DaggerReadBookComponent.builder().appComponent(appComponent).build().inject(this);
     }
 
     @Override

@@ -24,9 +24,10 @@ import com.liuzhenli.common.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.adapter.MainTabAdapter;
 import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.reader.ui.fragment.DiscoverFragment;
-import com.liuzhenli.reader.utils.PermissionUtil;
+import com.liuzhenli.common.utils.PermissionUtil;
 import com.liuzhenli.common.utils.ToastUtil;
-import com.micoredu.readerlib.bean.BookSourceBean;
+import com.micoredu.reader.bean.BookSourceBean;
+import com.micoredu.reader.ui.activity.BookSourceActivity;
 import com.microedu.reader.R;
 import com.microedu.reader.databinding.ActivityMainContainerBinding;
 

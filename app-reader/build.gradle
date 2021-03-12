@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'org.greenrobot.greendao' // apply plugin
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 28
@@ -12,9 +13,14 @@ android {
         targetSdkVersion rootProject.targetSdkVersion
         versionCode 1
         versionName "1.0"
-
+        vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
     }
 
     buildTypes {
@@ -35,6 +41,9 @@ android {
         //targetGenDirTests: 测试单元的生成目录默认是 src/androidTest/java
     }
 
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -50,4 +59,9 @@ dependencies {
     implementation 'com.luhuiguo:chinese-utils:1.0'
     implementation 'androidx.documentfile:documentfile:1.0.1'
     implementation project(path: ':app-theme')
+
+    kapt 'com.google.dagger:dagger-compiler:2.16'
+    kapt 'com.google.dagger:dagger-android-processor:2.16'
+
+    annotationProcessor 'com.alibaba:arouter-compiler:1.5.1'
 }

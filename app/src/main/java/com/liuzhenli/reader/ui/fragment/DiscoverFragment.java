@@ -20,12 +20,13 @@ import com.hwangjr.rxbus.RxBus;
 import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.base.BaseFragment;
 import com.liuzhenli.common.AppComponent;
+import com.liuzhenli.reader.DaggerReadBookComponent;
 import com.liuzhenli.reader.ui.contract.DiscoverContract;
 import com.liuzhenli.reader.ui.presenter.DiscoverPresenter;
 import com.liuzhenli.reader.view.ScaleTransitionPagerTitleView;
-import com.micoredu.readerlib.analyzerule.AnalyzeRule;
-import com.micoredu.readerlib.bean.BookCategoryBean;
-import com.micoredu.readerlib.bean.BookSourceBean;
+import com.micoredu.reader.analyzerule.AnalyzeRule;
+import com.micoredu.reader.bean.BookCategoryBean;
+import com.micoredu.reader.bean.BookSourceBean;
 import com.microedu.reader.R;
 import com.microedu.reader.databinding.FragmentDiscoverBinding;
 
@@ -78,7 +79,7 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-        appComponent.inject(this);
+        DaggerReadBookComponent.builder().appComponent(appComponent).build().inject(this);
     }
 
     @Override
@@ -214,7 +215,7 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
     }
 
     public void showBookSourceView() {
-        if (inflate.mBookSourceView == null) {
+        if (inflate == null) {
             return;
         }
         if (inflate.mBookSourceView.getVisibility() == View.GONE) {

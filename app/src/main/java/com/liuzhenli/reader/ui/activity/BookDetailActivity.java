@@ -18,19 +18,21 @@ import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.NetworkUtils;
 import com.liuzhenli.common.base.BaseActivity;
 import com.liuzhenli.common.widget.bar.ImmersionBar;
-import com.liuzhenli.reader.service.DownloadService;
+import com.liuzhenli.reader.DaggerReadBookComponent;
+import com.micoredu.reader.service.DownloadService;
 import com.liuzhenli.reader.ui.contract.BookDetailContract;
 import com.liuzhenli.reader.ui.presenter.BookDetailPresenter;
 import com.liuzhenli.common.utils.ToastUtil;
 import com.liuzhenli.common.utils.image.ImageUtil;
 import com.liuzhenli.reader.view.loading.DownLoadDialog;
-import com.micoredu.readerlib.bean.BookChapterBean;
-import com.micoredu.readerlib.bean.BookInfoBean;
-import com.micoredu.readerlib.bean.BookShelfBean;
-import com.micoredu.readerlib.bean.DownloadBookBean;
-import com.micoredu.readerlib.bean.SearchBookBean;
-import com.micoredu.readerlib.helper.BookshelfHelper;
-import com.micoredu.readerlib.helper.DbHelper;
+import com.micoredu.reader.bean.BookChapterBean;
+import com.micoredu.reader.bean.BookInfoBean;
+import com.micoredu.reader.bean.BookShelfBean;
+import com.micoredu.reader.bean.DownloadBookBean;
+import com.micoredu.reader.bean.SearchBookBean;
+import com.micoredu.reader.helper.BookshelfHelper;
+import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.ui.activity.ReaderActivity;
 import com.microedu.reader.R;
 import com.microedu.reader.databinding.ActBookdetailBinding;
 
@@ -64,7 +66,7 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-        appComponent.inject(this);
+        DaggerReadBookComponent.builder().appComponent(appComponent).build().inject(this);
     }
 
     @Override

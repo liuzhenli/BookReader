@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
 import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
-import com.micoredu.readerlib.bean.BookSourceBean;
+import com.micoredu.reader.bean.BookSourceBean;
 import com.microedu.reader.R;
 import com.microedu.reader.databinding.ItemBookSiteBinding;
 

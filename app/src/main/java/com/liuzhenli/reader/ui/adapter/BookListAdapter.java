@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import com.liuzhenli.common.utils.image.ImageUtil;
 import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
 import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
-import com.micoredu.readerlib.bean.SearchBookBean;
+import com.micoredu.reader.bean.SearchBookBean;
 import com.microedu.reader.R;
 import com.microedu.reader.databinding.ItemBookListBinding;
 

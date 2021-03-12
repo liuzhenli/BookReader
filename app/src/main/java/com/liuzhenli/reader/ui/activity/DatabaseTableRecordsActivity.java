@@ -13,7 +13,7 @@ import com.liuzhenli.common.base.BaseActivity;
 import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.reader.ui.adapter.DatabaseTableDataGridAdapter;
 import com.liuzhenli.common.utils.ToastUtil;
-import com.micoredu.readerlib.helper.DbHelper;
+import com.micoredu.reader.helper.DbHelper;
 import com.microedu.reader.databinding.ActivityDiagnoseDatabaseTableRecordBinding;
 
 import net.lucode.hackware.magicindicator.buildins.UIUtil;

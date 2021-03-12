@@ -77,7 +77,7 @@ public class AppConfigManager {
             InputStream open = BaseApplication.getInstance().getAssets().open("sayings.json");
             String json = IOUtils.toString(open);
             open.close();
-            List<Sayings> sayings = com.liuzhenli.common.utils.GsonUtils.parseJArray(json, Sayings.class);
+            List<Sayings> sayings = GsonUtils.parseJArray(json, Sayings.class);
             Random random = new Random();
             int i = random.nextInt(sayings.size());
             return sayings.get(i);

@@ -1,8 +1,13 @@
 package com.liuzhenli.common.gson;
 
+import android.text.TextUtils;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.InstanceCreator;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.TypeAdapter;
 import com.google.gson.internal.ConstructorConstructor;
@@ -13,6 +18,8 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -112,6 +119,93 @@ public class GsonUtils {
     public static <T> T toBean(String json, Class<T> type) throws JsonSyntaxException {
         T obj = gson.fromJson(json, type);
         return obj;
+    }
+
+    /**
+     * 将Json数据解析成相应的映射对象
+     */
+    public static <T> T parseJObject(String jsonData, Class<T> type) {
+        T result = null;
+        if (!TextUtils.isEmpty(jsonData)) {
+            Gson gson = new GsonBuilder().create();
+            try {
+                result = gson.fromJson(jsonData, type);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 将Json数组解析成相应的映射对象List
+     */
+    public static <T> List<T> parseJArray(String jsonData, Class<T> type) {
+        List<T> result = null;
+        if (!TextUtils.isEmpty(jsonData)) {
+            Gson gson = new GsonBuilder().create();
+            try {
+                JsonParser parser = new JsonParser();
+                JsonArray JArray = parser.parse(jsonData).getAsJsonArray();
+                if (JArray != null) {
+                    result = new ArrayList<>();
+                    for (JsonElement obj : JArray) {
+                        try {
+                            T cse = gson.fromJson(obj, type);
+                            result.add(cse);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 将对象转换成Json
+     */
+    public static <T> String toJsonWithSerializeNulls(T entity) {
+        entity.getClass();
+        Gson gson = new GsonBuilder().serializeNulls().create();
+        String result = "";
+        try {
+            result = gson.toJson(entity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * 将list排除值为null的字段转换成Json数组
+     */
+    public static <T> String toJsonArrayWithSerializeNulls(List<T> list) {
+        Gson gson = new GsonBuilder().serializeNulls().create();
+        String result = "";
+        try {
+            result = gson.toJson(list);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * 将list中将Expose注解的字段转换成Json数组
+     */
+    public static <T> String toJsonArrayWithExpose(List<T> list) {
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        String result = "";
+        try {
+            result = gson.toJson(list);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
 }

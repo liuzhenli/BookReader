@@ -13,15 +13,16 @@ import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.observer.MyObserver;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.base.BaseTabActivity;
+import com.liuzhenli.reader.DaggerReadBookComponent;
 import com.liuzhenli.reader.bean.LocalFileBean;
 import com.liuzhenli.reader.ui.contract.ImportLocalBookContract;
 import com.liuzhenli.reader.ui.fragment.LocalFileFragment;
 import com.liuzhenli.reader.ui.fragment.LocalTxtFragment;
 import com.liuzhenli.reader.ui.presenter.ImportLocalBookPresenter;
 import com.liuzhenli.common.utils.FileUtils;
-import com.liuzhenli.reader.utils.PermissionUtil;
+import com.liuzhenli.common.utils.PermissionUtil;
 import com.liuzhenli.common.utils.ToastUtil;
-import com.liuzhenli.reader.view.loading.DialogUtil;
+import com.micoredu.reader.widgets.DialogUtil;
 import com.microedu.reader.R;
 import com.microedu.reader.databinding.ActImportlocalbookBinding;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
@@ -87,7 +88,7 @@ public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPres
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-        appComponent.inject(this);
+        DaggerReadBookComponent.builder().appComponent(appComponent).build().inject(this);
     }
 
     @Override

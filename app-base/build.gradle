@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'org.greenrobot.greendao' // apply plugin
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 28
@@ -13,6 +14,11 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
     }
 
     buildTypes {
@@ -126,9 +132,22 @@ dependencies {
     implementation 'androidx.viewpager:viewpager:1.0.0'
 
     //依赖注入框架
-    api 'com.google.dagger:dagger:2.7'
+    api 'com.google.dagger:dagger:2.16'
+    api 'com.google.dagger:dagger-android:2.16'
 
-    compileOnly 'org.glassfish:javax.annotation:10.0-b28'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.7'
+    kapt 'com.google.dagger:dagger-compiler:2.16'
+    kapt 'com.google.dagger:dagger-android-processor:2.16'
+
+    //权限申请
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+
+    //anko
+    def anko_version = '0.10.8'
+    api "org.jetbrains.anko:anko-sdk27:$anko_version"
+    api "org.jetbrains.anko:anko-sdk27-listeners:$anko_version"
+
+
+    api 'com.alibaba:arouter-api:1.5.1'
+    annotationProcessor 'com.alibaba:arouter-compiler:1.5.1'
 }
 

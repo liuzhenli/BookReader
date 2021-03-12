@@ -12,11 +12,11 @@ import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.base.BaseTabActivity;
 import com.liuzhenli.reader.ui.fragment.BookChapterListFragment;
 import com.liuzhenli.reader.ui.fragment.BookMarkFragment;
-import com.micoredu.readerlib.bean.BookChapterBean;
-import com.micoredu.readerlib.bean.BookShelfBean;
-import com.micoredu.readerlib.bean.BookmarkBean;
-import com.micoredu.readerlib.helper.BookshelfHelper;
-import com.micoredu.readerlib.helper.ReadConfigManager;
+import com.micoredu.reader.bean.BookChapterBean;
+import com.micoredu.reader.bean.BookShelfBean;
+import com.micoredu.reader.bean.BookmarkBean;
+import com.micoredu.reader.helper.BookshelfHelper;
+import com.micoredu.reader.helper.ReadConfigManager;
 import com.microedu.reader.R;
 import com.microedu.reader.databinding.ActBookchapterlistBinding;
 

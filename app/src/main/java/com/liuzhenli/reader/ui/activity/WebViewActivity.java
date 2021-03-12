@@ -8,8 +8,11 @@ import android.view.View;
 import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 
+import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.liuzhenli.common.base.BaseActivity;
 import com.liuzhenli.common.AppComponent;
+import com.liuzhenli.common.constant.ARouterConstants;
 import com.liuzhenli.reader.view.webview.ZLWebChromeClient;
 import com.liuzhenli.reader.view.webview.ZLWebViewClient;
 import com.microedu.reader.databinding.ActWebviewBinding;
@@ -20,11 +23,13 @@ import com.microedu.reader.databinding.ActWebviewBinding;
  * @author Liuzhenli on 2019-08-17 19:27
  * @since 1.0.0
  */
+@Route(path = ARouterConstants.ACT_WEB)
 public class WebViewActivity extends BaseActivity {
     public static final String INTENT_ID = "url";
     public ValueCallback<Uri[]> mUploadMessageForAndroid5;
     public ValueCallback<Uri> mUploadMessage;
-    private String mUrl;
+    @Autowired(name = INTENT_ID)
+    String mUrl;
     private ActWebviewBinding inflate;
 
     public static void start(Context context, String url) {

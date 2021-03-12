@@ -1,10 +1,6 @@
 package com.liuzhenli.reader.ui.presenter;
 
-import com.liuzhenli.common.utils.RxUtil;
-import com.liuzhenli.common.base.BaseBean;
-import com.liuzhenli.reader.network.Api;
 import com.liuzhenli.common.base.RxPresenter;
-import com.liuzhenli.common.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.contract.LoginContract;
 import com.liuzhenli.common.utils.AppUtils;
 
@@ -12,7 +8,6 @@ import java.util.HashMap;
 
 import javax.inject.Inject;
 
-import io.reactivex.observers.DisposableObserver;
 
 /**
  * @author Liuzhenli
@@ -20,11 +15,10 @@ import io.reactivex.observers.DisposableObserver;
  */
 public class LoginPresenter extends RxPresenter<LoginContract.View> implements LoginContract.Presenter<LoginContract.View> {
     private static final String TAG = "LoginPresenter";
-    private Api mApi;
 
     @Inject
-    public LoginPresenter(Api api) {
-        mApi = api;
+    public LoginPresenter() {
+
     }
 
     @Override
@@ -35,14 +29,14 @@ public class LoginPresenter extends RxPresenter<LoginContract.View> implements L
         params.put("app_version", AppUtils.getFormatVersionCode());
         params.put("unique_id", AppUtils.getFormatDeviceUnique() );
 
-        DisposableObserver disposable = RxUtil.subscribe(mApi.getLoginData(params), new SampleProgressObserver<BaseBean>(mView) {
-
-            @Override
-            public void onNext(BaseBean baseBean) {
-
-            }
-
-        });
-        addSubscribe(disposable);
+//        DisposableObserver disposable = RxUtil.subscribe(mApi.getLoginData(params), new SampleProgressObserver<BaseBean>(mView) {
+//
+//            @Override
+//            public void onNext(BaseBean baseBean) {
+//
+//            }
+//
+//        });
+//        addSubscribe(disposable);
     }
 }
