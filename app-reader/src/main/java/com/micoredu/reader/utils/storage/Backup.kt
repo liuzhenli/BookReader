@@ -2,28 +2,33 @@ package com.micoredu.reader.utils.storage
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.documentfile.provider.DocumentFile
 import com.liuzhenli.common.BaseApplication
 import com.liuzhenli.common.FileHelp
 import com.liuzhenli.common.SharedPreferencesUtil
-import com.liuzhenli.common.gson.GsonUtils
 import com.liuzhenli.common.utils.FileUtils
+import com.liuzhenli.common.utils.GsonUtil
 import com.micoredu.reader.helper.BookshelfHelper
 import com.micoredu.reader.helper.DbHelper
 import com.micoredu.reader.model.BookSourceManager
 import com.micoredu.reader.model.ReplaceRuleManager
 import com.micoredu.reader.model.TxtChapterRuleManager
 import com.micoredu.reader.utils.DocumentUtil
+import com.thegrizzlylabs.sardineandroid.model.Set
 import io.reactivex.Single
 import io.reactivex.SingleObserver
 import io.reactivex.SingleOnSubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import org.json.JSONArray
 import java.io.File
 import java.util.concurrent.TimeUnit
 
-
+/**
+ * 备份
+ */
 object Backup {
 
     /**生成备份文件的存储位置*/
@@ -41,7 +46,7 @@ object Backup {
                 "myBookSearchHistory.json",
                 "myBookReplaceRule.json",
                 "myTxtChapterRule.json",
-                "config.xml"
+                "mmvConfig.json"
         )
     }
 
@@ -69,34 +74,59 @@ object Backup {
         Single.create(SingleOnSubscribe<Boolean> { e ->
             BookshelfHelper.getAllBook().let {
                 if (it.isNotEmpty()) {
-                    val json = GsonUtils.toJsonWithSerializeNulls(it)
+                    val json = GsonUtil.toJson(it)
                     FileHelp.createFileIfNotExist(backupPath + File.separator + "myBookShelf.json").writeText(json)
                 }
             }
             BookSourceManager.getAllBookSource().let {
                 if (it.isNotEmpty()) {
-                    val json = GsonUtils.toJsonWithSerializeNulls(it)
+                    val json = GsonUtil.toJson(it)
                     FileHelp.createFileIfNotExist(backupPath + File.separator + "myBookSource.json").writeText(json)
                 }
             }
             DbHelper.getDaoSession().searchHistoryBeanDao.queryBuilder().list().let {
                 if (it.isNotEmpty()) {
-                    val json = GsonUtils.toJsonWithSerializeNulls(it)
+                    val json = GsonUtil.toJson(it)
                     FileHelp.createFileIfNotExist(backupPath + File.separator + "myBookSearchHistory.json").writeText(json)
                 }
             }
             ReplaceRuleManager.getAll().blockingGet().let {
                 if (it.isNotEmpty()) {
-                    val json = GsonUtils.toJsonWithSerializeNulls(it)
+                    val json = GsonUtil.toJson(it)
                     FileHelp.createFileIfNotExist(backupPath + File.separator + "myBookReplaceRule.json").writeText(json)
                 }
             }
             TxtChapterRuleManager.getAll().let {
                 if (it.isNotEmpty()) {
-                    val json = GsonUtils.toJsonWithSerializeNulls(it)
+                    val json = GsonUtil.toJson(it)
                     FileHelp.createFileIfNotExist(backupPath + File.separator + "myTxtChapterRule.json").writeText(json)
                 }
             }
+
+            //备份mmkv 文件
+            SharedPreferencesUtil.getInstance().prefs.allKeys().let {
+                val list: ArrayList<MMKVBean> = ArrayList()
+                for (i in 0 until (it!!.size)) {
+                    val key = it[i]
+                    val objectValue = SharedPreferencesUtil.getInstance().getObjectValue(key)
+                    var type: String = when (objectValue) {
+                        is Int -> MMKVBean.Type.INT
+                        is Boolean -> MMKVBean.Type.BOOL
+                        is Float -> MMKVBean.Type.FLOAT
+                        is Double -> MMKVBean.Type.DOUBLE
+                        is Long -> MMKVBean.Type.LONG
+                        is Set -> MMKVBean.Type.SET
+                        else -> MMKVBean.Type.STRING
+                    }
+                    list.add(MMKVBean(type, key, objectValue.toString()))
+                }
+                list.let {
+                    val json = GsonUtil.toJson(list)
+                    FileHelp.createFileIfNotExist(backupPath + File.separator + "mmvConfig.json").writeText(json)
+                }
+            }
+
+
 //            Preferences.getSharedPreferences(context, backupPath, "config")?.let { sp ->
 //                val edit = sp.edit()
 //                SharedPreferencesUtil.getInstance().prefs.all.map {

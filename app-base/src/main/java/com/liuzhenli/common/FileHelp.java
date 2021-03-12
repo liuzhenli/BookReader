@@ -250,6 +250,7 @@ public class FileHelp {
                 file.createNewFile();
             }
         } catch (IOException e) {
+            e.printStackTrace();
         }
         return file;
     }

@@ -2,6 +2,7 @@ package com.micoredu.reader.utils.storage
 
 import android.content.Context
 import android.net.Uri
+import android.text.TextUtils
 import androidx.documentfile.provider.DocumentFile
 import com.liuzhenli.common.BaseApplication
 import com.liuzhenli.common.FileHelp
@@ -109,23 +110,66 @@ object Restore {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-            var donateHb = SharedPreferencesUtil.getInstance().getLong("DonateHb", 0)
-            donateHb = if (donateHb > System.currentTimeMillis()) 0 else donateHb
+            val file = FileHelp.createFileIfNotExist(path + File.separator + "mmvConfig.json")
+            val json = file.readText()
+            GsonUtil.fromJsonArray<MMKVBean>(json)?.map {
+                val value = it.value;
+                when {
+                    TextUtils.equals(MMKVBean.Type.INT, it.type) -> {
+                        try {
+                            SharedPreferencesUtil.getInstance().putInt(it.key, value.toInt())
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                    TextUtils.equals(MMKVBean.Type.BOOL, it.type) -> {
+                        try {
+                            SharedPreferencesUtil.getInstance().putBoolean(it.key, value.toBoolean())
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                    TextUtils.equals(MMKVBean.Type.FLOAT, it.type) -> {
+                        try {
+                            SharedPreferencesUtil.getInstance().putFloat(it.key, value.toFloat())
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
 
-//            SharedPreferencesUtil.getInstance().prefs.all?.map {
-//                val edit = SharedPreferencesUtil.getInstance()
-//                when (val value = it.value) {
-//                    is Int -> edit.putInt(it.key, value)
-//                    is Boolean -> edit.putBoolean(it.key, value)
-//                    is Long -> edit.putLong(it.key, value)
-//                    is Float -> edit.putFloat(it.key, value)
-//                    is String -> edit.putString(it.key, value)
-//                    else -> Unit
-//                }
-//                edit.putLong("DonateHb", donateHb)
-//                edit.putInt("versionCode", BaseApplication.getInstance().mVersionCode)
-//                edit.prefs.edit().apply()
-//            }
+
+                    TextUtils.equals(MMKVBean.Type.DOUBLE, it.type) -> {
+                        try {
+                            SharedPreferencesUtil.getInstance().putDouble(it.key, value.toDouble())
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+
+
+                    TextUtils.equals(MMKVBean.Type.LONG, it.type) -> {
+                        try {
+                            SharedPreferencesUtil.getInstance().putLong(it.key, value.toLong())
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+
+
+                    TextUtils.equals(MMKVBean.Type.SET, it.type) -> {
+                    }
+
+                    else -> {
+                        try {
+                            SharedPreferencesUtil.getInstance().putString(it.key, value)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+            }
+
+
             e.onSuccess(true)
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

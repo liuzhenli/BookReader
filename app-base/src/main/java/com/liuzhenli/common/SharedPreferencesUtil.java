@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.Base64;
 
 
@@ -50,11 +51,11 @@ public class SharedPreferencesUtil {
 
 
     public boolean getBoolean(String key, boolean defaultVal) {
-        return this.prefs.getBoolean(key, defaultVal);
+        return this.prefs.getBoolean(key, defaultVal) || this.prefs.getInt(key, 0) == 1;
     }
 
     public boolean getBoolean(String key) {
-        return this.prefs.getBoolean(key, false);
+        return this.getBoolean(key, false);
     }
 
 
@@ -121,6 +122,15 @@ public class SharedPreferencesUtil {
         return this;
     }
 
+    public SharedPreferencesUtil putDouble(String key, double value) {
+        prefs.encode(key, value);
+        return this;
+    }
+
+    public double getDouble(String key, double value) {
+        return prefs.decodeDouble(key);
+    }
+
     public SharedPreferencesUtil putLong(String key, long value) {
         editor.putLong(key, value);
         return this;
@@ -135,7 +145,6 @@ public class SharedPreferencesUtil {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public SharedPreferencesUtil putStringSet(String key, Set<String> value) {
         editor.putStringSet(key, value);
-
         return this;
     }
 
@@ -245,4 +254,42 @@ public class SharedPreferencesUtil {
             editor.putString(key, str);
         }
     }
+
+
+    public Object getObjectValue(String key) {
+        // 因为其他基础类型value会读成空字符串,所以不是空字符串即为string or string-set类型
+        String value = prefs.decodeString(key);
+        if (!TextUtils.isEmpty(value)) {
+            // 判断 string or string-set
+            if (value.charAt(0) == 0x01) {
+                return prefs.decodeStringSet(key);
+            } else {
+                return value;
+            }
+        }
+        // float double类型可通过string-set配合判断
+        // 通过数据分析可以看到类型为float或double时string类型为空字符串且string-set类型读出空数组
+        // 最后判断float为0或NAN的时候可以直接读成double类型,否则读float类型
+        // 该判断方法对于非常小的double类型数据 (0d < value <= 1.0569021313E-314) 不生效
+        Set<String> set = prefs.decodeStringSet(key);
+        if (set != null && set.size() == 0) {
+            Float valueFloat = prefs.decodeFloat(key);
+            Double valueDouble = prefs.decodeDouble(key);
+            if (Float.compare(valueFloat, 0f) == 0 || Float.compare(valueFloat, Float.NaN) == 0) {
+                return valueDouble;
+            } else {
+                return valueFloat;
+            }
+        }
+        // int long bool 类型的处理放在一起, int类型1和0等价于bool类型true和false
+        // 判断long或int类型时, 如果数据长度超出int的最大长度, 则long与int读出的数据不等, 可确定为long类型
+        int valueInt = prefs.decodeInt(key);
+        long valueLong = prefs.decodeLong(key);
+        if (valueInt != valueLong) {
+            return valueLong;
+        } else {
+            return valueInt;
+        }
+    }
+
 }
