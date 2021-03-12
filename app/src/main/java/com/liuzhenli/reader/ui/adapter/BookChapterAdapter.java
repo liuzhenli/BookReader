@@ -2,7 +2,6 @@ package com.liuzhenli.reader.ui.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
@@ -40,7 +39,7 @@ public class BookChapterAdapter extends RecyclerArrayAdapter<BookChapterBean> {
 
         public BookChapterItemAdapter(ViewGroup parent, int resId) {
             super(parent, resId);
-            binding = ItemBookChapterBinding.inflate(LayoutInflater.from(mContext));
+            binding = ItemBookChapterBinding.bind(itemView);
         }
 
         @Override

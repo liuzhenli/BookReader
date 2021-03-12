@@ -1,7 +1,6 @@
 package com.liuzhenli.reader.ui.adapter;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -32,7 +31,7 @@ public class ChangeSourceAdapter extends RecyclerArrayAdapter<SearchBookBean> {
 
         public ChangeSourceViewHolder(ViewGroup parent, int layoutResID) {
             super(parent, layoutResID);
-            inflate = ItemChangeSourceBinding.inflate(LayoutInflater.from(mContext));
+            inflate = ItemChangeSourceBinding.bind(itemView);
         }
 
         @Override

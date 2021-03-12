@@ -1,7 +1,6 @@
 package com.liuzhenli.reader.ui.adapter;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -44,7 +43,7 @@ public class LocalFileAdapter extends RecyclerArrayAdapter<HashMap<String, Objec
 
         public ViewHolder(ViewGroup parent, int res) {
             super(parent, res);
-            inflate = ItemLocalBinding.inflate(LayoutInflater.from(mContext));
+            inflate = ItemLocalBinding.bind(itemView);
         }
 
         @Override

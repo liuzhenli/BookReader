@@ -2,7 +2,6 @@ package com.micoredu.reader.ui.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -52,7 +51,7 @@ public class BookSourceAdapter extends RecyclerArrayAdapter<BookSourceBean> {
 
         public BookSourceViewHolder(ViewGroup parent, int res) {
             super(parent, res);
-            binding = ItemBookSourceBinding.inflate(LayoutInflater.from(mContext));
+            binding = ItemBookSourceBinding.bind(itemView);
         }
 
         @Override

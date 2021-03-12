@@ -30,7 +30,7 @@ public class TestSourceAdapter extends RecyclerArrayAdapter<String> {
 
         public ViewHolder(ViewGroup parent, int res) {
             super(parent, res);
-            inflate = ItemTestSourceBinding.inflate(LayoutInflater.from(mContext));
+            inflate = ItemTestSourceBinding.bind(itemView);
         }
 
         @Override

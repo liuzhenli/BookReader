@@ -1,7 +1,6 @@
 package com.liuzhenli.reader.ui.adapter;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
@@ -31,7 +30,7 @@ public class BookSourceViewAdapter extends RecyclerArrayAdapter<BookSourceBean> 
 
         public ItemViewHolder(ViewGroup parent, int res) {
             super(parent, res);
-            binding = ItemBookSiteBinding.inflate(LayoutInflater.from(mContext));
+            binding = ItemBookSiteBinding.bind(itemView);
         }
 
         @Override

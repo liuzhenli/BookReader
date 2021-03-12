@@ -41,7 +41,7 @@ public class DownloadActivity extends BaseRvActivity<DownloadPresenter, Download
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-        DaggerReaderComponent.builder().appComponent(appComponent).build().inject(this);
+        DaggerReaderComponent.builder().build().inject(this);
     }
 
     @Override

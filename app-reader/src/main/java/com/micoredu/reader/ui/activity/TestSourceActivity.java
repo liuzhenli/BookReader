@@ -46,7 +46,7 @@ public class TestSourceActivity extends BaseRvActivity<TestSourcePresenter, Stri
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-        DaggerReaderComponent.builder().appComponent(appComponent).build().inject(this);
+        DaggerReaderComponent.builder().build().inject(this);
     }
 
     @Override

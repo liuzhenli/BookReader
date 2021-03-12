@@ -8,6 +8,8 @@ import com.micoredu.reader.ui.activity.EditSourceActivity;
 import com.micoredu.reader.ui.activity.ReaderActivity;
 import com.micoredu.reader.ui.activity.TestSourceActivity;
 
+import javax.inject.Singleton;
+
 import dagger.Component;
 
 /**
@@ -16,8 +18,8 @@ import dagger.Component;
  * @author liuzhenli 3/11/21
  * Email: 848808263@qq.com
  */
-@ActivityScope
-@Component(dependencies = AppComponent.class)
+@Singleton
+@Component(modules = ReaderApiModule.class)
 public interface ReaderComponent {
     void inject(ReaderActivity activity);
 

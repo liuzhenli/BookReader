@@ -34,7 +34,7 @@ public class BookListAdapter extends RecyclerArrayAdapter<SearchBookBean> {
 
         public BookShelfHolder(ViewGroup parent, int res) {
             super(parent, res);
-            binding = ItemBookListBinding.inflate(LayoutInflater.from(mContext));
+            binding = ItemBookListBinding.bind(itemView);
         }
 
         @Override

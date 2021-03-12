@@ -43,10 +43,11 @@ import static android.text.TextUtils.isEmpty;
  * Email: 848808263@qq.com
  */
 public class BookSourcePresenter extends RxPresenter<BookSourceContract.View> implements BookSourceContract.Presenter<BookSourceContract.View> {
-//    private ReaderApi mApi;
+    private ReaderApi mApi;
 
     @Inject
-    public BookSourcePresenter() {
+    public BookSourcePresenter( ReaderApi mApi) {
+        this.mApi = mApi;
     }
 
     @Override
@@ -92,12 +93,12 @@ public class BookSourcePresenter extends RxPresenter<BookSourceContract.View> im
     @Override
     public void getNetSource(String url) {
         ApiManager.getInstance().settBookSource(url);
-//        addSubscribe(RxUtil.subscribe(mApi.getBookSource(""), new SampleProgressObserver<ResponseBody>(mView) {
-//            @Override
-//            public void onNext(ResponseBody data) {
-//                configNetBookSource(data);
-//            }
-//        }));
+        addSubscribe(RxUtil.subscribe(mApi.getBookSource(""), new SampleProgressObserver<ResponseBody>(mView) {
+            @Override
+            public void onNext(ResponseBody data) {
+                configNetBookSource(data);
+            }
+        }));
     }
 
     @Override

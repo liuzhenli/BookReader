@@ -2,7 +2,6 @@ package com.micoredu.reader.ui.adapter;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
-import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.micoredu.reader.R;
@@ -52,7 +51,7 @@ public class DownloadAdapter extends RecyclerArrayAdapter<DownloadBookBean> {
 
         public ViewHolder(ViewGroup parent, int res) {
             super(parent, res);
-            inflate = ItemDownloadBinding.inflate(LayoutInflater.from(mContext));
+            inflate = ItemDownloadBinding.bind(itemView);
         }
 
         @Override

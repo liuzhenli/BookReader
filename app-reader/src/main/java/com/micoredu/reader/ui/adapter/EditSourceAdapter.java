@@ -4,7 +4,6 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.micoredu.reader.R;
@@ -35,7 +34,7 @@ public class EditSourceAdapter extends RecyclerArrayAdapter<EditSource> {
 
         public ItemViewHolder(ViewGroup parent, int res) {
             super(parent, res);
-            inflate = ItemEditSourceBinding.inflate(LayoutInflater.from(mContext));
+            inflate = ItemEditSourceBinding.bind(itemView);
         }
 
         @Override

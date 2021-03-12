@@ -19,7 +19,6 @@ import androidx.annotation.RequiresApi;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
-import com.liuzhenli.common.BaseApplication;
 import com.liuzhenli.common.BitIntentDataManager;
 import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.AppComponent;
@@ -130,7 +129,7 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-        DaggerReaderComponent.builder().appComponent(appComponent).build().inject(this);
+        DaggerReaderComponent.builder().build().inject(this);
     }
 
     @Override
@@ -167,9 +166,7 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void initData() {
-        AppComponent appComponent = BaseApplication.getInstance().getAppComponent();
-        DaggerReaderComponent.builder().appComponent(appComponent).build().inject(this);
-
+        DaggerReaderComponent.builder().build().inject(this);
         if (getIntent() != null) {
             startShareAnim = getIntent().getBooleanExtra(START_SHEAR_ELE, false);
             mOpenFrom = getIntent().getIntExtra(OPEN_FROM, OPEN_FROM_APP);

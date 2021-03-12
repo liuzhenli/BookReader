@@ -38,7 +38,7 @@ public class BookMarkAdapter extends RecyclerArrayAdapter<BookmarkBean> {
 
         public BookChapterItemAdapter(ViewGroup parent, int resId) {
             super(parent, resId);
-            binding = ItemBookMarkBinding.inflate(LayoutInflater.from(mContext));
+            binding = ItemBookMarkBinding.bind(itemView);
         }
 
         @Override

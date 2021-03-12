@@ -27,6 +27,7 @@ import com.liuzhenli.common.utils.PermissionUtil;
 import com.liuzhenli.common.utils.picker.FilePicker;
 import com.micoredu.reader.DaggerReaderComponent;
 import com.micoredu.reader.R;
+import com.micoredu.reader.ReaderApiModule;
 import com.micoredu.reader.databinding.ActivityBookSourceBinding;
 import com.micoredu.reader.service.CheckSourceService;
 import com.micoredu.reader.service.ShareService;
@@ -73,7 +74,8 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-        DaggerReaderComponent.builder().appComponent(appComponent).build().inject(this);
+        DaggerReaderComponent.builder().readerApiModule(new ReaderApiModule()).
+                build().inject(this);
     }
 
     @Override
