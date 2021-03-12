@@ -32,6 +32,7 @@ import com.micoredu.reader.bean.DownloadBookBean;
 import com.micoredu.reader.bean.SearchBookBean;
 import com.micoredu.reader.helper.BookshelfHelper;
 import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.ui.activity.BookChapterListActivity;
 import com.micoredu.reader.ui.activity.ReaderActivity;
 import com.microedu.reader.R;
 import com.microedu.reader.databinding.ActBookdetailBinding;

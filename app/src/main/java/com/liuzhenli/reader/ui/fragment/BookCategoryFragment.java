@@ -16,7 +16,7 @@ import com.liuzhenli.reader.ui.activity.BookDetailActivity;
 import com.liuzhenli.reader.ui.adapter.BookListAdapter;
 import com.liuzhenli.reader.ui.contract.BookListContract;
 import com.liuzhenli.reader.ui.presenter.BookListPresenter;
-import com.liuzhenli.reader.utils.DataDiffUtil;
+import com.liuzhenli.common.utils.DataDiffUtil;
 import com.micoredu.reader.bean.SearchBookBean;
 import com.microedu.reader.databinding.FragmentBooklistBinding;
 

@@ -212,7 +212,7 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
         inflate.mVBottomMenu.setOnMenuElementClickListener(new ReadBottomMenu.OnElementClickListener() {
             @Override
             public void onMenuClick() {
-                //BookChapterListActivity.start(mContext, mBookShelf, mPresenter.getChapterList(), false, true);
+                BookChapterListActivity.start(mContext, mBookShelf, mPresenter.getChapterList(), false, true);
             }
 
             @Override

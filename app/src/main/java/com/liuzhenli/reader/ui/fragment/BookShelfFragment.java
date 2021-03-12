@@ -30,7 +30,7 @@ import com.liuzhenli.reader.ui.adapter.BookShelfAdapter;
 import com.liuzhenli.reader.ui.contract.BookShelfContract;
 import com.liuzhenli.reader.ui.presenter.BookShelfPresenter;
 import com.liuzhenli.common.utils.Constant;
-import com.liuzhenli.reader.utils.DataDiffUtil;
+import com.liuzhenli.common.utils.DataDiffUtil;
 import com.liuzhenli.common.utils.ToastUtil;
 import com.liuzhenli.common.utils.image.ImageUtil;
 import com.micoredu.reader.bean.BookShelfBean;

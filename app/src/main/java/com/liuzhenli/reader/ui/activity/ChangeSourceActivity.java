@@ -24,7 +24,7 @@ import com.liuzhenli.reader.DaggerReadBookComponent;
 import com.liuzhenli.reader.ui.adapter.ChangeSourceAdapter;
 import com.liuzhenli.reader.ui.contract.ChangeSourceContract;
 import com.liuzhenli.reader.ui.presenter.ChangeSourcePresenter;
-import com.liuzhenli.reader.utils.DataDiffUtil;
+import com.liuzhenli.common.utils.DataDiffUtil;
 import com.micoredu.reader.bean.BookShelfBean;
 import com.micoredu.reader.bean.BookSourceBean;
 import com.micoredu.reader.bean.SearchBookBean;

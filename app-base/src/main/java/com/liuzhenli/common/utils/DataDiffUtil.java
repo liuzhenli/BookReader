@@ -1,4 +1,4 @@
-package com.liuzhenli.reader.utils;
+package com.liuzhenli.common.utils;
 
 import androidx.recyclerview.widget.DiffUtil;
 

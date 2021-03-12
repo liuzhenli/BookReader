@@ -81,7 +81,7 @@
         <activity android:name="com.liuzhenli.reader.ui.activity.BackupSettingActivity" />
         <activity android:name="com.liuzhenli.reader.ui.activity.FilePathsListActivity" />
         <activity android:name="com.liuzhenli.write.WriteBookActivity" />
-        <activity android:name="com.liuzhenli.reader.ui.activity.BookChapterListActivity" />
+        <activity android:name="com.micoredu.reader.ui.activity.BookChapterListActivity" />
         <activity android:name="com.micoredu.reader.ui.activity.DownloadActivity" />
         <activity android:name="com.liuzhenli.reader.ui.activity.DatabaseTableListActivity" />
         <activity android:name="com.liuzhenli.reader.ui.activity.DatabaseTableRecordDetailActivity" />

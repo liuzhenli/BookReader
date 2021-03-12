@@ -1,4 +1,4 @@
-package com.liuzhenli.reader.ui.adapter;
+package com.micoredu.reader.ui.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -6,49 +6,48 @@ import android.view.ViewGroup;
 
 import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
 import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
-import com.micoredu.reader.bean.BookChapterBean;
+import com.micoredu.reader.R;
+import com.micoredu.reader.bean.BookmarkBean;
+import com.micoredu.reader.databinding.ItemBookMarkBinding;
 import com.micoredu.reader.helper.ReadConfigManager;
-import com.microedu.reader.R;
-import com.microedu.reader.databinding.ItemBookChapterBinding;
-
 
 /**
- * Description:book item
+ * Description:bookmark item
  *
  * @author liuzhenli 2021/1/26
  * Email: 848808263@qq.com
  */
-public class BookChapterAdapter extends RecyclerArrayAdapter<BookChapterBean> {
+public class BookMarkAdapter extends RecyclerArrayAdapter<BookmarkBean> {
+    boolean isFromReadPage;
 
-    private boolean isFromReadPage;
-
-    public BookChapterAdapter(Context context, boolean isFromReadPage) {
+    public BookMarkAdapter(Context context, boolean isFromReadPage) {
         super(context);
         this.isFromReadPage = isFromReadPage;
     }
 
     @Override
     public BaseViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
-        return new BookChapterItemAdapter(parent, R.layout.item_book_chapter);
+        return new BookChapterItemAdapter(parent, R.layout.item_book_mark);
     }
 
 
-    public class BookChapterItemAdapter extends BaseViewHolder<BookChapterBean> {
+    public class BookChapterItemAdapter extends BaseViewHolder<BookmarkBean> {
 
-        ItemBookChapterBinding binding;
+        ItemBookMarkBinding binding;
 
         public BookChapterItemAdapter(ViewGroup parent, int resId) {
             super(parent, resId);
-            binding = ItemBookChapterBinding.bind(itemView);
+            binding = ItemBookMarkBinding.bind(itemView);
         }
 
         @Override
-        public void setData(BookChapterBean item) {
+        public void setData(BookmarkBean item) {
             super.setData(item);
-            if (TextUtils.isEmpty(item.getDurChapterName())) {
-                item.setDurChapterName("章节未命名");
+            if (TextUtils.isEmpty(item.getChapterName())) {
+                item.setChapterName("章节未命名");
             }
-            binding.tvBookChapterName.setText(item.getDurChapterName());
+            binding.tvBookChapterName.setText(item.getChapterName());
+            binding.tvBookChapterContent.setText(item.getContent());
             if (isFromReadPage) {
                 binding.tvBookChapterName.setTextColor(ReadConfigManager.getInstance().getTextColor());
                 binding.viewBookChapter.setBackground(ReadConfigManager.getInstance().getTextBackground(mContext));

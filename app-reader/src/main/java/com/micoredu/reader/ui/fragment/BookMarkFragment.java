@@ -1,4 +1,4 @@
-package com.liuzhenli.reader.ui.fragment;
+package com.micoredu.reader.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,15 +12,15 @@ import com.liuzhenli.common.BitIntentDataManager;
 import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.common.base.BaseFragment;
-import com.liuzhenli.reader.ui.activity.BookChapterListActivity;
+import com.liuzhenli.common.utils.DataDiffUtil;
+import com.micoredu.reader.databinding.FragmentBookmarkBinding;
+import com.micoredu.reader.ui.activity.BookChapterListActivity;
 import com.micoredu.reader.ui.activity.ReaderActivity;
-import com.liuzhenli.reader.ui.adapter.BookMarkAdapter;
-import com.liuzhenli.reader.utils.DataDiffUtil;
 import com.liuzhenli.common.utils.ToastUtil;
+import com.micoredu.reader.ui.adapter.BookMarkAdapter;
 import com.micoredu.reader.widgets.DialogUtil;
 import com.micoredu.reader.bean.BookmarkBean;
 import com.micoredu.reader.helper.BookshelfHelper;
-import com.microedu.reader.databinding.FragmentBookmarkBinding;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 
