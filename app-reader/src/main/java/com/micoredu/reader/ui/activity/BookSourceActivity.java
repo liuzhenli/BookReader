@@ -16,18 +16,15 @@ import androidx.annotation.Nullable;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
-import com.liuzhenli.common.base.BaseRvActivity;
 import com.liuzhenli.common.constant.RxBusTag;
-import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.observer.MyObserver;
 import com.liuzhenli.common.utils.FileUtils;
 import com.liuzhenli.common.base.BaseBean;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.common.utils.PermissionUtil;
 import com.liuzhenli.common.utils.picker.FilePicker;
-import com.micoredu.reader.DaggerReaderComponent;
 import com.micoredu.reader.R;
-import com.micoredu.reader.ReaderApiModule;
+import com.micoredu.reader.ReaderComponent;
 import com.micoredu.reader.databinding.ActivityBookSourceBinding;
 import com.micoredu.reader.service.CheckSourceService;
 import com.micoredu.reader.service.ShareService;
@@ -53,7 +50,7 @@ import static com.liuzhenli.common.utils.AppSharedPreferenceHelper.SortType.SORT
  *
  * @author liuzhenli 2020.8.10
  */
-public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, BookSourceBean> implements BookSourceContract.View {
+public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter, BookSourceBean> implements BookSourceContract.View {
     private final int IMPORT_BOOK_SOURCE = 1000;
 
     private BookSourceFilterMenuAdapter mFilterMenuAdapter;
@@ -73,9 +70,8 @@ public class BookSourceActivity extends BaseRvActivity<BookSourcePresenter, Book
     }
 
     @Override
-    protected void setupActivityComponent(AppComponent appComponent) {
-        DaggerReaderComponent.builder().readerApiModule(new ReaderApiModule()).
-                build().inject(this);
+    protected void setupActivityComponent(ReaderComponent appComponent) {
+        appComponent.inject(this);
     }
 
     @Override

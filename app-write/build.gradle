@@ -58,5 +58,5 @@ dependencies {
     kapt 'com.google.dagger:dagger-compiler:2.16'
     kapt 'com.google.dagger:dagger-android-processor:2.16'
 
-    annotationProcessor 'com.alibaba:arouter-compiler:1.5.1'
+    kapt 'com.alibaba:arouter-compiler:1.5.1'
 }

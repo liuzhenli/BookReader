@@ -2,10 +2,12 @@ package com.liuzhenli.common.module;
 
 
 import com.liuzhenli.common.BaseApplication;
+import com.liuzhenli.common.gson.CustomGsonConverterFactory;
 import com.liuzhenli.common.network.BaseApi;
 import com.liuzhenli.common.network.support.HeaderInterceptor;
 import com.liuzhenli.common.network.support.LoggingInterceptor;
 import com.liuzhenli.common.network.support.RewriteCacheControlInterceptor;
+import com.liuzhenli.common.utils.Constant;
 import com.orhanobut.logger.Logger;
 
 import java.io.File;
@@ -17,9 +19,24 @@ import dagger.Module;
 import dagger.Provides;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 @Module
 public class ApiModule {
+
+    @Singleton
+    @Provides
+    public Retrofit provideRetrofit(OkHttpClient okHttpClient) {
+        return new Retrofit.Builder()
+                .baseUrl(Constant.API_BASE_URL)
+                // 添加Rx适配器
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                // 添加Gson转换器
+                .addConverterFactory(CustomGsonConverterFactory.create())
+                .client(okHttpClient)
+                .build();
+    }
 
     @Singleton
     @Provides
@@ -51,19 +68,19 @@ public class ApiModule {
                     .addInterceptor(rewrite_cache_control_interceptor)
                     .addNetworkInterceptor(rewrite_cache_control_interceptor)
             ;
-
+            return builder.build();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return builder.build();
+        return null;
     }
 
 
     @Singleton
     @Provides
-    protected BaseApi provideBookService(OkHttpClient okHttpClient) {
-        return BaseApi.getInstance(okHttpClient);
+    protected BaseApi provideBookService(Retrofit retrofit) {
+        return BaseApi.getInstance(retrofit);
     }
 
     public static class MyLog implements LoggingInterceptor.LoggerM {

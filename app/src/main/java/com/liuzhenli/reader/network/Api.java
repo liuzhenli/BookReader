@@ -7,6 +7,7 @@ import java.util.Map;
 
 import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
 
 /**
  * @author Liuzhenli
@@ -14,15 +15,15 @@ import okhttp3.OkHttpClient;
  */
 public class Api extends BaseApi {
 
-    private ApiService mApiservice;
+    private ApiService mApiService;
 
 
-    public Api(OkHttpClient okHttpClient) {
+    public Api(Retrofit okHttpClient) {
         super(okHttpClient);
-        this.mApiservice = (ApiService) service;
+        this.mApiService = (ApiService) service;
     }
 
     public Observable<BaseBean> getLoginData(Map<String, String> params) {
-        return mApiservice.getLoginData(params);
+        return mApiService.getLoginData(params);
     }
 }

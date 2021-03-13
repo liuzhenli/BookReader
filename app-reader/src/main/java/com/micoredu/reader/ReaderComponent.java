@@ -1,6 +1,8 @@
 package com.micoredu.reader;
 
 import com.liuzhenli.common.AppComponent;
+import com.liuzhenli.common.module.ApiModule;
+import com.liuzhenli.common.module.AppModule;
 import com.liuzhenli.common.scope.ActivityScope;
 import com.micoredu.reader.ui.activity.BookSourceActivity;
 import com.micoredu.reader.ui.activity.DownloadActivity;
@@ -19,7 +21,7 @@ import dagger.Component;
  * Email: 848808263@qq.com
  */
 @Singleton
-@Component(modules = ReaderApiModule.class)
+@Component(modules = {ReaderApiModule.class, AppModule.class, ApiModule.class})
 public interface ReaderComponent {
     void inject(ReaderActivity activity);
 
