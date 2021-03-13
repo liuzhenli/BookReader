@@ -1,4 +1,4 @@
-package com.liuzhenli.write;
+package com.liuzhenli.write.ui.contract;
 
 
 import com.liuzhenli.common.base.BaseBean;

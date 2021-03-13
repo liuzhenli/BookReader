@@ -1,11 +1,6 @@
 package com.liuzhenli.common.network;
 
-import com.liuzhenli.common.gson.CustomGsonConverterFactory;
-import com.liuzhenli.common.utils.Constant;
-
-import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 /**
  * @author Liuzhenli
@@ -16,21 +11,13 @@ public class BaseApi {
 
     protected BaseApiService service;
 
-    public BaseApi(OkHttpClient okHttpClient) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constant.API_BASE_URL)
-                // 添加Rx适配器
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                // 添加Gson转换器
-                .addConverterFactory(CustomGsonConverterFactory.create())
-                .client(okHttpClient)
-                .build();
+    public BaseApi(Retrofit retrofit) {
         service = retrofit.create(BaseApiService.class);
     }
 
-    public static BaseApi getInstance(OkHttpClient okHttpClient) {
+    public static BaseApi getInstance(Retrofit retrofit) {
         if (instance == null)
-            instance = new BaseApi(okHttpClient);
+            instance = new BaseApi(retrofit);
         return instance;
     }
 }

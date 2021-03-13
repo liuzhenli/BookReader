@@ -1,7 +1,8 @@
-package com.liuzhenli.write;
+package com.liuzhenli.write.ui.presenter;
 
 
 import com.liuzhenli.common.base.RxPresenter;
+import com.liuzhenli.write.ui.contract.WriteBookContract;
 
 import javax.inject.Inject;
 

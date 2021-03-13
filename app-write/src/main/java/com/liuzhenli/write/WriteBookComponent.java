@@ -1,7 +1,11 @@
 package com.liuzhenli.write;
 
-import com.liuzhenli.common.AppComponent;
-import com.liuzhenli.common.scope.ActivityScope;
+import com.liuzhenli.common.module.ApiModule;
+import com.liuzhenli.common.module.AppModule;
+import com.liuzhenli.write.module.WriteModule;
+import com.liuzhenli.write.ui.activity.WriteBookActivity;
+
+import javax.inject.Singleton;
 
 import dagger.Component;
 
@@ -12,8 +16,8 @@ import dagger.Component;
  * Email: 848808263@qq.com
  */
 
-@ActivityScope
-@Component(dependencies = AppComponent.class)
+@Singleton
+@Component(modules = {ApiModule.class, AppModule.class, WriteModule.class})
 public interface WriteBookComponent {
     void inject(WriteBookActivity writeBookActivity);
 }

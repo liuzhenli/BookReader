@@ -1,13 +1,15 @@
-package com.liuzhenli.write;
+package com.liuzhenli.write.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
-import com.liuzhenli.common.base.BaseActivity;
-import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.base.BaseBean;
+import com.liuzhenli.write.WriteBookComponent;
 import com.liuzhenli.write.databinding.ActWirtebookBinding;
+import com.liuzhenli.write.ui.WriteBaseActivity;
+import com.liuzhenli.write.ui.contract.WriteBookContract;
+import com.liuzhenli.write.ui.presenter.WriteBookPresenter;
 
 /**
  * Description:
@@ -15,7 +17,7 @@ import com.liuzhenli.write.databinding.ActWirtebookBinding;
  * @author liuzhenli 2021/1/20
  * Email: 848808263@qq.com
  */
-public class WriteBookActivity extends BaseActivity<WriteBookPresenter> implements WriteBookContract.View {
+public class WriteBookActivity extends WriteBaseActivity<WriteBookPresenter> implements WriteBookContract.View {
 
 
     public static void start(Context context) {
@@ -30,8 +32,8 @@ public class WriteBookActivity extends BaseActivity<WriteBookPresenter> implemen
     }
 
     @Override
-    protected void setupActivityComponent(AppComponent appComponent) {
-        DaggerWriteBookComponent.builder().appComponent(appComponent).build().inject(this);
+    protected void setupActivityComponent(WriteBookComponent appComponent) {
+        appComponent.inject(this);
     }
 
     @Override
