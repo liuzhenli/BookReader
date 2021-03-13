@@ -13,14 +13,20 @@ import retrofit2.Retrofit;
  * @author Liuzhenli
  * @since 2019-07-06 19:37
  */
-public class Api extends BaseApi {
+public class Api {
 
     private ApiService mApiService;
+    private static Api mApi;
 
+    public Api(Retrofit retrofit) {
+        mApiService = retrofit.create(ApiService.class);
+    }
 
-    public Api(Retrofit okHttpClient) {
-        super(okHttpClient);
-        this.mApiService = (ApiService) service;
+    public static Api getInstance(Retrofit retrofit) {
+        if (mApi == null) {
+            mApi = new Api(retrofit);
+        }
+        return mApi;
     }
 
     public Observable<BaseBean> getLoginData(Map<String, String> params) {

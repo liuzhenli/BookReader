@@ -73,7 +73,7 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-        DaggerReadBookComponent.builder().appComponent(appComponent).build().inject(this);
+        DaggerReadBookComponent.builder().build().inject(this);
     }
 
     @Override

@@ -34,7 +34,7 @@ class DatabaseTableListActivity : BaseActivity<DatabaseTableListPresenter>(), Da
     }
 
     override fun setupActivityComponent(appComponent: AppComponent) {
-        DaggerReadBookComponent.builder().appComponent(appComponent).build().inject(this)
+        DaggerReadBookComponent.builder().build().inject(this)
     }
 
     override fun initToolBar() {

@@ -79,7 +79,7 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-        DaggerReadBookComponent.builder().appComponent(appComponent).build().inject(this);
+        DaggerReadBookComponent.builder().build().inject(this);
     }
 
     @Override

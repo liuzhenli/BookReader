@@ -29,7 +29,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-        DaggerReadBookComponent.builder().appComponent(appComponent).build().inject(this);
+        DaggerReadBookComponent.builder().build().inject(this);
     }
 
     @Override

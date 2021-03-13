@@ -1,7 +1,8 @@
 package com.liuzhenli.reader;
 
-import com.liuzhenli.common.AppComponent;
-import com.liuzhenli.common.scope.ActivityScope;
+import com.liuzhenli.common.module.ApiModule;
+import com.liuzhenli.common.module.AppModule;
+import com.liuzhenli.reader.module.ReadBookModule;
 import com.liuzhenli.reader.ui.activity.BookDetailActivity;
 import com.liuzhenli.reader.ui.activity.ChangeSourceActivity;
 import com.liuzhenli.reader.ui.activity.DatabaseTableListActivity;
@@ -16,6 +17,8 @@ import com.liuzhenli.reader.ui.fragment.LocalFileFragment;
 import com.liuzhenli.reader.ui.fragment.LocalTxtFragment;
 
 
+import javax.inject.Singleton;
+
 import dagger.Component;
 
 /**
@@ -24,8 +27,8 @@ import dagger.Component;
  * @author liuzhenli 3/10/21
  * Email: 848808263@qq.com
  */
-@ActivityScope
-@Component(dependencies = AppComponent.class)
+@Singleton
+@Component(modules = {ReadBookModule.class, AppModule.class, ApiModule.class})
 public interface ReadBookComponent {
     void inject(BookShelfFragment fragment);
 
