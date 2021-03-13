@@ -61,7 +61,7 @@ public class BookCategoryFragment extends BaseRVFragment<BookListPresenter, Sear
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-        DaggerReadBookComponent.builder().appComponent(appComponent).build().inject(this);
+        DaggerReadBookComponent.builder().build().inject(this);
     }
 
     @Override
