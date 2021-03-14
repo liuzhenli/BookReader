@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import com.liuzhenli.common.base.BaseFragment;
 import com.liuzhenli.reader.ui.fragment.DiscoverFragment;
 import com.liuzhenli.reader.ui.fragment.BookShelfFragment;
+import com.liuzhenli.write.ui.CreateBookFragment;
 import com.microedu.reader.R;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class MainTabAdapter extends FragmentPagerAdapter {
         fragments = new ArrayList<>();
         fragments.add(new BookShelfFragment());
         fragments.add(DiscoverFragment.getInstance());
-//        fragments.add(new RecommendFragment());
+        fragments.add(CreateBookFragment.getInstance());
 //        fragments.add(new MeFragment());
     }
 
@@ -62,7 +63,7 @@ public class MainTabAdapter extends FragmentPagerAdapter {
     public View getTabView(int position) {
         int[] tabIcon = {R.drawable.icon_main_tab_bookshelf,
                 R.drawable.icon_main_tab_discover,
-//                R.drawable.icon_main_tab_book_shop,
+                R.drawable.icon_main_tab_book_shop,
 //                R.drawable.icon_main_tab_me
         };
         View v = LayoutInflater.from(mContext).inflate(R.layout.layout_main_tab_icon_view, null);

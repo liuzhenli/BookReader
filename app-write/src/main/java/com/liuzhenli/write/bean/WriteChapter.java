@@ -1,4 +1,4 @@
-package com.liuzhenli.reader.bean;
+package com.liuzhenli.write.bean;
 
 import java.io.Serializable;
 
@@ -9,4 +9,5 @@ import java.io.Serializable;
  * Email: 848808263@qq.com
  */
 public class WriteChapter implements Serializable {
+
 }
