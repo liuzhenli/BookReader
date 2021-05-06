@@ -63,6 +63,7 @@ classes/
 
 #green dao
 app-reader/src/main/java/com/liuzhenli/greendao
+app-write/src/main/java/com/liuzhenli/greendao
 
 
 
