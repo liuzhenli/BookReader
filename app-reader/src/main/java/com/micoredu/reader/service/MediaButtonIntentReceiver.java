@@ -9,7 +9,7 @@ import com.hwangjr.rxbus.RxBus;
 import com.liuzhenli.common.constant.AppConstant;
 import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.utils.AppActivityManager;
-import com.micoredu.reader.BaseReaderActivity;
+import com.micoredu.reader.ui.activity.BaseReaderActivity;
 
 /**
  * 监听耳机键

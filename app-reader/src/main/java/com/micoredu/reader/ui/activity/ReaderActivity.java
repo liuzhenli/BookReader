@@ -21,7 +21,6 @@ import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
 import com.liuzhenli.common.BitIntentDataManager;
 import com.liuzhenli.common.constant.RxBusTag;
-import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.common.utils.BatteryUtil;
 import com.liuzhenli.common.utils.IntentUtils;
@@ -30,9 +29,8 @@ import com.liuzhenli.common.utils.ShareUtils;
 import com.liuzhenli.common.widget.bar.BarHide;
 import com.liuzhenli.common.utils.ToastUtil;
 import com.liuzhenli.common.widget.bar.ImmersionBar;
-import com.micoredu.reader.DaggerReaderComponent;
+import com.micoredu.reader.ReaderComponent;
 import com.micoredu.reader.utils.storage.Backup;
-import com.micoredu.reader.BaseReaderActivity;
 import com.micoredu.reader.R;
 import com.micoredu.reader.animation.PageAnimation;
 import com.micoredu.reader.bean.BookShelfBean;
@@ -128,8 +126,8 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
     }
 
     @Override
-    protected void setupActivityComponent(AppComponent appComponent) {
-        DaggerReaderComponent.builder().build().inject(this);
+    protected void setupActivityComponent(ReaderComponent appComponent) {
+        appComponent.inject(this);
     }
 
     @Override
@@ -166,7 +164,6 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void initData() {
-        DaggerReaderComponent.builder().build().inject(this);
         if (getIntent() != null) {
             startShareAnim = getIntent().getBooleanExtra(START_SHEAR_ELE, false);
             mOpenFrom = getIntent().getIntExtra(OPEN_FROM, OPEN_FROM_APP);
@@ -600,7 +597,9 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
     public void onBackPressed() {
         Backup.INSTANCE.autoBack();
         //如果不在书架,提示添加书架
-        if (!BookshelfHelper.isInBookShelf(mBookShelf.getNoteUrl())) {
+        if (mBookShelf == null) {
+            super.onBackPressed();
+        } else if (!BookshelfHelper.isInBookShelf(mBookShelf.getNoteUrl())) {
             showSaveDialog();
         } else {
             mPresenter.saveProgress(mBookShelf);

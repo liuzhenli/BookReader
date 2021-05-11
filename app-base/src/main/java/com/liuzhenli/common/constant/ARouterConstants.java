@@ -7,5 +7,6 @@ package com.liuzhenli.common.constant;
  * Email: 848808263@qq.com
  */
 public interface ARouterConstants {
-    String ACT_WEB = "/activity/WebViewActivity";
+    String ACT_WEB = "/app/activity/WebViewActivity";
+    String ACT_QRCODE = "/app/activity/QrCodeActivity";
 }

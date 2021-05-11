@@ -1,11 +1,8 @@
-package com.micoredu.reader.ui.activity;
+package com.micoredu.reader;
 
 import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.base.BaseContract;
 import com.liuzhenli.common.base.BaseRvActivity;
-import com.micoredu.reader.DaggerReaderComponent;
-import com.micoredu.reader.ReaderApiModule;
-import com.micoredu.reader.ReaderComponent;
 
 /**
  * Description:

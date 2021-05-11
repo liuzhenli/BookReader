@@ -1,18 +1,17 @@
-package com.micoredu.reader;
+package com.micoredu.reader.ui.activity;
 
 
-import android.content.Context;
 import android.view.View;
 import android.widget.Toast;
 
-import com.liuzhenli.common.base.BaseActivity;
 import com.liuzhenli.common.base.BaseContract;
+import com.micoredu.reader.ReaderBaseActivity;
 import com.micoredu.reader.page.PageView;
 
 /**
  * @author liuzhenli
  */
-public abstract class BaseReaderActivity<T1 extends BaseContract.BasePresenter> extends BaseActivity<T1> implements View.OnTouchListener {
+public abstract class BaseReaderActivity<T1 extends BaseContract.BasePresenter> extends ReaderBaseActivity<T1> implements View.OnTouchListener {
 
     public abstract void autoChangeSource();
 

@@ -13,17 +13,21 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
+import com.liuzhenli.common.constant.ARouterConstants;
 import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.observer.MyObserver;
 import com.liuzhenli.common.utils.FileUtils;
 import com.liuzhenli.common.base.BaseBean;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.common.utils.PermissionUtil;
+import com.liuzhenli.common.utils.ToastUtil;
 import com.liuzhenli.common.utils.picker.FilePicker;
 import com.micoredu.reader.R;
+import com.micoredu.reader.ReaderBaseRVActivity;
 import com.micoredu.reader.ReaderComponent;
 import com.micoredu.reader.databinding.ActivityBookSourceBinding;
 import com.micoredu.reader.service.CheckSourceService;
@@ -35,6 +39,7 @@ import com.micoredu.reader.ui.presenter.BookSourcePresenter;
 import com.micoredu.reader.widgets.DialogUtil;
 import com.micoredu.reader.bean.BookSourceBean;
 import com.micoredu.reader.model.BookSourceManager;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -52,6 +57,7 @@ import static com.liuzhenli.common.utils.AppSharedPreferenceHelper.SortType.SORT
  */
 public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter, BookSourceBean> implements BookSourceContract.View {
     private final int IMPORT_BOOK_SOURCE = 1000;
+    private final int IMPORT_BOOK_SOURCE_QRCODE = 1001;
 
     private BookSourceFilterMenuAdapter mFilterMenuAdapter;
     /***书源排序方式*/
@@ -107,7 +113,10 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
                     }
                 });
                 //二维码导入
-            } else if (itemId == R.id.action_import_book_source_rwm) {//删除选中
+            } else if (itemId == R.id.action_import_book_source_rwm) {
+                ARouter.getInstance()
+                        .build(ARouterConstants.ACT_QRCODE)
+                        .navigation(this, IMPORT_BOOK_SOURCE_QRCODE);
             } else if (itemId == R.id.action_del_select) {
                 List<BookSourceBean> bookSourceBeans = ((BookSourceAdapter) mAdapter).getSelectedBookSource();
                 if (bookSourceBeans.size() > 0) {
@@ -336,6 +345,18 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
             if (requestCode == IMPORT_BOOK_SOURCE) {
                 if (data != null && data.getData() != null) {
                     mPresenter.loadBookSourceFromFile(FileUtils.getPath(this, data.getData()));
+                }
+            } else if (requestCode == IMPORT_BOOK_SOURCE_QRCODE) {
+                if (data != null) {
+                    String result = data.getStringExtra("result");
+                    Logger.e("11111---  " + result);
+                    //如果是http开头,访问网络
+                    if (result != null) {
+                        showDialog();
+                        mPresenter.importSource(result);
+                    } else {
+                        ToastUtil.showToast(getResources().getString(R.string.type_un_correct));
+                    }
                 }
             }
         }

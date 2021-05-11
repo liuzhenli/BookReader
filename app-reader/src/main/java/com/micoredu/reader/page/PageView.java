@@ -20,7 +20,7 @@ import androidx.annotation.RequiresApi;
 import com.liuzhenli.common.FileHelp;
 import com.liuzhenli.common.utils.ScreenUtils;
 import com.liuzhenli.common.widget.bar.ImmersionBar;
-import com.micoredu.reader.BaseReaderActivity;
+import com.micoredu.reader.ui.activity.BaseReaderActivity;
 import com.micoredu.reader.animation.CoverPageAnim;
 import com.micoredu.reader.animation.HorizonPageAnim;
 import com.micoredu.reader.animation.NonePageAnim;

@@ -13,7 +13,7 @@ import com.liuzhenli.write.module.WriteModule;
  * @author liuzhenli 3/13/21
  * Email: 848808263@qq.com
  */
-public abstract class ReaderBaseRVActivity<T1 extends BaseContract.BasePresenter, T2> extends BaseRvActivity<T1 , T2> {
+public abstract class WriteBaseRVActivity<T1 extends BaseContract.BasePresenter, T2> extends BaseRvActivity<T1 , T2> {
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {

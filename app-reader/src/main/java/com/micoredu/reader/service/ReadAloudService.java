@@ -34,7 +34,7 @@ import com.hwangjr.rxbus.RxBus;
 import com.liuzhenli.common.BaseApplication;
 import com.liuzhenli.common.SharedPreferencesUtil;
 import com.liuzhenli.common.constant.RxBusTag;
-import com.micoredu.reader.BaseReaderActivity;
+import com.micoredu.reader.ui.activity.BaseReaderActivity;
 import com.micoredu.reader.R;
 import com.micoredu.reader.helper.MediaManager;
 
