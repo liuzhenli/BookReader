@@ -1,9 +1,7 @@
 package com.micoredu.reader;
 
-import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.module.ApiModule;
 import com.liuzhenli.common.module.AppModule;
-import com.liuzhenli.common.scope.ActivityScope;
 import com.micoredu.reader.ui.activity.BookSourceActivity;
 import com.micoredu.reader.ui.activity.DownloadActivity;
 import com.micoredu.reader.ui.activity.EditSourceActivity;

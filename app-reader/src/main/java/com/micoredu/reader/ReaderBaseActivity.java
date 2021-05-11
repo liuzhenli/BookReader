@@ -1,4 +1,4 @@
-package com.micoredu.reader.ui.activity;
+package com.micoredu.reader;
 
 import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.base.BaseActivity;

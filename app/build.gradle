@@ -4,7 +4,7 @@ apply plugin: 'org.greenrobot.greendao' // apply plugin
 //kotlin-kapt 要放在kotlin-android-extensions之后
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-parcelize'
 
 
 android {
@@ -136,6 +136,6 @@ dependencies {
     kapt 'com.google.dagger:dagger-compiler:2.16'
     kapt 'com.google.dagger:dagger-android-processor:2.16'
 
-    annotationProcessor 'com.alibaba:arouter-compiler:1.5.1'
+    kapt 'com.alibaba:arouter-compiler:1.5.1'
 
 }

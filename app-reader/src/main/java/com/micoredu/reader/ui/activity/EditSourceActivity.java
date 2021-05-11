@@ -13,17 +13,16 @@ import android.widget.EditText;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.liuzhenli.common.base.BaseRvActivity;
 import com.liuzhenli.common.constant.ARouterConstants;
 import com.liuzhenli.common.constant.AppConstant;
 import com.liuzhenli.common.constant.BookType;
-import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.ClipboardUtil;
 import com.liuzhenli.common.utils.ScreenUtils;
 import com.liuzhenli.common.utils.ToastUtil;
-import com.micoredu.reader.DaggerReaderComponent;
 import com.micoredu.reader.R;
+import com.micoredu.reader.ReaderBaseRVActivity;
+import com.micoredu.reader.ReaderComponent;
 import com.micoredu.reader.bean.BookSourceBean;
 import com.micoredu.reader.bean.EditSource;
 import com.micoredu.reader.databinding.ActEditsourceBinding;
@@ -42,7 +41,7 @@ import static android.text.TextUtils.isEmpty;
  * @author liuzhenli 2020/11/16
  * Email: 848808263@qq.com
  */
-public class EditSourceActivity extends BaseRvActivity<EditSourcePresenter, EditSource> implements EditSourceContract.View {
+public class EditSourceActivity extends ReaderBaseRVActivity<EditSourcePresenter, EditSource> implements EditSourceContract.View {
 
     public static final String BOOK_SOURCE = "book_source";
     private final List<EditSource> sourceEditList = new ArrayList<>();
@@ -67,8 +66,8 @@ public class EditSourceActivity extends BaseRvActivity<EditSourcePresenter, Edit
     }
 
     @Override
-    protected void setupActivityComponent(AppComponent appComponent) {
-        DaggerReaderComponent.builder().build().inject(this);
+    protected void setupActivityComponent(ReaderComponent appComponent) {
+        appComponent.inject(this);
     }
 
     @Override

@@ -46,7 +46,7 @@ public class BookSourcePresenter extends RxPresenter<BookSourceContract.View> im
     private ReaderApi mApi;
 
     @Inject
-    public BookSourcePresenter( ReaderApi mApi) {
+    public BookSourcePresenter(ReaderApi mApi) {
         this.mApi = mApi;
     }
 
@@ -140,19 +140,24 @@ public class BookSourcePresenter extends RxPresenter<BookSourceContract.View> im
         }
         json = DocumentHelper.readString(file);
         if (!isEmpty(json)) {
-            Observable<List<BookSourceBean>> observable = BookSourceManager.importSource(json);
-            if (observable != null) {
-                RxUtil.subscribe(observable, new SampleProgressObserver<List<BookSourceBean>>(mView) {
-                    @Override
-                    public void onNext(@NonNull List<BookSourceBean> bookSource) {
-                        mView.showLocalBookSource(bookSource);
-                    }
-                });
-            } else {
-                mView.showError(new ApiException(1000, new Throwable(BaseApplication.getInstance().getString(R.string.type_un_correct))));
-            }
+            importSource(json);
         } else {
             mView.showError(new ApiException(1000, new Throwable(BaseApplication.getInstance().getString(R.string.read_file_error))));
+        }
+    }
+
+
+    public void importSource(String string) {
+        Observable<List<BookSourceBean>> observable = BookSourceManager.importSource(string);
+        if (observable != null) {
+            RxUtil.subscribe(observable, new SampleProgressObserver<List<BookSourceBean>>(mView) {
+                @Override
+                public void onNext(@NonNull List<BookSourceBean> bookSource) {
+                    mView.showLocalBookSource(bookSource);
+                }
+            });
+        } else {
+            mView.showError(new ApiException(1000, new Throwable(BaseApplication.getInstance().getString(R.string.type_un_correct))));
         }
     }
 

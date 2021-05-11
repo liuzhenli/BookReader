@@ -8,10 +8,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.liuzhenli.common.AppComponent;
-import com.liuzhenli.common.base.BaseRvActivity;
-import com.micoredu.reader.DaggerReaderComponent;
 import com.micoredu.reader.R;
+import com.micoredu.reader.ReaderBaseRVActivity;
+import com.micoredu.reader.ReaderComponent;
 import com.micoredu.reader.databinding.ActDownloadBinding;
 import com.micoredu.reader.service.DownloadService;
 import com.micoredu.reader.bean.DownloadBookBean;
@@ -28,7 +27,7 @@ import java.util.ArrayList;
  * @author liuzhenli 2021/2/2
  * Email: 848808263@qq.com
  */
-public class DownloadActivity extends BaseRvActivity<DownloadPresenter, DownloadBookBean> implements DownloadContract.View {
+public class DownloadActivity extends ReaderBaseRVActivity<DownloadPresenter, DownloadBookBean> implements DownloadContract.View {
 
     private DownloadReceiver receiver;
     private ActDownloadBinding binding;
@@ -40,8 +39,8 @@ public class DownloadActivity extends BaseRvActivity<DownloadPresenter, Download
     }
 
     @Override
-    protected void setupActivityComponent(AppComponent appComponent) {
-        DaggerReaderComponent.builder().build().inject(this);
+    protected void setupActivityComponent(ReaderComponent appComponent) {
+        appComponent.inject(this);
     }
 
     @Override

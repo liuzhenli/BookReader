@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <include layout="@layout/layout_common_toolbar" />
+
+    <cn.bingoogolapple.qrcode.zxing.ZXingView
+        android:id="@+id/zxingview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:qrcv_animTime="1000"
+        app:qrcv_borderColor="@android:color/white"
+        app:qrcv_borderSize="1dp"
+        app:qrcv_cornerColor="@color/colorPrimaryDark"
+        app:qrcv_cornerLength="20dp"
+        app:qrcv_cornerSize="3dp"
+        app:qrcv_maskColor="#33FFFFFF"
+        app:qrcv_rectWidth="200dp"
+        app:qrcv_scanLineColor="@color/colorPrimaryDark"
+        app:qrcv_scanLineSize="1dp"
+        app:qrcv_topOffset="90dp">
+
+    </cn.bingoogolapple.qrcode.zxing.ZXingView>
+
+    <ImageView
+        android:id="@+id/iv_pick_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/common_space_large"
+        android:src="@drawable/icon_edit_box_clear" />
+</RelativeLayout>

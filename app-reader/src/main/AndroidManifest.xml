@@ -3,7 +3,7 @@
     package="com.micoredu.reader">
 
     <application>
-        <activity android:name="com.micoredu.reader.BaseReaderActivity"></activity>
+        <activity android:name="com.micoredu.reader.ui.activity.BaseReaderActivity"></activity>
     </application>
 
 </manifest>

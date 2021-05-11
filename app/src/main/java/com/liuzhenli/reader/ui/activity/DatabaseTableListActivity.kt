@@ -11,7 +11,6 @@ import com.liuzhenli.reader.ui.adapter.DatabaseTableListAdapter
 import com.liuzhenli.reader.ui.contract.DatabaseTableListContract
 import com.liuzhenli.reader.ui.presenter.DatabaseTableListPresenter
 import com.microedu.reader.databinding.ActDatabasetablelistBinding
-import kotlinx.android.synthetic.main.act_databasetablelist.*
 import nl.siegmann.epublib.util.StringUtil
 import java.util.*
 
@@ -45,8 +44,8 @@ class DatabaseTableListActivity : BaseActivity<DatabaseTableListPresenter>(), Da
 
     override fun configViews() {
         tablesAdapter = DatabaseTableListAdapter(this)
-        databaseTablesList!!.adapter = tablesAdapter
-        databaseTablesList!!.onItemClickListener = AdapterView.OnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
+        binding?.databaseTablesList!!.adapter = tablesAdapter
+        binding?.databaseTablesList!!.onItemClickListener = AdapterView.OnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
             val tableName = tableList[position]
             if (StringUtil.isNotBlank(tableName)) {
                 val intent = Intent(this@DatabaseTableListActivity, DatabaseTableRecordsActivity::class.java)
