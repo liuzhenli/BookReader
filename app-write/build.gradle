@@ -46,7 +46,7 @@ android {
 
     greendao {
         schemaVersion 1 // 数据库版本号
-        daoPackage 'com.liuzhenli.greendao'//greenDao 自动生成的代码保存的包名
+        daoPackage 'com.liuzhenli.write.greendao'//greenDao 自动生成的代码保存的包名
         targetGenDir 'src/main/java' //自动生成的代码存储的路径，默认是 build/generated/source/greendao.
         generateTests false //true的时候自动生成测试单元
         //targetGenDirTests: 测试单元的生成目录默认是 src/androidTest/java
@@ -68,4 +68,7 @@ dependencies {
     kapt 'com.google.dagger:dagger-android-processor:2.16'
 
     kapt 'com.alibaba:arouter-compiler:1.5.1'
+
+    //https://github.com/youth5201314/banner
+    implementation 'com.youth.banner:banner:2.1.0'
 }

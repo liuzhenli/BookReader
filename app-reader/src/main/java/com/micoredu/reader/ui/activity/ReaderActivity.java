@@ -48,7 +48,7 @@ import com.micoredu.reader.page.PageLoader;
 import com.micoredu.reader.reciever.BatteryAndTimeChangeReceiver;
 import com.micoredu.reader.ui.contract.ReadContract;
 import com.micoredu.reader.ui.presenter.ReadPresenter;
-import com.micoredu.reader.widgets.DialogUtil;
+import com.liuzhenli.common.widget.DialogUtil;
 import com.micoredu.reader.widgets.ReadLongPressPop;
 import com.micoredu.reader.widgets.ReplaceRuleDialog;
 import com.micoredu.reader.widgets.menu.ReadBottomMenu;

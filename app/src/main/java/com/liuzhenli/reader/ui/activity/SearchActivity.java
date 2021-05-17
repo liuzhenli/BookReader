@@ -25,7 +25,7 @@ import com.liuzhenli.reader.ui.presenter.SearchPresenter;
 import com.liuzhenli.common.utils.DensityUtil;
 import com.liuzhenli.common.utils.SoftInputUtils;
 import com.micoredu.reader.ui.activity.BookSourceActivity;
-import com.micoredu.reader.widgets.DialogUtil;
+import com.liuzhenli.common.widget.DialogUtil;
 import com.micoredu.reader.bean.SearchBookBean;
 import com.micoredu.reader.bean.SearchHistoryBean;
 import com.microedu.reader.R;

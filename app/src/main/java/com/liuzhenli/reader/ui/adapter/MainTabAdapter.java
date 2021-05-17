@@ -15,7 +15,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import com.liuzhenli.common.base.BaseFragment;
 import com.liuzhenli.reader.ui.fragment.DiscoverFragment;
 import com.liuzhenli.reader.ui.fragment.BookShelfFragment;
-import com.liuzhenli.write.ui.CreateBookFragment;
+import com.liuzhenli.write.ui.fragment.CreateBookFragment;
 import com.microedu.reader.R;
 
 import java.util.ArrayList;

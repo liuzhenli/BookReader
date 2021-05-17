@@ -62,6 +62,7 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
             getWindow().getDecorView().setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS);
         }
         setupActivityComponent(BaseApplication.getInstance().getAppComponent());
+        initData();
         mToolBar = findViewById(R.id.toolbar);
         if (mToolBar != null) {
             mTvTitle = findViewById(R.id.tv_toolbar_title);
@@ -74,7 +75,6 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
             //noinspection unchecked
             mPresenter.attachView(this);
         }
-        initData();
         mRecyclerView = findViewById(R.id.recyclerView);
         configViews();
         if (savedInstanceState != null) {

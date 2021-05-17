@@ -22,7 +22,7 @@ import com.liuzhenli.reader.ui.presenter.ImportLocalBookPresenter;
 import com.liuzhenli.common.utils.FileUtils;
 import com.liuzhenli.common.utils.PermissionUtil;
 import com.liuzhenli.common.utils.ToastUtil;
-import com.micoredu.reader.widgets.DialogUtil;
+import com.liuzhenli.common.widget.DialogUtil;
 import com.microedu.reader.R;
 import com.microedu.reader.databinding.ActImportlocalbookBinding;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;

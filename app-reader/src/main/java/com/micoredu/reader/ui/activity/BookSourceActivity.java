@@ -36,7 +36,7 @@ import com.micoredu.reader.ui.adapter.BookSourceAdapter;
 import com.micoredu.reader.ui.adapter.BookSourceFilterMenuAdapter;
 import com.micoredu.reader.ui.contract.BookSourceContract;
 import com.micoredu.reader.ui.presenter.BookSourcePresenter;
-import com.micoredu.reader.widgets.DialogUtil;
+import com.liuzhenli.common.widget.DialogUtil;
 import com.micoredu.reader.bean.BookSourceBean;
 import com.micoredu.reader.model.BookSourceManager;
 import com.orhanobut.logger.Logger;
