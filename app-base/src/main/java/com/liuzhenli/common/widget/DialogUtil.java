@@ -1,13 +1,13 @@
-package com.micoredu.reader.widgets;
+package com.liuzhenli.common.widget;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.text.InputType;
 import android.text.TextUtils;
 
+import com.liuzhenli.common.R;
 import com.liuzhenli.common.utils.PermissionUtil;
 import com.liuzhenli.common.utils.ToastUtil;
-import com.micoredu.reader.R;
 import com.qmuiteam.qmui.skin.QMUISkinManager;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;

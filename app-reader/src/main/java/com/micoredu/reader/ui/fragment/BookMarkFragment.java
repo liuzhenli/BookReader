@@ -18,7 +18,7 @@ import com.micoredu.reader.ui.activity.BookChapterListActivity;
 import com.micoredu.reader.ui.activity.ReaderActivity;
 import com.liuzhenli.common.utils.ToastUtil;
 import com.micoredu.reader.ui.adapter.BookMarkAdapter;
-import com.micoredu.reader.widgets.DialogUtil;
+import com.liuzhenli.common.widget.DialogUtil;
 import com.micoredu.reader.bean.BookmarkBean;
 import com.micoredu.reader.helper.BookshelfHelper;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;

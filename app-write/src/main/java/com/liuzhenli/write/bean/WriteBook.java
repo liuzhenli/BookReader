@@ -4,6 +4,7 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 
 import java.io.Serializable;
+
 import org.greenrobot.greendao.annotation.Generated;
 
 /**
@@ -19,11 +20,11 @@ public class WriteBook implements Serializable {
 
     /***书id*/
     @Id(autoincrement = true)
-    public long bookId;
+    public Long bookId;
 
     public String bookName;
     /***作品简介**/
-    public String summary;
+    public String intro;
     /***推荐语**/
     public String recommendation;
     /***封面*/
@@ -34,38 +35,39 @@ public class WriteBook implements Serializable {
     /***书分类**/
     public String category;
 
-    public int lastChapterId;
+    public Integer lastChapterId;
 
-    public int wordCount;
-    public int imageCount;
-    public int chapterCount;
+    public Integer wordCount;
+    public Integer imageCount;
+    public Integer chapterCount;
     /***0未完成 1完成*/
-    public int finished;
+    public Integer finished;
     /***是否是代表作品*/
-    public int magnumOpusFlag;
+    public Integer magnumOpusFlag;
     /***修改时间*/
-    public long modifyTime;
+    public Long modifyTime;
 
-    public long createTime;
+    public Long createTime;
 
     /*** 0 日期 1 普通*/
-    public int orderType;
+    public Integer orderType;
 
     /*** 大纲路径 0 false 1 true*/
-    public int outline;
+    public Integer outline;
 
     /*** 0:章节为列表视图   1:章节为卡片视图*/
-    public int viewType;
+    public Integer viewType;
 
-    @Generated(hash = 474520462)
-    public WriteBook(long bookId, String bookName, String summary,
+    @Generated(hash = 642005423)
+    public WriteBook(Long bookId, String bookName, String intro,
             String recommendation, String coverUrl, String tagWords,
-            String category, int lastChapterId, int wordCount, int imageCount,
-            int chapterCount, int finished, int magnumOpusFlag, long modifyTime,
-            long createTime, int orderType, int outline, int viewType) {
+            String category, Integer lastChapterId, Integer wordCount,
+            Integer imageCount, Integer chapterCount, Integer finished,
+            Integer magnumOpusFlag, Long modifyTime, Long createTime,
+            Integer orderType, Integer outline, Integer viewType) {
         this.bookId = bookId;
         this.bookName = bookName;
-        this.summary = summary;
+        this.intro = intro;
         this.recommendation = recommendation;
         this.coverUrl = coverUrl;
         this.tagWords = tagWords;
@@ -87,11 +89,11 @@ public class WriteBook implements Serializable {
     public WriteBook() {
     }
 
-    public long getBookId() {
+    public Long getBookId() {
         return this.bookId;
     }
 
-    public void setBookId(long bookId) {
+    public void setBookId(Long bookId) {
         this.bookId = bookId;
     }
 
@@ -103,12 +105,12 @@ public class WriteBook implements Serializable {
         this.bookName = bookName;
     }
 
-    public String getSummary() {
-        return this.summary;
+    public String getIntro() {
+        return this.intro;
     }
 
-    public void setSummary(String summary) {
-        this.summary = summary;
+    public void setIntro(String intro) {
+        this.intro = intro;
     }
 
     public String getRecommendation() {
@@ -143,91 +145,91 @@ public class WriteBook implements Serializable {
         this.category = category;
     }
 
-    public int getLastChapterId() {
+    public Integer getLastChapterId() {
         return this.lastChapterId;
     }
 
-    public void setLastChapterId(int lastChapterId) {
+    public void setLastChapterId(Integer lastChapterId) {
         this.lastChapterId = lastChapterId;
     }
 
-    public int getWordCount() {
+    public Integer getWordCount() {
         return this.wordCount;
     }
 
-    public void setWordCount(int wordCount) {
+    public void setWordCount(Integer wordCount) {
         this.wordCount = wordCount;
     }
 
-    public int getImageCount() {
+    public Integer getImageCount() {
         return this.imageCount;
     }
 
-    public void setImageCount(int imageCount) {
+    public void setImageCount(Integer imageCount) {
         this.imageCount = imageCount;
     }
 
-    public int getChapterCount() {
+    public Integer getChapterCount() {
         return this.chapterCount;
     }
 
-    public void setChapterCount(int chapterCount) {
+    public void setChapterCount(Integer chapterCount) {
         this.chapterCount = chapterCount;
     }
 
-    public int getFinished() {
+    public Integer getFinished() {
         return this.finished;
     }
 
-    public void setFinished(int finished) {
+    public void setFinished(Integer finished) {
         this.finished = finished;
     }
 
-    public int getMagnumOpusFlag() {
+    public Integer getMagnumOpusFlag() {
         return this.magnumOpusFlag;
     }
 
-    public void setMagnumOpusFlag(int magnumOpusFlag) {
+    public void setMagnumOpusFlag(Integer magnumOpusFlag) {
         this.magnumOpusFlag = magnumOpusFlag;
     }
 
-    public long getModifyTime() {
+    public Long getModifyTime() {
         return this.modifyTime;
     }
 
-    public void setModifyTime(long modifyTime) {
+    public void setModifyTime(Long modifyTime) {
         this.modifyTime = modifyTime;
     }
 
-    public long getCreateTime() {
+    public Long getCreateTime() {
         return this.createTime;
     }
 
-    public void setCreateTime(long createTime) {
+    public void setCreateTime(Long createTime) {
         this.createTime = createTime;
     }
 
-    public int getOrderType() {
+    public Integer getOrderType() {
         return this.orderType;
     }
 
-    public void setOrderType(int orderType) {
+    public void setOrderType(Integer orderType) {
         this.orderType = orderType;
     }
 
-    public int getOutline() {
+    public Integer getOutline() {
         return this.outline;
     }
 
-    public void setOutline(int outline) {
+    public void setOutline(Integer outline) {
         this.outline = outline;
     }
 
-    public int getViewType() {
+    public Integer getViewType() {
         return this.viewType;
     }
 
-    public void setViewType(int viewType) {
+    public void setViewType(Integer viewType) {
         this.viewType = viewType;
     }
 

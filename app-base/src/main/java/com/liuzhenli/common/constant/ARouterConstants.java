@@ -9,4 +9,5 @@ package com.liuzhenli.common.constant;
 public interface ARouterConstants {
     String ACT_WEB = "/app/activity/WebViewActivity";
     String ACT_QRCODE = "/app/activity/QrCodeActivity";
+    String ACT_EDIT_BOOK_INFO = "/write/activity/EditBookInfoActivity";
 }

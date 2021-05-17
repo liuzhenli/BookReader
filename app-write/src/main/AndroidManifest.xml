@@ -2,4 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.liuzhenli.write">
 
+    <application>
+        <activity android:name=".ui.activity.EditBookInfoActivity" />
+    </application>
 </manifest>

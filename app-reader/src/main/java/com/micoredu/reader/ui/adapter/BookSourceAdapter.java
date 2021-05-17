@@ -14,7 +14,7 @@ import com.liuzhenli.common.utils.LogUtils;
 import com.liuzhenli.common.utils.ToastUtil;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.micoredu.reader.ui.activity.EditSourceActivity;
-import com.micoredu.reader.widgets.DialogUtil;
+import com.liuzhenli.common.widget.DialogUtil;
 import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
 import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
 import com.micoredu.reader.bean.BookSourceBean;
