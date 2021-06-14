@@ -50,7 +50,7 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <com.micoredu.reader.widgets.KeyboardTopView
+    <com.liuzhenli.common.widget.KeyboardTopView
         android:id="@+id/mRvPunctuation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

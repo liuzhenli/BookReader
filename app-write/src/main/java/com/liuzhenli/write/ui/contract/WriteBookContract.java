@@ -3,6 +3,7 @@ package com.liuzhenli.write.ui.contract;
 
 import com.liuzhenli.common.base.BaseBean;
 import com.liuzhenli.common.base.BaseContract;
+import com.liuzhenli.write.bean.WriteChapter;
 
 /**
  * Description:
@@ -11,12 +12,28 @@ import com.liuzhenli.common.base.BaseContract;
  * Email: 848808263@qq.com
  */
 public interface WriteBookContract {
-    public interface View extends BaseContract.BaseView {
+    interface View extends BaseContract.BaseView {
         void showLocalData(BaseBean data);
+
+        void showSaveChapterInfoResult(boolean data);
+
+        void showAutoSaveDraftResult(boolean data);
     }
 
-    public interface Presenter<T> extends BaseContract.BasePresenter<T> {
+    interface Presenter<T> extends BaseContract.BasePresenter<T> {
+        /**
+         * 本地数据
+         */
         void getLocalData();
 
+        /**
+         * 保存章节
+         */
+        void saveChapterInfo(WriteChapter chapter);
+
+        /**
+         * 自动保存草稿
+         */
+        void autoSaveDraft(WriteChapter chapter, String content, String path);
     }
 }

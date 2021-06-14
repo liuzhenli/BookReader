@@ -10,7 +10,7 @@ import com.liuzhenli.common.utils.ClickUtils;
 import com.micoredu.reader.R;
 import com.micoredu.reader.databinding.ItemBookSourceBinding;
 import com.micoredu.reader.ui.activity.BookSourceActivity;
-import com.liuzhenli.common.utils.LogUtils;
+import com.liuzhenli.common.utils.L;
 import com.liuzhenli.common.utils.ToastUtil;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.micoredu.reader.ui.activity.EditSourceActivity;
@@ -57,7 +57,7 @@ public class BookSourceAdapter extends RecyclerArrayAdapter<BookSourceBean> {
         @Override
         public void setData(BookSourceBean item) {
             super.setData(item);
-            LogUtils.e(item.toString());
+            L.e(item.toString());
             binding.cbBookSourceCheck.setChecked(item.getEnable());
             binding.tvSourceName.setText(item.getBookSourceName());
             binding.tvSourceGroupName.setText(item.getBookSourceGroup());

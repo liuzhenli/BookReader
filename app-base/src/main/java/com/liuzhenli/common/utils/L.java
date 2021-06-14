@@ -1,6 +1,6 @@
 package com.liuzhenli.common.utils;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.os.Environment;
 import android.util.Log;
 
@@ -17,32 +17,41 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Log工具类，可控制Log输出开关、保存Log到文件、过滤输出等级
- *
- * @author yuyh.
- * @date 16/4/9.
- */
-public class LogUtils {
-    private static Boolean LOG_SWITCH = true; // 日志文件总开关
-    private static Boolean LOG_TO_FILE = false; // 日志写入文件开关
-    private static String LOG_TAG = "BookReader"; // 默认的tag
-    private static char LOG_TYPE = 'v';// 输入日志类型，v代表输出所有信息,w则只输出警告...
-    private static int LOG_SAVE_DAYS = 7;// sd卡中日志文件的最多保存天数
+import timber.log.Timber;
 
-    private final static SimpleDateFormat LOG_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 日志的输出格式
-    private final static SimpleDateFormat FILE_SUFFIX = new SimpleDateFormat("yyyy-MM-dd");// 日志文件格式
-    private static String LOG_FILE_PATH; // 日志文件保存路径
-    private static String LOG_FILE_NAME;// 日志文件保存名称
+public class L {
+    /***日志文件总开关*/
+    private static final Boolean LOG_SWITCH = BaseApplication.isDebug;
+    /***日志写入文件开关*/
+    private static final Boolean LOG_TO_FILE = false;
+    /***默认的tag**/
+    private static final String LOG_TAG = "zLog--- ";
+    /***输入日志类型，v代表输出所有信息,w则只输出警告...*/
+    private static final char LOG_TYPE = 'v';
+    /***sd卡中日志文件的最多保存天数*/
+    private static final int LOG_SAVE_DAYS = 7;
+    /*** 日志的输出格式*/
+    @SuppressLint("SimpleDateFormat")
+    private final static SimpleDateFormat LOG_FORMAT
+            = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    /***日志文件格式*/
+    @SuppressLint("SimpleDateFormat")
+    private final static SimpleDateFormat FILE_SUFFIX = new SimpleDateFormat("yyyy-MM-dd");
+    /***日志文件保存路径*/
+    private static String LOG_FILE_PATH;
+    /***日志文件保存名称*/
+    private static String LOG_FILE_NAME;
 
-    public static void init(Context context) { // 在Application中初始化
-        LOG_FILE_PATH = Environment.getExternalStorageDirectory().getPath() + File.separator + BaseApplication.getInstance().getPackageName();
+    private static int LOG_MAX_LENGTH = 2000;
+
+    /***在Application中初始化*/
+    public static void init() {
+        LOG_FILE_PATH = Environment.getExternalStorageDirectory().getPath() + File.separator
+                + BaseApplication.getInstance().getPackageName();
         LOG_FILE_NAME = "Log";
     }
 
-    /****************************
-     * Warn
-     *********************************/
+    /***************************** Warn*********************************/
     public static void w(Object msg) {
         w(LOG_TAG, msg);
     }
@@ -55,9 +64,7 @@ public class LogUtils {
         log(tag, msg.toString(), tr, 'w');
     }
 
-    /***************************
-     * Error
-     ********************************/
+    /**************************** Error ********************************/
     public static void e(Object msg) {
         e(LOG_TAG, msg);
     }
@@ -67,12 +74,14 @@ public class LogUtils {
     }
 
     public static void e(String tag, Object msg, Throwable tr) {
-        log(tag, msg.toString(), tr, 'e');
+        if (msg == null) {
+            log(tag, "null", tr, 'e');
+        } else {
+            log(tag, msg.toString(), tr, 'e');
+        }
     }
 
-    /***************************
-     * Debug
-     ********************************/
+    /**************************** Debug ********************************/
     public static void d(Object msg) {
         d(LOG_TAG, msg);
     }
@@ -85,9 +94,7 @@ public class LogUtils {
         log(tag, msg.toString(), tr, 'd');
     }
 
-    /****************************
-     * Info
-     *********************************/
+    /***************************** Info  *********************************/
     public static void i(Object msg) {
         i(LOG_TAG, msg);
     }
@@ -100,9 +107,7 @@ public class LogUtils {
         log(tag, msg.toString(), tr, 'i');
     }
 
-    /**************************
-     * Verbose
-     ********************************/
+    /*************************** Verbose ********************************/
     public static void v(Object msg) {
         v(LOG_TAG, msg);
     }
@@ -118,9 +123,9 @@ public class LogUtils {
     /**
      * 根据tag, msg和等级，输出日志
      *
-     * @param tag
-     * @param msg
-     * @param level
+     * @param tag   log tag
+     * @param msg   log content
+     * @param level log level
      */
     private static void log(String tag, String msg, Throwable tr, char level) {
         if (LOG_SWITCH) {
@@ -142,20 +147,18 @@ public class LogUtils {
         }
     }
 
-    private static int LOG_MAXLENGTH = 2000;
-
     public static void i(String TAG, String msg) {
         int strLength = msg.length();
         int start = 0;
-        int end = LOG_MAXLENGTH;
+        int end = LOG_MAX_LENGTH;
         for (int i = 0; i < 100; i++) {
             //剩下的文本还是大于规定长度则继续重复截取并输出
             if (strLength > end) {
-                Log.i(TAG + i, msg.substring(start, end));
+                Timber.i(msg.substring(start, end));
                 start = end;
-                end = end + LOG_MAXLENGTH;
+                end = end + LOG_MAX_LENGTH;
             } else {
-                Log.i(TAG, msg.substring(start, strLength));
+                Timber.i(msg.substring(start, strLength));
                 break;
             }
         }
@@ -185,15 +188,12 @@ public class LogUtils {
 
     private static String createMessage(String msg) {
         String functionName = getFunctionName();
-        String message = (functionName == null ? msg
+        return (functionName == null ? msg
                 : (functionName + " - " + msg));
-        return message;
     }
 
     /**
      * 打开日志文件并写入日志
-     *
-     * @return
      **/
     private synchronized static void log2File(String mylogtype, String tag, String text) {
         Date nowtime = new Date();
@@ -219,30 +219,27 @@ public class LogUtils {
     /**
      * 删除指定的日志文件
      */
-    public static void delFile() {
-        String needDelFiel = FILE_SUFFIX.format(getDateBefore());
-        File file = new File(LOG_FILE_PATH, needDelFiel + LOG_FILE_NAME);
+    public static boolean delFile() {
+        String needDelFile = FILE_SUFFIX.format(getDateBefore());
+        File file = new File(LOG_FILE_PATH, needDelFile + LOG_FILE_NAME);
         if (file.exists()) {
-            file.delete();
+            return file.delete();
         }
+        return false;
     }
 
-    /**
-     * 得到LOG_SAVE_DAYS天前的日期
-     *
-     * @return
-     */
+    /*** 得到LOG_SAVE_DAYS天前的日期 */
     private static Date getDateBefore() {
-        Date nowtime = new Date();
+        Date nowTime = new Date();
         Calendar now = Calendar.getInstance();
-        now.setTime(nowtime);
+        now.setTime(nowTime);
         now.set(Calendar.DATE, now.get(Calendar.DATE) - LOG_SAVE_DAYS);
         return now.getTime();
     }
 
 
     public static String getErrorString(Throwable e) {
-        String result = "";
+        String result;
         Writer writer = new StringWriter();
         PrintWriter printWriter = new PrintWriter(writer);
         e.printStackTrace(printWriter);

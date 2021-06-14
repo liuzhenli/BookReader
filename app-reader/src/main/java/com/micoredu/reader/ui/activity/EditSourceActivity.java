@@ -72,19 +72,11 @@ public class EditSourceActivity extends ReaderBaseRVActivity<EditSourcePresenter
 
     @Override
     protected void initToolBar() {
-        mTvTitle.setText("编辑书源");
-    }
-
-    @Override
-    protected void initData() {
-        mBookSource = (BookSourceBean) getIntent().getSerializableExtra(BOOK_SOURCE);
         if (mBookSource != null) {
-            serialNumber = mBookSource.getSerialNumber();
+            mTvTitle.setText("编辑书源");
         } else {
-            mBookSource = new BookSourceBean();
             mTvTitle.setText("新建书源");
         }
-
         mToolBar.inflateMenu(R.menu.menu_edit_source);
         //菜单
         mToolBar.setOnMenuItemClickListener(item -> {
@@ -118,6 +110,16 @@ public class EditSourceActivity extends ReaderBaseRVActivity<EditSourcePresenter
             }
             return false;
         });
+    }
+
+    @Override
+    protected void initData() {
+        mBookSource = (BookSourceBean) getIntent().getSerializableExtra(BOOK_SOURCE);
+        if (mBookSource != null) {
+            serialNumber = mBookSource.getSerialNumber();
+        } else {
+            mBookSource = new BookSourceBean();
+        }
     }
 
     @Override

@@ -14,7 +14,7 @@ import com.liuzhenli.common.utils.NetworkUtils;
 import com.liuzhenli.reader.ui.activity.WebViewActivity;
 import com.liuzhenli.common.utils.AppUtils;
 import com.liuzhenli.common.utils.Constant;
-import com.liuzhenli.common.utils.LogUtils;
+import com.liuzhenli.common.utils.L;
 import com.liuzhenli.common.utils.ToastUtil;
 
 import java.util.HashMap;
@@ -65,7 +65,7 @@ public class ZLWebViewClient extends WebViewClient {
             return true;
         }
         url = AppUtils.resetGameUrl(url);
-        LogUtils.e("ZLWebViewClient", url);
+        L.e("ZLWebViewClient", url);
         view.loadUrl(url); // 在当前的webview中跳转到新的url
         return super.shouldOverrideUrlLoading(view, url);
     }

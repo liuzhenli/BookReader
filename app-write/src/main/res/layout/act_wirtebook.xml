@@ -2,20 +2,48 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <include layout="@layout/layout_common_toolbar" />
 
     <EditText
+        android:id="@+id/etChapterTitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="#00000000"
+        android:gravity="left|center_vertical"
+        android:hint="输入标题"
+        android:maxLength="30"
+        android:minHeight="30dp"
+        android:paddingLeft="@dimen/common_space_large"
+        android:paddingRight="@dimen/common_space_large"
+        android:singleLine="true"
+        android:textColor="#333333"
+        android:textColorHint="@color/text_color_99"
+        android:textCursorDrawable="@drawable/icon_cursor"
+        android:textSize="@dimen/txt_size_14" />
+
+    <include
+        layout="@layout/item_divider"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/all_item_height" />
+        android:layout_height="1dp" />
 
     <com.liuzhenli.write.write.WriteEditView
+        android:id="@+id/editView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <LinearLayout
+        android:layout_weight="1"
+        android:focusableInTouchMode="true"
+        android:hint="输入内容"
+        android:padding="@dimen/common_space_large"
+        android:textSize="@dimen/txt_size_14" />
+    <com.liuzhenli.common.widget.KeyboardTopView
+        android:id="@+id/mRvPunctuation"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/all_item_height" />
+        android:layout_height="wrap_content" />
+
 </LinearLayout>

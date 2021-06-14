@@ -48,7 +48,7 @@ public class EditBookInfoActivity extends WriteBaseActivity<EditBookPresenter> i
     @Override
     protected void initToolBar() {
         mTvRight.setText(getResources().getString(R.string.delete));
-        if (mBook.getBookId() > 0) {
+        if (mBook.getId() != null && mBook.getId() > 0) {
             mTvRight.setVisibility(View.VISIBLE);
             ClickUtils.click(mTvRight, o -> {
                 DialogUtil.showMessagePositiveDialog(mContext,
@@ -70,14 +70,14 @@ public class EditBookInfoActivity extends WriteBaseActivity<EditBookPresenter> i
     @Override
     protected void initData() {
         mBook = (WriteBook) getIntent().getSerializableExtra(WRITE_BOOK);
-        if (mBook == null) {
+        if (mBook == null || mBook.getId() == null || mBook.getId() < 1) {
             mBook = new WriteBook();
         }
     }
 
     @Override
     protected void configViews() {
-        mBinding.etBookName.setText(mBook.bookName);
+        mBinding.etBookName.setText(mBook.getBookName());
         mBinding.etBookIntro.setText(mBook.getIntro());
 
         ClickUtils.click(mBinding.btnOk, new Consumer() {
@@ -89,8 +89,8 @@ public class EditBookInfoActivity extends WriteBaseActivity<EditBookPresenter> i
                     toast("请输入书名");
                     return;
                 }
-                mBook.bookName = mBookName.toString().trim();
-                mBook.intro = mBookIntro.toString();
+                mBook.setBookName(mBookName.toString().trim());
+                mBook.setIntro(mBookIntro.toString());
                 mPresenter.saveBooks(mBook);
             }
         });

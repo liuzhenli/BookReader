@@ -1,12 +1,11 @@
 package com.liuzhenli.write.bean;
 
-import com.umeng.commonsdk.debug.I;
-
 import org.greenrobot.greendao.annotation.Entity;
 
 import java.io.Serializable;
 
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
 
 /**
  * Description:bookChapter info
@@ -16,80 +15,86 @@ import org.greenrobot.greendao.annotation.Generated;
  */
 @Entity
 public class WriteChapter implements Serializable {
-    public static final long serialVersionUID = 1L;
+    public static final long serialVersionUID = 11654651654615L;
 
-    public Long id;
+    /*** local chapter id*/
+    @Id(autoincrement = true)
+    private Long id;
 
-    public Long bookId;
+    private long localBookId;
 
-    public Long chapterId;
+    private long bookId;
 
-    public String title;
+    private long chapterId;
 
-    public String contentUrl;
+    /*** chapter title*/
+    private String title;
 
-    public String htmlUrl;
+    private String contentUrl;
 
-    public Integer wordCount;
+    private String htmlUrl;
 
-    public Integer imageCount;
+    private int wordCount;
 
-    public Double orderValue;
+    private int imageCount;
 
-    public Integer published;
+    private double orderValue;
 
-    public Long syncChapterTime;
+    private int published;
 
-    public Long timestamp;
+    private long syncChapterTime;
 
-    public Long modifyTime;
+    private long timestamp;
 
-    public Long releaseTime;
+    private long modifyTime;
 
-    public Long createTime;
+    private long releaseTime;
 
-    public Long localBookId;
+    private long createTime;
 
-    public Integer localUploadFlag;
+    private long localUploadFlag;
+    /*** 是否需要从服务端下载*/
+    private int localDownloadFlag;
 
-    public Integer localDownloadFlag; // 0需要从服务端下载，1不需要从服务端下载
+    /*** 加载章节后进入编辑状态，正常退出后要恢复状态。0退出编辑状态，1进入编辑状态*/
+    private int localEditingFlag;
 
-    public Integer localEditingFlag;// 0退出编辑状态，1进入编辑状态，加载章节后进入编辑状态，正常退出后要恢复状态。
+    private int localPublishStatus;
 
-    public Integer localPublishStatus;
+    private long localUpdateTime;
 
-    public Long localUpdateTime;
+    private int localDelete;
 
-    public Integer localDelete;
+    private long publishTimeValue;
 
-    public Long publishTimeValue;
+    private String attachments;
 
-    public String attachments;
+    private int draftWordCount;
 
-    public Integer draftWordCount;
+    private int draftImageCount;
 
-    public Integer draftImageCount;
+    private String lastTag;
 
-    public String lastTag;
+    private int conflictStatus;
 
-    public Integer conflict_status;
+    private String clientId;
 
-    public String clientId;
+    private String contentTag;
 
-    public String contentTag;
+    private Boolean drafted;
 
-    public Boolean drafted;
-
-    @Generated(hash = 1438640317)
-    public WriteChapter(Long id, Long bookId, Long chapterId, String title, String contentUrl,
-            String htmlUrl, Integer wordCount, Integer imageCount, Double orderValue, Integer published,
-            Long syncChapterTime, Long timestamp, Long modifyTime, Long releaseTime, Long createTime,
-            Long localBookId, Integer localUploadFlag, Integer localDownloadFlag,
-            Integer localEditingFlag, Integer localPublishStatus, Long localUpdateTime,
-            Integer localDelete, Long publishTimeValue, String attachments, Integer draftWordCount,
-            Integer draftImageCount, String lastTag, Integer conflict_status, String clientId,
-            String contentTag, Boolean drafted) {
+    @Generated(hash = 1123570893)
+    public WriteChapter(Long id, long localBookId, long bookId, long chapterId,
+            String title, String contentUrl, String htmlUrl, int wordCount,
+            int imageCount, double orderValue, int published, long syncChapterTime,
+            long timestamp, long modifyTime, long releaseTime, long createTime,
+            long localUploadFlag, int localDownloadFlag, int localEditingFlag,
+            int localPublishStatus, long localUpdateTime, int localDelete,
+            long publishTimeValue, String attachments, int draftWordCount,
+            int draftImageCount, String lastTag, int conflictStatus,
+            String clientId, String contentTag, Boolean drafted) {
         this.id = id;
+        this.localBookId = localBookId;
         this.bookId = bookId;
         this.chapterId = chapterId;
         this.title = title;
@@ -104,7 +109,6 @@ public class WriteChapter implements Serializable {
         this.modifyTime = modifyTime;
         this.releaseTime = releaseTime;
         this.createTime = createTime;
-        this.localBookId = localBookId;
         this.localUploadFlag = localUploadFlag;
         this.localDownloadFlag = localDownloadFlag;
         this.localEditingFlag = localEditingFlag;
@@ -116,7 +120,7 @@ public class WriteChapter implements Serializable {
         this.draftWordCount = draftWordCount;
         this.draftImageCount = draftImageCount;
         this.lastTag = lastTag;
-        this.conflict_status = conflict_status;
+        this.conflictStatus = conflictStatus;
         this.clientId = clientId;
         this.contentTag = contentTag;
         this.drafted = drafted;
@@ -126,12 +130,20 @@ public class WriteChapter implements Serializable {
     public WriteChapter() {
     }
 
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public long getLocalBookId() {
+        return this.localBookId;
+    }
+
+    public void setLocalBookId(long localBookId) {
+        this.localBookId = localBookId;
     }
 
     public long getBookId() {
@@ -246,19 +258,11 @@ public class WriteChapter implements Serializable {
         this.createTime = createTime;
     }
 
-    public long getLocalBookId() {
-        return this.localBookId;
-    }
-
-    public void setLocalBookId(long localBookId) {
-        this.localBookId = localBookId;
-    }
-
-    public int getLocalUploadFlag() {
+    public long getLocalUploadFlag() {
         return this.localUploadFlag;
     }
 
-    public void setLocalUploadFlag(int localUploadFlag) {
+    public void setLocalUploadFlag(long localUploadFlag) {
         this.localUploadFlag = localUploadFlag;
     }
 
@@ -342,12 +346,12 @@ public class WriteChapter implements Serializable {
         this.lastTag = lastTag;
     }
 
-    public int getConflict_status() {
-        return this.conflict_status;
+    public int getConflictStatus() {
+        return this.conflictStatus;
     }
 
-    public void setConflict_status(int conflict_status) {
-        this.conflict_status = conflict_status;
+    public void setConflictStatus(int conflictStatus) {
+        this.conflictStatus = conflictStatus;
     }
 
     public String getClientId() {
@@ -366,107 +370,12 @@ public class WriteChapter implements Serializable {
         this.contentTag = contentTag;
     }
 
-    public boolean getDrafted() {
+    public Boolean getDrafted() {
         return this.drafted;
-    }
-
-    public void setDrafted(boolean drafted) {
-        this.drafted = drafted;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setBookId(Long bookId) {
-        this.bookId = bookId;
-    }
-
-    public void setChapterId(Long chapterId) {
-        this.chapterId = chapterId;
-    }
-
-    public void setWordCount(Integer wordCount) {
-        this.wordCount = wordCount;
-    }
-
-    public void setImageCount(Integer imageCount) {
-        this.imageCount = imageCount;
-    }
-
-    public void setOrderValue(Double orderValue) {
-        this.orderValue = orderValue;
-    }
-
-    public void setPublished(Integer published) {
-        this.published = published;
-    }
-
-    public void setSyncChapterTime(Long syncChapterTime) {
-        this.syncChapterTime = syncChapterTime;
-    }
-
-    public void setTimestamp(Long timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public void setModifyTime(Long modifyTime) {
-        this.modifyTime = modifyTime;
-    }
-
-    public void setReleaseTime(Long releaseTime) {
-        this.releaseTime = releaseTime;
-    }
-
-    public void setCreateTime(Long createTime) {
-        this.createTime = createTime;
-    }
-
-    public void setLocalBookId(Long localBookId) {
-        this.localBookId = localBookId;
-    }
-
-    public void setLocalUploadFlag(Integer localUploadFlag) {
-        this.localUploadFlag = localUploadFlag;
-    }
-
-    public void setLocalDownloadFlag(Integer localDownloadFlag) {
-        this.localDownloadFlag = localDownloadFlag;
-    }
-
-    public void setLocalEditingFlag(Integer localEditingFlag) {
-        this.localEditingFlag = localEditingFlag;
-    }
-
-    public void setLocalPublishStatus(Integer localPublishStatus) {
-        this.localPublishStatus = localPublishStatus;
-    }
-
-    public void setLocalUpdateTime(Long localUpdateTime) {
-        this.localUpdateTime = localUpdateTime;
-    }
-
-    public void setLocalDelete(Integer localDelete) {
-        this.localDelete = localDelete;
-    }
-
-    public void setPublishTimeValue(Long publishTimeValue) {
-        this.publishTimeValue = publishTimeValue;
-    }
-
-    public void setDraftWordCount(Integer draftWordCount) {
-        this.draftWordCount = draftWordCount;
-    }
-
-    public void setDraftImageCount(Integer draftImageCount) {
-        this.draftImageCount = draftImageCount;
-    }
-
-    public void setConflict_status(Integer conflict_status) {
-        this.conflict_status = conflict_status;
     }
 
     public void setDrafted(Boolean drafted) {
         this.drafted = drafted;
     }
+
 }

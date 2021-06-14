@@ -3,7 +3,7 @@ package com.liuzhenli.common.exception;
 import android.net.ParseException;
 
 import com.google.gson.JsonParseException;
-import com.liuzhenli.common.utils.LogUtils;
+import com.liuzhenli.common.utils.L;
 import com.orhanobut.logger.BuildConfig;
 import com.orhanobut.logger.Logger;
 
@@ -82,7 +82,7 @@ public class ExceptionEngine {
                 || throwable instanceof ParseException) {
             ex = new ApiException(Error.PARSE_ERROR, throwable);
             if (BuildConfig.DEBUG) {
-                ex.setDisplayMessage(LogUtils.getErrorString(throwable));
+                ex.setDisplayMessage(L.getErrorString(throwable));
             } else {
                 ex.setDisplayMessage("数据解析失败");
             }
@@ -108,7 +108,7 @@ public class ExceptionEngine {
         } else {
             ex = new ApiException(Error.UNKNOWN, throwable);
             if (BuildConfig.DEBUG) {
-                ex.setDisplayMessage(LogUtils.getErrorString(throwable));
+                ex.setDisplayMessage(L.getErrorString(throwable));
             } else {
                 ex.setDisplayMessage("发生未知错误");
             }

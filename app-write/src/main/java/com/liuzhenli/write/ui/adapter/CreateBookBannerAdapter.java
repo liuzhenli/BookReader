@@ -46,7 +46,7 @@ public class CreateBookBannerAdapter extends BannerAdapter<WriteBook, CreateBook
         @Override
         public void setData(WriteBook item) {
             super.setData(item);
-            mBinding.tvBookName.setText(item.bookName);
+            mBinding.tvBookName.setText(item.getBookName());
         }
     }
 }

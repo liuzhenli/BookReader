@@ -1,6 +1,5 @@
 package com.liuzhenli.write.ui.presenter;
 
-import com.liuzhenli.common.base.BaseBean;
 import com.liuzhenli.common.base.RxPresenter;
 import com.liuzhenli.common.observer.SampleProgressObserver;
 import com.liuzhenli.common.utils.RxUtil;
@@ -10,13 +9,10 @@ import com.liuzhenli.write.ui.contract.EditBookContract;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 
 /**
  * Description:
@@ -32,16 +28,13 @@ public class EditBookPresenter extends RxPresenter<EditBookContract.View> implem
 
     @Override
     public void saveBooks(WriteBook book) {
-        addSubscribe(RxUtil.subscribe(Observable.create(new ObservableOnSubscribe<Long>() {
-            @Override
-            public void subscribe(@NotNull ObservableEmitter<Long> emitter) throws Exception {
-                long l = WriteBookHelper.saveWriteBook(book);
-                emitter.onNext(l);
-            }
+        addSubscribe(RxUtil.subscribe(Observable.create(emitter -> {
+            long l = WriteBookHelper.saveWriteBook(book);
+            emitter.onNext(l);
         }), new SampleProgressObserver<Long>() {
             @Override
-            public void onNext(@NotNull Long writeBooks) {
-                mView.showSaveResult(writeBooks);
+            public void onNext(@NotNull Long l) {
+                mView.showSaveResult(l);
             }
         }));
     }

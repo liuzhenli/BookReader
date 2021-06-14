@@ -17,6 +17,7 @@ import com.liuzhenli.common.constant.AppConstant;
 import com.liuzhenli.common.module.ApiModule;
 import com.liuzhenli.common.module.AppModule;
 import com.liuzhenli.common.utils.ChannelUtil;
+import com.liuzhenli.common.utils.L;
 import com.qmuiteam.qmui.arch.QMUISwipeBackActivityManager;
 import com.tencent.mmkv.MMKV;
 
@@ -65,6 +66,7 @@ public class BaseApplication extends Application {
         }
         initComponent();
         initARouter();
+        L.init();
     }
 
     private void initAppVersion() {
