@@ -10,11 +10,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.google.android.material.tabs.TabLayout;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
+import com.liuzhenli.common.constant.ARouterConstants;
 import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.ClickUtils;
@@ -34,6 +36,7 @@ import com.microedu.reader.databinding.ActivityMainContainerBinding;
 /**
  * @author liuzhenli
  */
+@Route(path = ARouterConstants.ACT_MAIN)
 public class MainActivity extends BaseActivity {
     private int mCurrentPosition;
     private MainTabAdapter mainTabAdapter;

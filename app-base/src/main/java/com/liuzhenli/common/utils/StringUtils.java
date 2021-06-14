@@ -11,6 +11,8 @@ import androidx.annotation.StringRes;
 
 import com.liuzhenli.common.BaseApplication;
 
+import org.jsoup.internal.StringUtil;
+
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -18,6 +20,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -414,5 +419,93 @@ public class StringUtils {
         }
 
         return false;
+    }
+
+
+    //英文字符计0.5， 其它计1 ，最后总长度向上取整
+    public static int getWordLength(String str) {
+        int wordLength = 0;
+
+        str = replaceBlank(str);
+
+        char[] chars = str.toCharArray();
+
+        for (int i = 0; i < chars.length; i++) {
+            int acsiiCode = (int) chars[i];
+            if (acsiiCode < 128) {
+                wordLength += 1;
+            } else {
+                wordLength += 2;
+            }
+        }
+
+        return (wordLength + 1) / 2;
+    }
+
+    /**
+     * 过滤掉字符串中的空白
+     */
+    public static String replaceBlank(String str) {
+        String dest = "";
+        if (str != null) {
+            Pattern p = Pattern.compile("[\\s\\r\\n\\u3000\\u00a0]");
+            Matcher m = p.matcher(str);
+            dest = m.replaceAll("");
+        }
+        return dest;
+    }
+
+
+    /***编辑器里面的内容，要对HTML实体进行转义*/
+    private static LinkedHashMap<String, String> getHtmlEntityMap() {
+        LinkedHashMap<String, String> entityMap = new LinkedHashMap<String, String>();
+        //必须放在第一个转
+        entityMap.put("&", "&amp;");
+        entityMap.put("<", "&lt;");
+        entityMap.put(">", "&gt;");
+        entityMap.put(" ", "&nbsp;");
+        entityMap.put("\"", "&quot;");
+        entityMap.put("'", "&apos;");
+        entityMap.put("×", "&times;");
+        entityMap.put("÷", "&divide;");
+        entityMap.put("©", "&copy;");
+
+        entityMap.put("¡", "&iexcl;");
+        entityMap.put("¢", "&cent;");
+        entityMap.put("£", "&pound;");
+        entityMap.put("¤", "&curren;");
+        entityMap.put("¥", "&yen;");
+        entityMap.put("¦", "&brvbar;");
+        entityMap.put("§", "&sect;");
+        entityMap.put("¨", "&uml;");
+        entityMap.put("ª", "&ordf;");
+        entityMap.put("«", "&laquo;");
+        entityMap.put("¬", "&not;");
+
+        entityMap.put("»", "&raquo;");
+        entityMap.put("¼", "&frac14;");
+        entityMap.put("½", "&frac12;");
+        entityMap.put("¾", "&frac34;");
+        entityMap.put("¿", "&iquest;");
+
+        return entityMap;
+    }
+
+    public static String encodeHTMLEntity(String content) {
+        if (content == null)
+            return "";
+
+        String html = content;
+
+        // 转义的时候，先把 & 实体转义，再转义其他的实体
+        LinkedHashMap<String, String> entityMap = new LinkedHashMap<String, String>();
+        entityMap.put("&", "&amp;");
+        entityMap.putAll(getHtmlEntityMap());
+
+        for (Map.Entry<String, String> entry : entityMap.entrySet()) {
+            html = html.replaceAll(entry.getKey(), entry.getValue());
+        }
+
+        return html;
     }
 }

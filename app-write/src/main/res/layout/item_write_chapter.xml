@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selector_card_bg">
+
+    <TextView
+        android:id="@+id/tv_book_name"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/all_item_height"
+        android:gravity="center_vertical"
+        android:lines="1"
+        android:paddingLeft="@dimen/common_space_large"
+        android:text="bookName"
+        android:textColor="@color/s_text_66"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

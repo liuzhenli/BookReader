@@ -15,8 +15,8 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <TextView
-        style="@style/AppBaseTheme"
         android:id="@+id/tv_book_name"
+        style="@style/AppBaseTheme"
         android:layout_width="80dp"
         android:layout_height="@dimen/all_item_height"
         android:layout_marginLeft="@dimen/common_space_large"
@@ -63,6 +63,7 @@
         android:id="@+id/btn_ok"
         android:layout_width="match_parent"
         android:layout_height="@dimen/all_item_height"
+        android:layout_marginBottom="@dimen/common_space_large"
         android:gravity="center"
         android:text="确定"
         app:layout_constraintBottom_toBottomOf="parent"

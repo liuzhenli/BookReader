@@ -28,8 +28,7 @@ public class Constant extends AppConstant {
     public static String UPDATE_PATH = FileUtils.createRootPath(BaseApplication.getInstance()) + "/update/";
     public static String LOG_PATH = FileUtils.createRootPath(BaseApplication.getInstance()) + "/log/";
     public static String TTS_PATH = FileUtils.createRootPath(BaseApplication.getInstance()) + "/tts/";
-    public static String WIFI_BOOK_PATH = FileUtils.createWifiBookPath(BaseApplication.getInstance()) + "/wifiTransfer/";
-    public static String POST_CACHE_PATH = FileUtils.createRootPath(BaseApplication.getInstance()) + "/tiezi/";
+    public static String WIFI_BOOK_PATH = FileUtils.createDownloadBookPath(BaseApplication.getInstance()) + "/wifiTransfer/";
 
 
     public static final String PERCENTL_STR = "%";
@@ -59,4 +58,8 @@ public class Constant extends AppConstant {
     }
 
     public static final int MIN_FILE_SIZE = 10;
+
+    public static final String AES_KEY = "oBcnLkp6HcbO0l1QV";
+    public static final String ATTACHMENT_SUFFIX_SERVER = ".jpg";
+    public static final String ATTACHMENT_SUFFIX = ".t";
 }

@@ -1,7 +1,7 @@
 package com.liuzhenli.reader.utils;
 
 import com.liuzhenli.common.BaseApplication;
-import com.liuzhenli.common.utils.LogUtils;
+import com.liuzhenli.common.utils.L;
 import com.liuzhenli.common.utils.ZipUtils;
 import com.thegrizzlylabs.sardineandroid.Sardine;
 import com.thegrizzlylabs.sardineandroid.impl.OkHttpSardine;
@@ -62,11 +62,11 @@ public class WebDavHelper {
             }
             sardine.put(server + DIALOG_BETA_BACKUP_DIR + "backup.zip", outFile, "*/*");
             outFile.delete();
-            LogUtils.e(TAG, "backup success");
+            L.e(TAG, "backup success");
             return true;
         } catch (IOException e) {
             e.printStackTrace();
-            LogUtils.e(TAG, "backup failed");
+            L.e(TAG, "backup failed");
         }
         return false;
     }
@@ -105,11 +105,11 @@ public class WebDavHelper {
             File in = outFile;
             File outDir = new File(BaseApplication.getInstance().getCacheDir().getParentFile(), "shared_prefs");
             ZipUtils.unzipFile(in, new File(outDir.getPath()));
-            LogUtils.e(TAG, "restore success");
+            L.e(TAG, "restore success");
             return true;
         } catch (IOException e) {
             e.printStackTrace();
-            LogUtils.e(TAG, "restore failed");
+            L.e(TAG, "restore failed");
             return false;
         }
     }

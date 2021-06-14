@@ -2,14 +2,29 @@ package com.liuzhenli.write.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewTreeObserver;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.liuzhenli.common.base.BaseBean;
+import com.liuzhenli.common.constant.ARouterConstants;
+import com.liuzhenli.common.utils.L;
+import com.liuzhenli.common.utils.ScreenUtils;
+import com.liuzhenli.common.widget.KeyboardTopView;
 import com.liuzhenli.write.WriteBookComponent;
+import com.liuzhenli.write.bean.WriteChapter;
 import com.liuzhenli.write.databinding.ActWirtebookBinding;
+import com.liuzhenli.write.greendao.WriteChapterDao;
+import com.liuzhenli.write.helper.WriteDbHelper;
 import com.liuzhenli.write.ui.WriteBaseActivity;
 import com.liuzhenli.write.ui.contract.WriteBookContract;
 import com.liuzhenli.write.ui.presenter.WriteBookPresenter;
+import com.liuzhenli.write.util.WriteChapterManager;
+import com.liuzhenli.write.util.WriteConstants;
 
 /**
  * Description:
@@ -17,8 +32,20 @@ import com.liuzhenli.write.ui.presenter.WriteBookPresenter;
  * @author liuzhenli 2021/1/20
  * Email: 848808263@qq.com
  */
-public class WriteBookActivity extends WriteBaseActivity<WriteBookPresenter> implements WriteBookContract.View {
+@Route(path = ARouterConstants.ACT_WRITE_BOOK)
+public class WriteBookActivity extends WriteBaseActivity<WriteBookPresenter> implements WriteBookContract.View, ViewTreeObserver.OnGlobalLayoutListener {
 
+    public static final String DATA = "chapterData";
+    public static final String MODE = "isCreate";
+
+    private WriteChapter mChapter;
+    private ActWirtebookBinding mBinding;
+    private String mChapterPath;
+    private WriteChapterDao mWriteChapterDao;
+    private WriteChapterManager mWriteChapterManager;
+    private String[] mHelpWords = {"@", "&", "|", "%", "/", ":", "[", "]", "(", ")", "{", "}", "<", ">", "\\", "$", "#", "!", "."};
+    /*** true create false edit*/
+    private boolean mIsCreate, mIsSoftKeyBoardShowing;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, WriteBookActivity.class);
@@ -27,8 +54,8 @@ public class WriteBookActivity extends WriteBaseActivity<WriteBookPresenter> imp
 
     @Override
     protected View bindContentView() {
-        ActWirtebookBinding inflate = ActWirtebookBinding.inflate(getLayoutInflater());
-        return inflate.getRoot();
+        mBinding = ActWirtebookBinding.inflate(getLayoutInflater());
+        return mBinding.getRoot();
     }
 
     @Override
@@ -43,12 +70,48 @@ public class WriteBookActivity extends WriteBaseActivity<WriteBookPresenter> imp
 
     @Override
     protected void initData() {
-
+        mWriteChapterManager = new WriteChapterManager();
+        mWriteChapterDao = WriteDbHelper.getInstance().getDaoSession().getWriteChapterDao();
+        mChapter = (WriteChapter) getIntent().getSerializableExtra(DATA);
+        if (mChapter == null || mChapter.getId() == null || mChapter.getId() < 1) {
+            createNewChapter();
+        }
+        mIsCreate = getIntent().getBooleanExtra(MODE, true);
+        mChapterPath = String.format("%s%s/%s", WriteConstants.PATH_WRITE_BOOK, mChapter.getLocalBookId(), mChapter.getId());
     }
 
     @Override
     protected void configViews() {
         mPresenter.getLocalData();
+        if (!mIsCreate) {
+            //fill title
+            mBinding.etChapterTitle.setText(mChapter.getTitle());
+            //file content
+            mBinding.editView.setText(mWriteChapterManager.loadDraft(mChapterPath, false).mSpannableText);
+        }
+
+        mBinding.mRvPunctuation.setData(key -> {
+            mBinding.editView.insertSymbol(key);
+        }, mHelpWords);
+
+        mBinding.editView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mTvTitle.setText(String.format("%1$s字", mBinding.editView.getWordCount()));
+            }
+        });
+
+        getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(this);
     }
 
     @Override
@@ -64,5 +127,83 @@ public class WriteBookActivity extends WriteBaseActivity<WriteBookPresenter> imp
     @Override
     public void showLocalData(BaseBean data) {
 
+    }
+
+    @Override
+    public void showSaveChapterInfoResult(boolean data) {
+
+    }
+
+    @Override
+    public void showAutoSaveDraftResult(boolean data) {
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        String title = mBinding.etChapterTitle.getText().toString();
+        String content = mBinding.editView.getContent(title, System.currentTimeMillis(), null);
+        mChapter.setTitle(title);
+        //if content is not empty save
+        if (!TextUtils.isEmpty(mBinding.editView.getText())) {
+            mPresenter.saveChapterInfo(mChapter);
+            mPresenter.autoSaveDraft(mChapter, content, mChapterPath);
+            mWriteChapterManager.saveDraft(content, mChapterPath, null, null, false);
+        } else {
+            deleteChapter();
+        }
+    }
+
+
+    private void createNewChapter() {
+        mChapter.setCreateTime(System.currentTimeMillis());
+        mWriteChapterDao.insert(mChapter);
+        mChapter = mWriteChapterDao.queryBuilder().where(WriteChapterDao.Properties.CreateTime.eq(mChapter.getCreateTime())).unique();
+        L.e("create chapter id = " + mChapter.getId() + "\nbookId" + mChapter.getLocalBookId() + "\n");
+    }
+
+    private void deleteChapter() {
+        mWriteChapterDao.delete(mChapter);
+    }
+
+    @Override
+    public void onGlobalLayout() {
+        Rect rect = new Rect();
+        getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
+        int screenHeight = ScreenUtils.getScreenHeight(this);
+        int keyBordHeight = screenHeight - rect.bottom;
+        if (keyBordHeight > screenHeight / 5) {
+            mIsSoftKeyBoardShowing = true;
+            showKeyboardTopPopupWindow();
+        } else {
+            mIsSoftKeyBoardShowing = false;
+            closePopupWindow();
+        }
+    }
+
+    private void showKeyboardTopPopupWindow() {
+        if (isFinishing()) {
+            return;
+        }
+        if (mBinding.mRvPunctuation.getVisibility() == View.VISIBLE) {
+            return;
+        }
+        if (!this.isFinishing()) {
+            mBinding.mRvPunctuation.setVisibility(View.VISIBLE);
+            mBinding.etChapterTitle.setVisibility(View.GONE);
+        }
+    }
+
+    private void closePopupWindow() {
+        if (mBinding.mRvPunctuation.getVisibility() == View.VISIBLE) {
+            mBinding.mRvPunctuation.setVisibility(View.GONE);
+            mBinding.etChapterTitle.setVisibility(View.VISIBLE);
+        }
     }
 }

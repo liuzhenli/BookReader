@@ -17,10 +17,13 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.liuzhenli.common.exception.ApiCodeException;
 import com.orhanobut.logger.Logger;
 
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -45,7 +48,7 @@ import java.util.List;
 public class FileUtils {
     private static final String TAG = "FileUtils";
     private static final String[] filters = {".txt", ".pdf", ".epub"};
-
+    private static final int BUFFER = 1024 * 8;
 
     public static File getFontDir(String font) {
         File file = new File(getFontPath(font));
@@ -73,16 +76,24 @@ public class FileUtils {
         return Constant.UPDATE_PATH + fileName;
     }
 
-    public static String getPostImgPath(String fileName) {
-        return Constant.POST_CACHE_PATH + fileName;
+    //复制文件
+    public static void copyFile(File sourceFile, File targetFile) throws IOException {
+        try (BufferedInputStream inBuff = new BufferedInputStream(new FileInputStream(sourceFile));
+             BufferedOutputStream outBuff = new BufferedOutputStream(new FileOutputStream(targetFile))) {
+            byte[] buffer = new byte[BUFFER];
+            int length;
+            while ((length = inBuff.read(buffer)) != -1) {
+                outBuff.write(buffer, 0, length);
+            }
+            outBuff.flush();
+        }
     }
-
 
     public static void copyFromAssets(AssetManager assets, String source, String dest, boolean isCover) throws IOException {
         File file = new File(dest);
         if (!file.getParentFile().exists())
             file.getParentFile().mkdirs();
-        if (isCover || (!isCover && !file.exists())) {
+        if (isCover || !file.exists()) {
             InputStream is = null;
             FileOutputStream fos = null;
             try {
@@ -99,9 +110,7 @@ public class FileUtils {
                     try {
                         fos.close();
                     } finally {
-                        if (is != null) {
-                            is.close();
-                        }
+                        is.close();
                     }
                 }
             }
@@ -244,9 +253,7 @@ public class FileUtils {
 
 
     /**
-     * 创建根缓存目录
-     *
-     * @return
+     * root cache path
      */
     public static String createRootPath(Context context) {
         String cacheRootPath = "";
@@ -272,8 +279,10 @@ public class FileUtils {
 
     /**
      * 创建WiFi传书目录
+     * create download dir
+     * /data/data/<application package>/Download
      */
-    public static String createWifiBookPath(Context context) {
+    public static String createDownloadBookPath(Context context) {
         String cacheRootPath = "";
         if (isSdCardAvailable()) {
             File externalFileDir = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
@@ -288,10 +297,24 @@ public class FileUtils {
         return cacheRootPath;
     }
 
+    public static String createDocumentBookPath(Context context) {
+        String cacheRootPath = "";
+        if (isSdCardAvailable()) {
+            File externalFileDir = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
+            if (externalFileDir == null) {
+                cacheRootPath = context.getFilesDir().getPath();
+            } else {
+                cacheRootPath = externalFileDir.getPath();
+            }
+        } else {
+            cacheRootPath = context.getFilesDir().getPath();
+        }
+        return cacheRootPath;
+    }
+
     /**
      * 递归创建文件夹
      *
-     * @param dirPath
      * @return 创建失败返回""
      */
     public static String createDir(String dirPath) {
@@ -313,7 +336,6 @@ public class FileUtils {
     /**
      * 递归创建文件夹
      *
-     * @param file
      * @return 创建失败返回""
      */
     public static String createFile(File file) {
@@ -329,6 +351,12 @@ public class FileUtils {
             e.printStackTrace();
         }
         return "";
+    }
+
+    public static File createFile(String fullPath) throws IOException {
+        File file = new File(fullPath);
+        file.createNewFile();
+        return file;
     }
 
     public static String getImageCachePath(String path) {
@@ -373,10 +401,36 @@ public class FileUtils {
         }
     }
 
+    public static File writeFromBuffer(String fullPath, byte[] buffer) {
+        File file;
+        OutputStream output = null;
+        try {
+            String path = fullPath.substring(0, fullPath.lastIndexOf('/'));
+            createDir(path);
+            deleteFile(fullPath);
+            file = createFile(fullPath);
+            output = new FileOutputStream(file);
+            output.write(buffer);
+            output.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ApiCodeException(22212, "保存文件失败,请检查手机扩展卡是否可用");
+        } finally {
+            try {
+                if (output != null) {
+                    output.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return file;
+    }
+
     public static void writeFile(String filePathAndName, String fileContent) {
         try {
-            OutputStream outstream = new FileOutputStream(filePathAndName);
-            OutputStreamWriter out = new OutputStreamWriter(outstream);
+            OutputStream outStream = new FileOutputStream(filePathAndName);
+            OutputStreamWriter out = new OutputStreamWriter(outStream);
             out.write(fileContent);
             out.close();
         } catch (IOException e) {
@@ -844,4 +898,36 @@ public class FileUtils {
         return sdCardDirectory;
     }
 
+
+    public static String readFileToBuffer(String fullPath, String encoding) {
+        InputStreamReader reader = null;
+        BufferedReader bufferedReader = null;
+        try {
+            File file = new File(fullPath);
+            StringBuilder buffer = new StringBuilder();
+            String txt = "";
+            if (file.isFile() && file.exists()) {
+                reader = new InputStreamReader(new FileInputStream(file), encoding);
+                bufferedReader = new BufferedReader(reader);
+                while ((txt = bufferedReader.readLine()) != null) {
+                    buffer.append(txt);
+                }
+                return buffer.toString();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+                if (bufferedReader != null) {
+                    bufferedReader.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
 }

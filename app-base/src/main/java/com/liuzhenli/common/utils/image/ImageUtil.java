@@ -25,7 +25,7 @@ import com.liuzhenli.common.observer.SampleProgressObserver;
 import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.common.utils.FileUtils;
-import com.liuzhenli.common.utils.LogUtils;
+import com.liuzhenli.common.utils.L;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -390,7 +390,7 @@ public class ImageUtil {
      * @return
      */
     public static String saveToSdCard(Bitmap bitmap) {
-        String imageUrl = Constant.POST_CACHE_PATH + System.currentTimeMillis() + ".jpg";
+        String imageUrl = Constant.IMG_PATH + System.currentTimeMillis() + ".jpg";
         File file = new File(imageUrl);
         try {
             if (!file.getParentFile().exists()) {
@@ -417,7 +417,7 @@ public class ImageUtil {
      */
     @SuppressWarnings("All")
     public static void saveBitmapToCapture(Bitmap bitmap, OnSaveResultListener listener) {
-        LogUtils.e(TAG, "保存图片");
+        L.e(TAG, "保存图片");
 
         File dir = new File(Constant.CAPTURE_PATH);
         if (!dir.exists()) {
@@ -434,7 +434,7 @@ public class ImageUtil {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
             out.flush();
             out.close();
-            LogUtils.i(TAG, "已经保存");
+            L.i(TAG, "已经保存");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

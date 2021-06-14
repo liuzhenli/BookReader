@@ -1,7 +1,9 @@
 package com.liuzhenli.write.helper;
 
 import com.liuzhenli.write.bean.WriteBook;
+import com.liuzhenli.write.bean.WriteChapter;
 import com.liuzhenli.write.greendao.WriteBookDao;
+import com.liuzhenli.write.greendao.WriteChapterDao;
 
 import java.util.List;
 
@@ -36,5 +38,14 @@ public class WriteBookHelper {
 
     public static void deleteBook(long bookId) {
         WriteDbHelper.getInstance().getDaoSession().getWriteBookDao().deleteByKey(bookId);
+    }
+
+    public static List<WriteChapter> getChapterList(long bookId) {
+        return WriteDbHelper.getInstance().getDaoSession().getWriteChapterDao().queryBuilder()
+                .where(WriteChapterDao.Properties.LocalBookId.eq(bookId)).list();
+    }
+
+    public static void saveChapterInfo(WriteChapter writeChapter) {
+        WriteDbHelper.getInstance().getDaoSession().getWriteChapterDao().insertOrReplace(writeChapter);
     }
 }

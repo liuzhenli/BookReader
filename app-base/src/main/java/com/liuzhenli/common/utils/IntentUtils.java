@@ -5,9 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
-import com.liuzhenli.common.utils.LogUtils;
-import com.liuzhenli.common.utils.ToastUtil;
-
 /**
  * Description:
  *
@@ -23,7 +20,7 @@ public class IntentUtils {
         // 官方解释 : Name of the component implementing an activity that can display the intent
         if (intent.resolveActivity(context.getPackageManager()) != null) {
             final ComponentName componentName = intent.resolveActivity(context.getPackageManager());
-            LogUtils.d("111111 = " + componentName.getClassName());
+            L.d("111111 = " + componentName.getClassName());
             context.startActivity(Intent.createChooser(intent, "请选择浏览器"));
         } else {
             ToastUtil.showToast(context, "链接错误或无浏览器");

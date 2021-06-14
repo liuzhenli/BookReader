@@ -18,53 +18,55 @@ public class WriteBook implements Serializable {
 
     public static final long serialVersionUID = 1L;
 
-    /***书id*/
+    /***local bookId*/
     @Id(autoincrement = true)
-    public Long bookId;
+    private Long id;
 
-    public String bookName;
+    private long bookId;
+
+    private String bookName;
     /***作品简介**/
-    public String intro;
+    private String intro;
     /***推荐语**/
-    public String recommendation;
+    private String recommendation;
     /***封面*/
-    public String coverUrl;
+    private String coverUrl;
 
-    public String tagWords;
+    private String tagWords;
 
     /***书分类**/
-    public String category;
+    private String category;
 
-    public Integer lastChapterId;
+    private int lastChapterId;
 
-    public Integer wordCount;
-    public Integer imageCount;
-    public Integer chapterCount;
+    private int wordCount;
+    private int imageCount;
+    private int chapterCount;
     /***0未完成 1完成*/
-    public Integer finished;
+    private int finished;
     /***是否是代表作品*/
-    public Integer magnumOpusFlag;
+    private int magnumOpusFlag;
     /***修改时间*/
-    public Long modifyTime;
+    private int modifyTime;
 
-    public Long createTime;
+    private int createTime;
 
     /*** 0 日期 1 普通*/
-    public Integer orderType;
+    private int orderType;
 
     /*** 大纲路径 0 false 1 true*/
-    public Integer outline;
+    private int outline;
 
     /*** 0:章节为列表视图   1:章节为卡片视图*/
-    public Integer viewType;
+    private int viewType;
 
-    @Generated(hash = 642005423)
-    public WriteBook(Long bookId, String bookName, String intro,
+    @Generated(hash = 470471163)
+    public WriteBook(Long id, long bookId, String bookName, String intro,
             String recommendation, String coverUrl, String tagWords,
-            String category, Integer lastChapterId, Integer wordCount,
-            Integer imageCount, Integer chapterCount, Integer finished,
-            Integer magnumOpusFlag, Long modifyTime, Long createTime,
-            Integer orderType, Integer outline, Integer viewType) {
+            String category, int lastChapterId, int wordCount, int imageCount,
+            int chapterCount, int finished, int magnumOpusFlag, int modifyTime,
+            int createTime, int orderType, int outline, int viewType) {
+        this.id = id;
         this.bookId = bookId;
         this.bookName = bookName;
         this.intro = intro;
@@ -89,11 +91,19 @@ public class WriteBook implements Serializable {
     public WriteBook() {
     }
 
-    public Long getBookId() {
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public long getBookId() {
         return this.bookId;
     }
 
-    public void setBookId(Long bookId) {
+    public void setBookId(long bookId) {
         this.bookId = bookId;
     }
 
@@ -145,91 +155,91 @@ public class WriteBook implements Serializable {
         this.category = category;
     }
 
-    public Integer getLastChapterId() {
+    public int getLastChapterId() {
         return this.lastChapterId;
     }
 
-    public void setLastChapterId(Integer lastChapterId) {
+    public void setLastChapterId(int lastChapterId) {
         this.lastChapterId = lastChapterId;
     }
 
-    public Integer getWordCount() {
+    public int getWordCount() {
         return this.wordCount;
     }
 
-    public void setWordCount(Integer wordCount) {
+    public void setWordCount(int wordCount) {
         this.wordCount = wordCount;
     }
 
-    public Integer getImageCount() {
+    public int getImageCount() {
         return this.imageCount;
     }
 
-    public void setImageCount(Integer imageCount) {
+    public void setImageCount(int imageCount) {
         this.imageCount = imageCount;
     }
 
-    public Integer getChapterCount() {
+    public int getChapterCount() {
         return this.chapterCount;
     }
 
-    public void setChapterCount(Integer chapterCount) {
+    public void setChapterCount(int chapterCount) {
         this.chapterCount = chapterCount;
     }
 
-    public Integer getFinished() {
+    public int getFinished() {
         return this.finished;
     }
 
-    public void setFinished(Integer finished) {
+    public void setFinished(int finished) {
         this.finished = finished;
     }
 
-    public Integer getMagnumOpusFlag() {
+    public int getMagnumOpusFlag() {
         return this.magnumOpusFlag;
     }
 
-    public void setMagnumOpusFlag(Integer magnumOpusFlag) {
+    public void setMagnumOpusFlag(int magnumOpusFlag) {
         this.magnumOpusFlag = magnumOpusFlag;
     }
 
-    public Long getModifyTime() {
+    public int getModifyTime() {
         return this.modifyTime;
     }
 
-    public void setModifyTime(Long modifyTime) {
+    public void setModifyTime(int modifyTime) {
         this.modifyTime = modifyTime;
     }
 
-    public Long getCreateTime() {
+    public int getCreateTime() {
         return this.createTime;
     }
 
-    public void setCreateTime(Long createTime) {
+    public void setCreateTime(int createTime) {
         this.createTime = createTime;
     }
 
-    public Integer getOrderType() {
+    public int getOrderType() {
         return this.orderType;
     }
 
-    public void setOrderType(Integer orderType) {
+    public void setOrderType(int orderType) {
         this.orderType = orderType;
     }
 
-    public Integer getOutline() {
+    public int getOutline() {
         return this.outline;
     }
 
-    public void setOutline(Integer outline) {
+    public void setOutline(int outline) {
         this.outline = outline;
     }
 
-    public Integer getViewType() {
+    public int getViewType() {
         return this.viewType;
     }
 
-    public void setViewType(Integer viewType) {
+    public void setViewType(int viewType) {
         this.viewType = viewType;
     }
 

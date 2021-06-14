@@ -4,6 +4,7 @@ import com.liuzhenli.common.base.RxPresenter;
 import com.liuzhenli.common.observer.SampleProgressObserver;
 import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.write.bean.WriteBook;
+import com.liuzhenli.write.bean.WriteChapter;
 import com.liuzhenli.write.helper.WriteBookHelper;
 import com.liuzhenli.write.ui.contract.CreateBookContract;
 
@@ -40,7 +41,7 @@ public class CreateBookPresenter extends RxPresenter<CreateBookContract.View> im
                     allBooks = new ArrayList<>();
                 }
                 WriteBook writeBook = new WriteBook();
-                writeBook.bookName = "新建一本书";
+                writeBook.setBookName("新建一本书");
                 allBooks.add(0, writeBook);
 
                 emitter.onNext(allBooks);
@@ -50,6 +51,32 @@ public class CreateBookPresenter extends RxPresenter<CreateBookContract.View> im
             public void onNext(@NotNull List<WriteBook> writeBooks) {
 
                 mView.showAllCreateBooks(writeBooks);
+            }
+        }));
+    }
+
+    @Override
+    public void getChapterList(long bookId) {
+        addSubscribe(RxUtil.subscribe(Observable.create(new ObservableOnSubscribe<List<WriteChapter>>() {
+            @Override
+            public void subscribe(@NotNull ObservableEmitter<List<WriteChapter>> emitter) throws Exception {
+                List<WriteChapter> chapterList = WriteBookHelper.getChapterList(bookId);
+                if (chapterList == null) {
+                    chapterList = new ArrayList<>();
+                }
+
+                WriteChapter writeChapter = new WriteChapter();
+                writeChapter.setTitle("新建章节");
+                writeChapter.setLocalBookId(bookId);
+                chapterList.add(writeChapter);
+
+                emitter.onNext(chapterList);
+
+            }
+        }), new SampleProgressObserver<List<WriteChapter>>() {
+            @Override
+            public void onNext(@NotNull List<WriteChapter> writeChapters) {
+                mView.showChapterList(writeChapters);
             }
         }));
     }
