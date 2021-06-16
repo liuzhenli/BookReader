@@ -83,6 +83,11 @@
     public static final int *;
 }
 
+-keep class com.liuzhenli.app.bean.** {*;}
+-keep class com.liuzhenli.reader.utils.AppConfigManager{*;}
+-keep class com.liuzhenli.app.utils.mananger.** {*;}
+-keep class com.liuzhenli.app.utils.** {*;}
+-keep class com.liuzhenli.app.network.** {*;}
 
 
 -keep class **_FragmentFinder { *; }
@@ -273,18 +278,14 @@
 -keep class com.umeng.qq.handler.*
 -keep class UMMoreHandler{*;}
 -keep class com.tencent.mm.opensdk.modelmsg.WXMediaMessage {*;}
--keep class com.tencent.mm.opensdk.modelmsg.** implements   com.tencent.mm.sdk.modelmsg.WXMediaMessage$IMediaObject {*;}
+-keep class com.tencent.mm.opensdk.modelmsg.** implements
+com.tencent.mm.sdk.modelmsg.WXMediaMessage$IMediaObject {*;}
 -keep class com.tencent.mm.opensdk.** {
  *;
 }
 
 -keep class com.tencent.** {*;}
 -keep class com.iflytek.** {*;}
--keep class com.liuzhenli.app.bean.** {*;}
--keep class com.liuzhenli.app.bean.AppConfigManager.{*;}
--keep class com.liuzhenli.app.utils.mananger.** {*;}
--keep class com.liuzhenli.app.utils.** {*;}
--keep class com.liuzhenli.app.network.** {*;}
 -keep class com.tencent.mm.opensdk.** {
    *;
 }
