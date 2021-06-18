@@ -8,11 +8,13 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.hwangjr.rxbus.RxBus;
 import com.liuzhenli.common.BitIntentDataManager;
 import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.common.base.BaseFragment;
 import com.liuzhenli.common.utils.DataDiffUtil;
+import com.micoredu.reader.bean.OpenChapterBean;
 import com.micoredu.reader.databinding.FragmentBookchapterlistBinding;
 import com.micoredu.reader.ui.activity.BookChapterListActivity;
 import com.micoredu.reader.ui.activity.ReaderActivity;
@@ -74,7 +76,7 @@ public class BookChapterListFragment extends BaseFragment {
             String bookKey = String.valueOf(System.currentTimeMillis());
             intent.putExtra(BitIntentDataManager.DATA_KEY, bookKey);
             BitIntentDataManager.getInstance().putData(bookKey, getParentActivity().getBookShelf().clone());
-
+            RxBus.get().post(new OpenChapterBean(item.getDurChapterIndex(), 0));
             mContext.startActivity(intent);
 
         });

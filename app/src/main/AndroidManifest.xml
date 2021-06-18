@@ -65,6 +65,7 @@
         <activity android:name="com.liuzhenli.reader.ui.activity.ImportLocalBookActivity" />
         <activity
             android:name="com.micoredu.reader.ui.activity.ReaderActivity"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme.FullScreen" />
 
         <activity android:name="com.liuzhenli.reader.ui.activity.WebViewActivity" />
