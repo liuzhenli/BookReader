@@ -98,6 +98,7 @@ public class ChangeSourceActivity extends BaseRvActivity<ChangeSourcePresenter, 
             mTvRight.setVisibility(View.GONE);
             searchBookModel.stopSearch();
         });
+        mTvTitle.setText(mBookShelf.getBookInfoBean().getName());
     }
 
     @Override
@@ -108,6 +109,10 @@ public class ChangeSourceActivity extends BaseRvActivity<ChangeSourcePresenter, 
         bookName = mBookShelf.getBookInfoBean().getName();
         bookAuthor = mBookShelf.getBookInfoBean().getAuthor();
         shelfLastChapter = BookshelfHelper.guessChapterNum(mBookShelf.getLastChapterName());
+    }
+
+    @Override
+    protected void configViews() {
         searchBookModel = new SearchBookModel(new SearchBookModel.OnSearchListener() {
             @Override
             public void refreshSearchBook() {
@@ -143,12 +148,7 @@ public class ChangeSourceActivity extends BaseRvActivity<ChangeSourcePresenter, 
                 return 0;
             }
         });
-        mTvTitle.setText(mBookShelf.getBookInfoBean().getName());
 
-    }
-
-    @Override
-    protected void configViews() {
         initAdapter(ChangeSourceAdapter.class, true, false);
         binding.mEtBookName.addTextChangedListener(new TextWatcher() {
             @Override

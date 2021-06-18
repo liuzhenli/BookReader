@@ -92,6 +92,11 @@ public class BookChapterListActivity extends BaseTabActivity {
             }
         });
         mTvRight.setVisibility(View.VISIBLE);
+
+        if (mBookShelf != null && mBookShelf.getBookInfoBean() != null) {
+            mTvTitle.setText(mBookShelf.getBookInfoBean().getName());
+        }
+
     }
 
     @SuppressWarnings("unchecked")
@@ -103,9 +108,6 @@ public class BookChapterListActivity extends BaseTabActivity {
         mIsFromReadPage = getIntent().getBooleanExtra("isFromReadPage", false);
         String chapterListKey = getIntent().getStringExtra("chapterListKey");
         mChapterBeanList = (List<BookChapterBean>) BitIntentDataManager.getInstance().getData(chapterListKey);
-        if (mBookShelf != null && mBookShelf.getBookInfoBean() != null) {
-            mTvTitle.setText(mBookShelf.getBookInfoBean().getName());
-        }
 
         if (mChapterBeanList != null) {
             for (int i = 0; i < mChapterBeanList.size(); i++) {

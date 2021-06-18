@@ -1,5 +1,7 @@
 package com.liuzhenli.common.base.rxlife;
 
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -8,7 +10,10 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.LifecycleOwner;
 
 
+import com.liuzhenli.common.utils.AppActivityManager;
 import com.liuzhenli.common.widget.dialog.CustomDialog;
+
+import java.lang.ref.WeakReference;
 
 import io.reactivex.subjects.BehaviorSubject;
 
@@ -18,15 +23,18 @@ import io.reactivex.subjects.BehaviorSubject;
  * @since 2019-07-06 16:51
  */
 public class RxAppCompatActivity extends AppCompatActivity implements LifecycleOwner {
+
     public final String TAG = RxAppCompatActivity.this.getClass().getSimpleName();
     protected final BehaviorSubject<LifeEvent> lifeSubject = BehaviorSubject.create();
-    /**进度条*/
+    /*** 进度条*/
     private CustomDialog dialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         lifeSubject.onNext(LifeEvent.CREATE);
+        AppActivityManager.getInstance().add(this);
     }
 
     public CustomDialog getDialog() {
@@ -38,10 +46,10 @@ public class RxAppCompatActivity extends AppCompatActivity implements LifecycleO
     }
 
     public void setProgress(String progress) {
-        if (dialog == null){
+        if (dialog == null) {
             showDialog();
         }
-        if (dialog!=null) {
+        if (dialog != null) {
             dialog.setProgress(progress);
         }
     }
@@ -56,7 +64,6 @@ public class RxAppCompatActivity extends AppCompatActivity implements LifecycleO
     public void showDialog() {
         getDialog().show();
     }
-
 
 
     @Override
@@ -87,5 +94,6 @@ public class RxAppCompatActivity extends AppCompatActivity implements LifecycleO
     protected void onDestroy() {
         super.onDestroy();
         lifeSubject.onNext(LifeEvent.DESTROY);
+        AppActivityManager.getInstance().remove(this);
     }
 }

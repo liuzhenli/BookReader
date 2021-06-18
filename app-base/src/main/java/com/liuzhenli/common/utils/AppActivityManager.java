@@ -6,6 +6,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * Activity管理器,管理项目中Activity的状态
@@ -109,5 +110,34 @@ public class AppActivityManager {
             }
         }
         return result;
+    }
+
+    /***
+     * 通过class 获取栈顶Activity
+     *
+     * @param cls class
+     * @return Activity
+     */
+    public Activity getActivityByClass(Class<?> cls) {
+        Activity return_activity = null;
+        if (activities == null) {
+            return null;
+        }
+
+        int size = activities.size();
+        ListIterator<WeakReference<Activity>> it = activities.listIterator(size);
+
+        while (it.hasPrevious()) {
+            WeakReference<Activity> activity = it.previous();
+            Activity activityInstance = activity.get();
+            if (activityInstance == null) {
+                it.remove();
+            } else if (activityInstance.getClass().equals(cls)) {
+                return_activity = activity.get();
+                break;
+            }
+        }
+
+        return return_activity;
     }
 }
