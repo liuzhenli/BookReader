@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.hwangjr.rxbus.RxBus;
 import com.liuzhenli.common.BitIntentDataManager;
 import com.liuzhenli.common.AppComponent;
+import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.common.base.BaseFragment;
 import com.liuzhenli.common.utils.DataDiffUtil;
@@ -76,7 +77,7 @@ public class BookChapterListFragment extends BaseFragment {
             String bookKey = String.valueOf(System.currentTimeMillis());
             intent.putExtra(BitIntentDataManager.DATA_KEY, bookKey);
             BitIntentDataManager.getInstance().putData(bookKey, getParentActivity().getBookShelf().clone());
-            RxBus.get().post(new OpenChapterBean(item.getDurChapterIndex(), 0));
+            RxBus.get().post(RxBusTag.SKIP_TO_CHAPTER, new OpenChapterBean(item.getDurChapterIndex(), 0));
             mContext.startActivity(intent);
 
         });
