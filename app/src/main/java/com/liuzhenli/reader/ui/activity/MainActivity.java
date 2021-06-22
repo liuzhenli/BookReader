@@ -1,6 +1,7 @@
 package com.liuzhenli.reader.ui.activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -13,10 +14,14 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
+import com.liuzhenli.common.BitIntentDataManager;
+import com.liuzhenli.common.SharedPreferencesUtil;
 import com.liuzhenli.common.constant.ARouterConstants;
+import com.liuzhenli.common.constant.AppConstant;
 import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.ClickUtils;
@@ -28,10 +33,16 @@ import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.reader.ui.fragment.DiscoverFragment;
 import com.liuzhenli.common.utils.PermissionUtil;
 import com.liuzhenli.common.utils.ToastUtil;
+import com.liuzhenli.reader.utils.JumpToLastPageUtil;
+import com.micoredu.reader.bean.BookShelfBean;
 import com.micoredu.reader.bean.BookSourceBean;
+import com.micoredu.reader.helper.BookshelfHelper;
 import com.micoredu.reader.ui.activity.BookSourceActivity;
+import com.micoredu.reader.ui.activity.ReaderActivity;
 import com.microedu.reader.R;
 import com.microedu.reader.databinding.ActivityMainContainerBinding;
+
+import static com.liuzhenli.common.BitIntentDataManager.DATA_KEY;
 
 /**
  * @author liuzhenli
@@ -121,17 +132,17 @@ public class MainActivity extends BaseActivity {
 
         inflate.viewMainLeft.mDrawLeft.setOnClickListener(null);
 
-        //意见反馈
+        //feedback
         ClickUtils.click(inflate.viewMainLeft.mViewFeedBack, o -> {
             WebViewActivity.start(mContext, Constant.FEEDBACK);
         });
 
-        //书源管理
+        //manage book source
         ClickUtils.click(inflate.viewMainLeft.mViewBookSourceManager, o -> {
             BookSourceActivity.start(mContext);
         });
 
-        //drawableLayout 滑动监听
+        //drawableLayout on draw listener
         inflate.mDrawLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
@@ -139,20 +150,22 @@ public class MainActivity extends BaseActivity {
                 inflate.mMaterialMenu.setTransformationOffset(MaterialMenuDrawable.AnimationState.BURGER_ARROW, 2 - slideOffset);
             }
         });
-        //设置
+        //setting
         ClickUtils.click(inflate.viewMainLeft.mViewSetting, o -> {
             SettingActivity.start(mContext);
         });
-        //关于
+        //about page
         ClickUtils.click(inflate.viewMainLeft.mViewAbout, o -> {
             AboutActivity.start(mContext);
         });
-        //捐赠
+        //donate
         ClickUtils.click(inflate.viewMainLeft.mViewDonate, o -> {
         });
         inflate.viewMainLeft.mViewDonate.setVisibility(View.GONE);
         inflate.viewMain.mViewPager.setOffscreenPageLimit(4);
         inflate.viewMainLeft.mViewNightMode.setVisibility(View.GONE);
+
+        JumpToLastPageUtil.openLastPage(mContext);
     }
 
     private void setMenu() {
@@ -247,7 +260,25 @@ public class MainActivity extends BaseActivity {
             moveTaskToBack(true);
             //super.onBackPressed();
         }
+    }
 
+    private void jumpToLastPage() {
 
+        String bookShelfStr = SharedPreferencesUtil.getInstance().getString("last_page_bookshelf");
+        if (bookShelfStr == null) {
+            return;
+        }
+        BookShelfBean bookShelfBean = new Gson().fromJson(bookShelfStr, BookShelfBean.class);
+
+        bookShelfBean.setFinalDate(System.currentTimeMillis());
+        BookshelfHelper.saveBookToShelf(bookShelfBean);
+        Intent intent = new Intent(this, ReaderActivity.class);
+        intent.putExtra("openFrom", Constant.BookOpenFrom.FROM_BOOKSHELF);
+
+        String bookKey = String.valueOf(System.currentTimeMillis());
+        intent.putExtra(BitIntentDataManager.DATA_KEY, bookKey);
+        BitIntentDataManager.getInstance().putData(bookKey, bookShelfBean.clone());
+
+        mContext.startActivity(intent);
     }
 }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.ArrayMap;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,11 +17,16 @@ import com.hwangjr.rxbus.RxBus;
 import com.liuzhenli.common.BaseApplication;
 import com.liuzhenli.common.R;
 import com.liuzhenli.common.AppComponent;
+import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.common.utils.SoftInputUtils;
 import com.liuzhenli.common.utils.ToastUtil;
 import com.liuzhenli.common.base.rxlife.RxAppCompatActivity;
 import com.liuzhenli.common.widget.bar.ImmersionBar;
 import com.liuzhenli.common.widget.recyclerview.EasyRecyclerView;
+import com.orhanobut.logger.Logger;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -144,6 +150,20 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
         } else {
             overridePendingTransition(0, android.R.anim.fade_out);
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //页面退出时,保存页面信息
+        Map<String, Object> data = new HashMap<>();
+        data.put("pageName", TAG);
+        data.put("timeStamp", System.currentTimeMillis());
+        AppSharedPreferenceHelper.saveLastPage(getPageInfo(data));
+    }
+
+    public Map<String, Object> getPageInfo(Map<String, Object> data) {
+        return null;
     }
 
     protected void toast(String mst) {

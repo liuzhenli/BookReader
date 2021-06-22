@@ -1,7 +1,5 @@
 package com.liuzhenli.common.base.rxlife;
 
-import android.app.Activity;
-import android.app.ActivityManager;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -10,10 +8,9 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.LifecycleOwner;
 
 
+import com.liuzhenli.common.SharedPreferencesUtil;
 import com.liuzhenli.common.utils.AppActivityManager;
 import com.liuzhenli.common.widget.dialog.CustomDialog;
-
-import java.lang.ref.WeakReference;
 
 import io.reactivex.subjects.BehaviorSubject;
 
@@ -83,7 +80,6 @@ public class RxAppCompatActivity extends AppCompatActivity implements LifecycleO
         super.onPause();
         lifeSubject.onNext(LifeEvent.PAUSE);
     }
-
     @Override
     protected void onStop() {
         super.onStop();

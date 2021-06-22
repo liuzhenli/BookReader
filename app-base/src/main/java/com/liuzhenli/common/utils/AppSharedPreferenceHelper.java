@@ -1,9 +1,18 @@
 package com.liuzhenli.common.utils;
 
 import android.text.TextUtils;
+import android.util.Base64;
 
 import com.liuzhenli.common.SharedPreferencesUtil;
 import com.liuzhenli.common.constant.AppConstant;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * app 配置管理类
@@ -124,5 +133,50 @@ public class AppSharedPreferenceHelper {
 
     public static String getString(String key, String defaultValue) {
         return SharedPreferencesUtil.getInstance().getString(key, defaultValue);
+    }
+
+    /***save last page info**/
+    public static void saveLastPage(Map<String, Object> data) {
+        if (data == null) {
+            clearValue("lastPage");
+        } else {
+            saveMap("lastPage", data);
+        }
+    }
+
+    /**
+     * @return saved page info
+     */
+    public static Map<String, Object> getLastPageInfo() {
+        return (Map<String, Object>) getMap("lastPage");
+    }
+
+    public static void clearValue(String key) {
+        SharedPreferencesUtil.getInstance().remove(key);
+    }
+
+    public static void saveMap(String key, Map<?, ?> map) {
+        try {
+            ByteArrayOutputStream toByte = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(toByte);
+            oos.writeObject(map);
+            // 对byte[]进行Base64编码
+            String lastGlobalMsgIds = new String(Base64.encode(toByte.toByteArray(), Base64.DEFAULT));
+            SharedPreferencesUtil.getInstance().putString(key, lastGlobalMsgIds);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Map<?, ?> getMap(String key) {
+        try {
+            byte[] base64Bytes = Base64.decode(getString(key, ""), Base64.DEFAULT);
+            ByteArrayInputStream bais = new ByteArrayInputStream(base64Bytes);
+            ObjectInputStream ois = new ObjectInputStream(bais);
+            return (Map<?, ?>) ois.readObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new HashMap<>();
     }
 }
