@@ -61,6 +61,7 @@ import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -852,5 +853,11 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
     @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusTag.SKIP_TO_CHAPTER)})
     public void skipToChapter(OpenChapterBean openChapterBean) {
         mPageLoader.skipToChapter(openChapterBean.getChapterIndex(), openChapterBean.getPageIndex());
+    }
+
+    @Override
+    public Map<String, Object> getPageInfo(Map<String, Object> data) {
+        data.put("bookShelf", mBookShelf);
+        return data;
     }
 }

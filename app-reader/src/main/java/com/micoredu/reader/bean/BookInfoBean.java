@@ -22,13 +22,16 @@ import org.greenrobot.greendao.annotation.Transient;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * 书本信息
  */
 @Entity
-public class BookInfoBean implements Cloneable {
+public class BookInfoBean implements Cloneable, Serializable {
+    @Transient
+    private static final long serialVersionUID = 126832618391379238L;
     /***小说名*/
     private String name;
     private String tag;

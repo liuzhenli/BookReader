@@ -288,7 +288,7 @@ public class BookshelfHelper {
     }
 
     /**
-     * 是否在书架
+     * check if the book is in book shelf
      *
      * @param bookUrl mSearchBook.getNoteUrl()
      */
@@ -304,14 +304,14 @@ public class BookshelfHelper {
     }
 
     /**
-     * 移除书籍
+     * remove book from book shelf
      */
     public static void removeFromBookShelf(BookShelfBean bookShelfBean) {
         removeFromBookShelf(bookShelfBean, false);
     }
 
     /**
-     * 保存书籍
+     * save book info
      */
     public static void saveBookToShelf(BookShelfBean bookShelfBean) {
         if (bookShelfBean.getErrorMsg() == null) {
