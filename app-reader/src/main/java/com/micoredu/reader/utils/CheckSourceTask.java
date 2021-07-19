@@ -7,7 +7,7 @@ import com.micoredu.reader.service.CheckSourceService;
 import com.micoredu.reader.analyzerule.AnalyzeRule;
 import com.micoredu.reader.bean.BookSourceBean;
 import com.micoredu.reader.bean.SearchBookBean;
-import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.helper.AppReaderDbHelper;
 import com.micoredu.reader.model.WebBookModel;
 
 import java.util.List;
@@ -124,14 +124,14 @@ public class CheckSourceTask {
         sourceBean.addGroup("失效");
         sourceBean.setEnable(false);
         sourceBean.setSerialNumber(10000 + checkSourceListener.getCheckIndex());
-        DbHelper.getDaoSession().getBookSourceBeanDao().insertOrReplace(sourceBean);
+        AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().insertOrReplace(sourceBean);
         checkSourceListener.nextCheck();
     }
 
     private void sourceUnInvalid() {
         if (sourceBean.containsGroup("失效")) {
             sourceBean.removeGroup("失效");
-            DbHelper.getDaoSession().getBookSourceBeanDao().insertOrReplace(sourceBean);
+            AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().insertOrReplace(sourceBean);
         }
         checkSourceListener.nextCheck();
     }

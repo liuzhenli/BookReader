@@ -38,7 +38,6 @@ public class DiscoverPresenter extends RxPresenter<DiscoverContract.View> implem
             public void subscribe(ObservableEmitter<List<BookSourceBean>> emitter) throws Exception {
                 List<BookSourceBean> allBookSource = BookSourceManager.getRuleFindEnable();
                 emitter.onNext(allBookSource);
-
             }
         });
 

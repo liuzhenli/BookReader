@@ -2,8 +2,8 @@ package com.liuzhenli.write.helper;
 
 import com.liuzhenli.write.bean.WriteBook;
 import com.liuzhenli.write.bean.WriteChapter;
-import com.liuzhenli.write.greendao.WriteBookDao;
-import com.liuzhenli.write.greendao.WriteChapterDao;
+import com.liuzhenli.write.data.WriteBookDao;
+import com.liuzhenli.write.data.WriteChapterDao;
 
 import java.util.List;
 
@@ -20,32 +20,30 @@ public class WriteBookHelper {
      * @return row ID of newly inserted entity
      */
     public static long saveWriteBook(WriteBook book) {
-        return WriteDbHelper.getInstance().getDaoSession().getWriteBookDao().insertOrReplace(book);
+        return WriteDbHelper.getInstance().getAppDatabase().getWriteBookDao().insertOrReplace(book);
     }
 
     public static List<WriteBook> getAllBooks() {
-        return WriteDbHelper.getInstance().getDaoSession().getWriteBookDao().queryBuilder().list();
+        return WriteDbHelper.getInstance().getAppDatabase().getWriteBookDao().getAllBooks();
     }
 
     public static WriteBook getBookById(long bookId) {
-        return WriteDbHelper.getInstance().getDaoSession().getWriteBookDao().queryBuilder()
-                .where(WriteBookDao.Properties.BookId.eq(bookId)).limit(1).build().unique();
+        return WriteDbHelper.getInstance().getAppDatabase().getWriteBookDao().getBookById(bookId);
     }
 
     public static void deleteBook(WriteBook writeBook) {
-        WriteDbHelper.getInstance().getDaoSession().getWriteBookDao().delete(writeBook);
+        WriteDbHelper.getInstance().getAppDatabase().getWriteBookDao().delete(writeBook);
     }
 
     public static void deleteBook(long bookId) {
-        WriteDbHelper.getInstance().getDaoSession().getWriteBookDao().deleteByKey(bookId);
+        WriteDbHelper.getInstance().getAppDatabase().getWriteBookDao().deleteByBookId(bookId);
     }
 
     public static List<WriteChapter> getChapterList(long bookId) {
-        return WriteDbHelper.getInstance().getDaoSession().getWriteChapterDao().queryBuilder()
-                .where(WriteChapterDao.Properties.LocalBookId.eq(bookId)).list();
+        return WriteDbHelper.getInstance().getAppDatabase().getWriteChapterDao().getChapterList(bookId);
     }
 
     public static void saveChapterInfo(WriteChapter writeChapter) {
-        WriteDbHelper.getInstance().getDaoSession().getWriteChapterDao().insertOrReplace(writeChapter);
+        WriteDbHelper.getInstance().getAppDatabase().getWriteChapterDao().insertOrReplace(writeChapter);
     }
 }

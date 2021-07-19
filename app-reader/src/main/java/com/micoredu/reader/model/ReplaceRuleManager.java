@@ -6,10 +6,9 @@ import com.liuzhenli.common.gson.GsonUtils;
 import com.liuzhenli.common.utils.NetworkUtils;
 import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.common.utils.StringUtils;
-import com.liuzhenli.greendao.ReplaceRuleBeanDao;
 import com.micoredu.reader.analyzerule.AnalyzeHeaders;
 import com.micoredu.reader.bean.ReplaceRuleBean;
-import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.helper.AppReaderDbHelper;
 import com.micoredu.reader.impl.IHttpGetApi;
 import com.micoredu.reader.observe.BaseModelImpl;
 
@@ -30,11 +29,8 @@ public class ReplaceRuleManager {
 
     public static List<ReplaceRuleBean> getEnabled() {
         if (replaceRuleBeansEnabled == null) {
-            replaceRuleBeansEnabled = DbHelper.getDaoSession()
-                    .getReplaceRuleBeanDao().queryBuilder()
-                    .where(ReplaceRuleBeanDao.Properties.Enable.eq(true))
-                    .orderAsc(ReplaceRuleBeanDao.Properties.SerialNumber)
-                    .list();
+            replaceRuleBeansEnabled = AppReaderDbHelper.getInstance().getDatabase()
+                    .getReplaceRuleDao().getEnabled();
         }
         return replaceRuleBeansEnabled;
     }
@@ -48,17 +44,11 @@ public class ReplaceRuleManager {
         String rule = formateAdRule(replaceRuleBean.getRegex());
         int sn = replaceRuleBean.getSerialNumber();
         if (sn == 0) {
-            sn = (int) (DbHelper.getDaoSession().getReplaceRuleBeanDao().queryBuilder().count() + 1);
+            sn = (int) (AppReaderDbHelper.getInstance().getDatabase().getReplaceRuleDao().count() + 1);
             replaceRuleBean.setSerialNumber(sn);
         }
 
-        List<ReplaceRuleBean> list = DbHelper.getDaoSession()
-                .getReplaceRuleBeanDao().queryBuilder()
-                .where(ReplaceRuleBeanDao.Properties.Enable.eq(true))
-                .where(ReplaceRuleBeanDao.Properties.ReplaceSummary.eq(replaceRuleBean.getReplaceSummary()))
-                .where(ReplaceRuleBeanDao.Properties.SerialNumber.notEq(sn))
-                .orderAsc(ReplaceRuleBeanDao.Properties.SerialNumber)
-                .list();
+        List<ReplaceRuleBean> list = AppReaderDbHelper.getInstance().getDatabase().getReplaceRuleDao().getByProperties(1, replaceRuleBean.getReplaceSummary(), sn);
         if (list.size() < 1) {
             replaceRuleBean.setRegex(rule);
             return saveData(replaceRuleBean);
@@ -73,9 +63,9 @@ public class ReplaceRuleManager {
 
             return Single.create((SingleOnSubscribe<Boolean>) emitter -> {
 
-                DbHelper.getDaoSession().getReplaceRuleBeanDao().insertOrReplace(replaceRuleBean);
+                AppReaderDbHelper.getInstance().getDatabase().getReplaceRuleDao().insertOrReplace(replaceRuleBean);
                 for (ReplaceRuleBean li : list) {
-                    DbHelper.getDaoSession().getReplaceRuleBeanDao().delete(li);
+                    AppReaderDbHelper.getInstance().getDatabase().getReplaceRuleDao().delete(li);
                 }
                 refreshDataS();
                 emitter.onSuccess(true);
@@ -123,48 +113,43 @@ public class ReplaceRuleManager {
     }
 
     public static Single<List<ReplaceRuleBean>> getAll() {
-        return Single.create((SingleOnSubscribe<List<ReplaceRuleBean>>) emitter -> emitter.onSuccess(DbHelper.getDaoSession()
-                .getReplaceRuleBeanDao().queryBuilder()
-                .orderAsc(ReplaceRuleBeanDao.Properties.SerialNumber)
-                .list())).compose(RxUtil::toSimpleSingle);
+        return Single.create((SingleOnSubscribe<List<ReplaceRuleBean>>) emitter -> emitter.onSuccess(AppReaderDbHelper.getInstance().getDatabase()
+                .getReplaceRuleDao().getAll())).compose(RxUtil::toSimpleSingle);
     }
 
     public static Single<Boolean> saveData(ReplaceRuleBean replaceRuleBean) {
         return Single.create((SingleOnSubscribe<Boolean>) emitter -> {
             if (replaceRuleBean.getSerialNumber() == 0) {
-                replaceRuleBean.setSerialNumber((int) (DbHelper.getDaoSession().getReplaceRuleBeanDao().queryBuilder().count() + 1));
+                replaceRuleBean.setSerialNumber((int) (AppReaderDbHelper.getInstance().getDatabase().getReplaceRuleDao().count() + 1));
             }
-            DbHelper.getDaoSession().getReplaceRuleBeanDao().insertOrReplace(replaceRuleBean);
+            AppReaderDbHelper.getInstance().getDatabase().getReplaceRuleDao().insertOrReplace(replaceRuleBean);
             refreshDataS();
             emitter.onSuccess(true);
         }).compose(RxUtil::toSimpleSingle);
     }
 
     public static void delData(ReplaceRuleBean replaceRuleBean) {
-        DbHelper.getDaoSession().getReplaceRuleBeanDao().delete(replaceRuleBean);
+        AppReaderDbHelper.getInstance().getDatabase().getReplaceRuleDao().delete(replaceRuleBean);
         refreshDataS();
     }
 
     public static void addDataS(List<ReplaceRuleBean> replaceRuleBeans) {
         if (replaceRuleBeans != null && replaceRuleBeans.size() > 0) {
-            DbHelper.getDaoSession().getReplaceRuleBeanDao().insertOrReplaceInTx(replaceRuleBeans);
+            AppReaderDbHelper.getInstance().getDatabase().getReplaceRuleDao().insertOrReplaceInTx(replaceRuleBeans);
             refreshDataS();
         }
     }
 
     public static void delDataS(List<ReplaceRuleBean> replaceRuleBeans) {
         for (ReplaceRuleBean replaceRuleBean : replaceRuleBeans) {
-            DbHelper.getDaoSession().getReplaceRuleBeanDao().delete(replaceRuleBean);
+            AppReaderDbHelper.getInstance().getDatabase().getReplaceRuleDao().delete(replaceRuleBean);
         }
         refreshDataS();
     }
 
     private static void refreshDataS() {
-        replaceRuleBeansEnabled = DbHelper.getDaoSession()
-                .getReplaceRuleBeanDao().queryBuilder()
-                .where(ReplaceRuleBeanDao.Properties.Enable.eq(true))
-                .orderAsc(ReplaceRuleBeanDao.Properties.SerialNumber)
-                .list();
+        replaceRuleBeansEnabled = AppReaderDbHelper.getInstance().getDatabase()
+                .getReplaceRuleDao().getEnabled();
     }
 
     public static Observable<Boolean> importReplaceRule(String text) {

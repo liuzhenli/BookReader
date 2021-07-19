@@ -11,7 +11,7 @@ import android.webkit.WebViewClient;
 import com.liuzhenli.common.BaseApplication;
 import com.micoredu.reader.analyzerule.AnalyzeUrl;
 import com.micoredu.reader.bean.CookieBean;
-import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.helper.AppReaderDbHelper;
 import com.micoredu.reader.helper.EncodeConverter;
 import com.micoredu.reader.helper.SSLSocketClient;
 import com.micoredu.reader.impl.IHttpGetApi;
@@ -131,7 +131,7 @@ public class BaseModelImpl {
                 }
                 String cookie = cookieBuilder.toString();
                 if (!TextUtils.isEmpty(cookie)) {
-                    DbHelper.getDaoSession().getCookieBeanDao().insertOrReplace(new CookieBean(tag, cookie));
+                    AppReaderDbHelper.getInstance().getDatabase().getCookieDao().insertOrReplace(new CookieBean(tag, cookie));
                 }
             }
             e.onNext(response);
@@ -181,7 +181,7 @@ public class BaseModelImpl {
                 webView.setWebViewClient(new WebViewClient() {
                     @Override
                     public void onPageFinished(WebView view, String url) {
-                        DbHelper.getDaoSession().getCookieBeanDao()
+                        AppReaderDbHelper.getInstance().getDatabase().getCookieDao()
                                 .insertOrReplace(new CookieBean(tag, cookieManager.getCookie(webView.getUrl())));
                         handler.postDelayed(retryRunnable, 1000);
                     }

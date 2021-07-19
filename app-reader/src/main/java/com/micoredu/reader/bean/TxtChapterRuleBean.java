@@ -1,34 +1,21 @@
 package com.micoredu.reader.bean;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.OrderBy;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import java.util.Objects;
 
-@Entity
+@Entity(tableName = "txtChapterRule", primaryKeys = "name")
 public class TxtChapterRuleBean {
 
-    @Id
-    private String name;
+    @NonNull
+    private String name = "";
     private String rule;
-    @OrderBy
     private Integer serialNumber;
     private Boolean enable;
 
-    @Generated(hash = 2018686288)
-    public TxtChapterRuleBean(String name, String rule, Integer serialNumber,
-                              Boolean enable) {
-        this.name = name;
-        this.rule = rule;
-        this.serialNumber = serialNumber;
-        this.enable = enable;
-    }
-
-    @Generated(hash = 382733400)
     public TxtChapterRuleBean() {
     }
 

@@ -12,7 +12,7 @@ import com.micoredu.reader.bean.BookShelfBean;
 import com.micoredu.reader.bean.SearchBookBean;
 import com.micoredu.reader.content.WebBook;
 import com.micoredu.reader.helper.BookshelfHelper;
-import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.helper.AppReaderDbHelper;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -117,7 +117,7 @@ public class WebBookModel {
                 e.onError(new Throwable("下载章节出错"));
             } else if (infoBean.isAudio()) {
                 bookContentBean.setTimeMillis(System.currentTimeMillis() + TimeUnit.HOURS.toMillis(1));
-                DbHelper.getDaoSession().getBookContentBeanDao().insertOrReplace(bookContentBean);
+                AppReaderDbHelper.getInstance().getDatabase().getBookContentDao().insertOrReplace(bookContentBean);
                 e.onNext(bookContentBean);
             } else if (BookshelfHelper.saveChapterInfo(infoBean.getName() + "-" + chapterBean.getTag(), chapterBean.getDurChapterIndex(),
                     chapterBean.getDurChapterName(), bookContentBean.getDurChapterContent())) {

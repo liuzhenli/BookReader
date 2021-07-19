@@ -6,7 +6,7 @@ import com.liuzhenli.common.SharedPreferencesUtil;
 import com.micoredu.reader.R;
 import com.micoredu.reader.bean.BookSourceBean;
 import com.micoredu.reader.bean.CookieBean;
-import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.helper.AppReaderDbHelper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +28,7 @@ public class AnalyzeHeaders {
             headerMap.put("User-Agent", getDefaultUserAgent());
         }
         if (bookSourceBean != null) {
-            CookieBean cookie = DbHelper.getDaoSession().getCookieBeanDao().load(bookSourceBean.getBookSourceUrl());
+            CookieBean cookie = AppReaderDbHelper.getInstance().getDatabase().getCookieDao().load(bookSourceBean.getBookSourceUrl());
             if (cookie != null) {
                 headerMap.put("Cookie", cookie.getCookie());
             }

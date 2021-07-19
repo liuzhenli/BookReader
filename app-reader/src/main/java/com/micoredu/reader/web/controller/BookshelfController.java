@@ -8,7 +8,7 @@ import com.micoredu.reader.bean.BookChapterBean;
 import com.micoredu.reader.bean.BookContentBean;
 import com.micoredu.reader.bean.BookShelfBean;
 import com.micoredu.reader.helper.BookshelfHelper;
-import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.helper.AppReaderDbHelper;
 import com.micoredu.reader.model.WebBookModel;
 import com.micoredu.reader.web.utils.ReturnData;
 
@@ -42,7 +42,7 @@ public class BookshelfController {
         if (strings == null) {
             return returnData.setErrorMsg("参数url不能为空，请指定内容地址");
         }
-        BookChapterBean chapter = DbHelper.getDaoSession().getBookChapterBeanDao().load(strings.get(0));
+        BookChapterBean chapter = AppReaderDbHelper.getInstance().getDatabase().getBookChapterDao().load(strings.get(0));
         if (chapter == null) {
             return returnData.setErrorMsg("未找到");
         }
@@ -66,7 +66,7 @@ public class BookshelfController {
         BookShelfBean bookShelfBean = GsonUtils.parseJObject(postData, BookShelfBean.class);
         ReturnData returnData = new ReturnData();
         if (bookShelfBean != null) {
-            DbHelper.getDaoSession().getBookShelfBeanDao().insertOrReplace(bookShelfBean);
+            AppReaderDbHelper.getInstance().getDatabase().getBookShelfDao().insertOrReplace(bookShelfBean);
             return returnData.setData("");
         }
         return returnData.setErrorMsg("格式不对");

@@ -5,6 +5,11 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.Gson;
 import com.liuzhenli.common.FileHelp;
 import com.liuzhenli.common.constant.BookType;
@@ -12,13 +17,8 @@ import com.liuzhenli.common.encript.MD5Utils;
 import com.liuzhenli.common.utils.StringUtils;
 import com.micoredu.reader.R;
 import com.micoredu.reader.helper.BookshelfHelper;
-import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.helper.AppReaderDbHelper;
 import com.micoredu.reader.page.PageLoaderEpub;
-
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Transient;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -28,16 +28,16 @@ import java.util.Objects;
 /**
  * 书本信息
  */
-@Entity
+@Entity(tableName = "bookInfo", primaryKeys = "noteUrl")
 public class BookInfoBean implements Cloneable, Serializable {
-    @Transient
+    @Ignore
     private static final long serialVersionUID = 126832618391379238L;
     /***小说名*/
     private String name;
     private String tag;
     /***如果是来源网站,则小说根地址,如果是本地则是小说本地MD5*/
-    @Id
-    private String noteUrl;
+    @NonNull
+    private String noteUrl = "";
     /***章节目录地址,本地目录正则*/
     private String chapterUrl;
     /***章节最后更新时间*/
@@ -53,28 +53,12 @@ public class BookInfoBean implements Cloneable, Serializable {
     /***编码*/
     private String charset;
     private String bookSourceType;
-    @Transient
+    @Ignore
     private String bookInfoHtml;
-    @Transient
+    @Ignore
     private String chapterListHtml;
 
     public BookInfoBean() {
-    }
-
-    @Generated(hash = 906814482)
-    public BookInfoBean(String name, String tag, String noteUrl, String chapterUrl, long finalRefreshData, String coverUrl, String author, String introduce,
-                        String origin, String charset, String bookSourceType) {
-        this.name = name;
-        this.tag = tag;
-        this.noteUrl = noteUrl;
-        this.chapterUrl = chapterUrl;
-        this.finalRefreshData = finalRefreshData;
-        this.coverUrl = coverUrl;
-        this.author = author;
-        this.introduce = introduce;
-        this.origin = origin;
-        this.charset = charset;
-        this.bookSourceType = bookSourceType;
     }
 
     @Override
@@ -104,11 +88,12 @@ public class BookInfoBean implements Cloneable, Serializable {
         this.tag = tag;
     }
 
+    @NonNull
     public String getNoteUrl() {
         return noteUrl;
     }
 
-    public void setNoteUrl(String noteUrl) {
+    public void setNoteUrl(@NonNull String noteUrl) {
         this.noteUrl = noteUrl;
     }
 
@@ -185,7 +170,7 @@ public class BookInfoBean implements Cloneable, Serializable {
                     out.flush();
                     out.close();
                     setCoverUrl(md5Path);
-                    DbHelper.getDaoSession().getBookInfoBeanDao().insertOrReplace(BookInfoBean.this);
+                    AppReaderDbHelper.getInstance().getDatabase().getBookInfoDao().insertOrReplace(BookInfoBean.this);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

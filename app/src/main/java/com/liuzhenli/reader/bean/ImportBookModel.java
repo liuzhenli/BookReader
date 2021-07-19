@@ -5,7 +5,7 @@ import com.micoredu.reader.bean.BookInfoBean;
 import com.micoredu.reader.bean.BookShelfBean;
 import com.micoredu.reader.bean.LocBookShelfBean;
 import com.micoredu.reader.helper.BookshelfHelper;
-import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.helper.AppReaderDbHelper;
 import com.micoredu.reader.observe.BaseModelImpl;
 import com.microedu.reader.R;
 
@@ -70,8 +70,8 @@ public class ImportBookModel extends BaseModelImpl {
                 bookInfoBean.setTag(BookShelfBean.LOCAL_TAG);
                 bookInfoBean.setOrigin(StringUtils.getString(R.string.local));
 
-                DbHelper.getDaoSession().getBookInfoBeanDao().insertOrReplace(bookInfoBean);
-                DbHelper.getDaoSession().getBookShelfBeanDao().insertOrReplace(bookShelfBean);
+                AppReaderDbHelper.getInstance().getDatabase().getBookInfoDao().insertOrReplace(bookInfoBean);
+                AppReaderDbHelper.getInstance().getDatabase().getBookShelfDao().insertOrReplace(bookShelfBean);
             }
             e.onNext(new LocBookShelfBean(isNew, bookShelfBean));
             e.onComplete();

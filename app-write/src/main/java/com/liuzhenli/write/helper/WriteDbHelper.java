@@ -1,18 +1,14 @@
 package com.liuzhenli.write.helper;
 
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
+import androidx.annotation.NonNull;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import com.github.yuweiguocn.library.greendao.MigrationHelper;
 import com.liuzhenli.common.BaseApplication;
-import com.liuzhenli.write.greendao.DaoMaster;
-import com.liuzhenli.write.greendao.DaoSession;
-import com.liuzhenli.write.greendao.WriteBookDao;
-import com.liuzhenli.write.greendao.WriteChapterDao;
+import com.liuzhenli.write.data.AppWriteDatabase;
 
-import org.greenrobot.greendao.database.Database;
-
-import java.util.Locale;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Description:Database helper
@@ -21,15 +17,33 @@ import java.util.Locale;
  * Email: 848808263@qq.com
  */
 public class WriteDbHelper {
+    private static final String DATABASE_NAME = "write.db";
+
     private static WriteDbHelper mDbHelper;
-    private final DaoSession mDaoSession;
+
+    private AppWriteDatabase mDatabase;
 
     private WriteDbHelper() {
-        DaoMaster.OpenHelper helper = new DaoOpenHelper(BaseApplication.getInstance(), "write_book_db", null);
-        SQLiteDatabase mDb = helper.getWritableDatabase();
-        mDb.setLocale(Locale.CHINESE);
-        DaoMaster daoMaster = new DaoMaster(mDb);
-        mDaoSession = daoMaster.newSession();
+        mDatabase = Room.databaseBuilder(BaseApplication.getInstance(), AppWriteDatabase.class, DATABASE_NAME)
+                .fallbackToDestructiveMigration()
+                .addMigrations()
+                .allowMainThreadQueries()//允许在主线程中查询
+                .addCallback(new RoomDatabase.Callback() {
+                    @Override
+                    public void onCreate(@NonNull @NotNull SupportSQLiteDatabase db) {
+                        super.onCreate(db);
+                    }
+
+                    @Override
+                    public void onOpen(@NonNull @NotNull SupportSQLiteDatabase db) {
+                        super.onOpen(db);
+                    }
+                })
+                .build();
+    }
+
+    public AppWriteDatabase getAppDatabase() {
+        return mDatabase;
     }
 
 
@@ -42,35 +56,5 @@ public class WriteDbHelper {
             }
         }
         return mDbHelper;
-    }
-
-    public DaoSession getDaoSession() {
-        return getInstance().mDaoSession;
-    }
-
-    static class DaoOpenHelper extends DaoMaster.OpenHelper {
-        public DaoOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory) {
-            super(context, name, factory);
-        }
-
-        @SuppressWarnings("unchecked")
-        @Override
-        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            super.onUpgrade(db, oldVersion, newVersion);
-            MigrationHelper.migrate(db, new MigrationHelper.ReCreateAllTableListener() {
-                        @Override
-                        public void onCreateAllTables(Database db, boolean ifNotExists) {
-                            DaoMaster.createAllTables(db, ifNotExists);
-                        }
-
-                        @Override
-                        public void onDropAllTables(Database db, boolean ifExists) {
-                            DaoMaster.dropAllTables(db, ifExists);
-                        }
-                    },
-                    WriteBookDao.class,
-                    WriteChapterDao.class
-            );
-        }
     }
 }

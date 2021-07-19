@@ -13,7 +13,7 @@ import com.liuzhenli.common.base.BaseActivity;
 import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.reader.ui.adapter.DatabaseTableDataGridAdapter;
 import com.liuzhenli.common.utils.ToastUtil;
-import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.helper.AppReaderDbHelper;
 import com.microedu.reader.databinding.ActivityDiagnoseDatabaseTableRecordBinding;
 
 import net.lucode.hackware.magicindicator.buildins.UIUtil;
@@ -105,8 +105,8 @@ public class DatabaseTableRecordsActivity extends BaseActivity {
         @Override
         protected List<String[]> doInBackground(String... params) {
             List<String[]> result = new ArrayList<String[]>();
-
-            SQLiteDatabase database = DbHelper.getDb();
+/*
+            SQLiteDatabase database = AppReaderDbHelper.getDb();
             Cursor cursor = database.rawQuery("select * from " + tableName, null);
 
             String[] ColumnNames = cursor.getColumnNames();
@@ -120,7 +120,7 @@ public class DatabaseTableRecordsActivity extends BaseActivity {
                 }
                 result.add(columnValues);
             }
-            cursor.close();
+            cursor.close();*/
 
             return result;
         }
@@ -159,11 +159,12 @@ public class DatabaseTableRecordsActivity extends BaseActivity {
 
         @Override
         protected List<String[]> doInBackground(Integer... params) {
+            /*
             List<String[]> result = new ArrayList<String[]>();
 
             int offset = params[0];
             int count = params[1];
-            SQLiteDatabase database = DbHelper.getDb();
+            SQLiteDatabase database = AppReaderDbHelper.getInstance().getDb().;
             Cursor cursor = database.rawQuery("select * from " + tableName + "limit ?,?", new String[]{String.valueOf(offset), String.valueOf(count)});
 
             // 读取表头
@@ -183,12 +184,16 @@ public class DatabaseTableRecordsActivity extends BaseActivity {
             }
             cursor.close();
             return result;
+             */
+            return null;
         }
 
         @Override
         protected void onPostExecute(List<String[]> result) {
             hideDialog();
         }
+
+
     }
 
 }

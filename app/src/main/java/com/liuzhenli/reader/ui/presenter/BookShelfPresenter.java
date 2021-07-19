@@ -11,7 +11,7 @@ import com.liuzhenli.common.utils.ThreadUtils;
 import com.micoredu.reader.bean.BookChapterBean;
 import com.micoredu.reader.bean.BookShelfBean;
 import com.micoredu.reader.helper.BookshelfHelper;
-import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.helper.AppReaderDbHelper;
 import com.micoredu.reader.model.WebBookModel;
 
 import java.util.ArrayList;
@@ -172,7 +172,7 @@ public class BookShelfPresenter extends RxPresenter<BookShelfContract.View> impl
             if (!chapterBeanList.isEmpty()) {
                 BookshelfHelper.delChapterList(bookShelfBean.getNoteUrl());
                 BookshelfHelper.saveBookToShelf(bookShelfBean);
-                DbHelper.getDaoSession().getBookChapterBeanDao().insertOrReplaceInTx(chapterBeanList);
+                AppReaderDbHelper.getInstance().getDatabase().getBookChapterDao().insertOrReplaceInTx(chapterBeanList);
             }
             e.onNext(bookShelfBean);
             e.onComplete();

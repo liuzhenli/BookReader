@@ -3,7 +3,6 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
-    id 'org.greenrobot.greendao'
 }
 
 android {
@@ -44,13 +43,13 @@ android {
         viewBinding true
     }
 
-    greendao {
-        schemaVersion 1 // 数据库版本号
-        daoPackage 'com.liuzhenli.write.greendao'//greenDao 自动生成的代码保存的包名
-        targetGenDir 'src/main/java' //自动生成的代码存储的路径，默认是 build/generated/source/greendao.
-        generateTests false //true的时候自动生成测试单元
-        //targetGenDirTests: 测试单元的生成目录默认是 src/androidTest/java
-    }
+//    greendao {
+//        schemaVersion 1 // 数据库版本号
+//        daoPackage 'com.liuzhenli.write.greendao'//greenDao 自动生成的代码保存的包名
+//        targetGenDir 'src/main/java' //自动生成的代码存储的路径，默认是 build/generated/source/greendao.
+//        generateTests false //true的时候自动生成测试单元
+//        //targetGenDirTests: 测试单元的生成目录默认是 src/androidTest/java
+//    }
 }
 
 dependencies {
@@ -71,4 +70,6 @@ dependencies {
 
     //https://github.com/youth5201314/banner
     implementation 'com.youth.banner:banner:2.1.0'
+
+    kapt "androidx.room:room-compiler:${rootProject.room_version}"
 }

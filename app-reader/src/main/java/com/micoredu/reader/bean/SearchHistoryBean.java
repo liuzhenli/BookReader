@@ -1,12 +1,13 @@
 package com.micoredu.reader.bean;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
 
-@Entity
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "searchHistory")
 public class SearchHistoryBean {
-    @Id(autoincrement = true)
+    @PrimaryKey(autoGenerate = true)
     private Long id = null;
     private int type;
     private String content;
@@ -44,13 +45,14 @@ public class SearchHistoryBean {
         this.id = id;
     }
 
+    @Ignore
     public SearchHistoryBean(int type, String content, long date) {
         this.type = type;
         this.content = content;
         this.date = date;
     }
 
-    @Generated(hash = 488115752)
+    @Ignore
     public SearchHistoryBean(Long id, int type, String content, long date) {
         this.id = id;
         this.type = type;
@@ -58,7 +60,6 @@ public class SearchHistoryBean {
         this.date = date;
     }
 
-    @Generated(hash = 1570282321)
     public SearchHistoryBean() {
 
     }

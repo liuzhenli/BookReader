@@ -1,11 +1,12 @@
 package com.liuzhenli.write.bean;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
+
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
-import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * Description:
@@ -13,13 +14,13 @@ import org.greenrobot.greendao.annotation.Generated;
  * @author liuzhenli 2021/1/21
  * Email: 848808263@qq.com
  */
-@Entity
+@Entity(tableName = "writeBook")
 public class WriteBook implements Serializable {
 
     public static final long serialVersionUID = 1L;
 
     /***local bookId*/
-    @Id(autoincrement = true)
+    @PrimaryKey(autoGenerate = true)
     private Long id;
 
     private long bookId;
@@ -60,34 +61,6 @@ public class WriteBook implements Serializable {
     /*** 0:章节为列表视图   1:章节为卡片视图*/
     private int viewType;
 
-    @Generated(hash = 470471163)
-    public WriteBook(Long id, long bookId, String bookName, String intro,
-            String recommendation, String coverUrl, String tagWords,
-            String category, int lastChapterId, int wordCount, int imageCount,
-            int chapterCount, int finished, int magnumOpusFlag, int modifyTime,
-            int createTime, int orderType, int outline, int viewType) {
-        this.id = id;
-        this.bookId = bookId;
-        this.bookName = bookName;
-        this.intro = intro;
-        this.recommendation = recommendation;
-        this.coverUrl = coverUrl;
-        this.tagWords = tagWords;
-        this.category = category;
-        this.lastChapterId = lastChapterId;
-        this.wordCount = wordCount;
-        this.imageCount = imageCount;
-        this.chapterCount = chapterCount;
-        this.finished = finished;
-        this.magnumOpusFlag = magnumOpusFlag;
-        this.modifyTime = modifyTime;
-        this.createTime = createTime;
-        this.orderType = orderType;
-        this.outline = outline;
-        this.viewType = viewType;
-    }
-
-    @Generated(hash = 1320800007)
     public WriteBook() {
     }
 

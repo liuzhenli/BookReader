@@ -3,29 +3,30 @@ package com.micoredu.reader.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(tableName = "cookies", primaryKeys = "url")
 public class CookieBean implements Parcelable {
 
-    @Id
-    private String url;
+    @NonNull
+    private String url = "";
     private String cookie;
 
+    @Ignore
     private CookieBean(Parcel in) {
         url = in.readString();
         cookie = in.readString();
     }
 
-    @Generated(hash = 517179762)
+    @Ignore
     public CookieBean(String url, String cookie) {
         this.url = url;
         this.cookie = cookie;
     }
 
-    @Generated(hash = 769081142)
     public CookieBean() {
     }
 
