@@ -51,7 +51,7 @@ public class DatabaseTableRecordDetailAdapter extends BaseAdapter {
         ItemHolder itemHolder;
         if (convertView == null) {
             itemHolder = new ItemHolder();
-            convertView = inflater.inflate(R.layout.item_diagnose_database_table_record_column, null);
+            convertView = inflater.inflate(R.layout.item_database_table_record_column, null);
             itemHolder.tvColumnTitle = (TextView) convertView.findViewById(R.id.tv_diagnose_databse_table_colum_title);
             itemHolder.tvColumnValue = (TextView) convertView.findViewById(R.id.tv_diagnose_databse_table_column_value);
             convertView.setTag(itemHolder);

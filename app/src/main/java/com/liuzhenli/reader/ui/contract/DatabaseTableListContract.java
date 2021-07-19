@@ -1,8 +1,10 @@
 package com.liuzhenli.reader.ui.contract;
 
 import com.liuzhenli.common.base.BaseContract;
+import com.liuzhenli.reader.bean.DatabaseTable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Description:
@@ -12,7 +14,7 @@ import java.util.List;
  */
 public class DatabaseTableListContract {
     public interface View extends BaseContract.BaseView {
-        void showDatabase(List<String> data);
+        void showDatabase(List<DatabaseTable> data);
     }
 
     public interface Presenter<T> extends BaseContract.BasePresenter<T> {

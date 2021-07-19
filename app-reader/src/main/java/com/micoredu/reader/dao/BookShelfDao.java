@@ -18,10 +18,10 @@ import java.util.List;
  */
 @Dao
 public interface BookShelfDao {
-    @Query("SELECT * FROM bookShelf Order BY finalDate")
+    @Query("SELECT * FROM bookShelf Order BY finalDate Desc")
     List<BookShelfBean> allByFinalDate();
 
-    @Query("select * from bookShelf where `group` =:group order by finalDate limit 1")
+    @Query("select * from bookShelf where `group` =:group order by finalDate desc limit 1 ")
     List<BookShelfBean> getBooksByGroup(int group);
 
     @Delete
