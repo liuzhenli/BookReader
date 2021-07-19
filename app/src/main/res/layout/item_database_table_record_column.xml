@@ -21,8 +21,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="left|center_vertical"
-        android:padding="8dip"
-        android:text="http://blog.csdn.net/justfornn413/article/details/5348203"
+        android:paddingLeft="8dip"
+        android:paddingRight="8dp"
+        android:paddingBottom="8dp"
+        android:text=""
         android:textColor="@color/text_color_66"
         android:textSize="@dimen/txt_size_14" />
 

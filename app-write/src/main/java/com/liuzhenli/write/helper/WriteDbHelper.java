@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
  * Email: 848808263@qq.com
  */
 public class WriteDbHelper {
-    private static final String DATABASE_NAME = "write.db";
+    public static final String DATABASE_NAME = "write.db";
 
     private static WriteDbHelper mDbHelper;
 
@@ -56,5 +56,9 @@ public class WriteDbHelper {
             }
         }
         return mDbHelper;
+    }
+
+    public SupportSQLiteDatabase getSqliteDatabase() {
+        return mDatabase.getOpenHelper().getReadableDatabase();
     }
 }

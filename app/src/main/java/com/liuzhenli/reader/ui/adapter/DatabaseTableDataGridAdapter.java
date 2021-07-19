@@ -104,7 +104,7 @@ public class DatabaseTableDataGridAdapter extends BaseAdapter {
         ItemHolder holder;
         if (convertView == null) {
             holder = new ItemHolder();
-            convertView = inflater.inflate(R.layout.item_diagnose_database_table_cell, null);
+            convertView = inflater.inflate(R.layout.item_database_table_cell, null);
             holder.layoutRoot = convertView.findViewById(R.id.layout_root_diagnose_database_table_cell);
             holder.tvTableCellValue = (TextView) convertView.findViewById(R.id.tv_diagnose_database_table_cell_value);
             convertView.setTag(holder);

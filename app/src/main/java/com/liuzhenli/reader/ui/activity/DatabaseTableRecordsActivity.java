@@ -4,15 +4,19 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import androidx.sqlite.db.SupportSQLiteDatabase;
+
 import com.liuzhenli.common.base.BaseActivity;
 import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.reader.ui.adapter.DatabaseTableDataGridAdapter;
 import com.liuzhenli.common.utils.ToastUtil;
+import com.liuzhenli.write.helper.WriteDbHelper;
 import com.micoredu.reader.helper.AppReaderDbHelper;
 import com.microedu.reader.databinding.ActivityDiagnoseDatabaseTableRecordBinding;
 
@@ -33,11 +37,13 @@ import nl.siegmann.epublib.util.StringUtil;
 public class DatabaseTableRecordsActivity extends BaseActivity {
 
     public static final String EXTRA_TABLE_NAME = "TableName";
+    public static final String EXTRA_DB_NAME = "DbName";
 
 
     private DatabaseTableDataGridAdapter tableDataAdapter;
 
     private String tableName;
+    private String dbName;
     private ActivityDiagnoseDatabaseTableRecordBinding binding;
 
     @Override
@@ -59,6 +65,7 @@ public class DatabaseTableRecordsActivity extends BaseActivity {
     @Override
     protected void initData() {
         tableName = getIntent().getStringExtra(EXTRA_TABLE_NAME);
+        dbName = getIntent().getStringExtra(EXTRA_DB_NAME);
     }
 
     @Override
@@ -105,23 +112,30 @@ public class DatabaseTableRecordsActivity extends BaseActivity {
         @Override
         protected List<String[]> doInBackground(String... params) {
             List<String[]> result = new ArrayList<String[]>();
-/*
-            SQLiteDatabase database = AppReaderDbHelper.getDb();
-            Cursor cursor = database.rawQuery("select * from " + tableName, null);
 
-            String[] ColumnNames = cursor.getColumnNames();
-            result.add(ColumnNames);
+            SupportSQLiteDatabase db = null;
+            Cursor cursor = null;
+            if (TextUtils.equals(dbName, AppReaderDbHelper.DATABASE_NAME)) {
+                db = AppReaderDbHelper.getInstance().getSqliteDatabase();
 
-            int columnsCount = ColumnNames.length;
-            while (cursor.moveToNext()) {
-                String[] columnValues = new String[columnsCount];
-                for (int i = 0; i < columnsCount; i++) {
-                    columnValues[i] = cursor.getString(i);
-                }
-                result.add(columnValues);
+            } else if (TextUtils.equals(dbName, WriteDbHelper.DATABASE_NAME)) {
+                db = WriteDbHelper.getInstance().getSqliteDatabase();
             }
-            cursor.close();*/
+            if (db != null) {
+                cursor = db.query("select * from " + tableName, null);
+                String[] ColumnNames = cursor.getColumnNames();
+                result.add(ColumnNames);
 
+                int columnsCount = ColumnNames.length;
+                while (cursor.moveToNext()) {
+                    String[] columnValues = new String[columnsCount];
+                    for (int i = 0; i < columnsCount; i++) {
+                        columnValues[i] = cursor.getString(i);
+                    }
+                    result.add(columnValues);
+                }
+                cursor.close();
+            }
             return result;
         }
 
@@ -129,7 +143,7 @@ public class DatabaseTableRecordsActivity extends BaseActivity {
         protected void onPostExecute(List<String[]> result) {
 
             hideDialog();
-            if (result != null) {
+            if (result != null && result.size() > 0) {
                 int columnCount = result.get(0).length;
                 binding.girdTableData.setNumColumns(columnCount);
 

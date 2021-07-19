@@ -7,6 +7,7 @@ import android.widget.AdapterView
 import com.liuzhenli.common.base.BaseActivity
 import com.liuzhenli.common.AppComponent
 import com.liuzhenli.reader.DaggerReadBookComponent
+import com.liuzhenli.reader.bean.DatabaseTable
 import com.liuzhenli.reader.ui.adapter.DatabaseTableListAdapter
 import com.liuzhenli.reader.ui.contract.DatabaseTableListContract
 import com.liuzhenli.reader.ui.presenter.DatabaseTableListPresenter
@@ -20,10 +21,11 @@ import java.util.*
  * @author liuzhenli
  * @date 2021.02.18
  */
-class DatabaseTableListActivity : BaseActivity<DatabaseTableListPresenter>(), DatabaseTableListContract.View {
+class DatabaseTableListActivity : BaseActivity<DatabaseTableListPresenter>(),
+    DatabaseTableListContract.View {
 
     private var tablesAdapter: DatabaseTableListAdapter? = null
-    private val tableList: MutableList<String> = ArrayList()
+    private val tableList: MutableList<DatabaseTable> = ArrayList()
 
     private var binding: ActDatabasetablelistBinding? = null
 
@@ -45,18 +47,20 @@ class DatabaseTableListActivity : BaseActivity<DatabaseTableListPresenter>(), Da
     override fun configViews() {
         tablesAdapter = DatabaseTableListAdapter(this)
         binding?.databaseTablesList!!.adapter = tablesAdapter
-        binding?.databaseTablesList!!.onItemClickListener = AdapterView.OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->
-            val tableName = tableList[position]
-            if (StringUtil.isNotBlank(tableName)) {
-                val intent = Intent(this@DatabaseTableListActivity, DatabaseTableRecordsActivity::class.java)
-                intent.putExtra(DatabaseTableRecordsActivity.EXTRA_TABLE_NAME, tableName)
-                startActivity(intent)
+        binding?.databaseTablesList!!.onItemClickListener =
+            AdapterView.OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->
+                val tableName = tableList[position]
+                if (StringUtil.isNotBlank(tableName.tableName)) {
+                    val intent = Intent(this@DatabaseTableListActivity, DatabaseTableRecordsActivity::class.java)
+                    intent.putExtra(DatabaseTableRecordsActivity.EXTRA_TABLE_NAME, tableName.tableName)
+                    intent.putExtra(DatabaseTableRecordsActivity.EXTRA_DB_NAME, tableName.dbName)
+                    startActivity(intent)
+                }
             }
-        }
         mPresenter!!.loadDatabase()
     }
 
-    override fun showDatabase(data: List<String>) {
+    override fun showDatabase(data: List<DatabaseTable>) {
         tableList.addAll(data)
         tablesAdapter!!.setDataset(tableList)
     }

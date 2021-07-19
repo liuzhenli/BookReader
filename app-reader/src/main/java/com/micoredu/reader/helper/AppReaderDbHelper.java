@@ -18,7 +18,7 @@ import java.util.Locale;
  */
 public class AppReaderDbHelper {
 
-    private static final String DATABASE_NAME = "reader.db";
+    public static final String DATABASE_NAME = "reader.db";
     private AppReaderDatabase mDatabase;
 
 
