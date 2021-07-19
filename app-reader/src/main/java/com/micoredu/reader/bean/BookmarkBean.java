@@ -1,13 +1,14 @@
 package com.micoredu.reader.bean;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
 
-@Entity
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "bookMarks")
 public class BookmarkBean implements Cloneable {
 
-    @Id
+    @PrimaryKey
     private Long id = System.currentTimeMillis();
     private String noteUrl;
     private String bookName;
@@ -17,7 +18,7 @@ public class BookmarkBean implements Cloneable {
     private String content;
 
 
-    @Generated(hash = 1176037419)
+    @Ignore
     public BookmarkBean(Long id, String noteUrl, String bookName, String chapterName,
                         Integer chapterIndex, Integer pageIndex, String content) {
         this.id = id;
@@ -29,7 +30,6 @@ public class BookmarkBean implements Cloneable {
         this.content = content;
     }
 
-    @Generated(hash = 1612540172)
     public BookmarkBean() {
     }
 

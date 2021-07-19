@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'org.greenrobot.greendao' // apply plugin
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-parcelize'
@@ -47,9 +46,9 @@ dependencies {
 
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    //GreenDao
-    api 'org.greenrobot:greendao:3.3.0'
-    api 'com.github.yuweiguocn:GreenDaoUpgradeHelper:v2.1.0'
+    //room
+    api "androidx.room:room-runtime:${rootProject.room_version}"
+
     api 'com.squareup.retrofit2:retrofit:2.6.1'
     api 'com.squareup.retrofit2:converter-gson:2.4.0'
     api 'com.squareup.retrofit2:adapter-rxjava2:2.6.1'

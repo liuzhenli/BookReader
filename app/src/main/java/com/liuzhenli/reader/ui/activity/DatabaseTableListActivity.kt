@@ -45,7 +45,7 @@ class DatabaseTableListActivity : BaseActivity<DatabaseTableListPresenter>(), Da
     override fun configViews() {
         tablesAdapter = DatabaseTableListAdapter(this)
         binding?.databaseTablesList!!.adapter = tablesAdapter
-        binding?.databaseTablesList!!.onItemClickListener = AdapterView.OnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
+        binding?.databaseTablesList!!.onItemClickListener = AdapterView.OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->
             val tableName = tableList[position]
             if (StringUtil.isNotBlank(tableName)) {
                 val intent = Intent(this@DatabaseTableListActivity, DatabaseTableRecordsActivity::class.java)

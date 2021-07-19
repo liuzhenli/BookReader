@@ -12,7 +12,7 @@ import com.liuzhenli.common.utils.LauncherIcon
 import com.liuzhenli.common.utils.fromJsonArray
 import com.micoredu.reader.R
 import com.micoredu.reader.bean.*
-import com.micoredu.reader.helper.DbHelper
+import com.micoredu.reader.helper.AppReaderDbHelper
 import com.micoredu.reader.helper.ReadConfigManager
 import com.micoredu.reader.model.BookSourceManager
 import com.micoredu.reader.model.ReplaceRuleManager
@@ -65,10 +65,10 @@ object Restore {
                 val json = file.readText()
                 GsonUtil.fromJsonArray<BookShelfBean>(json)?.forEach { bookshelf ->
                     if (bookshelf.noteUrl != null) {
-                        DbHelper.getDaoSession().bookShelfBeanDao.insertOrReplace(bookshelf)
+                        AppReaderDbHelper.getInstance().database.bookShelfDao.insertOrReplace(bookshelf)
                     }
                     if (bookshelf.bookInfoBean.noteUrl != null) {
-                        DbHelper.getDaoSession().bookInfoBeanDao.insertOrReplace(bookshelf.bookInfoBean)
+                        AppReaderDbHelper.getInstance().database.bookInfoDao.insertOrReplace(bookshelf.bookInfoBean)
                     }
                 }
             } catch (e: Exception) {
@@ -87,7 +87,7 @@ object Restore {
                 val file = FileHelp.createFileIfNotExist(path + File.separator + "myBookSearchHistory.json")
                 val json = file.readText()
                 GsonUtil.fromJsonArray<SearchHistoryBean>(json)?.let {
-                    DbHelper.getDaoSession().searchHistoryBeanDao.insertOrReplaceInTx(it)
+                    AppReaderDbHelper.getInstance().database.searchHistoryDao.insertOrReplaceInTx(it)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

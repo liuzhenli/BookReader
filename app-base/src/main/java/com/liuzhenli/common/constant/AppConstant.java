@@ -4,7 +4,6 @@ import com.google.gson.reflect.TypeToken;
 import com.liuzhenli.common.BaseApplication;
 import com.liuzhenli.common.BuildConfig;
 
-import org.greenrobot.greendao.annotation.Convert;
 
 import java.io.File;
 import java.lang.reflect.Type;

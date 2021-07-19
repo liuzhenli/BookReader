@@ -18,7 +18,6 @@ import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.StringUtils;
-import com.liuzhenli.greendao.SearchBookBeanDao;
 import com.liuzhenli.common.base.BaseRvActivity;
 import com.liuzhenli.reader.DaggerReadBookComponent;
 import com.liuzhenli.reader.ui.adapter.ChangeSourceAdapter;
@@ -29,7 +28,7 @@ import com.micoredu.reader.bean.BookShelfBean;
 import com.micoredu.reader.bean.BookSourceBean;
 import com.micoredu.reader.bean.SearchBookBean;
 import com.micoredu.reader.helper.BookshelfHelper;
-import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.helper.AppReaderDbHelper;
 import com.micoredu.reader.model.BookSourceManager;
 import com.micoredu.reader.model.SearchBookModel;
 import com.microedu.reader.databinding.ActChangesourceBinding;
@@ -164,16 +163,13 @@ public class ChangeSourceActivity extends BaseRvActivity<ChangeSourcePresenter, 
             @Override
             public void afterTextChanged(Editable s) {
                 if (StringUtils.isTrimEmpty(s.toString())) {
-                    List<SearchBookBean> searchBookBeans = DbHelper.getDaoSession().getSearchBookBeanDao().queryBuilder()
-                            .where(SearchBookBeanDao.Properties.Name.eq(bookName), SearchBookBeanDao.Properties.Author.eq(bookAuthor))
-                            .build().list();
+                    List<SearchBookBean> searchBookBeans = AppReaderDbHelper.getInstance().getDatabase()
+                            .getSearchBookDao().getBookList(bookName, bookAuthor);
                     mAdapter.clear();
                     mAdapter.addAll(searchBookBeans);
                 } else {
-                    List<SearchBookBean> searchBookBeans = DbHelper.getDaoSession().getSearchBookBeanDao().queryBuilder()
-                            .where(SearchBookBeanDao.Properties.Name.eq(bookName), SearchBookBeanDao.Properties.Author.eq(bookAuthor),
-                                    SearchBookBeanDao.Properties.Origin.like("%" + s.toString() + "%"))
-                            .build().list();
+                    List<SearchBookBean> searchBookBeans = AppReaderDbHelper.getInstance().getDatabase()
+                            .getSearchBookDao().getBookList(bookName, bookAuthor, s.toString());
                     mAdapter.clear();
                     mAdapter.addAll(searchBookBeans);
                 }
@@ -256,9 +252,9 @@ public class ChangeSourceActivity extends BaseRvActivity<ChangeSourcePresenter, 
                         }
                     }
                     if (saveBookSource) {
-                        DbHelper.getDaoSession().getBookSourceBeanDao().insertOrReplace(bookSourceBean);
+                        AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().insertOrReplace(bookSourceBean);
                     }
-                    DbHelper.getDaoSession().getSearchBookBeanDao().insertOrReplace(searchBookBean);
+                    AppReaderDbHelper.getInstance().getDatabase().getSearchBookDao().insertOrReplace(searchBookBean);
                     if (StringUtils.isTrimEmpty(binding.mEtBookName.getText().toString()) || searchBookBean.getOrigin().equals(binding.mEtBookName.getText().toString())) {
                         handler.post(() -> mAdapter.add(searchBookBean));
                     }

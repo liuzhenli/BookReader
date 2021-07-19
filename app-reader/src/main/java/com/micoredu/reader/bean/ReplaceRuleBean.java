@@ -3,20 +3,19 @@ package com.micoredu.reader.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.OrderBy;
-import org.greenrobot.greendao.annotation.Transient;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import java.util.regex.Pattern;
+
+import kotlin.jvm.Transient;
 
 /**
  * 阅读内容替换规则
  */
-@Entity
+@Entity(tableName = "replaceRule")
 public class ReplaceRuleBean implements Parcelable {
-    @Id(autoincrement = true)
+    @PrimaryKey(autoGenerate = true)
     private Long id;
     //描述
     private String replaceSummary;
@@ -26,12 +25,8 @@ public class ReplaceRuleBean implements Parcelable {
     private String replacement;
     //作用于
     private String useTo;
-
     private Boolean enable;
-
     private Boolean isRegex;
-
-    @OrderBy
     private int serialNumber;
 
     private ReplaceRuleBean(Parcel in) {
@@ -45,20 +40,7 @@ public class ReplaceRuleBean implements Parcelable {
         isRegex = in.readByte() != 0;
     }
 
-    @Generated(hash = 1896663649)
-    public ReplaceRuleBean(Long id, String replaceSummary, String regex, String replacement,
-                           String useTo, Boolean enable, Boolean isRegex, int serialNumber) {
-        this.id = id;
-        this.replaceSummary = replaceSummary;
-        this.regex = regex;
-        this.replacement = replacement;
-        this.useTo = useTo;
-        this.enable = enable;
-        this.isRegex = isRegex;
-        this.serialNumber = serialNumber;
-    }
 
-    @Generated(hash = 582692869)
     public ReplaceRuleBean() {
     }
 

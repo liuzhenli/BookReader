@@ -7,7 +7,6 @@ import com.liuzhenli.common.BaseApplication;
 import com.liuzhenli.common.constant.AppConstant;
 import com.liuzhenli.common.utils.NetworkUtils;
 import com.liuzhenli.common.utils.StringUtils;
-import com.liuzhenli.greendao.BookChapterBeanDao;
 import com.micoredu.reader.R;
 import com.micoredu.reader.analyzerule.AnalyzeRule;
 import com.micoredu.reader.analyzerule.AnalyzeUrl;
@@ -15,7 +14,7 @@ import com.micoredu.reader.bean.BaseChapterBean;
 import com.micoredu.reader.bean.BookContentBean;
 import com.micoredu.reader.bean.BookShelfBean;
 import com.micoredu.reader.bean.BookSourceBean;
-import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.helper.AppReaderDbHelper;
 import com.micoredu.reader.observe.BaseModelImpl;
 
 import java.util.ArrayList;
@@ -84,15 +83,14 @@ class BookContent {
                 if (nextChapterBean != null) {
                     nextChapter = nextChapterBean;
                 } else {
-                    nextChapter = DbHelper.getDaoSession().getBookChapterBeanDao().queryBuilder()
-                            .where(BookChapterBeanDao.Properties.NoteUrl.eq(chapterBean.getNoteUrl()),
-                                    BookChapterBeanDao.Properties.DurChapterIndex.eq(chapterBean.getDurChapterIndex() + 1))
-                            .build().unique();
+                    nextChapter = AppReaderDbHelper.getInstance().getDatabase().getBookChapterDao()
+                            .getChapter(chapterBean.getNoteUrl(), chapterBean.getDurChapterIndex() + 1);
                 }
 
                 while (!TextUtils.isEmpty(webContentBean.nextUrl) && !usedUrlList.contains(webContentBean.nextUrl)) {
                     usedUrlList.add(webContentBean.nextUrl);
-                    if (nextChapter != null && NetworkUtils.getAbsoluteURL(baseUrl, webContentBean.nextUrl).equals(NetworkUtils.getAbsoluteURL(baseUrl, nextChapter.getDurChapterUrl()))) {
+                    if (nextChapter != null && NetworkUtils.getAbsoluteURL(baseUrl, webContentBean
+                            .nextUrl).equals(NetworkUtils.getAbsoluteURL(baseUrl, nextChapter.getDurChapterUrl()))) {
                         break;
                     }
                     AnalyzeUrl analyzeUrl = new AnalyzeUrl(webContentBean.nextUrl, headerMap, tag);
@@ -128,8 +126,7 @@ class BookContent {
         Debug.printLog(tag, 1, "┌解析正文内容");
         if (ruleBookContent.equals("all") || ruleBookContent.contains("@all")) {
             webContentBean.content = analyzer.getString(ruleBookContent);
-        }
-        else {
+        } else {
             webContentBean.content = StringUtils.formatHtml(analyzer.getString(ruleBookContent));
         }
         Debug.printLog(tag, 1, "└" + webContentBean.content);

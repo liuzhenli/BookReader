@@ -14,14 +14,10 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.google.android.material.tabs.TabLayout;
-import com.google.gson.Gson;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
-import com.liuzhenli.common.BitIntentDataManager;
-import com.liuzhenli.common.SharedPreferencesUtil;
 import com.liuzhenli.common.constant.ARouterConstants;
-import com.liuzhenli.common.constant.AppConstant;
 import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.ClickUtils;
@@ -34,15 +30,10 @@ import com.liuzhenli.reader.ui.fragment.DiscoverFragment;
 import com.liuzhenli.common.utils.PermissionUtil;
 import com.liuzhenli.common.utils.ToastUtil;
 import com.liuzhenli.reader.utils.JumpToLastPageUtil;
-import com.micoredu.reader.bean.BookShelfBean;
 import com.micoredu.reader.bean.BookSourceBean;
-import com.micoredu.reader.helper.BookshelfHelper;
 import com.micoredu.reader.ui.activity.BookSourceActivity;
-import com.micoredu.reader.ui.activity.ReaderActivity;
 import com.microedu.reader.R;
 import com.microedu.reader.databinding.ActivityMainContainerBinding;
-
-import static com.liuzhenli.common.BitIntentDataManager.DATA_KEY;
 
 /**
  * @author liuzhenli
@@ -71,13 +62,10 @@ public class MainActivity extends BaseActivity {
         mToolBar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_more));
         FillContentUtil.setText(mTvTitle, getResources().getStringArray(R.array.main_tab_names)[mCurrentPosition]);
         mTvTitle.requestFocus();
-        mTvTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mCurrentPosition == 1) {
-                    DiscoverFragment fragment = (DiscoverFragment) mainTabAdapter.getItem(mCurrentPosition);
-                    fragment.showBookSourceView();
-                }
+        mTvTitle.setOnClickListener(v -> {
+            if (mCurrentPosition == 1) {
+                DiscoverFragment fragment = (DiscoverFragment) mainTabAdapter.getItem(mCurrentPosition);
+                fragment.showBookSourceView();
             }
         });
     }
@@ -105,14 +93,17 @@ public class MainActivity extends BaseActivity {
         });
 
         for (int i = 0; i < inflate.viewMain.mTabLayout.getTabCount(); i++) {
-            inflate.viewMain.mTabLayout.getTabAt(i).setCustomView(mainTabAdapter.getTabView(i));
+            if (inflate.viewMain.mTabLayout.getTabAt(i) != null) {
+                inflate.viewMain.mTabLayout.getTabAt(i).setCustomView(mainTabAdapter.getTabView(i));
+            }
         }
         inflate.viewMain.mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mCurrentPosition = tab.getPosition();
                 if (mCurrentPosition == 1 && !TextUtils.isEmpty(mDiscoverBookSourceName)) {
-                    FillContentUtil.setTextDrawable(mTvTitle, mDiscoverBookSourceName, getResources().getDrawable(R.drawable.ic_down_filled), FillContentUtil.Place.right);
+                    FillContentUtil.setTextDrawable(mTvTitle, mDiscoverBookSourceName, getResources()
+                            .getDrawable(R.drawable.ic_down_filled), FillContentUtil.Place.right);
                 } else {
                     FillContentUtil.setText(mTvTitle, mainTabAdapter.getPageTitle(mCurrentPosition));
                 }
@@ -260,25 +251,5 @@ public class MainActivity extends BaseActivity {
             moveTaskToBack(true);
             //super.onBackPressed();
         }
-    }
-
-    private void jumpToLastPage() {
-
-        String bookShelfStr = SharedPreferencesUtil.getInstance().getString("last_page_bookshelf");
-        if (bookShelfStr == null) {
-            return;
-        }
-        BookShelfBean bookShelfBean = new Gson().fromJson(bookShelfStr, BookShelfBean.class);
-
-        bookShelfBean.setFinalDate(System.currentTimeMillis());
-        BookshelfHelper.saveBookToShelf(bookShelfBean);
-        Intent intent = new Intent(this, ReaderActivity.class);
-        intent.putExtra("openFrom", Constant.BookOpenFrom.FROM_BOOKSHELF);
-
-        String bookKey = String.valueOf(System.currentTimeMillis());
-        intent.putExtra(BitIntentDataManager.DATA_KEY, bookKey);
-        BitIntentDataManager.getInstance().putData(bookKey, bookShelfBean.clone());
-
-        mContext.startActivity(intent);
     }
 }

@@ -4,8 +4,8 @@ import com.liuzhenli.common.SharedPreferencesUtil;
 import com.liuzhenli.common.utils.FileUtils;
 import com.liuzhenli.write.bean.WriteChapter;
 import com.liuzhenli.write.bean.WriteHistory;
-import com.liuzhenli.write.greendao.WriteChapterDao;
-import com.liuzhenli.write.greendao.WriteHistoryDao;
+import com.liuzhenli.write.data.WriteChapterDao;
+import com.liuzhenli.write.data.WriteHistoryDao;
 import com.liuzhenli.write.helper.WriteDbHelper;
 
 import java.io.File;
@@ -51,9 +51,8 @@ public class WriteHistoryManager {
     private void init(long localBookId, long localChapterId) {
         this.mBookId = localBookId;
         this.mChapterId = localChapterId;
-        mDao = WriteDbHelper.getInstance().getDaoSession().getWriteChapterDao();
-        mWriteChapter = mDao.queryBuilder().where(WriteChapterDao.Properties.BookId.eq(mBookId),
-                WriteChapterDao.Properties.Id.eq(mChapterId)).unique();
+        mDao = WriteDbHelper.getInstance().getAppDatabase().getWriteChapterDao();
+        mWriteChapter = mDao.getWriteChapter(mBookId,mChapterId);
         mLastHistoryFileIndex = SharedPreferencesUtil.getInstance().getInt("lastHistoryFileIndex");
     }
 
@@ -77,10 +76,7 @@ public class WriteHistoryManager {
         QETag qEtag = new QETag();
         mLastWordCount = wordCont;
         mLastTime = System.currentTimeMillis();
-        WriteHistory writeHistory = WriteDbHelper.getInstance().getDaoSession().getWriteHistoryDao().queryBuilder()
-                .where(WriteHistoryDao.Properties.LocalBookId.eq(mBookId),
-                        WriteHistoryDao.Properties.LocalChapterId.eq(mChapterId),
-                        WriteHistoryDao.Properties.ETag.eq(qEtag)).unique();
+        WriteHistory writeHistory = WriteDbHelper.getInstance().getAppDatabase().getWriteHistoryDao().getWriteHistory(mBookId,mChapterId);
 
         if (writeHistory == null) {
             String historyPath = WriteConstants.PATH_WRITE_BOOK + File.separator + "history";
@@ -105,7 +101,7 @@ public class WriteHistoryManager {
                 history.setFileIndex(mLastDraftFileIndex);
                 history.setType(WriteConstants.HistoryType.HISTORY);
                 history.setWordCount( wordCont);
-                WriteDbHelper.getInstance().getDaoSession().getWriteHistoryDao().insert(history);
+                WriteDbHelper.getInstance().getAppDatabase().getWriteHistoryDao().insert(history);
                 mLastHistoryFileIndex++;
 
                 mLastWordCount = wordCont;

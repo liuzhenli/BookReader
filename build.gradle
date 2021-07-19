@@ -4,15 +4,14 @@ buildscript {
     ext.kotlin_version = '1.4.21'
     repositories {
         google()
-        jcenter()
-        mavenCentral()
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.1'
         classpath 'com.meituan.android.walle:plugin:1.1.6'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.android.tools.build:gradle:4.1.1'
-        classpath 'org.greenrobot:greendao-gradle-plugin:3.3.0' // add plugin
         classpath 'net.ricecode:string-similarity:1.0.0'
 
         //美团快速打包工具
@@ -26,8 +25,8 @@ allprojects {
     repositories {
         google()
         // 添加阿里云 maven 地址
-        jcenter()
-        mavenCentral()
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
         maven { url 'https://maven.google.com' }
         maven {
             url "https://jitpack.io"
@@ -51,4 +50,5 @@ ext {
     supportLibraryVersion = "28.0.0"
     skinSupportVersion = "2.2.2"
     qmui_arch_version = '2.0.0-alpha10'
+    room_version = '2.3.0'
 }

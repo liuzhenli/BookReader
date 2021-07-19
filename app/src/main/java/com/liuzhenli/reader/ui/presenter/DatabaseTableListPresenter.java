@@ -1,13 +1,14 @@
 package com.liuzhenli.reader.ui.presenter;
 
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.common.base.RxPresenter;
 import com.liuzhenli.common.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.contract.DatabaseTableListContract;
-import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.helper.AppReaderDbHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +34,9 @@ public class DatabaseTableListPresenter extends RxPresenter<DatabaseTableListCon
     public void loadDatabase() {
         addSubscribe(RxUtil.subscribe(Observable.create(emitter -> {
             List<String> tables = new ArrayList<>();
-            SQLiteDatabase database = DbHelper.getDb();
+            SupportSQLiteDatabase database = AppReaderDbHelper.getInstance().getSqliteDatabase();
             String sql = "select name from sqlite_master where type='table' order by name";
-            Cursor cursor = database.rawQuery(sql, null);
+            Cursor cursor = database.query(sql, null);
             while (cursor.moveToNext()) {
                 String tableName = cursor.getString(0);
                 tables.add(tableName);

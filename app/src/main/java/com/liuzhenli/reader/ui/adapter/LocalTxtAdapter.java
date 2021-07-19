@@ -4,19 +4,15 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.liuzhenli.greendao.BookShelfBeanDao;
 import com.liuzhenli.reader.bean.LocalFileBean;
 import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.common.utils.FileUtils;
 import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
 import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
 import com.micoredu.reader.bean.BookShelfBean;
-import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.helper.AppReaderDbHelper;
 import com.microedu.reader.R;
 import com.microedu.reader.databinding.ItemLocalBinding;
-
-import org.greenrobot.greendao.query.Query;
-
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -52,8 +48,7 @@ public class LocalTxtAdapter extends RecyclerArrayAdapter<LocalFileBean> {
         public void setData(LocalFileBean item) {
             super.setData(item);
             //处理文件选中的逻辑
-            Query<BookShelfBean> build = DbHelper.getDaoSession().getBookShelfBeanDao().queryBuilder().where(BookShelfBeanDao.Properties.NoteUrl.eq(item.file.toString())).build();
-            List<BookShelfBean> list = build.list();
+            List<BookShelfBean> list= AppReaderDbHelper.getInstance().getDatabase().getBookShelfDao().getByNoteUrl(item.file.toString());
             int size = list.size();
             inflate.name.setText(item.file.getName());
             if (item.fileType == null || item.fileType.equals(Constant.FileAttr.ZERO)) {

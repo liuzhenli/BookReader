@@ -8,13 +8,12 @@ import com.hwangjr.rxbus.RxBus;
 import com.liuzhenli.common.SharedPreferencesUtil;
 import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.utils.RxUtil;
-import com.liuzhenli.greendao.SearchBookBeanDao;
 import com.micoredu.reader.bean.BookChapterBean;
 import com.micoredu.reader.bean.BookShelfBean;
 import com.micoredu.reader.bean.BookSourceBean;
 import com.micoredu.reader.bean.SearchBookBean;
 import com.micoredu.reader.helper.BookshelfHelper;
-import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.helper.AppReaderDbHelper;
 import com.micoredu.reader.model.BookSourceManager;
 import com.micoredu.reader.model.WebBookModel;
 
@@ -169,12 +168,11 @@ public class UpLastChapterModel {
 
     private Observable<SearchBookBean> findSearchBookBean(BookShelfBean bookShelf) {
         return Observable.create(e -> {
-            List<SearchBookBean> searchBookBeans = DbHelper.getDaoSession().getSearchBookBeanDao().queryBuilder()
-                    .where(SearchBookBeanDao.Properties.Name.eq(bookShelf.getBookInfoBean().getName())).list();
+            List<SearchBookBean> searchBookBeans = AppReaderDbHelper.getInstance().getDatabase().getSearchBookDao().getBookListByBookName(bookShelf.getBookInfoBean().getName());
             for (SearchBookBean searchBookBean : searchBookBeans) {
                 BookSourceBean sourceBean = BookSourceManager.getBookSourceByUrl(searchBookBean.getTag());
                 if (sourceBean == null) {
-                    DbHelper.getDaoSession().getSearchBookBeanDao().delete(searchBookBean);
+                    AppReaderDbHelper.getInstance().getDatabase().getSearchBookDao().delete(searchBookBean);
                 } else if (System.currentTimeMillis() - searchBookBean.getUpTime() > 1000 * 60 * 60
                         && sourceBean.getEnable()) {
                     e.onNext(searchBookBean);
@@ -204,13 +202,11 @@ public class UpLastChapterModel {
     private Observable<SearchBookBean> saveSearchBookBean(List<BookChapterBean> chapterBeanList) {
         return Observable.create(e -> {
             BookChapterBean chapterBean = chapterBeanList.get(chapterBeanList.size() - 1);
-            SearchBookBean searchBookBean = DbHelper.getDaoSession().getSearchBookBeanDao().queryBuilder()
-                    .where(SearchBookBeanDao.Properties.NoteUrl.eq(chapterBean.getNoteUrl()))
-                    .unique();
+            SearchBookBean searchBookBean = AppReaderDbHelper.getInstance().getDatabase().getSearchBookDao().getBookByNoteUrl(chapterBean.getNoteUrl());
             if (searchBookBean != null) {
                 searchBookBean.setLastChapter(chapterBean.getDurChapterName());
                 searchBookBean.setAddTime(System.currentTimeMillis());
-                DbHelper.getDaoSession().getSearchBookBeanDao().insertOrReplace(searchBookBean);
+                AppReaderDbHelper.getInstance().getDatabase().getSearchBookDao().insertOrReplace(searchBookBean);
                 e.onNext(searchBookBean);
             }
             e.onComplete();

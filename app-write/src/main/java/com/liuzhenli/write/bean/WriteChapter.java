@@ -1,11 +1,10 @@
 package com.liuzhenli.write.bean;
 
-import org.greenrobot.greendao.annotation.Entity;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
 
 /**
  * Description:bookChapter info
@@ -13,12 +12,12 @@ import org.greenrobot.greendao.annotation.Id;
  * @author liuzhenli 2021/1/21
  * Email: 848808263@qq.com
  */
-@Entity
+@Entity(tableName = "writeChapter")
 public class WriteChapter implements Serializable {
     public static final long serialVersionUID = 11654651654615L;
 
     /*** local chapter id*/
-    @Id(autoincrement = true)
+    @PrimaryKey(autoGenerate = true)
     private Long id;
 
     private long localBookId;
@@ -83,50 +82,6 @@ public class WriteChapter implements Serializable {
 
     private Boolean drafted;
 
-    @Generated(hash = 1123570893)
-    public WriteChapter(Long id, long localBookId, long bookId, long chapterId,
-            String title, String contentUrl, String htmlUrl, int wordCount,
-            int imageCount, double orderValue, int published, long syncChapterTime,
-            long timestamp, long modifyTime, long releaseTime, long createTime,
-            long localUploadFlag, int localDownloadFlag, int localEditingFlag,
-            int localPublishStatus, long localUpdateTime, int localDelete,
-            long publishTimeValue, String attachments, int draftWordCount,
-            int draftImageCount, String lastTag, int conflictStatus,
-            String clientId, String contentTag, Boolean drafted) {
-        this.id = id;
-        this.localBookId = localBookId;
-        this.bookId = bookId;
-        this.chapterId = chapterId;
-        this.title = title;
-        this.contentUrl = contentUrl;
-        this.htmlUrl = htmlUrl;
-        this.wordCount = wordCount;
-        this.imageCount = imageCount;
-        this.orderValue = orderValue;
-        this.published = published;
-        this.syncChapterTime = syncChapterTime;
-        this.timestamp = timestamp;
-        this.modifyTime = modifyTime;
-        this.releaseTime = releaseTime;
-        this.createTime = createTime;
-        this.localUploadFlag = localUploadFlag;
-        this.localDownloadFlag = localDownloadFlag;
-        this.localEditingFlag = localEditingFlag;
-        this.localPublishStatus = localPublishStatus;
-        this.localUpdateTime = localUpdateTime;
-        this.localDelete = localDelete;
-        this.publishTimeValue = publishTimeValue;
-        this.attachments = attachments;
-        this.draftWordCount = draftWordCount;
-        this.draftImageCount = draftImageCount;
-        this.lastTag = lastTag;
-        this.conflictStatus = conflictStatus;
-        this.clientId = clientId;
-        this.contentTag = contentTag;
-        this.drafted = drafted;
-    }
-
-    @Generated(hash = 1392370881)
     public WriteChapter() {
     }
 

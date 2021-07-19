@@ -6,7 +6,7 @@ import com.liuzhenli.common.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.contract.BookListContract;
 import com.liuzhenli.common.utils.ThreadUtils;
 import com.micoredu.reader.bean.SearchBookBean;
-import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.helper.AppReaderDbHelper;
 import com.micoredu.reader.model.WebBookModel;
 
 import org.jetbrains.annotations.NotNull;
@@ -35,7 +35,7 @@ public class BookListPresenter extends RxPresenter<BookListContract.View> implem
             public void onNext(@NotNull List<SearchBookBean> searchBookBeans) {
                 //搜索结果存入数据库
                 ThreadUtils.getInstance().getExecutorService().execute(() ->
-                        DbHelper.getDaoSession().getSearchBookBeanDao().insertOrReplaceInTx(searchBookBeans));
+                        AppReaderDbHelper.getInstance().getDatabase().getSearchBookDao().insertOrReplaceInTx(searchBookBeans));
                 mView.showBookList(searchBookBeans);
             }
         }));

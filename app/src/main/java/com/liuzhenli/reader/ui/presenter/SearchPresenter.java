@@ -3,7 +3,6 @@ package com.liuzhenli.reader.ui.presenter;
 import android.text.TextUtils;
 
 import com.liuzhenli.common.utils.RxUtil;
-import com.liuzhenli.greendao.SearchHistoryBeanDao;
 import com.liuzhenli.common.base.RxPresenter;
 import com.liuzhenli.common.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.activity.SearchActivity;
@@ -13,8 +12,9 @@ import com.micoredu.reader.bean.BookShelfBean;
 import com.micoredu.reader.bean.BookSourceBean;
 import com.micoredu.reader.bean.SearchBookBean;
 import com.micoredu.reader.bean.SearchHistoryBean;
+import com.micoredu.reader.dao.SearchHistoryDao;
 import com.micoredu.reader.helper.BookshelfHelper;
-import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.helper.AppReaderDbHelper;
 import com.micoredu.reader.model.BookSourceManager;
 import com.micoredu.reader.model.SearchBookModel;
 
@@ -55,11 +55,9 @@ public class SearchPresenter extends RxPresenter<SearchContract.View> implements
         Observable<SearchHistoryBean> searchHistoryBeanObservable = Observable.create(new ObservableOnSubscribe<SearchHistoryBean>() {
             @Override
             public void subscribe(ObservableEmitter<SearchHistoryBean> emitter) throws Exception {
-                SearchHistoryBeanDao searchHistoryBeanDao = DbHelper.getDaoSession().getSearchHistoryBeanDao();
+                SearchHistoryDao searchHistoryBeanDao = AppReaderDbHelper.getInstance().getDatabase().getSearchHistoryDao();
 
-                List<SearchHistoryBean> list = searchHistoryBeanDao.queryBuilder()
-                        .where(SearchHistoryBeanDao.Properties.Type.eq(type), SearchHistoryBeanDao.Properties.Content.eq(searchKey))
-                        .limit(1).build().list();
+                List<SearchHistoryBean> list = searchHistoryBeanDao.getHistoryByType(type, searchKey);
                 if (null != list && list.size() > 0) {
                     SearchHistoryBean searchHistoryBean = list.get(0);
                     searchHistoryBean.setDate(System.currentTimeMillis());
@@ -82,21 +80,21 @@ public class SearchPresenter extends RxPresenter<SearchContract.View> implements
 
     @Override
     public void clearSearchHistory() {
-        SearchHistoryBeanDao searchHistoryBeanDao = DbHelper.getDaoSession().getSearchHistoryBeanDao();
+        SearchHistoryDao searchHistoryBeanDao = AppReaderDbHelper.getInstance().getDatabase().getSearchHistoryDao();
         searchHistoryBeanDao.deleteAll();
         mView.addHistorySuccess();
     }
 
     @Override
     public void removeSearchHistoryItem(SearchHistoryBean data) {
-        SearchHistoryBeanDao searchHistoryBeanDao = DbHelper.getDaoSession().getSearchHistoryBeanDao();
+        SearchHistoryDao searchHistoryBeanDao = AppReaderDbHelper.getInstance().getDatabase().getSearchHistoryDao();
         searchHistoryBeanDao.delete(data);
     }
 
     @Override
     public void getSearchHistory() {
-        SearchHistoryBeanDao searchHistoryBeanDao = DbHelper.getDaoSession().getSearchHistoryBeanDao();
-        List<SearchHistoryBean> searchHistoryBeans = searchHistoryBeanDao.queryBuilder().orderDesc(SearchHistoryBeanDao.Properties.Date).list();
+        SearchHistoryDao searchHistoryBeanDao = AppReaderDbHelper.getInstance().getDatabase().getSearchHistoryDao();
+        List<SearchHistoryBean> searchHistoryBeans = searchHistoryBeanDao.all();
         mView.showSearchHistory(searchHistoryBeans);
     }
 
@@ -149,7 +147,7 @@ public class SearchPresenter extends RxPresenter<SearchContract.View> implements
                 //添加数据
                 ArrayList<SearchBookBean> allBooks = new ArrayList<>(mAdapter.getRealAllData());
                 //搜索结果存入数据库
-                DbHelper.getDaoSession().getSearchBookBeanDao().insertOrReplaceInTx(searchResult);
+                AppReaderDbHelper.getInstance().getDatabase().getSearchBookDao().insertOrReplaceInTx(searchResult);
 
                 //去重
                 for (int i = 0; i < searchResult.size(); i++) {

@@ -2,7 +2,6 @@ package com.micoredu.reader.utils.storage
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import androidx.documentfile.provider.DocumentFile
 import com.liuzhenli.common.BaseApplication
 import com.liuzhenli.common.FileHelp
@@ -10,7 +9,7 @@ import com.liuzhenli.common.SharedPreferencesUtil
 import com.liuzhenli.common.utils.FileUtils
 import com.liuzhenli.common.utils.GsonUtil
 import com.micoredu.reader.helper.BookshelfHelper
-import com.micoredu.reader.helper.DbHelper
+import com.micoredu.reader.helper.AppReaderDbHelper
 import com.micoredu.reader.model.BookSourceManager
 import com.micoredu.reader.model.ReplaceRuleManager
 import com.micoredu.reader.model.TxtChapterRuleManager
@@ -22,7 +21,6 @@ import io.reactivex.SingleOnSubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import org.json.JSONArray
 import java.io.File
 import java.util.concurrent.TimeUnit
 
@@ -84,7 +82,7 @@ object Backup {
                     FileHelp.createFileIfNotExist(backupPath + File.separator + "myBookSource.json").writeText(json)
                 }
             }
-            DbHelper.getDaoSession().searchHistoryBeanDao.queryBuilder().list().let {
+            AppReaderDbHelper.getInstance().database.searchHistoryDao.all().let {
                 if (it.isNotEmpty()) {
                     val json = GsonUtil.toJson(it)
                     FileHelp.createFileIfNotExist(backupPath + File.separator + "myBookSearchHistory.json").writeText(json)

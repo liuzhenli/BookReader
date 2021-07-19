@@ -9,7 +9,7 @@ import com.liuzhenli.reader.ui.contract.BookDetailContract;
 import com.micoredu.reader.bean.BookChapterBean;
 import com.micoredu.reader.bean.BookShelfBean;
 import com.micoredu.reader.helper.BookshelfHelper;
-import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.helper.AppReaderDbHelper;
 import com.micoredu.reader.model.WebBookModel;
 
 import java.util.List;
@@ -62,7 +62,7 @@ public class BookDetailPresenter extends RxPresenter<BookDetailContract.View> im
                 BookshelfHelper.saveBookToShelf(bookShelfBean);
                 if (!chapterBeans.isEmpty()) {
                     BookshelfHelper.delChapterList(bookShelfBean.getNoteUrl());
-                    DbHelper.getDaoSession().getBookChapterBeanDao().insertOrReplaceInTx(chapterBeans);
+                    AppReaderDbHelper.getInstance().getDatabase().getBookChapterDao().insertOrReplaceInTx(chapterBeans);
                 }
                 RxBus.get().post(RxBusTag.HAD_ADD_BOOK, bookShelfBean);
             }

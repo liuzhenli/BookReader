@@ -171,9 +171,11 @@ public class AppSharedPreferenceHelper {
     public static Map<?, ?> getMap(String key) {
         try {
             byte[] base64Bytes = Base64.decode(getString(key, ""), Base64.DEFAULT);
-            ByteArrayInputStream bais = new ByteArrayInputStream(base64Bytes);
-            ObjectInputStream ois = new ObjectInputStream(bais);
-            return (Map<?, ?>) ois.readObject();
+            if (base64Bytes.length > 0) {
+                ByteArrayInputStream bais = new ByteArrayInputStream(base64Bytes);
+                ObjectInputStream ois = new ObjectInputStream(bais);
+                return (Map<?, ?>) ois.readObject();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,7 +1,6 @@
 package com.liuzhenli.reader.ui.presenter;
 
 import com.liuzhenli.common.utils.RxUtil;
-import com.liuzhenli.greendao.SearchBookBeanDao;
 import com.liuzhenli.common.base.RxPresenter;
 import com.liuzhenli.common.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.contract.ChangeSourceContract;
@@ -9,7 +8,7 @@ import com.micoredu.reader.bean.BookShelfBean;
 import com.micoredu.reader.bean.BookSourceBean;
 import com.micoredu.reader.bean.SearchBookBean;
 import com.micoredu.reader.content.UpLastChapterModel;
-import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.helper.AppReaderDbHelper;
 import com.micoredu.reader.model.BookSourceManager;
 import com.micoredu.reader.model.SearchBookModel;
 
@@ -46,9 +45,7 @@ public class ChangeSourcePresenter extends RxPresenter<ChangeSourceContract.View
             bookTag = bookShelfBean.getBookInfoBean().getTag();
 
             Observable<List<SearchBookBean>> objectObservable = Observable.create(emitter -> {
-
-                List<SearchBookBean> searchBookBeans = DbHelper.getDaoSession().getSearchBookBeanDao().queryBuilder()
-                        .where(SearchBookBeanDao.Properties.Name.eq(bookName), SearchBookBeanDao.Properties.Author.eq(bookAuthor)).build().list();
+                List<SearchBookBean> searchBookBeans = AppReaderDbHelper.getInstance().getDatabase().getSearchBookDao().getBookList(bookName, bookAuthor);
                 if (searchBookBeans == null) searchBookBeans = new ArrayList<>();
                 List<SearchBookBean> searchBookList = new ArrayList<>();
                 List<BookSourceBean> bookSourceList = new ArrayList<>(BookSourceManager.getSelectedBookSource());

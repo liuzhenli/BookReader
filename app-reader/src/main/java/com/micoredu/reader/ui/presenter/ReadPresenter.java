@@ -14,7 +14,7 @@ import com.micoredu.reader.bean.BookChapterBean;
 import com.micoredu.reader.bean.BookShelfBean;
 import com.micoredu.reader.helper.BookshelfHelper;
 import com.micoredu.reader.helper.ChangeSourceHelper;
-import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.helper.AppReaderDbHelper;
 import com.micoredu.reader.helper.DocumentHelper;
 
 
@@ -125,7 +125,7 @@ public class ReadPresenter extends RxPresenter<ReadContract.View> implements Rea
     public void setChapterList(List<BookChapterBean> chapters) {
         this.chapterList = chapters;
         if (chapterList != null && chapterList.size() > 0) {
-            ThreadUtils.getInstance().getExecutorService().execute(() -> DbHelper.getDaoSession().getBookChapterBeanDao().insertOrReplaceInTx(chapterList));
+            ThreadUtils.getInstance().getExecutorService().execute(() -> AppReaderDbHelper.getInstance().getDatabase().getBookChapterDao().insertOrReplaceInTx(chapterList));
         }
     }
 

@@ -4,9 +4,8 @@ package com.micoredu.reader.model;
 import com.liuzhenli.common.BaseApplication;
 import com.liuzhenli.common.gson.GsonUtils;
 import com.liuzhenli.common.utils.IOUtils;
-import com.liuzhenli.greendao.TxtChapterRuleBeanDao;
 import com.micoredu.reader.bean.TxtChapterRuleBean;
-import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.helper.AppReaderDbHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +15,7 @@ import java.util.List;
 public class TxtChapterRuleManager {
 
     public static List<TxtChapterRuleBean> getAll() {
-        List<TxtChapterRuleBean> beans = DbHelper.getDaoSession().getTxtChapterRuleBeanDao().loadAll();
+        List<TxtChapterRuleBean> beans = AppReaderDbHelper.getInstance().getDatabase().getTxtChapterRuleDao().loadAll();
         if (beans.isEmpty()) {
             return getDefault();
         }
@@ -24,9 +23,7 @@ public class TxtChapterRuleManager {
     }
 
     public static List<TxtChapterRuleBean> getEnabled() {
-        List<TxtChapterRuleBean> beans = DbHelper.getDaoSession().getTxtChapterRuleBeanDao().queryBuilder()
-                .where(TxtChapterRuleBeanDao.Properties.Enable.eq(true))
-                .list();
+        List<TxtChapterRuleBean> beans = AppReaderDbHelper.getInstance().getDatabase().getTxtChapterRuleDao().getEnabled();
         if (beans.isEmpty()) {
             return getAll();
         }
@@ -53,14 +50,14 @@ public class TxtChapterRuleManager {
         }
         List<TxtChapterRuleBean> ruleBeanList = GsonUtils.parseJArray(json, TxtChapterRuleBean.class);
         if (ruleBeanList != null) {
-            DbHelper.getDaoSession().getTxtChapterRuleBeanDao().insertOrReplaceInTx(ruleBeanList);
+            AppReaderDbHelper.getInstance().getDatabase().getTxtChapterRuleDao().insertOrReplaceInTx(ruleBeanList);
             return ruleBeanList;
         }
         return new ArrayList<>();
     }
 
     public static void del(TxtChapterRuleBean txtChapterRuleBean) {
-        DbHelper.getDaoSession().getTxtChapterRuleBeanDao().delete(txtChapterRuleBean);
+        AppReaderDbHelper.getInstance().getDatabase().getTxtChapterRuleDao().delete(txtChapterRuleBean);
     }
 
     public static void del(List<TxtChapterRuleBean> ruleBeanList) {
@@ -71,12 +68,13 @@ public class TxtChapterRuleManager {
 
     public static void save(TxtChapterRuleBean txtChapterRuleBean) {
         if (txtChapterRuleBean.getSerialNumber() == null) {
-            txtChapterRuleBean.setSerialNumber((int) DbHelper.getDaoSession().getTxtChapterRuleBeanDao().queryBuilder().count());
+            List<TxtChapterRuleBean> list = AppReaderDbHelper.getInstance().getDatabase().getTxtChapterRuleDao().loadAll();
+            txtChapterRuleBean.setSerialNumber(list == null ? 0 : list.size());
         }
-        DbHelper.getDaoSession().getTxtChapterRuleBeanDao().insertOrReplace(txtChapterRuleBean);
+        AppReaderDbHelper.getInstance().getDatabase().getTxtChapterRuleDao().insertOrReplace(txtChapterRuleBean);
     }
 
     public static void save(List<TxtChapterRuleBean> txtChapterRuleBeans) {
-        DbHelper.getDaoSession().getTxtChapterRuleBeanDao().insertOrReplaceInTx(txtChapterRuleBeans);
+        AppReaderDbHelper.getInstance().getDatabase().getTxtChapterRuleDao().insertOrReplaceInTx(txtChapterRuleBeans);
     }
 }

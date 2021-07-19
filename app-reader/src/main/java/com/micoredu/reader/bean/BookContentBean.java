@@ -1,40 +1,32 @@
 package com.micoredu.reader.bean;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 /**
- * 书本缓存内容
+ * bookContent
  */
-@Entity
+@Entity(tableName = "bookContents", primaryKeys = "durChapterUrl")
 public class BookContentBean {
-    private String noteUrl; //对应BookInfoBean noteUrl;
-    @Id
+
+    /***对应BookInfoBean noteUrl*/
+    private String noteUrl;
+    @NonNull
     private String durChapterUrl;
 
-    private Integer durChapterIndex;   //当前章节  （包括番外）
+    /***当前章节  （包括番外）*/
+    private int durChapterIndex;
 
-    private String durChapterContent; //当前章节内容
-
-    private String tag;   //来源  某个网站/本地
+    /***当前章节内容*/
+    private String durChapterContent;
+    /***来源  某个网站/本地*/
+    private String tag;
 
     private Long timeMillis;
 
     public BookContentBean() {
 
-    }
-
-    @Generated(hash = 695554675)
-    public BookContentBean(String noteUrl, String durChapterUrl,
-                           Integer durChapterIndex, String durChapterContent, String tag,
-                           Long timeMillis) {
-        this.noteUrl = noteUrl;
-        this.durChapterUrl = durChapterUrl;
-        this.durChapterIndex = durChapterIndex;
-        this.durChapterContent = durChapterContent;
-        this.tag = tag;
-        this.timeMillis = timeMillis;
     }
 
     public String getDurChapterUrl() {
@@ -75,10 +67,6 @@ public class BookContentBean {
 
     public void setNoteUrl(String noteUrl) {
         this.noteUrl = noteUrl;
-    }
-
-    public void setDurChapterIndex(Integer durChapterIndex) {
-        this.durChapterIndex = durChapterIndex;
     }
 
     public Long getTimeMillis() {

@@ -14,11 +14,10 @@ import com.liuzhenli.common.base.BaseBean;
 import com.liuzhenli.common.constant.ARouterConstants;
 import com.liuzhenli.common.utils.L;
 import com.liuzhenli.common.utils.ScreenUtils;
-import com.liuzhenli.common.widget.KeyboardTopView;
 import com.liuzhenli.write.WriteBookComponent;
 import com.liuzhenli.write.bean.WriteChapter;
+import com.liuzhenli.write.data.WriteChapterDao;
 import com.liuzhenli.write.databinding.ActWirtebookBinding;
-import com.liuzhenli.write.greendao.WriteChapterDao;
 import com.liuzhenli.write.helper.WriteDbHelper;
 import com.liuzhenli.write.ui.WriteBaseActivity;
 import com.liuzhenli.write.ui.contract.WriteBookContract;
@@ -71,7 +70,7 @@ public class WriteBookActivity extends WriteBaseActivity<WriteBookPresenter> imp
     @Override
     protected void initData() {
         mWriteChapterManager = new WriteChapterManager();
-        mWriteChapterDao = WriteDbHelper.getInstance().getDaoSession().getWriteChapterDao();
+        mWriteChapterDao = WriteDbHelper.getInstance().getAppDatabase().getWriteChapterDao();
         mChapter = (WriteChapter) getIntent().getSerializableExtra(DATA);
         if (mChapter == null || mChapter.getId() == null || mChapter.getId() < 1) {
             createNewChapter();
@@ -163,8 +162,8 @@ public class WriteBookActivity extends WriteBaseActivity<WriteBookPresenter> imp
 
     private void createNewChapter() {
         mChapter.setCreateTime(System.currentTimeMillis());
-        mWriteChapterDao.insert(mChapter);
-        mChapter = mWriteChapterDao.queryBuilder().where(WriteChapterDao.Properties.CreateTime.eq(mChapter.getCreateTime())).unique();
+        mWriteChapterDao.insertOrReplace(mChapter);
+        mChapter = mWriteChapterDao.getChapterByCreateTime(mChapter.getCreateTime());
         L.e("create chapter id = " + mChapter.getId() + "\nbookId" + mChapter.getLocalBookId() + "\n");
     }
 

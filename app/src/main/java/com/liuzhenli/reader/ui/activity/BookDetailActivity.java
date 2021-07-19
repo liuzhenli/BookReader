@@ -31,7 +31,7 @@ import com.micoredu.reader.bean.BookShelfBean;
 import com.micoredu.reader.bean.DownloadBookBean;
 import com.micoredu.reader.bean.SearchBookBean;
 import com.micoredu.reader.helper.BookshelfHelper;
-import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.helper.AppReaderDbHelper;
 import com.micoredu.reader.ui.activity.BookChapterListActivity;
 import com.micoredu.reader.ui.activity.ReaderActivity;
 import com.microedu.reader.R;
@@ -113,7 +113,7 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
             if (!isInBookShelf) {
                 BookshelfHelper.saveBookToShelf(mBookShelf);
                 if (mChapterList != null) {
-                    DbHelper.getDaoSession().getBookChapterBeanDao().insertOrReplaceInTx(mChapterList);
+                    AppReaderDbHelper.getInstance().getDatabase().getBookChapterDao().insertOrReplaceInTx(mChapterList);
                 }
                 ToastUtil.showToast("已加入书架");
             } else {
@@ -244,7 +244,7 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
             if (mChapterList != null) {
                 BookshelfHelper.saveBookToShelf(mBookShelf);
                 setIsInBookShelf(true);
-                DbHelper.getDaoSession().getBookChapterBeanDao().insertOrReplaceInTx(mChapterList);
+                AppReaderDbHelper.getInstance().getDatabase().getBookChapterDao().insertOrReplaceInTx(mChapterList);
                 //弹出离线下载界面
                 int endIndex = mBookShelf.getChapterListSize() - 1;
                 DownLoadDialog.builder(this, mBookShelf.getDurChapter(), endIndex, mBookShelf.getChapterListSize())

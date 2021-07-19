@@ -1,26 +1,30 @@
 package com.micoredu.reader.model;
 
 import android.database.Cursor;
+import android.os.Build;
 import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.liuzhenli.common.SharedPreferencesUtil;
 import com.liuzhenli.common.gson.GsonUtils;
 import com.liuzhenli.common.utils.NetworkUtils;
 import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.common.utils.StringUtils;
-import com.liuzhenli.greendao.BookSourceBeanDao;
 import com.micoredu.reader.analyzerule.AnalyzeHeaders;
 import com.micoredu.reader.bean.BookSourceBean;
-import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.dao.BookSourceDao;
+import com.micoredu.reader.helper.AppReaderDbHelper;
 import com.micoredu.reader.impl.IHttpGetApi;
 import com.micoredu.reader.observe.BaseModelImpl;
 
 import java.net.URL;
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -36,51 +40,25 @@ public class BookSourceManager {
      * @return 用户筛选的书源
      */
     public static List<BookSourceBean> getSelectedBookSource() {
-        return DbHelper.getDaoSession().getBookSourceBeanDao().queryBuilder()
-                .where(BookSourceBeanDao.Properties.Enable.eq(true))
-                .orderRaw(BookSourceBeanDao.Properties.Weight.columnName + " DESC")
-                .orderAsc(BookSourceBeanDao.Properties.SerialNumber)
-                .list();
+        return AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().getSelectedBookSource();
     }
 
     /***全部书源*/
     public static List<BookSourceBean> getAllBookSource() {
-        return DbHelper.getDaoSession().getBookSourceBeanDao().queryBuilder()
-                .orderRaw(getBookSourceSort())
-                .orderAsc(BookSourceBeanDao.Properties.SerialNumber)
-                .list();
+        return AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().getAllBookSource();
     }
 
     public static List<BookSourceBean> getSelectedBookSourceBySerialNumber() {
-        return DbHelper.getDaoSession().getBookSourceBeanDao().queryBuilder()
-                .where(BookSourceBeanDao.Properties.Enable.eq(true))
-                .orderAsc(BookSourceBeanDao.Properties.SerialNumber)
-                .list();
+        return AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().getSelectedBookSourceBySerialNumber();
     }
 
     public static List<BookSourceBean> getRuleFindEnable() {
-        return DbHelper.getDaoSession().getBookSourceBeanDao().queryBuilder()
-                .where(BookSourceBeanDao.Properties.RuleFindEnable.eq(true))
-                .orderAsc(BookSourceBeanDao.Properties.SerialNumber)
-                .list();
+        return AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().getRuleFindEnable();
     }
+
 
     public static List<BookSourceBean> getAllBookSourceBySerialNumber() {
-        return DbHelper.getDaoSession().getBookSourceBeanDao().queryBuilder()
-                .orderAsc(BookSourceBeanDao.Properties.SerialNumber)
-                .list();
-    }
-
-    /***
-     *  根据分组选择可用书源
-     * @param group 分组名字
-     */
-    public static List<BookSourceBean> getEnableSourceByGroup(String group) {
-        return DbHelper.getDaoSession().getBookSourceBeanDao().queryBuilder()
-                .where(BookSourceBeanDao.Properties.Enable.eq(true))
-                .where(BookSourceBeanDao.Properties.BookSourceGroup.like("%" + group + "%"))
-                .orderRaw(BookSourceBeanDao.Properties.Weight.columnName + " DESC")
-                .list();
+        return AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().getAllBookSource();
     }
 
     /**
@@ -89,15 +67,20 @@ public class BookSourceManager {
      * @param keyword 关键字
      * @return 相关书源
      */
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static List<BookSourceBean> getSourceByKey(String keyword) {
-        String term = "%" + keyword + "%";
-        return DbHelper.getDaoSession().getBookSourceBeanDao().queryBuilder()
-                .whereOr(BookSourceBeanDao.Properties.BookSourceName.like(term),
-                        BookSourceBeanDao.Properties.BookSourceGroup.like(term),
-                        BookSourceBeanDao.Properties.BookSourceUrl.like(term))
-                .orderRaw(BookSourceManager.getBookSourceSort())
-                .orderAsc(BookSourceBeanDao.Properties.SerialNumber)
-                .list();
+        List<BookSourceBean> sourceList = AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().getSourceByKey(keyword);
+        int sourceSort = SharedPreferencesUtil.getInstance().getInt("SourceSort", 0);
+        sourceList.sort((o1, o2) -> {
+            if (sourceSort == 1) {
+                return Collator.getInstance(Locale.CHINESE).compare(o1.getWeight(), o2.getWeight());
+            } else if (sourceSort == 2) {
+                return Collator.getInstance(Locale.CHINESE).compare(o1.getBookSourceName(), o2.getBookSourceName());
+            } else {
+                return Collator.getInstance(Locale.CHINESE).compare(o1.getSerialNumber(), o2.getSerialNumber());
+            }
+        });
+        return sourceList;
     }
 
     @Nullable
@@ -105,29 +88,30 @@ public class BookSourceManager {
         if (url == null) {
             return null;
         }
-        return DbHelper.getDaoSession().getBookSourceBeanDao().load(url);
+        return AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().getByBookSourceUrl(url);
     }
 
     public static void removeBookSource(BookSourceBean sourceBean) {
         if (sourceBean == null) {
             return;
         }
-        DbHelper.getDaoSession().getBookSourceBeanDao().delete(sourceBean);
+        AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().delete(sourceBean);
     }
+
     public static void deleteBookSource(BookSourceBean bookSourceBean) {
         if (bookSourceBean != null) {
-            DbHelper.getDaoSession().getBookSourceBeanDao().delete(bookSourceBean);
+            AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().delete(bookSourceBean);
         }
     }
 
     public static String getBookSourceSort() {
         switch (SharedPreferencesUtil.getInstance().getInt("SourceSort", 0)) {
             case 1:
-                return BookSourceBeanDao.Properties.Weight.columnName + " DESC";
+                return "Weight DESC";
             case 2:
-                return BookSourceBeanDao.Properties.BookSourceName.columnName + " COLLATE LOCALIZED ASC";
+                return "BookSourceName COLLATE LOCALIZED ASC";
             default:
-                return BookSourceBeanDao.Properties.SerialNumber.columnName + " ASC";
+                return "SerialNumber ASC";
         }
     }
 
@@ -144,26 +128,25 @@ public class BookSourceManager {
         if (bookSourceBean.getBookSourceUrl().endsWith("/")) {
             bookSourceBean.setBookSourceUrl(bookSourceBean.getBookSourceUrl().replaceAll("/+$", ""));
         }
-        BookSourceBean temp = DbHelper.getDaoSession().getBookSourceBeanDao().queryBuilder()
-                .where(BookSourceBeanDao.Properties.BookSourceUrl.eq(bookSourceBean.getBookSourceUrl())).unique();
+        BookSourceBean temp = AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().getByBookSourceUrl(bookSourceBean.getBookSourceUrl());
         if (temp != null) {
             bookSourceBean.setSerialNumber(temp.getSerialNumber());
         }
         if (bookSourceBean.getSerialNumber() < 0) {
-            bookSourceBean.setSerialNumber((int) (DbHelper.getDaoSession().getBookSourceBeanDao().queryBuilder().count() + 1));
+            bookSourceBean.setSerialNumber((int) (AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().count() + 1));
         }
-        DbHelper.getDaoSession().getBookSourceBeanDao().insertOrReplace(bookSourceBean);
+        AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().insertOrReplace(bookSourceBean);
     }
 
     public static void saveBookSource(BookSourceBean bookSourceBean) {
         if (bookSourceBean != null) {
-            DbHelper.getDaoSession().getBookSourceBeanDao().insertOrReplace(bookSourceBean);
+            AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().insertOrReplace(bookSourceBean);
         }
     }
 
     public static void saveBookSource(List<BookSourceBean> bookSourceBeanList) {
         if (bookSourceBeanList != null) {
-            DbHelper.getDaoSession().getBookSourceBeanDao().insertOrReplaceInTx(bookSourceBeanList);
+            AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().insertOrReplaceInTx(bookSourceBeanList);
         }
     }
 
@@ -174,19 +157,17 @@ public class BookSourceManager {
                 beanList.get(i).setSerialNumber(i + 1);
             }
             sourceBean.setSerialNumber(0);
-            DbHelper.getDaoSession().getBookSourceBeanDao().insertOrReplaceInTx(beanList);
-            DbHelper.getDaoSession().getBookSourceBeanDao().insertOrReplace(sourceBean);
+            AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().insertOrReplaceInTx(beanList);
+            AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().insertOrReplace(sourceBean);
             e.onSuccess(true);
         }).compose(RxUtil::toSimpleSingle);
     }
 
     public static List<String> getEnableGroupList() {
         List<String> groupList = new ArrayList<>();
-        String sql = "SELECT DISTINCT "
-                + BookSourceBeanDao.Properties.BookSourceGroup.columnName
-                + " FROM " + BookSourceBeanDao.TABLENAME
-                + " WHERE " + BookSourceBeanDao.Properties.Enable.name + " = 1";
-        Cursor cursor = DbHelper.getDaoSession().getDatabase().rawQuery(sql, null);
+        String sql = "SELECT DISTINCT  BookSourceGroup  FROM " + BookSourceDao.TABLENAME
+                + " WHERE  Enable= 1";
+        Cursor cursor = AppReaderDbHelper.getInstance().getDatabase().query(sql, null);
         if (!cursor.moveToFirst()) {
             return groupList;
         }
@@ -207,8 +188,8 @@ public class BookSourceManager {
 
     public static List<String> getGroupList() {
         List<String> groupList = new ArrayList<>();
-        String sql = "SELECT DISTINCT " + BookSourceBeanDao.Properties.BookSourceGroup.columnName + " FROM " + BookSourceBeanDao.TABLENAME;
-        Cursor cursor = DbHelper.getDaoSession().getDatabase().rawQuery(sql, null);
+        String sql = "SELECT DISTINCT bookSourceGroup  FROM " + BookSourceDao.TABLENAME;
+        Cursor cursor = AppReaderDbHelper.getInstance().getDatabase().query(sql, null);
         if (!cursor.moveToFirst()) {
             return groupList;
         }
@@ -258,18 +239,14 @@ public class BookSourceManager {
                     bookSourceBeans = GsonUtils.parseJArray(json, BookSourceBean.class);
                     for (BookSourceBean bookSourceBean : bookSourceBeans) {
                         if (bookSourceBean.containsGroup("删除")) {
-                            DbHelper.getDaoSession().getBookSourceBeanDao().queryBuilder()
-                                    .where(BookSourceBeanDao.Properties.BookSourceUrl.eq(bookSourceBean.getBookSourceUrl()))
-                                    .buildDelete().executeDeleteWithoutDetachingEntities();
+                            AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().delete(bookSourceBean.getBookSourceUrl());
                         } else {
                             try {
                                 new URL(bookSourceBean.getBookSourceUrl());
                                 bookSourceBean.setSerialNumber(0);
                                 addBookSource(bookSourceBean);
                             } catch (Exception exception) {
-                                DbHelper.getDaoSession().getBookSourceBeanDao().queryBuilder()
-                                        .where(BookSourceBeanDao.Properties.BookSourceUrl.eq(bookSourceBean.getBookSourceUrl()))
-                                        .buildDelete().executeDeleteWithoutDetachingEntities();
+                                AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().delete(bookSourceBean.getBookSourceUrl());
                             }
                         }
                     }

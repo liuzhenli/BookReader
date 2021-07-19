@@ -1,6 +1,6 @@
 package com.micoredu.reader.bean;
 
-public class DownloadChapterBean implements BaseChapterBean {
+public class DownloadChapterBean extends BaseChapterBean {
     private String noteUrl;
 
     private int durChapterIndex;  //当前章节数
@@ -16,7 +16,6 @@ public class DownloadChapterBean implements BaseChapterBean {
     public DownloadChapterBean() {
     }
 
-    @Override
     public String getNoteUrl() {
         return noteUrl;
     }
@@ -25,7 +24,6 @@ public class DownloadChapterBean implements BaseChapterBean {
         this.noteUrl = noteUrl;
     }
 
-    @Override
     public int getDurChapterIndex() {
         return durChapterIndex;
     }
@@ -34,7 +32,6 @@ public class DownloadChapterBean implements BaseChapterBean {
         this.durChapterIndex = durChapterIndex;
     }
 
-    @Override
     public String getDurChapterUrl() {
         return durChapterUrl;
     }
@@ -43,7 +40,6 @@ public class DownloadChapterBean implements BaseChapterBean {
         this.durChapterUrl = durChapterUrl;
     }
 
-    @Override
     public String getDurChapterName() {
         return durChapterName;
     }
@@ -52,7 +48,6 @@ public class DownloadChapterBean implements BaseChapterBean {
         this.durChapterName = durChapterName;
     }
 
-    @Override
     public String getTag() {
         return tag;
     }

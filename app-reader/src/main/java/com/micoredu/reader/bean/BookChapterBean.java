@@ -1,29 +1,19 @@
 package com.micoredu.reader.bean;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+
 import com.google.gson.Gson;
 import com.micoredu.reader.helper.BookshelfHelper;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
 
 import java.util.Objects;
 
 /**
  * 章节列表
  */
-@Entity
-public class BookChapterBean implements Cloneable, BaseChapterBean {
-    private String tag;
-    /***对应BookInfoBean noteUrl;**/
-    private String noteUrl;
-    /***当前章节数***/
-    private int durChapterIndex;
-    /***当前章节对应的文章地址***/
-    @Id
-    private String durChapterUrl;
-    /***当前章节名称*/
-    private String durChapterName;
+@Entity(tableName = "bookChapters", primaryKeys = "durChapterUrl")
+public class BookChapterBean extends BaseChapterBean implements Cloneable {
 
     /***章节内容在文章中的起始位置(本地)**/
     private Long start;
@@ -33,18 +23,7 @@ public class BookChapterBean implements Cloneable, BaseChapterBean {
     public BookChapterBean() {
     }
 
-    @Generated(hash = 304828234)
-    public BookChapterBean(String tag, String noteUrl, int durChapterIndex, String durChapterUrl, String durChapterName,
-                           Long start, Long end) {
-        this.tag = tag;
-        this.noteUrl = noteUrl;
-        this.durChapterIndex = durChapterIndex;
-        this.durChapterUrl = durChapterUrl;
-        this.durChapterName = durChapterName;
-        this.start = start;
-        this.end = end;
-    }
-
+    @Ignore
     public BookChapterBean(String tag, String durChapterName, String durChapterUrl) {
         this.tag = tag;
         this.durChapterName = durChapterName;
@@ -74,13 +53,9 @@ public class BookChapterBean implements Cloneable, BaseChapterBean {
 
     @Override
     public int hashCode() {
-        if (durChapterUrl == null) {
-            return 0;
-        }
         return durChapterUrl.hashCode();
     }
 
-    @Override
     public String getTag() {
         return this.tag;
     }
@@ -89,7 +64,6 @@ public class BookChapterBean implements Cloneable, BaseChapterBean {
         this.tag = tag;
     }
 
-    @Override
     public String getDurChapterName() {
         return this.durChapterName;
     }
@@ -98,7 +72,6 @@ public class BookChapterBean implements Cloneable, BaseChapterBean {
         this.durChapterName = durChapterName;
     }
 
-    @Override
     public String getDurChapterUrl() {
         return this.durChapterUrl;
     }
@@ -107,7 +80,6 @@ public class BookChapterBean implements Cloneable, BaseChapterBean {
         this.durChapterUrl = durChapterUrl;
     }
 
-    @Override
     public int getDurChapterIndex() {
         return this.durChapterIndex;
     }
@@ -116,7 +88,6 @@ public class BookChapterBean implements Cloneable, BaseChapterBean {
         this.durChapterIndex = durChapterIndex;
     }
 
-    @Override
     public String getNoteUrl() {
         return this.noteUrl;
     }

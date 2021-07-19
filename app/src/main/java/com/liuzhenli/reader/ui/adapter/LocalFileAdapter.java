@@ -4,16 +4,13 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.liuzhenli.greendao.BookShelfBeanDao;
 import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
 import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
 import com.micoredu.reader.bean.BookShelfBean;
-import com.micoredu.reader.helper.DbHelper;
+import com.micoredu.reader.helper.AppReaderDbHelper;
 import com.microedu.reader.R;
 import com.microedu.reader.databinding.ItemLocalBinding;
-
-import org.greenrobot.greendao.query.Query;
 
 import java.io.File;
 import java.util.HashMap;
@@ -64,8 +61,7 @@ public class LocalFileAdapter extends RecyclerArrayAdapter<HashMap<String, Objec
                 inflate.size.setVisibility(View.GONE);
             }
             //处理文件选中的逻辑
-            Query<BookShelfBean> build = DbHelper.getDaoSession().getBookShelfBeanDao().queryBuilder().where(BookShelfBeanDao.Properties.NoteUrl.eq(hashMap.get("file").toString())).build();
-            List<BookShelfBean> list = build.list();
+            List<BookShelfBean> list = AppReaderDbHelper.getInstance().getDatabase().getBookShelfDao().getByNoteUrl(hashMap.get("file").toString());
             int size = list.size();
             if (((File) hashMap.get(Constant.FileAttr.FILE)).isDirectory()) {
                 inflate.cbLocalCheck.setVisibility(View.GONE);

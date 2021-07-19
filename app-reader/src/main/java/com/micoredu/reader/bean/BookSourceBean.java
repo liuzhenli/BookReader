@@ -2,14 +2,12 @@ package com.micoredu.reader.bean;
 
 import android.text.TextUtils;
 
-import com.google.gson.Gson;
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.NotNull;
-import org.greenrobot.greendao.annotation.OrderBy;
-import org.greenrobot.greendao.annotation.Transient;
+import com.google.gson.Gson;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,20 +18,18 @@ import static android.text.TextUtils.isEmpty;
 /**
  * 书源信息
  */
-@Entity
+@Entity(tableName = "bookSources", primaryKeys = "bookSourceUrl")
 public class BookSourceBean implements Cloneable, Serializable {
+    @Ignore
     private static final long serialVersionUID = -6111323241670458022L;
-    @Id
-    private String bookSourceUrl;
+    @NonNull
+    private String bookSourceUrl = "";
     private String bookSourceName;
     private String bookSourceGroup;
     private String bookSourceType;
     private String loginUrl;
     private Long lastUpdateTime;
-    @OrderBy
     private int serialNumber;
-    @OrderBy
-    @NotNull
     private int weight = 0;
     /***书源是否使用*/
     private boolean enable;
@@ -87,27 +83,27 @@ public class BookSourceBean implements Cloneable, Serializable {
     private String ruleBookContentReplace;
     private String httpUserAgent;
 
-    @Transient
+    @Ignore
     private transient ArrayList<String> groupList;
 
     public BookSourceBean() {
     }
 
-    @Generated(hash = 1299559420)
+    @Ignore
     public BookSourceBean(String bookSourceUrl, String bookSourceName, String bookSourceGroup,
-            String bookSourceType, String loginUrl, Long lastUpdateTime, int serialNumber, int weight,
-            boolean enable, String ruleFindUrl, String ruleFindList, String ruleFindName,
-            String ruleFindAuthor, String ruleFindKind, String ruleFindIntroduce,
-            String ruleFindLastChapter, String ruleFindCoverUrl, String ruleFindNoteUrl,
-            boolean ruleFindEnable, String ruleSearchUrl, String ruleSearchList, String ruleSearchName,
-            String ruleSearchAuthor, String ruleSearchKind, String ruleSearchIntroduce,
-            String ruleSearchLastChapter, String ruleSearchCoverUrl, String ruleSearchNoteUrl,
-            String ruleBookUrlPattern, String ruleBookInfoInit, String ruleBookName,
-            String ruleBookAuthor, String ruleCoverUrl, String ruleIntroduce, String ruleBookKind,
-            String ruleBookLastChapter, String ruleChapterUrl, String ruleChapterUrlNext,
-            String ruleChapterList, String ruleChapterName, String ruleContentUrl,
-            String ruleContentUrlNext, String ruleBookContent, String ruleBookContentReplace,
-            String httpUserAgent) {
+                          String bookSourceType, String loginUrl, Long lastUpdateTime, int serialNumber, int weight,
+                          boolean enable, String ruleFindUrl, String ruleFindList, String ruleFindName,
+                          String ruleFindAuthor, String ruleFindKind, String ruleFindIntroduce,
+                          String ruleFindLastChapter, String ruleFindCoverUrl, String ruleFindNoteUrl,
+                          boolean ruleFindEnable, String ruleSearchUrl, String ruleSearchList, String ruleSearchName,
+                          String ruleSearchAuthor, String ruleSearchKind, String ruleSearchIntroduce,
+                          String ruleSearchLastChapter, String ruleSearchCoverUrl, String ruleSearchNoteUrl,
+                          String ruleBookUrlPattern, String ruleBookInfoInit, String ruleBookName,
+                          String ruleBookAuthor, String ruleCoverUrl, String ruleIntroduce, String ruleBookKind,
+                          String ruleBookLastChapter, String ruleChapterUrl, String ruleChapterUrlNext,
+                          String ruleChapterList, String ruleChapterName, String ruleContentUrl,
+                          String ruleContentUrlNext, String ruleBookContent, String ruleBookContentReplace,
+                          String httpUserAgent) {
         this.bookSourceUrl = bookSourceUrl;
         this.bookSourceName = bookSourceName;
         this.bookSourceGroup = bookSourceGroup;
@@ -605,6 +601,7 @@ public class BookSourceBean implements Cloneable, Serializable {
     public void setRuleBookInfoInit(String ruleBookInfoInit) {
         this.ruleBookInfoInit = ruleBookInfoInit;
     }
+
     public String getRuleBookContentReplace() {
         return ruleBookContentReplace;
     }

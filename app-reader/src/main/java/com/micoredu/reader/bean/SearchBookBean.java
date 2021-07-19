@@ -1,23 +1,23 @@
 package com.micoredu.reader.bean;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.Gson;
 import com.liuzhenli.common.constant.AppConstant;
 import com.micoredu.reader.helper.BookshelfHelper;
 import com.micoredu.reader.model.BookSourceManager;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Transient;
-
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 
-@Entity
+@Entity(tableName = "searchBooks", primaryKeys = "noteUrl")
 public class SearchBookBean implements BaseBookBean {
-    @Id
-    private String noteUrl;
+    @NonNull
+    private String noteUrl = "";
     /***封面URL*/
     private String coverUrl;
     private String name;
@@ -32,52 +32,35 @@ public class SearchBookBean implements BaseBookBean {
     private String introduce;
     /***目录URL*/
     private String chapterUrl;
-    private Long addTime = 0L;
+    private long addTime = 0L;
     private Long upTime = 0L;
     private String variable;
 
-    @Transient
+    @Ignore
     private Boolean isCurrentSource = false;
-    @Transient
+    @Ignore
     private int originNum = 1;
-    @Transient
+    @Ignore
     private int lastChapterNum = -2;
-    @Transient
+    @Ignore
     private int searchTime = Integer.MAX_VALUE;
-    @Transient
+    @Ignore
     private LinkedHashSet<String> originUrls;
-    @Transient
+    @Ignore
     private Map<String, String> variableMap;
-    @Transient
+    @Ignore
     private String bookInfoHtml;
 
     public SearchBookBean() {
 
     }
 
+    @Ignore
     public SearchBookBean(String tag, String origin) {
         this.tag = tag;
         this.origin = origin;
     }
 
-    @Generated(hash = 337890066)
-    public SearchBookBean(String noteUrl, String coverUrl, String name, String author, String tag, String kind,
-                          String origin, String lastChapter, String introduce, String chapterUrl, Long addTime, Long upTime,
-                          String variable) {
-        this.noteUrl = noteUrl;
-        this.coverUrl = coverUrl;
-        this.name = name;
-        this.author = author;
-        this.tag = tag;
-        this.kind = kind;
-        this.origin = origin;
-        this.lastChapter = lastChapter;
-        this.introduce = introduce;
-        this.chapterUrl = chapterUrl;
-        this.addTime = addTime;
-        this.upTime = upTime;
-        this.variable = variable;
-    }
 
     @Override
     public String getVariable() {
@@ -106,13 +89,14 @@ public class SearchBookBean implements BaseBookBean {
         return variableMap;
     }
 
+    @NonNull
     @Override
     public String getNoteUrl() {
         return noteUrl;
     }
 
     @Override
-    public void setNoteUrl(String noteUrl) {
+    public void setNoteUrl(@NonNull String noteUrl) {
         this.noteUrl = noteUrl;
     }
 
@@ -224,7 +208,7 @@ public class SearchBookBean implements BaseBookBean {
         return this.addTime;
     }
 
-    public void setAddTime(Long addTime) {
+    public void setAddTime(long addTime) {
         this.addTime = addTime;
     }
 

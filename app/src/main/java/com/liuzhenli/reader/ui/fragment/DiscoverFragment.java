@@ -226,7 +226,7 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
     }
 
 
-    public void onBookSourceChange(BookSourceBean mBookSource) {
+    public synchronized void onBookSourceChange(BookSourceBean mBookSource) {
         mFragmentList.clear();
         mBookCategory.clear();
         String ruleFindUrl = mBookSource.getRuleFindUrl();
@@ -264,20 +264,18 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
     public void onResume() {
         super.onResume();
         //如果没有书源显示,再刷新一次
-        if (inflate.mViewEmpty != null && inflate.mViewEmpty.getVisibility() == View.VISIBLE) {
+        if (inflate.mViewEmpty.getVisibility() == View.VISIBLE) {
             onRefresh();
         }
     }
 
 
     public boolean isShowBookSourceMenu() {
-        return inflate.mBookSourceView != null && inflate.mBookSourceView.isShowing();
+        return inflate.mBookSourceView.isShowing();
     }
 
     public void dismissBookSourceMenu() {
-        if (inflate.mBookSourceView != null) {
-            inflate.mBookSourceView.close();
-        }
+        inflate.mBookSourceView.close();
     }
 
 }

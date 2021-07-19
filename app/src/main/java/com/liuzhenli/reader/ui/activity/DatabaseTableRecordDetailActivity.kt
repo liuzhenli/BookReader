@@ -26,7 +26,7 @@ class DatabaseTableRecordDetailActivity : BaseActivity<BasePresenter<*>>() {
         tableTitles = intent.getStringArrayExtra(EXTRA_TABLE_TITLES)
         rowData = intent.getStringArrayExtra(EXTRA_ROW_DATA)
         recordDetailAdapter = DatabaseTableRecordDetailAdapter(this, tableTitles, rowData)
-        binding!!.listTableRecordDetail!!.adapter = recordDetailAdapter
+        binding!!.listTableRecordDetail.adapter = recordDetailAdapter
     }
 
     override fun bindContentView(): View {

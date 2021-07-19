@@ -132,7 +132,7 @@ public class ChangeSourceHelper {
             newBook.getBookInfoBean().setAuthor(oldBook.getBookInfoBean().getAuthor());
             BookshelfHelper.removeFromBookShelf(oldBook);
             BookshelfHelper.saveBookToShelf(newBook);
-            DbHelper.getDaoSession().getBookChapterBeanDao().insertOrReplaceInTx(chapterBeanList);
+            AppReaderDbHelper.getInstance().getDatabase().getBookChapterDao().insertOrReplaceInTx(chapterBeanList);
             e.onNext(new TwoDataBean<>(newBook, chapterBeanList));
             e.onComplete();
         });
