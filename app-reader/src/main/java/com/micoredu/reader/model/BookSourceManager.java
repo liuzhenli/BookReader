@@ -282,4 +282,12 @@ public class BookSourceManager {
         });
     }
 
+    public static void update(BookSourceBean data) {
+        AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().update(data);
+    }
+
+    public static void update(List<BookSourceBean> datas) {
+        AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().update(datas);
+    }
+
 }

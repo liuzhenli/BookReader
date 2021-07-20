@@ -41,7 +41,7 @@ import static android.text.TextUtils.isEmpty;
 
 
 /**
- * Description:
+ * Description:BookSourceActivity Presenter
  *
  * @author liuzhenli 2020/11/9
  * Email: 848808263@qq.com
@@ -165,18 +165,18 @@ public class BookSourcePresenter extends RxPresenter<BookSourceContract.View> im
 
     public void saveData(List<BookSourceBean> data) {
         addSubscribe(RxUtil.subscribe(Observable.create(emitter -> {
-            ThreadUtils.getInstance().getExecutorService().execute(() -> BookSourceManager.saveBookSource(data));
+            ThreadUtils.getInstance().getExecutorService().execute(() -> BookSourceManager.update(data));
             emitter.onNext(data == null ? 0 : data.size());
         }), new SampleProgressObserver<Integer>() {
             @Override
-            public void onNext(Integer aBoolean) {
+            public void onNext(@NotNull Integer aBoolean) {
             }
         }));
 
     }
 
     public void saveData(BookSourceBean data) {
-        ThreadUtils.getInstance().getExecutorService().execute(() -> BookSourceManager.saveBookSource(data));
+        ThreadUtils.getInstance().getExecutorService().execute(() -> BookSourceManager.update(data));
     }
 
     public void delData(BookSourceBean data) {

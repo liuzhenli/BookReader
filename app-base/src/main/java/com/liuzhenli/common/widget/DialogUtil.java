@@ -25,25 +25,25 @@ public class DialogUtil {
     /**
      * 显示没有权限dialog 并跳转到权限设置界面
      */
-    public static void showNoPermissionDialog(Context context, String message) {
-        new QMUIDialog.MessageDialogBuilder(context).setTitle("提示")
+    public static void showNoPermissionDialog(Context cxt, String message) {
+        new QMUIDialog.MessageDialogBuilder(cxt).setTitle(cxt.getResources().getString(R.string.dialog_title))
                 .setCanceledOnTouchOutside(false)
                 .setMessage(message)
-                .addAction(new QMUIDialogAction(context.getResources().getString(R.string.ok), new QMUIDialogAction.ActionListener() {
+                .addAction(new QMUIDialogAction(cxt.getResources().getString(R.string.ok), new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
-                        PermissionUtil.jumpPermissionPage(context);
+                        PermissionUtil.jumpPermissionPage(cxt);
                     }
                 }))
                 .create()
                 .show();
     }
 
-    public static void showOneButtonDialog(Context context, String title, String message, QMUIDialogAction.ActionListener action) {
-        new QMUIDialog.MessageDialogBuilder(context).setTitle(title)
+    public static void showOneButtonDialog(Context cxt, String title, String msg, QMUIDialogAction.ActionListener action) {
+        new QMUIDialog.MessageDialogBuilder(cxt).setTitle(title)
                 .setCanceledOnTouchOutside(false)
-                .setMessage(message)
-                .addAction(new QMUIDialogAction(context.getResources().getString(R.string.ok), action))
+                .setMessage(msg)
+                .addAction(new QMUIDialogAction(cxt.getResources().getString(R.string.ok), action))
                 .create()
                 .show();
     }
@@ -72,24 +72,25 @@ public class DialogUtil {
     /**
      * dialog with two buttons
      *
-     * @param context                the context
+     * @param cxt                    the cxt
      * @param title                  the dialog title
-     * @param message                the content
+     * @param msg                    the content
      * @param noText                 cancel button text
-     * @param noListener             cancel button click listener
+     * @param nListener              cancel button click listener
      * @param yesText                confirm button text
      * @param yesListener            confirm button click listener
      * @param canceledOnTouchOutside true if the button is not cancelable
      */
-    public static void showMessagePositiveDialog(Context context, String title, String message, String noText,
-                                                 QMUIDialogAction.ActionListener noListener, String yesText, QMUIDialogAction.ActionListener yesListener, boolean canceledOnTouchOutside) {
-        new QMUIDialog.MessageDialogBuilder(context)
+    public static void showMessagePositiveDialog(Context cxt, String title, String msg, String noText,
+                                                 QMUIDialogAction.ActionListener nListener, String yesText,
+                                                 QMUIDialogAction.ActionListener yesListener, boolean canceledOnTouchOutside) {
+        new QMUIDialog.MessageDialogBuilder(cxt)
                 .setTitle(title)
-                .setMessage(message)
+                .setMessage(msg)
                 .setCanceledOnTouchOutside(canceledOnTouchOutside)
                 .addAction(0, noText, QMUIDialogAction.ACTION_PROP_NEUTRAL, (dialog, index) -> {
-                    if (noListener != null) {
-                        noListener.onClick(dialog, index);
+                    if (nListener != null) {
+                        nListener.onClick(dialog, index);
                     }
                     dialog.dismiss();
                 })
@@ -102,29 +103,33 @@ public class DialogUtil {
                 .create(mCurrentDialogStyle).show();
     }
 
-    public static void showEditTextDialog(Context context, String title, String placeHolder, String toast, DialogActionListener actionListener) {
+    public static void showEditTextDialog(Context context, String title, String placeHolder,
+                                          String toast, DialogActionListener actionListener) {
         showEditTextDialog(context, title, placeHolder, null, toast, actionListener);
     }
 
-    public static void showEditTextDialog(Context context, String title, String placeHolder, String defaultText, String toast, DialogActionListener actionListener) {
+    public static void showEditTextDialog(Context context, String title, String placeHolder,
+                                          String defaultText, String toast, DialogActionListener listener) {
         final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(context);
         QMUIDialog qmuiDialog = builder.setTitle(title)
                 .setSkinManager(QMUISkinManager.defaultInstance(context))
                 .setPlaceholder(placeHolder)
                 .setInputType(InputType.TYPE_CLASS_TEXT)
                 .setDefaultText(defaultText)
-                .addAction("取消", (dialog, index) -> dialog.dismiss())
-                .addAction("确定", (dialog, index) -> {
-                    CharSequence text = builder.getEditText().getText();
-                    if (text != null && text.length() > 0) {
-                        actionListener.onClick(text.toString());
-                        dialog.dismiss();
-                    } else if (!TextUtils.isEmpty(toast)) {
-                        ToastUtil.showToast(toast);
-                    } else {
-                        dialog.dismiss();
-                    }
-                }).create(mCurrentDialogStyle);
+                .addAction(context.getResources().getString(R.string.cancel),
+                        (dialog, index) -> dialog.dismiss())
+                .addAction(context.getResources().getString(R.string.ok),
+                        (dialog, index) -> {
+                            CharSequence text = builder.getEditText().getText();
+                            if (text != null && text.length() > 0) {
+                                listener.onClick(text.toString());
+                                dialog.dismiss();
+                            } else if (!TextUtils.isEmpty(toast)) {
+                                ToastUtil.showToast(toast);
+                            } else {
+                                dialog.dismiss();
+                            }
+                        }).create(mCurrentDialogStyle);
         qmuiDialog.show();
     }
 

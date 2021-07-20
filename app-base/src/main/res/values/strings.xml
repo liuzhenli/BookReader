@@ -152,6 +152,13 @@
     <string name="import_book_source">导入书源</string>
     <string name="import_book_source_local">本地导入</string>
     <string name="import_book_source_on_line">网络导入</string>
+    <string name="input_book_source_url_success">成功导入%1$d个书源</string>
+    <string name="no_book_source_tips">暂无书源,搜索微信公众号:异书房,\n回复"书源"获取书源~</string>
+    <string name="delete_selected_book_source">您共选中%1$d个书源,是否删除?</string>
+    <string name="please_choose_book_source">请选择书源~</string>
+    <string name="no_book_source_selected">没有选中书源哦</string>
+    <string name="all">全部</string>
+
     <string name="replace_rule_title">替换净化</string>
     <string name="replace_rule_edit">替换规则编辑</string>
     <string name="replace_rule">替换规则</string>
@@ -475,7 +482,7 @@
     <string name="cover_change_source">封面换源</string>
     <string name="select_local_image">选择本地图片</string>
     <string name="refresh_cover">刷新封面</string>
-    <string name="feed_back">反饋</string>
+    <string name="feed_back">反馈</string>
     <string name="total_chapter_count">共%s章</string>
     <string name="string_book_source_is_empty">您还没有配置书源,无法完成搜索,点击右上角,先添加书源吧.</string>
     <string name="about_donate">我们利用有限的业余时间设计了异书房App,虽然它并不那么美好,但仍在努力前行。\n如果你喜欢这款软件,可以通过捐赠来支持我们。\n你也可以关注异书房微信公众号:异书房,获取书源及app更新信息。</string>
