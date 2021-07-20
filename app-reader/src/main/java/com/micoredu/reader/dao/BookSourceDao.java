@@ -24,6 +24,13 @@ public interface BookSourceDao {
     @Query("select * from booksources order by SerialNumber ASC")
     List<BookSourceBean> getAllBookSource();
 
+    @Query("select * from booksources order by weight ASC")
+    List<BookSourceBean> getAllOrderByWeight();
+
+
+    @Query("select * from booksources order by bookSourceName ASC")
+    List<BookSourceBean> getAllOrderByBookSourceName();
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertOrReplace(BookSourceBean bookSourceBean);
 
@@ -42,16 +49,29 @@ public interface BookSourceDao {
     @Query("SELECT * FROM booksources WHERE bookSourceUrl IS:bookSourceUrl")
     BookSourceBean getByBookSourceUrl(String bookSourceUrl);
 
-    @Query("SELECT * FROM booksources WHERE enable is 1 order by SerialNumber asc")
+    @Query("SELECT * FROM booksources WHERE enable is 1 order by SerialNumber DESC")
     List<BookSourceBean> getSelectedBookSource();
 
-    @Query("select * from booksources where enable =1 order by SerialNumber ASC")
-    List<BookSourceBean> getSelectedBookSourceBySerialNumber();
+    @Query("select * from booksources where enable =1 order by weight ASC")
+    List<BookSourceBean> getSelectedBookSourceByWeight();
+
+    @Query("select * from booksources where enable =1 order by bookSourceName ASC")
+    List<BookSourceBean> getSelectedBookSourceByBookSourceName();
 
     @Query("select * from booksources where BookSourceName like '%'||:keyword||'%'  " +
             "or BookSourceGroup like '%'||:keyword||'%' or BookSourceUrl like '%'||:keyword||'%'" +
             " order by SerialNumber ASC")
     List<BookSourceBean> getSourceByKey(String keyword);
+
+    @Query("select * from booksources where BookSourceName like '%'||:keyword||'%'  " +
+            "or BookSourceGroup like '%'||:keyword||'%' or BookSourceUrl like '%'||:keyword||'%'" +
+            " order by weight ASC")
+    List<BookSourceBean> getSourceByKeyOrderByWeight(String keyword);
+
+    @Query("select * from booksources where BookSourceName like '%'||:keyword||'%'  " +
+            "or BookSourceGroup like '%'||:keyword||'%' or BookSourceUrl like '%'||:keyword||'%'" +
+            " order by bookSourceName ASC")
+    List<BookSourceBean> getSourceByKeyOrderByBookSourceName(String keyword);
 
     @Query("select * from booksources where enable =1 and ruleFindEnable =1 order by SerialNumber ASC")
     List<BookSourceBean> getRuleFindEnable();

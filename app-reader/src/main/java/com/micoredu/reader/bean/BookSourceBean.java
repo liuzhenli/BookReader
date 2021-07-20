@@ -29,7 +29,9 @@ public class BookSourceBean implements Cloneable, Serializable {
     private String bookSourceType;
     private String loginUrl;
     private Long lastUpdateTime;
+    /***手动排序编号*/
     private int serialNumber;
+    /***智能排序的权重*/
     private int weight = 0;
     /***书源是否使用*/
     private boolean enable;
