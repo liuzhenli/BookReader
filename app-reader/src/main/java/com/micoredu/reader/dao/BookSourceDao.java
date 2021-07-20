@@ -5,6 +5,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.jayway.jsonpath.Criteria;
 import com.micoredu.reader.bean.BookSourceBean;
@@ -40,8 +41,14 @@ public interface BookSourceDao {
     @Query("DELETE FROM booksources WHERE bookSourceUrl IS:bookSourceUrl")
     void delete(String bookSourceUrl);
 
+    @Update()
+    void update(BookSourceBean bookSource);
+
+    @Update()
+    void update(List<BookSourceBean> bookSource);
+
     @Delete()
-    void delete(BookSourceBean bookSourceUrl);
+    void delete(BookSourceBean bookSource);
 
     @Query("select Count(bookSourceUrl) from booksources")
     int count();

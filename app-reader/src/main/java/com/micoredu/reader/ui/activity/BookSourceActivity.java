@@ -41,7 +41,6 @@ import com.micoredu.reader.ui.presenter.BookSourcePresenter;
 import com.liuzhenli.common.widget.DialogUtil;
 import com.micoredu.reader.bean.BookSourceBean;
 import com.micoredu.reader.model.BookSourceManager;
-import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -62,7 +61,9 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
     private final int IMPORT_BOOK_SOURCE_QRCODE = 1001;
 
     private BookSourceFilterMenuAdapter mFilterMenuAdapter;
-    /***书源排序方式*/
+    /**
+     * book source order type see AppSharedPreferenceHelper.SortType
+     */
     private int mSortType;
     private ActivityBookSourceBinding binding;
 
@@ -107,13 +108,15 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
                     }
                 }, Manifest.permission.READ_EXTERNAL_STORAGE);
             } else if (itemId == R.id.action_import_book_source_online) {
-                DialogUtil.showEditTextDialog(mContext, "网络导入", "请输入网址://", "请输入地址", new DialogUtil.DialogActionListener() {
-                    @Override
-                    public void onClick(String s) {
-                        showDialog();
-                        mPresenter.getNetSource(s);
-                    }
-                });
+                DialogUtil.showEditTextDialog(mContext, getResources().getString(R.string.import_book_source_on_line),
+                        String.format("%s://", getResources().getString(R.string.input_book_source_url)),
+                        getResources().getString(R.string.input_book_source_url), new DialogUtil.DialogActionListener() {
+                            @Override
+                            public void onClick(String s) {
+                                showDialog();
+                                mPresenter.getNetSource(s);
+                            }
+                        });
                 //二维码导入
             } else if (itemId == R.id.action_import_book_source_rwm) {
                 ARouter.getInstance()
@@ -122,16 +125,16 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
             } else if (itemId == R.id.action_del_select) {
                 List<BookSourceBean> bookSourceBeans = ((BookSourceAdapter) mAdapter).getSelectedBookSource();
                 if (bookSourceBeans.size() > 0) {
-                    DialogUtil.showMessagePositiveDialog(mContext, "提示",
-                            String.format("您共选中%s个书源,是否删除?", bookSourceBeans.size()),
-                            "取消", null, "确定", (dialog, index) -> {
+                    DialogUtil.showMessagePositiveDialog(mContext, getResources().getString(R.string.dialog_title),
+                            String.format(getResources().getString(R.string.delete_selected_book_source), bookSourceBeans.size()),
+                            getResources().getString(R.string.cancel), null, getResources().getString(R.string.ok), (dialog, index) -> {
                                 mPresenter.deleteSelectedSource(bookSourceBeans);
                             }, true);
                 }
             } else if (itemId == R.id.action_check_book_source) {
                 List<BookSourceBean> selectedBookSource = BookSourceManager.getSelectedBookSource();
                 if (selectedBookSource == null || selectedBookSource.size() == 0) {
-                    toast("请选择书源~");
+                    toast(getResources().getString(R.string.please_choose_book_source));
                 } else {
                     mPresenter.checkBookSource(mContext, selectedBookSource);
                 }
@@ -141,7 +144,7 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
                 if (bookSourceBeans.size() > 0) {
                     ShareService.startThis(mContext, bookSourceBeans);
                 } else {
-                    toast("没有选中书源哦");
+                    toast(getResources().getString(R.string.no_book_source_selected));
                 }
             }
             return false;
@@ -242,7 +245,7 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
         mRecyclerView.setEmptyView(R.layout.empty_view_souce);
         if (mRecyclerView.getEmptyView() != null) {
             TextView mTvEmptyText = mRecyclerView.getEmptyView().findViewById(R.id.tv_empty_text);
-            mTvEmptyText.setText("暂无书源,搜索微信公众号:异书房,\n回复\"书源\"获取书源~");
+            mTvEmptyText.setText(getResources().getString(R.string.no_book_source_tips));
         }
         binding.mTvStopCheck.setOnClickListener(v -> CheckSourceService.stop(mContext));
     }
@@ -261,7 +264,7 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
         if (list != null && list.size() > 0) {
             showDialog();
             mPresenter.getLocalBookSource("");
-            toast(String.format("成功导入%s个书源", list.size()));
+            toast(String.format(getResources().getString(R.string.input_book_source_url_success), list.size()));
             //发送消息,通知发现页
         }
 
@@ -316,7 +319,7 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
 
     private void updateSortMenu() {
         List<String> groupList = BookSourceManager.getGroupList();
-        groupList.add(0, "全部");
+        groupList.add(0, getResources().getString(R.string.all));
         mFilterMenuAdapter.setGroupList(groupList);
     }
 
@@ -353,7 +356,6 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
             } else if (requestCode == IMPORT_BOOK_SOURCE_QRCODE) {
                 if (data != null) {
                     String result = data.getStringExtra("result");
-                    Logger.e("11111---  " + result);
                     //如果是http开头,访问网络
                     if (result != null) {
                         showDialog();
