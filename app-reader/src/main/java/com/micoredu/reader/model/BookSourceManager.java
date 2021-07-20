@@ -9,6 +9,7 @@ import androidx.annotation.RequiresApi;
 
 import com.liuzhenli.common.SharedPreferencesUtil;
 import com.liuzhenli.common.gson.GsonUtils;
+import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.common.utils.NetworkUtils;
 import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.common.utils.StringUtils;
@@ -40,16 +41,31 @@ public class BookSourceManager {
      * @return 用户筛选的书源
      */
     public static List<BookSourceBean> getSelectedBookSource() {
-        return AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().getSelectedBookSource();
+
+        int sourceSort = SharedPreferencesUtil.getInstance().getInt("SourceSort", AppSharedPreferenceHelper.SortType.SORT_TYPE_HAND);
+        if (sourceSort == AppSharedPreferenceHelper.SortType.SORT_TYPE_HAND) {
+            return AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().getSelectedBookSource();
+        } else if (sourceSort == AppSharedPreferenceHelper.SortType.SORT_TYPE_AUTO) {
+            //auto order 智能排序
+            return AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().getSelectedBookSourceByWeight();
+        } else {
+            //音序排序
+            return AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().getSelectedBookSourceByBookSourceName();
+        }
     }
 
     /***全部书源*/
     public static List<BookSourceBean> getAllBookSource() {
-        return AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().getAllBookSource();
-    }
-
-    public static List<BookSourceBean> getSelectedBookSourceBySerialNumber() {
-        return AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().getSelectedBookSourceBySerialNumber();
+        int sourceSort = SharedPreferencesUtil.getInstance().getInt("SourceSort", AppSharedPreferenceHelper.SortType.SORT_TYPE_HAND);
+        if (sourceSort == AppSharedPreferenceHelper.SortType.SORT_TYPE_HAND) {
+            return AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().getAllBookSource();
+        } else if (sourceSort == AppSharedPreferenceHelper.SortType.SORT_TYPE_AUTO) {
+            //auto order 智能排序
+            return AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().getAllOrderByWeight();
+        } else {
+            //音序排序
+            return AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().getAllOrderByBookSourceName();
+        }
     }
 
     public static List<BookSourceBean> getRuleFindEnable() {
@@ -67,20 +83,15 @@ public class BookSourceManager {
      * @param keyword 关键字
      * @return 相关书源
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static List<BookSourceBean> getSourceByKey(String keyword) {
-        List<BookSourceBean> sourceList = AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().getSourceByKey(keyword);
-        int sourceSort = SharedPreferencesUtil.getInstance().getInt("SourceSort", 0);
-        sourceList.sort((o1, o2) -> {
-            if (sourceSort == 1) {
-                return Collator.getInstance(Locale.CHINESE).compare(o1.getWeight(), o2.getWeight());
-            } else if (sourceSort == 2) {
-                return Collator.getInstance(Locale.CHINESE).compare(o1.getBookSourceName(), o2.getBookSourceName());
-            } else {
-                return Collator.getInstance(Locale.CHINESE).compare(o1.getSerialNumber(), o2.getSerialNumber());
-            }
-        });
-        return sourceList;
+        int sourceSort = SharedPreferencesUtil.getInstance().getInt("SourceSort", AppSharedPreferenceHelper.SortType.SORT_TYPE_HAND);
+        if (sourceSort == AppSharedPreferenceHelper.SortType.SORT_TYPE_HAND) {
+            return AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().getSourceByKey(keyword);
+        } else if (sourceSort == AppSharedPreferenceHelper.SortType.SORT_TYPE_PINYIN) {
+            return AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().getSourceByKeyOrderByBookSourceName(keyword);
+        } else {
+            return AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().getSourceByKeyOrderByWeight(keyword);
+        }
     }
 
     @Nullable

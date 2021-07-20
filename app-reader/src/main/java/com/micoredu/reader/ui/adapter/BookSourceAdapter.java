@@ -57,7 +57,7 @@ public class BookSourceAdapter extends RecyclerArrayAdapter<BookSourceBean> {
         @Override
         public void setData(BookSourceBean item) {
             super.setData(item);
-            L.e(item.toString());
+            L.e(BookSourceAdapter.class.getName(),item.toString());
             binding.cbBookSourceCheck.setChecked(item.getEnable());
             binding.tvSourceName.setText(item.getBookSourceName());
             binding.tvSourceGroupName.setText(item.getBookSourceGroup());
@@ -69,9 +69,6 @@ public class BookSourceAdapter extends RecyclerArrayAdapter<BookSourceBean> {
             } else {
                 binding.viewMoveToTop.setVisibility(View.VISIBLE);
             }
-
-            binding.cbBookSourceCheck.setChecked(item.getEnable());
-
             //书源是否可用
             binding.cbBookSourceCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -117,7 +114,7 @@ public class BookSourceAdapter extends RecyclerArrayAdapter<BookSourceBean> {
                 mObjects.add(0, bookSourceBean);
                 notifyItemInserted(0);
                 //如果是手动排序
-                if (mSortType == AppSharedPreferenceHelper.SortType.SORT_TYPE_AUTO) {
+                if (mSortType == AppSharedPreferenceHelper.SortType.SORT_TYPE_HAND) {
                     int maxWeight = mObjects.get(0).getWeight();
                     item.setWeight(maxWeight + 1);
                 }

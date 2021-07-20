@@ -3,6 +3,7 @@ package com.liuzhenli.reader.ui.fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,7 +44,7 @@ import java.util.List;
 import static com.liuzhenli.common.BitIntentDataManager.DATA_KEY;
 
 /**
- * describe:书架
+ * describe:bookShelf
  *
  * @author Liuzhenli on 2019-11-09 22:28
  */
@@ -228,7 +229,7 @@ public class BookShelfFragment extends BaseRVFragment<BookShelfPresenter, BookSh
         } else {
             tvProgress.setText(String.format("已阅读:%.2f%s", bookShelfBean.getDurChapter() * 100.f / bookShelfBean.getChapterListSize(), "%"));
         }
-        tvDes.setText(bookShelfBean.getBookInfoBean().getIntroduce());
+        tvDes.setText(Html.fromHtml(bookShelfBean.getBookInfoBean().getIntroduce()));
         bottomSheetDialog.show();
         return false;
     }

@@ -24,11 +24,11 @@ public class AppSharedPreferenceHelper {
 
     /***书源排序方式*/
     public interface SortType {
-        /***手动排序*/
+        /***手动排序  SerialNumber*/
         int SORT_TYPE_HAND = 0;
-        /***智能排序*/
+        /***智能排序 weight*/
         int SORT_TYPE_AUTO = 1;
-        /***音序排序*/
+        /***音序排序 bookSourceName*/
         int SORT_TYPE_PINYIN = 2;
     }
 

@@ -6,8 +6,10 @@ import android.text.TextUtils;
 import androidx.documentfile.provider.DocumentFile;
 
 import com.liuzhenli.common.BaseApplication;
+import com.liuzhenli.common.SharedPreferencesUtil;
 import com.liuzhenli.common.exception.ApiException;
 import com.liuzhenli.common.gson.GsonUtils;
+import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.common.utils.StringUtils;
 import com.liuzhenli.common.base.RxPresenter;
@@ -21,6 +23,8 @@ import com.liuzhenli.common.utils.ThreadUtils;
 import com.micoredu.reader.bean.BookSourceBean;
 import com.micoredu.reader.helper.DocumentHelper;
 import com.micoredu.reader.model.BookSourceManager;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,7 +56,6 @@ public class BookSourcePresenter extends RxPresenter<BookSourceContract.View> im
 
     @Override
     public void getLocalBookSource(String key) {
-
         addSubscribe(RxUtil.subscribe(Observable.create(emitter -> {
             //获取全部书源
             if (TextUtils.isEmpty(key)) {
@@ -62,10 +65,9 @@ public class BookSourcePresenter extends RxPresenter<BookSourceContract.View> im
             } else {
                 emitter.onNext(BookSourceManager.getSourceByKey(key));
             }
-
         }), new SampleProgressObserver<List<BookSourceBean>>() {
             @Override
-            public void onNext(List<BookSourceBean> list) {
+            public void onNext(@NotNull List<BookSourceBean> list) {
                 mView.showLocalBookSource(list);
             }
         }));

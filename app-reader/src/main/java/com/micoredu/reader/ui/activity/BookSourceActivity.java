@@ -5,6 +5,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.hwangjr.rxbus.annotation.Subscribe;
@@ -51,7 +53,7 @@ import static com.liuzhenli.common.utils.AppSharedPreferenceHelper.SortType.SORT
 
 
 /**
- * 书源列表
+ * Book source list page
  *
  * @author liuzhenli 2020.8.10
  */
@@ -165,6 +167,7 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
                 //已选
             } else if (index == 1) {
                 binding.mEtSearchKey.setText("enable");
+                binding.mEtSearchKey.setSelection(binding.mEtSearchKey.length());
                 //反选
             } else if (index == 2) {
                 for (int i = 0; i < mAdapter.getRealAllData().size(); i++) {
@@ -180,6 +183,7 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
          * 排序
          * @param index index item index
          */
+        @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         public void onSortChange(int index) {
             if (index == 0) {
