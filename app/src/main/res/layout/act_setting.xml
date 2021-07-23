@@ -102,17 +102,22 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textColor="@color/text_color_99"
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+            android:id="@+id/viewWebDavIndicator"
+            android:layout_width="4dp"
+            android:layout_height="4dp"
             android:textSize="@dimen/txt_size_10"
             android:visibility="gone"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_setting_backup_title" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/iv_right"
+            app:layout_constraintTop_toBottomOf="@+id/tv_setting_backup_title"
+            app:layout_constraintTop_toTopOf="parent"
+            app:qmui_backgroundColor="@color/qmui_config_color_red"
+            app:qmui_borderColor="@color/qmui_config_color_red"
+            app:qmui_radius="4dp" />
 
         <ImageView
+            android:id="@+id/iv_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/icon_common_arrow_right_more"

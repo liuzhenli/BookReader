@@ -21,6 +21,7 @@ import java.util.*
 import kotlin.math.min
 
 object WebDavHelp {
+    public var isWebDavSet: Boolean = false;
     private val zipFilePath = FileHelp.getCachePath() + "/backup" + ".zip"
     private val unzipFilesPath by lazy {
         FileHelp.getCachePath()
@@ -68,7 +69,11 @@ object WebDavHelp {
         return names
     }
 
-    fun showRestoreDialog(context: Context, names: ArrayList<String>, callBack: Restore.CallBack?): Boolean {
+    fun showRestoreDialog(
+        context: Context,
+        names: ArrayList<String>,
+        callBack: Restore.CallBack?
+    ): Boolean {
         return if (names.isNotEmpty()) {
             context.selector(title = "选择恢复文件", items = names) { _, index ->
                 if (index in 0 until names.size) {
@@ -94,21 +99,21 @@ object WebDavHelp {
             }
             e.onSuccess(true)
         }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : SingleObserver<Boolean> {
-                    override fun onSuccess(t: Boolean) {
-                        Restore.restore(unzipFilesPath, callBack)
-                    }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : SingleObserver<Boolean> {
+                override fun onSuccess(t: Boolean) {
+                    Restore.restore(unzipFilesPath, callBack)
+                }
 
-                    override fun onSubscribe(d: Disposable) {
+                override fun onSubscribe(d: Disposable) {
 
-                    }
+                }
 
-                    override fun onError(e: Throwable) {
-                        callBack?.restoreError(e.localizedMessage ?: "ERROR")
+                override fun onError(e: Throwable) {
+                    callBack?.restoreError(e.localizedMessage ?: "ERROR")
 
-                    }
-                })
+                }
+            })
     }
 
     /**
@@ -126,7 +131,7 @@ object WebDavHelp {
                     WebDav(getWebDavUrl() + "YiShuFang").makeAsDir()
                     val putUrl = getWebDavUrl() + "YiShuFang/backup" +
                             SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                                    .format(Date(System.currentTimeMillis())) + ".zip"
+                                .format(Date(System.currentTimeMillis())) + ".zip"
                     var success = WebDav(putUrl).upload(zipFilePath)
                     if (success) {
                         callBack?.backupSuccess()

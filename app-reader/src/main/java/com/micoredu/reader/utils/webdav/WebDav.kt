@@ -50,7 +50,7 @@ constructor(urlStr: String) {
     var size: Long = 0
     var exists = false
     var parent = ""
-    var urlName = ""
+    private var urlName = ""
         get() {
             if (field.isEmpty()) {
                 this.urlName = (
@@ -63,7 +63,7 @@ constructor(urlStr: String) {
 
     fun getPath() = url.toString()
 
-    fun getHost() = url.host
+    fun getHost(): String = url.host
 
     /**
      * 填充文件信息。实例化WebDAVFile对象时，并没有将远程文件的信息填充到实例中。需要手动填充！

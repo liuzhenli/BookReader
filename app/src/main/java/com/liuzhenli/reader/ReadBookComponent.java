@@ -8,6 +8,7 @@ import com.liuzhenli.reader.ui.activity.ChangeSourceActivity;
 import com.liuzhenli.reader.ui.activity.DatabaseTableListActivity;
 import com.liuzhenli.reader.ui.activity.ImportLocalBookActivity;
 import com.liuzhenli.reader.ui.activity.LoginActivity;
+import com.liuzhenli.reader.ui.activity.MainActivity;
 import com.liuzhenli.reader.ui.activity.SearchActivity;
 import com.liuzhenli.reader.ui.activity.SettingActivity;
 import com.liuzhenli.reader.ui.fragment.BookCategoryFragment;
@@ -53,4 +54,6 @@ public interface ReadBookComponent {
     void inject(DatabaseTableListActivity activity);
 
     void inject(LoginActivity loginActivity);
+
+    void inject(MainActivity mainActivity);
 }
