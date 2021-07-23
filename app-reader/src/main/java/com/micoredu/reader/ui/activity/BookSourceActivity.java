@@ -108,7 +108,7 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
                     }
                 }, Manifest.permission.READ_EXTERNAL_STORAGE);
             } else if (itemId == R.id.action_import_book_source_online) {
-                DialogUtil.showEditTextDialog(mContext, getResources().getString(R.string.import_book_source_on_line),
+                DialogUtil.showEditTextDialog(this, getResources().getString(R.string.import_book_source_on_line),
                         String.format("%s://", getResources().getString(R.string.input_book_source_url)),
                         getResources().getString(R.string.input_book_source_url), new DialogUtil.DialogActionListener() {
                             @Override

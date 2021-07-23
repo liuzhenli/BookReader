@@ -20,11 +20,15 @@ import com.micoredu.reader.utils.storage.BackupRestoreUi;
 import com.micoredu.reader.utils.storage.Restore;
 import com.micoredu.reader.utils.storage.WebDavHelp;
 import com.liuzhenli.common.widget.DialogUtil;
+import com.liuzhenli.reader.event.OnWebDavSetEvent;
 import com.microedu.reader.R;
 import com.microedu.reader.databinding.ActBackupsettingBinding;
 import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheet;
 import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheetListItemModel;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -77,22 +81,23 @@ public class BackupSettingActivity extends BaseActivity implements Backup.CallBa
 
     @Override
     protected void configViews() {
+        //web dav address
         ClickUtils.click(mContentView.mViewNetAddress, o ->
-                DialogUtil.showEditTextDialog(mContext, getResources().getString(R.string.web_dav_address), "请输入网址",
+                DialogUtil.showEditTextDialog(this, getResources().getString(R.string.web_dav_address), "请输入网址",
                         AppSharedPreferenceHelper.getWebDavAddress(), null, s -> {
-                            mContentView.mTvNetAddress.setText(s);
-                            if (!TextUtils.isEmpty(s) && !TextUtils.isEmpty(s.trim())) {
-                                AppSharedPreferenceHelper.saveWebDavAddress(s);
-                            }
+                            AppSharedPreferenceHelper.saveWebDavAddress(s);
+                            mContentView.mTvNetAddress.setText(AppSharedPreferenceHelper.getWebDavAddress());
                         }));
+        //web dav account
         ClickUtils.click(mContentView.viewAccount, o ->
-                DialogUtil.showEditTextDialog(mContext, getResources().getString(R.string.web_dav_account), "请输入账号",
+                DialogUtil.showEditTextDialog(this, getResources().getString(R.string.web_dav_account), "请输入账号",
                         AppSharedPreferenceHelper.getWebDavAccountName(), null, s -> {
                             mContentView.mTvAccount.setText(s);
                             AppSharedPreferenceHelper.saveWebDavAccountName(s);
                         }));
+        //web dav password
         ClickUtils.click(mContentView.mVPassword, o ->
-                DialogUtil.showEditTextDialog(mContext, getResources().getString(R.string.web_dav_password), "请输入密码",
+                DialogUtil.showEditTextDialog(this, getResources().getString(R.string.web_dav_password), "请输入密码",
                         AppSharedPreferenceHelper.getWebDavAddPwd(), null, AppSharedPreferenceHelper::saveWebDavAddPwd));
 
         //恢复
@@ -178,6 +183,7 @@ public class BackupSettingActivity extends BaseActivity implements Backup.CallBa
                     public void onError(@NotNull Throwable e) {
                         e.printStackTrace();
                         showBackups(null);
+                        EventBus.getDefault().post(new OnWebDavSetEvent(false));
                     }
                 });
     }

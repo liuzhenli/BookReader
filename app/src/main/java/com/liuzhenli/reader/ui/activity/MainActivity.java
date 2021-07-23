@@ -1,8 +1,8 @@
 package com.liuzhenli.reader.ui.activity;
 
 import android.Manifest;
-import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,14 +24,18 @@ import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.FillContentUtil;
 import com.liuzhenli.common.base.BaseActivity;
 import com.liuzhenli.common.observer.SampleProgressObserver;
+import com.liuzhenli.reader.DaggerReadBookComponent;
 import com.liuzhenli.reader.ui.adapter.MainTabAdapter;
 import com.liuzhenli.common.utils.Constant;
+import com.liuzhenli.reader.ui.contract.MainContract;
 import com.liuzhenli.reader.ui.fragment.DiscoverFragment;
 import com.liuzhenli.common.utils.PermissionUtil;
 import com.liuzhenli.common.utils.ToastUtil;
+import com.liuzhenli.reader.ui.presenter.MainPresenter;
 import com.liuzhenli.reader.utils.JumpToLastPageUtil;
 import com.micoredu.reader.bean.BookSourceBean;
 import com.micoredu.reader.ui.activity.BookSourceActivity;
+import com.micoredu.reader.utils.storage.Backup;
 import com.microedu.reader.R;
 import com.microedu.reader.databinding.ActivityMainContainerBinding;
 
@@ -39,7 +43,7 @@ import com.microedu.reader.databinding.ActivityMainContainerBinding;
  * @author liuzhenli
  */
 @Route(path = ARouterConstants.ACT_MAIN)
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View {
     private int mCurrentPosition;
     private MainTabAdapter mainTabAdapter;
     /***发现页面的书源名字*/
@@ -54,7 +58,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-
+        DaggerReadBookComponent.builder().build().inject(this);
     }
 
     @Override
@@ -78,7 +82,6 @@ public class MainActivity extends BaseActivity {
     @Override
     public void configViews() {
         setMenu();
-
         mainTabAdapter = new MainTabAdapter(mContext, getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         inflate.viewMain.mViewPager.setAdapter(mainTabAdapter);
         inflate.viewMain.mTabLayout.setupWithViewPager(inflate.viewMain.mViewPager);
@@ -157,6 +160,8 @@ public class MainActivity extends BaseActivity {
         inflate.viewMainLeft.mViewNightMode.setVisibility(View.GONE);
 
         JumpToLastPageUtil.openLastPage(mContext);
+
+        mPresenter.checkWebDav();
     }
 
     private void setMenu() {
@@ -251,5 +256,26 @@ public class MainActivity extends BaseActivity {
             moveTaskToBack(true);
             //super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Backup.INSTANCE.autoBack();
+    }
+
+    @Override
+    public void showWebDavResult(boolean isSet) {
+        Log.e(TAG, "web dav ---: " + isSet);
+    }
+
+    @Override
+    public void showError(Exception e) {
+
+    }
+
+    @Override
+    public void complete() {
+
     }
 }

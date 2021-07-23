@@ -54,4 +54,10 @@ public class SoftInputUtils {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
+
+    public static void hideSoftInput(Activity context) {
+        if (isSoftShowing(context)) {
+            toggleSoftInput(context);
+        }
+    }
 }

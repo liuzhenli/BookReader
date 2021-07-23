@@ -1,5 +1,6 @@
 package com.liuzhenli.common.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.text.InputType;
@@ -7,6 +8,7 @@ import android.text.TextUtils;
 
 import com.liuzhenli.common.R;
 import com.liuzhenli.common.utils.PermissionUtil;
+import com.liuzhenli.common.utils.SoftInputUtils;
 import com.liuzhenli.common.utils.ToastUtil;
 import com.qmuiteam.qmui.skin.QMUISkinManager;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
@@ -103,12 +105,12 @@ public class DialogUtil {
                 .create(mCurrentDialogStyle).show();
     }
 
-    public static void showEditTextDialog(Context context, String title, String placeHolder,
+    public static void showEditTextDialog(Activity context, String title, String placeHolder,
                                           String toast, DialogActionListener actionListener) {
         showEditTextDialog(context, title, placeHolder, null, toast, actionListener);
     }
 
-    public static void showEditTextDialog(Context context, String title, String placeHolder,
+    public static void showEditTextDialog(Activity context, String title, String placeHolder,
                                           String defaultText, String toast, DialogActionListener listener) {
         final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(context);
         QMUIDialog qmuiDialog = builder.setTitle(title)
@@ -116,20 +118,25 @@ public class DialogUtil {
                 .setPlaceholder(placeHolder)
                 .setInputType(InputType.TYPE_CLASS_TEXT)
                 .setDefaultText(defaultText)
-                .addAction(context.getResources().getString(R.string.cancel),
-                        (dialog, index) -> dialog.dismiss())
-                .addAction(context.getResources().getString(R.string.ok),
-                        (dialog, index) -> {
-                            CharSequence text = builder.getEditText().getText();
-                            if (text != null && text.length() > 0) {
-                                listener.onClick(text.toString());
-                                dialog.dismiss();
-                            } else if (!TextUtils.isEmpty(toast)) {
-                                ToastUtil.showToast(toast);
-                            } else {
-                                dialog.dismiss();
-                            }
-                        }).create(mCurrentDialogStyle);
+                .setCanceledOnTouchOutside(false)
+                .addAction(context.getResources().getString(R.string.cancel), (dialog, index) -> {
+                    dialog.dismiss();
+                    SoftInputUtils.hideSoftInput(context);
+                })
+                .addAction(context.getResources().getString(R.string.ok), (dialog, index) -> {
+                    CharSequence text = builder.getEditText().getText();
+                    if (text != null && text.length() > 0) {
+                        listener.onClick(text.toString());
+                        dialog.dismiss();
+                    } else if (!TextUtils.isEmpty(toast)) {
+                        ToastUtil.showToast(toast);
+                        listener.onClick(null);
+                    } else {
+                        dialog.dismiss();
+                        listener.onClick(null);
+                    }
+                    SoftInputUtils.hideSoftInput(context);
+                }).create(R.style.QMUI_Dialog_EditContent);
         qmuiDialog.show();
     }
 

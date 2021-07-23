@@ -3,21 +3,26 @@ package com.liuzhenli.reader.ui.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.liuzhenli.common.FileHelp;
 import com.liuzhenli.common.AppComponent;
+import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.FileUtils;
 import com.liuzhenli.reader.DaggerReadBookComponent;
 import com.liuzhenli.reader.ReaderApplication;
 import com.liuzhenli.common.base.BaseActivity;
+import com.liuzhenli.reader.event.OnWebDavSetEvent;
 import com.liuzhenli.reader.ui.contract.SettingContract;
 import com.liuzhenli.reader.ui.presenter.SettingPresenter;
-import com.micoredu.reader.DaggerReaderComponent;
 import com.micoredu.reader.helper.BookshelfHelper;
 import com.microedu.reader.R;
 import com.microedu.reader.databinding.ActSettingBinding;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Description:设置页面
@@ -68,6 +73,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
             mPresenter.getCacheSize();
         });
 
+        //backup
         ClickUtils.click(inflate.viewSettingBackup, o -> {
             BackupSettingActivity.start(mContext);
         });
@@ -82,6 +88,8 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
             inflate.mViewAppDatabase.setVisibility(View.VISIBLE);
         }
         mPresenter.getCacheSize();
+        //check if webdav is set
+        onWebDavSet(null);
     }
 
     @Override
@@ -97,5 +105,19 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     @Override
     public void complete() {
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onWebDavSet(OnWebDavSetEvent event) {
+        if (TextUtils.isEmpty(AppSharedPreferenceHelper.getWebDavAccountName())
+                || TextUtils.isEmpty(AppSharedPreferenceHelper.getWebDavAddPwd())) {
+            inflate.viewWebDavIndicator.setVisibility(View.VISIBLE);
+        } else {
+            if (event != null && event.isSuccess()) {
+                inflate.viewWebDavIndicator.setVisibility(View.GONE);
+            } else {
+                inflate.viewWebDavIndicator.setVisibility(View.VISIBLE);
+            }
+        }
     }
 }
