@@ -39,6 +39,8 @@ import com.micoredu.reader.utils.storage.Backup;
 import com.microedu.reader.R;
 import com.microedu.reader.databinding.ActivityMainContainerBinding;
 
+import java.util.List;
+
 /**
  * @author liuzhenli
  */
@@ -215,16 +217,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     }
 
     private void requestPermissions() {
-        PermissionUtil.requestPermission(this, new SampleProgressObserver<Boolean>() {
-            @Override
-            public void onNext(Boolean aBoolean) {
-                if (aBoolean) {
-
-                } else {
-                    ToastUtil.showToast("权限被拒绝,拒绝权限将无法使用***功能！");
-                }
-            }
-        }, Manifest.permission.READ_EXTERNAL_STORAGE);
     }
 
     @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusTag.CHANGE_DISCOVER_BOOK_SOURCE)})

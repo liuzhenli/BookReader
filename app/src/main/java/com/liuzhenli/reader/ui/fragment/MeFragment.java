@@ -19,6 +19,8 @@ import com.microedu.reader.R;
 import com.microedu.reader.databinding.FragmentMeBinding;
 import com.orhanobut.logger.Logger;
 
+import java.util.List;
+
 
 /**
  * describe:
@@ -55,9 +57,9 @@ public class MeFragment extends BaseFragment {
     @Override
     public void configViews() {
         ClickUtils.click(inflate.llImportLocalBooks, o -> {
-            PermissionUtil.requestPermission(getActivity(), new MyObserver() {
+            PermissionUtil.requestPermission(getActivity(), new PermissionUtil.PermissionObserver() {
                 @Override
-                public void onNext(Object o) {
+                public void onGranted(List<String> permissions, boolean all) {
                     ImportLocalBookActivity.start(mContext);
                 }
             }, Manifest.permission.READ_EXTERNAL_STORAGE);

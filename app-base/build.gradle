@@ -138,7 +138,9 @@ dependencies {
     kapt 'com.google.dagger:dagger-android-processor:2.16'
 
     //权限申请
-    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+    //implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+    //https://github.com/getActivity/XXPermissions
+    api 'com.github.getActivity:XXPermissions:11.6'
 
     //anko
     def anko_version = '0.10.8'

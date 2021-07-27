@@ -15,6 +15,7 @@ import androidx.annotation.RequiresApi;
 import androidx.multidex.MultiDex;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.hjq.permissions.XXPermissions;
 import com.liuzhenli.common.constant.AppConstant;
 import com.liuzhenli.common.module.ApiModule;
 import com.liuzhenli.common.module.AppModule;
@@ -106,6 +107,8 @@ public class BaseApplication extends Application {
 
             }
         });
+        // 当前项目是否已经适配了分区存储的特性
+        XXPermissions.setScopedStorage(true);
     }
 
     private void initAppVersion() {

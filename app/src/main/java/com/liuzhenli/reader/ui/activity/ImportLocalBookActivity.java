@@ -51,10 +51,10 @@ public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPres
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PermissionUtil.requestPermission(this, new MyObserver<Boolean>() {
+        PermissionUtil.requestPermission(this, new PermissionUtil.PermissionObserver() {
             @Override
-            public void onNext(Boolean aBoolean) {
-                if (!aBoolean) {
+            public void onGranted(List<String> permissions, boolean all) {
+                if (!all) {
                     DialogUtil.showNoPermissionDialog(mContext, getResources().getString(R.string.please_grant_storage_permission));
                 }
             }

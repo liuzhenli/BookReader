@@ -91,9 +91,10 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
             if (itemId == R.id.action_add_book_source) {
                 EditSourceActivity.start(mContext, null);
             } else if (itemId == R.id.action_import_book_source_local) {
-                PermissionUtil.requestPermission(BookSourceActivity.this, new MyObserver<Boolean>() {
+                PermissionUtil.requestPermission(BookSourceActivity.this, new PermissionUtil.PermissionObserver() {
+
                     @Override
-                    public void onNext(@NonNull Boolean o) {
+                    public void onGranted(List<String> permissions, boolean all) {
                         FilePicker filePicker = new FilePicker(BookSourceActivity.this, FilePicker.FILE);
                         filePicker.setBackgroundColor(getResources().getColor(R.color.background));
                         filePicker.setTopBackgroundColor(getResources().getColor(R.color.background));

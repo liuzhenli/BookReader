@@ -17,6 +17,8 @@ import com.liuzhenli.common.utils.picker.FilePicker;
 import com.microedu.reader.R;
 import com.microedu.reader.databinding.ActQrcodeBinding;
 
+import java.util.List;
+
 import cn.bingoogolapple.qrcode.core.QRCodeView;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
@@ -57,9 +59,10 @@ public class QrCodeActivity extends BaseActivity implements QRCodeView.Delegate 
     protected void configViews() {
         binding.zxingview.setDelegate(this);
         //打开后置摄像头开始预览，但是并未开始识别
-        PermissionUtil.requestPermission(this, new MyObserver<Boolean>() {
+        PermissionUtil.requestPermission(this, new PermissionUtil.PermissionObserver() {
+
             @Override
-            public void onNext(@NonNull Boolean aBoolean) {
+            public void onGranted(List<String> permissions, boolean all) {
                 binding.zxingview.startCamera();
                 binding.zxingview.showScanRect();
                 binding.zxingview.startSpot();
@@ -69,9 +72,9 @@ public class QrCodeActivity extends BaseActivity implements QRCodeView.Delegate 
         binding.zxingview.setOnClickListener(v -> binding.zxingview.startSpot());
 
         ClickUtils.click(binding.ivPickImage, o -> {
-            PermissionUtil.requestPermission(this, new MyObserver<Boolean>() {
+            PermissionUtil.requestPermission(this, new PermissionUtil.PermissionObserver() {
                 @Override
-                public void onNext(@NonNull Boolean aBoolean) {
+                public void onGranted(List<String> permissions, boolean all) {
                     chooseFromGallery();
                 }
             }, Manifest.permission.CAMERA);
