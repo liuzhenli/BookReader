@@ -1,7 +1,6 @@
 package com.liuzhenli.common.utils;
 
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,20 +8,18 @@ import android.provider.Settings;
 
 import androidx.fragment.app.FragmentActivity;
 
-import com.tbruyelle.rxpermissions2.RxPermissions;
-
-import io.reactivex.Observer;
+import com.hjq.permissions.OnPermissionCallback;
+import com.hjq.permissions.XXPermissions;
 
 /**
  * 权限申请工具
+ *
  * @author Liuzhenli
  * @since 2019-07-07 18:28
  */
-public class PermissionUtil{
-    public  static  void requestPermission(FragmentActivity context, Observer observer, final String...permissions){
-        RxPermissions rxPermissions = new RxPermissions(context);
-        rxPermissions.request(permissions)
-                .subscribe(observer);
+public class PermissionUtil {
+    public static void requestPermission(FragmentActivity context, PermissionObserver observer, final String... permissions) {
+        XXPermissions.with(context).permission(permissions).request(observer);
     }
 
     /**
@@ -37,6 +34,9 @@ public class PermissionUtil{
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public abstract static class PermissionObserver implements OnPermissionCallback {
     }
 }
 
