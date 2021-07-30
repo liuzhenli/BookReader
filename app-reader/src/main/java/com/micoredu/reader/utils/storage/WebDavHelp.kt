@@ -33,7 +33,9 @@ object WebDavHelp {
         if (url.isNullOrEmpty() || TextUtils.equals(url, "坚果云")) {
             url = AppConstant.DEFAULT_WEB_DAV_URL
         }
-        if (!url.endsWith("/")) url += "/"
+        if (!url.endsWith("/")) {
+            url = "${url}/"
+        }
         return url
     }
 
@@ -55,7 +57,7 @@ object WebDavHelp {
         val names = arrayListOf<String>()
         try {
             if (initWebDav()) {
-                var files = WebDav(url + "YiShuFang/").listFiles()
+                var files = WebDav("${url}YiShuFang/").listFiles()
                 files = files.reversed()
                 for (index: Int in 0 until min(10, files.size)) {
                     files[index].displayName?.let {
@@ -92,7 +94,7 @@ object WebDavHelp {
     fun restoreWebDav(name: String, callBack: Restore.CallBack?) {
         Single.create(SingleOnSubscribe<Boolean> { e ->
             getWebDavUrl().let {
-                val file = WebDav(it + "YiShuFang/" + name)
+                val file = WebDav("${it}YiShuFang/" + name)
                 file.downloadTo(zipFilePath, true)
                 @Suppress("BlockingMethodInNonBlockingContext")
                 ZipUtils.unzipFile(zipFilePath, unzipFilesPath)
@@ -128,11 +130,11 @@ object WebDavHelp {
                 }
                 FileHelp.deleteFile(zipFilePath)
                 if (ZipUtils.zipFiles(paths, zipFilePath)) {
-                    WebDav(getWebDavUrl() + "YiShuFang").makeAsDir()
-                    val putUrl = getWebDavUrl() + "YiShuFang/backup" +
-                            SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                                .format(Date(System.currentTimeMillis())) + ".zip"
-                    var success = WebDav(putUrl).upload(zipFilePath)
+                    WebDav("${getWebDavUrl()}YiShuFang").makeAsDir()
+                    val data = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                        .format(Date(System.currentTimeMillis()))
+                    val putUrl = "${getWebDavUrl()}YiShuFang/backup${data}.zip"
+                    val success = WebDav(putUrl).upload(zipFilePath)
                     if (success) {
                         callBack?.backupSuccess()
                     } else {
