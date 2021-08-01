@@ -51,8 +51,14 @@ class DatabaseTableListActivity : BaseActivity<DatabaseTableListPresenter>(),
             AdapterView.OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->
                 val tableName = tableList[position]
                 if (StringUtil.isNotBlank(tableName.tableName)) {
-                    val intent = Intent(this@DatabaseTableListActivity, DatabaseTableRecordsActivity::class.java)
-                    intent.putExtra(DatabaseTableRecordsActivity.EXTRA_TABLE_NAME, tableName.tableName)
+                    val intent = Intent(
+                        this@DatabaseTableListActivity,
+                        DatabaseTableRecordsActivity::class.java
+                    )
+                    intent.putExtra(
+                        DatabaseTableRecordsActivity.EXTRA_TABLE_NAME,
+                        tableName.tableName
+                    )
                     intent.putExtra(DatabaseTableRecordsActivity.EXTRA_DB_NAME, tableName.dbName)
                     startActivity(intent)
                 }
