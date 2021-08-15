@@ -1,4 +1,4 @@
-package com.micoredu.reader.utils.storage
+package com.liuzhenli.reader.utils.storage
 
 import android.content.Context
 import android.net.Uri
@@ -7,6 +7,7 @@ import androidx.documentfile.provider.DocumentFile
 import com.liuzhenli.common.BaseApplication
 import com.liuzhenli.common.FileHelp
 import com.liuzhenli.common.SharedPreferencesUtil
+import com.liuzhenli.common.utils.DocumentUtil
 import com.liuzhenli.common.utils.GsonUtil
 import com.liuzhenli.common.utils.LauncherIcon
 import com.liuzhenli.common.utils.fromJsonArray
@@ -17,7 +18,6 @@ import com.micoredu.reader.helper.ReadConfigManager
 import com.micoredu.reader.model.BookSourceManager
 import com.micoredu.reader.model.ReplaceRuleManager
 import com.micoredu.reader.model.TxtChapterRuleManager
-import com.micoredu.reader.utils.DocumentUtil
 import io.reactivex.Single
 import io.reactivex.SingleObserver
 import io.reactivex.SingleOnSubscribe

@@ -1,4 +1,4 @@
-package com.micoredu.reader.utils;
+package com.liuzhenli.common.utils;
 
 import android.content.Context;
 import android.net.Uri;

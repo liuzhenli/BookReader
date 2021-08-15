@@ -3,6 +3,6 @@ object HttpAuth {
 
     var auth: Auth? = null
 
-    class Auth internal constructor(val user: String, val pass: String)
+    class Auth(val user: String, val pass: String)
 
 }

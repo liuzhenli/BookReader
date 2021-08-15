@@ -18,7 +18,7 @@ import com.hjq.permissions.XXPermissions;
  * @since 2019-07-07 18:28
  */
 public class PermissionUtil {
-    public static void requestPermission(FragmentActivity context, PermissionObserver observer, final String... permissions) {
+    public static void requestPermission(Context context, PermissionObserver observer, final String... permissions) {
         XXPermissions.with(context).permission(permissions).request(observer);
     }
 

@@ -1,6 +1,5 @@
 package com.liuzhenli.reader.ui.activity;
 
-import android.Manifest;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -23,23 +22,18 @@ import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.FillContentUtil;
 import com.liuzhenli.common.base.BaseActivity;
-import com.liuzhenli.common.observer.SampleProgressObserver;
 import com.liuzhenli.reader.DaggerReadBookComponent;
 import com.liuzhenli.reader.ui.adapter.MainTabAdapter;
 import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.reader.ui.contract.MainContract;
 import com.liuzhenli.reader.ui.fragment.DiscoverFragment;
-import com.liuzhenli.common.utils.PermissionUtil;
-import com.liuzhenli.common.utils.ToastUtil;
 import com.liuzhenli.reader.ui.presenter.MainPresenter;
 import com.liuzhenli.reader.utils.JumpToLastPageUtil;
 import com.micoredu.reader.bean.BookSourceBean;
 import com.micoredu.reader.ui.activity.BookSourceActivity;
-import com.micoredu.reader.utils.storage.Backup;
+import com.liuzhenli.reader.utils.storage.Backup;
 import com.microedu.reader.R;
 import com.microedu.reader.databinding.ActivityMainContainerBinding;
-
-import java.util.List;
 
 /**
  * @author liuzhenli

@@ -15,10 +15,10 @@ import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.base.BaseActivity;
-import com.micoredu.reader.utils.storage.Backup;
-import com.micoredu.reader.utils.storage.BackupRestoreUi;
-import com.micoredu.reader.utils.storage.Restore;
-import com.micoredu.reader.utils.storage.WebDavHelp;
+import com.liuzhenli.reader.utils.BackupRestoreUi;
+import com.liuzhenli.reader.utils.storage.Backup;
+import com.liuzhenli.reader.utils.storage.Restore;
+import com.liuzhenli.reader.utils.storage.WebDavHelp;
 import com.liuzhenli.common.widget.DialogUtil;
 import com.liuzhenli.reader.event.OnWebDavSetEvent;
 import com.microedu.reader.R;
@@ -27,8 +27,6 @@ import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheet;
 import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheetListItemModel;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -43,7 +41,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Description: 备份与恢复
+ * Description: 备份与云备份
  * 此页面参考了纯纯写作的备份页面
  *
  * @author liuzhenli 2020/12/14
@@ -81,6 +79,7 @@ public class BackupSettingActivity extends BaseActivity implements Backup.CallBa
 
     @Override
     protected void configViews() {
+        setBackupPathInfo();
         //web dav address
         ClickUtils.click(mContentView.mViewNetAddress, o ->
                 DialogUtil.showEditTextDialog(this, getResources().getString(R.string.web_dav_address), "请输入网址",
@@ -110,6 +109,10 @@ public class BackupSettingActivity extends BaseActivity implements Backup.CallBa
             showDialog();
             BackupRestoreUi.INSTANCE.backup(BackupSettingActivity.this,
                     false, BackupSettingActivity.this, BackupSettingActivity.this);
+        });
+        //备份长按 选择备份位置
+        ClickUtils.longClick(mContentView.mVBackup, o -> {
+            BackupRestoreUi.INSTANCE.selectBackupFolder(this, false, this, this);
         });
         //备份到云端
         ClickUtils.click(mContentView.mVBackupToWeb, o -> {
@@ -191,9 +194,14 @@ public class BackupSettingActivity extends BaseActivity implements Backup.CallBa
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        setBackupPathInfo();
         BackupRestoreUi.INSTANCE.onActivityResult(requestCode, resultCode, data, BackupSettingActivity.this, BackupSettingActivity.this);
     }
 
+    /***
+     * 文件恢复
+     * @param list 备份的文件列表
+     */
     private void showBackups(List<String> list) {
         hideDialog();
         QMUIBottomSheet.BottomListSheetBuilder builder = new QMUIBottomSheet.BottomListSheetBuilder(this);
@@ -205,22 +213,22 @@ public class BackupSettingActivity extends BaseActivity implements Backup.CallBa
                 .setOnSheetItemClickListener((dialog, itemView, position, tag) -> {
                     dialog.dismiss();
                     if (TextUtils.equals(tag, "local")) {
-                        Restore.INSTANCE.restore(Backup.INSTANCE.getDefaultPath(), BackupSettingActivity.this);
+                        Restore.INSTANCE.restore(Backup.INSTANCE.defaultPath(), BackupSettingActivity.this);
                     } else if (TextUtils.equals(tag, "auto")) {
-                        Restore.INSTANCE.restore(Backup.INSTANCE.getDefaultPath() + File.separator + "auto", BackupSettingActivity.this);
+                        Restore.INSTANCE.restore(Backup.INSTANCE.defaultPath() + File.separator + "auto", BackupSettingActivity.this);
                     } else if (TextUtils.equals(tag, "webDav_empty")) {
-                        Restore.INSTANCE.restore(Backup.INSTANCE.getDefaultPath(), BackupSettingActivity.this);
+                        Restore.INSTANCE.restore(Backup.INSTANCE.defaultPath(), BackupSettingActivity.this);
                     } else {
                         WebDavHelp.INSTANCE.restoreWebDav(list.get(position - 2), BackupSettingActivity.this);
                     }
                 });
         builder.setCheckedIndex(-1);
 
-        QMUIBottomSheetListItemModel auto = new QMUIBottomSheetListItemModel("自动备份(位于:YiShuFang/backups/auto)", "auto");
+        QMUIBottomSheetListItemModel auto = new QMUIBottomSheetListItemModel("自动备份", "auto");
         auto.image(R.drawable.dir);
         builder.addItem(auto);
 
-        QMUIBottomSheetListItemModel local = new QMUIBottomSheetListItemModel("本地备份(位于:YiShuFang/backups/)", "local");
+        QMUIBottomSheetListItemModel local = new QMUIBottomSheetListItemModel("本地备份", "local");
         local.image(R.drawable.dir);
         builder.addItem(local);
 
@@ -238,10 +246,23 @@ public class BackupSettingActivity extends BaseActivity implements Backup.CallBa
         builder.build().show();
     }
 
+    private void setBackupPathInfo() {
+        String defPath = Backup.INSTANCE.defaultPath();
+        String localPath = AppSharedPreferenceHelper.getBackupPath(defPath);
+        String path = TextUtils.isEmpty(localPath) ? "未设置" : localPath;
+        mContentView.tvViewBackupPathInfoVis.setText(String.format("备份路径：%s", path));
+    }
+
     @Override
     public void backupSuccess() {
-        hideDialog();
-        toast("备份成功");
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                setBackupPathInfo();
+                hideDialog();
+                toast("备份成功");
+            }
+        });
     }
 
     @Override
@@ -262,4 +283,6 @@ public class BackupSettingActivity extends BaseActivity implements Backup.CallBa
         hideDialog();
         toast(msg);
     }
+
+
 }

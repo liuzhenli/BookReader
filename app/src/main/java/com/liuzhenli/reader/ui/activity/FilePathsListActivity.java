@@ -7,7 +7,8 @@ import android.view.View;
 import com.liuzhenli.common.BaseApplication;
 import com.liuzhenli.common.base.BaseActivity;
 import com.liuzhenli.common.AppComponent;
-import com.micoredu.reader.utils.storage.Backup;
+import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
+import com.liuzhenli.reader.utils.storage.Backup;
 import com.microedu.reader.databinding.ActFilepathlistBinding;
 
 
@@ -50,7 +51,7 @@ public class FilePathsListActivity extends BaseActivity {
     @Override
     protected void configViews() {
         inflate.mTvBookSourcePath.setText(BaseApplication.getInstance().getFilesDir().getAbsolutePath());
-        inflate.mTvBookSourceBackupPath.setText(Backup.INSTANCE.getDefaultPath());
+        inflate.mTvBookSourceBackupPath.setText(AppSharedPreferenceHelper.getBackupPath(Backup.INSTANCE.defaultPath()));
         inflate.mTvBookCachePath.setText(BaseApplication.getInstance().getDownloadPath());
     }
 }
