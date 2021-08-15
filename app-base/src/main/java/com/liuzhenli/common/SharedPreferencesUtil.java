@@ -261,7 +261,7 @@ public class SharedPreferencesUtil {
         String value = prefs.decodeString(key);
         if (!TextUtils.isEmpty(value)) {
             // 判断 string or string-set
-            if (value.charAt(0) == 0x01) {
+            if (value != null && value.charAt(0) == 0x01) {
                 return prefs.decodeStringSet(key);
             } else {
                 return value;
@@ -273,7 +273,7 @@ public class SharedPreferencesUtil {
         // 该判断方法对于非常小的double类型数据 (0d < value <= 1.0569021313E-314) 不生效
         Set<String> set = prefs.decodeStringSet(key);
         if (set != null && set.size() == 0) {
-            Float valueFloat = prefs.decodeFloat(key);
+            float valueFloat = prefs.decodeFloat(key);
             Double valueDouble = prefs.decodeDouble(key);
             if (Float.compare(valueFloat, 0f) == 0 || Float.compare(valueFloat, Float.NaN) == 0) {
                 return valueDouble;
