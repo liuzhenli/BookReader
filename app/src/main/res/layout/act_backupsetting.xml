@@ -20,7 +20,7 @@
             android:orientation="vertical">
 
             <TextView
-                style="@style/ItemSubTitleStyle"
+                style="@style/titleIntroStyle"
                 android:layout_marginTop="@dimen/common_space_normal"
                 android:drawableLeft="@drawable/ic_ligth"
                 android:padding="@dimen/common_space_normal"
@@ -48,7 +48,7 @@
 
                 <TextView
                     android:id="@+id/mTvNetAddress"
-                    style="@style/ItemSubTitleStyle"
+                    style="@style/titleIntroStyle"
                     android:layout_marginTop="@dimen/common_space_small"
                     android:hint="未设置"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -77,7 +77,7 @@
 
                 <TextView
                     android:id="@+id/mTvAccount"
-                    style="@style/ItemSubTitleStyle"
+                    style="@style/titleIntroStyle"
                     android:layout_marginTop="@dimen/common_space_small"
                     android:hint="未设置"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -106,7 +106,7 @@
 
                 <TextView
                     android:id="@+id/mTvPassword"
-                    style="@style/ItemSubTitleStyle"
+                    style="@style/titleIntroStyle"
                     android:layout_marginTop="@dimen/common_space_small"
                     android:enabled="false"
                     android:hint="未设置"
@@ -137,7 +137,7 @@
 
                 <TextView
                     android:id="@+id/tv_view_backup_help_vis"
-                    style="@style/ItemSubTitleStyle"
+                    style="@style/titleIntroStyle"
                     android:layout_marginTop="@dimen/common_space_small"
                     android:text="http://help.jianguoyun.com?p=2064"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -163,7 +163,7 @@
 
                 <TextView
                     android:id="@+id/tv_view_backup_path_info_vis"
-                    style="@style/ItemSubTitleStyle"
+                    style="@style/titleIntroStyle"
                     android:layout_marginTop="@dimen/common_space_small"
                     android:hint="备份文件将被保存到/YiShuFang/backups"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -187,7 +187,7 @@
 
                 <TextView
                     android:id="@+id/tv_view_backup_to_webo_vis"
-                    style="@style/ItemSubTitleStyle"
+                    style="@style/titleIntroStyle"
                     android:layout_marginTop="@dimen/common_space_small"
                     android:hint="若果您已经设置云备份,备份文件将存储到您的云端存储空间"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -213,9 +213,9 @@
 
                 <TextView
                     android:id="@+id/tv_view_restore_vis"
-                    style="@style/ItemSubTitleStyle"
+                    style="@style/titleIntroStyle"
                     android:layout_marginTop="@dimen/common_space_small"
-                    android:hint="备份将从手机文件夹/YiShuFang/backups和您的WebDAV或Dropbox或GoogleDrive云盘中读取"
+                    android:hint="将从手机文件夹和您的WebDAV或Dropbox或GoogleDrive云盘中读取"
                     android:lineSpacingMultiplier="1.0"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_view_restore" />
@@ -240,7 +240,7 @@
 
                 <TextView
                     android:id="@+id/mTVBackupNetType"
-                    style="@style/ItemSubTitleStyle"
+                    style="@style/titleIntroStyle"
                     android:layout_marginTop="@dimen/common_space_small"
                     android:hint="在所有网络下都允许自动备份到云盘"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -250,7 +250,7 @@
             <include layout="@layout/item_divider" />
 
             <CheckBox
-                style="@style/ItemSubTitleStyle"
+                style="@style/titleIntroStyle"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/all_item_height"
                 android:layout_marginLeft="@dimen/common_space_normal"

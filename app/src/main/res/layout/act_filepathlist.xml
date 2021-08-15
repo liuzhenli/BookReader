@@ -34,24 +34,23 @@
     <LinearLayout
         android:id="@+id/view_book_cache_path"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/all_item_height"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/common_space_small"
         android:background="@drawable/selector_card_bg"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <TextView
             style="@style/ItemTitleStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/common_space_large"
+            android:layout_marginHorizontal="@dimen/common_space_large"
             android:text="章节缓存路径" />
 
         <TextView
             android:id="@+id/mTvBookCachePath"
             style="@style/ItemSubTitleStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="" />
+            android:layout_marginHorizontal="@dimen/common_space_large"
+            android:lineSpacingMultiplier="1.0"
+            android:textSize="@dimen/txt_size_12" />
     </LinearLayout>
 
     <include
@@ -62,24 +61,23 @@
     <LinearLayout
         android:id="@+id/view_backup_path"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/all_item_height"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/common_space_small"
         android:background="@drawable/selector_card_bg"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <TextView
             style="@style/ItemTitleStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/common_space_large"
+            android:layout_marginHorizontal="@dimen/common_space_large"
             android:text="书源备份路径" />
 
         <TextView
             android:id="@+id/mTvBookSourceBackupPath"
             style="@style/ItemSubTitleStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="" />
+            android:layout_marginHorizontal="@dimen/common_space_large"
+            android:lineSpacingMultiplier="1.0"
+            android:textSize="@dimen/txt_size_12" />
     </LinearLayout>
 
     <LinearLayout

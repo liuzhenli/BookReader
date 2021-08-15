@@ -30,7 +30,6 @@ import com.liuzhenli.common.widget.bar.BarHide;
 import com.liuzhenli.common.utils.ToastUtil;
 import com.liuzhenli.common.widget.bar.ImmersionBar;
 import com.micoredu.reader.ReaderComponent;
-import com.micoredu.reader.utils.storage.Backup;
 import com.micoredu.reader.R;
 import com.micoredu.reader.animation.PageAnimation;
 import com.micoredu.reader.bean.BookShelfBean;
@@ -596,7 +595,6 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
 
     @Override
     public void onBackPressed() {
-        Backup.INSTANCE.autoBack();
         //如果不在书架,提示添加书架
         if (mBookShelf == null) {
             super.onBackPressed();

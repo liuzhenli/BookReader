@@ -1,4 +1,4 @@
-package com.micoredu.reader.utils.storage;
+package com.liuzhenli.reader.utils.storage;
 
 import java.io.Serializable;
 

@@ -10,8 +10,6 @@ android {
     defaultConfig {
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -56,7 +54,6 @@ dependencies {
     implementation project(path: ':app-base')
     //简繁转换
     implementation 'com.luhuiguo:chinese-utils:1.0'
-    implementation 'androidx.documentfile:documentfile:1.0.1'
     implementation project(path: ':app-theme')
 
     kapt 'com.google.dagger:dagger-compiler:2.16'

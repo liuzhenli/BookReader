@@ -7,7 +7,7 @@ import android.net.Uri;
 import androidx.documentfile.provider.DocumentFile;
 
 import com.liuzhenli.common.BaseApplication;
-import com.micoredu.reader.utils.DocumentUtil;
+import com.liuzhenli.common.utils.DocumentUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

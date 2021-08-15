@@ -1,22 +1,25 @@
-package com.micoredu.reader.utils.storage
+package com.liuzhenli.reader.utils
 
 import android.Manifest
 import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.text.TextUtils
 import androidx.core.content.ContextCompat
 import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.FragmentActivity
 import com.liuzhenli.common.BaseApplication
-import com.liuzhenli.common.observer.MyObserver
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper
 import com.liuzhenli.common.utils.PermissionUtil
 import com.liuzhenli.common.utils.picker.FilePicker
-import com.micoredu.reader.R
-import com.micoredu.reader.utils.storage.WebDavHelp.getWebDavFileNames
-import com.micoredu.reader.utils.storage.WebDavHelp.showRestoreDialog
+import com.liuzhenli.reader.utils.storage.Backup
+import com.liuzhenli.reader.utils.storage.Restore
+import com.liuzhenli.reader.utils.storage.WebDavHelp.getWebDavFileNames
+import com.liuzhenli.reader.utils.storage.WebDavHelp.showRestoreDialog
+import com.liuzhenli.reader.utils.storage.isContentScheme
+import com.microedu.reader.R
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
 import io.reactivex.SingleObserver
@@ -26,6 +29,7 @@ import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.toast
 import java.util.*
+import kotlin.collections.ArrayList
 
 object BackupRestoreUi {
 
@@ -33,7 +37,7 @@ object BackupRestoreUi {
     private const val restoreSelectRequestCode = 33
 
     /**
-     * 备份
+     * 文件备份
      */
     fun backup(
         activity: FragmentActivity,
@@ -41,7 +45,7 @@ object BackupRestoreUi {
         callBack: Backup.CallBack?,
         restoreCallBack: Restore.CallBack?
     ) {
-        val backupPath = AppSharedPreferenceHelper.getBackupPath(Backup.defaultPath)
+        val backupPath = AppSharedPreferenceHelper.getBackupPath(Backup.defaultPath())
         if (backupPath.isNullOrEmpty()) {
             selectBackupFolder(activity, isBackupToWebDav, callBack, restoreCallBack)
         } else {
@@ -54,7 +58,7 @@ object BackupRestoreUi {
                     selectBackupFolder(activity, isBackupToWebDav, callBack, restoreCallBack)
                 }
             } else {
-                backupUsePermission(activity, isBackupToWebDav, Backup.defaultPath, callBack)
+                backupUsePermission(activity, isBackupToWebDav, Backup.defaultPath(), callBack)
             }
         }
     }
@@ -65,7 +69,7 @@ object BackupRestoreUi {
     private fun backupUsePermission(
         activity: FragmentActivity,
         isBackupToWebDav: Boolean = true,
-        path: String = Backup.defaultPath,
+        path: String = Backup.defaultPath(),
         callBack: Backup.CallBack?
     ) {
         PermissionUtil.requestPermission(activity, object : PermissionUtil.PermissionObserver() {
@@ -87,18 +91,14 @@ object BackupRestoreUi {
     ) {
         activity.alert {
             titleResource = R.string.select_folder
-            items(activity.resources.getStringArray(R.array.select_folder).toList()) { _, index ->
+            val list =
+                activity.resources.getStringArray(R.array.select_folder).toList() as ArrayList
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                list.removeAt(1)
+            }
+            items(list) { _, index ->
                 when (index) {
                     0 -> {
-                        AppSharedPreferenceHelper.setBackupPath(Backup.defaultPath)
-                        backupUsePermission(
-                            activity,
-                            isBackupToWebDav,
-                            Backup.defaultPath,
-                            callBack
-                        )
-                    }
-                    1 -> {
                         try {
                             val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
                             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
@@ -108,7 +108,7 @@ object BackupRestoreUi {
                             activity.toast(e.localizedMessage ?: "ERROR")
                         }
                     }
-                    2 -> {
+                    1 -> {
                         PermissionUtil.requestPermission(
                             activity, object : PermissionUtil.PermissionObserver() {
                                 override fun onGranted(
@@ -149,7 +149,7 @@ object BackupRestoreUi {
             if (isRestore) {
                 Restore.restore(currentPath, restoreCallBack)
             } else {
-                Backup.backup(activity, currentPath, callBack)
+                Backup.backup(activity, currentPath, callBack, false)
             }
         }
         picker.show()
@@ -170,7 +170,7 @@ object BackupRestoreUi {
             .subscribe(object : SingleObserver<ArrayList<String>?> {
                 override fun onSuccess(strings: ArrayList<String>) {
                     if (!showRestoreDialog(activity, strings, callBack)) {
-                        val path = AppSharedPreferenceHelper.getBackupPath(Backup.defaultPath)
+                        val path = AppSharedPreferenceHelper.getBackupPath(Backup.defaultPath())
                         if (TextUtils.isEmpty(path)) {
                             selectRestoreFolder(activity, backupCallBack, callBack)
                         } else {
@@ -183,7 +183,7 @@ object BackupRestoreUi {
                                     selectRestoreFolder(activity, backupCallBack, callBack)
                                 }
                             } else {
-                                restoreUsePermission(activity, Backup.defaultPath, callBack)
+                                restoreUsePermission(activity, Backup.defaultPath(), callBack)
                             }
                         }
                     }
@@ -203,7 +203,7 @@ object BackupRestoreUi {
      */
     private fun restoreUsePermission(
         activity: FragmentActivity,
-        path: String = Backup.defaultPath,
+        path: String = Backup.defaultPath(),
         callBack: Restore.CallBack?
     ) {
         PermissionUtil.requestPermission(activity, object : PermissionUtil.PermissionObserver() {
@@ -227,8 +227,7 @@ object BackupRestoreUi {
             titleResource = R.string.select_folder
             items(activity.resources.getStringArray(R.array.select_folder).toList()) { _, index ->
                 when (index) {
-                    0 -> restoreUsePermission(activity, Backup.defaultPath, restoreCallBack)
-                    1 -> {
+                    0 -> {
                         try {
                             val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
                             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
@@ -238,7 +237,7 @@ object BackupRestoreUi {
                             activity.toast(e.localizedMessage ?: "ERROR")
                         }
                     }
-                    2 -> {
+                    1 -> {
                         PermissionUtil.requestPermission(
                             activity,
                             object : PermissionUtil.PermissionObserver() {

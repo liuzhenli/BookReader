@@ -1,19 +1,23 @@
-package com.micoredu.reader.utils.storage
+package com.liuzhenli.reader.utils.storage
 
 import android.content.Context
 import android.net.Uri
+import android.os.Build
+import android.text.TextUtils
 import androidx.documentfile.provider.DocumentFile
 import com.liuzhenli.common.BaseApplication
 import com.liuzhenli.common.FileHelp
 import com.liuzhenli.common.SharedPreferencesUtil
+import com.liuzhenli.common.utils.AppSharedPreferenceHelper
+import com.liuzhenli.common.utils.DocumentUtil
 import com.liuzhenli.common.utils.FileUtils
 import com.liuzhenli.common.utils.GsonUtil
+import com.liuzhenli.reader.utils.isContentPath
 import com.micoredu.reader.helper.BookshelfHelper
 import com.micoredu.reader.helper.AppReaderDbHelper
 import com.micoredu.reader.model.BookSourceManager
 import com.micoredu.reader.model.ReplaceRuleManager
 import com.micoredu.reader.model.TxtChapterRuleManager
-import com.micoredu.reader.utils.DocumentUtil
 import com.thegrizzlylabs.sardineandroid.model.Set
 import io.reactivex.Single
 import io.reactivex.SingleObserver
@@ -30,21 +34,28 @@ import java.util.concurrent.TimeUnit
 object Backup {
 
     /**生成备份文件的存储位置*/
-    val backupPath = BaseApplication.getInstance().filesDir.absolutePath + File.separator + "backup"
+    val backupPath =
+        BaseApplication.getInstance().filesDir.absolutePath + File.separator + "backup"
 
     /***恢复备份默认地址*/
-    val defaultPath by lazy {
-        FileUtils.getSdCardPath() + File.separator + "YiShuFang/backups"
+    fun defaultPath():String {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+            || !AppSharedPreferenceHelper.getBackupPath("").isNullOrEmpty()
+        ) {
+            AppSharedPreferenceHelper.getBackupPath("")
+        } else {
+            FileUtils.getSdCardPath() + File.separator + "Document/YiShuFang/backups"
+        }
     }
 
     val backupFileNames by lazy {
         arrayOf(
-                "myBookShelf.json",
-                "myBookSource.json",
-                "myBookSearchHistory.json",
-                "myBookReplaceRule.json",
-                "myTxtChapterRule.json",
-                "mmvConfig.json"
+            "myBookShelf.json",
+            "myBookSource.json",
+            "myBookSearchHistory.json",
+            "myBookReplaceRule.json",
+            "myTxtChapterRule.json",
+            "mmvConfig.json"
         )
     }
 
@@ -54,9 +65,9 @@ object Backup {
         if (System.currentTimeMillis() - lastBackup < TimeUnit.DAYS.toMillis(1)) {
             return
         }
-        val path = SharedPreferencesUtil.getInstance().getString("backupPath", defaultPath)
-        if (path == null) {
-            backup(BaseApplication.getInstance(), defaultPath, null, true)
+        val path = SharedPreferencesUtil.getInstance().getString("backupPath", defaultPath())
+        if (TextUtils.isEmpty(path)) {
+            backup(BaseApplication.getInstance(), defaultPath(), null, true)
         } else {
             backup(BaseApplication.getInstance(), path, null, true)
         }
@@ -66,38 +77,49 @@ object Backup {
      * 备份
      * @param isBackupToWebDav 是否备份到云端
      */
-    fun backup(context: Context, path: String, callBack: CallBack?, isBackupToWebDav: Boolean = true, isAuto: Boolean = false) {
+    fun backup(
+        context: Context,
+        path: String,
+        callBack: CallBack?,
+        isBackupToWebDav: Boolean = true,
+        isAuto: Boolean = false
+    ) {
 
         SharedPreferencesUtil.getInstance().putLong("lastBackup", System.currentTimeMillis())
         Single.create(SingleOnSubscribe<Boolean> { e ->
             BookshelfHelper.getAllBook().let {
                 if (it.isNotEmpty()) {
                     val json = GsonUtil.toJson(it)
-                    FileHelp.createFileIfNotExist(backupPath + File.separator + "myBookShelf.json").writeText(json)
+                    FileHelp.createFileIfNotExist(backupPath + File.separator + "myBookShelf.json")
+                        .writeText(json)
                 }
             }
             BookSourceManager.getAllBookSource().let {
                 if (it.isNotEmpty()) {
                     val json = GsonUtil.toJson(it)
-                    FileHelp.createFileIfNotExist(backupPath + File.separator + "myBookSource.json").writeText(json)
+                    FileHelp.createFileIfNotExist(backupPath + File.separator + "myBookSource.json")
+                        .writeText(json)
                 }
             }
             AppReaderDbHelper.getInstance().database.searchHistoryDao.all().let {
                 if (it.isNotEmpty()) {
                     val json = GsonUtil.toJson(it)
-                    FileHelp.createFileIfNotExist(backupPath + File.separator + "myBookSearchHistory.json").writeText(json)
+                    FileHelp.createFileIfNotExist(backupPath + File.separator + "myBookSearchHistory.json")
+                        .writeText(json)
                 }
             }
             ReplaceRuleManager.getAll().blockingGet().let {
                 if (it.isNotEmpty()) {
                     val json = GsonUtil.toJson(it)
-                    FileHelp.createFileIfNotExist(backupPath + File.separator + "myBookReplaceRule.json").writeText(json)
+                    FileHelp.createFileIfNotExist(backupPath + File.separator + "myBookReplaceRule.json")
+                        .writeText(json)
                 }
             }
             TxtChapterRuleManager.getAll().let {
                 if (it.isNotEmpty()) {
                     val json = GsonUtil.toJson(it)
-                    FileHelp.createFileIfNotExist(backupPath + File.separator + "myTxtChapterRule.json").writeText(json)
+                    FileHelp.createFileIfNotExist(backupPath + File.separator + "myTxtChapterRule.json")
+                        .writeText(json)
                 }
             }
 
@@ -120,7 +142,8 @@ object Backup {
                 }
                 list.let {
                     val json = GsonUtil.toJson(list)
-                    FileHelp.createFileIfNotExist(backupPath + File.separator + "mmvConfig.json").writeText(json)
+                    FileHelp.createFileIfNotExist(backupPath + File.separator + "mmvConfig.json")
+                        .writeText(json)
                 }
             }
 
@@ -151,19 +174,19 @@ object Backup {
             }
             e.onSuccess(true)
         }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : SingleObserver<Boolean> {
-                    override fun onSuccess(t: Boolean) {
-                    }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : SingleObserver<Boolean> {
+                override fun onSuccess(t: Boolean) {
+                }
 
-                    override fun onError(e: Throwable) {
-                        e.printStackTrace()
-                        callBack?.backupError(e.localizedMessage ?: "ERROR")
-                    }
+                override fun onError(e: Throwable) {
+                    e.printStackTrace()
+                    callBack?.backupError(e.localizedMessage ?: "ERROR")
+                }
 
-                    override fun onSubscribe(d: Disposable) {
-                    }
-                })
+                override fun onSubscribe(d: Disposable) {
+                }
+            })
     }
 
     @Throws(Exception::class)
@@ -201,12 +224,18 @@ object Backup {
                 if (isAuto) {
                     val file = File(backupPath + File.separator + fileName)
                     if (file.exists()) {
-                        file.copyTo(FileHelp.createFileIfNotExist(path + File.separator + "auto" + File.separator + fileName), true)
+                        file.copyTo(
+                            FileHelp.createFileIfNotExist(path + File.separator + "auto" + File.separator + fileName),
+                            true
+                        )
                     }
                 } else {
                     val file = File(backupPath + File.separator + fileName)
                     if (file.exists()) {
-                        file.copyTo(FileHelp.createFileIfNotExist(path + File.separator + fileName), true)
+                        file.copyTo(
+                            FileHelp.createFileIfNotExist(path + File.separator + fileName),
+                            true
+                        )
                     }
                 }
             }
