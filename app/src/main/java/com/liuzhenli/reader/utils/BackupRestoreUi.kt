@@ -270,7 +270,7 @@ object BackupRestoreUi {
                         Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
                     )
                     AppSharedPreferenceHelper.setBackupPath(uri.toString())
-                    Backup.backup(BaseApplication.getInstance(), uri.toString(), callBack)
+                    Backup.backup(BaseApplication.getInstance(), uri.toString(), callBack, false)
                 }
             }
             restoreSelectRequestCode -> if (resultCode == RESULT_OK) {
