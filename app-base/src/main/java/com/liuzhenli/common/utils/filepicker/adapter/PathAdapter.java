@@ -12,9 +12,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.liuzhenli.common.R;
+import com.liuzhenli.common.utils.FileUtils;
+import com.liuzhenli.common.utils.L;
 import com.liuzhenli.common.utils.filepicker.icons.FilePickerIcon;
 import com.liuzhenli.common.utils.filepicker.util.ConvertUtils;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.LinkedList;
 
@@ -31,13 +34,15 @@ public class PathAdapter extends RecyclerView.Adapter<PathAdapter.MyViewHolder> 
     }
 
     public String getItem(int position) {
-        StringBuilder tmp = new StringBuilder(sdCardDirectory + "/");
+
+
+        StringBuilder tmp = new StringBuilder(sdCardDirectory + File.separator);
         //忽略根目录
         if (position == 0) {
             return tmp.toString();
         }
         for (int i = 1; i <= position; i++) {
-            tmp.append(paths.get(i)).append("/");
+            tmp.append(paths.get(i)).append(File.separator);
         }
         return tmp.toString();
     }
@@ -52,8 +57,8 @@ public class PathAdapter extends RecyclerView.Adapter<PathAdapter.MyViewHolder> 
             arrowIcon = ConvertUtils.toDrawable(FilePickerIcon.getARROW());
         }
         paths.clear();
-        if (!path.equals("/") && !path.equals("")) {
-            String[] tmps = path.substring(path.indexOf("/") + 1).split("/");
+        if (!path.equals(File.separator) && !path.equals("")) {
+            String[] tmps = path.substring(path.indexOf(File.separator) + 1).split(File.separator);
             Collections.addAll(paths, tmps);
         }
         paths.addFirst(ROOT_HINT);

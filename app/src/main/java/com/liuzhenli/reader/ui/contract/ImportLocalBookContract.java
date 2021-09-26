@@ -1,8 +1,8 @@
 package com.liuzhenli.reader.ui.contract;
 
 import com.liuzhenli.common.base.BaseContract;
+import com.liuzhenli.common.utils.filepicker.entity.FileItem;
 
-import java.io.File;
 import java.util.List;
 
 /**
@@ -18,6 +18,6 @@ public class ImportLocalBookContract {
     public interface Presenter<T> extends BaseContract.BasePresenter<T> {
 
         /***将本地书的路径保存数据库**/
-        void addToBookShelf(List<File> books);
+        void addToBookShelf(List<FileItem> books);
     }
 }

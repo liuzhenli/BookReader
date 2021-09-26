@@ -4,17 +4,18 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.liuzhenli.common.AppComponent;
-import com.liuzhenli.common.observer.MyObserver;
+import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.base.BaseTabActivity;
 import com.liuzhenli.reader.DaggerReadBookComponent;
-import com.liuzhenli.reader.bean.LocalFileBean;
+import com.liuzhenli.common.utils.filepicker.entity.FileItem;
 import com.liuzhenli.reader.ui.contract.ImportLocalBookContract;
 import com.liuzhenli.reader.ui.fragment.LocalFileFragment;
 import com.liuzhenli.reader.ui.fragment.LocalTxtFragment;
@@ -28,7 +29,6 @@ import com.microedu.reader.databinding.ActImportlocalbookBinding;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +41,7 @@ import java.util.List;
  */
 public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPresenter> implements ImportLocalBookContract.View {
 
+    private static final int INTENT_CODE_IMPORT_BOOK_PATH = 110;
     private boolean mSelectAll;
     private ActImportlocalbookBinding inflate;
 
@@ -93,7 +94,10 @@ public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPres
 
     @Override
     protected void initToolBar() {
-        mTvTitle.setText("导入本地书籍");
+        mTvTitle.setText("导入本机书籍");
+        mIvRight.setImageResource(R.drawable.ic_directory);
+        mIvRight.setVisibility(View.VISIBLE);
+        ClickUtils.click(mIvRight, o -> openMobileDir());
     }
 
     @Override
@@ -104,16 +108,17 @@ public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPres
     @Override
     protected void configViews() {
         super.configViews();
+        //add to bookShelf
         ClickUtils.click(inflate.mViewAddBookShelf, o -> {
 
             if (mFragmentList.get(getCurrentPagePosition()) instanceof LocalFileFragment) {
                 LocalFileFragment fragment = (LocalFileFragment) (mFragmentList.get(getCurrentPagePosition()));
-                List<File> selectedBooks = fragment.getSelectedBooks();
+                List<FileItem> selectedBooks = fragment.getSelectedBooks();
                 mPresenter.addToBookShelf(selectedBooks);
                 fragment.notifyDataChanged();
             } else if (mFragmentList.get(getCurrentPagePosition()) instanceof LocalTxtFragment) {
                 LocalTxtFragment fragment = (LocalTxtFragment) mFragmentList.get(getCurrentPagePosition());
-                List<File> selectedBooks = fragment.getSelectedBooks();
+                List<FileItem> selectedBooks = fragment.getSelectedBooks();
                 mPresenter.addToBookShelf(selectedBooks);
                 fragment.notifyDataChanged();
             }
@@ -121,9 +126,9 @@ public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPres
         ClickUtils.click(inflate.mViewDeleteFile, o -> {
             if (mFragmentList.get(getCurrentPagePosition()) instanceof LocalFileFragment) {
                 LocalFileFragment fragment = (LocalFileFragment) (mFragmentList.get(getCurrentPagePosition()));
-                List<File> selectedBooks = fragment.getSelectedBooks();
-                for (File selectedBook : selectedBooks) {
-                    FileUtils.deleteFile(selectedBook);
+                List<FileItem> selectedBooks = fragment.getSelectedBooks();
+                for (FileItem selectedBook : selectedBooks) {
+                    FileUtils.deleteFile(selectedBook.file);
                 }
                 fragment.notifyDataChanged();
             } else if (mFragmentList.get(getCurrentPagePosition()) instanceof LocalTxtFragment) {
@@ -132,10 +137,10 @@ public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPres
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
                         LocalTxtFragment fragment = (LocalTxtFragment) mFragmentList.get(getCurrentPagePosition());
-                        List<File> selectedBooks = fragment.getSelectedBooks();
-                        for (File selectedBook : selectedBooks) {
+                        List<FileItem> selectedBooks = fragment.getSelectedBooks();
+                        for (FileItem selectedBook : selectedBooks) {
                             try {
-                                FileUtils.deleteFile(selectedBook);
+                                FileUtils.deleteFile(selectedBook.file);
                                 fragment.notifyDataChanged();
                                 ToastUtil.showToast("已经删除");
                                 fragment.refreshData();
@@ -154,7 +159,7 @@ public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPres
             if (mFragmentList.get(getCurrentPagePosition()) instanceof LocalTxtFragment) {
                 mSelectAll = !mSelectAll;
                 LocalTxtFragment fragment = (LocalTxtFragment) mFragmentList.get(getCurrentPagePosition());
-                List<LocalFileBean> selectedBooks = fragment.getAllBooks();
+                List<FileItem> selectedBooks = fragment.getAllBooks();
                 if (mSelectAll) {
                     inflate.mViewSelectAll.setText("取消全选");
                 } else {
@@ -167,6 +172,11 @@ public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPres
                 fragment.notifyDataChanged();
             }
         });
+
+        String path = AppSharedPreferenceHelper.getImportLocalBookPath();
+        if (TextUtils.isEmpty(path)) {
+            openMobileDir();
+        }
     }
 
     @Override
@@ -192,6 +202,33 @@ public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPres
     @Override
     public void showAddResult() {
 
+    }
+
+    public void openMobileDir() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivityForResult(intent, INTENT_CODE_IMPORT_BOOK_PATH);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == INTENT_CODE_IMPORT_BOOK_PATH) {
+            if (data == null || data.getData() == null) {
+                return;
+            }
+            AppSharedPreferenceHelper.setImportLocalBookPath(data.getDataString());
+            mContext.getContentResolver().takePersistableUriPermission(data.getData(), Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+
+            for (Fragment fragment : mFragmentList) {
+                if (fragment instanceof LocalTxtFragment) {
+                    ((LocalTxtFragment) fragment).refreshData();
+                } else if (fragment instanceof LocalFileFragment) {
+                    ((LocalFileFragment) fragment).updatePath();
+                }
+            }
+
+        }
     }
 }
 

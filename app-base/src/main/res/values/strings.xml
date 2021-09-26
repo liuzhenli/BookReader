@@ -17,6 +17,10 @@
 
     <string name="network_unusable">似乎没有网络哦</string>
 
+    <string name="common_web_ssl_error">当前网站安全证书已过期或不可信\n是否继续浏览</string>
+    <string name="common_web_ssl_error_allow">继续浏览</string>
+    <string name="common_web_ssl_error_reject">返回上一页</string>
+
     <string name="setting">设置</string>
     <string name="theme_setting">主题设置</string>
     <string name="about">关于</string>
@@ -150,7 +154,7 @@
     <string name="flow_sys">跟随系统</string>
     <string name="add">添加</string>
     <string name="import_book_source">导入书源</string>
-    <string name="import_book_source_local">本地导入</string>
+    <string name="import_book_source_local">本机导入</string>
     <string name="import_book_source_on_line">网络导入</string>
     <string name="input_book_source_url_success">成功导入%1$d个书源</string>
     <string name="no_book_source_tips">暂无书源,搜索微信公众号:异书房,\n回复"书源"获取书源~</string>
@@ -193,7 +197,7 @@
     <string name="book_intro">内容简介</string>
     <string name="open_from_other">打开外部书籍</string>
     <string name="origin">来源</string>
-    <string name="import_replace_rule">本地导入</string>
+    <string name="import_replace_rule">本机导入</string>
     <string name="import_replace_rule_on_line">网络导入</string>
     <string name="bookshelf_px">书架排序</string>
     <string name="check_update_interval">检查更新间隔</string>
