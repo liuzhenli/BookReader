@@ -2,9 +2,11 @@ package com.liuzhenli.common.utils;
 
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 
 import com.liuzhenli.common.SharedPreferencesUtil;
 import com.liuzhenli.common.constant.AppConstant;
+import com.orhanobut.logger.Logger;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -76,6 +78,16 @@ public class AppSharedPreferenceHelper {
      */
     public static void setRefreshBookShelf(boolean refresh) {
         SharedPreferencesUtil.getInstance().putBoolean("refresh_book_shelf", refresh);
+    }
+
+    /***The path to import local books. */
+    public static void setImportBookPath(String path) {
+        SharedPreferencesUtil.getInstance().putString("import_local_book_path", path);
+    }
+
+    /***The path to import local books. */
+    public String getImportBookPath() {
+        return SharedPreferencesUtil.getInstance().getString("import_local_book_path");
     }
 
 
@@ -180,5 +192,13 @@ public class AppSharedPreferenceHelper {
             e.printStackTrace();
         }
         return new HashMap<>();
+    }
+
+    public static String getImportLocalBookPath() {
+        return SharedPreferencesUtil.getInstance().getString("import_local_book_path");
+    }
+
+    public static void setImportLocalBookPath(String path) {
+        SharedPreferencesUtil.getInstance().putString("import_local_book_path", path);
     }
 }

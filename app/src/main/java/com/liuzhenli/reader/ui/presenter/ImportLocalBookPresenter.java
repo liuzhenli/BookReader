@@ -5,10 +5,10 @@ import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.common.base.RxPresenter;
 import com.liuzhenli.reader.bean.ImportBookModel;
+import com.liuzhenli.common.utils.filepicker.entity.FileItem;
 import com.liuzhenli.reader.ui.contract.ImportLocalBookContract;
 import com.micoredu.reader.bean.LocBookShelfBean;
 
-import java.io.File;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -30,7 +30,7 @@ public class ImportLocalBookPresenter extends RxPresenter<ImportLocalBookContrac
 
 
     @Override
-    public void addToBookShelf(List<File> path) {
+    public void addToBookShelf(List<FileItem> path) {
         Observable.fromIterable(path)
                 .flatMap(file -> ImportBookModel.getInstance().importBook(file))
                 .compose(RxUtil::toSimpleSingle)

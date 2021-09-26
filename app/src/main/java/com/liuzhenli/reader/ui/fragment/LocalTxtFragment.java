@@ -8,23 +8,24 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.liuzhenli.common.base.BaseRVFragment;
 import com.liuzhenli.common.AppComponent;
+import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
+import com.liuzhenli.common.utils.DeviceUtil;
 import com.liuzhenli.reader.DaggerReadBookComponent;
-import com.liuzhenli.reader.bean.LocalFileBean;
+import com.liuzhenli.common.utils.filepicker.entity.FileItem;
 import com.liuzhenli.reader.ui.adapter.LocalTxtAdapter;
 import com.liuzhenli.reader.ui.contract.LocalTxtContract;
 import com.liuzhenli.reader.ui.presenter.LocalTxtPresenter;
 import com.microedu.reader.databinding.FragmentLocaltxtBinding;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * describe: 导入书籍,文件夹
+ * describe: 导入书籍,文件
  *
  * @author Liuzhenli on 2019-12-15 10:06
  */
-public class LocalTxtFragment extends BaseRVFragment<LocalTxtPresenter, LocalFileBean> implements LocalTxtContract.View {
+public class LocalTxtFragment extends BaseRVFragment<LocalTxtPresenter, FileItem> implements LocalTxtContract.View {
 
     private FragmentLocaltxtBinding inflate;
 
@@ -45,7 +46,7 @@ public class LocalTxtFragment extends BaseRVFragment<LocalTxtPresenter, LocalFil
 
     @Override
     public void configViews() {
-        initAdapter(LocalTxtAdapter.class, false, false);
+        initAdapter(LocalTxtAdapter.class, false, false, true);
         refreshData();
     }
 
@@ -62,26 +63,27 @@ public class LocalTxtFragment extends BaseRVFragment<LocalTxtPresenter, LocalFil
 
     @Override
     public void onItemClick(int position) {
-        LocalFileBean data = mAdapter.getItem(position);
+        FileItem data = mAdapter.getItem(position);
         data.isSelected = !data.isSelected;
         mAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void showLocalTxt(List<LocalFileBean> fileList) {
+    public void showLocalTxt(List<FileItem> fileList) {
         if (mAdapter.getCount() > 0) {
             mAdapter.clear();
         }
         mAdapter.addAll(fileList);
+        mAdapter.notifyDataSetChanged();
     }
 
-    public List<File> getSelectedBooks() {
-        ArrayList<File> bookFiles = new ArrayList<>();
-        List<LocalFileBean> data = mAdapter.getRealAllData();
+    public List<FileItem> getSelectedBooks() {
+        ArrayList<FileItem> bookFiles = new ArrayList<>();
+        List<FileItem> data = mAdapter.getRealAllData();
         for (int i = 0; i < data.size(); i++) {
-            LocalFileBean item = data.get(i);
+            FileItem item = data.get(i);
             if (item.isSelected) {
-                bookFiles.add(item.file);
+                bookFiles.add(item);
             }
         }
         return bookFiles;
@@ -91,13 +93,17 @@ public class LocalTxtFragment extends BaseRVFragment<LocalTxtPresenter, LocalFil
         mAdapter.notifyDataSetChanged();
     }
 
-    public List<LocalFileBean> getAllBooks() {
+    public List<FileItem> getAllBooks() {
         return mAdapter.getRealAllData();
     }
 
     public void refreshData() {
         if (mPresenter != null) {
-            mPresenter.getLocalTxt((FragmentActivity) mContext);
+            if (DeviceUtil.isLaterQ()) {
+                mPresenter.getLocalTxt(this.getApplicationContext(), AppSharedPreferenceHelper.getImportLocalBookPath());
+            } else {
+                mPresenter.getLocalTxt((FragmentActivity) mContext);
+            }
         }
     }
 

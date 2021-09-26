@@ -1,10 +1,12 @@
 package com.liuzhenli.reader.ui.contract;
 
 
+import android.content.Context;
+
 import androidx.fragment.app.FragmentActivity;
 
 import com.liuzhenli.common.base.BaseContract;
-import com.liuzhenli.reader.bean.LocalFileBean;
+import com.liuzhenli.common.utils.filepicker.entity.FileItem;
 
 import java.util.List;
 
@@ -15,10 +17,12 @@ import java.util.List;
  */
 public class LocalTxtContract {
     public interface View extends BaseContract.BaseView {
-        void showLocalTxt(List<LocalFileBean> fileList);
+        void showLocalTxt(List<FileItem> fileList);
     }
 
     public interface Presenter<T> extends BaseContract.BasePresenter<T> {
         void getLocalTxt(FragmentActivity activity);
+
+        void getLocalTxt(Context context, String path);
     }
 }

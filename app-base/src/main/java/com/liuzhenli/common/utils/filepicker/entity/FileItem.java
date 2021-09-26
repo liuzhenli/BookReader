@@ -1,19 +1,31 @@
 package com.liuzhenli.common.utils.filepicker.entity;
 
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+
+import java.io.File;
+import java.util.Date;
 
 /**
  * 文件项信息
- *
- * @author 李玉江[QQ:1032694760]
- * @since 2014-05-23 18:02
  */
 public class FileItem extends JavaBean {
     private Drawable icon;
-    private String name;
-    private String path = "/";
-    private long size = 0;
+    public String path = "/";
+    public long size = 0;
     private boolean isDirectory = false;
+
+    public String fileType;
+    public String name;
+    public Date time;
+    public File file;
+    public boolean isSelected;
+    /***后缀**/
+    public String FileSuffix;
+    /***文件夹子文件的个数*/
+    public String fileCount;
+    public Uri uri;
+
 
     public void setIcon(Drawable icon) {
         this.icon = icon;

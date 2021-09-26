@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.liuzhenli.reader.bean.LocalFileBean;
+import com.liuzhenli.common.utils.filepicker.entity.FileItem;
 import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.common.utils.FileUtils;
 import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
@@ -21,7 +21,7 @@ import java.util.List;
  *
  * @author Liuzhenli on 2019-12-15 10:38
  */
-public class LocalTxtAdapter extends RecyclerArrayAdapter<LocalFileBean> {
+public class LocalTxtAdapter extends RecyclerArrayAdapter<FileItem> {
 
     private SimpleDateFormat simpleDateFormat;
 
@@ -35,7 +35,7 @@ public class LocalTxtAdapter extends RecyclerArrayAdapter<LocalFileBean> {
         return new ViewHolder(parent, R.layout.item_local);
     }
 
-    class ViewHolder extends BaseViewHolder<LocalFileBean> {
+    class ViewHolder extends BaseViewHolder<FileItem> {
 
         ItemLocalBinding inflate;
 
@@ -45,13 +45,13 @@ public class LocalTxtAdapter extends RecyclerArrayAdapter<LocalFileBean> {
         }
 
         @Override
-        public void setData(LocalFileBean item) {
+        public void setData(FileItem item) {
             super.setData(item);
-            //处理文件选中的逻辑
-            List<BookShelfBean> list= AppReaderDbHelper.getInstance().getDatabase().getBookShelfDao().getByNoteUrl(item.file.toString());
+            //处理文件选中的逻辑 查看数据库中有没有这本书,如果有则显示已经在书架中
+            List<BookShelfBean> list= AppReaderDbHelper.getInstance().getDatabase().getBookShelfDao().getByNoteUrl(item.path);
             int size = list.size();
             inflate.name.setText(item.file.getName());
-            if (item.fileType == null || item.fileType.equals(Constant.FileAttr.ZERO)) {
+            if (item.fileType == null || item.fileType.equals(Constant.FileAttr.DIRECTORY)) {
                 inflate.imageLocalBook.setImageResource(R.drawable.dir);
                 inflate.cbLocalCheck.setVisibility(View.GONE);
                 inflate.tvLocalImport.setVisibility(View.GONE);
