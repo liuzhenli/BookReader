@@ -219,12 +219,11 @@ public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPres
             }
             AppSharedPreferenceHelper.setImportLocalBookPath(data.getDataString());
             mContext.getContentResolver().takePersistableUriPermission(data.getData(), Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-
             for (Fragment fragment : mFragmentList) {
                 if (fragment instanceof LocalTxtFragment) {
                     ((LocalTxtFragment) fragment).refreshData();
                 } else if (fragment instanceof LocalFileFragment) {
-                    ((LocalFileFragment) fragment).updatePath();
+                    ((LocalFileFragment) fragment).initRootDoc();
                 }
             }
 

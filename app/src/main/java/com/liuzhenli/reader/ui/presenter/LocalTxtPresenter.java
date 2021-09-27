@@ -111,10 +111,10 @@ public class LocalTxtPresenter extends RxPresenter<LocalTxtContract.View> implem
 
         try {
             FileUtils.createDir(Constant.LOCAL_BOOK_PATH);
-            File doc = FileUtils.createFile(Constant.LOCAL_BOOK_PATH + documentFile.getName());
+            File file = FileUtils.createFile(Constant.LOCAL_BOOK_PATH + documentFile.getName());
 
             InputStream inputStream = context.getContentResolver().openInputStream(documentFile.getUri());
-            OutputStream outputStream = new FileOutputStream(doc);
+            OutputStream outputStream = new FileOutputStream(file);
             byte[] buf = new byte[1024 * 100];
             int n = 0;
             while ((n = inputStream.read(buf)) > 0) {
@@ -126,7 +126,9 @@ public class LocalTxtPresenter extends RxPresenter<LocalTxtContract.View> implem
 
             FileItem localFile = new FileItem();
             localFile.path = documentFile.getUri().toString();
-            localFile.file = doc;
+            localFile.file = file;
+            localFile.time = new Date(file.lastModified());
+            localFile.name = fileName;
             localFile.fileType = Constant.FileAttr.FILE;
             if (fileName.endsWith(Constant.FileSuffix.TXT)) {
                 localFile.FileSuffix = Constant.FileSuffix.TXT;

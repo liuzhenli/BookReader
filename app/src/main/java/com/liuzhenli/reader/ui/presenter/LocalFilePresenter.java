@@ -32,6 +32,7 @@ import android.os.Build;
 import android.provider.DocumentsContract;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.documentfile.provider.DocumentFile;
 
@@ -77,13 +78,15 @@ public class LocalFilePresenter extends RxPresenter<LocalFileContract.View> impl
                                 lf.size = cursor.getLong(columnSizeIndex);
                                 String fileType = cursor.getString(columnTypeIndex);
                                 if (TextUtils.equals(DocumentsContract.Document.MIME_TYPE_DIR, fileType)) {
-                                    lf.fileType = Constant.FileSuffix.NONE;
+                                    lf.fileType = Constant.FileSuffix.DIRECTORY;
                                 } else if (fileName.endsWith(EPUB)) {
                                     lf.fileType = Constant.FileSuffix.EPUB;
                                 } else if (fileName.endsWith(PDF)) {
                                     lf.fileType = Constant.FileSuffix.PDF;
                                 } else if (fileName.endsWith(TXT)) {
                                     lf.fileType = Constant.FileSuffix.TXT;
+                                } else {
+                                    lf.fileType = Constant.FileSuffix.OTHER;
                                 }
                                 lf.time = new Date(cursor.getLong(columnLastModifiedIndex));
                                 lf.uri = DocumentsContract.buildDocumentUriUsingTree(childUri, cursor.getString(columnIndex));
@@ -98,12 +101,11 @@ public class LocalFilePresenter extends RxPresenter<LocalFileContract.View> impl
                     subscriber.onComplete();
                 }), new SampleProgressObserver<ArrayList<FileItem>>(mView) {
             @Override
-            public void onNext(ArrayList<FileItem> data) {
+            public void onNext(@NonNull ArrayList<FileItem> data) {
                 if (mView != null) {
                     mView.showDirectory(data, null);
                 }
             }
-
 
         }));
     }
@@ -125,7 +127,7 @@ public class LocalFilePresenter extends RxPresenter<LocalFileContract.View> impl
                                 String fileName = files[i].getName();
                                 // 文件
                                 if (files[i].isDirectory()) {
-                                    localFileBean.fileType = Constant.FileSuffix.NONE;
+                                    localFileBean.fileType = Constant.FileSuffix.DIRECTORY;
                                 } else if (files[i].isFile()) {
                                     if (fileName.endsWith(TXT)) {
                                         localFileBean.fileType = TXT;
@@ -171,7 +173,7 @@ public class LocalFilePresenter extends RxPresenter<LocalFileContract.View> impl
                     }
                 }), new SampleProgressObserver<ArrayList<FileItem>>(mView) {
             @Override
-            public void onNext(ArrayList<FileItem> data) {
+            public void onNext(@NonNull ArrayList<FileItem> data) {
                 if (mView != null) {
                     mView.showDirectory(data, file);
                 }

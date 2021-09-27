@@ -3,6 +3,7 @@ package com.liuzhenli.reader.ui.fragment;
 import android.Manifest;
 import android.net.Uri;
 import android.os.Build;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,7 +93,7 @@ public class LocalFileFragment extends BaseFragment<LocalFilePresenter> implemen
             if (item.uri != null) {
                 //文件夹
                 if (FileUtils.isContentFile(item.uri)) {
-                    if (item.fileType.equals(Constant.FileSuffix.NONE)) {
+                    if (TextUtils.equals(item.fileType, Constant.FileSuffix.DIRECTORY)) {
                         mPath = item.uri.toString();
                         subDocs.add(DocumentFile.fromTreeUri(mContext, item.uri));
                         updatePath();
@@ -101,7 +102,7 @@ public class LocalFileFragment extends BaseFragment<LocalFilePresenter> implemen
                         mAdapter.getRealAllData().get(position).isSelected = !checked;
                     }
                 } else {
-                    if (item.fileType.equals(Constant.FileSuffix.NONE)) {
+                    if (TextUtils.equals(item.fileType, Constant.FileSuffix.DIRECTORY)) {
                         mPath = item.uri.getPath();
                         updatePath();
                     } else {
@@ -206,7 +207,7 @@ public class LocalFileFragment extends BaseFragment<LocalFilePresenter> implemen
         List<FileItem> data = mAdapter.getRealAllData();
         for (int i = 0; i < data.size(); i++) {
             FileItem item = data.get(i);
-            if (!item.fileType.equals(Constant.FileAttr.DIRECTORY) && item.isSelected) {
+            if (!TextUtils.equals(item.fileType,Constant.FileAttr.DIRECTORY) && item.isSelected) {
                 bookFiles.add(item);
             }
         }
@@ -225,7 +226,7 @@ public class LocalFileFragment extends BaseFragment<LocalFilePresenter> implemen
         }
     }
 
-    private void initRootDoc() {
+    public void initRootDoc() {
         String path = AppSharedPreferenceHelper.getImportLocalBookPath();
         if (path == null) {
             ((ImportLocalBookActivity) activity).openMobileDir();
