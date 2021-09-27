@@ -27,7 +27,6 @@ public class ImportBookModel extends BaseModelImpl {
             //File file = localFileBean.file;
             boolean isNew = false;
 
-
             BookShelfBean bookShelfBean = BookshelfHelper.getBook(localFileBean.path);
             if (bookShelfBean == null) {
                 isNew = true;

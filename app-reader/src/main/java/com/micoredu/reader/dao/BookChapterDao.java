@@ -24,7 +24,7 @@ public interface BookChapterDao {
     @Query("DELETE from bookChapters")
     void deleteAll();
 
-    @Query("select * from bookchapters where noteUrl =:noteUrl order by durChapterUrl")
+    @Query("select * from bookchapters where noteUrl =:noteUrl order by durChapterIndex")
     List<BookChapterBean> getChapterList(String noteUrl);
 
     @Query("delete from bookchapters where noteUrl is:noteUrl")

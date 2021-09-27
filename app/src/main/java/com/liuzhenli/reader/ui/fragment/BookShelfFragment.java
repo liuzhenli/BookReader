@@ -229,7 +229,9 @@ public class BookShelfFragment extends BaseRVFragment<BookShelfPresenter, BookSh
         } else {
             tvProgress.setText(String.format("已阅读:%.2f%s", bookShelfBean.getDurChapter() * 100.f / bookShelfBean.getChapterListSize(), "%"));
         }
-        tvDes.setText(Html.fromHtml(bookShelfBean.getBookInfoBean().getIntroduce()));
+        if (tvDes != null && bookShelfBean.getBookInfoBean().getIntroduce() != null) {
+            tvDes.setText(Html.fromHtml(bookShelfBean.getBookInfoBean().getIntroduce()));
+        }
         bottomSheetDialog.show();
         return false;
     }

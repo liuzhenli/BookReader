@@ -52,10 +52,11 @@ public class Constant extends AppConstant {
 
     @Retention(RetentionPolicy.SOURCE)
     public @interface FileSuffix {
-        String NONE = "directory";
+        String DIRECTORY = "directory";
         String TXT = ".txt";
         String PDF = ".pdf";
         String EPUB = ".epub";
+        String OTHER = "";
     }
 
     @Retention(RetentionPolicy.SOURCE)

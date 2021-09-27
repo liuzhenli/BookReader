@@ -2,12 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <include layout="@layout/layout_common_toolbar" />
 
-    <include layout="@layout/layout_common_tablayout" />
+    <include layout="@layout/layout_common_tab_layout" />
+
+    <include
+        layout="@layout/item_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
 
     <include layout="@layout/layout_common_viewpager" />
 

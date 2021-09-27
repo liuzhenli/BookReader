@@ -81,7 +81,7 @@ dependencies {
     api 'com.meituan.android.walle:library:1.1.6'
 
     //page indicator
-    api('com.github.hackware1993:MagicIndicator:1.6.0') {
+    api('com.github.hackware1993:MagicIndicator:1.7.0') {
         exclude group: 'com.android.support'
     }
     //https://github.com/81813780/AVLoadingIndicatorView
