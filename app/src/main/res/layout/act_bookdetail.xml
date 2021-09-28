@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context="com.liuzhenli.reader.ui.activity.BookDetailActivity">
 
@@ -13,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/all_item_height"
         android:background="@color/book_index_bg_color"
-        android:elevation="1px"
         app:contentInsetStart="0dp"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/icon_back_white_icon"
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_marginRight="@dimen/common_space_large"
-            android:text="关闭"
+            android:text="@string/action_close"
             android:textColor="@color/white"
             android:visibility="gone" />
 
@@ -114,7 +114,7 @@
                 android:layout_marginLeft="@dimen/common_space_large"
                 android:layout_marginTop="@dimen/common_space_large"
                 android:layout_marginRight="@dimen/common_space_large"
-                android:text="简介"
+                android:text="@string/book_intro"
                 android:textColor="@color/s_text_99"
                 android:textSize="@dimen/txt_size_14" />
         </LinearLayout>
@@ -135,7 +135,7 @@
             android:layout_weight="1"
             android:background="@drawable/selector_card_bg"
             android:gravity="center"
-            android:text="下载" />
+            android:text="@string/action_download" />
 
         <TextView
             android:id="@+id/mTvRead"
@@ -144,7 +144,7 @@
             android:layout_weight="1"
             android:background="@drawable/selector_card_bg"
             android:gravity="center"
-            android:text="开始阅读" />
+            android:text="@string/start_read" />
 
         <TextView
             android:id="@+id/mTvAddToBookshelf"
@@ -153,6 +153,6 @@
             android:layout_weight="1"
             android:background="@drawable/selector_card_bg"
             android:gravity="center"
-            android:text="加入书架" />
+            android:text="@string/add_to_shelf" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

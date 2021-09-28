@@ -8,7 +8,7 @@
     <string name="receiving_shared_label">閱讀·搜尋</string>
     <string name="bookshelf_empty">書架還空著，先去添加吧！</string>
     <string name="action_search">搜尋</string>
-    <string name="action_download">下載任務</string>
+    <string name="action_download_task">下載任務</string>
     <string name="bookshelf_layout">書架佈局</string>
     <string name="book_library">書庫</string>
     <string name="book_local">添加本機</string>

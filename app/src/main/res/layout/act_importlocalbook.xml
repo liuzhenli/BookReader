@@ -27,7 +27,8 @@
         android:layout_height="50dp"
         android:background="@color/bg_color"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/common_space_large">
 
         <TextView
             android:id="@+id/mViewAddBookShelf"
