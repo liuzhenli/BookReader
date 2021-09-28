@@ -20,7 +20,10 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.liuzhenli.common.utils.Constant.FileSuffix.EPUB;
 import static com.liuzhenli.common.utils.Constant.FileSuffix.PDF;
@@ -53,66 +56,68 @@ public class LocalFilePresenter extends RxPresenter<LocalFileContract.View> impl
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void getDirectory(DocumentFile file) {
-        addSubscribe(RxUtil.subscribe(Observable
-                .create((ObservableOnSubscribe<ArrayList<FileItem>>) subscriber -> {
-                    Uri childUri = DocumentsContract.buildChildDocumentsUriUsingTree(file.getUri(), DocumentsContract.getDocumentId(file.getUri()));
-                    String[] protection = {DocumentsContract.Document.COLUMN_DOCUMENT_ID,
-                            DocumentsContract.Document.COLUMN_DISPLAY_NAME,
-                            DocumentsContract.Document.COLUMN_LAST_MODIFIED,
-                            DocumentsContract.Document.COLUMN_SIZE,
-                            DocumentsContract.Document.COLUMN_MIME_TYPE};
 
-                    Cursor cursor = ReaderApplication.getInstance().getContentResolver().query(childUri, protection, null, null, DocumentsContract.Document.COLUMN_DISPLAY_NAME);
-                    int columnIndex = cursor.getColumnIndex(DocumentsContract.Document.COLUMN_DOCUMENT_ID);
-                    int columnName = cursor.getColumnIndex(DocumentsContract.Document.COLUMN_DISPLAY_NAME);
-                    int columnSizeIndex = cursor.getColumnIndex(DocumentsContract.Document.COLUMN_SIZE);
-                    int columnTypeIndex = cursor.getColumnIndex(DocumentsContract.Document.COLUMN_MIME_TYPE);
-                    int columnLastModifiedIndex = cursor.getColumnIndex(DocumentsContract.Document.COLUMN_LAST_MODIFIED);
-                    ArrayList<FileItem> data = new ArrayList<>();
-                    if (cursor.moveToNext()) {
-                        while (cursor.moveToNext()) {
-                            String fileName = cursor.getString(columnName);
-                            if (!fileName.startsWith(".")) {
-                                FileItem lf = new FileItem();
-                                lf.name = fileName;
-                                lf.size = cursor.getLong(columnSizeIndex);
-                                String fileType = cursor.getString(columnTypeIndex);
-                                if (TextUtils.equals(DocumentsContract.Document.MIME_TYPE_DIR, fileType)) {
-                                    lf.fileType = Constant.FileSuffix.DIRECTORY;
-                                } else if (fileName.endsWith(EPUB)) {
-                                    lf.fileType = Constant.FileSuffix.EPUB;
-                                } else if (fileName.endsWith(PDF)) {
-                                    lf.fileType = Constant.FileSuffix.PDF;
-                                } else if (fileName.endsWith(TXT)) {
-                                    lf.fileType = Constant.FileSuffix.TXT;
-                                } else {
-                                    lf.fileType = Constant.FileSuffix.OTHER;
-                                }
-                                lf.time = new Date(cursor.getLong(columnLastModifiedIndex));
-                                lf.uri = DocumentsContract.buildDocumentUriUsingTree(childUri, cursor.getString(columnIndex));
-                                lf.path = lf.uri.toString();
-                                L.e(TAG, lf.toString());
-                                data.add(lf);
-                            }
+        addSubscribe(Observable.create((ObservableOnSubscribe<ArrayList<FileItem>>) emitter -> {
+
+            Uri childUri = DocumentsContract.buildChildDocumentsUriUsingTree(file.getUri(), DocumentsContract.getDocumentId(file.getUri()));
+            String[] protection = {DocumentsContract.Document.COLUMN_DOCUMENT_ID,
+                    DocumentsContract.Document.COLUMN_DISPLAY_NAME,
+                    DocumentsContract.Document.COLUMN_LAST_MODIFIED,
+                    DocumentsContract.Document.COLUMN_SIZE,
+                    DocumentsContract.Document.COLUMN_MIME_TYPE};
+
+            Cursor cursor = ReaderApplication.getInstance().getContentResolver().query(childUri, protection, null, null, DocumentsContract.Document.COLUMN_DISPLAY_NAME);
+            int columnIndex = cursor.getColumnIndex(DocumentsContract.Document.COLUMN_DOCUMENT_ID);
+            int columnName = cursor.getColumnIndex(DocumentsContract.Document.COLUMN_DISPLAY_NAME);
+            int columnSizeIndex = cursor.getColumnIndex(DocumentsContract.Document.COLUMN_SIZE);
+            int columnTypeIndex = cursor.getColumnIndex(DocumentsContract.Document.COLUMN_MIME_TYPE);
+            int columnLastModifiedIndex = cursor.getColumnIndex(DocumentsContract.Document.COLUMN_LAST_MODIFIED);
+            ArrayList<FileItem> data = new ArrayList<>();
+            if (cursor.moveToNext()) {
+                while (cursor.moveToNext()) {
+                    String fileName = cursor.getString(columnName);
+                    if (!fileName.startsWith(".")) {
+                        FileItem lf = new FileItem();
+                        lf.name = fileName;
+                        lf.size = cursor.getLong(columnSizeIndex);
+                        String fileType = cursor.getString(columnTypeIndex);
+                        if (TextUtils.equals(DocumentsContract.Document.MIME_TYPE_DIR, fileType)) {
+                            lf.fileType = Constant.FileSuffix.DIRECTORY;
+                        } else if (fileName.endsWith(EPUB)) {
+                            lf.fileType = EPUB;
+                        } else if (fileName.endsWith(PDF)) {
+                            lf.fileType = PDF;
+                        } else if (fileName.endsWith(TXT)) {
+                            lf.fileType = TXT;
+                        } else {
+                            lf.fileType = Constant.FileSuffix.OTHER;
                         }
-                        cursor.close();
-                        Collections.sort(data, (lhs, rhs) -> ((lhs.name).toLowerCase()).compareTo((rhs.name).toLowerCase()));
+                        lf.time = new Date(cursor.getLong(columnLastModifiedIndex));
+                        lf.uri = DocumentsContract.buildDocumentUriUsingTree(childUri, cursor.getString(columnIndex));
+                        lf.path = lf.uri.toString();
+                        L.e(TAG, lf.toString());
+                        data.add(lf);
                     }
-                    subscriber.onNext(data);
-                    subscriber.onComplete();
-                }), new SampleProgressObserver<ArrayList<FileItem>>(mView) {
-            @Override
-            public void onNext(@NonNull ArrayList<FileItem> data) {
-                if (mView != null) {
-                    mView.showDirectory(data, null);
                 }
+                cursor.close();
+                Collections.sort(data, (lhs, rhs) -> ((lhs.name).toLowerCase()).compareTo((rhs.name).toLowerCase()));
             }
+            emitter.onNext(data);
+            emitter.onComplete();
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new SampleProgressObserver<ArrayList<FileItem>>() {
+                    @Override
+                    public void onNext(@NonNull ArrayList<FileItem> fileItems) {
+                        if (mView != null) {
+                            mView.showDirectory(fileItems, null);
+                        }
+                    }
+                }));
 
-        }));
     }
 
     public void getDirectory(File file) {
-        addSubscribe(RxUtil.subscribe(Observable
+        addSubscribe(Observable
                 .create((ObservableOnSubscribe<ArrayList<FileItem>>) subscriber -> {
                     //子线程
                     try {
@@ -172,15 +177,14 @@ public class LocalFilePresenter extends RxPresenter<LocalFileContract.View> impl
                     } catch (Exception e) {
                         subscriber.onError(e);
                     }
-                }), new SampleProgressObserver<ArrayList<FileItem>>(mView) {
-            @Override
-            public void onNext(@NonNull ArrayList<FileItem> data) {
-                if (mView != null) {
-                    mView.showDirectory(data, file);
-                }
-            }
-
-
-        }));
+                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new SampleProgressObserver<ArrayList<FileItem>>() {
+                    @Override
+                    public void onNext(@NonNull ArrayList<FileItem> fileItems) {
+                        if (mView != null) {
+                            mView.showDirectory(fileItems, file);
+                        }
+                    }
+                }));
     }
 }

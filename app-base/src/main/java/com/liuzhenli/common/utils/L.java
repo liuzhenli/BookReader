@@ -25,7 +25,7 @@ public class L {
     /***日志写入文件开关*/
     private static final Boolean LOG_TO_FILE = false;
     /***默认的tag**/
-    private static final String LOG_TAG = "zLog--- ";
+    private static final String LOG_TAG = "zlog--- ";
     /***输入日志类型，v代表输出所有信息,w则只输出警告...*/
     private static final char LOG_TYPE = 'v';
     /***sd卡中日志文件的最多保存天数*/
