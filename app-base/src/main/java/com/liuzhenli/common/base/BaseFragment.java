@@ -159,7 +159,9 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
     }
 
     public void showDialog() {
-        getDialog().show();
+        if (isFragmentVisible) {
+            getDialog().show();
+        }
     }
 
     public void dismissDialog() {

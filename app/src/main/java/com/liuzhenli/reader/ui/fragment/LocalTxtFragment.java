@@ -70,6 +70,7 @@ public class LocalTxtFragment extends BaseRVFragment<LocalTxtPresenter, FileItem
 
     @Override
     public void showLocalTxt(List<FileItem> fileList) {
+        hideDialog();
         if (mAdapter.getCount() > 0) {
             mAdapter.clear();
         }
@@ -97,7 +98,8 @@ public class LocalTxtFragment extends BaseRVFragment<LocalTxtPresenter, FileItem
         return mAdapter.getRealAllData();
     }
 
-    public void refreshData() {
+    public synchronized void refreshData() {
+        showDialog();
         if (mPresenter != null) {
             if (DeviceUtil.isLaterQ()) {
                 mPresenter.getLocalTxt(this.getApplicationContext(), AppSharedPreferenceHelper.getImportLocalBookPath());

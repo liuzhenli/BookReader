@@ -150,10 +150,10 @@ public class LocalFileFragment extends BaseFragment<LocalFilePresenter> implemen
 
     @Override
     public void showDirectory(ArrayList<FileItem> data, File file) {
+        dismissDialog();
         mAdapter.clear();
-        mAdapter.notifyDataSetChanged();
         mAdapter.addAll(data);
-
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -189,6 +189,7 @@ public class LocalFileFragment extends BaseFragment<LocalFilePresenter> implemen
         inflate.tvDirs.setText(path.toString());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            showDialog();
             mPresenter.getDirectory(lastDoc);
         }
     }
@@ -199,6 +200,7 @@ public class LocalFileFragment extends BaseFragment<LocalFilePresenter> implemen
         } else {
             pathAdapter.updatePath(mPath);
         }
+        showDialog();
         mPresenter.getDirectory(new File(mPath));
     }
 
@@ -207,7 +209,7 @@ public class LocalFileFragment extends BaseFragment<LocalFilePresenter> implemen
         List<FileItem> data = mAdapter.getRealAllData();
         for (int i = 0; i < data.size(); i++) {
             FileItem item = data.get(i);
-            if (!TextUtils.equals(item.fileType,Constant.FileAttr.DIRECTORY) && item.isSelected) {
+            if (!TextUtils.equals(item.fileType, Constant.FileAttr.DIRECTORY) && item.isSelected) {
                 bookFiles.add(item);
             }
         }

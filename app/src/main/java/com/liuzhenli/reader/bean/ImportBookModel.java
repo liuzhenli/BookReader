@@ -1,5 +1,6 @@
 package com.liuzhenli.reader.bean;
 
+import com.liuzhenli.common.utils.L;
 import com.liuzhenli.common.utils.StringUtils;
 import com.liuzhenli.common.utils.filepicker.entity.FileItem;
 import com.micoredu.reader.bean.BookInfoBean;
@@ -23,6 +24,7 @@ public class ImportBookModel extends BaseModelImpl {
 
     public Observable<LocBookShelfBean> importBook(final FileItem localFileBean) {
         return Observable.create(e -> {
+            L.e(Thread.currentThread());
             //判断文件是否存在
             //File file = localFileBean.file;
             boolean isNew = false;
