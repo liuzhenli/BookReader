@@ -90,6 +90,7 @@ public class LocalFilePresenter extends RxPresenter<LocalFileContract.View> impl
                                 }
                                 lf.time = new Date(cursor.getLong(columnLastModifiedIndex));
                                 lf.uri = DocumentsContract.buildDocumentUriUsingTree(childUri, cursor.getString(columnIndex));
+                                lf.path = lf.uri.toString();
                                 L.e(TAG, lf.toString());
                                 data.add(lf);
                             }
