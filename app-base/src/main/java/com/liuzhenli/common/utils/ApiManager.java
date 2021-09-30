@@ -33,7 +33,7 @@ public class ApiManager {
         return bookSource;
     }
 
-    public void settBookSource(String bookSourceUrl) {
+    public void setBookSource(String bookSourceUrl) {
         this.bookSource = bookSourceUrl;
     }
 

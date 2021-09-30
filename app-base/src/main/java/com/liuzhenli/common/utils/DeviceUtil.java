@@ -16,6 +16,7 @@ import android.provider.Settings.SettingNotFoundException;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
+import androidx.annotation.ChecksSdkIntAtLeast;
 import androidx.core.app.ActivityCompat;
 
 import com.liuzhenli.common.encript.MD5Utils;
@@ -316,6 +317,7 @@ public class DeviceUtil {
     /**
      * android 10 及以后的版本
      */
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.Q)
     public static boolean isLaterQ() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
     }

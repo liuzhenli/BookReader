@@ -1,6 +1,7 @@
 package com.micoredu.reader.ui.contract;
 
 import android.content.Context;
+import android.net.Uri;
 
 import com.liuzhenli.common.base.BaseBean;
 import com.liuzhenli.common.base.BaseContract;
@@ -63,6 +64,6 @@ public class BookSourceContract {
 
         void checkBookSource(Context context, List<BookSourceBean> selectedBookSource);
 
-        void loadBookSourceFromFile(String filePath);
+        void loadBookSourceFromFile(Uri filePath);
     }
 }
