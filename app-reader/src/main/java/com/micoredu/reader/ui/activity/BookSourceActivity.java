@@ -22,6 +22,7 @@ import com.hwangjr.rxbus.thread.EventThread;
 import com.liuzhenli.common.constant.ARouterConstants;
 import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.observer.MyObserver;
+import com.liuzhenli.common.utils.DeviceUtil;
 import com.liuzhenli.common.utils.FileUtils;
 import com.liuzhenli.common.base.BaseBean;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
@@ -91,23 +92,7 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
             if (itemId == R.id.action_add_book_source) {
                 EditSourceActivity.start(mContext, null);
             } else if (itemId == R.id.action_import_book_source_local) {
-                PermissionUtil.requestPermission(BookSourceActivity.this, new PermissionUtil.PermissionObserver() {
-
-                    @Override
-                    public void onGranted(List<String> permissions, boolean all) {
-                        FilePicker filePicker = new FilePicker(BookSourceActivity.this, FilePicker.FILE);
-                        filePicker.setBackgroundColor(getResources().getColor(R.color.background));
-                        filePicker.setTopBackgroundColor(getResources().getColor(R.color.background));
-                        filePicker.setAllowExtensions(getResources().getStringArray(R.array.text_suffix));
-                        filePicker.setOnFilePickListener(s -> mPresenter.loadBookSourceFromFile(s));
-                        filePicker.show();
-                        filePicker.getSubmitButton().setText(R.string.sys_file_picker);
-                        filePicker.getSubmitButton().setOnClickListener(view -> {
-                            filePicker.dismiss();
-                            selectFileSys();
-                        });
-                    }
-                }, Manifest.permission.READ_EXTERNAL_STORAGE);
+                selectFileSys();
             } else if (itemId == R.id.action_import_book_source_online) {
                 DialogUtil.showEditTextDialog(this, getResources().getString(R.string.import_book_source_on_line),
                         String.format("%s://", getResources().getString(R.string.input_book_source_url)),
@@ -352,7 +337,7 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
         if (resultCode == RESULT_OK) {
             if (requestCode == IMPORT_BOOK_SOURCE) {
                 if (data != null && data.getData() != null) {
-                    mPresenter.loadBookSourceFromFile(FileUtils.getPath(this, data.getData()));
+                    mPresenter.loadBookSourceFromFile(data.getData());
                 }
             } else if (requestCode == IMPORT_BOOK_SOURCE_QRCODE) {
                 if (data != null) {

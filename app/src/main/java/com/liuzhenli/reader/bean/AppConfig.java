@@ -23,6 +23,8 @@ public class AppConfig extends BaseBean {
         public LatestVersion versionInfo;
         public DonateInfo pay;
         public AdInfo ad;
+        /***bookSource*/
+        public BookSource bookSource;
     }
 
     public static class LatestVersion {
@@ -36,6 +38,14 @@ public class AppConfig extends BaseBean {
     }
 
     public static class AdInfo {
+        public String filterChannel;
+    }
+
+    public static class BookSource {
+        public String url;
+        /**
+         * exclude channels eg google,tencent
+         */
         public String filterChannel;
     }
 }

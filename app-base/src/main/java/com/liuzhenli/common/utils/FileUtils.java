@@ -699,10 +699,6 @@ public class FileUtils {
 
     /**
      * 根据Uri获取真实的文件路径
-     *
-     * @param context
-     * @param uri
-     * @return
      */
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public static String getPath(final Context context, final Uri uri) {

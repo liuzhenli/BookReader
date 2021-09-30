@@ -1,15 +1,17 @@
 package com.micoredu.reader.ui.presenter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
 import androidx.documentfile.provider.DocumentFile;
 
 import com.liuzhenli.common.BaseApplication;
-import com.liuzhenli.common.SharedPreferencesUtil;
 import com.liuzhenli.common.exception.ApiException;
 import com.liuzhenli.common.gson.GsonUtils;
-import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
+import com.liuzhenli.common.utils.DocumentUtil;
+import com.liuzhenli.common.utils.FileUtils;
 import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.common.utils.StringUtils;
 import com.liuzhenli.common.base.RxPresenter;
@@ -34,7 +36,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import io.reactivex.annotations.NonNull;
+import kotlin.text.Charsets;
 import okhttp3.ResponseBody;
 
 import static android.text.TextUtils.isEmpty;
@@ -94,10 +96,10 @@ public class BookSourcePresenter extends RxPresenter<BookSourceContract.View> im
 
     @Override
     public void getNetSource(String url) {
-        ApiManager.getInstance().settBookSource(url);
+        ApiManager.getInstance().setBookSource(url);
         addSubscribe(RxUtil.subscribe(mApi.getBookSource(""), new SampleProgressObserver<ResponseBody>(mView) {
             @Override
-            public void onNext(ResponseBody data) {
+            public void onNext(@androidx.annotation.NonNull ResponseBody data) {
                 configNetBookSource(data);
             }
         }));
@@ -115,7 +117,7 @@ public class BookSourcePresenter extends RxPresenter<BookSourceContract.View> im
             emitter.onNext(bookSourceBeans.size());
         }), new SampleProgressObserver<Integer>() {
             @Override
-            public void onNext(Integer aBoolean) {
+            public void onNext(@androidx.annotation.NonNull Integer aBoolean) {
                 mView.shoDeleteBookSourceResult();
             }
         }));
@@ -126,21 +128,31 @@ public class BookSourcePresenter extends RxPresenter<BookSourceContract.View> im
         CheckSourceService.start(context, selectedBookSource);
     }
 
+    /**
+     * @param uri 1./storage/emulated/0/Documents/ShuFang/ShuFang/Backups/myBookSource.json
+     *            2.content://com.android.externalstorage.documents/document/primary:Documents/ShuFang/ShuFang/Backups/myBookSource.json
+     */
     @Override
-    public void loadBookSourceFromFile(String filePath) {
-        if (TextUtils.isEmpty(filePath)) {
+    public void loadBookSourceFromFile(@NonNull Uri uri) {
+
+        if (TextUtils.isEmpty(uri.getPath())) {
             mView.showError(new ApiException(1000, new Throwable(BaseApplication.getInstance().getString(R.string.read_file_error))));
             return;
         }
         String json;
         DocumentFile file;
         try {
-            file = DocumentFile.fromFile(new File(filePath));
+            if (FileUtils.isContentFile(uri)) {
+                json = new String(DocumentUtil.readBytes(BaseApplication.getInstance(), uri), Charsets.UTF_8);
+            } else {
+                file = DocumentFile.fromFile(new File(uri.toString()));
+                json = DocumentHelper.readString(file);
+            }
         } catch (Exception e) {
             mView.showError(new ApiException(1000, new Throwable(BaseApplication.getInstance().getString(R.string.can_not_open))));
             return;
         }
-        json = DocumentHelper.readString(file);
+
         if (!isEmpty(json)) {
             importSource(json);
         } else {
