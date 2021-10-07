@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.RoomWarnings;
 
 import com.micoredu.reader.bean.BaseChapterBean;
 import com.micoredu.reader.bean.BookChapterBean;
@@ -30,6 +31,7 @@ public interface BookChapterDao {
     @Query("delete from bookchapters where noteUrl is:noteUrl")
     void delChapterList(String noteUrl);
 
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     @Query("select * from bookchapters where noteUrl =:noteUrl and durChapterIndex = :chapterIndex")
     BaseChapterBean getChapter(String noteUrl, int chapterIndex);
 

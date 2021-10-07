@@ -17,6 +17,7 @@ import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.NetworkUtils;
 import com.liuzhenli.common.base.BaseActivity;
+import com.liuzhenli.common.utils.StringUtils;
 import com.liuzhenli.common.widget.bar.ImmersionBar;
 import com.liuzhenli.reader.DaggerReadBookComponent;
 import com.micoredu.reader.service.DownloadService;
@@ -58,6 +59,7 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
     private BookShelfBean mBookShelf;
     private boolean isInBookShelf = false;
     private ActBookdetailBinding mContentView;
+    private boolean isLocalBook = false;
 
     @Override
     protected View bindContentView() {
@@ -104,6 +106,7 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
                 }
             }
         }
+        isLocalBook = TextUtils.equals(StringUtils.getString(com.micoredu.reader.R.string.local), mBookShelf.getBookInfoBean().getOrigin());
     }
 
     @Override
@@ -138,7 +141,11 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
             setBookInfo(mBookShelf.getBookInfoBean());
         }
         mPresenter.getBookInfo(mBookShelf, isInBookShelf);
-        showDialog();
+
+        // If the book is not local book, show dialog
+        if (isLocalBook) {
+            showDialog();
+        }
         setIsInBookShelf(isInBookShelf);
 
         ClickUtils.click(mContentView.viewBookInfo.mVChangeBookSource, o -> {
@@ -177,10 +184,13 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
         }
         mContentView.mTvDescription.setText(Html.fromHtml(String.format("简介:\n%s", book.getIntroduce())));
         mContentView.viewBookInfo.mTvBookName.setText(book.getName());
-        mContentView.viewBookInfo.mTvAuthor.setText(String.format("%s 著", mBookShelf.getBookInfoBean().getAuthor()));
+        mContentView.viewBookInfo.mTvAuthor.setText(String.format("%s 著", TextUtils.isEmpty(mBookShelf.getBookInfoBean().getAuthor()) ? "佚名" : mBookShelf.getBookInfoBean().getAuthor()));
         mContentView.mTvChapterCount.setText(String.format(getResources().getString(R.string.total_chapter_count), mChapterList.size() + ""));
         mContentView.viewBookInfo.mTvBookSource.setText(mBookShelf.getBookInfoBean().getOrigin());
         ImageUtil.setRoundedCornerImage(mContext, book.getCoverUrl(), R.drawable.book_cover, mContentView.viewBookInfo.mIvCover, 4);
+        if (isLocalBook) {
+            mContentView.mTvDownload.setVisibility(View.GONE);
+        }
     }
 
     private void setIsInBookShelf(boolean isInBookShelf) {
