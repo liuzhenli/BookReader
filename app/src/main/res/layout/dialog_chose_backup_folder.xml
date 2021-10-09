@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/common_space_large">
+
+    <com.liuzhenli.reader.view.roundwidget.RoundTextView
+        android:id="@+id/rv_step_one"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:text="1"
+        android:textColor="@color/white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:rv_backgroundColor="@color/main_blue"
+        app:rv_isRadiusHalfHeight="true" />
+
+    <TextView
+        android:id="@+id/tv_select_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/common_space_normal"
+        android:text="选择文件夹"
+        android:textColor="@color/text_color_66"
+        app:layout_constraintBottom_toBottomOf="@+id/rv_step_one"
+        app:layout_constraintLeft_toRightOf="@+id/rv_step_one"
+        app:layout_constraintTop_toTopOf="@+id/rv_step_one" />
+
+    <TextView
+        android:id="@+id/tv_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="为了更好的保护用户隐私,从Android 11 开始,异书房不再需要全盘读写权限,取而代之的是让用户指定一个文件夹目录,异书房紧对于该目录拥有读写权限。\n\n因此,您需要点击下方的按钮选取一个文件夹目录,为了方便以后重
+新安装时能够对接旧有数据,我们强烈建议您固定选择 Documents 这个文件夹。\n"
+        android:textColor="@color/text_color_66"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_select_title"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_select_title" />
+
+    <com.liuzhenli.reader.view.roundwidget.RoundTextView
+        android:id="@+id/rv_select_folder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="2dp"
+        android:paddingVertical="4dp"
+        android:text="选择文件夹"
+        android:textColor="@color/white"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_select_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_description"
+        app:rv_backgroundColor="@color/main_blue"
+        app:rv_cornerRadius="4dp" />
+
+    <com.liuzhenli.reader.view.roundwidget.RoundTextView
+        android:id="@+id/rv_step_two"
+        android:layout_width="@dimen/height_30"
+        android:layout_height="@dimen/height_30"
+        android:gravity="center"
+        android:text="2"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/rv_ok"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rv_ok"
+        app:rv_backgroundColor="@color/main_blue"
+        app:rv_isRadiusHalfHeight="true" />
+
+    <com.liuzhenli.reader.view.roundwidget.RoundTextView
+        android:id="@+id/rv_pre_step"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/common_space_large"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:text="@string/pre_step"
+        android:textColor="@color/white"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_select_title"
+        app:layout_constraintTop_toBottomOf="@+id/rv_select_folder"
+        app:rv_backgroundColor="@color/main_blue"
+        app:rv_cornerRadius="4dp" />
+
+    <com.liuzhenli.reader.view.roundwidget.RoundTextView
+        android:id="@+id/rv_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_space_large"
+        android:layout_marginTop="@dimen/common_space_large"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:text="@string/ok"
+        android:textColor="@color/white"
+        app:layout_constraintLeft_toRightOf="@+id/rv_pre_step"
+        app:layout_constraintTop_toBottomOf="@+id/rv_select_folder"
+        app:rv_backgroundColor="@color/main_blue"
+        app:rv_cornerRadius="4dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
