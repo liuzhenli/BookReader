@@ -1,11 +1,12 @@
 package com.liuzhenli.reader.ui.activity;
 
+import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -16,12 +17,16 @@ import com.google.android.material.tabs.TabLayout;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
+import com.liuzhenli.common.BaseApplication;
 import com.liuzhenli.common.constant.ARouterConstants;
 import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.AppComponent;
+import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.FillContentUtil;
 import com.liuzhenli.common.base.BaseActivity;
+import com.liuzhenli.common.utils.IntentUtils;
+import com.liuzhenli.common.utils.L;
 import com.liuzhenli.reader.DaggerReadBookComponent;
 import com.liuzhenli.reader.ui.adapter.MainTabAdapter;
 import com.liuzhenli.common.utils.Constant;
@@ -29,11 +34,13 @@ import com.liuzhenli.reader.ui.contract.MainContract;
 import com.liuzhenli.reader.ui.fragment.DiscoverFragment;
 import com.liuzhenli.reader.ui.presenter.MainPresenter;
 import com.liuzhenli.reader.utils.JumpToLastPageUtil;
+import com.liuzhenli.reader.view.ChoseBackupFolderDialog;
 import com.micoredu.reader.bean.BookSourceBean;
 import com.micoredu.reader.ui.activity.BookSourceActivity;
 import com.liuzhenli.reader.utils.storage.Backup;
 import com.microedu.reader.R;
 import com.microedu.reader.databinding.ActivityMainContainerBinding;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 
 /**
  * @author liuzhenli
@@ -45,6 +52,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     /***发现页面的书源名字*/
     private String mDiscoverBookSourceName;
     private ActivityMainContainerBinding inflate;
+    private ChoseBackupFolderDialog.ChoseBackupFolderDialogBuilder choseBackupFolderDialogBuilder;
 
     @Override
     protected View bindContentView() {
@@ -156,7 +164,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         inflate.viewMainLeft.mViewNightMode.setVisibility(View.GONE);
 
         JumpToLastPageUtil.openLastPage(mContext);
-
+        mPresenter.checkBackupPath();
         mPresenter.checkWebDav();
     }
 
@@ -251,8 +259,19 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     }
 
     @Override
+    public void showCheckBackupPathResult(boolean isEmpty) {
+        if (isEmpty) {
+            choseBackupFolderDialogBuilder = new ChoseBackupFolderDialog.ChoseBackupFolderDialogBuilder(this);
+            choseBackupFolderDialogBuilder.setCanceledOnTouchOutside(false)
+                    .setSelectClickListener(v -> IntentUtils.openMobileDir(MainActivity.this, IntentUtils.REQUEST_CODE_OPEN_MOBILE_DIR))
+                    .create();
+            choseBackupFolderDialogBuilder.create().show();
+        }
+    }
+
+    @Override
     public void showWebDavResult(boolean isSet) {
-        Log.e(TAG, "web dav ---: " + isSet);
+        L.e(TAG, "web dav ---: " + isSet);
     }
 
     @Override
@@ -263,5 +282,17 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Override
     public void complete() {
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (data != null && data.getData() != null && requestCode == IntentUtils.REQUEST_CODE_OPEN_MOBILE_DIR) {
+                BaseApplication.getInstance().getContentResolver().takePersistableUriPermission(data.getData(), Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                AppSharedPreferenceHelper.setBackupPath(data.getData().toString());
+                choseBackupFolderDialogBuilder.setOkEnable(true);
+            }
+        }
     }
 }

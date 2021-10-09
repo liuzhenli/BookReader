@@ -10,6 +10,8 @@ import com.liuzhenli.common.base.BaseContract;
  */
 public class MainContract {
     public interface View extends BaseContract.BaseView {
+        void showCheckBackupPathResult(boolean isEmpty);
+
         /**
          * show if user has set webDav
          *
@@ -19,6 +21,8 @@ public class MainContract {
     }
 
     public interface Presenter<T> extends BaseContract.BasePresenter<T> {
+        void checkBackupPath();
+
         /**
          * check if user has set webdav
          */

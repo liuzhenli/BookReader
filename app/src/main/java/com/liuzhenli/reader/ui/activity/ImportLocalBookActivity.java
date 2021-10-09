@@ -14,6 +14,7 @@ import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.base.BaseTabActivity;
+import com.liuzhenli.common.utils.IntentUtils;
 import com.liuzhenli.reader.DaggerReadBookComponent;
 import com.liuzhenli.common.utils.filepicker.entity.FileItem;
 import com.liuzhenli.reader.ui.contract.ImportLocalBookContract;
@@ -205,9 +206,7 @@ public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPres
     }
 
     public void openMobileDir() {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivityForResult(intent, INTENT_CODE_IMPORT_BOOK_PATH);
+        IntentUtils.openMobileDir(this, INTENT_CODE_IMPORT_BOOK_PATH);
     }
 
     @Override

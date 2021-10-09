@@ -1,5 +1,6 @@
 package com.liuzhenli.common.utils;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.net.Uri;
  * Email: 848808263@qq.com
  */
 public class IntentUtils {
+    public static final int REQUEST_CODE_OPEN_MOBILE_DIR=1000;
     public static void openBrowser(Context context, String url) {
         final Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);
@@ -25,5 +27,10 @@ public class IntentUtils {
         } else {
             ToastUtil.showToast(context, "链接错误或无浏览器");
         }
+    }
+    public static void openMobileDir(Activity context, int requestCode) {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        context.startActivityForResult(intent, requestCode);
     }
 }

@@ -20,8 +20,6 @@ import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.common.utils.L;
 import com.liuzhenli.common.utils.ToastUtil;
 import com.microedu.reader.R;
-import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
-import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 
 import java.util.HashMap;
 import java.util.Map;

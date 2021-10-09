@@ -32,4 +32,20 @@
         <attr name="loading_speed" format="integer" />
     </declare-styleable>
 
+    <declare-styleable name="ZLRoundView">
+        <attr name="rv_backgroundColor" format="color" />
+        <attr name="rv_backgroundPressColor" format="color" />
+        <attr name="rv_cornerRadius" format="dimension" />
+        <attr name="rv_strokeWidth" format="dimension" />
+        <attr name="rv_strokeColor" format="color" />
+        <attr name="rv_strokePressColor" format="color" />
+        <attr name="rv_textPressColor" format="color" />
+        <attr name="rv_isRadiusHalfHeight" format="boolean" />
+        <attr name="rv_isWidthHeightEqual" format="boolean" />
+        <attr name="rv_cornerRadius_TL" format="dimension" />
+        <attr name="rv_cornerRadius_TR" format="dimension" />
+        <attr name="rv_cornerRadius_BL" format="dimension" />
+        <attr name="rv_cornerRadius_BR" format="dimension" />
+        <attr name="rv_isRippleEnable" format="boolean" />
+    </declare-styleable>
 </resources>
