@@ -23,6 +23,7 @@ import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.common.utils.ClickUtils;
+import com.liuzhenli.common.utils.DeviceUtil;
 import com.liuzhenli.common.utils.FillContentUtil;
 import com.liuzhenli.common.base.BaseActivity;
 import com.liuzhenli.common.utils.IntentUtils;
@@ -41,6 +42,7 @@ import com.liuzhenli.reader.utils.storage.Backup;
 import com.microedu.reader.R;
 import com.microedu.reader.databinding.ActivityMainContainerBinding;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 
 /**
  * @author liuzhenli
@@ -53,6 +55,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     private String mDiscoverBookSourceName;
     private ActivityMainContainerBinding inflate;
     private ChoseBackupFolderDialog.ChoseBackupFolderDialogBuilder choseBackupFolderDialogBuilder;
+    private QMUIDialog qmuiDialog;
 
     @Override
     protected View bindContentView() {
@@ -264,8 +267,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             choseBackupFolderDialogBuilder = new ChoseBackupFolderDialog.ChoseBackupFolderDialogBuilder(this);
             choseBackupFolderDialogBuilder.setCanceledOnTouchOutside(false)
                     .setSelectClickListener(v -> IntentUtils.openMobileDir(MainActivity.this, IntentUtils.REQUEST_CODE_OPEN_MOBILE_DIR))
-                    .create();
-            choseBackupFolderDialogBuilder.create().show();
+                    .setOkClickListener(v -> {
+                        qmuiDialog.dismiss();
+                    })
+                    .setCancelable(false);
+            qmuiDialog = choseBackupFolderDialogBuilder.create();
+            qmuiDialog.show();
         }
     }
 
@@ -291,7 +298,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             if (data != null && data.getData() != null && requestCode == IntentUtils.REQUEST_CODE_OPEN_MOBILE_DIR) {
                 BaseApplication.getInstance().getContentResolver().takePersistableUriPermission(data.getData(), Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 AppSharedPreferenceHelper.setBackupPath(data.getData().toString());
-                choseBackupFolderDialogBuilder.setOkEnable(true);
+                choseBackupFolderDialogBuilder.setFolderEnable(true);
             }
         }
     }

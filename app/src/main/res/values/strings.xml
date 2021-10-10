@@ -22,4 +22,11 @@
         \t\t\t\t任何单位或个人认为通过异书房搜索链接到的第三方网页内容可能涉嫌侵犯其信息网络传播权，应该及时向异书房提出书面权力通知，并提供身份证明、权属证明及详细侵权情况证明。异书房在收到上述法律文件后，将会依法尽快断开相关链接内容。
     </string>
 
+    <string name="tv_select_backup_folder_intro">
+        为了更好的保护用户隐私,从 Android 11 开始,异书房不再需要全盘读写权限,取而代之的是让用户指定一个文件夹目录,异书房紧对于该目录拥有读写权限。\n\n
+        因此,您需要点击下方的按钮选取一个文件夹目录,为了方便以后重新安装时能够对接旧有数据,我们强烈建议您固定选择 Documents 这个文件夹"
+    </string>
+    <string name="tv_select_backup_folder_name">您选择的文件夹是:%s</string>
+    <string name="tv_select_backup_folder_name_confirm">根据您选择的文件夹,异书房的最终存储目录为:%s</string>
+
 </resources>
