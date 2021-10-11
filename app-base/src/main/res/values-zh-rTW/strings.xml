@@ -38,7 +38,6 @@
     <string name="book_search_last">最新: %s</string>
     <string name="check_add_bookshelf">是否將《%s》放入書架？</string>
     <string name="import_books_count">共%s個Text文件</string>
-    <string name="is_loading">加載中…</string>
     <string name="get_data_error">獲取數據失敗！</string>
     <string name="retry">重試</string>
     <string name="web_service">web服務</string>

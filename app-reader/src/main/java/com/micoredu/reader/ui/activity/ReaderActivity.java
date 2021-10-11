@@ -192,7 +192,8 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
             mPresenter.setChapterList(BookshelfHelper.getChapterList(mBookShelf.getNoteUrl()));
             mIsInBookShelf = BookshelfHelper.isInBookShelf(mBookShelf.getNoteUrl());
         } else {
-            finish();
+            mBookShelf = new BookShelfBean();
+            mBookShelf.setNoteUrl("empty book");
         }
 
         if (mChapterId > 0) {
