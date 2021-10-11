@@ -182,7 +182,7 @@ public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPres
         });
 
         String path = AppSharedPreferenceHelper.getImportLocalBookPath();
-        if (TextUtils.isEmpty(path)) {
+        if (TextUtils.isEmpty(path) && DeviceUtil.isLaterQ()) {
             openMobileDir();
         }
     }
@@ -217,6 +217,7 @@ public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPres
         IntentUtils.openMobileDir(this, INTENT_CODE_IMPORT_BOOK_PATH);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
