@@ -48,52 +48,43 @@ public class LocalTxtPresenter extends RxPresenter<LocalTxtContract.View> implem
 
     @Override
     public synchronized void getLocalTxt(FragmentActivity activity) {
-        addSubscribe(Observable
-                .create((ObservableOnSubscribe<ArrayList<FileItem>>) emitter -> {
-                    WeakReference<FragmentActivity> act = new WeakReference<>(activity);
-                    ImportBookFileHelper.getBookFile(act.get(), new ImportBookFileHelper.LoadBookCallBack(act.get(), bookList -> {
-                        ArrayList<FileItem> fileList = new ArrayList<>();
 
-                        for (int i = 0; i < bookList.size(); i++) {
-                            File file = bookList.get(i);
-                            FileItem localFile = new FileItem();
-                            localFile.file = file;
-                            String fileName = file.getName();
-                            localFile.name = fileName;
-                            localFile.time = new Date(file.lastModified());
-                            localFile.path = file.getAbsolutePath();
-                            if (file.isDirectory()) {// 文件
-                                localFile.fileType = Constant.FileAttr.DIRECTORY;
+        WeakReference<FragmentActivity> act = new WeakReference<>(activity);
+        ImportBookFileHelper.getBookFile(act.get(), new ImportBookFileHelper.LoadBookCallBack(act.get(), bookList -> {
+            ArrayList<FileItem> fileList = new ArrayList<>();
 
-                            } else if (file.isFile()) {
-                                localFile.fileType = Constant.FileAttr.FILE;
-                                if (fileName.endsWith(Constant.FileSuffix.TXT)) {
-                                    localFile.FileSuffix = Constant.FileSuffix.TXT;
-                                } else if (fileName.endsWith(Constant.FileSuffix.PDF)) {
-                                    localFile.FileSuffix = Constant.FileSuffix.PDF;
-                                } else if (fileName.endsWith(Constant.FileSuffix.EPUB)) {
-                                    localFile.FileSuffix = Constant.FileSuffix.EPUB;
-                                }
-                            }
-                            if (file.listFiles() != null) {// 文件夹非空
-                                localFile.fileCount = "(" + file.listFiles().length + ")";
-                            } else if (file.isFile()) {// 是文件就不显示
-                                localFile.fileCount = "(" + file.length() + ")";
-                            } else {// 文件夹为空
-                                localFile.fileCount = "(0)";
-                            }
-                            fileList.add(localFile);
-                        }
-                        emitter.onNext(fileList);
-                        emitter.onComplete();
-                    }));
+            for (int i = 0; i < bookList.size(); i++) {
+                File file = bookList.get(i);
+                FileItem localFile = new FileItem();
+                localFile.file = file;
+                String fileName = file.getName();
+                localFile.name = fileName;
+                localFile.time = new Date(file.lastModified());
+                localFile.path = file.getAbsolutePath();
+                if (file.isDirectory()) {// 文件
+                    localFile.fileType = Constant.FileAttr.DIRECTORY;
 
-                }).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribeWith(new SampleProgressObserver<ArrayList<FileItem>>() {
-                    @Override
-                    public void onNext(@NonNull ArrayList<FileItem> fileItems) {
-                        mView.showLocalTxt(fileItems);
+                } else if (file.isFile()) {
+                    localFile.fileType = Constant.FileAttr.FILE;
+                    if (fileName.endsWith(Constant.FileSuffix.TXT)) {
+                        localFile.FileSuffix = Constant.FileSuffix.TXT;
+                    } else if (fileName.endsWith(Constant.FileSuffix.PDF)) {
+                        localFile.FileSuffix = Constant.FileSuffix.PDF;
+                    } else if (fileName.endsWith(Constant.FileSuffix.EPUB)) {
+                        localFile.FileSuffix = Constant.FileSuffix.EPUB;
                     }
-                }));
+                }
+                if (file.listFiles() != null) {// 文件夹非空
+                    localFile.fileCount = "(" + file.listFiles().length + ")";
+                } else if (file.isFile()) {// 是文件就不显示
+                    localFile.fileCount = "(" + file.length() + ")";
+                } else {// 文件夹为空
+                    localFile.fileCount = "(0)";
+                }
+                fileList.add(localFile);
+            }
+            mView.showLocalTxt(fileList);
+        }));
     }
 
     @Override

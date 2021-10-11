@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.RequiresApi;
 import androidx.documentfile.provider.DocumentFile;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * describe:导入书籍,文件夹
+ * describe:导入书籍,文件夹 android 10 以后采用系统文件夹方式获取,10以前采用原来方式
  *
  * @author Liuzhenli on 2019-12-15 10:06
  */
@@ -70,11 +71,13 @@ public class LocalFileFragment extends BaseFragment<LocalFilePresenter> implemen
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void initData() {
         initRootDoc();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void configViews() {
         if (DeviceUtil.isLaterQ()) {
@@ -228,32 +231,36 @@ public class LocalFileFragment extends BaseFragment<LocalFilePresenter> implemen
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void initRootDoc() {
-        String path = AppSharedPreferenceHelper.getImportLocalBookPath();
-        if (path == null) {
-            ((ImportLocalBookActivity) activity).openMobileDir();
-        } else if (FileUtils.isContentFile(path)) {
-            Uri parse = Uri.parse(path);
-            rootDoc = DocumentFile.fromTreeUri(mContext, parse);
-            if (rootDoc == null) {
+        if (DeviceUtil.isLaterQ()) {
+            String path = AppSharedPreferenceHelper.getImportLocalBookPath();
+            if (path == null) {
                 ((ImportLocalBookActivity) activity).openMobileDir();
-            } else {
-                subDocs.clear();
-                updatePath();
-            }
-        } else if (DeviceUtil.isLaterQ()) {
-            ((ImportLocalBookActivity) activity).openMobileDir();
-        } else {
-            PermissionUtil.requestPermission(activity, new PermissionUtil.PermissionObserver() {
-                @Override
-                public void onGranted(List<String> permissions, boolean all) {
-                    rootDoc = null;
+            } else if (FileUtils.isContentFile(path)) {
+                Uri parse = Uri.parse(path);
+                rootDoc = DocumentFile.fromTreeUri(mContext, parse);
+                if (rootDoc == null) {
+                    ((ImportLocalBookActivity) activity).openMobileDir();
+                } else {
                     subDocs.clear();
-                    mPath = path;
                     updatePath();
                 }
-            }, Manifest.permission_group.STORAGE);
+            } else if (DeviceUtil.isLaterQ()) {
+                ((ImportLocalBookActivity) activity).openMobileDir();
+            } else {
+                PermissionUtil.requestPermission(activity, new PermissionUtil.PermissionObserver() {
+                    @Override
+                    public void onGranted(List<String> permissions, boolean all) {
+                        rootDoc = null;
+                        subDocs.clear();
+                        mPath = path;
+                        updatePath();
+                    }
+                }, Manifest.permission_group.STORAGE);
+            }
+        } else {
+            updatePath();
         }
-
     }
 }

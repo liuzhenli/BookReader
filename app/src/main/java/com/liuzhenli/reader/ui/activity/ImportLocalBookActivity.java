@@ -3,17 +3,20 @@ package com.liuzhenli.reader.ui.activity;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.base.BaseTabActivity;
+import com.liuzhenli.common.utils.DeviceUtil;
 import com.liuzhenli.common.utils.IntentUtils;
 import com.liuzhenli.reader.DaggerReadBookComponent;
 import com.liuzhenli.common.utils.filepicker.entity.FileItem;
@@ -93,12 +96,15 @@ public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPres
         DaggerReadBookComponent.builder().build().inject(this);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void initToolBar() {
         mTvTitle.setText("导入本机书籍");
         mIvRight.setImageResource(R.drawable.ic_directory);
-        mIvRight.setVisibility(View.VISIBLE);
-        ClickUtils.click(mIvRight, o -> openMobileDir());
+        if (DeviceUtil.isLaterQ()) {
+            mIvRight.setVisibility(View.VISIBLE);
+            ClickUtils.click(mIvRight, o -> openMobileDir());
+        }
     }
 
     @Override
@@ -106,6 +112,7 @@ public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPres
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void configViews() {
         super.configViews();
@@ -205,6 +212,7 @@ public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPres
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void openMobileDir() {
         IntentUtils.openMobileDir(this, INTENT_CODE_IMPORT_BOOK_PATH);
     }
