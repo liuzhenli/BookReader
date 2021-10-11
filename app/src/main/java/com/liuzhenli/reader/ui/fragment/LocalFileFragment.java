@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.documentfile.provider.DocumentFile;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,12 +16,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.liuzhenli.common.base.BaseFragment;
 import com.liuzhenli.common.AppComponent;
+import com.liuzhenli.common.observer.MyObserver;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.common.utils.DeviceUtil;
 import com.liuzhenli.common.utils.FileUtils;
 import com.liuzhenli.common.utils.PermissionUtil;
 import com.liuzhenli.common.utils.ToastUtil;
+import com.liuzhenli.common.widget.DialogUtil;
 import com.liuzhenli.reader.DaggerReadBookComponent;
 import com.liuzhenli.common.utils.filepicker.entity.FileItem;
 import com.liuzhenli.reader.ui.activity.ImportLocalBookActivity;
@@ -28,6 +31,7 @@ import com.liuzhenli.reader.ui.adapter.LocalFileAdapter;
 import com.liuzhenli.reader.ui.contract.LocalFileContract;
 import com.liuzhenli.reader.ui.presenter.LocalFilePresenter;
 import com.liuzhenli.common.utils.filepicker.adapter.PathAdapter;
+import com.microedu.reader.R;
 import com.microedu.reader.databinding.FragmentLocalfileBinding;
 
 import java.io.File;
@@ -204,7 +208,18 @@ public class LocalFileFragment extends BaseFragment<LocalFilePresenter> implemen
             pathAdapter.updatePath(mPath);
         }
         showDialog();
-        mPresenter.getDirectory(new File(mPath));
+        PermissionUtil.requestPermission(mContext, new PermissionUtil.PermissionObserver() {
+            @Override
+            public void onGranted(List<String> permissions, boolean all) {
+                mPresenter.getDirectory(new File(mPath));
+            }
+
+            @Override
+            public void onDenied(List<String> permissions, boolean never) {
+                DialogUtil.showNoPermissionDialog(mContext, getResources().getString(R.string.please_grant_storage_permission));
+            }
+        }, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
+
     }
 
     public List<FileItem> getSelectedBooks() {
