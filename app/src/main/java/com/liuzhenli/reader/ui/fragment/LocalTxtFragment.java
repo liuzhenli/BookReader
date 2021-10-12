@@ -11,6 +11,7 @@ import com.liuzhenli.common.base.BaseRVFragment;
 import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.common.utils.DeviceUtil;
+import com.liuzhenli.common.utils.FileUtils;
 import com.liuzhenli.common.utils.PermissionUtil;
 import com.liuzhenli.common.widget.DialogUtil;
 import com.liuzhenli.reader.DaggerReadBookComponent;
@@ -106,7 +107,7 @@ public class LocalTxtFragment extends BaseRVFragment<LocalTxtPresenter, FileItem
     public synchronized void refreshData() {
         showDialog();
         if (mPresenter != null) {
-            if (DeviceUtil.isLaterQ()) {
+            if (DeviceUtil.isLaterQ() && FileUtils.isContentFile(AppSharedPreferenceHelper.getImportLocalBookPath())) {
                 mPresenter.getLocalTxt(this.getApplicationContext(), AppSharedPreferenceHelper.getImportLocalBookPath());
             } else {
                 PermissionUtil.requestPermission(mContext, new PermissionUtil.PermissionObserver() {

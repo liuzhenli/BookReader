@@ -1,5 +1,9 @@
 package com.liuzhenli.reader.ui.presenter;
 
+import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
+
 import com.hwangjr.rxbus.RxBus;
 import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.utils.RxUtil;
@@ -17,8 +21,12 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * describe:
@@ -33,15 +41,25 @@ public class BookDetailPresenter extends RxPresenter<BookDetailContract.View> im
 
     @Override
     public void getBookInfo(BookShelfBean bookShelfBean, boolean isInBookShelf) {
-
-        Observable<List<BookChapterBean>> listObservable = WebBookModel.getInstance().getBookInfo(bookShelfBean)
-                .flatMap(bookShelfBean1 -> WebBookModel.getInstance().getChapterList(bookShelfBean1))
-                .flatMap((Function<List<BookChapterBean>, ObservableSource<List<BookChapterBean>>>)
-                        bookChapterBeans -> saveBookToShelfO(bookShelfBean, bookChapterBeans, isInBookShelf));
+        Observable<List<BookChapterBean>> listObservable;
+        //local book
+        if (TextUtils.equals(bookShelfBean.getTag(), BookShelfBean.LOCAL_TAG)) {
+            listObservable = Observable.create((ObservableOnSubscribe<List<BookChapterBean>>) emitter -> {
+                List<BookChapterBean> chapterList = AppReaderDbHelper.getInstance().getDatabase()
+                        .getBookChapterDao().getChapterList(bookShelfBean.getNoteUrl());
+                emitter.onNext(chapterList);
+            }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+            //net book
+        } else {
+            listObservable = WebBookModel.getInstance().getBookInfo(bookShelfBean)
+                    .flatMap(bookShelfBean1 -> WebBookModel.getInstance().getChapterList(bookShelfBean1))
+                    .flatMap((Function<List<BookChapterBean>, ObservableSource<List<BookChapterBean>>>)
+                            bookChapterBeans -> saveBookToShelfO(bookShelfBean, bookChapterBeans, isInBookShelf));
+        }
 
         addSubscribe(RxUtil.subscribe(listObservable, new SampleProgressObserver<List<BookChapterBean>>() {
             @Override
-            public void onNext(List<BookChapterBean> bookChapterBeans) {
+            public void onNext(@NonNull List<BookChapterBean> bookChapterBeans) {
                 bookShelfBean.setChapterListSize(bookChapterBeans.size());
                 mView.showBookInfo(bookShelfBean.getBookInfoBean(), bookChapterBeans);
             }
@@ -56,7 +74,9 @@ public class BookDetailPresenter extends RxPresenter<BookDetailContract.View> im
     /**
      * 保存数据
      */
-    private Observable<List<BookChapterBean>> saveBookToShelfO(BookShelfBean bookShelfBean, List<BookChapterBean> chapterBeans, boolean isInBookShelf) {
+    private Observable<List<BookChapterBean>> saveBookToShelfO(BookShelfBean bookShelfBean,
+                                                               List<BookChapterBean> chapterBeans,
+                                                               boolean isInBookShelf) {
         return Observable.create(e -> {
             if (isInBookShelf) {
                 BookshelfHelper.saveBookToShelf(bookShelfBean);

@@ -1,5 +1,7 @@
 package com.liuzhenli.common.utils;
 
+import androidx.annotation.NonNull;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
@@ -34,6 +36,7 @@ public class RxUtil {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @NonNull
     public static <T> ObservableSource<T> toSimpleSingle(Observable<T> upstream) {
         return upstream.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

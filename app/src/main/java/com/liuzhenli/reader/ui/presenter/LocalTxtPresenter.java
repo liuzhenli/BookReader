@@ -46,6 +46,9 @@ public class LocalTxtPresenter extends RxPresenter<LocalTxtContract.View> implem
 
     }
 
+    /**
+     * normal method
+     */
     @Override
     public synchronized void getLocalTxt(FragmentActivity activity) {
 
@@ -87,6 +90,9 @@ public class LocalTxtPresenter extends RxPresenter<LocalTxtContract.View> implem
         }));
     }
 
+    /**
+     * content path
+     */
     @Override
     public synchronized void getLocalTxt(Context context, String path) {
         ArrayList<FileItem> fileList = new ArrayList<>();
@@ -110,6 +116,9 @@ public class LocalTxtPresenter extends RxPresenter<LocalTxtContract.View> implem
 
     }
 
+    /**
+     * content path dela data
+     */
     private void dealData(Context context, String path, ArrayList<FileItem> fileList) {
         DocumentFile documentFile = DocumentFile.fromTreeUri(context, Uri.parse(path));
         if (documentFile != null && documentFile.isDirectory()) {
@@ -126,48 +135,43 @@ public class LocalTxtPresenter extends RxPresenter<LocalTxtContract.View> implem
         }
     }
 
+    /**
+     * content file path method
+     */
     private synchronized void addToFileItems(List<FileItem> fileList, DocumentFile documentFile) {
-        Context context = ReaderApplication.getInstance();
         String fileName = documentFile.getName();
         if (fileName == null) {
             return;
         }
+        /*
+        FileUtils.createDir(Constant.LOCAL_BOOK_PATH);
+        File file = FileUtils.createFile(Constant.LOCAL_BOOK_PATH + documentFile.getName());
 
-        try {
-            FileUtils.createDir(Constant.LOCAL_BOOK_PATH);
-            File file = FileUtils.createFile(Constant.LOCAL_BOOK_PATH + documentFile.getName());
-
-            InputStream inputStream = context.getContentResolver().openInputStream(documentFile.getUri());
-            OutputStream outputStream = new FileOutputStream(file);
-            byte[] buf = new byte[1024 * 100];
-            int n = 0;
-            while ((n = inputStream.read(buf)) > 0) {
-                outputStream.write(buf, 0, n);
-                outputStream.flush();
-            }
-            outputStream.close();
-            inputStream.close();
-
-            FileItem localFile = new FileItem();
-            localFile.path = documentFile.getUri().toString();
-            localFile.file = file;
-            localFile.time = new Date(file.lastModified());
-            localFile.name = fileName;
-            localFile.fileType = Constant.FileAttr.FILE;
-            if (fileName.endsWith(Constant.FileSuffix.TXT)) {
-                localFile.FileSuffix = Constant.FileSuffix.TXT;
-            } else if (fileName.endsWith(Constant.FileSuffix.PDF)) {
-                localFile.FileSuffix = Constant.FileSuffix.PDF;
-            } else if (fileName.endsWith(Constant.FileSuffix.EPUB)) {
-                localFile.FileSuffix = Constant.FileSuffix.EPUB;
-            }
-            fileList.add(localFile);
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        InputStream inputStream = context.getContentResolver().openInputStream(documentFile.getUri());
+        OutputStream outputStream = new FileOutputStream(file);
+        byte[] buf = new byte[1024 * 100];
+        int n = 0;
+        while ((n = inputStream.read(buf)) > 0) {
+            outputStream.write(buf, 0, n);
+            outputStream.flush();
         }
-
-
+        outputStream.close();
+        inputStream.close();
+        */
+        FileItem localFile = new FileItem();
+        localFile.path = documentFile.getUri().toString();
+        localFile.size = documentFile.length();
+        localFile.time = new Date(documentFile.lastModified());
+        localFile.name = fileName;
+        localFile.fileType = Constant.FileAttr.FILE;
+        if (fileName.endsWith(Constant.FileSuffix.TXT)) {
+            localFile.FileSuffix = Constant.FileSuffix.TXT;
+        } else if (fileName.endsWith(Constant.FileSuffix.PDF)) {
+            localFile.FileSuffix = Constant.FileSuffix.PDF;
+        } else if (fileName.endsWith(Constant.FileSuffix.EPUB)) {
+            localFile.FileSuffix = Constant.FileSuffix.EPUB;
+        }
+        fileList.add(localFile);
     }
 
 
