@@ -1,5 +1,7 @@
 package com.liuzhenli.reader.ui.presenter;
 
+import androidx.annotation.NonNull;
+
 import com.liuzhenli.common.BaseApplication;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.common.utils.NetworkUtils;
@@ -127,9 +129,9 @@ public class BookShelfPresenter extends RxPresenter<BookShelfContract.View> impl
                             return saveBookToShelfO(bookShelfBean, chapterBeanList);
                         }
                     });
-            DisposableObserver subscribe = RxUtil.subscribe(chapterList, new DisposableObserver<BookShelfBean>() {
+            addSubscribe(RxUtil.subscribe(chapterList, new DisposableObserver<BookShelfBean>() {
                 @Override
-                public void onNext(BookShelfBean data) {
+                public void onNext(@NonNull BookShelfBean data) {
                     //更新结束
                     if (chapterNum < data.getChapterListSize()) {
                     }
@@ -148,9 +150,7 @@ public class BookShelfPresenter extends RxPresenter<BookShelfContract.View> impl
                     bookShelfBean.setLoading(false);
                     mView.setRefreshingBook(bookShelfBean);
                 }
-            });
-
-            addSubscribe(subscribe);
+            }));
         }
     }
 

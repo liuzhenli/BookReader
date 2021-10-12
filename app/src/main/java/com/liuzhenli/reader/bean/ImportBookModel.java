@@ -1,8 +1,13 @@
 package com.liuzhenli.reader.bean;
 
+import android.net.Uri;
+
+import com.liuzhenli.common.utils.Constant;
+import com.liuzhenli.common.utils.FileUtils;
 import com.liuzhenli.common.utils.L;
 import com.liuzhenli.common.utils.StringUtils;
 import com.liuzhenli.common.utils.filepicker.entity.FileItem;
+import com.liuzhenli.reader.ReaderApplication;
 import com.micoredu.reader.bean.BookInfoBean;
 import com.micoredu.reader.bean.BookShelfBean;
 import com.micoredu.reader.bean.LocBookShelfBean;
@@ -10,6 +15,11 @@ import com.micoredu.reader.helper.BookshelfHelper;
 import com.micoredu.reader.helper.AppReaderDbHelper;
 import com.micoredu.reader.observe.BaseModelImpl;
 import com.microedu.reader.R;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import io.reactivex.Observable;
 
@@ -24,7 +34,23 @@ public class ImportBookModel extends BaseModelImpl {
 
     public Observable<LocBookShelfBean> importBook(final FileItem localFileBean) {
         return Observable.create(e -> {
-            L.e(Thread.currentThread());
+            // if is content path file, copy to local path
+            if (FileUtils.isContentFile(localFileBean.path)) {
+                FileUtils.createDir(Constant.LOCAL_BOOK_PATH);
+                File file = FileUtils.createFile(Constant.LOCAL_BOOK_PATH + localFileBean.name);
+
+                InputStream inputStream = ReaderApplication.getInstance().getContentResolver().openInputStream(Uri.parse(localFileBean.path));
+                OutputStream outputStream = new FileOutputStream(file);
+                byte[] buf = new byte[1024 * 100];
+                int n;
+                while ((n = inputStream.read(buf)) > 0) {
+                    outputStream.write(buf, 0, n);
+                    outputStream.flush();
+                }
+                outputStream.close();
+                inputStream.close();
+            }
+
             //判断文件是否存在
             //File file = localFileBean.file;
             boolean isNew = false;

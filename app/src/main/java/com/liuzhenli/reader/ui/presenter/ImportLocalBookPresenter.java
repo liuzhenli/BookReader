@@ -1,5 +1,7 @@
 package com.liuzhenli.reader.ui.presenter;
 
+import androidx.annotation.NonNull;
+
 import com.hwangjr.rxbus.RxBus;
 import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.utils.RxUtil;
@@ -41,7 +43,7 @@ public class ImportLocalBookPresenter extends RxPresenter<ImportLocalBookContrac
                     }
 
                     @Override
-                    public void onNext(LocBookShelfBean value) {
+                    public void onNext(@NonNull LocBookShelfBean value) {
                         //有新书插入数据库,刷新页面
                         if (value.getNew()) {
                             RxBus.get().post(RxBusTag.REFRESH_BOOK_LIST, value.getBookShelfBean());
