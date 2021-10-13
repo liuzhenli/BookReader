@@ -1,6 +1,7 @@
 package com.micoredu.reader.ui.contract;
 
 import com.liuzhenli.common.base.BaseContract;
+import com.micoredu.reader.bean.BookInfoBean;
 import com.micoredu.reader.bean.BookShelfBean;
 
 import java.io.File;
@@ -34,14 +35,21 @@ public class ReadContract {
 
 
     public interface Presenter<T> extends BaseContract.BasePresenter<T> {
+
+
+
         /***获取书的信息*/
         void getBookInfo(String url);
+
+        void updateBookInfo(BookInfoBean bookInfo);
 
         void saveProgress(BookShelfBean bookShelf);
 
         void getFontFile();
 
         void changeBookSource();
+
+        void saveReadHistory();
     }
 
 

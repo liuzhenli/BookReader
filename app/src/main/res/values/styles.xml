@@ -60,27 +60,4 @@
         <item name="android:divider">@drawable/divider</item>
 
     </style>
-
-    <style name="ItemTitleStyle">
-        <item name="android:textSize">@dimen/txt_size_16</item>
-        <item name="android:textColor">@color/text_color_66</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
-
-    <style name="ItemSubTitleStyle">
-        <item name="android:textSize">@dimen/txt_size_14</item>
-        <item name="android:textColor">@color/text_color_99</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:lineSpacingMultiplier">1.2</item>
-    </style>
-
-    <style name="titleIntroStyle">
-        <item name="android:textSize">@dimen/txt_size_12</item>
-        <item name="android:textColor">@color/text_color_99</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:lineSpacingMultiplier">1.0</item>
-    </style>
 </resources>

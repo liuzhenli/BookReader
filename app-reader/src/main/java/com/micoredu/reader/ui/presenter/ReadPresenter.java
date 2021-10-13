@@ -8,6 +8,10 @@ import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.common.base.RxPresenter;
 import com.liuzhenli.common.observer.SampleProgressObserver;
 import com.liuzhenli.common.utils.ThreadUtils;
+import com.liuzhenli.common.utils.filepicker.util.DateUtils;
+import com.micoredu.reader.bean.BookInfoBean;
+import com.micoredu.reader.bean.ReadHistory;
+import com.micoredu.reader.dao.ReadHistoryDao;
 import com.micoredu.reader.ui.contract.ReadContract;
 import com.liuzhenli.common.utils.ToastUtil;
 import com.micoredu.reader.bean.BookChapterBean;
@@ -39,6 +43,10 @@ public class ReadPresenter extends RxPresenter<ReadContract.View> implements Rea
 
     private List<BookChapterBean> chapterList = new ArrayList<>();
     private ChangeSourceHelper changeSourceHelp;
+    private BookInfoBean bookInfo;
+    private ReadHistoryDao readHistoryDao;
+    private long mReadStartTime = System.currentTimeMillis();
+    private ReadHistory mReadHistory = new ReadHistory();
 
     @Inject
     public ReadPresenter() {
@@ -64,6 +72,23 @@ public class ReadPresenter extends RxPresenter<ReadContract.View> implements Rea
                 mView.showBookInfo(book);
             }
         }));
+    }
+
+    @Override
+    public void updateBookInfo(BookInfoBean bookInfo) {
+        this.bookInfo = bookInfo;
+        readHistoryDao = AppReaderDbHelper.getInstance().getDatabase().getReadHistoryDao();
+        ReadHistory readHistory = readHistoryDao.getByBookName(bookInfo.getName(), DateUtils.getToadyMillis());
+        if (readHistory != null) {
+            mReadHistory = readHistory;
+        } else {
+            mReadHistory.bookName = bookInfo.getName();
+            mReadHistory.authorName = bookInfo.getAuthor();
+            mReadHistory.bookCover = bookInfo.getCoverUrl();
+            mReadHistory.noteUrl = bookInfo.getNoteUrl();
+            mReadHistory.type = bookInfo.getBookSourceType();
+            mReadHistory.dayMillis = DateUtils.getToadyMillis();
+        }
     }
 
     @Override
@@ -120,6 +145,20 @@ public class ReadPresenter extends RxPresenter<ReadContract.View> implements Rea
                 mView.showChangeBookSourceResult(null);
             }
         });
+    }
+
+    @Override
+    public void saveReadHistory() {
+        ThreadUtils.getInstance().getExecutorService().execute(() -> {
+            if (System.currentTimeMillis() - mReadStartTime > 20 * 60 * 1000) {
+                mReadHistory.sumTime += 20 * 60 * 1000;
+            } else {
+                mReadHistory.sumTime += (System.currentTimeMillis() - mReadStartTime);
+            }
+            readHistoryDao.insertOrReplace(mReadHistory);
+            mReadStartTime = System.currentTimeMillis();
+        });
+
     }
 
     public void setChapterList(List<BookChapterBean> chapters) {

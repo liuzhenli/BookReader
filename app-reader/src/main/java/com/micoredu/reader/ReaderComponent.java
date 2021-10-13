@@ -5,6 +5,7 @@ import com.liuzhenli.common.module.AppModule;
 import com.micoredu.reader.ui.activity.BookSourceActivity;
 import com.micoredu.reader.ui.activity.DownloadActivity;
 import com.micoredu.reader.ui.activity.EditSourceActivity;
+import com.micoredu.reader.ui.activity.ReadHistoryActivity;
 import com.micoredu.reader.ui.activity.ReaderActivity;
 import com.micoredu.reader.ui.activity.TestSourceActivity;
 
@@ -30,4 +31,6 @@ public interface ReaderComponent {
     void inject(EditSourceActivity editSourceActivity);
 
     void inject(TestSourceActivity testSourceActivity);
+
+    void inject(ReadHistoryActivity readHistoryActivity);
 }

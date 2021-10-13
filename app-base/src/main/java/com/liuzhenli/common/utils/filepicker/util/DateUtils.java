@@ -3,6 +3,8 @@ package com.liuzhenli.common.utils.filepicker.util;
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 
+import com.liuzhenli.common.constant.AppConstant;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.text.ParseException;
@@ -30,7 +32,8 @@ public class DateUtils extends android.text.format.DateUtils {
     @Retention(RetentionPolicy.SOURCE)
     public @interface DifferenceMode {
     }
-    public static String format(Date date){
+
+    public static String format(Date date) {
         return sd.format(date);
     }
 
@@ -327,6 +330,16 @@ public class DateUtils extends android.text.format.DateUtils {
             e.printStackTrace();
         }
         return strDate;
+    }
+
+    public static long getToadyMillis() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(AppConstant.FORMAT_FILE_DATE, Locale.CHINA);
+        try {
+            return simpleDateFormat.parse(simpleDateFormat.format(System.currentTimeMillis())).getTime();
+        } catch (ParseException | NullPointerException e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
 }
