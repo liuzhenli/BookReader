@@ -599,7 +599,7 @@ public final class TimeUtils {
         long now = System.currentTimeMillis();
         long span = now - millis;
         if (span < 0)
-            // U can read http://www.apihome.cn/api/java/Formatter.html to understand it.
+        // U can read http://www.apihome.cn/api/java/Formatter.html to understand it.
         {
             return String.format("%tc", millis);
         }
@@ -1430,5 +1430,21 @@ public final class TimeUtils {
             }
         }
         return sb.toString();
+    }
+
+    public static String formatToHour(long millis) {
+        long sec = 1000;
+        long min = 60 * sec;
+        long hour = 60 * min;
+        //不足一分钟
+        if (millis < min) {
+            return millis * 1.0 / sec + "秒";
+            //不足一小时
+        } else if (millis < hour) {
+            return millis / min + "分" + millis % min / sec + "秒";
+            //转换成小时
+        } else {
+            return millis / hour + "小时" + millis % hour / min + "分" + millis % hour % min / sec + "秒";
+        }
     }
 }

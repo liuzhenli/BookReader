@@ -190,6 +190,7 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
 
         if (mBookShelf != null && mPresenter.getChapterList().isEmpty()) {
             mPresenter.setChapterList(BookshelfHelper.getChapterList(mBookShelf.getNoteUrl()));
+            mPresenter.updateBookInfo(mBookShelf.getBookInfoBean());
             mIsInBookShelf = BookshelfHelper.isInBookShelf(mBookShelf.getNoteUrl());
         } else {
             mBookShelf = new BookShelfBean();
@@ -389,6 +390,7 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
                 if (mIsInBookShelf) {
                     mPresenter.saveProgress(mBookShelf);
                 }
+                mPresenter.saveReadHistory();
             }
 
             @Override

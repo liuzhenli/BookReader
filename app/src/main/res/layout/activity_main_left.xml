@@ -17,6 +17,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/mViewReadHistory"
+        style="@style/ItemTitleStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/all_item_height"
+        android:background="?android:attr/selectableItemBackground"
+        android:drawableLeft="@drawable/ic_main_left_book_source"
+        android:drawablePadding="@dimen/common_space_normal"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/common_space_large"
+        android:text="@string/book_source" />
+
+    <TextView
         android:id="@+id/mViewBookSourceManager"
         style="@style/ItemTitleStyle"
         android:layout_width="match_parent"

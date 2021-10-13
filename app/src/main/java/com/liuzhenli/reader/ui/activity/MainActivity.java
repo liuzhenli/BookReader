@@ -1,17 +1,20 @@
 package com.liuzhenli.reader.ui.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.google.android.material.tabs.TabLayout;
 import com.hwangjr.rxbus.annotation.Subscribe;
@@ -152,6 +155,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             }
         });
         //setting
+        ClickUtils.click(inflate.viewMainLeft.mViewReadHistory, o -> {
+            ARouter.getInstance().build(ARouterConstants.ACT_READ_HISTORY).navigation();
+        });
+        //setting
         ClickUtils.click(inflate.viewMainLeft.mViewSetting, o -> {
             SettingActivity.start(mContext);
         });
@@ -261,6 +268,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         Backup.INSTANCE.autoBack();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void showCheckBackupPathResult(boolean isEmpty) {
         if (isEmpty) {

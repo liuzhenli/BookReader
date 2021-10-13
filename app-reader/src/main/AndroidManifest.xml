@@ -4,6 +4,7 @@
 
     <application>
         <activity android:name="com.micoredu.reader.ui.activity.BaseReaderActivity"></activity>
+        <activity android:name=".ui.activity.ReadHistoryActivity" />
     </application>
 
 </manifest>
