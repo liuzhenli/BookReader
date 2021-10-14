@@ -31,6 +31,8 @@ import com.liuzhenli.common.utils.FillContentUtil;
 import com.liuzhenli.common.base.BaseActivity;
 import com.liuzhenli.common.utils.IntentUtils;
 import com.liuzhenli.common.utils.L;
+import com.liuzhenli.common.utils.TimeUtils;
+import com.liuzhenli.common.utils.filepicker.util.DateUtils;
 import com.liuzhenli.reader.DaggerReadBookComponent;
 import com.liuzhenli.reader.ui.adapter.MainTabAdapter;
 import com.liuzhenli.common.utils.Constant;
@@ -40,6 +42,7 @@ import com.liuzhenli.reader.ui.presenter.MainPresenter;
 import com.liuzhenli.reader.utils.JumpToLastPageUtil;
 import com.liuzhenli.reader.view.ChoseBackupFolderDialog;
 import com.micoredu.reader.bean.BookSourceBean;
+import com.micoredu.reader.helper.AppReaderDbHelper;
 import com.micoredu.reader.ui.activity.BookSourceActivity;
 import com.liuzhenli.reader.utils.storage.Backup;
 import com.microedu.reader.R;
@@ -154,7 +157,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 inflate.mMaterialMenu.setTransformationOffset(MaterialMenuDrawable.AnimationState.BURGER_ARROW, 2 - slideOffset);
             }
         });
-        //setting
+        //read history
         ClickUtils.click(inflate.viewMainLeft.mViewReadHistory, o -> {
             ARouter.getInstance().build(ARouterConstants.ACT_READ_HISTORY).navigation();
         });
@@ -229,6 +232,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     }
 
     private void requestPermissions() {
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        upDataReadTime(true);
     }
 
     @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusTag.CHANGE_DISCOVER_BOOK_SOURCE)})
@@ -309,5 +318,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 choseBackupFolderDialogBuilder.setFolderEnable(true);
             }
         }
+    }
+
+    @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusTag.UPDATE_READ)})
+    public void upDataReadTime(Boolean change) {
+        String all = TimeUtils.formatToHour(AppReaderDbHelper.getInstance().getDatabase().getReadHistoryDao().getAllTime());
+        String today = TimeUtils.formatToHour(AppReaderDbHelper.getInstance().getDatabase().getReadHistoryDao().getTodayAllTime(DateUtils.getToadyMillis()));
+        inflate.viewMainLeft.mViewReadHistory.setText(String.format(getResources().getString(R.string.read_records), all, today));
     }
 }

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mDrawLeft"
-    android:layout_width="260dp"
+    android:layout_width="280dp"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:fitsSystemWindows="true"
@@ -18,7 +18,7 @@
 
     <TextView
         android:id="@+id/mViewReadHistory"
-        style="@style/ItemTitleStyle"
+        style="@style/ItemSubTitleStyle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/all_item_height"
         android:background="?android:attr/selectableItemBackground"
@@ -26,7 +26,7 @@
         android:drawablePadding="@dimen/common_space_normal"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/common_space_large"
-        android:text="@string/book_source" />
+        android:text="@string/read_records" />
 
     <TextView
         android:id="@+id/mViewBookSourceManager"

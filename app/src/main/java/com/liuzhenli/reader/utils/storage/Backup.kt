@@ -58,7 +58,8 @@ object Backup {
             "myBookSearchHistory.json",
             "myBookReplaceRule.json",
             "myTxtChapterRule.json",
-            "mmvConfig.json"
+            "mmvConfig.json",
+            "myReadHistory.json"
         )
     }
 
@@ -125,14 +126,20 @@ object Backup {
                         .writeText(json)
                 }
             }
-
+            AppReaderDbHelper.getInstance().database.readHistoryDao.all.let {
+                if (it.isNotEmpty()) {
+                    val json = GsonUtil.toJson(it)
+                    FileHelp.createFileIfNotExist(backupPath + File.separator + "myReadHistory.json")
+                        .writeText(json)
+                }
+            }
             //备份mmkv 文件
             SharedPreferencesUtil.getInstance().prefs.allKeys().let {
                 val list: ArrayList<MMKVBean> = ArrayList()
                 for (i in 0 until (it!!.size)) {
                     val key = it[i]
                     val objectValue = SharedPreferencesUtil.getInstance().getObjectValue(key)
-                    var type: String = when (objectValue) {
+                    val type: String = when (objectValue) {
                         is Int -> MMKVBean.Type.INT
                         is Boolean -> MMKVBean.Type.BOOL
                         is Float -> MMKVBean.Type.FLOAT

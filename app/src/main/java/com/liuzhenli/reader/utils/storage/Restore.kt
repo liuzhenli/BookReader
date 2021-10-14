@@ -93,6 +93,15 @@ object Restore {
                 e.printStackTrace()
             }
             try {
+                val file = FileHelp.createFileIfNotExist(path + File.separator + "myReadHistory.json")
+                val json = file.readText()
+                GsonUtil.fromJsonArray<ReadHistory>(json)?.let {
+                    AppReaderDbHelper.getInstance().database.readHistoryDao.insertOrReplace(it)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            try {
                 val file = FileHelp.createFileIfNotExist(path + File.separator + "myBookReplaceRule.json")
                 val json = file.readText()
                 GsonUtil.fromJsonArray<ReplaceRuleBean>(json)?.let {

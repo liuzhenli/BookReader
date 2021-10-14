@@ -155,6 +155,7 @@ public class ReadPresenter extends RxPresenter<ReadContract.View> implements Rea
             } else {
                 mReadHistory.sumTime += (System.currentTimeMillis() - mReadStartTime);
             }
+            RxBus.get().post(RxBusTag.UPDATE_READ, true);
             readHistoryDao.insertOrReplace(mReadHistory);
             mReadStartTime = System.currentTimeMillis();
         });
