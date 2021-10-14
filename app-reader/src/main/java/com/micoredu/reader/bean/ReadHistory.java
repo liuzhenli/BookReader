@@ -2,6 +2,7 @@ package com.micoredu.reader.bean;
 
 
 import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 /**
  * Description:浏览历史
@@ -9,9 +10,10 @@ import androidx.room.Entity;
  * @author liuzhenli 2021/1/29
  * Email: 848808263@qq.com
  */
-@Entity(tableName = "readHistory", primaryKeys = "dayMillis")
+@Entity(tableName = "readHistory")
 public class ReadHistory {
-
+    @PrimaryKey(autoGenerate = true)
+    public Long id = null;
     public String bookCover;
     public String type;
     public String bookName;

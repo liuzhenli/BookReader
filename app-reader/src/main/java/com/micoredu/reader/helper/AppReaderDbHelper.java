@@ -3,6 +3,7 @@ package com.micoredu.reader.helper;
 import androidx.annotation.NonNull;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.liuzhenli.common.BaseApplication;
@@ -10,6 +11,8 @@ import com.micoredu.reader.dao.AppReaderDatabase;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -36,9 +39,18 @@ public class AppReaderDbHelper {
     }
 
     private AppReaderDbHelper() {
+        //"CREATE TABLE IF NOT EXISTS `readHistory` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `bookCover` TEXT, `type` TEXT, `bookName` TEXT, `authorName` TEXT, `noteUrl` TEXT, `dayMillis` INTEGER NOT NULL, `sumTime` INTEGER NOT NULL)"
+        Migration migration1 = new Migration(1, 2) {
+            @Override
+            public void migrate(@NonNull SupportSQLiteDatabase database) {
+                //"CREATE TABLE IF NOT EXISTS `readHistory` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `bookCover` TEXT, `type` TEXT, `bookName` TEXT, `authorName` TEXT, `noteUrl` TEXT, `dayMillis` INTEGER NOT NULL, `sumTime` INTEGER NOT NULL)"
+                String sql = "ALTER TABLE readHistory Add id INTEGER PRIMARY KEY AUTOINCREMENT";
+                database.execSQL(sql);
+            }
+        };
         mDatabase = Room.databaseBuilder(BaseApplication.getInstance(), AppReaderDatabase.class, DATABASE_NAME)
                 .fallbackToDestructiveMigration()
-                .addMigrations()
+                .addMigrations(migration1)
                 .allowMainThreadQueries()//允许在主线程中查询
                 .addCallback(new RoomDatabase.Callback() {
                     @Override
@@ -58,6 +70,5 @@ public class AppReaderDbHelper {
     public SupportSQLiteDatabase getSqliteDatabase() {
         return mDatabase.getOpenHelper().getReadableDatabase();
     }
-
 
 }

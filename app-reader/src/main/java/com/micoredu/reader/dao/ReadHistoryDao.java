@@ -21,7 +21,7 @@ public interface ReadHistoryDao {
     @Query("select * from readHistory")
     List<ReadHistory> getAll();
 
-    @Query("select bookCover,type,bookName,authorName,noteUrl,dayMillis, sum(sumTime) as sumTime from readHistory group by bookName order by dayMillis")
+    @Query("select id,bookCover,type,bookName,authorName,noteUrl,dayMillis, sum(sumTime) as sumTime from readHistory group by bookName order by dayMillis")
     List<ReadHistory> getAllGroupByBookName();
 
     @Query("select * from readHistory where bookName=:bookName and dayMillis=:dayMillis")
@@ -30,8 +30,14 @@ public interface ReadHistoryDao {
     @Query("select sum(sumTime) from readHistory")
     long getAllTime();
 
+    @Query("select sum(sumTime) from readHistory where dayMillis=:dayMillis")
+    long getTodayAllTime(long dayMillis);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertOrReplace(ReadHistory readHistory);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertOrReplace(List<ReadHistory> readHistory);
 
     @Query("delete from readHistory where bookName = :bookName")
     void deleteByBookName(String bookName);

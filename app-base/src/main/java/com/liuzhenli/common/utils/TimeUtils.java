@@ -1438,7 +1438,7 @@ public final class TimeUtils {
         long hour = 60 * min;
         //不足一分钟
         if (millis < min) {
-            return millis * 1.0 / sec + "秒";
+            return millis / sec + "秒";
             //不足一小时
         } else if (millis < hour) {
             return millis / min + "分" + millis % min / sec + "秒";
