@@ -70,7 +70,7 @@ public class ChoseBackupFolderDialog extends QMUIDialog {
                 setFolderEnable(false);
             });
             setFolderEnable(false);
-            return root;
+            return wrapWithScroll(root);
         }
 
 

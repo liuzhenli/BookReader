@@ -1,12 +1,15 @@
 package com.liuzhenli.reader.ui.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
@@ -283,10 +286,15 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         if (isEmpty) {
             choseBackupFolderDialogBuilder = new ChoseBackupFolderDialog.ChoseBackupFolderDialogBuilder(this);
             choseBackupFolderDialogBuilder.setCanceledOnTouchOutside(false)
-                    .setSelectClickListener(v -> IntentUtils.openMobileDir(MainActivity.this, IntentUtils.REQUEST_CODE_OPEN_MOBILE_DIR))
-                    .setOkClickListener(v -> {
-                        qmuiDialog.dismiss();
-                    })
+                    .setSelectClickListener(v ->
+                            MainActivity.this.registerForActivityResult(new ActivityResultContracts.OpenDocumentTree(), result -> {
+                                if (result != null) {
+                                    getContentResolver().takePersistableUriPermission(result, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                                    AppSharedPreferenceHelper.setBackupPath(result.toString());
+                                    choseBackupFolderDialogBuilder.setFolderEnable(true);
+                                }
+                            }).launch(null))
+                    .setOkClickListener(v -> qmuiDialog.dismiss())
                     .setCancelable(false);
             qmuiDialog = choseBackupFolderDialogBuilder.create();
             qmuiDialog.show();
@@ -306,18 +314,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Override
     public void complete() {
 
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (data != null && data.getData() != null && requestCode == IntentUtils.REQUEST_CODE_OPEN_MOBILE_DIR) {
-                BaseApplication.getInstance().getContentResolver().takePersistableUriPermission(data.getData(), Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                AppSharedPreferenceHelper.setBackupPath(data.getData().toString());
-                choseBackupFolderDialogBuilder.setFolderEnable(true);
-            }
-        }
     }
 
     @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusTag.UPDATE_READ)})
