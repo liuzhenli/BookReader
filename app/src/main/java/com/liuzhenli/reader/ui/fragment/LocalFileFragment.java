@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -57,6 +58,7 @@ public class LocalFileFragment extends BaseFragment<LocalFilePresenter> implemen
     private FragmentLocalfileBinding inflate;
     private DocumentFile rootDoc;
     private List<DocumentFile> subDocs = new ArrayList<>();
+    private TextView mTvEmptyText;
 
     @Override
     public View bindContentView(LayoutInflater inflater, ViewGroup container, boolean attachParent) {
@@ -78,6 +80,7 @@ public class LocalFileFragment extends BaseFragment<LocalFilePresenter> implemen
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void initData() {
+        mTvEmptyText = inflate.recyclerView.getEmptyView().findViewById(R.id.tv_empty_text);
         initRootDoc();
     }
 
@@ -157,6 +160,9 @@ public class LocalFileFragment extends BaseFragment<LocalFilePresenter> implemen
 
     @Override
     public void showDirectory(ArrayList<FileItem> data, File file) {
+        if (data.size() == 0) {
+            mTvEmptyText.setText("空空如也(*^_^)");
+        }
         dismissDialog();
         mAdapter.clear();
         mAdapter.addAll(data);
@@ -251,6 +257,7 @@ public class LocalFileFragment extends BaseFragment<LocalFilePresenter> implemen
         if (DeviceUtil.isLaterQ()) {
             String path = AppSharedPreferenceHelper.getImportLocalBookPath();
             if (path == null) {
+                mTvEmptyText.setText("点击右上角文件夹图标,选择文件夹");
                 ((ImportLocalBookActivity) activity).openMobileDir();
             } else if (FileUtils.isContentFile(path)) {
                 Uri parse = Uri.parse(path);
