@@ -3,6 +3,7 @@ package com.liuzhenli.reader.ui.activity;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -10,6 +11,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
 
 import com.liuzhenli.common.AppComponent;
@@ -33,6 +35,7 @@ import com.microedu.reader.databinding.ActImportlocalbookBinding;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,11 +46,13 @@ import java.util.List;
  *
  * @author Liuzhenli on 2019-12-14 18:19
  */
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPresenter> implements ImportLocalBookContract.View {
 
     private static final int INTENT_CODE_IMPORT_BOOK_PATH = 110;
     private boolean mSelectAll;
     private ActImportlocalbookBinding inflate;
+    private QMUIDialog mOpenDirDialog;
 
     public static void start(Context context) {
         context.startActivity(new Intent(context, ImportLocalBookActivity.class));
@@ -136,7 +141,14 @@ public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPres
                 LocalFileFragment fragment = (LocalFileFragment) (mFragmentList.get(getCurrentPagePosition()));
                 List<FileItem> selectedBooks = fragment.getSelectedBooks();
                 for (FileItem selectedBook : selectedBooks) {
-                    FileUtils.deleteFile(selectedBook.file);
+                    if (FileUtils.isContentFile(selectedBook.path)) {
+                        DocumentFile documentFile = DocumentFile.fromSingleUri(mContext, Uri.parse(selectedBook.path));
+                        if (documentFile != null) {
+                            documentFile.delete();
+                        }
+                    } else {
+                        FileUtils.deleteFile(new File(selectedBook.getPath()));
+                    }
                 }
                 fragment.notifyDataChanged();
             } else if (mFragmentList.get(getCurrentPagePosition()) instanceof LocalTxtFragment) {
@@ -148,7 +160,14 @@ public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPres
                         List<FileItem> selectedBooks = fragment.getSelectedBooks();
                         for (FileItem selectedBook : selectedBooks) {
                             try {
-                                FileUtils.deleteFile(selectedBook.file);
+                                if (FileUtils.isContentFile(selectedBook.path)) {
+                                    DocumentFile documentFile = DocumentFile.fromSingleUri(mContext, Uri.parse(selectedBook.path));
+                                    if (documentFile != null) {
+                                        documentFile.delete();
+                                    }
+                                } else {
+                                    FileUtils.deleteFile(new File(selectedBook.getPath()));
+                                }
                                 fragment.notifyDataChanged();
                                 ToastUtil.showToast("已经删除");
                                 fragment.refreshData();
@@ -182,6 +201,21 @@ public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPres
         });
 
         String path = AppSharedPreferenceHelper.getImportLocalBookPath();
+
+        mOpenDirDialog = new QMUIDialog.MessageDialogBuilder(mContext)
+                .setTitle("提示")
+                .setMessage("您将选择一个文件夹,异书房将对该文件夹下的文件拥有读写权限")
+                .setCanceledOnTouchOutside(true)
+                .addAction(0, "取消", (dialog, index) -> {
+                    dialog.dismiss();
+                })
+                .addAction(0, "确定", (dialog, index) -> {
+                            dialog.dismiss();
+                            IntentUtils.openMobileDir(ImportLocalBookActivity.this, INTENT_CODE_IMPORT_BOOK_PATH);
+                        }
+                )
+                .create();
+
         if (TextUtils.isEmpty(path) && DeviceUtil.isLaterQ()) {
             openMobileDir();
         }
@@ -212,9 +246,10 @@ public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPres
 
     }
 
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void openMobileDir() {
-        IntentUtils.openMobileDir(this, INTENT_CODE_IMPORT_BOOK_PATH);
+        mOpenDirDialog.show();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

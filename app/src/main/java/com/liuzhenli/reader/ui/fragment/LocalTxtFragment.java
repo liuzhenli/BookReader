@@ -1,9 +1,11 @@
 package com.liuzhenli.reader.ui.fragment;
 
 import android.Manifest;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -34,6 +36,7 @@ import java.util.List;
 public class LocalTxtFragment extends BaseRVFragment<LocalTxtPresenter, FileItem> implements LocalTxtContract.View {
 
     private FragmentLocaltxtBinding inflate;
+    private TextView mTvEmptyText;
 
     @Override
     public View bindContentView(LayoutInflater inflater, ViewGroup container, boolean attachParent) {
@@ -54,6 +57,7 @@ public class LocalTxtFragment extends BaseRVFragment<LocalTxtPresenter, FileItem
     public void configViews() {
         initAdapter(LocalTxtAdapter.class, false, false, true);
         refreshData();
+        mTvEmptyText = mRecyclerView.getEmptyView().findViewById(R.id.tv_empty_text);
     }
 
 
@@ -76,6 +80,11 @@ public class LocalTxtFragment extends BaseRVFragment<LocalTxtPresenter, FileItem
 
     @Override
     public void showLocalTxt(List<FileItem> fileList) {
+        if (DeviceUtil.isLaterQ() && TextUtils.isEmpty(AppSharedPreferenceHelper.getImportLocalBookPath())) {
+            mTvEmptyText.setText("点击右上角文件夹图标,选择文件夹");
+        } else if (fileList.size() == 0) {
+            mTvEmptyText.setText("空空如也(*^_^)");
+        }
         hideDialog();
         if (mAdapter.getCount() > 0) {
             mAdapter.clear();
