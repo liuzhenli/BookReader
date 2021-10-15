@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.liuzhenli.reader.view.roundwidget.RoundConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/common_space_large"
+    app:rv_cornerRadius="4dp">
 
-    <TextView
+    <com.liuzhenli.reader.view.roundwidget.RoundTextView
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/main"
         android:drawableStart="@drawable/ic_directory"
         android:drawablePadding="@dimen/common_space_normal"
         android:padding="@dimen/common_space_large"
@@ -17,7 +18,8 @@
         android:textColor="@color/white"
         android:textSize="@dimen/txt_size_18"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:rv_backgroundColor="@color/main" />
 
     <com.liuzhenli.reader.view.roundwidget.RoundTextView
         android:id="@+id/rv_step_one"
@@ -148,4 +150,4 @@
         app:rv_backgroundColor="@color/main_blue"
         app:rv_cornerRadius="4dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</com.liuzhenli.reader.view.roundwidget.RoundConstraintLayout>
