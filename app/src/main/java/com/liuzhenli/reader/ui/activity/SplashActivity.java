@@ -11,9 +11,10 @@ import android.view.WindowManager;
 import androidx.annotation.Nullable;
 
 import com.liuzhenli.common.AppComponent;
+import com.liuzhenli.common.utils.AppConfigManager;
 import com.liuzhenli.reader.bean.Sayings;
 import com.liuzhenli.common.base.BaseActivity;
-import com.liuzhenli.reader.utils.AppConfigManager;
+import com.liuzhenli.reader.utils.SayingsManager;
 import com.microedu.reader.databinding.ActivitySplashBinding;
 
 
@@ -64,7 +65,7 @@ public class SplashActivity extends BaseActivity {
                 SplashActivity.this.finish();
             }
         });
-        Sayings sayings = AppConfigManager.getInstance().getSayings();
+        Sayings sayings = SayingsManager.getInstance().getSayings();
         inflate.tvSaying.setText(sayings.getSaying());
         inflate.tvSayingAuthor.setText(String.format("BY:%s", sayings.getAuthor()));
     }

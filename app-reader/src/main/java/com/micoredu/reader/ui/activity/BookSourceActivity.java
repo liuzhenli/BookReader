@@ -21,14 +21,10 @@ import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
 import com.liuzhenli.common.constant.ARouterConstants;
 import com.liuzhenli.common.constant.RxBusTag;
-import com.liuzhenli.common.observer.MyObserver;
-import com.liuzhenli.common.utils.DeviceUtil;
-import com.liuzhenli.common.utils.FileUtils;
 import com.liuzhenli.common.base.BaseBean;
+import com.liuzhenli.common.utils.AppConfigManager;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
-import com.liuzhenli.common.utils.PermissionUtil;
 import com.liuzhenli.common.utils.ToastUtil;
-import com.liuzhenli.common.utils.picker.FilePicker;
 import com.micoredu.reader.R;
 import com.micoredu.reader.ReaderBaseRVActivity;
 import com.micoredu.reader.ReaderComponent;
@@ -44,8 +40,6 @@ import com.micoredu.reader.bean.BookSourceBean;
 import com.micoredu.reader.model.BookSourceManager;
 
 import java.util.List;
-
-import io.reactivex.annotations.NonNull;
 
 import static com.liuzhenli.common.utils.AppSharedPreferenceHelper.SortType.SORT_TYPE_AUTO;
 import static com.liuzhenli.common.utils.AppSharedPreferenceHelper.SortType.SORT_TYPE_HAND;
@@ -86,10 +80,16 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
 
     @Override
     protected void initToolBar() {
+        String defaultBookSourceUrl = AppConfigManager.getInstance().getDefaultBookSourceUrl();
         mToolBar.inflateMenu(R.menu.menu_book_source);
+        if (TextUtils.isEmpty(defaultBookSourceUrl)) {
+            mToolBar.getMenu().findItem(R.id.action_fast_import).setVisible(false);
+        }
         mToolBar.setOnMenuItemClickListener(item -> {
             int itemId = item.getItemId();
-            if (itemId == R.id.action_add_book_source) {
+            if (itemId == R.id.action_fast_import) {
+                mPresenter.getNetSource(AppConfigManager.getInstance().getDefaultBookSourceUrl());
+            } else if (itemId == R.id.action_add_book_source) {
                 EditSourceActivity.start(mContext, null);
             } else if (itemId == R.id.action_import_book_source_local) {
                 selectFileSys();

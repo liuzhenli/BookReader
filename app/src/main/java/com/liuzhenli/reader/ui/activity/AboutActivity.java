@@ -17,12 +17,13 @@ import com.liuzhenli.common.BaseApplication;
 import com.liuzhenli.common.BitIntentDataManager;
 import com.liuzhenli.common.constant.AppConstant;
 import com.liuzhenli.common.AppComponent;
+import com.liuzhenli.common.utils.AppConfigManager;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.reader.ReaderApplication;
 import com.liuzhenli.common.base.BaseActivity;
 import com.liuzhenli.reader.bean.Sayings;
-import com.liuzhenli.reader.utils.AppConfigManager;
+import com.liuzhenli.reader.utils.SayingsManager;
 import com.microedu.reader.R;
 import com.microedu.reader.databinding.ActivityAboutBinding;
 
@@ -101,7 +102,7 @@ public class AboutActivity extends BaseActivity {
             mRoot.tvNewVersionInfo.setVisibility(View.GONE);
         }
 
-        Sayings sayings = AppConfigManager.getInstance().getSayings();
+        Sayings sayings = SayingsManager.getInstance().getSayings();
         mRoot.mTvSaying.setText(sayings.getSaying());
 
         String aboutDes = getResources().getString(R.string.about_donate);
