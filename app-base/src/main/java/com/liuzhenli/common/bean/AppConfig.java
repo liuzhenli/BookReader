@@ -1,4 +1,4 @@
-package com.liuzhenli.reader.bean;
+package com.liuzhenli.common.bean;
 
 import com.liuzhenli.common.base.BaseBean;
 
