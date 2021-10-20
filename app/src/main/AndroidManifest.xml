@@ -91,6 +91,7 @@
         <activity android:name="com.liuzhenli.reader.ui.activity.DatabaseTableRecordDetailActivity" />
         <activity android:name="com.liuzhenli.reader.ui.activity.DatabaseTableRecordsActivity" />
         <activity android:name="com.liuzhenli.reader.ui.activity.QrCodeActivity" />
+        <activity android:name="com.liuzhenli.reader.ui.activity.ManageBookShelfActivity" />
 
         <service android:name="com.micoredu.reader.service.CheckSourceService" />
         <service android:name="com.micoredu.reader.service.ReadAloudService" />

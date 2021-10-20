@@ -126,6 +126,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 } else {
                     FillContentUtil.setText(mTvTitle, mainTabAdapter.getPageTitle(mCurrentPosition));
                 }
+                inflate.mDrawLayout.closeDrawer(inflate.viewMainLeft.mDrawLeft);
                 setMenu();
             }
 
@@ -189,24 +190,22 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         switch (mCurrentPosition) {
             case 0:
                 mToolBar.inflateMenu(R.menu.menu_main);
-                mToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.item_search:
-                                SearchActivity.start(mContext);
-                                break;
-                            case R.id.item_add_from_local:
-                                ImportLocalBookActivity.start(mContext);
-                                break;
-                            case R.id.item_arrange_bookshelf:
-                                ImportLocalBookActivity.start(mContext);
-                                break;
-                            default:
-                                break;
-                        }
-                        return false;
+                mToolBar.setOnMenuItemClickListener(item -> {
+                    inflate.mDrawLayout.closeDrawer(inflate.viewMainLeft.mDrawLeft);
+                    switch (item.getItemId()) {
+                        case R.id.item_search:
+                            SearchActivity.start(mContext);
+                            break;
+                        case R.id.item_add_from_local:
+                            ImportLocalBookActivity.start(mContext);
+                            break;
+                        case R.id.item_arrange_bookshelf:
+                            ManageBookShelfActivity.Companion.start(mContext);
+                            break;
+                        default:
+                            break;
                     }
+                    return false;
                 });
                 break;
             case 1:
@@ -214,6 +213,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 mToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
+                        inflate.mDrawLayout.closeDrawer(inflate.viewMainLeft.mDrawLeft);
                         switch (item.getItemId()) {
                             case R.id.item_search:
                                 SearchActivity.start(mContext);
@@ -320,6 +320,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     public void upDataReadTime(Boolean change) {
         String all = TimeUtils.formatToHour(AppReaderDbHelper.getInstance().getDatabase().getReadHistoryDao().getAllTime());
         String today = TimeUtils.formatToHour(AppReaderDbHelper.getInstance().getDatabase().getReadHistoryDao().getTodayAllTime(DateUtils.getToadyMillis()));
-        inflate.viewMainLeft.mViewReadHistory.setText(String.format(getResources().getString(R.string.read_records), all, today));
+        inflate.viewMainLeft.mViewReadHistory.setText(String.format(getResources().getString(R.string.read_records), today));
     }
 }

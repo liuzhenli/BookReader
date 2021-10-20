@@ -15,7 +15,7 @@
     <string name="book_local">添加本地</string>
     <string name="book_source_manage">书源管理</string>
     <string name="book_source">书源</string>
-    <string name="read_records">累计阅读:%s · 今日阅读:%s</string>
+    <string name="read_records">今日阅读:%s</string>
     <string name="type_un_correct">格式不对</string>
 
     <string name="network_unusable">似乎没有网络哦</string>
