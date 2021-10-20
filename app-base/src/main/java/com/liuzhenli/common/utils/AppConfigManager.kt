@@ -19,6 +19,7 @@ open class AppConfigManager {
     }
     private fun getAppConfig(): AppConfig? {
         val str = UMRemoteConfig.getInstance().getConfigValue("appConfig")
+        L.e(str)
         return if (TextUtils.isEmpty(str)) {
             null
         } else GsonUtils.toBean(str, AppConfig::class.java)

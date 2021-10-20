@@ -46,7 +46,6 @@ import java.util.List;
  *
  * @author Liuzhenli on 2019-12-14 18:19
  */
-@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPresenter> implements ImportLocalBookContract.View {
 
     private static final int INTENT_CODE_IMPORT_BOOK_PATH = 110;

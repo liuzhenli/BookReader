@@ -9,6 +9,7 @@ import com.liuzhenli.reader.ui.activity.DatabaseTableListActivity;
 import com.liuzhenli.reader.ui.activity.ImportLocalBookActivity;
 import com.liuzhenli.reader.ui.activity.LoginActivity;
 import com.liuzhenli.reader.ui.activity.MainActivity;
+import com.liuzhenli.reader.ui.activity.ManageBookShelfActivity;
 import com.liuzhenli.reader.ui.activity.SearchActivity;
 import com.liuzhenli.reader.ui.activity.SettingActivity;
 import com.liuzhenli.reader.ui.fragment.BookCategoryFragment;
@@ -17,6 +18,8 @@ import com.liuzhenli.reader.ui.fragment.DiscoverFragment;
 import com.liuzhenli.reader.ui.fragment.LocalFileFragment;
 import com.liuzhenli.reader.ui.fragment.LocalTxtFragment;
 
+
+import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Singleton;
 
@@ -56,4 +59,6 @@ public interface ReadBookComponent {
     void inject(LoginActivity loginActivity);
 
     void inject(MainActivity mainActivity);
+
+    void inject(@NotNull ManageBookShelfActivity manageBookShelfActivity);
 }

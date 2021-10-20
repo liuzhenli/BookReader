@@ -18,11 +18,11 @@
 
     <TextView
         android:id="@+id/mViewReadHistory"
-        style="@style/ItemSubTitleStyle"
+        style="@style/ItemTitleStyle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/all_item_height"
         android:background="?android:attr/selectableItemBackground"
-        android:drawableLeft="@drawable/ic_main_left_book_source"
+        android:drawableLeft="@drawable/ic_main_left_history"
         android:drawablePadding="@dimen/common_space_normal"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/common_space_large"
