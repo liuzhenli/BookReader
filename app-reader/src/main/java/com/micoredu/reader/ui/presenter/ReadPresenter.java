@@ -1,6 +1,8 @@
 package com.micoredu.reader.ui.presenter;
 
 
+import androidx.annotation.NonNull;
+
 import com.hwangjr.rxbus.RxBus;
 import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.utils.FileUtils;
@@ -56,19 +58,14 @@ public class ReadPresenter extends RxPresenter<ReadContract.View> implements Rea
 
     @Override
     public void getBookInfo(String url) {
-        Observable<BookShelfBean> observable = Observable.create(new ObservableOnSubscribe<BookShelfBean>() {
-            @Override
-            public void subscribe(ObservableEmitter<BookShelfBean> emitter) throws Exception {
-                BookShelfBean bookShelf = mView.getBookShelf();
-
-                emitter.onNext(null);
-            }
+        Observable<BookShelfBean> observable = Observable.create(emitter -> {
+            BookShelfBean bookShelf = mView.getBookShelf();
+            emitter.onNext(null);
         });
-
 
         addSubscribe(RxUtil.subscribe(observable, new SampleProgressObserver<BookShelfBean>() {
             @Override
-            public void onNext(BookShelfBean book) {
+            public void onNext(@NonNull BookShelfBean book) {
                 mView.showBookInfo(book);
             }
         }));
@@ -156,7 +153,12 @@ public class ReadPresenter extends RxPresenter<ReadContract.View> implements Rea
                 mReadHistory.sumTime += (System.currentTimeMillis() - mReadStartTime);
             }
             RxBus.get().post(RxBusTag.UPDATE_READ, true);
-            readHistoryDao.insertOrReplace(mReadHistory);
+            ReadHistory byBookName = readHistoryDao.getByBookName(mReadHistory.bookName, mReadHistory.dayMillis);
+            if (byBookName == null) {
+                readHistoryDao.insertOrReplace(mReadHistory);
+            } else {
+                readHistoryDao.update(mReadHistory);
+            }
             mReadStartTime = System.currentTimeMillis();
         });
 
@@ -165,7 +167,8 @@ public class ReadPresenter extends RxPresenter<ReadContract.View> implements Rea
     public void setChapterList(List<BookChapterBean> chapters) {
         this.chapterList = chapters;
         if (chapterList != null && chapterList.size() > 0) {
-            ThreadUtils.getInstance().getExecutorService().execute(() -> AppReaderDbHelper.getInstance().getDatabase().getBookChapterDao().insertOrReplaceInTx(chapterList));
+            ThreadUtils.getInstance().getExecutorService().execute(() ->
+                    AppReaderDbHelper.getInstance().getDatabase().getBookChapterDao().insertOrReplaceInTx(chapterList));
         }
     }
 
