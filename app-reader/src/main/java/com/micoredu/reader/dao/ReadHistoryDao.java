@@ -5,6 +5,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.micoredu.reader.bean.ReadHistory;
 
@@ -35,6 +36,9 @@ public interface ReadHistoryDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertOrReplace(ReadHistory readHistory);
+
+    @Update()
+    void update(ReadHistory readHistory);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertOrReplace(List<ReadHistory> readHistory);
