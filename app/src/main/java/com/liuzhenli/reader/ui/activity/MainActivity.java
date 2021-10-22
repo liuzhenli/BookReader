@@ -1,16 +1,13 @@
 package com.liuzhenli.reader.ui.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -23,35 +20,31 @@ import com.google.android.material.tabs.TabLayout;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
-import com.liuzhenli.common.BaseApplication;
+import com.liuzhenli.common.AppComponent;
+import com.liuzhenli.common.base.BaseActivity;
 import com.liuzhenli.common.constant.ARouterConstants;
 import com.liuzhenli.common.constant.RxBusTag;
-import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.common.utils.ClickUtils;
-import com.liuzhenli.common.utils.DeviceUtil;
+import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.common.utils.FillContentUtil;
-import com.liuzhenli.common.base.BaseActivity;
-import com.liuzhenli.common.utils.IntentUtils;
 import com.liuzhenli.common.utils.L;
 import com.liuzhenli.common.utils.TimeUtils;
 import com.liuzhenli.common.utils.filepicker.util.DateUtils;
 import com.liuzhenli.reader.DaggerReadBookComponent;
 import com.liuzhenli.reader.ui.adapter.MainTabAdapter;
-import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.reader.ui.contract.MainContract;
 import com.liuzhenli.reader.ui.fragment.DiscoverFragment;
 import com.liuzhenli.reader.ui.presenter.MainPresenter;
 import com.liuzhenli.reader.utils.JumpToLastPageUtil;
+import com.liuzhenli.reader.utils.storage.Backup;
 import com.liuzhenli.reader.view.ChoseBackupFolderDialog;
 import com.micoredu.reader.bean.BookSourceBean;
 import com.micoredu.reader.helper.AppReaderDbHelper;
 import com.micoredu.reader.ui.activity.BookSourceActivity;
-import com.liuzhenli.reader.utils.storage.Backup;
 import com.microedu.reader.R;
 import com.microedu.reader.databinding.ActivityMainContainerBinding;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
-import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 
 /**
  * @author liuzhenli

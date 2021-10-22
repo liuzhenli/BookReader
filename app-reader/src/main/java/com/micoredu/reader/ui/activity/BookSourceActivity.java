@@ -1,7 +1,10 @@
 package com.micoredu.reader.ui.activity;
 
 
-import android.Manifest;
+import static com.liuzhenli.common.utils.AppSharedPreferenceHelper.SortType.SORT_TYPE_AUTO;
+import static com.liuzhenli.common.utils.AppSharedPreferenceHelper.SortType.SORT_TYPE_HAND;
+import static com.liuzhenli.common.utils.AppSharedPreferenceHelper.SortType.SORT_TYPE_PINYIN;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -19,31 +22,27 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
+import com.liuzhenli.common.base.BaseBean;
 import com.liuzhenli.common.constant.ARouterConstants;
 import com.liuzhenli.common.constant.RxBusTag;
-import com.liuzhenli.common.base.BaseBean;
 import com.liuzhenli.common.utils.AppConfigManager;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.common.utils.ToastUtil;
+import com.liuzhenli.common.widget.DialogUtil;
 import com.micoredu.reader.R;
 import com.micoredu.reader.ReaderBaseRVActivity;
 import com.micoredu.reader.ReaderComponent;
+import com.micoredu.reader.bean.BookSourceBean;
 import com.micoredu.reader.databinding.ActivityBookSourceBinding;
+import com.micoredu.reader.model.BookSourceManager;
 import com.micoredu.reader.service.CheckSourceService;
 import com.micoredu.reader.service.ShareService;
 import com.micoredu.reader.ui.adapter.BookSourceAdapter;
 import com.micoredu.reader.ui.adapter.BookSourceFilterMenuAdapter;
 import com.micoredu.reader.ui.contract.BookSourceContract;
 import com.micoredu.reader.ui.presenter.BookSourcePresenter;
-import com.liuzhenli.common.widget.DialogUtil;
-import com.micoredu.reader.bean.BookSourceBean;
-import com.micoredu.reader.model.BookSourceManager;
 
 import java.util.List;
-
-import static com.liuzhenli.common.utils.AppSharedPreferenceHelper.SortType.SORT_TYPE_AUTO;
-import static com.liuzhenli.common.utils.AppSharedPreferenceHelper.SortType.SORT_TYPE_HAND;
-import static com.liuzhenli.common.utils.AppSharedPreferenceHelper.SortType.SORT_TYPE_PINYIN;
 
 
 /**
@@ -88,6 +87,7 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
         mToolBar.setOnMenuItemClickListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.action_fast_import) {
+                showDialog();
                 mPresenter.getNetSource(AppConfigManager.getInstance().getDefaultBookSourceUrl());
             } else if (itemId == R.id.action_add_book_source) {
                 EditSourceActivity.start(mContext, null);

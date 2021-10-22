@@ -14,8 +14,8 @@ android {
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
         vectorDrawables.useSupportLibrary = true
-        versionCode 4
-        versionName "1.0.1"
+        versionCode 5
+        versionName "1.0.2"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
@@ -28,14 +28,6 @@ android {
             }
         }
     }
-//    greendao {
-//        schemaVersion 2 // 数据库版本号
-//        daoPackage 'com.liuzhenli.greendao'//greenDao 自动生成的代码保存的包名
-//        targetGenDir 'src/main/java' //自动生成的代码存储的路径，默认是 build/generated/source/greendao.
-//        generateTests false //true的时候自动生成测试单元
-//        //targetGenDirTests: 测试单元的生成目录默认是 src/androidTest/java
-//    }
-
     buildFeatures {
         viewBinding true
     }
@@ -77,7 +69,6 @@ android {
     }
     flavorDimensions "app", "ndkfilter"
     productFlavors {
-        def apphead = "iReader"
         "app" {
             manifestPlaceholders = [
                     UMENG_KEY: "5fb8761f690bda19c786950a",

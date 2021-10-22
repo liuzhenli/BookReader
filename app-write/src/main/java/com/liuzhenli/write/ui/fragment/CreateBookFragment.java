@@ -121,6 +121,7 @@ public class CreateBookFragment extends BaseFragment<CreateBookPresenter> implem
         chapterListAdapter.setOnItemClickListener(position ->
                 ARouter.getInstance().build(ARouterConstants.ACT_WRITE_BOOK)
                         .withSerializable(WriteBookActivity.DATA, chapterListAdapter.getItem(position))
+                        .withSerializable(WriteBookActivity.LOCAL_BOOK_ID, chapterListAdapter.getItem(position).getLocalBookId())
                         .withSerializable(WriteBookActivity.MODE, chapterListAdapter.getItem(position).getId() == null)
                         .navigation());
 
@@ -154,7 +155,7 @@ public class CreateBookFragment extends BaseFragment<CreateBookPresenter> implem
 
     }
 
-    private void showChapterList(long bookId) {
-        mPresenter.getChapterList(bookId);
+    private void showChapterList(long localBookId) {
+        mPresenter.getChapterList(localBookId);
     }
 }
