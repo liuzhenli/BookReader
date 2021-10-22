@@ -18,8 +18,8 @@ import java.util.List;
  */
 @Dao
 public interface WriteChapterDao {
-    @Query("select * from writechapter where bookId =:bookId")
-    List<WriteChapter> getChapterList(long bookId);
+    @Query("select * from writechapter where localBookId =:localBookId")
+    List<WriteChapter> getChapterList(long localBookId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertOrReplace(WriteChapter writeChapter);

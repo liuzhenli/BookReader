@@ -7,6 +7,7 @@ import android.view.View;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.liuzhenli.common.constant.ARouterConstants;
 import com.liuzhenli.common.utils.ClickUtils;
+import com.liuzhenli.common.utils.SoftInputUtils;
 import com.liuzhenli.common.widget.DialogUtil;
 import com.liuzhenli.write.R;
 import com.liuzhenli.write.WriteBookComponent;
@@ -55,13 +56,10 @@ public class EditBookInfoActivity extends WriteBaseActivity<EditBookPresenter> i
                         getResources().getString(R.string.dialog_title),
                         getResources().getString(R.string.del_msg),
                         getResources().getString(R.string.dialog_cancel), null,
-                        getResources().getString(R.string.dialog_confirm), new QMUIDialogAction.ActionListener() {
-                            @Override
-                            public void onClick(QMUIDialog dialog, int index) {
-                                WriteBookHelper.deleteBook(mBook);
-                                toast(getResources().getString(R.string.delete_success));
-                                finish();
-                            }
+                        getResources().getString(R.string.dialog_confirm), (dialog, index) -> {
+                            WriteBookHelper.deleteBook(mBook);
+                            toast(getResources().getString(R.string.delete_success));
+                            finish();
                         }, true);
             });
         }
@@ -80,19 +78,16 @@ public class EditBookInfoActivity extends WriteBaseActivity<EditBookPresenter> i
         mBinding.etBookName.setText(mBook.getBookName());
         mBinding.etBookIntro.setText(mBook.getIntro());
 
-        ClickUtils.click(mBinding.btnOk, new Consumer() {
-            @Override
-            public void accept(Object o) throws Exception {
-                Editable mBookName = mBinding.etBookName.getText();
-                Editable mBookIntro = mBinding.etBookIntro.getText();
-                if (TextUtils.isEmpty(mBookName)) {
-                    toast("请输入书名");
-                    return;
-                }
-                mBook.setBookName(mBookName.toString().trim());
-                mBook.setIntro(mBookIntro.toString());
-                mPresenter.saveBooks(mBook);
+        ClickUtils.click(mBinding.btnOk, o -> {
+            Editable mBookName = mBinding.etBookName.getText();
+            Editable mBookIntro = mBinding.etBookIntro.getText();
+            if (TextUtils.isEmpty(mBookName)) {
+                toast("请输入书名");
+                return;
             }
+            mBook.setBookName(mBookName.toString().trim());
+            mBook.setIntro(mBookIntro.toString());
+            mPresenter.saveBooks(mBook);
         });
     }
 
@@ -110,5 +105,14 @@ public class EditBookInfoActivity extends WriteBaseActivity<EditBookPresenter> i
     @Override
     public void complete() {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (SoftInputUtils.isSoftShowing(this)) {
+            SoftInputUtils.hideSoftInput(this);
+        } else {
+            super.onBackPressed();
+        }
     }
 }

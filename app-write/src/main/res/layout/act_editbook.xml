@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <include layout="@layout/layout_common_toolbar" />
@@ -19,6 +20,7 @@
         style="@style/AppBaseTheme"
         android:layout_width="80dp"
         android:layout_height="@dimen/all_item_height"
+        android:layout_marginStart="@dimen/common_space_large"
         android:layout_marginLeft="@dimen/common_space_large"
         android:gravity="right|center"
         android:text="@string/book_name"
@@ -63,9 +65,10 @@
         android:id="@+id/btn_ok"
         android:layout_width="match_parent"
         android:layout_height="@dimen/all_item_height"
+        android:layout_marginHorizontal="@dimen/common_space_large"
         android:layout_marginBottom="@dimen/common_space_large"
         android:gravity="center"
-        android:text="确定"
+        android:text="@string/ok"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />

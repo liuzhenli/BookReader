@@ -39,8 +39,8 @@ public class WriteBookHelper {
         WriteDbHelper.getInstance().getAppDatabase().getWriteBookDao().deleteByBookId(bookId);
     }
 
-    public static List<WriteChapter> getChapterList(long bookId) {
-        return WriteDbHelper.getInstance().getAppDatabase().getWriteChapterDao().getChapterList(bookId);
+    public static List<WriteChapter> getChapterList(long localBookId) {
+        return WriteDbHelper.getInstance().getAppDatabase().getWriteChapterDao().getChapterList(localBookId);
     }
 
     public static void saveChapterInfo(WriteChapter writeChapter) {

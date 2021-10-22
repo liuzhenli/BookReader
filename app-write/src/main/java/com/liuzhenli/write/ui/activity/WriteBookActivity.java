@@ -12,8 +12,10 @@ import android.view.ViewTreeObserver;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.liuzhenli.common.base.BaseBean;
 import com.liuzhenli.common.constant.ARouterConstants;
+import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.L;
 import com.liuzhenli.common.utils.ScreenUtils;
+import com.liuzhenli.write.R;
 import com.liuzhenli.write.WriteBookComponent;
 import com.liuzhenli.write.bean.WriteChapter;
 import com.liuzhenli.write.data.WriteChapterDao;
@@ -25,6 +27,8 @@ import com.liuzhenli.write.ui.presenter.WriteBookPresenter;
 import com.liuzhenli.write.util.WriteChapterManager;
 import com.liuzhenli.write.util.WriteConstants;
 
+import io.reactivex.functions.Consumer;
+
 /**
  * Description:
  *
@@ -35,9 +39,11 @@ import com.liuzhenli.write.util.WriteConstants;
 public class WriteBookActivity extends WriteBaseActivity<WriteBookPresenter> implements WriteBookContract.View, ViewTreeObserver.OnGlobalLayoutListener {
 
     public static final String DATA = "chapterData";
+    public static final String LOCAL_BOOK_ID = "local_book_id";
     public static final String MODE = "isCreate";
 
     private WriteChapter mChapter;
+    private long mLocalBookId;
     private ActWirtebookBinding mBinding;
     private String mChapterPath;
     private WriteChapterDao mWriteChapterDao;
@@ -64,18 +70,18 @@ public class WriteBookActivity extends WriteBaseActivity<WriteBookPresenter> imp
 
     @Override
     protected void initToolBar() {
-
-    }
+         }
 
     @Override
     protected void initData() {
         mWriteChapterManager = new WriteChapterManager();
         mWriteChapterDao = WriteDbHelper.getInstance().getAppDatabase().getWriteChapterDao();
         mChapter = (WriteChapter) getIntent().getSerializableExtra(DATA);
+        mLocalBookId = getIntent().getLongExtra(LOCAL_BOOK_ID, -1);
+        mIsCreate = getIntent().getBooleanExtra(MODE, true);
         if (mChapter == null || mChapter.getId() == null || mChapter.getId() < 1) {
             createNewChapter();
         }
-        mIsCreate = getIntent().getBooleanExtra(MODE, true);
         mChapterPath = String.format("%s%s/%s", WriteConstants.PATH_WRITE_BOOK, mChapter.getLocalBookId(), mChapter.getId());
     }
 
@@ -162,6 +168,7 @@ public class WriteBookActivity extends WriteBaseActivity<WriteBookPresenter> imp
 
     private void createNewChapter() {
         mChapter.setCreateTime(System.currentTimeMillis());
+        mChapter.setLocalBookId(mLocalBookId);
         mWriteChapterDao.insertOrReplace(mChapter);
         mChapter = mWriteChapterDao.getChapterByCreateTime(mChapter.getCreateTime());
         L.e("create chapter id = " + mChapter.getId() + "\nbookId" + mChapter.getLocalBookId() + "\n");

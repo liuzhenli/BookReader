@@ -56,18 +56,22 @@ public class CreateBookPresenter extends RxPresenter<CreateBookContract.View> im
     }
 
     @Override
-    public void getChapterList(long bookId) {
+    public void getChapterList(long localBookId) {
         addSubscribe(RxUtil.subscribe(Observable.create(new ObservableOnSubscribe<List<WriteChapter>>() {
             @Override
             public void subscribe(@NotNull ObservableEmitter<List<WriteChapter>> emitter) throws Exception {
-                List<WriteChapter> chapterList = WriteBookHelper.getChapterList(bookId);
+                if (localBookId <= 0) {
+                    emitter.onNext(new ArrayList<>());
+                    return;
+                }
+                List<WriteChapter> chapterList = WriteBookHelper.getChapterList(localBookId);
                 if (chapterList == null) {
                     chapterList = new ArrayList<>();
                 }
 
                 WriteChapter writeChapter = new WriteChapter();
                 writeChapter.setTitle("新建章节");
-                writeChapter.setLocalBookId(bookId);
+                writeChapter.setLocalBookId(localBookId);
                 chapterList.add(writeChapter);
 
                 emitter.onNext(chapterList);
