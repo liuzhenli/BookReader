@@ -287,7 +287,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                                     choseBackupFolderDialogBuilder.setFolderEnable(true);
                                 }
                             }).launch(null))
-                    .setOkClickListener(v -> qmuiDialog.dismiss())
+                    .setOkClickListener(v -> {
+                        mPresenter.dealDefaultFonts();
+                        qmuiDialog.dismiss();
+                    })
                     .setCancelable(false);
             qmuiDialog = choseBackupFolderDialogBuilder.create();
             qmuiDialog.show();
