@@ -27,5 +27,7 @@ public class MainContract {
          * check if user has set webdav
          */
         void checkWebDav();
+
+        void dealDefaultFonts();
     }
 }
