@@ -28,13 +28,13 @@ public class Constant extends AppConstant {
 
     public static String PATH_DATA = FileUtils.createRootPath(BaseApplication.getInstance()) + "/data";
     public static String BASE_PATH = FileUtils.createRootPath(BaseApplication.getInstance()) + "/book/";
-    public static String FONT_PATH = FileUtils.createRootPath(BaseApplication.getInstance()) + "/font/";
     public static String IMG_PATH = FileUtils.createRootPath(BaseApplication.getInstance()) + "/img/";
     public static String UPDATE_PATH = FileUtils.createRootPath(BaseApplication.getInstance()) + "/update/";
     public static String LOG_PATH = FileUtils.createRootPath(BaseApplication.getInstance()) + "/log/";
     public static String TTS_PATH = FileUtils.createRootPath(BaseApplication.getInstance()) + "/tts/";
     public static String WIFI_BOOK_PATH = FileUtils.createDownloadBookPath(BaseApplication.getInstance()) + "/wifiTransfer/";
     public static final String LOCAL_BOOK_PATH = BASE_FOLDER + "/localBook/";
+    public static String FONT_PATH = BASE_FOLDER + "/font/";
 
 
     public static final String PERCENT_STR = "%";

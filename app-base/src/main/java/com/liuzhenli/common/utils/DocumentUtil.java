@@ -1,14 +1,28 @@
 package com.liuzhenli.common.utils;
 
+import static com.liuzhenli.common.utils.Constant.FileSuffix.EPUB;
+import static com.liuzhenli.common.utils.Constant.FileSuffix.PDF;
+import static com.liuzhenli.common.utils.Constant.FileSuffix.TXT;
+
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
+import android.provider.DocumentsContract;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.documentfile.provider.DocumentFile;
+
+import com.liuzhenli.common.utils.filepicker.entity.FileItem;
 
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 /**
@@ -385,6 +399,53 @@ public class DocumentUtil {
 
     public static String filenameFilter(String str) {
         return str == null ? null : FilePattern.matcher(str).replaceAll("_");
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public static ArrayList<FileItem> listFile(Context context, Uri uri) {
+        Uri childUri = DocumentsContract.buildChildDocumentsUriUsingTree(uri, DocumentsContract.getDocumentId(uri));
+        String[] protection = {DocumentsContract.Document.COLUMN_DOCUMENT_ID,
+                DocumentsContract.Document.COLUMN_DISPLAY_NAME,
+                DocumentsContract.Document.COLUMN_LAST_MODIFIED,
+                DocumentsContract.Document.COLUMN_SIZE,
+                DocumentsContract.Document.COLUMN_MIME_TYPE};
+
+        Cursor cursor = context.getContentResolver().query(childUri, protection, null, null, DocumentsContract.Document.COLUMN_DISPLAY_NAME);
+        int columnIndex = cursor.getColumnIndex(DocumentsContract.Document.COLUMN_DOCUMENT_ID);
+        int columnName = cursor.getColumnIndex(DocumentsContract.Document.COLUMN_DISPLAY_NAME);
+        int columnSizeIndex = cursor.getColumnIndex(DocumentsContract.Document.COLUMN_SIZE);
+        int columnTypeIndex = cursor.getColumnIndex(DocumentsContract.Document.COLUMN_MIME_TYPE);
+        int columnLastModifiedIndex = cursor.getColumnIndex(DocumentsContract.Document.COLUMN_LAST_MODIFIED);
+        ArrayList<FileItem> data = new ArrayList<>();
+        if (cursor.moveToNext()) {
+            while (cursor.moveToNext()) {
+                String fileName = cursor.getString(columnName);
+                if (!fileName.startsWith(".")) {
+                    FileItem lf = new FileItem();
+                    lf.name = fileName;
+                    lf.size = cursor.getLong(columnSizeIndex);
+                    String fileType = cursor.getString(columnTypeIndex);
+                    if (TextUtils.equals(DocumentsContract.Document.MIME_TYPE_DIR, fileType)) {
+                        lf.fileType = Constant.FileSuffix.DIRECTORY;
+                    } else if (fileName.endsWith(EPUB)) {
+                        lf.fileType = EPUB;
+                    } else if (fileName.endsWith(PDF)) {
+                        lf.fileType = PDF;
+                    } else if (fileName.endsWith(TXT)) {
+                        lf.fileType = TXT;
+                    } else {
+                        lf.fileType = Constant.FileSuffix.OTHER;
+                    }
+                    lf.time = new Date(cursor.getLong(columnLastModifiedIndex));
+                    lf.uri = DocumentsContract.buildDocumentUriUsingTree(childUri, cursor.getString(columnIndex));
+                    lf.path = lf.uri.toString();
+                    data.add(lf);
+                }
+            }
+            cursor.close();
+            Collections.sort(data, (lhs, rhs) -> ((lhs.name).toLowerCase()).compareTo((rhs.name).toLowerCase()));
+        }
+        return data;
     }
 
 }

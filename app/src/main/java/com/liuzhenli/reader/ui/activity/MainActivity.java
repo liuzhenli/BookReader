@@ -86,6 +86,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Override
     public void initData() {
         requestPermissions();
+        mPresenter.dealDefaultFonts();
     }
 
     @Override
@@ -288,7 +289,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                                 }
                             }).launch(null))
                     .setOkClickListener(v -> {
-                        mPresenter.dealDefaultFonts();
                         qmuiDialog.dismiss();
                     })
                     .setCancelable(false);
