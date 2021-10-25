@@ -63,8 +63,7 @@ public class LocalFilePresenter extends RxPresenter<LocalFileContract.View> impl
             if (file != null) {
                 fileItems = DocumentUtil.listFile(ReaderApplication.getInstance(), file.getUri());
             }
-            if (fileItems != null)
-                emitter.onNext(fileItems);
+            emitter.onNext(fileItems);
             emitter.onComplete();
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new SampleProgressObserver<ArrayList<FileItem>>() {

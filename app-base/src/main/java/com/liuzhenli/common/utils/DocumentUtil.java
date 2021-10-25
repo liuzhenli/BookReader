@@ -417,9 +417,10 @@ public class DocumentUtil {
         int columnTypeIndex = cursor.getColumnIndex(DocumentsContract.Document.COLUMN_MIME_TYPE);
         int columnLastModifiedIndex = cursor.getColumnIndex(DocumentsContract.Document.COLUMN_LAST_MODIFIED);
         ArrayList<FileItem> data = new ArrayList<>();
-        if (cursor.moveToNext()) {
-            while (cursor.moveToNext()) {
+        if (cursor.moveToFirst()) {
+            do {
                 String fileName = cursor.getString(columnName);
+                L.e(fileName);
                 if (!fileName.startsWith(".")) {
                     FileItem lf = new FileItem();
                     lf.name = fileName;
@@ -441,7 +442,7 @@ public class DocumentUtil {
                     lf.path = lf.uri.toString();
                     data.add(lf);
                 }
-            }
+            } while (cursor.moveToNext());
             cursor.close();
             Collections.sort(data, (lhs, rhs) -> ((lhs.name).toLowerCase()).compareTo((rhs.name).toLowerCase()));
         }
