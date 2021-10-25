@@ -18,6 +18,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.liuzhenli.common.R;
 import com.liuzhenli.common.exception.ApiCodeException;
 import com.orhanobut.logger.Logger;
 
@@ -485,8 +486,7 @@ public class FileUtils {
     /**
      * 获取Raw下的文件内容
      *
-     * @param context
-     * @param resId
+     * @param resId raw res id
      * @return 文件内容
      */
     public static String getFileFromRaw(Context context, int resId) {
@@ -509,7 +509,8 @@ public class FileUtils {
             return null;
         } finally {
             try {
-                br.close();
+                if (br != null)
+                    br.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }

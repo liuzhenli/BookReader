@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 
 import com.hwangjr.rxbus.RxBus;
 import com.liuzhenli.common.constant.RxBusTag;
+import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.common.utils.FileUtils;
 import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.common.base.RxPresenter;
@@ -108,7 +109,7 @@ public class ReadPresenter extends RxPresenter<ReadContract.View> implements Rea
         String fontPath = FileUtils.getSdCardPath() + "/Fonts";
         try {
             DocumentHelper.createDirIfNotExist(fontPath);
-            File file = new File(fontPath);
+            File file = new File(Constant.FONT_PATH);
             File[] files = file.listFiles(pathName -> pathName.getName().toLowerCase().matches(".*\\.[ot]tf"));
             mView.showFontFile(files);
         } catch (Exception e) {
