@@ -195,8 +195,8 @@ public class BackupSettingActivity extends BaseActivity implements Backup.CallBa
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        setBackupPathInfo();
         BackupRestoreUi.INSTANCE.onActivityResult(requestCode, resultCode, data, BackupSettingActivity.this, BackupSettingActivity.this);
+        setBackupPathInfo();
     }
 
     /***

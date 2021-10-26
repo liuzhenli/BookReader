@@ -17,6 +17,7 @@ import okhttp3.MediaType;
 
 public class AppConstant {
     public static final String DOC_ROOT = "content://com.android.externalstorage.documents/tree/primary:";
+    public static final String DOC_ROOT_2 = "content://com.android.externalstorage.documents/tree/home:";
     public static final String DATA_PATH = "/storage/emulated/0/";
     public static final String DATA_USER = "/data/user/0/";
 

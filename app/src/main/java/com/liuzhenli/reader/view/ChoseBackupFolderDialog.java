@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.common.utils.DensityUtil;
+import com.liuzhenli.common.utils.PathUtil;
 import com.microedu.reader.R;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogBuilder;
@@ -102,8 +103,9 @@ public class ChoseBackupFolderDialog extends QMUIDialog {
                 btnSelectFolder.setVisibility(View.GONE);
                 tvOKDes.setVisibility(View.VISIBLE);
                 String backupPath = AppSharedPreferenceHelper.getBackupPath(null);
-                tvDes.setText(String.format(getBaseContext().getString(R.string.tv_select_backup_folder_name), backupPath));
-                tvOKDes.setText(String.format(getBaseContext().getString(R.string.tv_select_backup_folder_name_confirm), backupPath + "/ShuFang/"));
+                String pathShow = PathUtil.Companion.getPathShow(backupPath);
+                tvDes.setText(String.format(getBaseContext().getString(R.string.tv_select_backup_folder_name), pathShow));
+                tvOKDes.setText(String.format(getBaseContext().getString(R.string.tv_select_backup_folder_name_confirm), pathShow + "/ShuFang/"));
                 //未选择文件夹
             } else {
                 btnOk.setVisibility(View.GONE);

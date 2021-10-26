@@ -1,7 +1,9 @@
 package com.liuzhenli.common.utils
 
 import android.net.Uri
+import android.text.TextUtils
 import com.liuzhenli.common.utils.L
+import kotlin.contracts.contract
 
 /**
  * Description:
@@ -22,7 +24,24 @@ class PathUtil {
                 }
                 FileUtils.isContentFile(path) -> {
                     val decodePath = Uri.decode(path)
-                    decodePath.substring(Constant.DOC_ROOT.length, decodePath.length)
+                    if (decodePath.startsWith(Constant.DOC_ROOT_2)) {
+                        var path =
+                            decodePath.substring(Constant.DOC_ROOT_2.length, decodePath.length)
+                        if (TextUtils.isEmpty(path)) {
+                            path = "Documents/ShuFang"
+                        }
+                        path
+                    } else if (decodePath.startsWith(Constant.DOC_ROOT)) {
+                        decodePath.substring(Constant.DOC_ROOT.length, decodePath.length)
+                    } else {
+                        val split = decodePath.split(":")
+                        val size = split.size
+                        if (size > 1) {
+                            split[size - 1]
+                        } else {
+                            decodePath
+                        }
+                    }
                 }
                 else -> {
                     path
