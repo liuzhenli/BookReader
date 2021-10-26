@@ -33,8 +33,8 @@ import java.util.concurrent.TimeUnit
  */
 object Backup {
 
-    private const val SHUFANG_DIR = "ShuFang"
-    private const val BACKUP_DIR = "Backups"
+     const val SHUFANG_DIR = "ShuFang"
+     const val BACKUP_DIR = "Backups"
 
     /**生成备份文件的存储位置*/
     val backupPath =
@@ -244,7 +244,7 @@ object Backup {
             val thePath = if (path.contains(BACKUP_DIR)) {
                 path
             } else {
-                "$path/$BACKUP_DIR/$SHUFANG_DIR"
+                "$path/$SHUFANG_DIR/$BACKUP_DIR"
             }
 
             for (fileName in backupFileNames) {

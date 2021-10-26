@@ -8,19 +8,20 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 import com.hwangjr.rxbus.RxBus;
+import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.SharedPreferencesUtil;
+import com.liuzhenli.common.base.BaseActivity;
 import com.liuzhenli.common.constant.AppConstant;
 import com.liuzhenli.common.constant.RxBusTag;
-import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.common.utils.ClickUtils;
-import com.liuzhenli.common.base.BaseActivity;
+import com.liuzhenli.common.utils.PathUtil;
+import com.liuzhenli.common.widget.DialogUtil;
+import com.liuzhenli.reader.event.OnWebDavSetEvent;
 import com.liuzhenli.reader.utils.BackupRestoreUi;
 import com.liuzhenli.reader.utils.storage.Backup;
 import com.liuzhenli.reader.utils.storage.Restore;
 import com.liuzhenli.reader.utils.storage.WebDavHelp;
-import com.liuzhenli.common.widget.DialogUtil;
-import com.liuzhenli.reader.event.OnWebDavSetEvent;
 import com.microedu.reader.R;
 import com.microedu.reader.databinding.ActBackupsettingBinding;
 import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheet;
@@ -249,8 +250,8 @@ public class BackupSettingActivity extends BaseActivity implements Backup.CallBa
     private void setBackupPathInfo() {
         String defPath = Backup.INSTANCE.defaultPath();
         String localPath = AppSharedPreferenceHelper.getBackupPath(defPath);
-        String path = TextUtils.isEmpty(localPath) ? "未设置" : localPath;
-        mContentView.tvViewBackupPathInfoVis.setText(String.format("备份路径：%s", path));
+        String path = TextUtils.isEmpty(localPath) ? "未设置" : String.format("备份路径：%s", PathUtil.Companion.getPathShow(localPath));
+        mContentView.tvViewBackupPathInfoVis.setText(path);
     }
 
     @Override

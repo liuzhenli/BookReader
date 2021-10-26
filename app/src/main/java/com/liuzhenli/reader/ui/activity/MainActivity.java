@@ -4,12 +4,10 @@ import android.content.Intent;
 import android.os.Build;
 import android.text.TextUtils;
 import android.view.Gravity;
-import android.view.MenuItem;
 import android.view.View;
 
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentPagerAdapter;
 
@@ -204,22 +202,20 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 break;
             case 1:
                 mToolBar.inflateMenu(R.menu.menu_discover);
-                mToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        inflate.mDrawLayout.closeDrawer(inflate.viewMainLeft.mDrawLeft);
-                        switch (item.getItemId()) {
-                            case R.id.item_search:
-                                SearchActivity.start(mContext);
-                                break;
-                            case R.id.item_arrange_book_source:
-                                BookSourceActivity.start(mContext);
-                                break;
-                            default:
-                                break;
-                        }
-                        return false;
+                mToolBar.getMenu().findItem(R.id.item_arrange_book_source).setVisible(false);
+                mToolBar.setOnMenuItemClickListener(item -> {
+                    inflate.mDrawLayout.closeDrawer(inflate.viewMainLeft.mDrawLeft);
+                    switch (item.getItemId()) {
+                        case R.id.item_search:
+                            SearchActivity.start(mContext);
+                            break;
+                        case R.id.item_arrange_book_source:
+                            BookSourceActivity.start(mContext);
+                            break;
+                        default:
+                            break;
                     }
+                    return false;
                 });
                 break;
             default:
