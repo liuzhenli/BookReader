@@ -182,7 +182,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         switch (mCurrentPosition) {
             case 0:
                 mToolBar.inflateMenu(R.menu.menu_main);
-                mToolBar.getMenu().findItem(R.id.item_arrange_book_source).setVisible(false);
+                mToolBar.getMenu().findItem(R.id.item_arrange_bookshelf).setVisible(false);
                 mToolBar.setOnMenuItemClickListener(item -> {
                     inflate.mDrawLayout.closeDrawer(inflate.viewMainLeft.mDrawLeft);
                     switch (item.getItemId()) {
