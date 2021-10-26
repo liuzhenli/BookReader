@@ -25,7 +25,7 @@
         android:drawableLeft="@drawable/ic_main_left_history"
         android:drawablePadding="@dimen/common_space_normal"
         android:gravity="center_vertical"
-        android:paddingLeft="@dimen/common_space_large"
+        android:paddingLeft="18dp"
         android:text="@string/read_records" />
 
     <TextView
