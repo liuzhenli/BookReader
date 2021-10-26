@@ -28,7 +28,7 @@ class PathUtil {
                         var path =
                             decodePath.substring(Constant.DOC_ROOT_2.length, decodePath.length)
                         if (TextUtils.isEmpty(path)) {
-                            path = "Documents/ShuFang"
+                            path = "Documents/"
                         }
                         path
                     } else if (decodePath.startsWith(Constant.DOC_ROOT)) {
