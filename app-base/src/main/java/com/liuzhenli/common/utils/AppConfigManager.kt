@@ -17,6 +17,7 @@ open class AppConfigManager {
         @JvmStatic
         var instance = AppConfigManager()
     }
+
     private fun getAppConfig(): AppConfig? {
         val str = UMRemoteConfig.getInstance().getConfigValue("appConfig")
         L.e(str)
@@ -39,8 +40,11 @@ open class AppConfigManager {
         return getAppConfig()?.data?.versionInfo?.intro
     }
 
-     fun getDefaultBookSourceUrl(): String? {
-        return getAppConfig()?.data?.sourceUrl
+    fun getDefaultBookSourceUrl(): String? {
+        if (isShowDonate()) {
+            return getAppConfig()?.data?.sourceUrl
+        }
+        return null
     }
 
     /**
