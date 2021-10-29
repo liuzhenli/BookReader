@@ -10,6 +10,8 @@
     <color name="main_blue">#00a0e9</color>
     <color name="transparent">#00ffffff</color>
 
+    <color name="widget_main">#4a4a4a</color>
+
     <!--textColor-->
     <color name="text_color_33">#4a4a4a</color>
     <color name="text_color_33_88">#884a4a4a</color>
