@@ -9,7 +9,7 @@
     android:background="@color/main"
     android:elevation="1px"
     app:contentInsetStart="0dp"
-    app:navigationIcon="@drawable/icon_back_white_icon"
+    app:navigationIcon="@drawable/icon_back_black_icon"
     tools:targetApi="lollipop">
 
     <TextView
@@ -24,7 +24,7 @@
         android:marqueeRepeatLimit="marquee_forever"
         android:scrollHorizontally="true"
         android:singleLine="true"
-        android:textColor="@color/white"
+        android:textColor="@color/widget_main"
         android:textSize="18sp" />
 
     <TextView
@@ -34,7 +34,7 @@
         android:layout_gravity="right"
         android:layout_marginRight="@dimen/common_space_large"
         android:text="关闭"
-        android:textColor="@color/white"
+        android:textColor="@color/widget_main"
         android:visibility="gone" />
 
     <ImageView
@@ -44,7 +44,7 @@
         android:layout_gravity="right"
         android:layout_marginRight="@dimen/common_space_large"
         android:src="@drawable/ic_more"
-        android:textColor="@color/white"
+        android:textColor="@color/widget_main"
         android:visibility="gone" />
 
 </androidx.appcompat.widget.Toolbar>

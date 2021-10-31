@@ -11,7 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
  * 用于需要圆角矩形框背景的ConstraintLayout的情况,减少直接使用TextView时引入的shape资源文件
  */
 public class RoundConstraintLayout extends ConstraintLayout {
-    private RoundViewDelegate delegate;
+    private final RoundViewDelegate delegate;
 
     public RoundConstraintLayout(Context context) {
         this(context, null);

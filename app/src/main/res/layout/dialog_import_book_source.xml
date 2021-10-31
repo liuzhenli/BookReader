@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.liuzhenli.reader.view.roundwidget.RoundConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:rv_backgroundColor="@color/main"
+    app:rv_cornerRadius_TL="@dimen/common_space_large"
+    app:rv_cornerRadius_TR="@dimen/common_space_large">
+
+    <com.liuzhenli.reader.view.roundwidget.RoundConstraintLayout
+        android:id="@+id/view_dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/common_space_large"
+        app:rv_backgroundColor="@color/divider"
+        app:rv_cornerRadius_TL="@dimen/common_space_large"
+        app:rv_cornerRadius_TR="@dimen/common_space_large">
+
+        <com.liuzhenli.reader.view.roundwidget.RoundImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="@dimen/common_space_normal"
+            android:src="@mipmap/ic_launcher"
+            app:image_circle="true"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_app_name"
+            style="@style/ItemTitleStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/common_space_normal"
+            android:text="@string/app_name"
+            app:layout_constraintLeft_toRightOf="@+id/iv_logo"
+            app:layout_constraintTop_toTopOf="@+id/iv_logo" />
+
+        <TextView
+            android:id="@+id/tv_dialog_des"
+            style="@style/titleIntroStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="微信公众号"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_app_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_app_name" />
+
+        <TextView
+            android:id="@+id/iv_get_source_from_wx"
+            style="@style/ItemSubTitleStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/common_space_large"
+            android:drawableEnd="@drawable/icon_common_arrow_right_more"
+            android:text="获取精品书源"
+            app:layout_constraintBottom_toBottomOf="@id/iv_logo"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/iv_logo" />
+    </com.liuzhenli.reader.view.roundwidget.RoundConstraintLayout>
+
+    <EditText
+        android:id="@+id/et_input_book_source_url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:gravity="top"
+        android:hint="@string/input_book_source_url"
+        android:minHeight="80dp"
+        android:padding="@dimen/common_space_large"
+        android:textSize="@dimen/txt_size_12"
+        app:layout_constraintTop_toBottomOf="@+id/view_dialog_title" />
+
+    <ImageView
+        android:id="@+id/view_input_camera"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_space_large"
+        app:layout_constraintBottom_toBottomOf="@+id/view_input_local"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view_input_local"
+        app:srcCompat="@drawable/ic_img" />
+
+    <ImageView
+        android:id="@+id/view_input_local"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/common_space_large"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/view_input_camera"
+        app:layout_constraintTop_toBottomOf="@+id/et_input_book_source_url"
+        app:srcCompat="@drawable/ic_directory" />
+
+    <com.liuzhenli.reader.view.roundwidget.RoundTextView
+        android:id="@+id/view_import"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/common_space_large"
+        android:gravity="center"
+        android:paddingHorizontal="@dimen/common_space_large"
+        android:paddingVertical="@dimen/common_space_normal"
+        android:text="@string/add"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/view_input_camera"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view_input_camera"
+        app:rv_backgroundColor="@color/widget_main"
+        app:rv_isRadiusHalfHeight="true"
+        app:srcCompat="@drawable/ic_img" />
+
+</com.liuzhenli.reader.view.roundwidget.RoundConstraintLayout>

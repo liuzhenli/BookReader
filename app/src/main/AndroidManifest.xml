@@ -42,7 +42,9 @@
         <activity android:name="com.liuzhenli.reader.ui.activity.TabActivity" />
         <activity
             android:name="com.liuzhenli.reader.ui.activity.MainActivity"
-            android:launchMode="singleTop">
+            android:configChanges="locale|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustResize|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>

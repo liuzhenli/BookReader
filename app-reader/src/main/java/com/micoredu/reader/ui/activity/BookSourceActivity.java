@@ -27,6 +27,7 @@ import com.liuzhenli.common.constant.ARouterConstants;
 import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.utils.AppConfigManager;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
+import com.liuzhenli.common.utils.IntentUtils;
 import com.liuzhenli.common.utils.ToastUtil;
 import com.liuzhenli.common.widget.DialogUtil;
 import com.micoredu.reader.R;
@@ -51,8 +52,7 @@ import java.util.List;
  * @author liuzhenli 2020.8.10
  */
 public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter, BookSourceBean> implements BookSourceContract.View {
-    private final int IMPORT_BOOK_SOURCE = 1000;
-    private final int IMPORT_BOOK_SOURCE_QRCODE = 1001;
+
 
     private BookSourceFilterMenuAdapter mFilterMenuAdapter;
     /**
@@ -92,7 +92,7 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
             } else if (itemId == R.id.action_add_book_source) {
                 EditSourceActivity.start(mContext, null);
             } else if (itemId == R.id.action_import_book_source_local) {
-                selectFileSys();
+                IntentUtils.selectFileSys(BookSourceActivity.this, IntentUtils.IMPORT_BOOK_SOURCE_LOCAL);
             } else if (itemId == R.id.action_import_book_source_online) {
                 DialogUtil.showEditTextDialog(this, getResources().getString(R.string.import_book_source_on_line),
                         String.format("%s://", getResources().getString(R.string.input_book_source_url)),
@@ -107,7 +107,7 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
             } else if (itemId == R.id.action_import_book_source_rwm) {
                 ARouter.getInstance()
                         .build(ARouterConstants.ACT_QRCODE)
-                        .navigation(this, IMPORT_BOOK_SOURCE_QRCODE);
+                        .navigation(this, IntentUtils.IMPORT_BOOK_SOURCE_QRCODE);
             } else if (itemId == R.id.action_del_select) {
                 List<BookSourceBean> bookSourceBeans = ((BookSourceAdapter) mAdapter).getSelectedBookSource();
                 if (bookSourceBeans.size() > 0) {
@@ -323,23 +323,16 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
         binding.mVCheckSource.setVisibility(View.GONE);
     }
 
-    private void selectFileSys() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"text/*", "application/json"});
-        intent.setType("*/*");//设置类型
-        startActivityForResult(intent, IMPORT_BOOK_SOURCE);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (requestCode == IMPORT_BOOK_SOURCE) {
+            if (requestCode == IntentUtils.IMPORT_BOOK_SOURCE_LOCAL) {
                 if (data != null && data.getData() != null) {
                     mPresenter.loadBookSourceFromFile(data.getData());
                 }
-            } else if (requestCode == IMPORT_BOOK_SOURCE_QRCODE) {
+            } else if (requestCode == IntentUtils.IMPORT_BOOK_SOURCE_QRCODE) {
                 if (data != null) {
                     String result = data.getStringExtra("result");
                     //如果是http开头,访问网络

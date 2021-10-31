@@ -17,6 +17,8 @@ import androidx.annotation.RequiresApi;
  */
 public class IntentUtils {
     public static final int REQUEST_CODE_OPEN_MOBILE_DIR = 1000;
+    public static final int IMPORT_BOOK_SOURCE_LOCAL = 1001;
+    public static final int IMPORT_BOOK_SOURCE_QRCODE = 1002;
 
     public static void openBrowser(Context context, String url) {
         final Intent intent = new Intent();
@@ -37,6 +39,14 @@ public class IntentUtils {
     public static void openMobileDir(Activity context, int requestCode) {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        context.startActivityForResult(intent, requestCode);
+    }
+
+    public static void selectFileSys(Activity context, int requestCode) {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"text/*", "application/json"});
+        intent.setType("*/*");//设置类型
         context.startActivityForResult(intent, requestCode);
     }
 }

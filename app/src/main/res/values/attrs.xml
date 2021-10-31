@@ -48,4 +48,13 @@
         <attr name="rv_cornerRadius_BR" format="dimension" />
         <attr name="rv_isRippleEnable" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="RoundImageView">
+        <attr name="image_radius" format="dimension" />//圆角大小
+        <attr name="image_shadow_radius" format="dimension" />
+        <attr name="image_circle" format="boolean" />
+        <attr name="image_shadow" format="boolean" />
+        <attr name="shadow_color" format="integer" />
+    </declare-styleable>
+
 </resources>

@@ -77,7 +77,7 @@ public class BookShelfFragment extends BaseRVFragment<BookShelfPresenter, BookSh
 
     @Override
     public void configViews() {
-        initAdapter(BookShelfAdapter.class, false, false, true);
+        initAdapter(BookShelfAdapter.class, false, false, false);
     }
 
     @Override
