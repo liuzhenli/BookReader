@@ -133,7 +133,7 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
     protected void initImmersionBar() {
         mImmersionBar = ImmersionBar.with(this);
         mImmersionBar.statusBarColor(R.color.main);
-        mImmersionBar.statusBarDarkFont(false);
+        mImmersionBar.statusBarDarkFont(true);
         mImmersionBar.fitsSystemWindows(true);
         mImmersionBar.init();
     }

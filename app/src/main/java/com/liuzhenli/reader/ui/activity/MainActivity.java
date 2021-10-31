@@ -2,11 +2,14 @@ package com.liuzhenli.reader.ui.activity;
 
 import android.content.Intent;
 import android.os.Build;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -28,6 +31,7 @@ import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.common.utils.FillContentUtil;
 import com.liuzhenli.common.utils.L;
 import com.liuzhenli.common.utils.TimeUtils;
+import com.liuzhenli.common.utils.ToastUtil;
 import com.liuzhenli.common.utils.filepicker.util.DateUtils;
 import com.liuzhenli.reader.DaggerReadBookComponent;
 import com.liuzhenli.reader.ui.adapter.MainTabAdapter;
@@ -35,8 +39,10 @@ import com.liuzhenli.reader.ui.contract.MainContract;
 import com.liuzhenli.reader.ui.fragment.DiscoverFragment;
 import com.liuzhenli.reader.ui.presenter.MainPresenter;
 import com.liuzhenli.reader.utils.JumpToLastPageUtil;
+import com.liuzhenli.reader.utils.ZTextWatcher;
 import com.liuzhenli.reader.utils.storage.Backup;
 import com.liuzhenli.reader.view.ChoseBackupFolderDialog;
+import com.liuzhenli.reader.view.ImportBookSourceDialog;
 import com.micoredu.reader.bean.BookSourceBean;
 import com.micoredu.reader.helper.AppReaderDbHelper;
 import com.micoredu.reader.ui.activity.BookSourceActivity;
@@ -44,11 +50,15 @@ import com.microedu.reader.R;
 import com.microedu.reader.databinding.ActivityMainContainerBinding;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 
+import java.util.List;
+
 /**
  * @author liuzhenli
  */
 @Route(path = ARouterConstants.ACT_MAIN)
 public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View {
+    public static final int IMPORT_BOOK_SOURCE_QRCODE = 10092;
+    private static final int IMPORT_BOOK_SOURCE = 1000;
     private int mCurrentPosition;
     private MainTabAdapter mainTabAdapter;
     /***发现页面的书源名字*/
@@ -56,6 +66,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     private ActivityMainContainerBinding inflate;
     private ChoseBackupFolderDialog.ChoseBackupFolderDialogBuilder choseBackupFolderDialogBuilder;
     private QMUIDialog qmuiDialog;
+    private ImportBookSourceDialog importBookSourceDialog;
 
     @Override
     protected View bindContentView() {
@@ -195,6 +206,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                         case R.id.item_arrange_bookshelf:
                             ManageBookShelfActivity.Companion.start(mContext);
                             break;
+                        case R.id.item_import_book_source:
+                            showImportBookSourceDialog();
+                            break;
                         default:
                             break;
                     }
@@ -293,9 +307,36 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         }
     }
 
+    private void showImportBookSourceDialog() {
+        if (importBookSourceDialog == null) {
+            importBookSourceDialog = new ImportBookSourceDialog(mContext, R.style.BottomSheetStyle)
+                    .setCameraClickListener(v -> {
+                        ARouter.getInstance()
+                                .build(ARouterConstants.ACT_QRCODE)
+                                .navigation(this, IMPORT_BOOK_SOURCE_QRCODE);
+                    }).setImportWxSource(v -> {
+
+                    }).setOkButtonClickListener(v -> {
+                        if (TextUtils.isEmpty(importBookSourceDialog.getUserInput())) {
+                            toast(getResources().getString(com.micoredu.reader.R.string.input_book_source_url));
+                        } else {
+                            mPresenter.importSource(importBookSourceDialog.getUserInput());
+                        }
+                    }).setDirClick(v -> {
+                    });
+            importBookSourceDialog.setCanceledOnTouchOutside(true);
+        }
+        importBookSourceDialog.show();
+    }
+
     @Override
     public void showWebDavResult(boolean isSet) {
         L.e(TAG, "web dav ---: " + isSet);
+    }
+
+    @Override
+    public void showBookSource(List<BookSourceBean> list) {
+
     }
 
     @Override
@@ -313,5 +354,28 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         String all = TimeUtils.formatToHour(AppReaderDbHelper.getInstance().getDatabase().getReadHistoryDao().getAllTime());
         String today = TimeUtils.formatToHour(AppReaderDbHelper.getInstance().getDatabase().getReadHistoryDao().getTodayAllTime(DateUtils.getToadyMillis()));
         inflate.viewMainLeft.mViewReadHistory.setText(String.format(getResources().getString(R.string.read_records), today));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == IMPORT_BOOK_SOURCE_QRCODE) {
+                if (data != null) {
+                    String result = data.getStringExtra("result");
+                    //如果是http开头,访问网络
+                    if (result != null) {
+                        showDialog();
+                        mPresenter.importSource(result);
+                    } else {
+                        ToastUtil.showToast(getResources().getString(com.micoredu.reader.R.string.type_un_correct));
+                    }
+                }
+            } else if (requestCode == IMPORT_BOOK_SOURCE) {
+                if (data != null && data.getData() != null) {
+                    mPresenter.importSourceFromLocal(data.getData());
+                }
+            }
+        }
     }
 }

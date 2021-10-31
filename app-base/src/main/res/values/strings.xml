@@ -399,7 +399,7 @@
     <string name="join_qq_group">加入QQ群</string>
     <string name="read_file_error">文件读取失败</string>
     <string name="bg_image_per">获取背景图片需存储权限</string>
-    <string name="input_book_source_url">输入书源网址</string>
+    <string name="input_book_source_url">输入书源链接</string>
     <string name="del_file">删除文件</string>
     <string name="del_file_success">删除文件成功</string>
     <string name="sure_del_file">确定删除文件吗?</string>

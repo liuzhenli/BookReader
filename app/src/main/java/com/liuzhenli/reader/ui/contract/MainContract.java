@@ -1,6 +1,13 @@
 package com.liuzhenli.reader.ui.contract;
 
+import android.net.Uri;
+
+import androidx.annotation.NonNull;
+
 import com.liuzhenli.common.base.BaseContract;
+import com.micoredu.reader.bean.BookSourceBean;
+
+import java.util.List;
 
 /**
  * Description:
@@ -18,6 +25,8 @@ public class MainContract {
          * @param isSet true if is set
          */
         void showWebDavResult(boolean isSet);
+
+        void showBookSource(List<BookSourceBean> list);
     }
 
     public interface Presenter<T> extends BaseContract.BasePresenter<T> {
@@ -29,5 +38,9 @@ public class MainContract {
         void checkWebDav();
 
         void dealDefaultFonts();
+
+        void importSource(String url);
+
+        void importSourceFromLocal(@NonNull Uri uri);
     }
 }
