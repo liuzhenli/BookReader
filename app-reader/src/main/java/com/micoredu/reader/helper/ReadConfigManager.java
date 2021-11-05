@@ -111,7 +111,7 @@ public class ReadConfigManager {
         this.hideStatusBar = preferences.getBoolean("hide_status_bar", true);
         this.hideNavigationBar = preferences.getBoolean("hide_navigation_bar", false);
         this.indent = preferences.getInt("indent", 2);
-        this.textSize = preferences.getInt("textSize", 16);
+        this.textSize = preferences.getInt("textSize", 18);
         this.canClickTurn = preferences.getBoolean("canClickTurn", true);
         this.canKeyTurn = preferences.getBoolean("canKeyTurn", true);
         this.readAloudCanKeyTurn = preferences.getBoolean("readAloudCanKeyTurn", false);

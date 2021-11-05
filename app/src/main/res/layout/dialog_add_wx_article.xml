@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.liuzhenli.reader.view.roundwidget.RoundLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:rv_backgroundColor="@color/main"
+    app:rv_cornerRadius_TL="@dimen/common_space_large"
+    app:rv_cornerRadius_TR="@dimen/common_space_large">
+
+    <TextView
+        style="@style/ItemTitleStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/all_item_height"
+        android:gravity="center"
+        android:text="微信搜索并关注[异书房]"
+        android:textColor="@color/text_color_33"
+        android:textStyle="bold" />
+
+    <TextView
+        style="@style/ItemSubTitleStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="关注后即可获取精品书源" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/icon_book" />
+
+    <com.liuzhenli.reader.view.roundwidget.RoundTextView
+        android:id="@+id/view_copy_and_open"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginEnd="@dimen/common_space_large"
+        android:layout_marginBottom="@dimen/common_space_large"
+        android:gravity="center"
+        android:paddingHorizontal="@dimen/common_space_xxlarge"
+        android:paddingVertical="@dimen/common_space_normal"
+        android:text="@string/copy_wx_article"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/view_input_camera"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view_input_camera"
+        app:rv_backgroundColor="@color/main_widget"
+        app:rv_isRadiusHalfHeight="true"
+        app:srcCompat="@drawable/ic_img" />
+
+</com.liuzhenli.reader.view.roundwidget.RoundLinearLayout>
