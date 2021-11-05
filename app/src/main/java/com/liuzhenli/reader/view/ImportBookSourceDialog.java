@@ -6,6 +6,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
@@ -35,7 +36,7 @@ public class ImportBookSourceDialog extends FixHeightBottomSheetDialog {
         View mViewOkButton = inflate.findViewById(R.id.view_import);
         View mViewCamera = inflate.findViewById(R.id.view_input_camera);
         EditText mEtSource = inflate.findViewById(R.id.et_input_book_source_url);
-        EditText mViewInputLocal = inflate.findViewById(R.id.view_input_local);
+        ImageView mViewInputLocal = inflate.findViewById(R.id.view_input_local);
         View mGetWxSource = inflate.findViewById(R.id.iv_get_source_from_wx);
         ClickUtils.click(mViewOkButton, o -> {
             if (mOkClick != null) {

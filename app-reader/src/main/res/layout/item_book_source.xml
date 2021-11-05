@@ -10,7 +10,9 @@
     <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/cb_book_source_check"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/common_space_large"
+        android:button="@drawable/qmui_s_checkbox" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -48,7 +50,8 @@
         android:layout_height="wrap_content"
         android:text="发现"
         android:textColor="@color/s_text_66"
-        android:textSize="@dimen/txt_size_10" />
+        android:textSize="@dimen/txt_size_10"
+        android:track="@drawable/qmui_s_icon_switch" />
 
     <ImageView
         android:id="@+id/view_edit_book_source"
@@ -67,6 +70,7 @@
         android:id="@+id/iv_book_source_visible"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_marginRight="@dimen/common_space_large"
         android:padding="@dimen/common_space_normal"
         android:src="@drawable/icon_delete" />
 

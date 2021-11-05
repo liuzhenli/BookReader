@@ -1,13 +1,18 @@
 package com.liuzhenli.common.utils;
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.text.Html;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+
+import com.liuzhenli.common.R;
 
 /**
  * Description:
@@ -48,5 +53,15 @@ public class IntentUtils {
         intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"text/*", "application/json"});
         intent.setType("*/*");//设置类型
         context.startActivityForResult(intent, requestCode);
+    }
+
+    public static void openWeChat(Context mContext) {
+        try {
+            Intent intent = mContext.getPackageManager().getLaunchIntentForPackage("com.tencent.mm");
+            mContext.startActivity(intent);
+        } catch (Exception e) {
+            ToastUtil.showToast("异书房无法打开微信,请手动打开");
+        }
+
     }
 }

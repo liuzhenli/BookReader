@@ -103,7 +103,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/view_input_camera"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/view_input_camera"
-        app:rv_backgroundColor="@color/widget_main"
+        app:rv_backgroundColor="@color/main_widget"
         app:rv_isRadiusHalfHeight="true"
         app:srcCompat="@drawable/ic_img" />
 

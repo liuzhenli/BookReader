@@ -495,4 +495,5 @@
     <string name="string_book_source_is_empty">您还没有配置书源,无法完成搜索,点击右上角,先添加书源吧.</string>
     <string name="about_donate">我们利用有限的业余时间设计了异书房App,虽然它并不那么美好,但仍在努力前行。\n如果你喜欢这款软件,可以通过捐赠来支持我们。\n你也可以关注异书房微信公众号:异书房,获取书源及app更新信息。</string>
     <string name="pre_step">上一步</string>
+    <string name="copy_wx_article">复制并打开微信</string>
 </resources>

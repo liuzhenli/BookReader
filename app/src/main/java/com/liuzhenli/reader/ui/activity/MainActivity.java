@@ -2,9 +2,7 @@ package com.liuzhenli.reader.ui.activity;
 
 import android.content.Intent;
 import android.os.Build;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 
@@ -27,8 +25,10 @@ import com.liuzhenli.common.constant.ARouterConstants;
 import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.common.utils.ClickUtils;
+import com.liuzhenli.common.utils.ClipboardUtil;
 import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.common.utils.FillContentUtil;
+import com.liuzhenli.common.utils.IntentUtils;
 import com.liuzhenli.common.utils.L;
 import com.liuzhenli.common.utils.TimeUtils;
 import com.liuzhenli.common.utils.ToastUtil;
@@ -39,10 +39,10 @@ import com.liuzhenli.reader.ui.contract.MainContract;
 import com.liuzhenli.reader.ui.fragment.DiscoverFragment;
 import com.liuzhenli.reader.ui.presenter.MainPresenter;
 import com.liuzhenli.reader.utils.JumpToLastPageUtil;
-import com.liuzhenli.reader.utils.ZTextWatcher;
 import com.liuzhenli.reader.utils.storage.Backup;
 import com.liuzhenli.reader.view.ChoseBackupFolderDialog;
 import com.liuzhenli.reader.view.ImportBookSourceDialog;
+import com.liuzhenli.reader.view.dialog.AddWxArticleDialog;
 import com.micoredu.reader.bean.BookSourceBean;
 import com.micoredu.reader.helper.AppReaderDbHelper;
 import com.micoredu.reader.ui.activity.BookSourceActivity;
@@ -315,7 +315,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                                 .build(ARouterConstants.ACT_QRCODE)
                                 .navigation(this, IMPORT_BOOK_SOURCE_QRCODE);
                     }).setImportWxSource(v -> {
-
+                        AddWxArticleDialog addWxArticleDialog = new AddWxArticleDialog(mContext);
+                        addWxArticleDialog.setOkButtonClickListener(v1 -> {
+                            ClipboardUtil.copyToClipboard("异书房");
+                            IntentUtils.openWeChat(mContext);
+                        });
+                        addWxArticleDialog.show();
                     }).setOkButtonClickListener(v -> {
                         if (TextUtils.isEmpty(importBookSourceDialog.getUserInput())) {
                             toast(getResources().getString(com.micoredu.reader.R.string.input_book_source_url));
