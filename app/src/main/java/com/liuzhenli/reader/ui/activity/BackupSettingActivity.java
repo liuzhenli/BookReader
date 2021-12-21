@@ -52,7 +52,6 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class BackupSettingActivity extends BaseActivity<BaseContract.BasePresenter, ActBackupsettingBinding> implements Backup.CallBack, Restore.CallBack {
     private String[] mBackupNetDes;
-    private ActBackupsettingBinding binding;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, BackupSettingActivity.class);

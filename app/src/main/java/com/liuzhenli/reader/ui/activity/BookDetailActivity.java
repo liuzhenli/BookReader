@@ -59,7 +59,6 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter, ActBoo
     private SearchBookBean mSearchBook;
     private BookShelfBean mBookShelf;
     private boolean isInBookShelf = false;
-    private ActBookdetailBinding binding;
     private boolean isLocalBook = false;
 
     @Override
