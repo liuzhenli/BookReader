@@ -32,7 +32,6 @@ public class WebViewActivity extends BaseActivity<BaseContract.BasePresenter, Ac
     public ValueCallback<Uri> mUploadMessage;
     @Autowired(name = INTENT_ID)
     String mUrl;
-    private ActWebviewBinding binding;
 
     public static void start(Context context, String url) {
         Intent intent = new Intent(context, WebViewActivity.class);

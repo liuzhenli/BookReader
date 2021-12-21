@@ -41,7 +41,6 @@ public class WriteBookActivity extends WriteBaseActivity<WriteBookPresenter,ActW
 
     private WriteChapter mChapter;
     private long mLocalBookId;
-    private ActWirtebookBinding binding;
     private String mChapterPath;
     private WriteChapterDao mWriteChapterDao;
     private WriteChapterManager mWriteChapterManager;
