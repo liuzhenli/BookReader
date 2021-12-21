@@ -62,7 +62,7 @@
 
     <style name="BottomSheetStyle">
         <item name="android:windowBackground">#80000000</item>
-        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsFloating">false</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
         <item name="android:statusBarColor" tools:ignore="NewApi">@android:color/transparent</item>
     </style>
