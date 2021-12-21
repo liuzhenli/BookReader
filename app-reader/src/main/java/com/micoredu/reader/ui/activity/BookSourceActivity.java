@@ -12,6 +12,7 @@ import android.os.Build;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
@@ -51,7 +52,7 @@ import java.util.List;
  *
  * @author liuzhenli 2020.8.10
  */
-public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter, BookSourceBean> implements BookSourceContract.View {
+public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter, BookSourceBean, ActivityBookSourceBinding> implements BookSourceContract.View {
 
 
     private BookSourceFilterMenuAdapter mFilterMenuAdapter;
@@ -59,22 +60,21 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
      * book source order type see AppSharedPreferenceHelper.SortType
      */
     private int mSortType;
-    private ActivityBookSourceBinding binding;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, BookSourceActivity.class);
         context.startActivity(intent);
     }
 
-    @Override
-    protected View bindContentView() {
-        binding = ActivityBookSourceBinding.inflate(getLayoutInflater());
-        return binding.getRoot();
-    }
 
     @Override
     protected void setupActivityComponent(ReaderComponent appComponent) {
         appComponent.inject(this);
+    }
+
+    @Override
+    protected ActivityBookSourceBinding inflateView(LayoutInflater inflater) {
+        return ActivityBookSourceBinding.inflate(inflater);
     }
 
     @Override

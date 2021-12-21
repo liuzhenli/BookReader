@@ -7,6 +7,7 @@ import android.os.Looper;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import com.hwangjr.rxbus.annotation.Subscribe;
@@ -44,7 +45,7 @@ import static com.liuzhenli.common.BitIntentDataManager.DATA_KEY;
  *
  * @author liuzhenli 2019.12.13
  */
-public class ChangeSourceActivity extends BaseRvActivity<ChangeSourcePresenter, SearchBookBean> implements ChangeSourceContract.View {
+public class ChangeSourceActivity extends BaseRvActivity<ChangeSourcePresenter, SearchBookBean, ActChangesourceBinding> implements ChangeSourceContract.View {
 
     public static final String BOOK_SHELF = "book_shelf";
     private static Handler handler = new Handler(Looper.getMainLooper());
@@ -55,7 +56,6 @@ public class ChangeSourceActivity extends BaseRvActivity<ChangeSourcePresenter, 
     private String bookAuthor;
     private int shelfLastChapter;
     private SearchBookModel searchBookModel;
-    private ActChangesourceBinding binding;
 
     public static void startForResult(Activity context, BookShelfBean bookShelf, int requestCode) {
         Intent intent = new Intent(context, ChangeSourceActivity.class);
@@ -66,9 +66,8 @@ public class ChangeSourceActivity extends BaseRvActivity<ChangeSourcePresenter, 
     }
 
     @Override
-    protected View bindContentView() {
-        binding = ActChangesourceBinding.inflate(getLayoutInflater());
-        return binding.getRoot();
+    protected ActChangesourceBinding inflateView(LayoutInflater inflater) {
+        return ActChangesourceBinding.inflate(inflater);
     }
 
     @Override

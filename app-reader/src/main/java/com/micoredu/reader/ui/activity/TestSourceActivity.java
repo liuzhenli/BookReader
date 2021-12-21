@@ -3,6 +3,7 @@ package com.micoredu.reader.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import com.hwangjr.rxbus.annotation.Subscribe;
@@ -26,10 +27,9 @@ import io.reactivex.functions.Consumer;
  * @author liuzhenli 2020/11/18
  * Email: 848808263@qq.com
  */
-public class TestSourceActivity extends BaseRvActivity<TestSourcePresenter, String> implements TestSourceContract.View {
+public class TestSourceActivity extends BaseRvActivity<TestSourcePresenter, String,ActSourcetestBinding> implements TestSourceContract.View {
 
     private String mBookSourceUrl;
-    private ActSourcetestBinding inflate;
 
     public static void start(Context context, String bookSourceUrl) {
         Intent intent = new Intent(context, TestSourceActivity.class);
@@ -39,9 +39,8 @@ public class TestSourceActivity extends BaseRvActivity<TestSourcePresenter, Stri
 
 
     @Override
-    protected View bindContentView() {
-        inflate = ActSourcetestBinding.inflate(getLayoutInflater());
-        return inflate.getRoot();
+    protected ActSourcetestBinding inflateView(LayoutInflater inflater) {
+        return ActSourcetestBinding.inflate(inflater);
     }
 
     @Override
@@ -62,10 +61,10 @@ public class TestSourceActivity extends BaseRvActivity<TestSourcePresenter, Stri
     @Override
     protected void configViews() {
         initAdapter(TestSourceAdapter.class, false, false);
-        ClickUtils.click(inflate.mBtnSearch, new Consumer() {
+        ClickUtils.click(binding.mBtnSearch, new Consumer() {
             @Override
             public void accept(Object o) throws Exception {
-                startTest(inflate.mEtContent.getText().toString());
+                startTest(binding.mEtContent.getText().toString());
             }
         });
     }
@@ -90,7 +89,7 @@ public class TestSourceActivity extends BaseRvActivity<TestSourcePresenter, Stri
             toast("请输入测试内容");
             return;
         }
-        inflate.mSearchIndicator.setVisibility(View.VISIBLE);
+        binding.mSearchIndicator.setVisibility(View.VISIBLE);
         mAdapter.clear();
         Debug.newDebug(mBookSourceUrl, content, mPresenter.getCompositeDisposable());
 
@@ -101,7 +100,7 @@ public class TestSourceActivity extends BaseRvActivity<TestSourcePresenter, Stri
         mAdapter.add(msg);
         if (msg.equals("finish")) {
             hideDialog();
-            inflate.mSearchIndicator.setVisibility(View.GONE);
+            binding.mSearchIndicator.setVisibility(View.GONE);
         }
     }
 }

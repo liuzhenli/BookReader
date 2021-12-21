@@ -1,10 +1,13 @@
 package com.liuzhenli.reader.ui.activity;
 
+import static androidx.fragment.app.FragmentPagerAdapter.BEHAVIOR_SET_USER_VISIBLE_HINT;
+import static com.liuzhenli.common.constant.AppConstant.SCRIPT_ENGINE;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.text.TextUtils;
-import android.view.View;
+import android.view.LayoutInflater;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 
@@ -12,9 +15,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.liuzhenli.common.base.BaseActivity;
-import com.liuzhenli.common.base.BaseFragment;
 import com.liuzhenli.common.AppComponent;
+import com.liuzhenli.common.base.BaseActivity;
+import com.liuzhenli.common.base.BaseContract;
+import com.liuzhenli.common.base.BaseFragment;
 import com.liuzhenli.reader.ui.fragment.BookCategoryFragment;
 import com.liuzhenli.reader.view.ScaleTransitionPagerTitleView;
 import com.micoredu.reader.analyzerule.AnalyzeRule;
@@ -37,22 +41,18 @@ import java.util.List;
 import javax.script.ScriptException;
 import javax.script.SimpleBindings;
 
-import static androidx.fragment.app.FragmentPagerAdapter.BEHAVIOR_SET_USER_VISIBLE_HINT;
-import static com.liuzhenli.common.constant.AppConstant.SCRIPT_ENGINE;
-
 /**
  * Description:书源站点 分类(左侧)+书籍(右侧)
  *
  * @author liuzhenli 2020/10/9
  * Email: 848808263@qq.com
  */
-public class BookListActivity extends BaseActivity {
+public class BookListActivity extends BaseActivity<BaseContract.BasePresenter, ActBooklistBinding> {
     public static final String BOOK_SOURCE_DATA = "book_source_data";
 
     private BookSourceBean mBookSource;
     private final ArrayList<BookCategoryBean> mBookCategory = new ArrayList<>();
     protected List<BaseFragment> mFragmentList = new ArrayList<>();
-    private ActBooklistBinding binding;
 
     public static void start(Context context, BookSourceBean data) {
         Intent intent = new Intent(context, BookListActivity.class);
@@ -61,9 +61,8 @@ public class BookListActivity extends BaseActivity {
     }
 
     @Override
-    protected View bindContentView() {
-        binding = ActBooklistBinding.inflate(getLayoutInflater());
-        return binding.getRoot();
+    protected ActBooklistBinding inflateView(LayoutInflater inflater) {
+        return ActBooklistBinding.inflate(inflater);
     }
 
     @Override

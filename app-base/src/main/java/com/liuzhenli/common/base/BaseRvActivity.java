@@ -7,6 +7,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.viewbinding.ViewBinding;
 
 import com.liuzhenli.common.R;
 import com.liuzhenli.common.utils.NetworkUtils;
@@ -21,9 +22,9 @@ import java.lang.reflect.Constructor;
  * @author Liuzhenli
  * @since 2019-07-07 08:38
  */
-public abstract class BaseRvActivity<T1 extends BaseContract.BasePresenter, T2> extends BaseActivity<T1> implements OnLoadMoreListener, OnRefreshListener, RecyclerArrayAdapter.OnItemClickListener {
+public abstract class BaseRvActivity<P extends BaseContract.BasePresenter, DATA, VB extends ViewBinding> extends BaseActivity<P, VB> implements OnLoadMoreListener, OnRefreshListener, RecyclerArrayAdapter.OnItemClickListener {
 
-    protected RecyclerArrayAdapter<T2> mAdapter;
+    protected RecyclerArrayAdapter<DATA> mAdapter;
 
     /**
      * 页数
@@ -66,12 +67,12 @@ public abstract class BaseRvActivity<T1 extends BaseContract.BasePresenter, T2> 
     }
 
 
-    protected void initAdapter(Class<? extends RecyclerArrayAdapter<T2>> clazz, boolean refreshable, boolean loadMoreAble) {
+    protected void initAdapter(Class<? extends RecyclerArrayAdapter<DATA>> clazz, boolean refreshable, boolean loadMoreAble) {
         mAdapter = (RecyclerArrayAdapter) createInstance(clazz);
         initAdapter(refreshable, loadMoreAble);
     }
 
-    protected void initAdapter(Class<? extends RecyclerArrayAdapter<T2>> clazz, boolean refreshable, boolean loadMoreAble, View zeroView) {
+    protected void initAdapter(Class<? extends RecyclerArrayAdapter<DATA>> clazz, boolean refreshable, boolean loadMoreAble, View zeroView) {
         mAdapter = (RecyclerArrayAdapter) createInstance(clazz);
         initAdapter(refreshable, loadMoreAble, zeroView);
     }

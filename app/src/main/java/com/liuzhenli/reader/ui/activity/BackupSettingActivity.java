@@ -3,6 +3,7 @@ package com.liuzhenli.reader.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -11,6 +12,7 @@ import com.hwangjr.rxbus.RxBus;
 import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.SharedPreferencesUtil;
 import com.liuzhenli.common.base.BaseActivity;
+import com.liuzhenli.common.base.BaseContract;
 import com.liuzhenli.common.constant.AppConstant;
 import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
@@ -48,19 +50,19 @@ import io.reactivex.schedulers.Schedulers;
  * @author liuzhenli 2020/12/14
  * Email: 848808263@qq.com
  */
-public class BackupSettingActivity extends BaseActivity implements Backup.CallBack, Restore.CallBack {
+public class BackupSettingActivity extends BaseActivity<BaseContract.BasePresenter, ActBackupsettingBinding> implements Backup.CallBack, Restore.CallBack {
     private String[] mBackupNetDes;
-    private ActBackupsettingBinding mContentView;
+    private ActBackupsettingBinding binding;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, BackupSettingActivity.class);
         context.startActivity(intent);
     }
 
+
     @Override
-    protected View bindContentView() {
-        mContentView = ActBackupsettingBinding.inflate(getLayoutInflater());
-        return mContentView.getRoot();
+    protected ActBackupsettingBinding inflateView(LayoutInflater inflater) {
+        return ActBackupsettingBinding.inflate(inflater);
     }
 
     @Override
@@ -82,48 +84,48 @@ public class BackupSettingActivity extends BaseActivity implements Backup.CallBa
     protected void configViews() {
         setBackupPathInfo();
         //web dav address
-        ClickUtils.click(mContentView.mViewNetAddress, o ->
+        ClickUtils.click(binding.mViewNetAddress, o ->
                 DialogUtil.showEditTextDialog(this, getResources().getString(R.string.web_dav_address), "请输入网址",
                         AppSharedPreferenceHelper.getWebDavAddress(), null, s -> {
                             AppSharedPreferenceHelper.saveWebDavAddress(s);
-                            mContentView.mTvNetAddress.setText(AppSharedPreferenceHelper.getWebDavAddress());
+                            binding.mTvNetAddress.setText(AppSharedPreferenceHelper.getWebDavAddress());
                         }));
         //web dav account
-        ClickUtils.click(mContentView.viewAccount, o ->
+        ClickUtils.click(binding.viewAccount, o ->
                 DialogUtil.showEditTextDialog(this, getResources().getString(R.string.web_dav_account), "请输入账号",
                         AppSharedPreferenceHelper.getWebDavAccountName(), null, s -> {
-                            mContentView.mTvAccount.setText(s);
+                            binding.mTvAccount.setText(s);
                             AppSharedPreferenceHelper.saveWebDavAccountName(s);
                         }));
         //web dav password
-        ClickUtils.click(mContentView.mVPassword, o ->
+        ClickUtils.click(binding.mVPassword, o ->
                 DialogUtil.showEditTextDialog(this, getResources().getString(R.string.web_dav_password), "请输入密码",
                         AppSharedPreferenceHelper.getWebDavAddPwd(), null, AppSharedPreferenceHelper::saveWebDavAddPwd));
 
         //恢复
-        ClickUtils.click(mContentView.mVRestore, o -> {
+        ClickUtils.click(binding.mVRestore, o -> {
             showDialog();
             restoreFile();
         });
         //备份到手机
-        ClickUtils.click(mContentView.mVBackup, o -> {
+        ClickUtils.click(binding.mVBackup, o -> {
             showDialog();
             BackupRestoreUi.INSTANCE.backup(BackupSettingActivity.this,
                     false, BackupSettingActivity.this, BackupSettingActivity.this);
         });
         //备份长按 选择备份位置
-        ClickUtils.longClick(mContentView.mVBackup, o -> {
+        ClickUtils.longClick(binding.mVBackup, o -> {
             BackupRestoreUi.INSTANCE.selectBackupFolder(this, false, this, this);
         });
         //备份到云端
-        ClickUtils.click(mContentView.mVBackupToWeb, o -> {
+        ClickUtils.click(binding.mVBackupToWeb, o -> {
             showDialog();
             BackupRestoreUi.INSTANCE.backup(BackupSettingActivity.this,
                     true, BackupSettingActivity.this, BackupSettingActivity.this);
         });
 
         //备份网络
-        ClickUtils.click(mContentView.mVBackupNetSetting, o -> {
+        ClickUtils.click(binding.mVBackupNetSetting, o -> {
             int selection = SharedPreferencesUtil.getInstance().getInt(AppSharedPreferenceHelper.AUTO_BACKUP_NET_TYPE,
                     AppSharedPreferenceHelper.BackupNetType.WIFI_ONLY) == AppSharedPreferenceHelper.BackupNetType.ALL_ALLOWED ? 0 : 1;
 
@@ -137,12 +139,12 @@ public class BackupSettingActivity extends BaseActivity implements Backup.CallBa
             }, selection);
         });
 
-        ClickUtils.click(mContentView.mTVBackupGuide,
+        ClickUtils.click(binding.mTVBackupGuide,
                 o -> WebViewActivity.start(mContext, AppConstant.URL_BACKUP_GUIDE));
 
-        mContentView.mTvNetAddress.setText(AppSharedPreferenceHelper.getWebDavAddress());
-        mContentView.mTvAccount.setText(AppSharedPreferenceHelper.getWebDavAccountName());
-        mContentView.mTvPassword.setText(AppSharedPreferenceHelper.getWebDavAddPwd());
+        binding.mTvNetAddress.setText(AppSharedPreferenceHelper.getWebDavAddress());
+        binding.mTvAccount.setText(AppSharedPreferenceHelper.getWebDavAccountName());
+        binding.mTvPassword.setText(AppSharedPreferenceHelper.getWebDavAddPwd());
         setBackupNetMode();
     }
 
@@ -150,9 +152,9 @@ public class BackupSettingActivity extends BaseActivity implements Backup.CallBa
     private void setBackupNetMode() {
         if (SharedPreferencesUtil.getInstance().getInt(AppSharedPreferenceHelper.AUTO_BACKUP_NET_TYPE,
                 AppSharedPreferenceHelper.BackupNetType.WIFI_ONLY) == AppSharedPreferenceHelper.BackupNetType.ALL_ALLOWED) {
-            mContentView.mTVBackupNetType.setText(mBackupNetDes[0]);
+            binding.mTVBackupNetType.setText(mBackupNetDes[0]);
         } else {
-            mContentView.mTVBackupNetType.setText(mBackupNetDes[1]);
+            binding.mTVBackupNetType.setText(mBackupNetDes[1]);
         }
     }
 
@@ -251,7 +253,7 @@ public class BackupSettingActivity extends BaseActivity implements Backup.CallBa
         String defPath = Backup.INSTANCE.defaultPath();
         String localPath = AppSharedPreferenceHelper.getBackupPath(defPath);
         String path = TextUtils.isEmpty(localPath) ? "未设置" : String.format("备份路径：%s", PathUtil.Companion.getPathShow(localPath));
-        mContentView.tvViewBackupPathInfoVis.setText(path);
+        binding.tvViewBackupPathInfoVis.setText(path);
     }
 
     @Override

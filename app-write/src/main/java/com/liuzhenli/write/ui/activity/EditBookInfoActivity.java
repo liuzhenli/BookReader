@@ -2,6 +2,7 @@ package com.liuzhenli.write.ui.activity;
 
 import android.text.Editable;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -17,10 +18,6 @@ import com.liuzhenli.write.helper.WriteBookHelper;
 import com.liuzhenli.write.ui.WriteBaseActivity;
 import com.liuzhenli.write.ui.contract.EditBookContract;
 import com.liuzhenli.write.ui.presenter.EditBookPresenter;
-import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
-import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
-
-import io.reactivex.functions.Consumer;
 
 /**
  * Description:create new book or update book info.
@@ -29,21 +26,19 @@ import io.reactivex.functions.Consumer;
  * Email: 848808263@qq.com
  */
 @Route(path = ARouterConstants.ACT_EDIT_BOOK_INFO)
-public class EditBookInfoActivity extends WriteBaseActivity<EditBookPresenter> implements EditBookContract.View {
+public class EditBookInfoActivity extends WriteBaseActivity<EditBookPresenter, ActEditbookBinding> implements EditBookContract.View {
     public static final String WRITE_BOOK = "writeBook";
-    private ActEditbookBinding mBinding;
     private WriteBook mBook;
 
 
     @Override
-    protected View bindContentView() {
-        mBinding = ActEditbookBinding.inflate(getLayoutInflater());
-        return mBinding.getRoot();
+    protected void setupActivityComponent(WriteBookComponent appComponent) {
+        appComponent.inject(this);
     }
 
     @Override
-    protected void setupActivityComponent(WriteBookComponent appComponent) {
-        appComponent.inject(this);
+    protected ActEditbookBinding inflateView(LayoutInflater inflater) {
+        return ActEditbookBinding.inflate(inflater);
     }
 
     @Override
@@ -75,12 +70,12 @@ public class EditBookInfoActivity extends WriteBaseActivity<EditBookPresenter> i
 
     @Override
     protected void configViews() {
-        mBinding.etBookName.setText(mBook.getBookName());
-        mBinding.etBookIntro.setText(mBook.getIntro());
+        binding.etBookName.setText(mBook.getBookName());
+        binding.etBookIntro.setText(mBook.getIntro());
 
-        ClickUtils.click(mBinding.btnOk, o -> {
-            Editable mBookName = mBinding.etBookName.getText();
-            Editable mBookIntro = mBinding.etBookIntro.getText();
+        ClickUtils.click(binding.btnOk, o -> {
+            Editable mBookName = binding.etBookName.getText();
+            Editable mBookIntro = binding.etBookIntro.getText();
             if (TextUtils.isEmpty(mBookName)) {
                 toast("请输入书名");
                 return;

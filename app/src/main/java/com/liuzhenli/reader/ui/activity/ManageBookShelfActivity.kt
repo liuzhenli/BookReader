@@ -1,6 +1,7 @@
 package com.liuzhenli.reader.ui.activity
 
 import android.content.Context
+import android.view.LayoutInflater
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -22,9 +23,9 @@ import java.lang.Exception
  * Email: 848808263@qq.com
  */
 @Route(path = ARouterConstants.ACT_MANAGE_BOOKSHELF)
-class ManageBookShelfActivity : BaseActivity<ManageBookPresenter>(), ManageBookshelfContract.View {
+class ManageBookShelfActivity : BaseActivity<ManageBookPresenter, ActivityManagebookshelfBinding>(),
+    ManageBookshelfContract.View {
 
-    private var binding: ActivityManagebookshelfBinding? = null
 
     companion object {
         fun start(context: Context) {
@@ -32,10 +33,6 @@ class ManageBookShelfActivity : BaseActivity<ManageBookPresenter>(), ManageBooks
         }
     }
 
-    override fun bindContentView(): View {
-        binding = ActivityManagebookshelfBinding.inflate(layoutInflater)
-        return binding!!.root
-    }
 
     override fun setupActivityComponent(appComponent: AppComponent?) {
         DaggerReadBookComponent.builder().build().inject(this)
@@ -59,5 +56,9 @@ class ManageBookShelfActivity : BaseActivity<ManageBookPresenter>(), ManageBooks
     }
 
     override fun complete() {
+    }
+
+    override fun inflateView(inflater: LayoutInflater?): ActivityManagebookshelfBinding {
+        return ActivityManagebookshelfBinding.inflate(inflater!!)
     }
 }

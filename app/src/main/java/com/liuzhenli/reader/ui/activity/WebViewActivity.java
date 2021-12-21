@@ -4,14 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.liuzhenli.common.base.BaseActivity;
 import com.liuzhenli.common.AppComponent;
+import com.liuzhenli.common.base.BaseActivity;
+import com.liuzhenli.common.base.BaseContract;
 import com.liuzhenli.common.constant.ARouterConstants;
 import com.liuzhenli.reader.view.webview.ZLWebChromeClient;
 import com.liuzhenli.reader.view.webview.ZLWebViewClient;
@@ -24,13 +26,13 @@ import com.microedu.reader.databinding.ActWebviewBinding;
  * @since 1.0.0
  */
 @Route(path = ARouterConstants.ACT_WEB)
-public class WebViewActivity extends BaseActivity {
+public class WebViewActivity extends BaseActivity<BaseContract.BasePresenter, ActWebviewBinding> {
     public static final String INTENT_ID = "url";
     public ValueCallback<Uri[]> mUploadMessageForAndroid5;
     public ValueCallback<Uri> mUploadMessage;
     @Autowired(name = INTENT_ID)
     String mUrl;
-    private ActWebviewBinding inflate;
+    private ActWebviewBinding binding;
 
     public static void start(Context context, String url) {
         Intent intent = new Intent(context, WebViewActivity.class);
@@ -38,10 +40,10 @@ public class WebViewActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
+
     @Override
-    protected View bindContentView() {
-        inflate = ActWebviewBinding.inflate(getLayoutInflater());
-        return inflate.getRoot();
+    protected ActWebviewBinding inflateView(LayoutInflater inflater) {
+        return ActWebviewBinding.inflate(inflater);
     }
 
     @Override
@@ -64,9 +66,9 @@ public class WebViewActivity extends BaseActivity {
     @Override
     public void configViews() {
         mUrl = getIntent().getStringExtra(INTENT_ID);
-        inflate.mWebView.setWebChromeClient(new ZLWebChromeClient(mContext));
-        inflate.mWebView.setWebViewClient(new ZLWebViewClient(mContext));
-        WebSettings settings = inflate.mWebView.getSettings();
+        binding.mWebView.setWebChromeClient(new ZLWebChromeClient(mContext));
+        binding.mWebView.setWebViewClient(new ZLWebViewClient(mContext));
+        WebSettings settings = binding.mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
         // mWebView.addJavascriptInterface(new JsReadBook(mHandler), "chineseallread");
         //解决没有声音的问题
@@ -97,10 +99,10 @@ public class WebViewActivity extends BaseActivity {
         settings.setAppCacheEnabled(true);
         // 设置可以访问文件
         settings.setAllowFileAccess(true);
-        inflate.mWebView.loadUrl(mUrl);
+        binding.mWebView.loadUrl(mUrl);
         mToolBar.setNavigationOnClickListener(v -> {
-            if (inflate.mWebView.canGoBack()) {
-                inflate.mWebView.goBack();
+            if (binding.mWebView.canGoBack()) {
+                binding.mWebView.goBack();
             } else {
                 onBackPressed();
             }

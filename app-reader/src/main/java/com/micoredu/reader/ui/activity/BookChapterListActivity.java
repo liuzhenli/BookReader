@@ -2,12 +2,14 @@ package com.micoredu.reader.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.fragment.app.Fragment;
 
 import com.liuzhenli.common.BitIntentDataManager;
 import com.liuzhenli.common.AppComponent;
+import com.liuzhenli.common.base.BaseContract;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.base.BaseTabActivity;
 import com.micoredu.reader.R;
@@ -30,7 +32,7 @@ import java.util.List;
  * @author liuzhenli 2021/1/26
  * Email: 848808263@qq.com
  */
-public class BookChapterListActivity extends BaseTabActivity {
+public class BookChapterListActivity extends BaseTabActivity<BaseContract.BasePresenter, ActBookchapterlistBinding> {
 
     private BookShelfBean mBookShelf;
     /***正序*/
@@ -44,7 +46,6 @@ public class BookChapterListActivity extends BaseTabActivity {
     private boolean mIsFromReadPage;
 
     private boolean isAsc = true;
-    private ActBookchapterlistBinding mContentView;
 
     public static void start(Context context, BookShelfBean bookShelf, List<BookChapterBean> chapterBeanList, boolean isBookMark, boolean isFromReadPage) {
         Intent intent = new Intent(context, BookChapterListActivity.class);
@@ -68,9 +69,8 @@ public class BookChapterListActivity extends BaseTabActivity {
     }
 
     @Override
-    protected View bindContentView() {
-        mContentView = ActBookchapterlistBinding.inflate(getLayoutInflater());
-        return mContentView.getRoot();
+    protected ActBookchapterlistBinding inflateView(LayoutInflater inflater) {
+        return ActBookchapterlistBinding.inflate(inflater);
     }
 
     @Override
@@ -183,7 +183,7 @@ public class BookChapterListActivity extends BaseTabActivity {
             mImmersionBar.statusBarColor(R.color.main);
             mToolBar.setBackgroundColor(getResources().getColor(R.color.main));
         }
-        mContentView.mViewRoot.setBackground(ReadConfigManager.getInstance().getTextBackground(mContext));
+        binding.mViewRoot.setBackground(ReadConfigManager.getInstance().getTextBackground(mContext));
         mTabLayout.setTabTextColors(getResources().getColor(R.color.text_color_99), ReadConfigManager.getInstance().getTextColor());
         mImmersionBar.statusBarDarkFont(false);
         mImmersionBar.init();

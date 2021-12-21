@@ -1,10 +1,10 @@
 package com.liuzhenli.reader.ui.activity;
 
-import android.view.View;
+import android.view.LayoutInflater;
 
+import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.base.BaseActivity;
 import com.liuzhenli.common.base.BaseBean;
-import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.reader.DaggerReadBookComponent;
 import com.liuzhenli.reader.ui.contract.LoginContract;
@@ -16,15 +16,11 @@ import com.microedu.reader.databinding.ActivityLoginBinding;
  * @author Liuzhenli
  * @since 2019-07-07 10:25
  */
-public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginContract.View {
-
-
-    private ActivityLoginBinding inflate;
+public class LoginActivity extends BaseActivity<LoginPresenter, ActivityLoginBinding> implements LoginContract.View {
 
     @Override
-    protected View bindContentView() {
-        inflate = ActivityLoginBinding.inflate(getLayoutInflater());
-        return inflate.getRoot();
+    protected ActivityLoginBinding inflateView(LayoutInflater inflater) {
+        return ActivityLoginBinding.inflate(inflater);
     }
 
     @Override
@@ -44,8 +40,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void configViews() {
-        ClickUtils.click(inflate.tvLogin, o ->
-                mPresenter.login(inflate.mEtUserName.getText().toString(), inflate.mEtPassword.getText().toString()));
+        ClickUtils.click(binding.tvLogin, o ->
+                mPresenter.login(binding.mEtUserName.getText().toString(), binding.mEtPassword.getText().toString()));
     }
 
     @Override

@@ -4,16 +4,17 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 
-import com.liuzhenli.common.FileHelp;
 import com.liuzhenli.common.AppComponent;
+import com.liuzhenli.common.FileHelp;
+import com.liuzhenli.common.base.BaseActivity;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.FileUtils;
 import com.liuzhenli.reader.DaggerReadBookComponent;
 import com.liuzhenli.reader.ReaderApplication;
-import com.liuzhenli.common.base.BaseActivity;
 import com.liuzhenli.reader.event.OnWebDavSetEvent;
 import com.liuzhenli.reader.ui.contract.SettingContract;
 import com.liuzhenli.reader.ui.presenter.SettingPresenter;
@@ -31,9 +32,7 @@ import org.greenrobot.eventbus.ThreadMode;
  * Email: 848808263@qq.com
  */
 @SuppressLint("NonConstantResourceId")
-public class SettingActivity extends BaseActivity<SettingPresenter> implements SettingContract.View {
-
-    private ActSettingBinding inflate;
+public class SettingActivity extends BaseActivity<SettingPresenter, ActSettingBinding> implements SettingContract.View {
 
     public static void start(Context context) {
         Intent intent = new Intent(context, SettingActivity.class);
@@ -41,9 +40,8 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     }
 
     @Override
-    protected View bindContentView() {
-        inflate = ActSettingBinding.inflate(getLayoutInflater());
-        return inflate.getRoot();
+    protected ActSettingBinding inflateView(LayoutInflater inflater) {
+        return ActSettingBinding.inflate(inflater);
     }
 
     @Override
@@ -63,7 +61,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
 
     @Override
     protected void configViews() {
-        ClickUtils.click(inflate.mViewClearCache, o -> {
+        ClickUtils.click(binding.mViewClearCache, o -> {
             showDialog();
             BookshelfHelper.clearCaches(true);
             FileUtils.deleteFileOrDirectory(mContext.getCacheDir());
@@ -74,18 +72,18 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         });
 
         //backup
-        ClickUtils.click(inflate.viewSettingBackup, o -> {
+        ClickUtils.click(binding.viewSettingBackup, o -> {
             BackupSettingActivity.start(mContext);
         });
 
-        ClickUtils.click(inflate.mVFilePath, o -> {
+        ClickUtils.click(binding.mVFilePath, o -> {
             FilePathsListActivity.start(mContext);
         });
-        ClickUtils.click(inflate.mViewAppDatabase, o -> {
+        ClickUtils.click(binding.mViewAppDatabase, o -> {
             DatabaseTableListActivity.start(mContext);
         });
         if (ReaderApplication.isDebug) {
-            inflate.mViewAppDatabase.setVisibility(View.VISIBLE);
+            binding.mViewAppDatabase.setVisibility(View.VISIBLE);
         }
         mPresenter.getCacheSize();
         //check if webdav is set
@@ -94,7 +92,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
 
     @Override
     public void showCacheSize(String size) {
-        inflate.mTvCacheSize.setText(size);
+        binding.mTvCacheSize.setText(size);
     }
 
     @Override
@@ -111,12 +109,12 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     public void onWebDavSet(OnWebDavSetEvent event) {
         if (TextUtils.isEmpty(AppSharedPreferenceHelper.getWebDavAccountName())
                 || TextUtils.isEmpty(AppSharedPreferenceHelper.getWebDavAddPwd())) {
-            inflate.viewWebDavIndicator.setVisibility(View.VISIBLE);
+            binding.viewWebDavIndicator.setVisibility(View.VISIBLE);
         } else {
             if (event != null && event.isSuccess()) {
-                inflate.viewWebDavIndicator.setVisibility(View.GONE);
+                binding.viewWebDavIndicator.setVisibility(View.GONE);
             } else {
-                inflate.viewWebDavIndicator.setVisibility(View.VISIBLE);
+                binding.viewWebDavIndicator.setVisibility(View.VISIBLE);
             }
         }
     }

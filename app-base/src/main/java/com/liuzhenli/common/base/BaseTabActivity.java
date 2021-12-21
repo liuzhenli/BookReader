@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewbinding.ViewBinding;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -18,7 +19,7 @@ import java.util.List;
  *
  * @author Liuzhenli on 2019-10-18 15:44
  */
-public abstract class BaseTabActivity<T extends BaseContract.BasePresenter> extends BaseActivity<T> implements ViewPager.OnPageChangeListener {
+public abstract class BaseTabActivity<P extends BaseContract.BasePresenter, V extends ViewBinding> extends BaseActivity<P, V> implements ViewPager.OnPageChangeListener {
     protected TabLayout mTabLayout;
     protected ViewPager mVp;
     protected TabFragmentPageAdapter tabFragmentPageAdapter;

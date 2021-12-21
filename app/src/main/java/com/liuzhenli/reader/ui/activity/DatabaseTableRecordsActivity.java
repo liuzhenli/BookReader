@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -14,6 +15,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.liuzhenli.common.base.BaseActivity;
 import com.liuzhenli.common.AppComponent;
+import com.liuzhenli.common.base.BaseContract;
 import com.liuzhenli.reader.ui.adapter.DatabaseTableDataGridAdapter;
 import com.liuzhenli.common.utils.ToastUtil;
 import com.liuzhenli.write.helper.WriteDbHelper;
@@ -34,7 +36,7 @@ import nl.siegmann.epublib.util.StringUtil;
  * @author liuzhenli
  * @date 2021.02.18
  */
-public class DatabaseTableRecordsActivity extends BaseActivity {
+public class DatabaseTableRecordsActivity extends BaseActivity<BaseContract.BasePresenter, ActivityDiagnoseDatabaseTableRecordBinding> {
 
     public static final String EXTRA_TABLE_NAME = "TableName";
     public static final String EXTRA_DB_NAME = "DbName";
@@ -44,12 +46,10 @@ public class DatabaseTableRecordsActivity extends BaseActivity {
 
     private String tableName;
     private String dbName;
-    private ActivityDiagnoseDatabaseTableRecordBinding binding;
 
     @Override
-    protected View bindContentView() {
-        binding = ActivityDiagnoseDatabaseTableRecordBinding.inflate(getLayoutInflater());
-        return binding.getRoot();
+    protected ActivityDiagnoseDatabaseTableRecordBinding inflateView(LayoutInflater inflater) {
+        return ActivityDiagnoseDatabaseTableRecordBinding.inflate(inflater);
     }
 
     @Override
