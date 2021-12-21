@@ -81,8 +81,8 @@ public class ZLSwipeRefreshLayout extends FrameLayout {
     // refresh was triggered.
     private boolean mReturningToStart;
     private final DecelerateInterpolator mDecelerateInterpolator;
-    private static final int[] LAYOUT_ATTRS = new int[] {
-        android.R.attr.enabled
+    private static final int[] LAYOUT_ATTRS = new int[]{
+            android.R.attr.enabled
     };
 
     private CircleImageView mCircleView;
@@ -167,12 +167,12 @@ public class ZLSwipeRefreshLayout extends FrameLayout {
      * there is a toolbar or actionbar present.
      *
      * @param scale Set to true if there is no view at a higher z-order than
-     *            where the progress spinner is set to appear.
+     *              where the progress spinner is set to appear.
      * @param start The offset in pixels from the top of this view at which the
-     *            progress spinner should appear.
-     * @param end The offset in pixels from the top of this view at which the
-     *            progress spinner should come to rest after a successful swipe
-     *            gesture.
+     *              progress spinner should appear.
+     * @param end   The offset in pixels from the top of this view at which the
+     *              progress spinner should come to rest after a successful swipe
+     *              gesture.
      */
     public void setProgressViewOffset(boolean scale, int start, int end) {
         mScale = scale;
@@ -190,10 +190,10 @@ public class ZLSwipeRefreshLayout extends FrameLayout {
      * toolbar or actionbar present.
      *
      * @param scale Set to true if there is no view at a higher z-order than
-     *            where the progress spinner is set to appear.
-     * @param end The offset in pixels from the top of this view at which the
-     *            progress spinner should come to rest after a successful swipe
-     *            gesture.
+     *              where the progress spinner is set to appear.
+     * @param end   The offset in pixels from the top of this view at which the
+     *              progress spinner should come to rest after a successful swipe
+     *              gesture.
      */
     public void setProgressViewEndTarget(boolean scale, int end) {
         mSpinnerFinalOffset = end;
@@ -265,7 +265,7 @@ public class ZLSwipeRefreshLayout extends FrameLayout {
         mTotalDragDistance = mSpinnerFinalOffset;
 
         requestDisallowInterceptTouchEvent(true);
-        setColorSchemeColors(ContextCompat.getColor(context, R.color.main));
+        setColorSchemeColors(ContextCompat.getColor(context, R.color.color_widget_red));
     }
 
     protected int getChildDrawingOrder(int childCount, int i) {
@@ -284,7 +284,7 @@ public class ZLSwipeRefreshLayout extends FrameLayout {
     }
 
     private void createProgressView() {
-        mCircleView = new CircleImageView(getContext(), CIRCLE_BG_LIGHT, CIRCLE_DIAMETER/2);
+        mCircleView = new CircleImageView(getContext(), CIRCLE_BG_LIGHT, CIRCLE_DIAMETER / 2);
         mProgress = new MaterialProgressDrawable(getContext(), this);
         mProgress.setBackgroundColor(CIRCLE_BG_LIGHT);
         mCircleView.setImageDrawable(mProgress);
@@ -356,6 +356,7 @@ public class ZLSwipeRefreshLayout extends FrameLayout {
 
     /**
      * Pre API 11, this does an alpha animation.
+     *
      * @param progress
      */
     private void setAnimationProgress(float progress) {
@@ -411,7 +412,7 @@ public class ZLSwipeRefreshLayout extends FrameLayout {
             @Override
             public void applyTransformation(float interpolatedTime, Transformation t) {
                 mProgress
-                        .setAlpha((int) (startingAlpha+ ((endingAlpha - startingAlpha)
+                        .setAlpha((int) (startingAlpha + ((endingAlpha - startingAlpha)
                                 * interpolatedTime)));
             }
         };
@@ -488,7 +489,7 @@ public class ZLSwipeRefreshLayout extends FrameLayout {
 
     /**
      * @return Whether the SwipeRefreshWidget is actively showing refresh
-     *         progress.
+     * progress.
      */
     public boolean isRefreshing() {
         return mRefreshing;
@@ -521,8 +522,8 @@ public class ZLSwipeRefreshLayout extends FrameLayout {
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         try {
 
-            super.onLayout(changed,left,top,right,bottom);
-        }catch (Exception e){
+            super.onLayout(changed, left, top, right, bottom);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         final int width = getMeasuredWidth();
@@ -544,7 +545,7 @@ public class ZLSwipeRefreshLayout extends FrameLayout {
         try {
 
             child.layout(childLeft, childTop, childLeft + childWidth, childTop + childHeight);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         int circleWidth = mCircleView.getMeasuredWidth();
@@ -553,7 +554,7 @@ public class ZLSwipeRefreshLayout extends FrameLayout {
 
             mCircleView.layout((width / 2 - circleWidth / 2), mCurrentTargetOffsetTop,
                     (width / 2 + circleWidth / 2), mCurrentTargetOffsetTop + circleHeight);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -595,12 +596,12 @@ public class ZLSwipeRefreshLayout extends FrameLayout {
      * @return Diameter in pixels of the progress circle view.
      */
     public int getProgressCircleDiameter() {
-        return mCircleView != null ?mCircleView.getMeasuredHeight() : 0;
+        return mCircleView != null ? mCircleView.getMeasuredHeight() : 0;
     }
 
     /**
      * @return Whether it is possible for the child view of this layout to
-     *         scroll up. Override this if the child view is a custom view.
+     * scroll up. Override this if the child view is a custom view.
      */
     public boolean canChildScrollUp() {
 //        //For make it can work when my recycler view is in Gone.
@@ -610,7 +611,7 @@ public class ZLSwipeRefreshLayout extends FrameLayout {
                 final AbsListView absListView = (AbsListView) mTarget;
                 return absListView.getChildCount() > 0
                         && (absListView.getFirstVisiblePosition() > 0 || absListView.getChildAt(0)
-                                .getTop() < absListView.getPaddingTop());
+                        .getTop() < absListView.getPaddingTop());
             } else {
                 return ViewCompat.canScrollVertically(mTarget, -1) || mTarget.getScrollY() > 0;
             }
@@ -900,7 +901,7 @@ public class ZLSwipeRefreshLayout extends FrameLayout {
     };
 
     private void startScaleDownReturnToStartAnimation(int from,
-            AnimationListener listener) {
+                                                      AnimationListener listener) {
         mFrom = from;
         if (isAlphaUsedForScale()) {
             mStartingScale = mProgress.getAlpha();
@@ -910,7 +911,7 @@ public class ZLSwipeRefreshLayout extends FrameLayout {
         mScaleDownToStartAnimation = new Animation() {
             @Override
             public void applyTransformation(float interpolatedTime, Transformation t) {
-                float targetScale = (mStartingScale + (-mStartingScale  * interpolatedTime));
+                float targetScale = (mStartingScale + (-mStartingScale * interpolatedTime));
                 setAnimationProgress(targetScale);
                 moveToStart(interpolatedTime);
             }

@@ -308,26 +308,28 @@ public class MainActivity extends BaseActivity<MainPresenter, ActivityMainContai
 
     private void showImportBookSourceDialog() {
         if (importBookSourceDialog == null) {
-            importBookSourceDialog = new ImportBookSourceDialog(mContext, R.style.BottomSheetStyle)
-                    .setCameraClickListener(v -> {
-                        ARouter.getInstance()
-                                .build(ARouterConstants.ACT_QRCODE)
-                                .navigation(this, IMPORT_BOOK_SOURCE_QRCODE);
-                    }).setImportWxSource(v -> {
-                        AddWxArticleDialog addWxArticleDialog = new AddWxArticleDialog(mContext);
-                        addWxArticleDialog.setOkButtonClickListener(v1 -> {
-                            ClipboardUtil.copyToClipboard("异书房");
-                            IntentUtils.openWeChat(mContext);
-                        });
-                        addWxArticleDialog.show();
-                    }).setOkButtonClickListener(v -> {
-                        if (TextUtils.isEmpty(importBookSourceDialog.getUserInput())) {
-                            toast(getResources().getString(com.micoredu.reader.R.string.input_book_source_url));
-                        } else {
-                            mPresenter.importSource(importBookSourceDialog.getUserInput());
-                        }
-                    }).setDirClick(v -> {
-                    });
+            importBookSourceDialog = new ImportBookSourceDialog(mContext, R.style.BottomSheetStyle);
+            importBookSourceDialog.setCameraClickListener(v ->
+                    ARouter.getInstance()
+                            .build(ARouterConstants.ACT_QRCODE)
+                            .navigation(this, IMPORT_BOOK_SOURCE_QRCODE)).setImportWxSource(v -> {
+                AddWxArticleDialog addWxArticleDialog = new AddWxArticleDialog(mContext);
+                addWxArticleDialog.setOkButtonClickListener(v1 -> {
+                    ClipboardUtil.copyToClipboard("异书房");
+                    IntentUtils.openWeChat(mContext);
+                });
+                addWxArticleDialog.show();
+            });
+            importBookSourceDialog.setOkButtonClickListener(v -> {
+                if (TextUtils.isEmpty(importBookSourceDialog.getUserInput())) {
+                    toast(getResources().getString(com.micoredu.reader.R.string.input_book_source_url));
+                } else {
+                    mPresenter.importSource(importBookSourceDialog.getUserInput());
+                }
+            });
+            importBookSourceDialog.setDirClick(v -> {
+                IntentUtils.selectFileSys(MainActivity.this, IntentUtils.IMPORT_BOOK_SOURCE_LOCAL);
+            });
             importBookSourceDialog.setCanceledOnTouchOutside(true);
         }
         importBookSourceDialog.show();
