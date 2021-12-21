@@ -3,13 +3,13 @@ package com.liuzhenli.reader.ui.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.view.View;
+import android.view.LayoutInflater;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.base.BaseActivity;
+import com.liuzhenli.common.base.BaseContract;
 import com.liuzhenli.common.constant.ARouterConstants;
-import com.liuzhenli.common.observer.MyObserver;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.FileUtils;
 import com.liuzhenli.common.utils.PermissionUtil;
@@ -20,8 +20,6 @@ import com.microedu.reader.databinding.ActQrcodeBinding;
 import java.util.List;
 
 import cn.bingoogolapple.qrcode.core.QRCodeView;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
 
 /**
  * Description:
@@ -30,14 +28,12 @@ import io.reactivex.functions.Consumer;
  * Email: 848808263@qq.com
  */
 @Route(path = ARouterConstants.ACT_QRCODE)
-public class QrCodeActivity extends BaseActivity implements QRCodeView.Delegate {
+public class QrCodeActivity extends BaseActivity<BaseContract.BasePresenter, ActQrcodeBinding> implements QRCodeView.Delegate {
     public static final int REQUEST_MAGE = 10010;
-    private ActQrcodeBinding binding;
 
     @Override
-    protected View bindContentView() {
-        binding = ActQrcodeBinding.inflate(getLayoutInflater());
-        return binding.getRoot();
+    protected ActQrcodeBinding inflateView(LayoutInflater inflater) {
+        return ActQrcodeBinding.inflate(inflater);
     }
 
     @Override

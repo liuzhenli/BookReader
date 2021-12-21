@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
@@ -36,12 +37,12 @@ import java.util.List;
 import static android.text.TextUtils.isEmpty;
 
 /**
- * Description:
+ * Description:edit book source page
  *
  * @author liuzhenli 2020/11/16
  * Email: 848808263@qq.com
  */
-public class EditSourceActivity extends ReaderBaseRVActivity<EditSourcePresenter, EditSource> implements EditSourceContract.View {
+public class EditSourceActivity extends ReaderBaseRVActivity<EditSourcePresenter, EditSource, ActEditsourceBinding> implements EditSourceContract.View {
 
     public static final String BOOK_SOURCE = "book_source";
     private final List<EditSource> sourceEditList = new ArrayList<>();
@@ -50,7 +51,6 @@ public class EditSourceActivity extends ReaderBaseRVActivity<EditSourcePresenter
     private boolean mIsEditFind;
     private BookSourceBean mBookSource;
     private int serialNumber;
-    private ActEditsourceBinding inflate;
     private boolean mIsSoftKeyBoardShowing;
 
     public static void start(Context context, BookSourceBean data) {
@@ -60,14 +60,13 @@ public class EditSourceActivity extends ReaderBaseRVActivity<EditSourcePresenter
     }
 
     @Override
-    protected View bindContentView() {
-        inflate = ActEditsourceBinding.inflate(getLayoutInflater());
-        return inflate.getRoot();
+    protected void setupActivityComponent(ReaderComponent appComponent) {
+        appComponent.inject(this);
     }
 
     @Override
-    protected void setupActivityComponent(ReaderComponent appComponent) {
-        appComponent.inject(this);
+    protected ActEditsourceBinding inflateView(LayoutInflater inflater) {
+        return ActEditsourceBinding.inflate(inflater);
     }
 
     @Override
@@ -126,20 +125,20 @@ public class EditSourceActivity extends ReaderBaseRVActivity<EditSourcePresenter
     protected void configViews() {
         initAdapter(EditSourceAdapter.class, false, false);
         setText(mBookSource);
-        ClickUtils.click(inflate.mEditFind, o -> {
+        ClickUtils.click(binding.mEditFind, o -> {
             mIsEditFind = !mIsEditFind;
             mAdapter.clear();
             if (mIsEditFind) {
-                inflate.mEditFind.setText(R.string.back);
+                binding.mEditFind.setText(R.string.back);
                 mAdapter.addAll(findEditList);
             } else {
-                inflate.mEditFind.setText(R.string.edit_find);
+                binding.mEditFind.setText(R.string.edit_find);
                 mAdapter.addAll(sourceEditList);
             }
         });
-        inflate.mCbSourceEnable.setChecked(mBookSource.getEnable());
+        binding.mCbSourceEnable.setChecked(mBookSource.getEnable());
 
-        inflate.mRvPunctuation.setData(key -> {
+        binding.mRvPunctuation.setData(key -> {
             if (isEmpty(key)) {
                 return;
             }
@@ -406,8 +405,8 @@ public class EditSourceActivity extends ReaderBaseRVActivity<EditSourcePresenter
             }
         }
         bookSource.setSerialNumber(serialNumber);
-        bookSource.setEnable(inflate.mCbSourceEnable.isChecked());
-        bookSource.setBookSourceType(inflate.cbIsAudio.isChecked() ? BookType.AUDIO : null);
+        bookSource.setEnable(binding.mCbSourceEnable.isChecked());
+        bookSource.setBookSourceType(binding.cbIsAudio.isChecked() ? BookType.AUDIO : null);
         return bookSource;
     }
 
@@ -442,17 +441,17 @@ public class EditSourceActivity extends ReaderBaseRVActivity<EditSourcePresenter
         if (isFinishing()) {
             return;
         }
-        if (inflate.mRvPunctuation != null && inflate.mRvPunctuation.getVisibility() == View.VISIBLE) {
+        if (binding.mRvPunctuation != null && binding.mRvPunctuation.getVisibility() == View.VISIBLE) {
             return;
         }
-        if (inflate.mRvPunctuation != null & !this.isFinishing()) {
-            inflate.mRvPunctuation.setVisibility(View.VISIBLE);
+        if (binding.mRvPunctuation != null & !this.isFinishing()) {
+            binding.mRvPunctuation.setVisibility(View.VISIBLE);
         }
     }
 
     private void closePopupWindow() {
-        if (inflate.mRvPunctuation != null && inflate.mRvPunctuation.getVisibility() == View.VISIBLE) {
-            inflate.mRvPunctuation.setVisibility(View.GONE);
+        if (binding.mRvPunctuation != null && binding.mRvPunctuation.getVisibility() == View.VISIBLE) {
+            binding.mRvPunctuation.setVisibility(View.GONE);
         }
     }
 }

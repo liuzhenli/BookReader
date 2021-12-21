@@ -6,12 +6,14 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.ArrayMap;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewbinding.ViewBinding;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.hwangjr.rxbus.RxBus;
@@ -35,7 +37,7 @@ import javax.inject.Inject;
  * @author Liuzhenli
  * @since 2019-07-06 17:18
  */
-public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extends RxAppCompatActivity {
+public abstract class BaseActivity<T1 extends BaseContract.BasePresenter, VB extends ViewBinding> extends RxAppCompatActivity {
     public final static String START_SHEAR_ELE = "start_with_share_ele";
     protected Context mContext;
     public TextView mTvTitle, mTvRight;
@@ -44,6 +46,7 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
     protected EasyRecyclerView mRecyclerView;
     @Inject
     public T1 mPresenter;
+    protected VB binding;
     /**
      * 全屏状态下不需要状态栏
      */
@@ -55,8 +58,12 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(bindContentView());
+        binding = inflateView(getLayoutInflater());
+        if (binding != null) {
+            setContentView(binding.getRoot());
+        }
         RxBus.get().register(this);
+
         ARouter.getInstance().inject(this);
         if (getIntent() != null) {
             startShareAnim = getIntent().getBooleanExtra(START_SHEAR_ELE, false);
@@ -96,7 +103,7 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
         overridePendingTransition(animIn, animExit);
     }
 
-    protected abstract View bindContentView();
+    protected abstract VB inflateView(LayoutInflater inflater);
 
     protected abstract void setupActivityComponent(AppComponent appComponent);
 

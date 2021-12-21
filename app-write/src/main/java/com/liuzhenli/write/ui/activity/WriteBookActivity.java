@@ -6,16 +6,15 @@ import android.graphics.Rect;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.liuzhenli.common.base.BaseBean;
 import com.liuzhenli.common.constant.ARouterConstants;
-import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.L;
 import com.liuzhenli.common.utils.ScreenUtils;
-import com.liuzhenli.write.R;
 import com.liuzhenli.write.WriteBookComponent;
 import com.liuzhenli.write.bean.WriteChapter;
 import com.liuzhenli.write.data.WriteChapterDao;
@@ -27,8 +26,6 @@ import com.liuzhenli.write.ui.presenter.WriteBookPresenter;
 import com.liuzhenli.write.util.WriteChapterManager;
 import com.liuzhenli.write.util.WriteConstants;
 
-import io.reactivex.functions.Consumer;
-
 /**
  * Description:
  *
@@ -36,7 +33,7 @@ import io.reactivex.functions.Consumer;
  * Email: 848808263@qq.com
  */
 @Route(path = ARouterConstants.ACT_WRITE_BOOK)
-public class WriteBookActivity extends WriteBaseActivity<WriteBookPresenter> implements WriteBookContract.View, ViewTreeObserver.OnGlobalLayoutListener {
+public class WriteBookActivity extends WriteBaseActivity<WriteBookPresenter,ActWirtebookBinding> implements WriteBookContract.View, ViewTreeObserver.OnGlobalLayoutListener {
 
     public static final String DATA = "chapterData";
     public static final String LOCAL_BOOK_ID = "local_book_id";
@@ -44,7 +41,7 @@ public class WriteBookActivity extends WriteBaseActivity<WriteBookPresenter> imp
 
     private WriteChapter mChapter;
     private long mLocalBookId;
-    private ActWirtebookBinding mBinding;
+    private ActWirtebookBinding binding;
     private String mChapterPath;
     private WriteChapterDao mWriteChapterDao;
     private WriteChapterManager mWriteChapterManager;
@@ -58,14 +55,13 @@ public class WriteBookActivity extends WriteBaseActivity<WriteBookPresenter> imp
     }
 
     @Override
-    protected View bindContentView() {
-        mBinding = ActWirtebookBinding.inflate(getLayoutInflater());
-        return mBinding.getRoot();
+    protected void setupActivityComponent(WriteBookComponent appComponent) {
+        appComponent.inject(this);
     }
 
     @Override
-    protected void setupActivityComponent(WriteBookComponent appComponent) {
-        appComponent.inject(this);
+    protected ActWirtebookBinding inflateView(LayoutInflater inflater) {
+        return ActWirtebookBinding.inflate(inflater);
     }
 
     @Override
@@ -90,16 +86,16 @@ public class WriteBookActivity extends WriteBaseActivity<WriteBookPresenter> imp
         mPresenter.getLocalData();
         if (!mIsCreate) {
             //fill title
-            mBinding.etChapterTitle.setText(mChapter.getTitle());
+            binding.etChapterTitle.setText(mChapter.getTitle());
             //file content
-            mBinding.editView.setText(mWriteChapterManager.loadDraft(mChapterPath, false).mSpannableText);
+            binding.editView.setText(mWriteChapterManager.loadDraft(mChapterPath, false).mSpannableText);
         }
 
-        mBinding.mRvPunctuation.setData(key -> {
-            mBinding.editView.insertSymbol(key);
+        binding.mRvPunctuation.setData(key -> {
+            binding.editView.insertSymbol(key);
         }, mHelpWords);
 
-        mBinding.editView.addTextChangedListener(new TextWatcher() {
+        binding.editView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -112,7 +108,7 @@ public class WriteBookActivity extends WriteBaseActivity<WriteBookPresenter> imp
 
             @Override
             public void afterTextChanged(Editable s) {
-                mTvTitle.setText(String.format("%1$s字", mBinding.editView.getWordCount()));
+                mTvTitle.setText(String.format("%1$s字", binding.editView.getWordCount()));
             }
         });
 
@@ -152,11 +148,11 @@ public class WriteBookActivity extends WriteBaseActivity<WriteBookPresenter> imp
     @Override
     protected void onPause() {
         super.onPause();
-        String title = mBinding.etChapterTitle.getText().toString();
-        String content = mBinding.editView.getContent(title, System.currentTimeMillis(), null);
+        String title = binding.etChapterTitle.getText().toString();
+        String content = binding.editView.getContent(title, System.currentTimeMillis(), null);
         mChapter.setTitle(title);
         //if content is not empty save
-        if (!TextUtils.isEmpty(mBinding.editView.getText())) {
+        if (!TextUtils.isEmpty(binding.editView.getText())) {
             mPresenter.saveChapterInfo(mChapter);
             mPresenter.autoSaveDraft(mChapter, content, mChapterPath);
             mWriteChapterManager.saveDraft(content, mChapterPath, null, null, false);
@@ -197,19 +193,19 @@ public class WriteBookActivity extends WriteBaseActivity<WriteBookPresenter> imp
         if (isFinishing()) {
             return;
         }
-        if (mBinding.mRvPunctuation.getVisibility() == View.VISIBLE) {
+        if (binding.mRvPunctuation.getVisibility() == View.VISIBLE) {
             return;
         }
         if (!this.isFinishing()) {
-            mBinding.mRvPunctuation.setVisibility(View.VISIBLE);
-            mBinding.etChapterTitle.setVisibility(View.GONE);
+            binding.mRvPunctuation.setVisibility(View.VISIBLE);
+            binding.etChapterTitle.setVisibility(View.GONE);
         }
     }
 
     private void closePopupWindow() {
-        if (mBinding.mRvPunctuation.getVisibility() == View.VISIBLE) {
-            mBinding.mRvPunctuation.setVisibility(View.GONE);
-            mBinding.etChapterTitle.setVisibility(View.VISIBLE);
+        if (binding.mRvPunctuation.getVisibility() == View.VISIBLE) {
+            binding.mRvPunctuation.setVisibility(View.GONE);
+            binding.etChapterTitle.setVisibility(View.VISIBLE);
         }
     }
 }

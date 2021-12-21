@@ -37,5 +37,7 @@
     <color name="black_5a626d">#5a626d</color>
 
     <color name="read_theme_checked">#ff5000</color>
+    <color name="color_widget_red">#ff5000</color>
+
 
 </resources>

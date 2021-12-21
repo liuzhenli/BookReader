@@ -6,16 +6,14 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
@@ -23,11 +21,9 @@ import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
 import com.liuzhenli.common.BitIntentDataManager;
-import com.liuzhenli.common.FilePickerContract;
 import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.common.utils.BatteryUtil;
-import com.liuzhenli.common.utils.DocumentUtil;
 import com.liuzhenli.common.utils.IntentUtils;
 import com.liuzhenli.common.utils.ScreenUtils;
 import com.liuzhenli.common.utils.ShareUtils;
@@ -82,7 +78,7 @@ import static com.liuzhenli.common.constant.AppConstant.BookOpenFrom.OPEN_FROM_A
  * @author Liuzhenli on 2019-11-09 19:29
  * @since 1.0.0
  */
-public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements ReadContract.View {
+public class ReaderActivity extends BaseReaderActivity<ReadPresenter, ActReadBinding> implements ReadContract.View {
     public static final String NOTE_URL = "noteUrl";
     public static final String CHAPTER_ID = "chapterID";
     public static final String PROGRESS = "progress";
@@ -104,7 +100,6 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
     private BookShelfBean mBookShelf;
     private int lastX, lastY;
     private BatteryAndTimeChangeReceiver batteryAndTimeChangeReceiver;
-    private ActReadBinding inflate;
 
     public static void start(Context context, String noteUrl, String chapterId, float progress, String openFrom) {
         Intent intent = new Intent(context, ReaderActivity.class);
@@ -125,9 +120,8 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
     }
 
     @Override
-    protected View bindContentView() {
-        inflate = ActReadBinding.inflate(getLayoutInflater());
-        return inflate.getRoot();
+    protected ActReadBinding inflateView(LayoutInflater inflater) {
+        return ActReadBinding.inflate(inflater);
     }
 
     @Override
@@ -210,10 +204,10 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void configViews() {
-        inflate.mTopBar.getToolBar().setNavigationOnClickListener(v -> onBackPressed());
+        binding.mTopBar.getToolBar().setNavigationOnClickListener(v -> onBackPressed());
         initPageView();
         //底部menu中 菜单按钮点击从底部弹出一个章节菜单
-        inflate.mVBottomMenu.setOnMenuElementClickListener(new ReadBottomMenu.OnElementClickListener() {
+        binding.mVBottomMenu.setOnMenuElementClickListener(new ReadBottomMenu.OnElementClickListener() {
             @Override
             public void onMenuClick() {
                 BookChapterListActivity.start(mContext, mBookShelf, mPresenter.getChapterList(), false, true);
@@ -231,9 +225,9 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
 
             @Override
             public void onBrightnessClick() {
-                ViewUtil.hideBottomView(inflate.mVBottomMenu);
-                ViewUtil.hideTopView(inflate.mTopBar);
-                ViewUtil.showBottomView(inflate.mVBrightnessSettingMenu);
+                ViewUtil.hideBottomView(binding.mVBottomMenu);
+                ViewUtil.hideTopView(binding.mTopBar);
+                ViewUtil.showBottomView(binding.mVBrightnessSettingMenu);
             }
 
             @Override
@@ -242,16 +236,16 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
                 ReadConfigManager.getInstance().setIsNightTheme(!isNightTheme);
                 ReadConfigManager.getInstance().initTextDrawableIndex();
                 ReadConfigManager.getInstance().setTextDrawableIndex(ReadConfigManager.getInstance().getTextDrawableIndex());
-                inflate.mPageView.setBackground(ReadConfigManager.getInstance().getTextBackground(mContext));
+                binding.mPageView.setBackground(ReadConfigManager.getInstance().getTextBackground(mContext));
                 mPageLoader.refreshUi();
-                inflate.mVBottomMenu.changeTheme();
+                binding.mVBottomMenu.changeTheme();
             }
 
             @Override
             public void onSettingClick() {
-                ViewUtil.hideBottomView(inflate.mVBottomMenu);
-                ViewUtil.hideTopView(inflate.mTopBar);
-                ViewUtil.showBottomView(inflate.mVSettingMenu);
+                ViewUtil.hideBottomView(binding.mVBottomMenu);
+                ViewUtil.hideTopView(binding.mTopBar);
+                ViewUtil.showBottomView(binding.mVSettingMenu);
             }
 
             @Override
@@ -266,11 +260,11 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
                 if (isStop) {
                     mPageLoader.skipToChapter(mCurrentChapterIndex, 0);
                 } else {
-                    inflate.mTopBar.setChapterTitle(mPresenter.getChapterList().get(mCurrentChapterIndex).getDurChapterName());
+                    binding.mTopBar.setChapterTitle(mPresenter.getChapterList().get(mCurrentChapterIndex).getDurChapterName());
                 }
             }
         });
-        inflate.mVBrightnessSettingMenu.setCallback(this, new ReadBrightnessMenu.CallBack() {
+        binding.mVBrightnessSettingMenu.setCallback(this, new ReadBrightnessMenu.CallBack() {
             @Override
             public void onProtectEyeClick(boolean on) {
                 if (on) {
@@ -279,11 +273,11 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
                     mAlpha = 0f;
                 }
                 AppSharedPreferenceHelper.setProtectEyeReadMode(on);
-                inflate.mVProtectEye.setAlpha(mAlpha);
-                inflate.mVProtectEye.invalidate();
+                binding.mVProtectEye.setAlpha(mAlpha);
+                binding.mVProtectEye.invalidate();
             }
         });
-        inflate.mVSettingMenu.setReadSettingCallBack(new ReadSettingMenu.ReadSettingCallBack() {
+        binding.mVSettingMenu.setReadSettingCallBack(new ReadSettingMenu.ReadSettingCallBack() {
             @Override
             public void onPageAnimChanged() {
                 mPageLoader.setPageMode(PageAnimation.Mode.getPageMode(ReadConfigManager.getInstance().getPageMode()));
@@ -306,18 +300,18 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
             public void onBackGroundChanged() {
                 if (mPageLoader != null) {
                     ReadConfigManager.getInstance().initTextDrawableIndex();
-                    inflate.mPageView.setBackground(ReadConfigManager.getInstance().getTextBackground(mContext));
+                    binding.mPageView.setBackground(ReadConfigManager.getInstance().getTextBackground(mContext));
                     mPageLoader.refreshUi();
                 }
             }
         });
-        inflate.mVBrightnessSettingMenu.setProtectedEyeMode(AppSharedPreferenceHelper.tetProtectEyeReadMode());
-        inflate.mVProtectEye.setAlpha(mAlpha);
-        inflate.mVBrightnessSettingMenu.setBrightnessFollowSystem(ReadConfigManager.getInstance().getLightFollowSys());
-        inflate.cursorLeft.setOnTouchListener(this);
-        inflate.cursorRight.setOnTouchListener(this);
-        inflate.mViewRoot.setOnTouchListener(this);
-        inflate.mTopBar.setOnMenuElementClickListener(new ReadTopBarMenu.OnElementClickListener() {
+        binding.mVBrightnessSettingMenu.setProtectedEyeMode(AppSharedPreferenceHelper.tetProtectEyeReadMode());
+        binding.mVProtectEye.setAlpha(mAlpha);
+        binding.mVBrightnessSettingMenu.setBrightnessFollowSystem(ReadConfigManager.getInstance().getLightFollowSys());
+        binding.cursorLeft.setOnTouchListener(this);
+        binding.cursorRight.setOnTouchListener(this);
+        binding.mViewRoot.setOnTouchListener(this);
+        binding.mTopBar.setOnMenuElementClickListener(new ReadTopBarMenu.OnElementClickListener() {
             @Override
             public void onBackClick() {
 
@@ -342,14 +336,14 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
             }
         });
         setBrightness();
-        inflate.mVBottomMenu.changeTheme();
+        binding.mVBottomMenu.changeTheme();
     }
 
     /**
      * 阅读页面信息
      */
     private void initPageView() {
-        mPageLoader = inflate.mPageView.getPageLoader((BaseReaderActivity) mContext, mBookShelf, new PageLoader.Callback() {
+        mPageLoader = binding.mPageView.getPageLoader((BaseReaderActivity) mContext, mBookShelf, new PageLoader.Callback() {
             @Override
             public List<BookChapterBean> getChapterList() {
                 return mPresenter.getChapterList();
@@ -367,7 +361,7 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
                     return;
                 }
                 mCurrentChapterIndex = pos;
-                inflate.mTopBar.setChapterTitle(mPresenter.getChapterList().get(mCurrentChapterIndex).getDurChapterName());
+                binding.mTopBar.setChapterTitle(mPresenter.getChapterList().get(mCurrentChapterIndex).getDurChapterName());
             }
 
             /***
@@ -380,7 +374,7 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
                 mCurrentChapterIndex = mBookShelf.getDurChapter();
                 mBookShelf.setDurChapterName(chapters.get(mBookShelf.getDurChapter()).getDurChapterName());
                 mBookShelf.setLastChapterName(chapters.get(chapters.size() - 1).getDurChapterName());
-                inflate.mTopBar.setChapterTitle(mPresenter.getChapterList().get(mCurrentChapterIndex).getDurChapterName());
+                binding.mTopBar.setChapterTitle(mPresenter.getChapterList().get(mCurrentChapterIndex).getDurChapterName());
             }
 
             @Override
@@ -406,16 +400,16 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
         //电量信息
         mPageLoader.updateBattery(BatteryUtil.INSTANCE.getBatteryLevel(this));
         //书页点击
-        inflate.mPageView.setTouchListener(new PageView.TouchListener() {
+        binding.mPageView.setTouchListener(new PageView.TouchListener() {
             @Override
             public void onTouch() {
-                inflate.mPageView.post(new Runnable() {
+                binding.mPageView.post(new Runnable() {
                     @Override
                     public void run() {
-                        ViewUtil.hideBottomView(inflate.mVBrightnessSettingMenu);
-                        ViewUtil.hideBottomView(inflate.mVBottomMenu);
-                        ViewUtil.hideTopView(inflate.mTopBar);
-                        ViewUtil.hideBottomView(inflate.mVSettingMenu);
+                        ViewUtil.hideBottomView(binding.mVBrightnessSettingMenu);
+                        ViewUtil.hideBottomView(binding.mVBottomMenu);
+                        ViewUtil.hideTopView(binding.mTopBar);
+                        ViewUtil.hideBottomView(binding.mVSettingMenu);
                     }
                 });
             }
@@ -427,20 +421,20 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
 
             @Override
             public void onLongPress() {
-                if (!inflate.mPageView.isRunning()) {
+                if (!binding.mPageView.isRunning()) {
                     selectTextCursorShow();
-                    showAction(inflate.cursorLeft);
+                    showAction(binding.cursorLeft);
                 }
             }
 
             @Override
             public void center() {
-                if (inflate.mVBottomMenu.getVisibility() != View.VISIBLE) {
-                    ViewUtil.showBottomView(inflate.mVBottomMenu);
-                    ViewUtil.showTopView(inflate.mTopBar);
+                if (binding.mVBottomMenu.getVisibility() != View.VISIBLE) {
+                    ViewUtil.showBottomView(binding.mVBottomMenu);
+                    ViewUtil.showTopView(binding.mTopBar);
                 }
-                inflate.mTopBar.getToolBar().setTitle(mBookShelf.getBookInfoBean().getName());
-                inflate.mTopBar.getToolBar().setTitleTextColor(Color.WHITE);
+                binding.mTopBar.getToolBar().setTitle(mBookShelf.getBookInfoBean().getName());
+                binding.mTopBar.getToolBar().setTitleTextColor(Color.WHITE);
             }
 
         });
@@ -457,7 +451,7 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
                     // 获取触摸事件触摸位置的原始X坐标
                     lastX = (int) event.getRawX();
                     lastY = (int) event.getRawY();
-                    inflate.readLongPress.setVisibility(View.INVISIBLE);
+                    binding.readLongPress.setVisibility(View.INVISIBLE);
                     break;
                 case MotionEvent.ACTION_MOVE:
                     int dx = (int) event.getRawX() - lastX;
@@ -473,18 +467,18 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
                     v.postInvalidate();
 
                     //移动过程中要画线
-                    inflate.mPageView.setSelectMode(PageView.SelectMode.SelectMoveForward);
+                    binding.mPageView.setSelectMode(PageView.SelectMode.SelectMoveForward);
 
-                    int hh = inflate.cursorLeft.getHeight();
-                    int ww = inflate.cursorLeft.getWidth();
+                    int hh = binding.cursorLeft.getHeight();
+                    int ww = binding.cursorLeft.getWidth();
 
                     if (v.getId() == R.id.cursorLeft) {
-                        inflate.mPageView.setFirstSelectTxtChar(inflate.mPageView.getCurrentTxtChar(lastX + ww, lastY - hh));
+                        binding.mPageView.setFirstSelectTxtChar(binding.mPageView.getCurrentTxtChar(lastX + ww, lastY - hh));
                     } else {
-                        inflate.mPageView.setLastSelectTxtChar(inflate.mPageView.getCurrentTxtChar(lastX - ww, lastY - hh));
+                        binding.mPageView.setLastSelectTxtChar(binding.mPageView.getCurrentTxtChar(lastX - ww, lastY - hh));
                     }
 
-                    inflate.mPageView.invalidate();
+                    binding.mPageView.invalidate();
 
                     break;
                 case MotionEvent.ACTION_UP:
@@ -624,11 +618,11 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
      * 长按选择按钮
      */
     private void initReadLongPressPop() {
-        inflate.readLongPress.setListener(new ReadLongPressPop.OnBtnClickListener() {
+        binding.readLongPress.setListener(new ReadLongPressPop.OnBtnClickListener() {
             @Override
             public void copySelect() {
                 ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clipData = ClipData.newPlainText(null, inflate.mPageView.getSelectStr());
+                ClipData clipData = ClipData.newPlainText(null, binding.mPageView.getSelectStr());
                 if (clipboard != null) {
                     clipboard.setPrimaryClip(clipData);
                     toast("内容已经复制");
@@ -638,16 +632,16 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
 
             @Override
             public void search() {
-                IntentUtils.openBrowser(mContext, String.format("https://www.baidu.com/s?wd=%s", inflate.mPageView.getSelectStr()));
+                IntentUtils.openBrowser(mContext, String.format("https://www.baidu.com/s?wd=%s", binding.mPageView.getSelectStr()));
                 clearSelect();
             }
 
             @Override
             public void replaceSelect() {
                 ReplaceRuleBean oldRuleBean = new ReplaceRuleBean();
-                oldRuleBean.setReplaceSummary(inflate.mPageView.getSelectStr().trim());
+                oldRuleBean.setReplaceSummary(binding.mPageView.getSelectStr().trim());
                 oldRuleBean.setEnable(true);
-                oldRuleBean.setRegex(inflate.mPageView.getSelectStr().trim());
+                oldRuleBean.setRegex(binding.mPageView.getSelectStr().trim());
                 oldRuleBean.setIsRegex(false);
                 oldRuleBean.setReplacement("");
                 oldRuleBean.setSerialNumber(0);
@@ -664,10 +658,10 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
 
                                             @Override
                                             public void onSuccess(Boolean aBoolean) {
-                                                inflate.cursorLeft.setVisibility(View.INVISIBLE);
-                                                inflate.cursorRight.setVisibility(View.INVISIBLE);
-                                                inflate.readLongPress.setVisibility(View.INVISIBLE);
-                                                inflate.mPageView.setSelectMode(PageView.SelectMode.Normal);
+                                                binding.cursorLeft.setVisibility(View.INVISIBLE);
+                                                binding.cursorRight.setVisibility(View.INVISIBLE);
+                                                binding.readLongPress.setVisibility(View.INVISIBLE);
+                                                binding.mPageView.setSelectMode(PageView.SelectMode.Normal);
 //                                                moDialogHUD.dismiss();
                                                 refresh(false);
                                             }
@@ -681,7 +675,7 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
 
             @Override
             public void replaceSelectAd() {
-                String selectString = inflate.mPageView.getSelectStr();
+                String selectString = binding.mPageView.getSelectStr();
                 if (selectString != null) {
                     String spacer = null;
                     String name = (mBookShelf.getBookInfoBean().getName());
@@ -728,10 +722,10 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
 
                                             @Override
                                             public void onSuccess(Boolean aBoolean) {
-                                                inflate.cursorLeft.setVisibility(View.INVISIBLE);
-                                                inflate.cursorRight.setVisibility(View.INVISIBLE);
-                                                inflate.readLongPress.setVisibility(View.INVISIBLE);
-                                                inflate.mPageView.setSelectMode(PageView.SelectMode.Normal);
+                                                binding.cursorLeft.setVisibility(View.INVISIBLE);
+                                                binding.cursorRight.setVisibility(View.INVISIBLE);
+                                                binding.readLongPress.setVisibility(View.INVISIBLE);
+                                                binding.mPageView.setSelectMode(PageView.SelectMode.Normal);
 //                                                moDialogHUD.dismiss();
                                                 refresh(false);
                                             }
@@ -747,7 +741,7 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
 
             @Override
             public void share() {
-                ShareUtils.INSTANCE.share(mContext, inflate.mPageView.getSelectStr());
+                ShareUtils.INSTANCE.share(mContext, binding.mPageView.getSelectStr());
                 clearSelect();
             }
         });
@@ -757,62 +751,62 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
      * 显示
      */
     private void selectTextCursorShow() {
-        if (inflate.mPageView.getFirstSelectTxtChar() == null || inflate.mPageView.getLastSelectTxtChar() == null) {
+        if (binding.mPageView.getFirstSelectTxtChar() == null || binding.mPageView.getLastSelectTxtChar() == null) {
             return;
         }
         //show Cursor on current position
         cursorShow();
         //set current word selected
-        inflate.mPageView.invalidate();
+        binding.mPageView.invalidate();
     }
 
     private void cursorShow() {
-        inflate.cursorLeft.setVisibility(View.VISIBLE);
-        inflate.cursorRight.setVisibility(View.VISIBLE);
-        int hh = inflate.cursorLeft.getHeight();
-        int ww = inflate.cursorLeft.getWidth();
-        if (inflate.mPageView.getFirstSelectTxtChar() != null) {
-            inflate.cursorLeft.setX(inflate.mPageView.getFirstSelectTxtChar().getTopLeftPosition().x - ww);
-            inflate.cursorLeft.setY(inflate.mPageView.getFirstSelectTxtChar().getBottomLeftPosition().y);
-            inflate.cursorRight.setX(inflate.mPageView.getFirstSelectTxtChar().getBottomRightPosition().x);
-            inflate.cursorRight.setY(inflate.mPageView.getFirstSelectTxtChar().getBottomRightPosition().y);
+        binding.cursorLeft.setVisibility(View.VISIBLE);
+        binding.cursorRight.setVisibility(View.VISIBLE);
+        int hh = binding.cursorLeft.getHeight();
+        int ww = binding.cursorLeft.getWidth();
+        if (binding.mPageView.getFirstSelectTxtChar() != null) {
+            binding.cursorLeft.setX(binding.mPageView.getFirstSelectTxtChar().getTopLeftPosition().x - ww);
+            binding.cursorLeft.setY(binding.mPageView.getFirstSelectTxtChar().getBottomLeftPosition().y);
+            binding.cursorRight.setX(binding.mPageView.getFirstSelectTxtChar().getBottomRightPosition().x);
+            binding.cursorRight.setY(binding.mPageView.getFirstSelectTxtChar().getBottomRightPosition().y);
         }
     }
 
 
     public void showAction(View clickView) {
 
-        int hh = inflate.cursorLeft.getHeight();
-        int ww = inflate.cursorLeft.getWidth();
-        if (inflate.mPageView.getFirstSelectTxtChar() != null && inflate.mPageView.getLastSelectTxtChar() != null) {
-            inflate.cursorLeft.setX(Objects.requireNonNull(inflate.mPageView.getFirstSelectTxtChar().getTopLeftPosition()).x - ww);
-            inflate.cursorLeft.setY(Objects.requireNonNull(inflate.mPageView.getFirstSelectTxtChar().getBottomLeftPosition()).y);
-            inflate.cursorRight.setX(Objects.requireNonNull(inflate.mPageView.getLastSelectTxtChar().getBottomRightPosition()).x);
-            inflate.cursorRight.setY(inflate.mPageView.getLastSelectTxtChar().getBottomRightPosition().y);
+        int hh = binding.cursorLeft.getHeight();
+        int ww = binding.cursorLeft.getWidth();
+        if (binding.mPageView.getFirstSelectTxtChar() != null && binding.mPageView.getLastSelectTxtChar() != null) {
+            binding.cursorLeft.setX(Objects.requireNonNull(binding.mPageView.getFirstSelectTxtChar().getTopLeftPosition()).x - ww);
+            binding.cursorLeft.setY(Objects.requireNonNull(binding.mPageView.getFirstSelectTxtChar().getBottomLeftPosition()).y);
+            binding.cursorRight.setX(Objects.requireNonNull(binding.mPageView.getLastSelectTxtChar().getBottomRightPosition()).x);
+            binding.cursorRight.setY(binding.mPageView.getLastSelectTxtChar().getBottomRightPosition().y);
         }
 
-        inflate.readLongPress.setVisibility(View.VISIBLE);
+        binding.readLongPress.setVisibility(View.VISIBLE);
         //弹窗的宽度
-        int width = inflate.readLongPress.getWidth();
+        int width = binding.readLongPress.getWidth();
         //弹窗的起始位置
-        int x = (int) (inflate.cursorLeft.getX() / 2 + inflate.cursorLeft.getWidth() / 2 + inflate.cursorRight.getX() / 2 + inflate.cursorLeft.getWidth() / 2);
+        int x = (int) (binding.cursorLeft.getX() / 2 + binding.cursorLeft.getWidth() / 2 + binding.cursorRight.getX() / 2 + binding.cursorLeft.getWidth() / 2);
         //1.如果选择的文本行数大于1,则靠中间防止  2.如果太靠右，则靠左
         int[] aa = ScreenUtils.getScreenSize(this);
-        if (inflate.mPageView.getSelectLines() > 1) {
-            inflate.readLongPress.setX(ScreenUtils.getScreenWidth(ReaderActivity.this) / 2f - inflate.readLongPress.getWidth() / 2f);
+        if (binding.mPageView.getSelectLines() > 1) {
+            binding.readLongPress.setX(ScreenUtils.getScreenWidth(ReaderActivity.this) / 2f - binding.readLongPress.getWidth() / 2f);
         } else if (x < width / 2 + ScreenUtils.dpToPx(8)) {
-            inflate.readLongPress.setX(ScreenUtils.dpToPx(8));
+            binding.readLongPress.setX(ScreenUtils.dpToPx(8));
         } else if (x > (aa[0] - width / 2 - ScreenUtils.dpToPx(8))) {
-            inflate.readLongPress.setX(aa[0] - width - ScreenUtils.dpToPx(8));
+            binding.readLongPress.setX(aa[0] - width - ScreenUtils.dpToPx(8));
         } else {
-            inflate.readLongPress.setX(x - width / 2f);
+            binding.readLongPress.setX(x - width / 2f);
         }
 
         //如果太靠上
-        if ((inflate.cursorLeft.getY() - ScreenUtils.spToPx(ReadConfigManager.getInstance().getTextSize()) - ScreenUtils.dpToPx(60)) < 0) {
-            inflate.readLongPress.setY(inflate.cursorLeft.getY() - ScreenUtils.spToPx(ReadConfigManager.getInstance().getTextSize()));
+        if ((binding.cursorLeft.getY() - ScreenUtils.spToPx(ReadConfigManager.getInstance().getTextSize()) - ScreenUtils.dpToPx(60)) < 0) {
+            binding.readLongPress.setY(binding.cursorLeft.getY() - ScreenUtils.spToPx(ReadConfigManager.getInstance().getTextSize()));
         } else {
-            inflate.readLongPress.setY(inflate.cursorLeft.getY() - ScreenUtils.spToPx(ReadConfigManager.getInstance().getTextSize()) - ScreenUtils.dpToPx(60));
+            binding.readLongPress.setY(binding.cursorLeft.getY() - ScreenUtils.spToPx(ReadConfigManager.getInstance().getTextSize()) - ScreenUtils.dpToPx(60));
         }
     }
 
@@ -823,7 +817,7 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
         if (recreate) {
             recreate();
         } else {
-            inflate.mViewRoot.setBackground(ReadConfigManager.getInstance().getTextBackground(this));
+            binding.mViewRoot.setBackground(ReadConfigManager.getInstance().getTextBackground(this));
             if (mPageLoader != null) {
                 mPageLoader.refreshUi();
             }
@@ -841,10 +835,10 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter> implements
     }
 
     private void clearSelect() {
-        inflate.cursorLeft.setVisibility(View.INVISIBLE);
-        inflate.cursorRight.setVisibility(View.INVISIBLE);
-        inflate.readLongPress.setVisibility(View.INVISIBLE);
-        inflate.mPageView.clearSelect();
+        binding.cursorLeft.setVisibility(View.INVISIBLE);
+        binding.cursorRight.setVisibility(View.INVISIBLE);
+        binding.readLongPress.setVisibility(View.INVISIBLE);
+        binding.mPageView.clearSelect();
     }
 
     @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusTag.SKIP_TO_CHAPTER)})

@@ -3,11 +3,12 @@ package com.liuzhenli.reader.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.view.View;
+import android.view.LayoutInflater;
 
+import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.BitIntentDataManager;
 import com.liuzhenli.common.base.BaseActivity;
-import com.liuzhenli.common.AppComponent;
+import com.liuzhenli.common.base.BaseContract;
 import com.microedu.reader.databinding.ActContentBinding;
 
 /**
@@ -16,11 +17,10 @@ import com.microedu.reader.databinding.ActContentBinding;
  * @author liuzhenli 2020/11/18
  * Email: 848808263@qq.com
  */
-public class ContentActivity extends BaseActivity {
+public class ContentActivity extends BaseActivity<BaseContract.BasePresenter, ActContentBinding> {
 
     private String mTitle;
     private String mContent;
-    private ActContentBinding binding;
 
     public static void start(Context context, String contentKey, String title) {
         Intent intent = new Intent(context, ContentActivity.class);
@@ -30,9 +30,8 @@ public class ContentActivity extends BaseActivity {
     }
 
     @Override
-    protected View bindContentView() {
-        binding = ActContentBinding.inflate(getLayoutInflater());
-        return binding.getRoot();
+    protected ActContentBinding inflateView(LayoutInflater inflater) {
+        return ActContentBinding.inflate(inflater);
     }
 
     @Override

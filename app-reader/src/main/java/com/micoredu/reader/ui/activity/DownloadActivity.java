@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,25 +23,22 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 /**
- * Description:
+ * Description:download chapter
  *
  * @author liuzhenli 2021/2/2
  * Email: 848808263@qq.com
  */
-public class DownloadActivity extends ReaderBaseRVActivity<DownloadPresenter, DownloadBookBean> implements DownloadContract.View {
-
+public class DownloadActivity extends ReaderBaseRVActivity<DownloadPresenter, DownloadBookBean, ActDownloadBinding> implements DownloadContract.View {
     private DownloadReceiver receiver;
-    private ActDownloadBinding binding;
-
-    @Override
-    protected View bindContentView() {
-        binding = ActDownloadBinding.inflate(getLayoutInflater());
-        return binding.getRoot();
-    }
 
     @Override
     protected void setupActivityComponent(ReaderComponent appComponent) {
         appComponent.inject(this);
+    }
+
+    @Override
+    protected ActDownloadBinding inflateView(LayoutInflater inflater) {
+        return ActDownloadBinding.inflate(inflater);
     }
 
     @Override

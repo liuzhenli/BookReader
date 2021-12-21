@@ -6,8 +6,8 @@
     android:id="@+id/tab_tl_indicator"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:tabIndicatorColor="@color/main"
+    app:tabIndicatorColor="@color/color_widget_red"
     app:tabIndicatorFullWidth="false"
     app:tabPaddingBottom="@dimen/common_space_small"
-    app:tabSelectedTextColor="@color/main"
+    app:tabSelectedTextColor="@color/color_widget_red"
     app:tabTextColor="@color/text_color_33" />

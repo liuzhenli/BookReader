@@ -1,5 +1,7 @@
 package com.liuzhenli.write.ui;
 
+import androidx.viewbinding.ViewBinding;
+
 import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.base.BaseActivity;
 import com.liuzhenli.common.base.BaseContract;
@@ -13,7 +15,7 @@ import com.liuzhenli.write.module.WriteModule;
  * @author liuzhenli 3/13/21
  * Email: 848808263@qq.com
  */
-public abstract class WriteBaseActivity<T extends BaseContract.BasePresenter> extends BaseActivity<T> {
+public abstract class WriteBaseActivity<T extends BaseContract.BasePresenter, VB extends ViewBinding> extends BaseActivity<T, VB> {
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {

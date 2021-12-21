@@ -1,44 +1,36 @@
 package com.liuzhenli.reader.ui.presenter;
 
-import com.liuzhenli.common.utils.DocumentUtil;
-import com.liuzhenli.common.utils.L;
-import com.liuzhenli.common.utils.RxUtil;
+import static com.liuzhenli.common.utils.Constant.FileSuffix.EPUB;
+import static com.liuzhenli.common.utils.Constant.FileSuffix.PDF;
+import static com.liuzhenli.common.utils.Constant.FileSuffix.TXT;
+
+import android.os.Build;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.documentfile.provider.DocumentFile;
+
 import com.liuzhenli.common.base.RxPresenter;
 import com.liuzhenli.common.observer.SampleProgressObserver;
-import com.liuzhenli.reader.ReaderApplication;
-import com.liuzhenli.common.utils.filepicker.entity.FileItem;
-import com.liuzhenli.reader.ui.contract.LocalFileContract;
 import com.liuzhenli.common.utils.Constant;
+import com.liuzhenli.common.utils.DocumentUtil;
 import com.liuzhenli.common.utils.FileUtils;
+import com.liuzhenli.common.utils.filepicker.entity.FileItem;
+import com.liuzhenli.reader.ReaderApplication;
+import com.liuzhenli.reader.ui.contract.LocalFileContract;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-
-import static com.liuzhenli.common.utils.Constant.FileSuffix.EPUB;
-import static com.liuzhenli.common.utils.Constant.FileSuffix.PDF;
-import static com.liuzhenli.common.utils.Constant.FileSuffix.TXT;
-
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Build;
-import android.provider.DocumentsContract;
-import android.text.TextUtils;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.documentfile.provider.DocumentFile;
 
 /**
  * describe:

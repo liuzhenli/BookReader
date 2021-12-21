@@ -2,6 +2,7 @@ package com.liuzhenli.reader.ui.activity
 
 import android.content.Context
 import android.content.Intent
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
 import com.liuzhenli.common.base.BaseActivity
@@ -21,18 +22,12 @@ import java.util.*
  * @author liuzhenli
  * @date 2021.02.18
  */
-class DatabaseTableListActivity : BaseActivity<DatabaseTableListPresenter>(),
+class DatabaseTableListActivity :
+    BaseActivity<DatabaseTableListPresenter, ActDatabasetablelistBinding>(),
     DatabaseTableListContract.View {
 
     private var tablesAdapter: DatabaseTableListAdapter? = null
     private val tableList: MutableList<DatabaseTable> = ArrayList()
-
-    private var binding: ActDatabasetablelistBinding? = null
-
-    override fun bindContentView(): View {
-        binding = ActDatabasetablelistBinding.inflate(layoutInflater)
-        return binding!!.root;
-    }
 
     override fun setupActivityComponent(appComponent: AppComponent) {
         DaggerReadBookComponent.builder().build().inject(this)
@@ -80,5 +75,9 @@ class DatabaseTableListActivity : BaseActivity<DatabaseTableListPresenter>(),
             val intent = Intent(context, DatabaseTableListActivity::class.java)
             context.startActivity(intent)
         }
+    }
+
+    override fun inflateView(inflater: LayoutInflater?): ActDatabasetablelistBinding {
+        return ActDatabasetablelistBinding.inflate(inflater!!)
     }
 }

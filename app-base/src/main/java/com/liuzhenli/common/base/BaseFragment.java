@@ -18,7 +18,7 @@ import com.liuzhenli.common.BaseApplication;
 import com.liuzhenli.common.R;
 import com.liuzhenli.common.base.rxlife.RxFragment;
 import com.liuzhenli.common.AppComponent;
-import com.liuzhenli.common.widget.dialog.CustomDialog;
+import com.liuzhenli.common.widget.dialog.LoadingDialog;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -39,7 +39,7 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
     public boolean isLoadFinish;
     public Toolbar mCommonToolbar;
 
-    private CustomDialog dialog;
+    private LoadingDialog dialog;
     public String TAG;
 
     public abstract View bindContentView(LayoutInflater inflater, ViewGroup container, boolean attachParent);
@@ -146,9 +146,9 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
         return parentView;
     }
 
-    public CustomDialog getDialog() {
+    public LoadingDialog getDialog() {
         if (dialog == null) {
-            dialog = new CustomDialog(mContext).instance(getActivity());
+            dialog = new LoadingDialog(mContext).instance(getActivity());
 //            dialog.setCancelable(false);
         }
         return dialog;

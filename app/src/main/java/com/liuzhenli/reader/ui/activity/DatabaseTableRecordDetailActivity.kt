@@ -1,6 +1,7 @@
 package com.liuzhenli.reader.ui.activity
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import com.liuzhenli.common.base.BaseActivity
 import com.liuzhenli.common.base.BaseContract.BasePresenter
@@ -14,10 +15,10 @@ import com.microedu.reader.databinding.ActivityDiagnoseDatabaseTableRecordDetail
  * @author liuzhenli
  * @date 2021.02.18
  */
-class DatabaseTableRecordDetailActivity : BaseActivity<BasePresenter<*>>() {
+class DatabaseTableRecordDetailActivity :
+    BaseActivity<BasePresenter<*>, ActivityDiagnoseDatabaseTableRecordDetailBinding>() {
 
 
-    private var binding: ActivityDiagnoseDatabaseTableRecordDetailBinding? = null
     private var recordDetailAdapter: DatabaseTableRecordDetailAdapter? = null
     private var tableTitles: Array<String>? = null
     private var rowData: Array<String>? = null
@@ -27,11 +28,6 @@ class DatabaseTableRecordDetailActivity : BaseActivity<BasePresenter<*>>() {
         rowData = intent.getStringArrayExtra(EXTRA_ROW_DATA)
         recordDetailAdapter = DatabaseTableRecordDetailAdapter(this, tableTitles, rowData)
         binding!!.listTableRecordDetail.adapter = recordDetailAdapter
-    }
-
-    override fun bindContentView(): View {
-        binding = ActivityDiagnoseDatabaseTableRecordDetailBinding.inflate(layoutInflater)
-        return binding!!.root;
     }
 
     override fun setupActivityComponent(appComponent: AppComponent) {}
@@ -46,5 +42,9 @@ class DatabaseTableRecordDetailActivity : BaseActivity<BasePresenter<*>>() {
     companion object {
         const val EXTRA_TABLE_TITLES = "TableTitles"
         const val EXTRA_ROW_DATA = "RowData"
+    }
+
+    override fun inflateView(inflater: LayoutInflater?): ActivityDiagnoseDatabaseTableRecordDetailBinding {
+        return ActivityDiagnoseDatabaseTableRecordDetailBinding.inflate(inflater!!)
     }
 }

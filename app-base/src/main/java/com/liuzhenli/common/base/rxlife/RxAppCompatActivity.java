@@ -8,9 +8,8 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.LifecycleOwner;
 
 
-import com.liuzhenli.common.SharedPreferencesUtil;
 import com.liuzhenli.common.utils.AppActivityManager;
-import com.liuzhenli.common.widget.dialog.CustomDialog;
+import com.liuzhenli.common.widget.dialog.LoadingDialog;
 
 import io.reactivex.subjects.BehaviorSubject;
 
@@ -24,7 +23,7 @@ public class RxAppCompatActivity extends AppCompatActivity implements LifecycleO
     public final String TAG = RxAppCompatActivity.this.getClass().getSimpleName();
     protected final BehaviorSubject<LifeEvent> lifeSubject = BehaviorSubject.create();
     /*** 进度条*/
-    private CustomDialog dialog;
+    private LoadingDialog dialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,9 +33,9 @@ public class RxAppCompatActivity extends AppCompatActivity implements LifecycleO
         AppActivityManager.getInstance().add(this);
     }
 
-    public CustomDialog getDialog() {
+    public LoadingDialog getDialog() {
         if (dialog == null) {
-            dialog = new CustomDialog(this).instance(this);
+            dialog = new LoadingDialog(this).instance(this);
             dialog.setCancelable(true);
         }
         return dialog;

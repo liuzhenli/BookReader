@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -46,11 +47,10 @@ import java.util.List;
  *
  * @author Liuzhenli on 2019-12-14 18:19
  */
-public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPresenter> implements ImportLocalBookContract.View {
+public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPresenter, ActImportlocalbookBinding> implements ImportLocalBookContract.View {
 
     private static final int INTENT_CODE_IMPORT_BOOK_PATH = 110;
     private boolean mSelectAll;
-    private ActImportlocalbookBinding inflate;
     private QMUIDialog mOpenDirDialog;
 
     public static void start(Context context) {
@@ -71,9 +71,8 @@ public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPres
     }
 
     @Override
-    protected View bindContentView() {
-        inflate = ActImportlocalbookBinding.inflate(getLayoutInflater());
-        return inflate.getRoot();
+    protected ActImportlocalbookBinding inflateView(LayoutInflater inflater) {
+        return ActImportlocalbookBinding.inflate(inflater);
     }
 
     @Override
@@ -121,7 +120,7 @@ public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPres
     protected void configViews() {
         super.configViews();
         //add to bookShelf
-        ClickUtils.click(inflate.mViewAddBookShelf, o -> {
+        ClickUtils.click(binding.mViewAddBookShelf, o -> {
 
             if (mFragmentList.get(getCurrentPagePosition()) instanceof LocalFileFragment) {
                 LocalFileFragment fragment = (LocalFileFragment) (mFragmentList.get(getCurrentPagePosition()));
@@ -135,7 +134,7 @@ public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPres
                 fragment.notifyDataChanged();
             }
         });
-        ClickUtils.click(inflate.mViewDeleteFile, o -> {
+        ClickUtils.click(binding.mViewDeleteFile, o -> {
             if (mFragmentList.get(getCurrentPagePosition()) instanceof LocalFileFragment) {
                 LocalFileFragment fragment = (LocalFileFragment) (mFragmentList.get(getCurrentPagePosition()));
                 List<FileItem> selectedBooks = fragment.getSelectedBooks();
@@ -181,15 +180,15 @@ public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPres
         });
 
 
-        ClickUtils.click(inflate.mViewSelectAll, o -> {
+        ClickUtils.click(binding.mViewSelectAll, o -> {
             if (mFragmentList.get(getCurrentPagePosition()) instanceof LocalTxtFragment) {
                 mSelectAll = !mSelectAll;
                 LocalTxtFragment fragment = (LocalTxtFragment) mFragmentList.get(getCurrentPagePosition());
                 List<FileItem> selectedBooks = fragment.getAllBooks();
                 if (mSelectAll) {
-                    inflate.mViewSelectAll.setText("取消全选");
+                    binding.mViewSelectAll.setText("取消全选");
                 } else {
-                    inflate.mViewSelectAll.setText("全选");
+                    binding.mViewSelectAll.setText("全选");
                 }
 
                 for (int i = 0; i < selectedBooks.size(); i++) {
@@ -224,9 +223,9 @@ public class ImportLocalBookActivity extends BaseTabActivity<ImportLocalBookPres
     public void onPageSelected(int position) {
         super.onPageSelected(position);
         if (position == 0) {
-            inflate.mViewSelectAll.setVisibility(View.VISIBLE);
+            binding.mViewSelectAll.setVisibility(View.VISIBLE);
         } else {
-            inflate.mViewSelectAll.setVisibility(View.GONE);
+            binding.mViewSelectAll.setVisibility(View.GONE);
         }
     }
 

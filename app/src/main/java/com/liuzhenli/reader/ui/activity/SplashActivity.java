@@ -4,6 +4,7 @@ package com.liuzhenli.reader.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -11,6 +12,7 @@ import android.view.WindowManager;
 import androidx.annotation.Nullable;
 
 import com.liuzhenli.common.AppComponent;
+import com.liuzhenli.common.base.BaseContract;
 import com.liuzhenli.common.utils.AppConfigManager;
 import com.liuzhenli.reader.bean.Sayings;
 import com.liuzhenli.common.base.BaseActivity;
@@ -22,9 +24,8 @@ import com.microedu.reader.databinding.ActivitySplashBinding;
  * @author Liuzhenli
  * @since 2019-07-07 08:54
  */
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends BaseActivity<BaseContract.BasePresenter, ActivitySplashBinding> {
     private boolean hasGoHome = false;
-    private ActivitySplashBinding inflate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,9 +37,8 @@ public class SplashActivity extends BaseActivity {
     }
 
     @Override
-    protected View bindContentView() {
-        inflate = ActivitySplashBinding.inflate(getLayoutInflater());
-        return inflate.getRoot();
+    protected ActivitySplashBinding inflateView(LayoutInflater inflater) {
+        return ActivitySplashBinding.inflate(inflater);
     }
 
     @Override
@@ -56,9 +56,9 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void configViews() {
-        inflate.countDownView.startProgress(4000);
-        inflate.countDownView.setOnClickListener(v -> {
-            inflate.countDownView.setHasClickClip(true);
+        binding.countDownView.startProgress(4000);
+        binding.countDownView.setOnClickListener(v -> {
+            binding.countDownView.setHasClickClip(true);
             if (!hasGoHome) {
                 hasGoHome = true;
                 SplashActivity.this.startActivity(new Intent(SplashActivity.this, MainActivity.class));
@@ -66,7 +66,7 @@ public class SplashActivity extends BaseActivity {
             }
         });
         Sayings sayings = SayingsManager.getInstance().getSayings();
-        inflate.tvSaying.setText(sayings.getSaying());
-        inflate.tvSayingAuthor.setText(String.format("BY:%s", sayings.getAuthor()));
+        binding.tvSaying.setText(sayings.getSaying());
+        binding.tvSayingAuthor.setText(String.format("BY:%s", sayings.getAuthor()));
     }
 }

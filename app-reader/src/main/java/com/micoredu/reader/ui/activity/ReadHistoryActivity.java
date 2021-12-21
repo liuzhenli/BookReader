@@ -1,6 +1,7 @@
 package com.micoredu.reader.ui.activity;
 
 import android.net.wifi.p2p.WifiP2pManager;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -22,27 +23,22 @@ import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import java.util.List;
 
 /**
- * Description:
+ * Description:read history page
  *
  * @author liuzhenli 2021/10/12
  * Email: 848808263@qq.com
  */
 @Route(path = ARouterConstants.ACT_READ_HISTORY)
-public class ReadHistoryActivity extends ReaderBaseRVActivity<ReadHistoryPresenter, ReadHistory> implements ReadHistoryContract.View, RecyclerArrayAdapter.OnItemLongClickListener {
-
-
-    ActReadhistoryBinding binding;
-
-    @Override
-    protected View bindContentView() {
-        binding = ActReadhistoryBinding.inflate(getLayoutInflater());
-        return binding.getRoot();
-    }
-
+public class ReadHistoryActivity extends ReaderBaseRVActivity<ReadHistoryPresenter, ReadHistory, ActReadhistoryBinding> implements ReadHistoryContract.View, RecyclerArrayAdapter.OnItemLongClickListener {
 
     @Override
     protected void setupActivityComponent(ReaderComponent appComponent) {
         appComponent.inject(this);
+    }
+
+    @Override
+    protected ActReadhistoryBinding inflateView(LayoutInflater inflater) {
+        return ActReadhistoryBinding.inflate(inflater);
     }
 
     @Override

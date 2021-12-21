@@ -9,12 +9,14 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 
 import com.liuzhenli.common.BaseApplication;
 import com.liuzhenli.common.BitIntentDataManager;
+import com.liuzhenli.common.base.BaseContract;
 import com.liuzhenli.common.constant.AppConstant;
 import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.AppConfigManager;
@@ -33,10 +35,7 @@ import com.microedu.reader.databinding.ActivityAboutBinding;
  * @author liuzhenli 2020/8/10
  * Email: 848808263@qq.com
  */
-public class AboutActivity extends BaseActivity {
-
-    private ActivityAboutBinding mRoot;
-
+public class AboutActivity extends BaseActivity<BaseContract.BasePresenter, ActivityAboutBinding> {
 
     public static void start(Context context) {
         Intent intent = new Intent(context, AboutActivity.class);
@@ -44,9 +43,8 @@ public class AboutActivity extends BaseActivity {
     }
 
     @Override
-    protected View bindContentView() {
-        mRoot = ActivityAboutBinding.inflate(getLayoutInflater());
-        return mRoot.getRoot();
+    protected ActivityAboutBinding inflateView(LayoutInflater inflater) {
+        return ActivityAboutBinding.inflate(inflater);
     }
 
     @Override
@@ -70,8 +68,8 @@ public class AboutActivity extends BaseActivity {
         String versionName = ReaderApplication.getInstance().mVersionName;
         int versionCode = ReaderApplication.getInstance().mVersionCode;
         String channel = ReaderApplication.getInstance().mVersionChannel;
-        mRoot.tvVersionInfo.setText(String.format("%s %s Build#%s %s ", appName, versionName, versionCode, channel));
-        ClickUtils.click(mRoot.tvVersionCheckUpdate, o -> {
+        binding.tvVersionInfo.setText(String.format("%s %s Build#%s %s ", appName, versionName, versionCode, channel));
+        ClickUtils.click(binding.tvVersionCheckUpdate, o -> {
             //版本有更新
             if (AppConfigManager.getInstance().getNewVersion() > BaseApplication.getInstance().mVersionCode) {
                 toast(AppConfigManager.getInstance().getNewVersionIntro());
@@ -80,11 +78,11 @@ public class AboutActivity extends BaseActivity {
             }
         });
 
-        ClickUtils.click(mRoot.tvAboutContact, o -> {
+        ClickUtils.click(binding.tvAboutContact, o -> {
             //发送邮件
             openIntent(Intent.ACTION_SENDTO, "mailto:hpuzhenli@163.com");
         });
-        ClickUtils.click(mRoot.tvDisclaimer, o -> {
+        ClickUtils.click(binding.tvDisclaimer, o -> {
             //免责声明
             String key = System.currentTimeMillis() + "";
             BitIntentDataManager.getInstance().putData(key, mContext.getResources().getString(R.string.disclaimer_content));
@@ -95,15 +93,15 @@ public class AboutActivity extends BaseActivity {
 
         //版本有更新
         if (AppConfigManager.getInstance().getNewVersion() > BaseApplication.getInstance().mVersionCode) {
-            mRoot.ivNewVersionIcon.setVisibility(View.VISIBLE);
-            mRoot.tvNewVersionInfo.setVisibility(View.VISIBLE);
+            binding.ivNewVersionIcon.setVisibility(View.VISIBLE);
+            binding.tvNewVersionInfo.setVisibility(View.VISIBLE);
         } else {
-            mRoot.ivNewVersionIcon.setVisibility(View.GONE);
-            mRoot.tvNewVersionInfo.setVisibility(View.GONE);
+            binding.ivNewVersionIcon.setVisibility(View.GONE);
+            binding.tvNewVersionInfo.setVisibility(View.GONE);
         }
 
         Sayings sayings = SayingsManager.getInstance().getSayings();
-        mRoot.mTvSaying.setText(sayings.getSaying());
+        binding.mTvSaying.setText(sayings.getSaying());
 
         String aboutDes = getResources().getString(R.string.about_donate);
         SpannableString spannableString = new SpannableString(aboutDes);
@@ -122,26 +120,26 @@ public class AboutActivity extends BaseActivity {
         }, aboutDes.indexOf(donate), aboutDes.indexOf(donate) + donate.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         //设置点击后的颜色为透明
-        mRoot.mTvAbout.setHighlightColor(Color.TRANSPARENT);
-        mRoot.mTvAbout.setMovementMethod(LinkMovementMethod.getInstance());
-        mRoot.mTvAbout.setText(spannableString);
+        binding.mTvAbout.setHighlightColor(Color.TRANSPARENT);
+        binding.mTvAbout.setMovementMethod(LinkMovementMethod.getInstance());
+        binding.mTvAbout.setText(spannableString);
 
-        ClickUtils.click(mRoot.mViewDonateAliPay, o -> {
+        ClickUtils.click(binding.mViewDonateAliPay, o -> {
             Uri uri = Uri.parse(AppConstant.DonateUrl.ali);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         });
-        ClickUtils.click(mRoot.mViewZFB, o -> {
+        ClickUtils.click(binding.mViewZFB, o -> {
             Uri uri = Uri.parse(AppConstant.DonateUrl.zfbCode);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         });
-        ClickUtils.click(mRoot.mViewQQ, o -> {
+        ClickUtils.click(binding.mViewQQ, o -> {
             Uri uri = Uri.parse(AppConstant.DonateUrl.wxCode);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         });
-        ClickUtils.click(mRoot.mViewWX, o -> {
+        ClickUtils.click(binding.mViewWX, o -> {
             Uri uri = Uri.parse(AppConstant.DonateUrl.qqCode);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
@@ -152,18 +150,18 @@ public class AboutActivity extends BaseActivity {
 
     private void configDonate(boolean showDonate) {
         if (!showDonate) {
-            mRoot.tvDonateTitle.setVisibility(View.GONE);
-            mRoot.mTvAbout.setVisibility(View.GONE);
-            mRoot.mViewDonateAliPay.setVisibility(View.GONE);
-            mRoot.mViewQQ.setVisibility(View.GONE);
-            mRoot.mViewWX.setVisibility(View.GONE);
-            mRoot.mViewZFB.setVisibility(View.GONE);
+            binding.tvDonateTitle.setVisibility(View.GONE);
+            binding.mTvAbout.setVisibility(View.GONE);
+            binding.mViewDonateAliPay.setVisibility(View.GONE);
+            binding.mViewQQ.setVisibility(View.GONE);
+            binding.mViewWX.setVisibility(View.GONE);
+            binding.mViewZFB.setVisibility(View.GONE);
         }
     }
 
     private void configQQGroup() {
-        ClickUtils.click(mRoot.tvQQGroup0, o -> joinQQGroup(Constant.QQGroup.QQ_272343970));
-        ClickUtils.click(mRoot.tvQQGroup1, o -> joinQQGroup(Constant.QQGroup.QQ_1140723995));
+        ClickUtils.click(binding.tvQQGroup0, o -> joinQQGroup(Constant.QQGroup.QQ_272343970));
+        ClickUtils.click(binding.tvQQGroup1, o -> joinQQGroup(Constant.QQGroup.QQ_1140723995));
     }
 
     /****************

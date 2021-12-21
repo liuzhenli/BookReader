@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -56,22 +57,20 @@ import java.util.List;
  * @author liuzhenli
  */
 @Route(path = ARouterConstants.ACT_MAIN)
-public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View {
+public class MainActivity extends BaseActivity<MainPresenter, ActivityMainContainerBinding> implements MainContract.View {
     public static final int IMPORT_BOOK_SOURCE_QRCODE = 10092;
     private static final int IMPORT_BOOK_SOURCE = 1000;
     private int mCurrentPosition;
     private MainTabAdapter mainTabAdapter;
     /***发现页面的书源名字*/
     private String mDiscoverBookSourceName;
-    private ActivityMainContainerBinding inflate;
     private ChoseBackupFolderDialog.ChoseBackupFolderDialogBuilder choseBackupFolderDialogBuilder;
     private QMUIDialog qmuiDialog;
     private ImportBookSourceDialog importBookSourceDialog;
 
     @Override
-    protected View bindContentView() {
-        inflate = ActivityMainContainerBinding.inflate(getLayoutInflater());
-        return inflate.getRoot();
+    protected ActivityMainContainerBinding inflateView(LayoutInflater inflater) {
+        return ActivityMainContainerBinding.inflate(inflater);
     }
 
     @Override
@@ -102,24 +101,24 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     public void configViews() {
         setMenu();
         mainTabAdapter = new MainTabAdapter(mContext, getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        inflate.viewMain.mViewPager.setAdapter(mainTabAdapter);
-        inflate.viewMain.mTabLayout.setupWithViewPager(inflate.viewMain.mViewPager);
+        binding.viewMain.mViewPager.setAdapter(mainTabAdapter);
+        binding.viewMain.mTabLayout.setupWithViewPager(binding.viewMain.mViewPager);
         //打开左侧的设置页面
-        ClickUtils.click(inflate.mMaterialMenu, o -> {
-            if (!inflate.mDrawLayout.isDrawerOpen(inflate.viewMainLeft.mDrawLeft)) {
-                inflate.mDrawLayout.openDrawer(Gravity.LEFT, true);
+        ClickUtils.click(binding.mMaterialMenu, o -> {
+            if (!binding.mDrawLayout.isDrawerOpen(binding.viewMainLeft.mDrawLeft)) {
+                binding.mDrawLayout.openDrawer(Gravity.LEFT, true);
             } else {
-                inflate.mDrawLayout.closeDrawer(inflate.viewMainLeft.mDrawLeft);
+                binding.mDrawLayout.closeDrawer(binding.viewMainLeft.mDrawLeft);
             }
 
         });
 
-        for (int i = 0; i < inflate.viewMain.mTabLayout.getTabCount(); i++) {
-            if (inflate.viewMain.mTabLayout.getTabAt(i) != null) {
-                inflate.viewMain.mTabLayout.getTabAt(i).setCustomView(mainTabAdapter.getTabView(i));
+        for (int i = 0; i < binding.viewMain.mTabLayout.getTabCount(); i++) {
+            if (binding.viewMain.mTabLayout.getTabAt(i) != null) {
+                binding.viewMain.mTabLayout.getTabAt(i).setCustomView(mainTabAdapter.getTabView(i));
             }
         }
-        inflate.viewMain.mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        binding.viewMain.mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mCurrentPosition = tab.getPosition();
@@ -129,7 +128,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 } else {
                     FillContentUtil.setText(mTvTitle, mainTabAdapter.getPageTitle(mCurrentPosition));
                 }
-                inflate.mDrawLayout.closeDrawer(inflate.viewMainLeft.mDrawLeft);
+                binding.mDrawLayout.closeDrawer(binding.viewMainLeft.mDrawLeft);
                 setMenu();
             }
 
@@ -144,44 +143,44 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             }
         });
 
-        inflate.viewMainLeft.mDrawLeft.setOnClickListener(null);
+        binding.viewMainLeft.mDrawLeft.setOnClickListener(null);
 
         //feedback
-        ClickUtils.click(inflate.viewMainLeft.mViewFeedBack, o -> {
+        ClickUtils.click(binding.viewMainLeft.mViewFeedBack, o -> {
             WebViewActivity.start(mContext, Constant.FEEDBACK);
         });
 
         //manage book source
-        ClickUtils.click(inflate.viewMainLeft.mViewBookSourceManager, o -> {
+        ClickUtils.click(binding.viewMainLeft.mViewBookSourceManager, o -> {
             BookSourceActivity.start(mContext);
         });
 
         //drawableLayout on draw listener
-        inflate.mDrawLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+        binding.mDrawLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 super.onDrawerSlide(drawerView, slideOffset);
-                inflate.mMaterialMenu.setTransformationOffset(MaterialMenuDrawable.AnimationState.BURGER_ARROW, 2 - slideOffset);
+                binding.mMaterialMenu.setTransformationOffset(MaterialMenuDrawable.AnimationState.BURGER_ARROW, 2 - slideOffset);
             }
         });
         //read history
-        ClickUtils.click(inflate.viewMainLeft.mViewReadHistory, o -> {
+        ClickUtils.click(binding.viewMainLeft.mViewReadHistory, o -> {
             ARouter.getInstance().build(ARouterConstants.ACT_READ_HISTORY).navigation();
         });
         //setting
-        ClickUtils.click(inflate.viewMainLeft.mViewSetting, o -> {
+        ClickUtils.click(binding.viewMainLeft.mViewSetting, o -> {
             SettingActivity.start(mContext);
         });
         //about page
-        ClickUtils.click(inflate.viewMainLeft.mViewAbout, o -> {
+        ClickUtils.click(binding.viewMainLeft.mViewAbout, o -> {
             AboutActivity.start(mContext);
         });
         //donate
-        ClickUtils.click(inflate.viewMainLeft.mViewDonate, o -> {
+        ClickUtils.click(binding.viewMainLeft.mViewDonate, o -> {
         });
-        inflate.viewMainLeft.mViewDonate.setVisibility(View.GONE);
-        inflate.viewMain.mViewPager.setOffscreenPageLimit(4);
-        inflate.viewMainLeft.mViewNightMode.setVisibility(View.GONE);
+        binding.viewMainLeft.mViewDonate.setVisibility(View.GONE);
+        binding.viewMain.mViewPager.setOffscreenPageLimit(4);
+        binding.viewMainLeft.mViewNightMode.setVisibility(View.GONE);
 
         JumpToLastPageUtil.openLastPage(mContext);
         mPresenter.checkBackupPath();
@@ -195,7 +194,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 mToolBar.inflateMenu(R.menu.menu_main);
                 mToolBar.getMenu().findItem(R.id.item_arrange_bookshelf).setVisible(false);
                 mToolBar.setOnMenuItemClickListener(item -> {
-                    inflate.mDrawLayout.closeDrawer(inflate.viewMainLeft.mDrawLeft);
+                    binding.mDrawLayout.closeDrawer(binding.viewMainLeft.mDrawLeft);
                     switch (item.getItemId()) {
                         case R.id.item_search:
                             SearchActivity.start(mContext);
@@ -218,7 +217,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             case 1:
                 mToolBar.inflateMenu(R.menu.menu_discover);
                 mToolBar.setOnMenuItemClickListener(item -> {
-                    inflate.mDrawLayout.closeDrawer(inflate.viewMainLeft.mDrawLeft);
+                    binding.mDrawLayout.closeDrawer(binding.viewMainLeft.mDrawLeft);
                     switch (item.getItemId()) {
                         case R.id.item_search:
                             SearchActivity.start(mContext);
@@ -358,7 +357,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     public void upDataReadTime(Boolean change) {
         String all = TimeUtils.formatToHour(AppReaderDbHelper.getInstance().getDatabase().getReadHistoryDao().getAllTime());
         String today = TimeUtils.formatToHour(AppReaderDbHelper.getInstance().getDatabase().getReadHistoryDao().getTodayAllTime(DateUtils.getToadyMillis()));
-        inflate.viewMainLeft.mViewReadHistory.setText(String.format(getResources().getString(R.string.read_records), today));
+        binding.viewMainLeft.mViewReadHistory.setText(String.format(getResources().getString(R.string.read_records), today));
     }
 
     @Override
