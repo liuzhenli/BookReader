@@ -5,17 +5,15 @@ package com.liuzhenli.reader.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 
 import com.liuzhenli.common.AppComponent;
-import com.liuzhenli.common.base.BaseContract;
-import com.liuzhenli.common.utils.AppConfigManager;
-import com.liuzhenli.reader.bean.Sayings;
 import com.liuzhenli.common.base.BaseActivity;
+import com.liuzhenli.common.base.BaseContract;
+import com.liuzhenli.reader.bean.Sayings;
 import com.liuzhenli.reader.utils.SayingsManager;
 import com.microedu.reader.databinding.ActivitySplashBinding;
 

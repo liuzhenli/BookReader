@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.documentfile.provider.DocumentFile;
 
 import com.liuzhenli.common.BaseApplication;
-import com.liuzhenli.common.FileHelp;
 import com.liuzhenli.common.base.RxPresenter;
 import com.liuzhenli.common.exception.ApiException;
 import com.liuzhenli.common.observer.SampleProgressObserver;
@@ -22,19 +21,13 @@ import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.common.utils.ThreadUtils;
 import com.liuzhenli.reader.ReaderApplication;
 import com.liuzhenli.reader.ui.contract.MainContract;
-import com.liuzhenli.reader.utils.storage.Backup;
 import com.liuzhenli.reader.utils.storage.WebDavHelp;
 import com.micoredu.reader.bean.BookSourceBean;
 import com.micoredu.reader.helper.DocumentHelper;
 import com.micoredu.reader.model.BookSourceManager;
-import com.microedu.reader.R;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -44,7 +37,7 @@ import kotlin.text.Charsets;
 
 
 /**
- * Description:
+ * Description: main presenter
  *
  * @author liuzhenli 2021/7/22
  * Email: 848808263@qq.com
