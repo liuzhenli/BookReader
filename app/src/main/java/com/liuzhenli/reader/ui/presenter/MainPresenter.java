@@ -26,6 +26,8 @@ import com.micoredu.reader.bean.BookSourceBean;
 import com.micoredu.reader.helper.DocumentHelper;
 import com.micoredu.reader.model.BookSourceManager;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -82,7 +84,7 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
             RxUtil.subscribe(observable, new SampleProgressObserver<List<BookSourceBean>>(mView) {
                 @Override
                 public void onNext(@NonNull List<BookSourceBean> bookSource) {
-                    mView.showBookSource(bookSource);
+                    saveData(bookSource, mView);
                 }
             });
         } else {
@@ -116,5 +118,19 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
             mView.showError(new ApiException(1000, new Throwable(BaseApplication.getInstance().getString(com.micoredu.reader.R.string.read_file_error))));
         }
 
+    }
+
+    public void saveData(List<BookSourceBean> data, MainContract.View mView) {
+        addSubscribe(RxUtil.subscribe(Observable.create(emitter -> {
+            ThreadUtils.getInstance().getExecutorService().execute(() -> BookSourceManager.update(data));
+            emitter.onNext(data == null ? 0 : data.size());
+        }), new SampleProgressObserver<Integer>() {
+            @Override
+            public void onNext(@NotNull Integer aBoolean) {
+                if (mView != null) {
+                    mView.showBookSource(data);
+                }
+            }
+        }));
     }
 }

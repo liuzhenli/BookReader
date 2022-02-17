@@ -86,7 +86,7 @@
             android:paddingLeft="@dimen/common_space_large"
             android:paddingRight="@dimen/common_space_large"
             android:text="停止"
-            android:textColor="@color/main"
+            android:textColor="@color/main_blue"
             android:textSize="@dimen/txt_size_16" />
     </LinearLayout>
 

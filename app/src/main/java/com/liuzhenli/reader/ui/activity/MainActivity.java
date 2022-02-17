@@ -59,7 +59,7 @@ import java.util.List;
 @Route(path = ARouterConstants.ACT_MAIN)
 public class MainActivity extends BaseActivity<MainPresenter, ActivityMainContainerBinding> implements MainContract.View {
     public static final int IMPORT_BOOK_SOURCE_QRCODE = 10092;
-    private static final int IMPORT_BOOK_SOURCE = 1000;
+    public static final int IMPORT_BOOK_SOURCE = 1000;
     private int mCurrentPosition;
     private MainTabAdapter mainTabAdapter;
     /***发现页面的书源名字*/
@@ -324,6 +324,7 @@ public class MainActivity extends BaseActivity<MainPresenter, ActivityMainContai
                 if (TextUtils.isEmpty(importBookSourceDialog.getUserInput())) {
                     toast(getResources().getString(com.micoredu.reader.R.string.input_book_source_url));
                 } else {
+                    showDialog();
                     mPresenter.importSource(importBookSourceDialog.getUserInput());
                 }
             });
@@ -342,7 +343,9 @@ public class MainActivity extends BaseActivity<MainPresenter, ActivityMainContai
 
     @Override
     public void showBookSource(List<BookSourceBean> list) {
-
+        hideDialog();
+        importBookSourceDialog.dismiss();
+        toast(String.format("成功导入%s个书源", list.size()));
     }
 
     @Override

@@ -1,11 +1,9 @@
 package com.micoredu.reader.model;
 
 import android.database.Cursor;
-import android.os.Build;
 import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 
 import com.liuzhenli.common.SharedPreferencesUtil;
 import com.liuzhenli.common.gson.GsonUtils;
@@ -21,11 +19,9 @@ import com.micoredu.reader.impl.IHttpGetApi;
 import com.micoredu.reader.observe.BaseModelImpl;
 
 import java.net.URL;
-import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
