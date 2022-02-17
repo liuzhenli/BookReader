@@ -22,7 +22,7 @@
         android:hint="在此输入~"
         android:paddingLeft="@dimen/common_space_large"
         android:paddingRight="@dimen/common_space_large"
-        android:textColor="@color/main"
+        android:textColor="@color/main_blue"
         android:textColorHint="@color/text_color_99"
         android:textSize="@dimen/txt_size_12" />
 
