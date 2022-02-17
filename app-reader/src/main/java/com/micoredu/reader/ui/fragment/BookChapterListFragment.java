@@ -28,12 +28,14 @@ public class BookChapterListFragment extends BaseFragment {
     private BookChapterAdapter mAdapter;
 
     private boolean mIsFromReadPage;
+    private int mChapterId;
     private FragmentBookchapterlistBinding inflate;
 
-    public static BookChapterListFragment getInstance(boolean isFromReadPage) {
+    public static BookChapterListFragment getInstance(boolean isFromReadPage, int chapterId) {
         BookChapterListFragment instance = new BookChapterListFragment();
         Bundle bundle = new Bundle();
         bundle.putBoolean("isFromReadPage", isFromReadPage);
+        bundle.putInt("chapterId", chapterId);
         instance.setArguments(bundle);
         return instance;
     }
@@ -56,6 +58,7 @@ public class BookChapterListFragment extends BaseFragment {
     @Override
     public void initData() {
         mIsFromReadPage = getArguments() != null && getArguments().getBoolean("isFromReadPage");
+        mChapterId = getArguments() != null ? getArguments().getInt("chapterId", 0) : 0;
     }
 
     @Override
@@ -79,8 +82,8 @@ public class BookChapterListFragment extends BaseFragment {
             BitIntentDataManager.getInstance().putData(bookKey, getParentActivity().getBookShelf().clone());
             RxBus.get().post(RxBusTag.SKIP_TO_CHAPTER, new OpenChapterBean(item.getDurChapterIndex(), 0));
             mContext.startActivity(intent);
-
         });
+        inflate.recyclerView.scrollToPosition(mChapterId);
     }
 
     private BookChapterListActivity getParentActivity() {
