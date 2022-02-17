@@ -46,8 +46,9 @@ public class BookChapterListActivity extends BaseTabActivity<BaseContract.BasePr
     private boolean mIsFromReadPage;
 
     private boolean isAsc = true;
+    private int mChapterId;
 
-    public static void start(Context context, BookShelfBean bookShelf, List<BookChapterBean> chapterBeanList, boolean isBookMark, boolean isFromReadPage) {
+    public static void start(Context context, BookShelfBean bookShelf, List<BookChapterBean> chapterBeanList, boolean isBookMark, boolean isFromReadPage, int chapterId) {
         Intent intent = new Intent(context, BookChapterListActivity.class);
         String key = String.valueOf(System.currentTimeMillis());
 
@@ -55,6 +56,7 @@ public class BookChapterListActivity extends BaseTabActivity<BaseContract.BasePr
         intent.putExtra("isBookMark", isBookMark);
         intent.putExtra("isFromReadPage", isFromReadPage);
         intent.putExtra("bookKey", bookKey);
+        intent.putExtra("chapterId", chapterId);
         BitIntentDataManager.getInstance().putData(bookKey, bookShelf.clone());
 
         String chapterListKey = "chapterList" + key;
@@ -65,7 +67,7 @@ public class BookChapterListActivity extends BaseTabActivity<BaseContract.BasePr
     }
 
     public static void start(Context context, BookShelfBean bookShelf, List<BookChapterBean> chapterBeanList) {
-        start(context, bookShelf, chapterBeanList, false, false);
+        start(context, bookShelf, chapterBeanList, false, false, 0);
     }
 
     @Override
@@ -106,6 +108,7 @@ public class BookChapterListActivity extends BaseTabActivity<BaseContract.BasePr
         mBookShelf = (BookShelfBean) BitIntentDataManager.getInstance().getData(bookshelfKey);
         mIsBookMark = getIntent().getBooleanExtra("isBookMark", false);
         mIsFromReadPage = getIntent().getBooleanExtra("isFromReadPage", false);
+        mChapterId = getIntent().getIntExtra("chapterId", 0);
         String chapterListKey = getIntent().getStringExtra("chapterListKey");
         mChapterBeanList = (List<BookChapterBean>) BitIntentDataManager.getInstance().getData(chapterListKey);
 
@@ -126,7 +129,7 @@ public class BookChapterListActivity extends BaseTabActivity<BaseContract.BasePr
 
     @Override
     protected List<Fragment> createTabFragments() {
-        return Arrays.asList(BookChapterListFragment.getInstance(mIsFromReadPage), BookMarkFragment.getInstance(mIsFromReadPage));
+        return Arrays.asList(BookChapterListFragment.getInstance(mIsFromReadPage, mChapterId), BookMarkFragment.getInstance(mIsFromReadPage));
     }
 
     @Override

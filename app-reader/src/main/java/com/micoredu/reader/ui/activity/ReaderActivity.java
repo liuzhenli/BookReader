@@ -210,7 +210,7 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter, ActReadBin
         binding.mVBottomMenu.setOnMenuElementClickListener(new ReadBottomMenu.OnElementClickListener() {
             @Override
             public void onMenuClick() {
-                BookChapterListActivity.start(mContext, mBookShelf, mPresenter.getChapterList(), false, true);
+                BookChapterListActivity.start(mContext, mBookShelf, mPresenter.getChapterList(), false, true, mChapterId);
             }
 
             @Override
@@ -383,6 +383,7 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter, ActReadBin
 
             @Override
             public void onPageChange(int chapterIndex, int pageIndex, boolean resetReadAloud) {
+                mChapterId = chapterIndex;
                 //记录阅读位置
                 mBookShelf.setDurChapter(chapterIndex);
                 mBookShelf.setDurChapterPage(pageIndex);
