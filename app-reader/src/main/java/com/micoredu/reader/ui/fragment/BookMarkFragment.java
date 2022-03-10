@@ -24,6 +24,8 @@ import com.micoredu.reader.helper.BookshelfHelper;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 
+import java.util.List;
+
 public class BookMarkFragment extends BaseFragment {
 
     private BookMarkAdapter mAdapter;
@@ -66,7 +68,15 @@ public class BookMarkFragment extends BaseFragment {
         mAdapter = new BookMarkAdapter(mContext, mIsFromReadPage);
 
         inflate.recyclerView.setAdapter(mAdapter);
-        mAdapter.addAll(getParentActivity().getBookMarkList());
+        List<BookmarkBean> bookMarkList = getParentActivity().getBookMarkList();
+        if (bookMarkList != null && bookMarkList.size() > 0) {
+            inflate.recyclerView.setVisibility(View.VISIBLE);
+            inflate.empty.viewEmpty.setVisibility(View.GONE);
+            mAdapter.addAll(bookMarkList);
+        } else {
+            inflate.recyclerView.setVisibility(View.GONE);
+            inflate.empty.viewEmpty.setVisibility(View.VISIBLE);
+        }
         mAdapter.setOnItemClickListener(position -> {
             BookmarkBean item = mAdapter.getItem(position);
             getParentActivity().getBookShelf().setFinalDate(System.currentTimeMillis());

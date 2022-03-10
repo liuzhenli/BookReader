@@ -17,4 +17,11 @@
         app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
         app:fastScrollVerticalTrackDrawable="@drawable/line_drawable" />
 
+    <include
+        android:id="@+id/empty"
+        layout="@layout/empty_view_common"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
 </com.liuzhenli.common.widget.recyclerview.swipe.ZLSwipeRefreshLayout>
