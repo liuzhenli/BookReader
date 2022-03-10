@@ -182,9 +182,9 @@ public class BookChapterListActivity extends BaseTabActivity<BaseContract.BasePr
             mImmersionBar.statusBarColor(R.color.skin_night_reader_scene_bg_color);
             mTabLayout.setSelectedTabIndicatorColor(ReadConfigManager.getInstance().getTextColor());
         } else {
-            mTabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.main));
-            mImmersionBar.statusBarColor(R.color.main);
-            mToolBar.setBackgroundColor(getResources().getColor(R.color.main));
+            mTabLayout.setSelectedTabIndicatorColor(ReadConfigManager.getInstance().getTextColor());
+            mImmersionBar.statusBarColorInt(ReadConfigManager.getInstance().getBgColor());
+            mToolBar.setBackgroundColor(ReadConfigManager.getInstance().getBgColor());
         }
         binding.mViewRoot.setBackground(ReadConfigManager.getInstance().getTextBackground(mContext));
         mTabLayout.setTabTextColors(getResources().getColor(R.color.text_color_99), ReadConfigManager.getInstance().getTextColor());
