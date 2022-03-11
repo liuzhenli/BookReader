@@ -34,7 +34,7 @@ public class LoadingDialog extends Dialog {
         if (pb != null) {
             RotateDrawable rd = (RotateDrawable) pb.getIndeterminateDrawable();
             GradientDrawable gd = (GradientDrawable) rd.getDrawable();
-            gd.setColors(new int[]{Color.WHITE, pb.getContext().getResources().getColor(R.color.color_widget_red)});
+            gd.setColors(new int[]{Color.WHITE, pb.getContext().getResources().getColor(R.color.color_widget)});
             gd.setShape(GradientDrawable.RING);
         }
         setContentView(v,

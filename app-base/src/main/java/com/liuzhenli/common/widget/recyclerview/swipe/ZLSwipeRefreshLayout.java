@@ -265,7 +265,7 @@ public class ZLSwipeRefreshLayout extends FrameLayout {
         mTotalDragDistance = mSpinnerFinalOffset;
 
         requestDisallowInterceptTouchEvent(true);
-        setColorSchemeColors(ContextCompat.getColor(context, R.color.color_widget_red));
+        setColorSchemeColors(ContextCompat.getColor(context, R.color.color_widget));
     }
 
     protected int getChildDrawingOrder(int childCount, int i) {

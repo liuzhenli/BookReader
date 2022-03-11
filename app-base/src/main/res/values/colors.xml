@@ -6,7 +6,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="bg_color">#f5f5f5</color>     <!--背景颜色-->
     <color name="main">#FFFFFFFF</color>
-    <color name="main_touming">#99008577</color>
+    <color name="main_touming">#99ff5000</color>
     <color name="main_blue">#00a0e9</color>
     <color name="transparent">#00ffffff</color>
 
@@ -37,7 +37,7 @@
     <color name="black_5a626d">#5a626d</color>
 
     <color name="read_theme_checked">#ff5000</color>
-    <color name="color_widget_red">#ff5000</color>
+    <color name="color_widget">#ff5000</color>
 
 
 </resources>
