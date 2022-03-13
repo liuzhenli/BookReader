@@ -10,14 +10,13 @@
     android:focusable="true"
     tools:ignore="UnusedAttribute">
 
-    <ImageView
+    <com.micoredu.reader.widgets.BookCover
         android:id="@+id/mIvCover"
         android:layout_width="60dp"
         android:layout_height="80dp"
         android:layout_margin="8dp"
         android:contentDescription="@string/img_cover"
         android:scaleType="centerCrop"
-        android:src="@drawable/book_cover"
         android:transitionName="img_cover"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
