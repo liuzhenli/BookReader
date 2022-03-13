@@ -9,6 +9,7 @@ import com.liuzhenli.common.SharedPreferencesUtil;
 import com.liuzhenli.common.utils.AppFrontBackHelper;
 import com.liuzhenli.common.utils.AppUtils;
 import com.micoredu.reader.content.UpLastChapterModel;
+import com.micoredu.reader.helper.SSLSocketClient;
 import com.microedu.reader.BuildConfig;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
@@ -52,6 +53,7 @@ public class ReaderApplication extends BaseApplication {
             }
         });
         initUmeng();
+        SSLSocketClient.handleSSLHandshake();
     }
 
     /**

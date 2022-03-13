@@ -6,6 +6,7 @@ import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
 
 import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
@@ -56,5 +57,12 @@ public class SSLSocketClient {
     //获取HostnameVerifier
     public static HostnameVerifier getHostnameVerifier() {
         return (s, sslSession) -> true;
+    }
+
+
+    /***信任证书*/
+    public static void handleSSLHandshake() {
+        HttpsURLConnection.setDefaultSSLSocketFactory(SSLSocketClient.getSSLSocketFactory());
+        HttpsURLConnection.setDefaultHostnameVerifier((hostname, session) -> true);
     }
 }
