@@ -12,8 +12,8 @@
 
     <com.micoredu.reader.widgets.BookCover
         android:id="@+id/mIvCover"
-        android:layout_width="60dp"
-        android:layout_height="80dp"
+        android:layout_width="45dp"
+        android:layout_height="60dp"
         android:layout_margin="8dp"
         android:contentDescription="@string/img_cover"
         android:scaleType="centerCrop"

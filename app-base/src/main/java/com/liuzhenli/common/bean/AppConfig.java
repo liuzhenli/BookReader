@@ -1,5 +1,6 @@
 package com.liuzhenli.common.bean;
 
+import com.google.gson.annotations.SerializedName;
 import com.liuzhenli.common.base.BaseBean;
 
 /**
@@ -23,6 +24,8 @@ public class AppConfig extends BaseBean {
         public LatestVersion versionInfo;
         public DonateInfo pay;
         public AdInfo ad;
+        @SerializedName("w")
+        public WeChat weChat;
         /***bookSource*/
         public BookSource bookSource;
     }
@@ -39,6 +42,13 @@ public class AppConfig extends BaseBean {
 
     public static class AdInfo {
         public String filterChannel;
+    }
+
+    public static class WeChat {
+        @SerializedName("n")
+        public String name;
+        @SerializedName("u")
+        public String url;
     }
 
     public static class BookSource {

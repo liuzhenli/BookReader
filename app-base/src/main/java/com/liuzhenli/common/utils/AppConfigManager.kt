@@ -47,6 +47,14 @@ open class AppConfigManager {
         return null
     }
 
+    fun getWeChatName(): String? {
+        return getAppConfig()?.data?.weChat?.name
+    }
+
+    fun getWeChatUrl(): String? {
+        return getAppConfig()?.data?.weChat?.url
+    }
+
     /**
      * switcher if current channel show donate
      */

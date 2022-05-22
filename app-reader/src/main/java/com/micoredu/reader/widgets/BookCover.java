@@ -1,5 +1,7 @@
 package com.micoredu.reader.widgets;
 
+import static com.liuzhenli.common.utils.AppUtils.getAssets;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -17,10 +19,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.request.transition.Transition;
-import com.liuzhenli.common.utils.image.ImageUtil;
+import com.micoredu.reader.R;
 
 /**
  * Description:book cover view
@@ -55,24 +55,26 @@ public class BookCover extends androidx.appcompat.widget.AppCompatImageView {
     }
 
     private void init() {
-        bookNamePaint.setTypeface(Typeface.DEFAULT_BOLD);
+        // Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/xwkt.ttf");
+//        bookNamePaint.setTypeface(typeface);
         bookNamePaint.setAntiAlias(true);
         bookNamePaint.setTextAlign(Paint.Align.CENTER);
-        bookNamePaint.setTextSkewX(-0.2f);
+//        bookNamePaint.setTextSkewX(-0.2f);
 
-        authorPaint.setTypeface(Typeface.DEFAULT);
+//        authorPaint.setTypeface(typeface);
         authorPaint.setAntiAlias(true);
         authorPaint.setTextAlign(Paint.Align.CENTER);
-        authorPaint.setTextSkewX(-0.1f);
+//        authorPaint.setTextSkewX(-0.1f);
+        setBackgroundColor(getResources().getColor(R.color.bg_color));
     }
 
     private void setText(String bookName, String authorName) {
-        if (bookName.length() > 5) {
-            bookName = bookName.substring(0, 5) + "...";
+        if (bookName.length() > 1) {
+            bookName = bookName.charAt(0) + "";
         }
 
-        if (authorName.length() > 5) {
-            authorName = authorName.substring(0, 7) + "...";
+        if (authorName.length() > 8) {
+            authorName = authorName.substring(0, 8) + "...";
         }
         this.bookName = bookName;
         this.authorName = authorName;
@@ -84,13 +86,13 @@ public class BookCover extends androidx.appcompat.widget.AppCompatImageView {
         width = getWidth();
         height = getHeight();
 
-        bookNamePaint.setTextSize(width / 6f);
+        bookNamePaint.setTextSize(width / 3f);
         bookNamePaint.setStrokeWidth(bookNamePaint.getTextSize() / 10);
 
-        authorPaint.setTextSize(width / 9f);
+        authorPaint.setTextSize(width / 8f);
         authorPaint.setStrokeWidth(authorPaint.getTextSize() / 10);
         nameHeight = height / 2;
-        authorHeight = (int) (nameHeight + authorPaint.getFontSpacing());
+        authorHeight = (int) (nameHeight + authorPaint.getFontSpacing() + 50);
     }
 
     @Override
