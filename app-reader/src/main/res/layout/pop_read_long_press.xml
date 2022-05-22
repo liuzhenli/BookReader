@@ -33,7 +33,7 @@
                 android:gravity="center"
                 android:padding="@dimen/common_space_normal"
                 android:text="复制"
-                android:textColor="#ffbbbbbb"
+                android:textColor="@color/white"
                 android:textSize="14sp" />
 
         </FrameLayout>
@@ -52,7 +52,7 @@
                 android:gravity="center"
                 android:padding="@dimen/common_space_normal"
                 android:text="搜索"
-                android:textColor="#ffbbbbbb"
+                android:textColor="@color/white"
                 android:textSize="14sp" />
 
         </FrameLayout>
@@ -71,7 +71,7 @@
                 android:gravity="center"
                 android:padding="@dimen/common_space_normal"
                 android:text="分享"
-                android:textColor="#ffbbbbbb"
+                android:textColor="@color/white"
                 android:textSize="14sp" />
 
         </FrameLayout>

@@ -6,10 +6,13 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
+import com.liuzhenli.common.utils.AppConfigManager;
 import com.liuzhenli.common.utils.ClickUtils;
+import com.liuzhenli.common.utils.image.ImageUtil;
 import com.liuzhenli.common.widget.dialog.FixHeightBottomSheetDialog;
 import com.microedu.reader.R;
 
@@ -40,6 +43,8 @@ public class AddWxArticleDialog extends FixHeightBottomSheetDialog {
             }
 
         });
+        ImageView ivWeChat = inflate.findViewById(R.id.iv_we_chat);
+        ImageUtil.setImage(getContext(), AppConfigManager.getInstance().getWeChatUrl(), ivWeChat);
         setContentView(inflate);
     }
 

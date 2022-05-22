@@ -25,9 +25,9 @@
         android:text="关注后即可获取精品书源" />
 
     <ImageView
+        android:id="@+id/iv_we_chat"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:src="@drawable/icon_book" />
+        android:layout_height="200dp" />
 
     <com.liuzhenli.reader.view.roundwidget.RoundTextView
         android:id="@+id/view_copy_and_open"

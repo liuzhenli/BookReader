@@ -50,8 +50,7 @@
         android:layout_height="wrap_content"
         android:text="发现"
         android:textColor="@color/s_text_66"
-        android:textSize="@dimen/txt_size_10"
-        android:track="@drawable/qmui_s_icon_switch" />
+        android:textSize="@dimen/txt_size_10" />
 
     <ImageView
         android:id="@+id/view_edit_book_source"
