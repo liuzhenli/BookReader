@@ -5,6 +5,8 @@ import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.liuzhenli.common.SharedPreferencesUtil;
 import com.liuzhenli.common.gson.GsonUtils;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
@@ -12,6 +14,8 @@ import com.liuzhenli.common.utils.NetworkUtils;
 import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.common.utils.StringUtils;
 import com.micoredu.reader.analyzerule.AnalyzeHeaders;
+import com.micoredu.reader.bean.BookSource3Bean;
+import com.micoredu.reader.bean.BookSource3FindBean;
 import com.micoredu.reader.bean.BookSourceBean;
 import com.micoredu.reader.dao.BookSourceDao;
 import com.micoredu.reader.helper.AppReaderDbHelper;
@@ -231,7 +235,7 @@ public class BookSourceManager {
         if (NetworkUtils.isUrl(string)) {
             return BaseModelImpl.getInstance().getRetrofitString(StringUtils.getBaseUrl(string), "utf-8")
                     .create(IHttpGetApi.class)
-                    .get(string, AnalyzeHeaders.getMap(null))
+                    .get(string, AnalyzeHeaders.getDefaultHeader())
                     .flatMap(rsp -> importBookSourceFromJson(rsp.body()))
                     .compose(RxUtil::toSimpleSingle);
         }
@@ -243,7 +247,8 @@ public class BookSourceManager {
             List<BookSourceBean> bookSourceBeans = new ArrayList<>();
             if (StringUtils.isJsonArray(json)) {
                 try {
-                    bookSourceBeans = GsonUtils.parseJArray(json, BookSourceBean.class);
+                    //bookSourceBeans = GsonUtils.parseJArray(json, BookSourceBean.class);
+                    bookSourceBeans = matchSourceList(json);
                     for (BookSourceBean bookSourceBean : bookSourceBeans) {
                         if (bookSourceBean.containsGroup("删除")) {
                             AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().delete(bookSourceBean.getBookSourceUrl());
@@ -284,6 +289,110 @@ public class BookSourceManager {
 
     public static void update(List<BookSourceBean> datas) {
         AppReaderDbHelper.getInstance().getDatabase().getBookSourceDao().update(datas);
+    }
+
+
+    public static List<BookSourceBean> matchSourceList(String str) {
+        Gson gson = new Gson();
+        List<BookSource3Bean> bookSource3List = new ArrayList<>();
+        List<BookSourceBean> bookSource2List = new ArrayList<>();
+        int r2 = 0, r3 = 0;
+        boolean b = str.charAt(0) == '[' && str.charAt(str.length() - 1) == ']';
+        try {
+            if (b) {
+                bookSource3List = gson.fromJson(str, new TypeToken<List<BookSource3Bean>>() {
+                }.getType());
+            }
+            r3 = gson.toJson(bookSource3List).length();
+        } catch (Exception ignore) {
+        }
+
+        try {
+            if (b) {
+                bookSource2List = gson.fromJson(str, new TypeToken<List<BookSourceBean>>() {
+                }.getType());
+            }
+            r2 = gson.toJson(bookSource2List).length();
+            // r2 r3的计算在调用searchUrl2RuleSearchUrl() 等高级转换方法之前，是简化算法的粗糙的做法
+            if (r2 > r3) {
+                return bookSource2List;
+            } else {
+                bookSource2List.clear();
+                for (BookSource3Bean source3Bean : bookSource3List) {
+                    bookSource2List.add(source3Bean.toBookSourceBean());
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bookSource2List;
+    }
+
+    public static BookSourceBean matchSourceBean(String str) {
+        Gson gson = new Gson();
+        BookSource3Bean bookSource3Bean = new BookSource3Bean();
+        BookSourceBean bookSource2Bean = new BookSourceBean();
+        int r2 = 0, r3 = 0;
+        boolean b = str.charAt(0) == '[' && str.charAt(str.length() - 1) == ']';
+        //阅读3.0书源
+        try {
+            if (b) {
+                List<BookSource3Bean> list = gson.fromJson(str, new TypeToken<List<BookSource3Bean>>() {
+                }.getType());
+                bookSource3Bean = list.get(0);
+            } else {
+                bookSource3Bean = gson.fromJson(str, BookSource3Bean.class);
+            }
+            r3 = gson.toJson(bookSource3Bean).length();
+        } catch (Exception ignore) {
+        }
+
+        //2.0书源
+        try {
+            if (b) {
+                List<BookSourceBean> list = gson.fromJson(str, new TypeToken<List<BookSourceBean>>() {
+                }.getType());
+                bookSource2Bean = list.get(0);
+            } else {
+                bookSource2Bean = gson.fromJson(str, BookSourceBean.class);
+            }
+            r2 = gson.toJson(bookSource2Bean).length();
+            // r2 r3的计算在调用searchUrl2RuleSearchUrl() 等高级转换方法之前，是简化算法的粗糙的做法
+            if (r2 > r3)
+                return bookSource2Bean;
+        } catch (Exception ignore) {
+        }
+
+        if (r3 > 0) {
+            return bookSource3Bean.addGroupTag("阅读3.0书源").toBookSourceBean();
+        }
+        return bookSource2Bean;
+    }
+
+
+    public static String matchRuleFindUrl(String exploreUrl) {
+        if (TextUtils.isEmpty(exploreUrl)) {
+            return exploreUrl;
+        }
+        StringBuilder result = new StringBuilder(exploreUrl);
+        try {
+            Gson gson = new Gson();
+            List<BookSource3FindBean> list = gson.fromJson(exploreUrl, new TypeToken<List<BookSource3FindBean>>() {
+            }.getType());
+            //3.0书源find
+            if (list != null && list.size() > 0) {
+                result = new StringBuilder();
+                for (BookSource3FindBean findBean : list) {
+                    if (!TextUtils.isEmpty(findBean.url)) {
+                        result.append(findBean.toBookSource2Find());
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result.toString();
     }
 
 }

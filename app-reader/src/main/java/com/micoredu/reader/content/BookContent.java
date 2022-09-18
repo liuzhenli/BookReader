@@ -1,10 +1,11 @@
 package com.micoredu.reader.content;
 
+import static com.liuzhenli.common.constant.AppConstant.JS_PATTERN;
+
 import android.text.TextUtils;
 
 
 import com.liuzhenli.common.BaseApplication;
-import com.liuzhenli.common.constant.AppConstant;
 import com.liuzhenli.common.utils.NetworkUtils;
 import com.liuzhenli.common.utils.StringUtils;
 import com.micoredu.reader.R;
@@ -37,7 +38,7 @@ class BookContent {
         ruleBookContent = bookSourceBean.getRuleBookContent();
         if (ruleBookContent.startsWith("$") && !ruleBookContent.startsWith("$.")) {
             ruleBookContent = ruleBookContent.substring(1);
-            Matcher jsMatcher = AppConstant.JS_PATTERN.matcher(ruleBookContent);
+            Matcher jsMatcher = JS_PATTERN.matcher(ruleBookContent);
             if (jsMatcher.find()) {
                 ruleBookContent = ruleBookContent.replace(jsMatcher.group(), "");
             }
@@ -69,7 +70,7 @@ class BookContent {
             bookContentBean.setDurChapterIndex(chapterBean.getDurChapterIndex());
             bookContentBean.setDurChapterUrl(chapterBean.getDurChapterUrl());
             bookContentBean.setTag(tag);
-            AnalyzeRule analyzer = new AnalyzeRule(bookShelfBean);
+            AnalyzeRule analyzer = new AnalyzeRule(bookShelfBean, bookSourceBean);
             WebContentBean webContentBean = analyzeBookContent(analyzer, s, chapterBean.getDurChapterUrl(), baseUrl);
             bookContentBean.setDurChapterContent(webContentBean.content);
 
@@ -89,11 +90,17 @@ class BookContent {
 
                 while (!TextUtils.isEmpty(webContentBean.nextUrl) && !usedUrlList.contains(webContentBean.nextUrl)) {
                     usedUrlList.add(webContentBean.nextUrl);
-                    if (nextChapter != null && NetworkUtils.getAbsoluteURL(baseUrl, webContentBean
-                            .nextUrl).equals(NetworkUtils.getAbsoluteURL(baseUrl, nextChapter.getDurChapterUrl()))) {
+                    if (nextChapter != null &&
+                            NetworkUtils.getAbsoluteURL(
+                                    baseUrl, webContentBean.nextUrl
+                            ).equals(NetworkUtils.getAbsoluteURL(baseUrl, nextChapter.getDurChapterUrl()))
+                    ) {
                         break;
                     }
-                    AnalyzeUrl analyzeUrl = new AnalyzeUrl(webContentBean.nextUrl, headerMap, tag);
+                    AnalyzeUrl analyzeUrl = new AnalyzeUrl(
+                            webContentBean.nextUrl, tag, bookSourceBean,
+                            bookSourceBean.getHeaderMap(true)
+                    );
                     try {
                         String body;
                         Response<String> response = BaseModelImpl.getInstance().getResponseO(analyzeUrl).blockingFirst();
@@ -140,7 +147,7 @@ class BookContent {
         return webContentBean;
     }
 
-    private class WebContentBean {
+    private static class WebContentBean {
         private String content;
         private String nextUrl;
 

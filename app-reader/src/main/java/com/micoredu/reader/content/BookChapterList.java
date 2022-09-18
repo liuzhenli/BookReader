@@ -14,6 +14,7 @@ import com.micoredu.reader.bean.BookSourceBean;
 import com.micoredu.reader.bean.WebChapterBean;
 import com.micoredu.reader.model.task.AnalyzeNextUrlTask;
 import com.micoredu.reader.observe.BaseModelImpl;
+
 import org.jsoup.nodes.Element;
 import org.mozilla.javascript.NativeObject;
 
@@ -56,7 +57,7 @@ public class BookChapterList {
                 Debug.printLog(tag, 1, "└" + bookShelfBean.getBookInfoBean().getChapterUrl(), analyzeNextUrl);
             }
             bookShelfBean.setTag(tag);
-            AnalyzeRule analyzer = new AnalyzeRule(bookShelfBean);
+            AnalyzeRule analyzer = new AnalyzeRule(bookShelfBean, bookSourceBean);
             String ruleChapterList = bookSourceBean.getRuleChapterList();
             if (ruleChapterList != null && ruleChapterList.startsWith("-")) {
                 dx = true;
@@ -78,7 +79,10 @@ public class BookChapterList {
                 Debug.printLog(tag, "正在加载下一页");
                 while (!chapterUrlS.isEmpty() && !usedUrl.contains(chapterUrlS.get(0))) {
                     usedUrl.add(chapterUrlS.get(0));
-                    AnalyzeUrl analyzeUrl = new AnalyzeUrl(chapterUrlS.get(0), headerMap, tag);
+                    AnalyzeUrl analyzeUrl = new AnalyzeUrl(
+                            chapterUrlS.get(0), tag, bookSourceBean,
+                            bookSourceBean.getHeaderMap(true)
+                    );
                     try {
                         String body;
                         Response<String> response = BaseModelImpl.getInstance().getResponseO(analyzeUrl)
@@ -130,8 +134,12 @@ public class BookChapterList {
                     webChapterBeans.add(bean);
                 }
                 for (WebChapterBean bean : webChapterBeans) {
-                    BookChapterList bookChapterList = new BookChapterList(tag, bookSourceBean, false);
-                    AnalyzeUrl analyzeUrl = new AnalyzeUrl(bean.getUrl(), headerMap, tag);
+                    BookChapterList bookChapterList =
+                            new BookChapterList(tag, bookSourceBean, false);
+                    AnalyzeUrl analyzeUrl = new AnalyzeUrl(
+                            bean.getUrl(), tag, bookSourceBean,
+                            bookSourceBean.getHeaderMap(true)
+                    );
                     new AnalyzeNextUrlTask(bookChapterList, bean, bookShelfBean, headerMap)
                             .setCallback(callback)
                             .analyzeUrl(analyzeUrl);
@@ -143,9 +151,7 @@ public class BookChapterList {
     private synchronized boolean nextUrlFinish(WebChapterBean webChapterBean, List<BookChapterBean> bookChapterBeans) {
         webChapterBean.setData(bookChapterBeans);
         for (WebChapterBean bean : webChapterBeans) {
-            if (bean.noData()) {
-                return false;
-            }
+            if (bean.noData()) return false;
         }
         return true;
     }
@@ -198,17 +204,31 @@ public class BookChapterList {
             }
             String nameRule = bookSourceBean.getRuleChapterName();
             String linkRule = bookSourceBean.getRuleContentUrl();
+            String vipRule = bookSourceBean.getRuleChapterVip();
+            String payRule = bookSourceBean.getRuleChapterPay();
             String name = "";
             String link = "";
+            boolean isVip = false;
+            boolean isPay = false;
+            String vipResult = "";
+            String payResult = "";
             for (Object object : collections) {
                 if (object instanceof NativeObject) {
                     name = String.valueOf(((NativeObject) object).get(nameRule));
                     link = String.valueOf(((NativeObject) object).get(linkRule));
+                    vipResult = String.valueOf(((NativeObject) object).get(vipRule));
+                    payResult = String.valueOf(((NativeObject) object).get(payRule));
                 } else if (object instanceof Element) {
                     name = ((Element) object).text();
                     link = ((Element) object).attr(linkRule);
                 }
-                addChapter(chapterBeans, name, link);
+                if (!TextUtils.isEmpty(vipResult) && !vipResult.matches("\\s*(?i)(null|false|0)\\s*")) {
+                    isVip = true;
+                }
+                if (!TextUtils.isEmpty(payResult) && !payResult.matches("\\s*(?i)(null|false|0)\\s*")) {
+                    isPay = true;
+                }
+                addChapter(chapterBeans, name, link, isVip, isPay);
             }
         }
         // 使用默认规则解析流程提取目录列表
@@ -220,9 +240,23 @@ public class BookChapterList {
             }
             List<AnalyzeRule.SourceRule> nameRule = analyzer.splitSourceRule(bookSourceBean.getRuleChapterName());
             List<AnalyzeRule.SourceRule> linkRule = analyzer.splitSourceRule(bookSourceBean.getRuleContentUrl());
+            List<AnalyzeRule.SourceRule> vipRule = analyzer.splitSourceRule(bookSourceBean.getRuleChapterVip());
+            List<AnalyzeRule.SourceRule> payRule = analyzer.splitSourceRule(bookSourceBean.getRuleChapterPay());
             for (Object object : collections) {
                 analyzer.setContent(object, chapterUrl);
-                addChapter(chapterBeans, analyzer.getString(nameRule), analyzer.getString(linkRule));
+                String name = analyzer.getString(nameRule);
+                String url = analyzer.getString(linkRule);
+                boolean isVip = false;
+                boolean isPay = false;
+                String vipResult = analyzer.getString(vipRule);
+                String payResult = analyzer.getString(payRule);
+                if (!TextUtils.isEmpty(vipResult) && !vipResult.matches("\\s*(?i)(null|false|0)\\s*")) {
+                    isVip = true;
+                }
+                if (!TextUtils.isEmpty(payResult) && !payResult.matches("\\s*(?i)(null|false|0)\\s*")) {
+                    isPay = true;
+                }
+                addChapter(chapterBeans, name, url, isVip, isPay);
             }
         }
         Debug.printLog(tag, 1, "└找到 " + chapterBeans.size() + " 个章节", printLog);
@@ -240,14 +274,12 @@ public class BookChapterList {
         return new WebChapterBean(chapterBeans, new LinkedHashSet<>(nextUrlList));
     }
 
-    private void addChapter(final List<BookChapterBean> chapterBeans, String name, String link) {
-        if (TextUtils.isEmpty(name)) {
-            return;
-        }
-        if (TextUtils.isEmpty(link)) {
-            link = chapterListUrl;
-        }
-        chapterBeans.add(new BookChapterBean(tag, name, link));
+    private void addChapter(final List<BookChapterBean> chapterBeans,
+                            String name, String link, boolean isVip, boolean isPay
+    ) {
+        if (TextUtils.isEmpty(name)) return;
+        if (TextUtils.isEmpty(link)) link = chapterListUrl;
+        chapterBeans.add(new BookChapterBean(tag, name, link, isVip, isPay));
     }
 
     // region 纯java模式正则表达式获取目录列表
@@ -260,9 +292,7 @@ public class BookChapterList {
             // 获取解析规则
             String nameRule = bookSourceBean.getRuleChapterName();
             String linkRule = bookSourceBean.getRuleContentUrl();
-            if (TextUtils.isEmpty(nameRule) || TextUtils.isEmpty(linkRule)) {
-                return;
-            }
+            if (TextUtils.isEmpty(nameRule) || TextUtils.isEmpty(linkRule)) return;
             // 替换@get规则
             nameRule = analyzer.replaceGet(bookSourceBean.getRuleChapterName());
             linkRule = analyzer.replaceGet(bookSourceBean.getRuleContentUrl());
@@ -320,8 +350,7 @@ public class BookChapterList {
                             cLink.insert(0, linkParams.get(i));
                         }
                     }
-
-                    addChapter(chapterBeans, cName.toString(), cLink.toString());
+                    addChapter(chapterBeans, cName.toString(), cLink.toString(), false, false);
                 } while (resM.find());
             } else {
                 do {
@@ -346,8 +375,7 @@ public class BookChapterList {
                             cLink.insert(0, linkParams.get(i));
                         }
                     }
-
-                    addChapter(chapterBeans, cName.toString(), cLink.toString());
+                    addChapter(chapterBeans, cName.toString(), cLink.toString(), false, false);
                 } while (resM.find());
             }
         } else {

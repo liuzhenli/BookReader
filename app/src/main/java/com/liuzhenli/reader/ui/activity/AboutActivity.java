@@ -71,8 +71,8 @@ public class AboutActivity extends BaseActivity<BaseContract.BasePresenter, Acti
         binding.tvVersionInfo.setText(String.format("%s %s Build#%s %s ", appName, versionName, versionCode, channel));
         ClickUtils.click(binding.tvVersionCheckUpdate, o -> {
             //版本有更新
-            if (AppConfigManager.getInstance().getNewVersion() > BaseApplication.getInstance().mVersionCode) {
-                toast(AppConfigManager.getInstance().getNewVersionIntro());
+            if (AppConfigManager.INSTANCE.getNewVersion() > BaseApplication.getInstance().mVersionCode) {
+                toast(AppConfigManager.INSTANCE.getNewVersionIntro());
             } else {
                 toast("已经是最新版本");
             }
@@ -92,7 +92,7 @@ public class AboutActivity extends BaseActivity<BaseContract.BasePresenter, Acti
         configQQGroup();
 
         //版本有更新
-        if (AppConfigManager.getInstance().getNewVersion() > BaseApplication.getInstance().mVersionCode) {
+        if (AppConfigManager.INSTANCE.getNewVersion() > BaseApplication.getInstance().mVersionCode) {
             binding.ivNewVersionIcon.setVisibility(View.VISIBLE);
             binding.tvNewVersionInfo.setVisibility(View.VISIBLE);
         } else {
@@ -145,7 +145,7 @@ public class AboutActivity extends BaseActivity<BaseContract.BasePresenter, Acti
             startActivity(intent);
         });
 
-        configDonate(AppConfigManager.getInstance().isShowDonate());
+        configDonate(AppConfigManager.INSTANCE.isShowDonate());
     }
 
     private void configDonate(boolean showDonate) {

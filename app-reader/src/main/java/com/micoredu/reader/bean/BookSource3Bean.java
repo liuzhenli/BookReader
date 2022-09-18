@@ -1,5 +1,7 @@
 package com.micoredu.reader.bean;
 
+import android.text.TextUtils;
+
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -20,6 +22,8 @@ public class BookSource3Bean {
     private Boolean enabledExplore = true;             // 启用发现
     private String header;                     // 请求头
     private String loginUrl;                   // 登录地址
+    private String loginUi;
+    private String loginCheckJs;
     private String bookSourceComment;            // 注释
     private Long lastUpdateTime = 0L;               // 最后更新时间，用于排序
     private int weight = 0;                            // 智能排序的权重
@@ -43,6 +47,7 @@ public class BookSource3Bean {
         String sourceRegex;
         String replaceRegex;
         String imageStyle;  //默认大小居中,FULL最大宽度
+        String actions;
     }
 
     class TocRule {
@@ -50,6 +55,7 @@ public class BookSource3Bean {
         String chapterName;
         String chapterUrl;
         String isVip;
+        String isPay;
         String updateTime;
         String nextTocUrl;
     }
@@ -215,17 +221,23 @@ public class BookSource3Bean {
                 header = "@Header:" + this.header.replaceAll("\\n", " ");
         }
 
+        boolean ruleFindEnable = !TextUtils.isEmpty(ruleFindUrl);
+
         return new BookSourceBean(
                 bookSourceUrl,
                 bookSourceName,
                 bookSourceGroup,
                 bookSourceType,
+                userAgent, //  httpUserAgent
+                header, //  header
                 loginUrl,
+                loginUi,
+                loginCheckJs,
                 lastUpdateTime,
                 0, //u  serialNumber,
                 weight,
                 true, //u enable,
-                ruleFindUrl + header,//发现规则 ruleFindUrl,
+                ruleFindUrl,//发现规则 ruleFindUrl,
                 ruleExplore.bookList,  //  列表 ruleFindList,
                 ruleExplore.name,//  ruleFindName,
                 ruleExplore.author,//   ruleFindAuthor,
@@ -234,8 +246,8 @@ public class BookSource3Bean {
                 ruleExplore.lastChapter,//    ruleFindLastChapter,
                 ruleExplore.coverUrl,//   ruleFindCoverUrl,
                 ruleExplore.bookUrl,//???   ruleFindNoteUrl,
-                true,//ruleFindEnable,
-                RuleSearchUrl + header,//   ruleSearchUrl,
+                ruleFindEnable,
+                RuleSearchUrl,//   ruleSearchUrl,
                 ruleSearch.bookList,//  ruleSearchList,
                 ruleSearch.name,// ruleSearchName,
                 ruleSearch.author,// ruleSearchAuthor,
@@ -257,10 +269,12 @@ public class BookSource3Bean {
                 ruleToc.chapterList,//   ruleChapterList,
                 ruleToc.chapterName,//     ruleChapterName,
                 ruleToc.chapterUrl,  // ruleContentUrl,
+                ruleToc.isVip,
+                ruleToc.isPay,
                 ruleContent.nextContentUrl, //ruleContentUrlNext,
                 ruleContent.content, //  ruleBookContent,
                 ruleContent.replaceRegex,//    ruleBookContentReplace,
-                userAgent //  httpUserAgent
+                ruleContent.actions
         );
     }
 }

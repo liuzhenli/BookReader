@@ -11,8 +11,6 @@ import com.micoredu.reader.dao.AppReaderDatabase;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 
@@ -22,7 +20,7 @@ import java.util.Locale;
 public class AppReaderDbHelper {
 
     public static final String DATABASE_NAME = "reader.db";
-    private AppReaderDatabase mDatabase;
+    private final AppReaderDatabase mDatabase;
 
 
     public static class LazeLoader {
@@ -48,9 +46,24 @@ public class AppReaderDbHelper {
                 database.execSQL(sql);
             }
         };
+
+        Migration migration2 = new Migration(2, 3) {
+            @Override
+            public void migrate(@NonNull SupportSQLiteDatabase database) {
+                database.execSQL("ALTER TABLE `bookSources` ADD `payAction` TEXT");
+                database.execSQL("ALTER TABLE `bookSources` ADD `ruleChapterVip` TEXT");
+                database.execSQL("ALTER TABLE `bookSources` ADD `ruleChapterPay` TEXT");
+                database.execSQL("ALTER TABLE `bookSources` ADD `loginUi` TEXT");
+                database.execSQL("ALTER TABLE `bookSources` ADD`loginCheckJs` TEXT");
+                database.execSQL("ALTER TABLE `bookSources` ADD`header` TEXT");
+
+                database.execSQL("ALTER TABLE `bookChapters` ADD `isVip` INTEGER NOT NULL DEFAULT 0");
+                database.execSQL("ALTER TABLE `bookChapters` ADD `isPay` INTEGER NOT NULL DEFAULT 0");
+            }
+        };
         mDatabase = Room.databaseBuilder(BaseApplication.getInstance(), AppReaderDatabase.class, DATABASE_NAME)
                 .fallbackToDestructiveMigration()
-                .addMigrations(migration1)
+                .addMigrations(migration1, migration2)
                 .allowMainThreadQueries()//允许在主线程中查询
                 .addCallback(new RoomDatabase.Callback() {
                     @Override

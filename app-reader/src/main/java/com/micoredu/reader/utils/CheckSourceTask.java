@@ -1,8 +1,9 @@
 package com.micoredu.reader.utils;
 
+import static com.liuzhenli.common.constant.AppConstant.SCRIPT_ENGINE;
+
 import android.text.TextUtils;
 
-import com.liuzhenli.common.constant.AppConstant;
 import com.micoredu.reader.service.CheckSourceService;
 import com.micoredu.reader.analyzerule.AnalyzeRule;
 import com.micoredu.reader.bean.BookSourceBean;
@@ -74,19 +75,19 @@ public class CheckSourceTask {
     private void checkFind() {
         if (!TextUtils.isEmpty(sourceBean.getRuleFindUrl())) {
             Observable.create((ObservableOnSubscribe<String>) emitter -> {
-                String[] kindA;
-                if (!TextUtils.isEmpty(sourceBean.getRuleFindUrl())) {
-                    if (sourceBean.getRuleFindUrl().startsWith("<js>")) {
-                        String jsStr = sourceBean.getRuleFindUrl().substring(4, sourceBean.getRuleFindUrl().lastIndexOf("<"));
-                        Object object = evalJS(jsStr, sourceBean.getBookSourceUrl());
-                        kindA = object.toString().split("(&&|\n)+");
-                    } else {
-                        kindA = sourceBean.getRuleFindUrl().split("(&&|\n)+");
-                    }
-                    emitter.onNext(kindA[0].split("::")[1]);
-                    emitter.onComplete();
-                }
-            }).flatMap(url -> WebBookModel.getInstance().findBook(url, 1, sourceBean.getBookSourceUrl()))
+                        String[] kindA;
+                        if (!TextUtils.isEmpty(sourceBean.getRuleFindUrl())) {
+                            if (sourceBean.getRuleFindUrl().startsWith("<js>")) {
+                                String jsStr = sourceBean.getRuleFindUrl().substring(4, sourceBean.getRuleFindUrl().lastIndexOf("<"));
+                                Object object = evalJS(jsStr, sourceBean.getBookSourceUrl(), sourceBean);
+                                kindA = object.toString().split("(&&|\n)+");
+                            } else {
+                                kindA = sourceBean.getRuleFindUrl().split("(&&|\n)+");
+                            }
+                            emitter.onNext(kindA[0].split("::")[1]);
+                            emitter.onComplete();
+                        }
+                    }).flatMap(url -> WebBookModel.getInstance().findBook(url, 1, sourceBean.getBookSourceUrl()))
                     .subscribeOn(scheduler)
                     .observeOn(AndroidSchedulers.mainThread())
                     .timeout(60, TimeUnit.SECONDS)
@@ -139,11 +140,12 @@ public class CheckSourceTask {
     /**
      * 执行JS
      */
-    private Object evalJS(String jsStr, String baseUrl) throws Exception {
+    private Object evalJS(String jsStr, String baseUrl, BookSourceBean bookSourceBean) throws Exception {
         SimpleBindings bindings = new SimpleBindings();
-        bindings.put("java", new AnalyzeRule(null));
+        bindings.put("java", new AnalyzeRule(null, bookSourceBean));
         bindings.put("baseUrl", baseUrl);
-        return AppConstant.SCRIPT_ENGINE.eval(jsStr, bindings);
+        return SCRIPT_ENGINE.eval(jsStr, bindings);
     }
+
 
 }

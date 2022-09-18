@@ -21,4 +21,8 @@
     <string name="a10_permission_toast">Android10以上因权限限制可能无法读写文件</string>
     <string name="backup_net_type_all">所有网络都允许自动备份到云盘</string>
     <string name="backup_net_type_wifi_only">仅在wifi网络下自动备份到云盘</string>
+
+
+    <string name="vip_title">🔒%s</string>
+    <string name="payed_title">🔓%s</string>
 </resources>

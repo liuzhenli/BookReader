@@ -35,13 +35,17 @@ public class ReplaceRuleManager {
         return replaceRuleBeansEnabled;
     }
 
-    /**
-     * 合并广告话术规则
-     */
+    // 合并广告话术规则
     public static Single<Boolean> mergeAdRules(ReplaceRuleBean replaceRuleBean) {
 
 
         String rule = formateAdRule(replaceRuleBean.getRegex());
+
+/*        String summary=replaceRuleBean.getReplaceSummary();
+        if(summary==null)
+            summary="";
+        String sumary_pre=summary.split("-")[0];*/
+
         int sn = replaceRuleBean.getSerialNumber();
         if (sn == 0) {
             sn = (int) (AppReaderDbHelper.getInstance().getDatabase().getReplaceRuleDao().count() + 1);
@@ -85,12 +89,14 @@ public class ReplaceRuleManager {
 
         String string = rule
 //                用中文中的.视为。进行分段
-                .replaceAll("(?<=([^a-zA-Z\\p{P}]{4,8}))\\.+(?![^a-zA-Z\\p{P}]{4,8})", "\n")
+                .replaceAll("(?<=([^a-zA-Z\\p{P}]{4,8}))\\.+(?![^a-zA-Z\\p{P}]{4,8})","\n")
 //                用常见的适合分段的标点进行分段，句首句尾除外
 //                .replaceAll("([^\\p{P}\n^])([…,，:：？。！?!~<>《》【】（）()]+)([^\\p{P}\n$])", "$1\n$3")
 //                表达式无法解决句尾连续多个符号的问题
 //                .replaceAll("[…,，:：？。！?!~<>《》【】（）()]+(?!\\s*\n|$)", "\n")
-                .replaceAll("(?<![\\p{P}\n^])([…,，:：？。！?!~<>《》【】（）()]+)(?![\\p{P}\n$])", "\n");
+                .replaceAll("(?<![\\p{P}\n^])([…,，:：？。！?!~<>《》【】（）()]+)(?![\\p{P}\n$])", "\n")
+
+                ;
 
         String[] lines = string.split("\n");
         List<String> list = new ArrayList<>();
@@ -153,13 +159,9 @@ public class ReplaceRuleManager {
     }
 
     public static Observable<Boolean> importReplaceRule(String text) {
-        if (TextUtils.isEmpty(text)) {
-            return null;
-        }
+        if (TextUtils.isEmpty(text)) return null;
         text = text.trim();
-        if (text.length() == 0) {
-            return null;
-        }
+        if (text.length() == 0) return null;
         if (StringUtils.isJsonType(text)) {
             return importReplaceRuleO(text)
                     .compose(RxUtil::toSimpleSingle);
@@ -167,7 +169,7 @@ public class ReplaceRuleManager {
         if (NetworkUtils.isUrl(text)) {
             return BaseModelImpl.getInstance().getRetrofitString(StringUtils.getBaseUrl(text), "utf-8")
                     .create(IHttpGetApi.class)
-                    .get(text, AnalyzeHeaders.getMap(null))
+                    .get(text, AnalyzeHeaders.getDefaultHeader())
                     .flatMap(rsp -> importReplaceRuleO(rsp.body()))
                     .compose(RxUtil::toSimpleSingle);
         }

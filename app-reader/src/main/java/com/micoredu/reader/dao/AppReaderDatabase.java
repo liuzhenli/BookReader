@@ -26,7 +26,7 @@ import com.micoredu.reader.bean.TxtChapterRuleBean;
 @Database(entities = {BookContentBean.class, BookChapterBean.class, BookInfoBean.class,
         BookmarkBean.class, BookShelfBean.class, BookSourceBean.class, CookieBean.class,
         ReadHistory.class, ReplaceRuleBean.class, SearchBookBean.class,
-        SearchHistoryBean.class, TxtChapterRuleBean.class}, version = 2, exportSchema = false)
+        SearchHistoryBean.class, TxtChapterRuleBean.class}, version = 3, exportSchema = false)
 public abstract class AppReaderDatabase extends RoomDatabase {
 
     public AppReaderDatabase() {

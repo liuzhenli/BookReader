@@ -5,15 +5,21 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
-import androidx.room.PrimaryKey;
 
 import com.google.gson.Gson;
+import com.liuzhenli.common.utils.StringUtils;
+import com.micoredu.reader.analyzerule.AnalyzeHeaders;
+import com.micoredu.reader.helper.AppReaderDbHelper;
+import com.micoredu.reader.model.BookSourceManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import static android.text.TextUtils.isEmpty;
+import static com.liuzhenli.common.constant.AppConstant.MAP_STRING;
 
 /**
  * 书源信息
@@ -27,14 +33,18 @@ public class BookSourceBean implements Cloneable, Serializable {
     private String bookSourceName;
     private String bookSourceGroup;
     private String bookSourceType;
+    private String httpUserAgent;
+    private String header;
     private String loginUrl;
+    private String loginUi;
+    private String loginCheckJs;
     private Long lastUpdateTime;
     /***手动排序编号*/
     private int serialNumber;
     /***智能排序的权重*/
     private int weight = 0;
     /***书源是否使用*/
-    private boolean enable;
+    private boolean enable = true;
     /**
      * 发现规则  key:::value 的格式
      */
@@ -77,13 +87,15 @@ public class BookSourceBean implements Cloneable, Serializable {
     private String ruleChapterList;
     private String ruleChapterName;
     private String ruleContentUrl;
+    private String ruleChapterVip;
+    private String ruleChapterPay;
 
 
     //正文页规则
     private String ruleContentUrlNext;
     private String ruleBookContent;
     private String ruleBookContentReplace;
-    private String httpUserAgent;
+    private String payAction;
 
     @Ignore
     private transient ArrayList<String> groupList;
@@ -92,25 +104,24 @@ public class BookSourceBean implements Cloneable, Serializable {
     }
 
     @Ignore
-    public BookSourceBean(String bookSourceUrl, String bookSourceName, String bookSourceGroup,
-                          String bookSourceType, String loginUrl, Long lastUpdateTime, int serialNumber, int weight,
-                          boolean enable, String ruleFindUrl, String ruleFindList, String ruleFindName,
-                          String ruleFindAuthor, String ruleFindKind, String ruleFindIntroduce,
-                          String ruleFindLastChapter, String ruleFindCoverUrl, String ruleFindNoteUrl,
-                          boolean ruleFindEnable, String ruleSearchUrl, String ruleSearchList, String ruleSearchName,
-                          String ruleSearchAuthor, String ruleSearchKind, String ruleSearchIntroduce,
-                          String ruleSearchLastChapter, String ruleSearchCoverUrl, String ruleSearchNoteUrl,
-                          String ruleBookUrlPattern, String ruleBookInfoInit, String ruleBookName,
-                          String ruleBookAuthor, String ruleCoverUrl, String ruleIntroduce, String ruleBookKind,
-                          String ruleBookLastChapter, String ruleChapterUrl, String ruleChapterUrlNext,
-                          String ruleChapterList, String ruleChapterName, String ruleContentUrl,
-                          String ruleContentUrlNext, String ruleBookContent, String ruleBookContentReplace,
-                          String httpUserAgent) {
+    public BookSourceBean(String bookSourceUrl, String bookSourceName, String bookSourceGroup, String bookSourceType, String httpUserAgent, String header,
+                          String loginUrl, String loginUi, String loginCheckJs, Long lastUpdateTime, int serialNumber, int weight, boolean enable, String ruleFindUrl,
+                          String ruleFindList, String ruleFindName, String ruleFindAuthor, String ruleFindKind, String ruleFindIntroduce, String ruleFindLastChapter,
+                          String ruleFindCoverUrl, String ruleFindNoteUrl, boolean ruleFindEnable, String ruleSearchUrl, String ruleSearchList, String ruleSearchName, String ruleSearchAuthor,
+                          String ruleSearchKind, String ruleSearchIntroduce, String ruleSearchLastChapter, String ruleSearchCoverUrl, String ruleSearchNoteUrl,
+                          String ruleBookUrlPattern, String ruleBookInfoInit, String ruleBookName, String ruleBookAuthor, String ruleCoverUrl, String ruleIntroduce,
+                          String ruleBookKind, String ruleBookLastChapter, String ruleChapterUrl, String ruleChapterUrlNext, String ruleChapterList,
+                          String ruleChapterName, String ruleContentUrl, String ruleChapterVip, String ruleChapterPay, String ruleContentUrlNext,
+                          String ruleBookContent, String ruleBookContentReplace, String payAction) {
         this.bookSourceUrl = bookSourceUrl;
         this.bookSourceName = bookSourceName;
         this.bookSourceGroup = bookSourceGroup;
         this.bookSourceType = bookSourceType;
+        this.httpUserAgent = httpUserAgent;
+        this.header = header;
         this.loginUrl = loginUrl;
+        this.loginUi = loginUi;
+        this.loginCheckJs = loginCheckJs;
         this.lastUpdateTime = lastUpdateTime;
         this.serialNumber = serialNumber;
         this.weight = weight;
@@ -147,10 +158,12 @@ public class BookSourceBean implements Cloneable, Serializable {
         this.ruleChapterList = ruleChapterList;
         this.ruleChapterName = ruleChapterName;
         this.ruleContentUrl = ruleContentUrl;
+        this.ruleChapterVip = ruleChapterVip;
+        this.ruleChapterPay = ruleChapterPay;
         this.ruleContentUrlNext = ruleContentUrlNext;
         this.ruleBookContent = ruleBookContent;
         this.ruleBookContentReplace = ruleBookContentReplace;
-        this.httpUserAgent = httpUserAgent;
+        this.payAction = payAction;
     }
 
     @Override
@@ -184,7 +197,8 @@ public class BookSourceBean implements Cloneable, Serializable {
                     && stringEquals(httpUserAgent, bs.httpUserAgent)
                     && stringEquals(ruleBookKind, bs.ruleBookKind)
                     && stringEquals(ruleBookLastChapter, bs.ruleBookLastChapter)
-                    && stringEquals(ruleBookUrlPattern, bs.ruleBookUrlPattern);
+                    && stringEquals(ruleBookUrlPattern, bs.ruleBookUrlPattern)
+                    && stringEquals(ruleBookContentReplace, bs.ruleBookContentReplace);
         }
         return false;
     }
@@ -397,8 +411,16 @@ public class BookSourceBean implements Cloneable, Serializable {
         this.httpUserAgent = httpHeaders;
     }
 
+    public String getHeader() {
+        return this.header;
+    }
+
+    public void setHeader(String header) {
+        this.header = header;
+    }
+
     public String getRuleFindUrl() {
-        return this.ruleFindUrl;
+        return BookSourceManager.matchRuleFindUrl(this.ruleFindUrl);
     }
 
     public void setRuleFindUrl(String ruleFindUrl) {
@@ -663,10 +685,99 @@ public class BookSourceBean implements Cloneable, Serializable {
     }
 
     public boolean getRuleFindEnable() {
-        return this.ruleFindEnable;
+        return this.ruleFindEnable && !TextUtils.isEmpty(getRuleFindUrl());
     }
 
     public void setRuleFindEnable(boolean ruleFindEnable) {
         this.ruleFindEnable = ruleFindEnable;
     }
+
+    public String getPayAction() {
+        return this.payAction;
+    }
+
+    public void setPayAction(String payAction) {
+        this.payAction = payAction;
+    }
+
+    public String getRuleChapterVip() {
+        return this.ruleChapterVip;
+    }
+
+    public void setRuleChapterVip(String ruleChapterVip) {
+        this.ruleChapterVip = ruleChapterVip;
+    }
+
+    public String getRuleChapterPay() {
+        return this.ruleChapterPay;
+    }
+
+    public void setRuleChapterPay(String ruleChapterPay) {
+        this.ruleChapterPay = ruleChapterPay;
+    }
+
+    public String getLoginUi() {
+        return loginUi;
+    }
+
+    public void setLoginUi(String loginUi) {
+        this.loginUi = loginUi;
+    }
+
+    public String getLoginCheckJs() {
+        return loginCheckJs;
+    }
+
+    public void setLoginCheckJs(String loginCheckJs) {
+        this.loginCheckJs = loginCheckJs;
+    }
+
+
+    public Map<String, String> getHeaderMap(Boolean hasLoginHeader) {
+        Map<String, String> headerMap = new HashMap<>();
+        String headers = getHttpUserAgent();
+        if (!isEmpty(headers)) {
+            if (StringUtils.isJsonObject(headers)) {
+                Map<String, String> map = new Gson().fromJson(headers, MAP_STRING);
+                headerMap.putAll(map);
+            } else {
+                headerMap.put("User-Agent", headers);
+            }
+        } else {
+            headerMap.put("User-Agent", AnalyzeHeaders.getDefaultUserAgent());
+        }
+        CookieBean cookie = AppReaderDbHelper.getInstance().getDatabase().getCookieDao().load(bookSourceUrl);
+        if (cookie != null) {
+            headerMap.put("Cookie", cookie.getCookie());
+        }
+        if (hasLoginHeader) {
+            headerMap.putAll(getLoginHeaderMap());
+        }
+        return headerMap;
+    }
+
+
+    /**
+     * @return 登录头, Map格式
+     */
+    public Map<String, String> getLoginHeaderMap() {
+        Map<String, String> headerMap = new HashMap<>();
+        String header = getLoginHeader();
+        if (header != null) {
+            Map<String, String> map = new Gson().fromJson(header, MAP_STRING);
+            if (map != null) {
+                headerMap.putAll(map);
+            }
+        }
+        return headerMap;
+    }
+
+    public String getLoginHeader() {
+        CookieBean cookie = AppReaderDbHelper.getInstance().getDatabase().getCookieDao().load("loginHeader_" + bookSourceUrl);
+        if (cookie == null) {
+            return null;
+        }
+        return cookie.getCookie();
+    }
+
 }

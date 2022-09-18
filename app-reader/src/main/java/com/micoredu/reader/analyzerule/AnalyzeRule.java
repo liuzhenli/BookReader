@@ -1,15 +1,24 @@
 package com.micoredu.reader.analyzerule;
 
+import static android.text.TextUtils.isEmpty;
+
+import static com.liuzhenli.common.constant.AppConstant.EXP_PATTERN;
+import static com.liuzhenli.common.constant.AppConstant.JS_PATTERN;
+import static com.liuzhenli.common.constant.AppConstant.MAP_STRING;
+import static com.liuzhenli.common.constant.AppConstant.SCRIPT_ENGINE;
+import static com.liuzhenli.common.constant.AppConstant.headerPattern;
+
 import android.annotation.SuppressLint;
 
 import androidx.annotation.Keep;
 
 import com.google.gson.Gson;
-import com.liuzhenli.common.constant.AppConstant;
 import com.liuzhenli.common.utils.NetworkUtils;
 import com.liuzhenli.common.utils.StringUtils;
 import com.micoredu.reader.bean.BaseBookBean;
-import com.micoredu.reader.observe.BaseModelImpl;
+import com.micoredu.reader.bean.BookSourceBean;
+
+import org.jsoup.nodes.Entities;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,10 +29,6 @@ import java.util.regex.Pattern;
 
 import javax.script.SimpleBindings;
 
-import retrofit2.Response;
-
-import static android.text.TextUtils.isEmpty;
-
 
 /**
  * Created by REFGD.
@@ -31,10 +36,11 @@ import static android.text.TextUtils.isEmpty;
  */
 @Keep
 @SuppressWarnings({"unused", "WeakerAccess"})
-public class AnalyzeRule {
+public class AnalyzeRule implements JsExtensions {
     private static final Pattern putPattern = Pattern.compile("@put:(\\{[^}]+?\\})", Pattern.CASE_INSENSITIVE);
     private static final Pattern getPattern = Pattern.compile("@get:\\{([^}]+?)\\}", Pattern.CASE_INSENSITIVE);
 
+    private final BookSourceBean bookSource;
     private BaseBookBean book;
     private Object object;
     private Boolean isJSON = false;
@@ -48,8 +54,9 @@ public class AnalyzeRule {
     private boolean objectChangedJS = false;
     private boolean objectChangedJP = false;
 
-    public AnalyzeRule(BaseBookBean bookBean) {
+    public AnalyzeRule(BaseBookBean bookBean, BookSourceBean bookSourceBean) {
         book = bookBean;
+        bookSource = bookSourceBean;
     }
 
     public void setBook(BaseBookBean book) {
@@ -65,13 +72,11 @@ public class AnalyzeRule {
     }
 
     public AnalyzeRule setContent(Object body, String baseUrl) {
-        if (body == null) {
-            throw new AssertionError("Content cannot be null");
-        }
+        if (body == null) throw new AssertionError("Content cannot be null");
         isJSON = StringUtils.isJsonType(String.valueOf(body));
         object = body;
         if (baseUrl != null) {
-            this.baseUrl = AppConstant.headerPattern.matcher(baseUrl).replaceAll("");
+            this.baseUrl = headerPattern.matcher(baseUrl).replaceAll("");
         }
         objectChangedXP = true;
         objectChangedJS = true;
@@ -148,9 +153,7 @@ public class AnalyzeRule {
     }
 
     public List<String> getStringList(String rule, boolean isUrl) throws Exception {
-        if (isEmpty(rule)) {
-            return null;
-        }
+        if (isEmpty(rule)) return null;
         List<SourceRule> ruleList = splitSourceRule(rule);
         return getStringList(ruleList, isUrl);
     }
@@ -158,9 +161,7 @@ public class AnalyzeRule {
     @SuppressWarnings({"unchecked"})
     public List<String> getStringList(List<SourceRule> ruleList, boolean isUrl) throws Exception {
         Object result = null;
-        if (!ruleList.isEmpty()) {
-            result = object;
-        }
+        if (!ruleList.isEmpty()) result = object;
         for (SourceRule rule : ruleList) {
             if (!isEmpty(rule.rule)) {
                 switch (rule.mode) {
@@ -179,6 +180,7 @@ public class AnalyzeRule {
             }
             if (!isEmpty(rule.replaceRegex) && result instanceof List) {
                 List<String> newList = new ArrayList<>();
+                //noinspection rawtypes
                 for (Object item : (List) result) {
                     newList.add(replaceRegex(String.valueOf(item), rule));
                 }
@@ -187,14 +189,13 @@ public class AnalyzeRule {
                 result = replaceRegex(String.valueOf(result), rule);
             }
         }
-        if (result == null) {
-            return new ArrayList<>();
-        }
+        if (result == null) return new ArrayList<>();
         if (result instanceof String) {
             result = Arrays.asList(StringUtils.formatHtml((String) result).split("\n"));
         }
         if (isUrl && !isEmpty(baseUrl)) {
             List<String> urlList = new ArrayList<>();
+            //noinspection rawtypes
             for (Object url : (List) result) {
                 String absoluteURL = NetworkUtils.getAbsoluteURL(baseUrl, String.valueOf(url));
                 if (!urlList.contains(absoluteURL) && !isEmpty(absoluteURL)) {
@@ -214,9 +215,7 @@ public class AnalyzeRule {
     }
 
     public String getString(String ruleStr, boolean isUrl) throws Exception {
-        if (isEmpty(ruleStr)) {
-            return null;
-        }
+        if (isEmpty(ruleStr)) return null;
         List<SourceRule> ruleList = splitSourceRule(ruleStr);
         return getString(ruleList, isUrl);
     }
@@ -227,9 +226,7 @@ public class AnalyzeRule {
 
     public String getString(List<SourceRule> ruleList, boolean isUrl) throws Exception {
         Object result = null;
-        if (!ruleList.isEmpty()) {
-            result = object;
-        }
+        if (!ruleList.isEmpty()) result = object;
         for (SourceRule rule : ruleList) {
             if (!StringUtils.isTrimEmpty(rule.rule)) {
                 switch (rule.mode) {
@@ -248,22 +245,21 @@ public class AnalyzeRule {
                         } else {
                             result = getAnalyzeByJSoup(result).getString(rule.rule);
                         }
-                        break;
-                    default:
-                        break;
                 }
             }
             if (!isEmpty(rule.replaceRegex)) {
                 result = replaceRegex(String.valueOf(result), rule);
             }
         }
-        if (result == null) {
-            return "";
-        }
+        if (result == null) return "";
         if (isUrl && !StringUtils.isTrimEmpty(baseUrl)) {
-            return NetworkUtils.getAbsoluteURL(baseUrl, String.valueOf(result));
+            return NetworkUtils.getAbsoluteURL(baseUrl, Entities.unescape(String.valueOf(result)));
         }
-        return String.valueOf(result);
+        try {
+            return Entities.unescape(String.valueOf(result));
+        } catch (Exception e) {
+            return String.valueOf(result);
+        }
     }
 
     /**
@@ -300,9 +296,7 @@ public class AnalyzeRule {
     public List<Object> getElements(String ruleStr) throws Exception {
         List<SourceRule> ruleList = splitSourceRule(ruleStr);
         Object result = null;
-        if (!ruleList.isEmpty()) {
-            result = object;
-        }
+        if (!ruleList.isEmpty()) result = object;
         for (SourceRule rule : ruleList) {
             switch (rule.mode) {
                 case Js:
@@ -324,7 +318,6 @@ public class AnalyzeRule {
         if (result == null) {
             return new ArrayList<>();
         }
-        //noinspection ConstantConditions
         return (List<Object>) result;
     }
 
@@ -346,7 +339,7 @@ public class AnalyzeRule {
         Matcher putMatcher = putPattern.matcher(ruleStr);
         while (putMatcher.find()) {
             ruleStr = ruleStr.replace(putMatcher.group(), "");
-            Map<String, String> map = new Gson().fromJson(putMatcher.group(1), AppConstant.MAP_STRING);
+            Map<String, String> map = new Gson().fromJson(putMatcher.group(1), MAP_STRING);
             putRule(map);
         }
         return ruleStr;
@@ -361,9 +354,7 @@ public class AnalyzeRule {
             String value = "";
             if (book != null && book.getVariableMap() != null) {
                 value = book.getVariableMap().get(getMatcher.group(1));
-                if (value == null) {
-                    value = "";
-                }
+                if (value == null) value = "";
             }
             ruleStr = ruleStr.replace(getMatcher.group(), value);
         }
@@ -398,7 +389,7 @@ public class AnalyzeRule {
         if (ruleStr.contains("{{") && ruleStr.contains("}}")) {
             Object jsEval;
             StringBuffer sb = new StringBuffer(ruleStr.length());
-            Matcher expMatcher = AppConstant.EXP_PATTERN.matcher(ruleStr);
+            Matcher expMatcher = EXP_PATTERN.matcher(ruleStr);
             while (expMatcher.find()) {
                 jsEval = evalJS(expMatcher.group(1), object);
                 if (jsEval instanceof String) {
@@ -420,9 +411,7 @@ public class AnalyzeRule {
      */
     public List<SourceRule> splitSourceRule(String ruleStr) throws Exception {
         List<SourceRule> ruleList = new ArrayList<>();
-        if (isEmpty(ruleStr)) {
-            return ruleList;
-        }
+        if (isEmpty(ruleStr)) return ruleList;
         //检测Mode
         Mode mode;
         if (StringUtils.startWithIgnoreCase(ruleStr, "@XPath:")) {
@@ -447,7 +436,7 @@ public class AnalyzeRule {
         //拆分为列表
         int start = 0;
         String tmp;
-        Matcher jsMatcher = AppConstant.JS_PATTERN.matcher(ruleStr);
+        Matcher jsMatcher = JS_PATTERN.matcher(ruleStr);
         while (jsMatcher.find()) {
             if (jsMatcher.start() > start) {
                 tmp = ruleStr.substring(start, jsMatcher.start()).replaceAll("\n", "").trim();
@@ -470,7 +459,7 @@ public class AnalyzeRule {
     /**
      * 规则类
      */
-    public class SourceRule {
+    public static class SourceRule {
         Mode mode;
         String rule;
         String replaceRegex = "";
@@ -542,48 +531,13 @@ public class AnalyzeRule {
     /**
      * 执行JS
      */
-    private Object evalJS(String jsStr, Object result) throws Exception {
+    public Object evalJS(String jsStr, Object result) throws Exception {
         SimpleBindings bindings = new SimpleBindings();
         bindings.put("java", this);
+        bindings.put("source", bookSource);
         bindings.put("result", result);
         bindings.put("baseUrl", baseUrl);
-        return AppConstant.SCRIPT_ENGINE.eval(jsStr, bindings);
-    }
-
-    /**
-     * js实现跨域访问,不能删
-     */
-    public String ajax(String urlStr) {
-        try {
-            AnalyzeUrl analyzeUrl = new AnalyzeUrl(urlStr);
-            Response<String> response = BaseModelImpl.getInstance().getResponseO(analyzeUrl)
-                    .blockingFirst();
-            return response.body();
-        } catch (Exception e) {
-            return e.getLocalizedMessage();
-        }
-    }
-
-    /**
-     * js实现解码,不能删
-     */
-    public String base64Decoder(String base64) {
-        return StringUtils.base64Decode(base64);
-    }
-
-    /**
-     * 章节数转数字
-     */
-    public String toNumChapter(String s) {
-        if (s == null) {
-            return null;
-        }
-        Pattern pattern = Pattern.compile("(第)(.+?)(章)");
-        Matcher matcher = pattern.matcher(s);
-        if (matcher.find()) {
-            return matcher.group(1) + StringUtils.stringToInt(matcher.group(2)) + matcher.group(3);
-        }
-        return s;
+        return SCRIPT_ENGINE.eval(jsStr, bindings);
     }
 
 }

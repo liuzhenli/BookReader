@@ -73,7 +73,6 @@
 
         <activity android:name="com.liuzhenli.reader.ui.activity.WebViewActivity" />
         <activity android:name="com.liuzhenli.reader.ui.activity.AboutActivity" />
-        <activity android:name="com.liuzhenli.reader.ui.activity.BookListActivity" />
         <activity android:name="com.liuzhenli.reader.ui.activity.SettingActivity" />
         <activity android:name="com.liuzhenli.reader.ui.activity.SearchActivity" />
         <activity

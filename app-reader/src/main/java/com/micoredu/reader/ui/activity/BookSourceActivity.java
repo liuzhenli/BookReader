@@ -79,7 +79,7 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
 
     @Override
     protected void initToolBar() {
-        String defaultBookSourceUrl = AppConfigManager.getInstance().getDefaultBookSourceUrl();
+        String defaultBookSourceUrl = AppConfigManager.INSTANCE.getDefaultBookSourceUrl();
         mToolBar.inflateMenu(R.menu.menu_book_source);
         if (TextUtils.isEmpty(defaultBookSourceUrl)) {
             mToolBar.getMenu().findItem(R.id.action_fast_import).setVisible(false);
@@ -88,7 +88,7 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
             int itemId = item.getItemId();
             if (itemId == R.id.action_fast_import) {
                 showDialog();
-                mPresenter.getNetSource(AppConfigManager.getInstance().getDefaultBookSourceUrl());
+                mPresenter.getNetSource(AppConfigManager.INSTANCE.getDefaultBookSourceUrl());
             } else if (itemId == R.id.action_add_book_source) {
                 EditSourceActivity.start(mContext, null);
             } else if (itemId == R.id.action_import_book_source_local) {

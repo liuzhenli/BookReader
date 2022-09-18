@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.widget.dialog.FixHeightBottomSheetDialog;
-import com.micoredu.reader.ui.presenter.BookSourcePresenter;
 import com.microedu.reader.R;
 
 /**
@@ -22,6 +21,13 @@ import com.microedu.reader.R;
  * Email: 848808263@qq.com
  */
 public class ImportBookSourceDialog extends FixHeightBottomSheetDialog {
+
+    public View.OnClickListener mCameraClick;
+    public View.OnClickListener mDirClick;
+    public View.OnClickListener mOkClick;
+    public View.OnClickListener mWxClick;
+    public String mUserInput;
+
     public ImportBookSourceDialog(@NonNull Context context) {
         this(context, 0);
     }
@@ -78,12 +84,6 @@ public class ImportBookSourceDialog extends FixHeightBottomSheetDialog {
         });
         setContentView(inflate);
     }
-
-    public View.OnClickListener mCameraClick;
-    public View.OnClickListener mDirClick;
-    public View.OnClickListener mOkClick;
-    public View.OnClickListener mWxClick;
-    public String mUserInput;
 
 
     public ImportBookSourceDialog setCameraClickListener(View.OnClickListener listener) {

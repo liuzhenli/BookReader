@@ -1,9 +1,12 @@
 package com.micoredu.reader.bean;
 
+import android.content.Context;
+
 import androidx.room.Entity;
 import androidx.room.Ignore;
 
 import com.google.gson.Gson;
+import com.micoredu.reader.R;
 import com.micoredu.reader.helper.BookshelfHelper;
 
 
@@ -20,6 +23,9 @@ public class BookChapterBean extends BaseChapterBean implements Cloneable {
     /***章节内容在文章中的终止位置(本地)*/
     private Long end;
 
+    private boolean isVip;
+    private boolean isPay;
+
     public BookChapterBean() {
     }
 
@@ -28,6 +34,15 @@ public class BookChapterBean extends BaseChapterBean implements Cloneable {
         this.tag = tag;
         this.durChapterName = durChapterName;
         this.durChapterUrl = durChapterUrl;
+    }
+
+    @Ignore
+    public BookChapterBean(String tag, String durChapterName, String durChapterUrl, boolean isVip, boolean isPay) {
+        this.tag = tag;
+        this.durChapterName = durChapterName;
+        this.durChapterUrl = durChapterUrl;
+        this.isVip = isVip;
+        this.isPay = isPay;
     }
 
     @Override
@@ -116,4 +131,29 @@ public class BookChapterBean extends BaseChapterBean implements Cloneable {
         return BookshelfHelper.isChapterCached(bookInfoBean.getName(), tag, this, bookInfoBean.isAudio());
     }
 
+    public boolean getIsVip() {
+        return this.isVip;
+    }
+
+    public void setIsVip(boolean isVip) {
+        this.isVip = isVip;
+    }
+
+    public boolean getIsPay() {
+        return this.isPay;
+    }
+
+    public void setIsPay(boolean isPay) {
+        this.isPay = isPay;
+    }
+
+    public String getDisplayTitle(Context context) {
+        if (!isVip) {
+            return durChapterName;
+        }
+        if (isPay) {
+            return context.getString(R.string.payed_title, durChapterName);
+        }
+        return context.getString(R.string.vip_title, durChapterName);
+    }
 }

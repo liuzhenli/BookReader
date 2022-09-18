@@ -44,7 +44,7 @@ public class AddWxArticleDialog extends FixHeightBottomSheetDialog {
 
         });
         ImageView ivWeChat = inflate.findViewById(R.id.iv_we_chat);
-        ImageUtil.setImage(getContext(), AppConfigManager.getInstance().getWeChatUrl(), ivWeChat);
+        ImageUtil.setImage(getContext(), AppConfigManager.INSTANCE.getWeChatUrl(), ivWeChat);
         setContentView(inflate);
     }
 

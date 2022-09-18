@@ -1,6 +1,9 @@
 package com.micoredu.reader.analyzerule;
 
+import com.liuzhenli.common.encript.MD5Utils;
 import com.liuzhenli.common.utils.StringUtils;
+import com.micoredu.reader.bean.CookieBean;
+import com.micoredu.reader.helper.AppReaderDbHelper;
 import com.micoredu.reader.helper.SSLSocketClient;
 import com.micoredu.reader.observe.BaseModelImpl;
 
@@ -22,12 +25,25 @@ public interface JsExtensions {
      */
     default String ajax(String urlStr) {
         try {
-            AnalyzeUrl analyzeUrl = new AnalyzeUrl(urlStr);
+            AnalyzeUrl analyzeUrl = new AnalyzeUrl(urlStr, AnalyzeHeaders.getDefaultHeader());
             Response<String> response = BaseModelImpl.getInstance().getResponseO(analyzeUrl)
                     .blockingFirst();
             return response.body();
         } catch (Exception e) {
             return e.getLocalizedMessage();
+        }
+    }
+
+    /**
+     * js实现跨域访问,不能删
+     */
+    default Response<String> getResponse(String urlStr) {
+        try {
+            AnalyzeUrl analyzeUrl = new AnalyzeUrl(urlStr, AnalyzeHeaders.getDefaultHeader());
+            return BaseModelImpl.getInstance().getResponseO(analyzeUrl)
+                    .blockingFirst();
+        } catch (Exception e) {
+            return Response.success(e.getLocalizedMessage());
         }
     }
 
@@ -80,5 +96,20 @@ public interface JsExtensions {
                 .execute();
     }
 
+    default void putCache(String key, String value) {
+        CookieBean cookie = new CookieBean(key, value);
+        AppReaderDbHelper.getInstance().getDatabase().getCookieDao().insertOrReplace(cookie);
+    }
 
+    default String getCache(String key) {
+        CookieBean cookie = AppReaderDbHelper.getInstance().getDatabase().getCookieDao().load(key);
+        if (cookie == null) {
+            return null;
+        }
+        return cookie.getCookie();
+    }
+
+    default String md5Encode(String text) {
+        return MD5Utils.strToMd5By32(text);
+    }
 }

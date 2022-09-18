@@ -1,7 +1,8 @@
 package com.micoredu.reader.content;
 
-import android.text.TextUtils;
+import static android.text.TextUtils.isEmpty;
 
+import android.text.TextUtils;
 
 import com.liuzhenli.common.BaseApplication;
 import com.liuzhenli.common.utils.StringUtils;
@@ -13,8 +14,6 @@ import com.micoredu.reader.bean.BookShelfBean;
 import com.micoredu.reader.bean.BookSourceBean;
 
 import io.reactivex.Observable;
-
-import static android.text.TextUtils.isEmpty;
 
 class BookInfo {
     private String tag;
@@ -46,7 +45,7 @@ class BookInfo {
             bookInfoBean.setOrigin(sourceName);
             bookInfoBean.setBookSourceType(bookSourceBean.getBookSourceType()); // 是否为有声读物
 
-            AnalyzeRule analyzer = new AnalyzeRule(bookShelfBean);
+            AnalyzeRule analyzer = new AnalyzeRule(bookShelfBean, bookSourceBean);
             analyzer.setContent(s, baseUrl);
 
             // 获取详情页预处理规则
@@ -69,23 +68,17 @@ class BookInfo {
             if (!isRegex) {
                 Debug.printLog(tag, "┌详情信息预处理");
                 Object object = analyzer.getElement(ruleInfoInit);
-                if (object != null) {
-                    analyzer.setContent(object);
-                }
+                if (object != null) analyzer.setContent(object);
                 Debug.printLog(tag, "└详情预处理完成");
 
                 Debug.printLog(tag, "┌获取书名");
                 String bookName = StringUtils.formatHtml(analyzer.getString(bookSourceBean.getRuleBookName()));
-                if (!isEmpty(bookName)) {
-                    bookInfoBean.setName(bookName);
-                }
+                if (!isEmpty(bookName)) bookInfoBean.setName(bookName);
                 Debug.printLog(tag, "└" + bookName);
 
                 Debug.printLog(tag, "┌获取作者");
                 String bookAuthor = StringUtils.formatHtml(analyzer.getString(bookSourceBean.getRuleBookAuthor()));
-                if (!isEmpty(bookAuthor)) {
-                    bookInfoBean.setAuthor(bookAuthor);
-                }
+                if (!isEmpty(bookAuthor)) bookInfoBean.setAuthor(bookAuthor);
                 Debug.printLog(tag, "└" + bookAuthor);
 
                 Debug.printLog(tag, "┌获取分类");
@@ -94,35 +87,25 @@ class BookInfo {
 
                 Debug.printLog(tag, "┌获取最新章节");
                 String bookLastChapter = analyzer.getString(bookSourceBean.getRuleBookLastChapter());
-                if (!isEmpty(bookLastChapter)) {
-                    bookShelfBean.setLastChapterName(bookLastChapter);
-                }
+                if (!isEmpty(bookLastChapter)) bookShelfBean.setLastChapterName(bookLastChapter);
                 Debug.printLog(tag, "└" + bookLastChapter);
 
                 Debug.printLog(tag, "┌获取简介");
                 String bookIntroduce = analyzer.getString(bookSourceBean.getRuleIntroduce());
-                if (!isEmpty(bookIntroduce)) {
-                    bookInfoBean.setIntroduce(bookIntroduce);
-                }
+                if (!isEmpty(bookIntroduce)) bookInfoBean.setIntroduce(bookIntroduce);
                 Debug.printLog(tag, 1, "└" + bookIntroduce, true, true);
 
                 Debug.printLog(tag, "┌获取封面");
                 String bookCoverUrl = analyzer.getString(bookSourceBean.getRuleCoverUrl(), true);
-                if (!isEmpty(bookCoverUrl)) {
-                    bookInfoBean.setCoverUrl(bookCoverUrl);
-                }
+                if (!isEmpty(bookCoverUrl)) bookInfoBean.setCoverUrl(bookCoverUrl);
                 Debug.printLog(tag, "└" + bookCoverUrl);
 
                 Debug.printLog(tag, "┌获取目录网址");
                 String bookCatalogUrl = analyzer.getString(bookSourceBean.getRuleChapterUrl(), true);
-                if (isEmpty(bookCatalogUrl)) {
-                    bookCatalogUrl = baseUrl;
-                }
+                if (isEmpty(bookCatalogUrl)) bookCatalogUrl = baseUrl;
                 bookInfoBean.setChapterUrl(bookCatalogUrl);
                 //如果目录页和详情页相同,暂存页面内容供获取目录用
-                if (bookCatalogUrl.equals(baseUrl)) {
-                    bookInfoBean.setChapterListHtml(s);
-                }
+                if (bookCatalogUrl.equals(baseUrl)) bookInfoBean.setChapterListHtml(s);
                 Debug.printLog(tag, "└" + bookInfoBean.getChapterUrl());
                 bookShelfBean.setBookInfoBean(bookInfoBean);
                 Debug.printLog(tag, "-详情页解析完成");

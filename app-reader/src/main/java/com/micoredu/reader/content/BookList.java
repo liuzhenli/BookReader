@@ -1,12 +1,12 @@
 package com.micoredu.reader.content;
 
+import static android.text.TextUtils.isEmpty;
+
 import android.os.Build;
 import android.text.TextUtils;
 
 
 import com.liuzhenli.common.BaseApplication;
-import com.liuzhenli.common.exception.ApiCodeException;
-import com.liuzhenli.common.exception.Error;
 import com.liuzhenli.common.utils.NetworkUtils;
 import com.liuzhenli.common.utils.StringUtils;
 import com.micoredu.reader.R;
@@ -28,13 +28,11 @@ import java.util.regex.Pattern;
 import io.reactivex.Observable;
 import retrofit2.Response;
 
-import static android.text.TextUtils.isEmpty;
-
 class BookList {
-    private String tag;
-    private String sourceName;
-    private BookSourceBean bookSourceBean;
-    private boolean isFind;
+    private final String tag;
+    private final String sourceName;
+    private final BookSourceBean bookSourceBean;
+    private final boolean isFind;
     //规则
     private String ruleList;
     private String ruleName;
@@ -60,17 +58,17 @@ class BookList {
                 e.onError(new Throwable(BaseApplication.getInstance().getString(R.string.get_web_content_error, baseUrl)));
                 return;
             } else {
-                Debug.printLog(tag, "┌成功获取搜索结果");
-                Debug.printLog(tag, "└" + baseUrl);
+             Debug.printLog(tag, "┌成功获取搜索结果");
+             Debug.printLog(tag, "└" + baseUrl);
             }
             String body = response.body();
             List<SearchBookBean> books = new ArrayList<>();
-            AnalyzeRule analyzer = new AnalyzeRule(null);
+            AnalyzeRule analyzer = new AnalyzeRule(null, bookSourceBean);
             analyzer.setContent(body, baseUrl);
             //如果符合详情页url规则
             if (!isEmpty(bookSourceBean.getRuleBookUrlPattern())
                     && baseUrl.matches(bookSourceBean.getRuleBookUrlPattern())) {
-                Debug.printLog(tag, ">搜索结果为详情页");
+             Debug.printLog(tag, ">搜索结果为详情页");
                 SearchBookBean item = getItem(analyzer, baseUrl);
                 if (item != null) {
                     item.setBookInfoHtml(body);
@@ -88,7 +86,7 @@ class BookList {
                 // 仅使用java正则表达式提取书籍列表
                 if (ruleList.startsWith(":")) {
                     ruleList = ruleList.substring(1);
-                    Debug.printLog(tag, "┌解析搜索列表");
+                 Debug.printLog(tag, "┌解析搜索列表");
                     getBooksOfRegex(body, ruleList.split("&&"), 0, analyzer, books);
                 } else {
                     if (ruleList.startsWith("+")) {
@@ -96,17 +94,17 @@ class BookList {
                         ruleList = ruleList.substring(1);
                     }
                     //获取列表
-                    Debug.printLog(tag, "┌解析搜索列表");
+                 Debug.printLog(tag, "┌解析搜索列表");
                     collections = analyzer.getElements(ruleList);
                     if (collections.size() == 0 && isEmpty(bookSourceBean.getRuleBookUrlPattern())) {
-                        Debug.printLog(tag, "└搜索列表为空,当做详情页处理");
+                     Debug.printLog(tag, "└搜索列表为空,当做详情页处理");
                         SearchBookBean item = getItem(analyzer, baseUrl);
                         if (item != null) {
                             item.setBookInfoHtml(body);
                             books.add(item);
                         }
                     } else {
-                        Debug.printLog(tag, "└找到 " + collections.size() + " 个匹配的结果");
+                     Debug.printLog(tag, "└找到 " + collections.size() + " 个匹配的结果");
                         if (allInOne) {
                             for (int i = 0; i < collections.size(); i++) {
                                 Object object = collections.get(i);
@@ -140,10 +138,10 @@ class BookList {
                 }
             }
             if (books.isEmpty()) {
-                e.onError(new ApiCodeException(Error.KNOWN_ERROR, "###没有下一页"));
+                e.onError(new Throwable(BaseApplication.getInstance().getString(R.string.no_book_name)));
                 return;
             }
-            Debug.printLog(tag, "-书籍列表解析结束");
+         Debug.printLog(tag, "-书籍列表解析结束");
             e.onNext(books);
             e.onComplete();
         });
@@ -186,14 +184,12 @@ class BookList {
             // 仅使用java正则表达式提取书籍详情
             if (ruleInfoInit.startsWith(":")) {
                 ruleInfoInit = ruleInfoInit.substring(1);
-                Debug.printLog(tag, "┌详情信息预处理");
+             Debug.printLog(tag, "┌详情信息预处理");
                 BookShelfBean bookShelfBean = new BookShelfBean();
                 bookShelfBean.setTag(tag);
                 bookShelfBean.setNoteUrl(baseUrl);
                 AnalyzeByRegex.getInfoOfRegex(String.valueOf(analyzer.getContent()), ruleInfoInit.split("&&"), 0, bookShelfBean, analyzer, bookSourceBean, tag);
-                if (isEmpty(bookShelfBean.getBookInfoBean().getName())) {
-                    return null;
-                }
+                if (isEmpty(bookShelfBean.getBookInfoBean().getName())) return null;
                 item.setName(bookShelfBean.getBookInfoBean().getName());
                 item.setAuthor(bookShelfBean.getBookInfoBean().getAuthor());
                 item.setCoverUrl(bookShelfBean.getBookInfoBean().getCoverUrl());
@@ -207,27 +203,27 @@ class BookList {
                 }
             }
         }
-        Debug.printLog(tag, ">书籍网址:" + baseUrl);
-        Debug.printLog(tag, "┌获取书名");
+     Debug.printLog(tag, ">书籍网址:" + baseUrl);
+     Debug.printLog(tag, "┌获取书名");
         String bookName = StringUtils.formatHtml(analyzer.getString(bookSourceBean.getRuleBookName()));
-        Debug.printLog(tag, "└" + bookName);
+     Debug.printLog(tag, "└" + bookName);
         if (!TextUtils.isEmpty(bookName)) {
             item.setName(bookName);
-            Debug.printLog(tag, "┌获取作者");
+         Debug.printLog(tag, "┌获取作者");
             item.setAuthor(StringUtils.formatHtml(analyzer.getString(bookSourceBean.getRuleBookAuthor())));
-            Debug.printLog(tag, "└" + item.getAuthor());
-            Debug.printLog(tag, "┌获取封面");
-            item.setCoverUrl(analyzer.getString(bookSourceBean.getRuleCoverUrl(), true));
-            Debug.printLog(tag, "└" + item.getCoverUrl());
-            Debug.printLog(tag, "┌获取分类");
+         Debug.printLog(tag, "└" + item.getAuthor());
+         Debug.printLog(tag, "┌获取分类");
             item.setKind(analyzer.getString(bookSourceBean.getRuleBookKind()));
-            Debug.printLog(tag, 111, "└" + item.getKind());
-            Debug.printLog(tag, "┌获取最新章节");
+         Debug.printLog(tag, 111, "└" + item.getKind());
+         Debug.printLog(tag, "┌获取最新章节");
             item.setLastChapter(analyzer.getString(bookSourceBean.getRuleBookLastChapter()));
-            Debug.printLog(tag, "└最新章节:" + item.getLastChapter());
-            Debug.printLog(tag, "┌获取简介");
+         Debug.printLog(tag, "└" + item.getLastChapter());
+         Debug.printLog(tag, "┌获取简介");
             item.setIntroduce(analyzer.getString(bookSourceBean.getRuleIntroduce()));
-            Debug.printLog(tag, 1, "└" + item.getIntroduce(), true, true);
+         Debug.printLog(tag, 1, "└" + item.getIntroduce(), true, true);
+         Debug.printLog(tag, "┌获取封面");
+            item.setCoverUrl(analyzer.getString(bookSourceBean.getRuleCoverUrl(), true));
+         Debug.printLog(tag, "└" + item.getCoverUrl());
             return item;
         }
         return null;
@@ -237,37 +233,34 @@ class BookList {
         SearchBookBean item = new SearchBookBean();
         analyzer.setBook(item);
         NativeObject nativeObject = (NativeObject) object;
-        Debug.printLog(tag, 1, "┌获取书名", printLog);
+     Debug.printLog(tag, 1, "┌获取书名", printLog);
         String bookName = StringUtils.formatHtml(String.valueOf(nativeObject.get(ruleName)));
-        Debug.printLog(tag, 1, "└" + bookName, printLog);
+     Debug.printLog(tag, 1, "└" + bookName, printLog);
         if (!isEmpty(bookName)) {
             item.setTag(tag);
             item.setOrigin(sourceName);
             item.setName(bookName);
-            Debug.printLog(tag, 1, "┌获取作者", printLog);
+         Debug.printLog(tag, 1, "┌获取作者", printLog);
             item.setAuthor(StringUtils.formatHtml(String.valueOf(nativeObject.get(ruleAuthor))));
-            Debug.printLog(tag, 1, "└" + item.getAuthor(), printLog);
-            Debug.printLog(tag, 1, "┌获取分类", printLog);
+         Debug.printLog(tag, 1, "└" + item.getAuthor(), printLog);
+         Debug.printLog(tag, 1, "┌获取分类", printLog);
             item.setKind(String.valueOf(nativeObject.get(ruleKind)));
-            Debug.printLog(tag, 111, "└" + item.getKind(), printLog);
-            Debug.printLog(tag, 1, "┌获取最新章节", printLog);
+         Debug.printLog(tag, 111, "└" + item.getKind(), printLog);
+         Debug.printLog(tag, 1, "┌获取最新章节", printLog);
             item.setLastChapter(String.valueOf(nativeObject.get(ruleLastChapter)));
-            Debug.printLog(tag, 1, "└" + item.getLastChapter(), printLog);
-            Debug.printLog(tag, 1, "┌获取简介", printLog);
+         Debug.printLog(tag, 1, "└" + item.getLastChapter(), printLog);
+         Debug.printLog(tag, 1, "┌获取简介", printLog);
             item.setIntroduce(String.valueOf(nativeObject.get(ruleIntroduce)));
-            Debug.printLog(tag, 1, "└" + item.getIntroduce(), printLog, true);
-            Debug.printLog(tag, 1, "┌获取封面", printLog);
-            if (!isEmpty(ruleCoverUrl)) {
+         Debug.printLog(tag, 1, "└" + item.getIntroduce(), printLog, true);
+         Debug.printLog(tag, 1, "┌获取封面", printLog);
+            if (!isEmpty(ruleCoverUrl))
                 item.setCoverUrl(NetworkUtils.getAbsoluteURL(baseUrl, String.valueOf(nativeObject.get(ruleCoverUrl))));
-            }
-            Debug.printLog(tag, 1, "└" + item.getCoverUrl(), printLog);
-            Debug.printLog(tag, 1, "┌获取书籍网址", printLog);
+         Debug.printLog(tag, 1, "└" + item.getCoverUrl(), printLog);
+         Debug.printLog(tag, 1, "┌获取书籍网址", printLog);
             String resultUrl = String.valueOf(nativeObject.get(ruleNoteUrl));
-            if (isEmpty(resultUrl)) {
-                resultUrl = baseUrl;
-            }
+            if (isEmpty(resultUrl)) resultUrl = baseUrl;
             item.setNoteUrl(resultUrl);
-            Debug.printLog(tag, 1, "└" + item.getNoteUrl(), printLog);
+         Debug.printLog(tag, 1, "└" + item.getNoteUrl(), printLog);
             return item;
         }
         return null;
@@ -277,35 +270,33 @@ class BookList {
             Exception {
         SearchBookBean item = new SearchBookBean();
         analyzer.setBook(item);
-        Debug.printLog(tag, 1, "┌获取书名", printLog);
+     Debug.printLog(tag, 1, "┌获取书名", printLog);
         String bookName = StringUtils.formatHtml(analyzer.getString(ruleName));
-        Debug.printLog(tag, 1, "└" + bookName, printLog);
+     Debug.printLog(tag, 1, "└" + bookName, printLog);
         if (!TextUtils.isEmpty(bookName)) {
             item.setTag(tag);
             item.setOrigin(sourceName);
             item.setName(bookName);
-            Debug.printLog(tag, 1, "┌获取作者", printLog);
+         Debug.printLog(tag, 1, "┌获取作者", printLog);
             item.setAuthor(StringUtils.formatHtml(analyzer.getString(ruleAuthor)));
-            Debug.printLog(tag, 1, "└" + item.getAuthor(), printLog);
-            Debug.printLog(tag, 1, "┌获取分类", printLog);
+         Debug.printLog(tag, 1, "└" + item.getAuthor(), printLog);
+         Debug.printLog(tag, 1, "┌获取分类", printLog);
             item.setKind(analyzer.getString(ruleKind));
-            Debug.printLog(tag, 111, "└" + item.getKind(), printLog);
-            Debug.printLog(tag, 1, "┌获取最新章节", printLog);
+         Debug.printLog(tag, 111, "└" + item.getKind(), printLog);
+         Debug.printLog(tag, 1, "┌获取最新章节", printLog);
             item.setLastChapter(analyzer.getString(ruleLastChapter));
-            Debug.printLog(tag, 1, "└" + item.getLastChapter(), printLog);
-            Debug.printLog(tag, 1, "┌获取简介", printLog);
+         Debug.printLog(tag, 1, "└" + item.getLastChapter(), printLog);
+         Debug.printLog(tag, 1, "┌获取简介", printLog);
             item.setIntroduce(analyzer.getString(ruleIntroduce));
-            Debug.printLog(tag, 1, "└" + item.getIntroduce(), printLog, true);
-            Debug.printLog(tag, 1, "┌获取封面", printLog);
+         Debug.printLog(tag, 1, "└" + item.getIntroduce(), printLog, true);
+         Debug.printLog(tag, 1, "┌获取封面", printLog);
             item.setCoverUrl(analyzer.getString(ruleCoverUrl, true));
-            Debug.printLog(tag, 1, "└" + item.getCoverUrl(), printLog);
-            Debug.printLog(tag, 1, "┌获取书籍网址", printLog);
+         Debug.printLog(tag, 1, "└" + item.getCoverUrl(), printLog);
+         Debug.printLog(tag, 1, "┌获取书籍网址", printLog);
             String resultUrl = analyzer.getString(ruleNoteUrl, true);
-            if (isEmpty(resultUrl)) {
-                resultUrl = baseUrl;
-            }
+            if (isEmpty(resultUrl)) resultUrl = baseUrl;
             item.setNoteUrl(resultUrl);
-            Debug.printLog(tag, 1, "└" + item.getNoteUrl(), printLog);
+         Debug.printLog(tag, 1, "└" + item.getNoteUrl(), printLog);
             return item;
         }
         return null;
@@ -373,8 +364,8 @@ class BookList {
                 }
                 // 保存当前节点的书籍信息
                 item.setSearchInfo(
-                        ruleVal.get("ruleName"),        // 保存书名
-                        ruleVal.get("ruleAuthor"),      // 保存作者
+                        StringUtils.formatHtml(ruleVal.get("ruleName")),        // 保存书名
+                        StringUtils.formatHtml(ruleVal.get("ruleAuthor")),      // 保存作者
                         ruleVal.get("ruleKind"),        // 保存分类
                         ruleVal.get("ruleLastChapter"), // 保存终章
                         ruleVal.get("ruleIntroduce"),   // 保存简介
@@ -390,21 +381,21 @@ class BookList {
                 }
             } while (resM.find());
             // 输出调试信息
-            Debug.printLog(tag, "└找到 " + books.size() + " 个匹配的结果");
-            Debug.printLog(tag, "┌获取书籍名称");
-            Debug.printLog(tag, "└" + books.get(0).getName());
-            Debug.printLog(tag, "┌获取作者名称");
-            Debug.printLog(tag, "└" + books.get(0).getAuthor());
-            Debug.printLog(tag, "┌获取分类信息");
-            Debug.printLog(tag, 111, "└" + books.get(0).getKind());
-            Debug.printLog(tag, "┌获取最新章节");
-            Debug.printLog(tag, "└" + books.get(0).getLastChapter());
-            Debug.printLog(tag, "┌获取简介内容");
-            Debug.printLog(tag, 1, "└" + books.get(0).getIntroduce(), true, true);
-            Debug.printLog(tag, "┌获取封面网址");
-            Debug.printLog(tag, "└" + books.get(0).getCoverUrl());
-            Debug.printLog(tag, "┌获取书籍网址");
-            Debug.printLog(tag, "└" + books.get(0).getNoteUrl());
+         Debug.printLog(tag, "└找到 " + books.size() + " 个匹配的结果");
+         Debug.printLog(tag, "┌获取书名");
+         Debug.printLog(tag, "└" + books.get(0).getName());
+         Debug.printLog(tag, "┌获取作者");
+         Debug.printLog(tag, "└" + books.get(0).getAuthor());
+         Debug.printLog(tag, "┌获取分类");
+         Debug.printLog(tag, 111, "└" + books.get(0).getKind());
+         Debug.printLog(tag, "┌获取最新章节");
+         Debug.printLog(tag, "└" + books.get(0).getLastChapter());
+         Debug.printLog(tag, "┌获取简介");
+         Debug.printLog(tag, 1, "└" + books.get(0).getIntroduce(), true, true);
+         Debug.printLog(tag, "┌获取封面");
+         Debug.printLog(tag, "└" + books.get(0).getCoverUrl());
+         Debug.printLog(tag, "┌获取书籍");
+         Debug.printLog(tag, "└" + books.get(0).getNoteUrl());
         } else {
             StringBuilder result = new StringBuilder();
             do {

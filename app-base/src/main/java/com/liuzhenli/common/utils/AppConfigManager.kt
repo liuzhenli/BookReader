@@ -12,11 +12,8 @@ import com.umeng.cconfig.UMRemoteConfig
  * @author liuzhenli 2021/10/15
  * Email: 848808263@qq.com
  */
-open class AppConfigManager {
-    companion object {
-        @JvmStatic
-        var instance = AppConfigManager()
-    }
+object  AppConfigManager {
+
 
     private fun getAppConfig(): AppConfig? {
         val str = UMRemoteConfig.getInstance().getConfigValue("appConfig")

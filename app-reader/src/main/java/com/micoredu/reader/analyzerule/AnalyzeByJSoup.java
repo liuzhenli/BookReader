@@ -1,6 +1,9 @@
 package com.micoredu.reader.analyzerule;
 
+import static android.text.TextUtils.isEmpty;
+
 import android.text.TextUtils;
+
 
 import com.liuzhenli.common.utils.StringUtils;
 
@@ -15,8 +18,6 @@ import org.seimicrawler.xpath.JXNode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static android.text.TextUtils.isEmpty;
 
 /**
  * 书源规则解析
@@ -209,9 +210,7 @@ public class AnalyzeByJSoup {
     }
 
     private Elements filterElements(Elements elements, String[] rules) {
-        if (rules == null || rules.length < 2) {
-            return elements;
-        }
+        if (rules == null || rules.length < 2) return elements;
         Elements selectedEls = new Elements();
         for (Element ele : elements) {
             boolean isOk = false;
@@ -271,9 +270,8 @@ public class AnalyzeByJSoup {
                 switch (rules[0]) {
                     case "children":
                         Elements children = temp.children();
-                        if (needFilterElements) {
+                        if (needFilterElements)
                             children = filterElements(children, filterRules);
-                        }
                         elements.addAll(children);
                         break;
                     case "class":
@@ -286,9 +284,8 @@ public class AnalyzeByJSoup {
                                 elements.add(elementsByClass.get(index));
                             }
                         } else {
-                            if (needFilterElements) {
+                            if (needFilterElements)
                                 elementsByClass = filterElements(elementsByClass, filterRules);
-                            }
                             elements.addAll(elementsByClass);
                         }
                         break;
@@ -302,9 +299,8 @@ public class AnalyzeByJSoup {
                                 elements.add(elementsByTag.get(index));
                             }
                         } else {
-                            if (needFilterElements) {
+                            if (needFilterElements)
                                 elementsByTag = filterElements(elementsByTag, filterRules);
-                            }
                             elements.addAll(elementsByTag);
                         }
                         break;
@@ -318,17 +314,15 @@ public class AnalyzeByJSoup {
                                 elements.add(elementsById.get(index));
                             }
                         } else {
-                            if (needFilterElements) {
+                            if (needFilterElements)
                                 elementsById = filterElements(elementsById, filterRules);
-                            }
                             elements.addAll(elementsById);
                         }
                         break;
                     case "text":
                         Elements elementsByText = temp.getElementsContainingOwnText(rules[1]);
-                        if (needFilterElements) {
+                        if (needFilterElements)
                             elementsByText = filterElements(elementsByText, filterRules);
-                        }
                         elements.addAll(elementsByText);
                         break;
                     default:
@@ -412,9 +406,12 @@ public class AnalyzeByJSoup {
                     textS.add(TextUtils.join("\n", cText));
                     break;
                 case "html":
-                    elements.select("script").remove();
+                    elements.select("script, style").remove();
                     String html = elements.html();
                     textS.add(html);
+                    break;
+                case "all":
+                    textS.add(elements.outerHtml());
                     break;
                 default:
                     for (Element element : elements) {

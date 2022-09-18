@@ -7,7 +7,6 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.jayway.jsonpath.Criteria;
 import com.micoredu.reader.bean.BookSourceBean;
 
 import java.util.List;

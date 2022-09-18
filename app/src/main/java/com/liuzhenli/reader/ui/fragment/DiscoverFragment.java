@@ -226,10 +226,10 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
     }
 
 
-    public synchronized void onBookSourceChange(BookSourceBean mBookSource) {
+    public synchronized void onBookSourceChange(BookSourceBean bookSourceBean) {
         mFragmentList.clear();
         mBookCategory.clear();
-        String ruleFindUrl = mBookSource.getRuleFindUrl();
+        String ruleFindUrl = bookSourceBean.getRuleFindUrl();
         if (TextUtils.isEmpty(ruleFindUrl)) {
             return;
         }
@@ -237,7 +237,7 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
             try {
                 String jsStr = ruleFindUrl.substring(4, ruleFindUrl.lastIndexOf("<"));
                 SimpleBindings bindings = new SimpleBindings();
-                bindings.put("java", new AnalyzeRule(null));
+                bindings.put("java", new AnalyzeRule(null, bookSourceBean));
                 bindings.put("baseUrl", ruleFindUrl);
                 Object object = SCRIPT_ENGINE.eval(jsStr, bindings);
                 ruleFindUrl = object.toString();
@@ -249,15 +249,18 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
         String[] findItem = ruleFindUrl.split("(&&|\n)+");
         for (String s : findItem) {
             String[] categoryInfo = s.split("::");
+            if (categoryInfo.length < 2) {
+                continue;
+            }
             mBookCategory.add(new BookCategoryBean(categoryInfo[0], categoryInfo[1]));
             String url = categoryInfo[1];
-            String tag = mBookSource.getBookSourceUrl();
-            mFragmentList.add(BookCategoryFragment.getInstance(url, tag, mBookSource.getBookSourceName()));
+            String tag = bookSourceBean.getBookSourceUrl();
+            mFragmentList.add(BookCategoryFragment.getInstance(url, tag, bookSourceBean.getBookSourceName()));
         }
         fragmentPagerAdapter.notifyDataSetChanged();
         mCommonNavigationAdapter.notifyDataSetChanged();
         inflate.mViewPager.setCurrentItem(0);
-        RxBus.get().post(RxBusTag.CHANGE_DISCOVER_BOOK_SOURCE, mBookSource);
+        RxBus.get().post(RxBusTag.CHANGE_DISCOVER_BOOK_SOURCE, bookSourceBean);
     }
 
     @Override

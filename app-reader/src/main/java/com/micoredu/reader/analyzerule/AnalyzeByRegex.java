@@ -1,9 +1,13 @@
 package com.micoredu.reader.analyzerule;
 
+import static android.text.TextUtils.isEmpty;
+
 import android.os.Build;
 import android.text.TextUtils;
 
+
 import com.liuzhenli.common.utils.NetworkUtils;
+import com.liuzhenli.common.utils.StringUtils;
 import com.micoredu.reader.bean.BookInfoBean;
 import com.micoredu.reader.bean.BookShelfBean;
 import com.micoredu.reader.bean.BookSourceBean;
@@ -15,8 +19,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static android.text.TextUtils.isEmpty;
 
 public class AnalyzeByRegex {
 
@@ -82,12 +84,18 @@ public class AnalyzeByRegex {
                 ruleVal.put(ruleName.get(i), hasVarParams.get(i) ? AnalyzeByRegex.checkKeys(infoVal.toString(), analyzer) : infoVal.toString());
             }
             // 保存详情信息
-            if (!isEmpty(ruleVal.get("BookName"))) bookInfoBean.setName(ruleVal.get("BookName"));
-            if (!isEmpty(ruleVal.get("BookAuthor"))) bookInfoBean.setAuthor(ruleVal.get("BookAuthor"));
-            if (!isEmpty(ruleVal.get("LastChapter"))) bookShelfBean.setLastChapterName(ruleVal.get("LastChapter"));
-            if (!isEmpty(ruleVal.get("Introduce"))) bookInfoBean.setIntroduce(ruleVal.get("Introduce"));
-            if (!isEmpty(ruleVal.get("CoverUrl"))) bookInfoBean.setCoverUrl(ruleVal.get("CoverUrl"));
-            if (!isEmpty(ruleVal.get("ChapterUrl"))) bookInfoBean.setChapterUrl(NetworkUtils.getAbsoluteURL(baseUrl, ruleVal.get("ChapterUrl")));
+            if (!isEmpty(ruleVal.get("BookName")))
+                bookInfoBean.setName(StringUtils.formatHtml(ruleVal.get("BookName")));
+            if (!isEmpty(ruleVal.get("BookAuthor")))
+                bookInfoBean.setAuthor(StringUtils.formatHtml(ruleVal.get("BookAuthor")));
+            if (!isEmpty(ruleVal.get("LastChapter")))
+                bookShelfBean.setLastChapterName(ruleVal.get("LastChapter"));
+            if (!isEmpty(ruleVal.get("Introduce")))
+                bookInfoBean.setIntroduce(StringUtils.formatHtml(ruleVal.get("Introduce")));
+            if (!isEmpty(ruleVal.get("CoverUrl")))
+                bookInfoBean.setCoverUrl(ruleVal.get("CoverUrl"));
+            if (!isEmpty(ruleVal.get("ChapterUrl")))
+                bookInfoBean.setChapterUrl(NetworkUtils.getAbsoluteURL(baseUrl, ruleVal.get("ChapterUrl")));
             else bookInfoBean.setChapterUrl(baseUrl);
             //如果目录页和详情页相同,暂存页面内容供获取目录用
             if (bookInfoBean.getChapterUrl().equals(baseUrl)) bookInfoBean.setChapterListHtml(res);
@@ -100,7 +108,7 @@ public class AnalyzeByRegex {
             Debug.printLog(tag, "┌获取最新章节");
             Debug.printLog(tag, "└" + bookShelfBean.getLastChapterName());
             Debug.printLog(tag, "┌获取简介内容");
-            Debug.printLog(tag, "└" + bookInfoBean.getIntroduce());
+            Debug.printLog(tag, 1, "└" + bookInfoBean.getIntroduce(), true, true);
             Debug.printLog(tag, "┌获取封面网址");
             Debug.printLog(tag, "└" + bookInfoBean.getCoverUrl());
             Debug.printLog(tag, "┌获取目录网址");

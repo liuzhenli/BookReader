@@ -380,7 +380,7 @@ public class MainActivity extends BaseActivity<MainPresenter, ActivityMainContai
                         ToastUtil.showToast(getResources().getString(com.micoredu.reader.R.string.type_un_correct));
                     }
                 }
-            } else if (requestCode == IMPORT_BOOK_SOURCE) {
+            } else if (requestCode == IntentUtils.IMPORT_BOOK_SOURCE_LOCAL) {
                 if (data != null && data.getData() != null) {
                     mPresenter.importSourceFromLocal(data.getData());
                 }
