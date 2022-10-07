@@ -20,4 +20,9 @@
         android:id="@+id/item_arrange_bookshelf"
         android:orderInCategory="100"
         android:title="@string/arrange_bookshelf" />
+
+    <item
+        android:id="@+id/item_web_server"
+        android:orderInCategory="100"
+        android:title="@string/web_service" />
 </menu>

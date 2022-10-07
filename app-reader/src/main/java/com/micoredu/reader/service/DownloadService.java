@@ -43,7 +43,7 @@ public class DownloadService extends Service {
     public static final String progressDownloadAction = "progressDownloadAction";
     public static final String obtainDownloadListAction = "obtainDownloadListAction";
     public static final String finishDownloadAction = "finishDownloadAction";
-    private int notificationId = 19901122;
+    private int notificationId = 20220506;
     private int downloadTaskId = 0;
     private long currentTime;
 

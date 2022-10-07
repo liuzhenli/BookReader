@@ -46,6 +46,7 @@ import com.liuzhenli.reader.view.ImportBookSourceDialog;
 import com.liuzhenli.reader.view.dialog.AddWxArticleDialog;
 import com.micoredu.reader.bean.BookSourceBean;
 import com.micoredu.reader.helper.AppReaderDbHelper;
+import com.micoredu.reader.service.WebService;
 import com.micoredu.reader.ui.activity.BookSourceActivity;
 import com.microedu.reader.R;
 import com.microedu.reader.databinding.ActivityMainContainerBinding;
@@ -207,6 +208,12 @@ public class MainActivity extends BaseActivity<MainPresenter, ActivityMainContai
                             break;
                         case R.id.item_import_book_source:
                             showImportBookSourceDialog();
+                            break;
+                        case R.id.item_web_server:
+                            boolean startedThisTime = WebService.startService(this);
+                            if (!startedThisTime) {
+                                toast(getString(R.string.web_service_already_started_hint));
+                            }
                             break;
                         default:
                             break;

@@ -139,7 +139,7 @@ public class ShareService extends Service {
         builder.addAction(R.drawable.ic_stop_black_24dp, getString(R.string.cancel), getThisServicePendingIntent());
         builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
         Notification notification = builder.build();
-        int notificationId = 1122;
+        int notificationId = 4110;
         startForeground(notificationId, notification);
     }
 

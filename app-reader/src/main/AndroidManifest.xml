@@ -3,8 +3,10 @@
     package="com.micoredu.reader">
 
     <application>
-        <activity android:name="com.micoredu.reader.ui.activity.BaseReaderActivity"></activity>
+        <activity android:name="com.micoredu.reader.ui.activity.BaseReaderActivity" />
         <activity android:name=".ui.activity.ReadHistoryActivity" />
+
+        <service android:name=".service.WebService" />
     </application>
 
 </manifest>
