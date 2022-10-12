@@ -11,7 +11,6 @@ import androidx.viewbinding.ViewBinding;
 
 import com.liuzhenli.common.R;
 import com.liuzhenli.common.utils.NetworkUtils;
-import com.liuzhenli.common.widget.recyclerview.EasyRecyclerView;
 import com.liuzhenli.common.widget.recyclerview.adapter.OnLoadMoreListener;
 import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
 import com.liuzhenli.common.widget.recyclerview.swipe.OnRefreshListener;

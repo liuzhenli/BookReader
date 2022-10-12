@@ -7,12 +7,12 @@ import com.liuzhenli.common.gson.GsonUtils
 import com.umeng.cconfig.UMRemoteConfig
 
 /**
- * Description:
+ * Description:configManager
  *
  * @author liuzhenli 2021/10/15
  * Email: 848808263@qq.com
  */
-object  AppConfigManager {
+object AppConfigManager {
 
 
     private fun getAppConfig(): AppConfig? {

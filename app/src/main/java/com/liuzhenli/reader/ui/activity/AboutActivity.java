@@ -30,7 +30,7 @@ import com.microedu.reader.R;
 import com.microedu.reader.databinding.ActivityAboutBinding;
 
 /**
- * Description:
+ * Description:about Page
  *
  * @author liuzhenli 2020/8/10
  * Email: 848808263@qq.com
@@ -71,7 +71,7 @@ public class AboutActivity extends BaseActivity<BaseContract.BasePresenter, Acti
         binding.tvVersionInfo.setText(String.format("%s %s Build#%s %s ", appName, versionName, versionCode, channel));
         ClickUtils.click(binding.tvVersionCheckUpdate, o -> {
             //版本有更新
-            if (AppConfigManager.INSTANCE.getNewVersion() > BaseApplication.getInstance().mVersionCode) {
+            if (AppConfigManager.INSTANCE.getNewVersion() != null && AppConfigManager.INSTANCE.getNewVersion() > BaseApplication.getInstance().mVersionCode) {
                 toast(AppConfigManager.INSTANCE.getNewVersionIntro());
             } else {
                 toast("已经是最新版本");
@@ -92,7 +92,8 @@ public class AboutActivity extends BaseActivity<BaseContract.BasePresenter, Acti
         configQQGroup();
 
         //版本有更新
-        if (AppConfigManager.INSTANCE.getNewVersion() > BaseApplication.getInstance().mVersionCode) {
+        if (AppConfigManager.INSTANCE.getNewVersion() != null && AppConfigManager.INSTANCE.getNewVersion() > BaseApplication.getInstance().mVersionCode) {
+
             binding.ivNewVersionIcon.setVisibility(View.VISIBLE);
             binding.tvNewVersionInfo.setVisibility(View.VISIBLE);
         } else {
@@ -170,18 +171,15 @@ public class AboutActivity extends BaseActivity<BaseContract.BasePresenter, Acti
      * 调用 joinQQGroup(py5-vU4j3y7mobTS3IkZMKKJAFbiKRgl) 即可发起手Q客户端申请加群 阅读①(1140723995)
      *
      * @param key 由官网生成的key
-     * @return 返回true表示呼起手Q成功，返回false表示呼起失败
      ******************/
-    public boolean joinQQGroup(String key) {
+    public void joinQQGroup(String key) {
         Intent intent = new Intent();
         intent.setData(Uri.parse("mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26jump_from%3Dwebapi%26k%3D" + key));
         // 此Flag可根据具体产品需要自定义，如设置，则在加群界面按返回，返回手Q主界面，不设置，按返回会返回到呼起产品界面    //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         try {
             startActivity(intent);
-            return true;
         } catch (Exception e) {
             // 未安装手Q或安装的版本不支持
-            return false;
         }
     }
 

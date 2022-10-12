@@ -12,6 +12,7 @@ import com.liuzhenli.common.widget.filter.typeview.SingleListView;
 import com.liuzhenli.common.widget.filter.view.FilterCheckedTextView;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -23,12 +24,12 @@ import java.util.List;
  */
 public class BookSourceFilterMenuAdapter implements MenuAdapter {
     String[] menuTitles = {"选择", "排序", "分组"};
-    private int[] bottomMargins = {100, 100, 100};
-    private Context mContext;
+    private final int[] bottomMargins = {100, 100, 100};
+    private final Context mContext;
 
-    private List<String> list1 = Arrays.asList("全选", "已选", "反选");
-    private List<String> list2 = Arrays.asList("手动", "智能", "音序");
-    private List<String> groupList = Arrays.asList("暂无分组");
+    private final List<String> list1 = Arrays.asList("全选", "已选", "反选");
+    private final List<String> list2 = Arrays.asList("手动", "智能", "音序");
+    private List<String> groupList = Collections.singletonList("暂无分组");
 
     public BookSourceFilterMenuAdapter(Context context) {
         this.mContext = context;
@@ -84,11 +85,7 @@ public class BookSourceFilterMenuAdapter implements MenuAdapter {
 
                     @Override
                     protected void initCheckedTextView(FilterCheckedTextView checkedTextView) {
-                        if (id != 1) {
-                            checkedTextView.setCanCheck(false);
-                        } else {
-                            checkedTextView.setCanCheck(true);
-                        }
+                        checkedTextView.setCanCheck(id == 1);
                         int dp = DensityUtil.dip2px(mContext, 14);
                         checkedTextView.setPadding(dp, dp, 0, dp);
                     }

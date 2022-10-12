@@ -33,8 +33,8 @@ import java.util.List;
  */
 public class BookSourceAdapter extends RecyclerArrayAdapter<BookSourceBean> {
 
-
-    BookSourceActivity mBookSourceActivity;
+    private int mSortType;
+    private final BookSourceActivity mBookSourceActivity;
 
     public BookSourceAdapter(Context context) {
         super(context);
@@ -57,7 +57,7 @@ public class BookSourceAdapter extends RecyclerArrayAdapter<BookSourceBean> {
         @Override
         public void setData(BookSourceBean item) {
             super.setData(item);
-            L.e(BookSourceAdapter.class.getName(),item.toString());
+            L.e(BookSourceAdapter.class.getName(), item.toString());
             binding.cbBookSourceCheck.setChecked(item.getEnable());
             binding.tvSourceName.setText(item.getBookSourceName());
             binding.tvSourceGroupName.setText(item.getBookSourceGroup());
@@ -131,7 +131,6 @@ public class BookSourceAdapter extends RecyclerArrayAdapter<BookSourceBean> {
         }
     }
 
-    private int mSortType;
 
     public void setSortType(int sortType) {
         mSortType = sortType;

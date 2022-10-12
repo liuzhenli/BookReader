@@ -71,7 +71,6 @@ public class BookChapterListFragment extends BaseFragment {
         mAdapter.setOnItemClickListener(position -> {
             BookChapterBean item = mAdapter.getItem(position);
             getParentActivity().getBookShelf().setFinalDate(System.currentTimeMillis());
-            BookshelfHelper.saveBookToShelf(getParentActivity().getBookShelf());
 
             Intent intent = new Intent(getContext(), ReaderActivity.class);
             intent.putExtra(ReaderActivity.OPEN_FROM, Constant.BookOpenFrom.FROM_BOOKSHELF);
