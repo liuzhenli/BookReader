@@ -4,12 +4,6 @@ import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 
-/**
- * Description:
- *
- * @author liuzhenli 3/11/21
- * Email: 848808263@qq.com
- */
 public class ReaderApi {
 
     private final ReaderApiService mApiService;

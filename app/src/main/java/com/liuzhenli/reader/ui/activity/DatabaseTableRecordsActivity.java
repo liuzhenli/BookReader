@@ -1,8 +1,8 @@
+/*
 package com.liuzhenli.reader.ui.activity;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -19,8 +19,7 @@ import com.liuzhenli.common.base.BaseContract;
 import com.liuzhenli.reader.ui.adapter.DatabaseTableDataGridAdapter;
 import com.liuzhenli.common.utils.ToastUtil;
 import com.liuzhenli.write.helper.WriteDbHelper;
-import com.micoredu.reader.helper.AppReaderDbHelper;
-import com.microedu.reader.databinding.ActivityDiagnoseDatabaseTableRecordBinding;
+import com.micoredu.reader.databinding.ActivityDiagnoseDatabaseTableRecordBinding;
 
 import net.lucode.hackware.magicindicator.buildins.UIUtil;
 
@@ -30,12 +29,14 @@ import java.util.List;
 import nl.siegmann.epublib.util.StringUtil;
 
 
+*/
 /**
  * 浏览数据表中的数据
  *
  * @author liuzhenli
  * @date 2021.02.18
- */
+ *//*
+
 public class DatabaseTableRecordsActivity extends BaseActivity<BaseContract.BasePresenter, ActivityDiagnoseDatabaseTableRecordBinding> {
 
     public static final String EXTRA_TABLE_NAME = "TableName";
@@ -173,7 +174,8 @@ public class DatabaseTableRecordsActivity extends BaseActivity<BaseContract.Base
 
         @Override
         protected List<String[]> doInBackground(Integer... params) {
-            /*
+            */
+/*
             List<String[]> result = new ArrayList<String[]>();
 
             int offset = params[0];
@@ -198,7 +200,8 @@ public class DatabaseTableRecordsActivity extends BaseActivity<BaseContract.Base
             }
             cursor.close();
             return result;
-             */
+             *//*
+
             return null;
         }
 
@@ -211,3 +214,4 @@ public class DatabaseTableRecordsActivity extends BaseActivity<BaseContract.Base
     }
 
 }
+*/

@@ -2,12 +2,7 @@ package com.micoredu.reader;
 
 import com.liuzhenli.common.module.ApiModule;
 import com.liuzhenli.common.module.AppModule;
-import com.micoredu.reader.ui.activity.BookSourceActivity;
-import com.micoredu.reader.ui.activity.DownloadActivity;
-import com.micoredu.reader.ui.activity.EditSourceActivity;
-import com.micoredu.reader.ui.activity.ReadHistoryActivity;
-import com.micoredu.reader.ui.activity.ReaderActivity;
-import com.micoredu.reader.ui.activity.TestSourceActivity;
+import com.micoredu.reader.ui.history.ReadHistoryActivity;
 
 import javax.inject.Singleton;
 
@@ -22,15 +17,6 @@ import dagger.Component;
 @Singleton
 @Component(modules = {ReaderApiModule.class, AppModule.class, ApiModule.class})
 public interface ReaderComponent {
-    void inject(ReaderActivity activity);
-
-    void inject(BookSourceActivity bookSourceActivity);
-
-    void inject(DownloadActivity downloadActivity);
-
-    void inject(EditSourceActivity editSourceActivity);
-
-    void inject(TestSourceActivity testSourceActivity);
 
     void inject(ReadHistoryActivity readHistoryActivity);
 }

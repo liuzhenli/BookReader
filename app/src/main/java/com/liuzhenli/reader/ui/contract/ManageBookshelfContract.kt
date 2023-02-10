@@ -1,7 +1,7 @@
 package com.liuzhenli.reader.ui.contract
 
 import com.liuzhenli.common.base.BaseContract
-import com.micoredu.reader.bean.BookShelfBean
+import com.micoredu.reader.bean.Book
 
 /**
  * Description:
@@ -11,7 +11,7 @@ import com.micoredu.reader.bean.BookShelfBean
  */
 class ManageBookshelfContract {
     public interface View : BaseContract.BaseView {
-        fun showBookList(books: BookShelfBean)
+        fun showBookList(books: Book)
     }
 
     public interface Presenter<T> : BaseContract.BasePresenter<T> {

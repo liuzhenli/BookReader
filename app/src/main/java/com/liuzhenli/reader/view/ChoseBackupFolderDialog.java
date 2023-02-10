@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.common.utils.DensityUtil;
 import com.liuzhenli.common.utils.PathUtil;
-import com.microedu.reader.R;
+import com.micoredu.reader.R;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogBuilder;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogView;

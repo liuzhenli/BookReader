@@ -38,7 +38,7 @@ public class RewriteCacheControlInterceptor implements Interceptor {
         Request request = chain.request();
 
 
-        boolean networkAvailable = CrashHandler.getInstance().isNetworkAvailable(BaseApplication.getInstance());
+        boolean networkAvailable = CrashHandler.getInstance().isNetworkAvailable(BaseApplication.Companion.getInstance());
         if (!networkAvailable) {
             request = request.newBuilder()
                     .cacheControl(CacheControl.FORCE_CACHE)

@@ -17,11 +17,11 @@ public class ToastUtil {
         if (TextUtils.isEmpty(ex)) {
             return;
         }
-        showToast(BaseApplication.getInstance(), ex);
+        showToast(BaseApplication.Companion.getInstance(), ex);
     }
 
     public static void showToast(int resId) {
-        showToast(BaseApplication.getInstance(), BaseApplication.getInstance().getResources().getString(resId));
+        showToast(BaseApplication.Companion.getInstance(), BaseApplication.Companion.getInstance().getResources().getString(resId));
     }
 
     private static Toast sToast;
@@ -56,7 +56,7 @@ public class ToastUtil {
 
     private static void makeAndShow(Context context, CharSequence text, int length) {
         sToast = Toast.makeText(context.getApplicationContext(), null, length);
-        sToast.setGravity(Gravity.CENTER, 0, 0);
+        //sToast.setGravity(Gravity.CENTER, 0, 0);
         sToast.setText(text);
         sToast.show();
     }

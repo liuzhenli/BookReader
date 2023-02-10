@@ -1,8 +1,8 @@
 package com.micoredu.reader.ui.contract;
 
 import com.liuzhenli.common.base.BaseContract;
-import com.micoredu.reader.bean.BookInfoBean;
-import com.micoredu.reader.bean.BookShelfBean;
+import com.micoredu.reader.bean.Book;
+import com.micoredu.reader.model.webBook.BookInfo;
 
 import java.io.File;
 
@@ -13,7 +13,7 @@ import java.io.File;
  */
 public class ReadContract {
     public interface View extends BaseContract.BaseView {
-        String getNoteUrl();
+        String getBookUrl();
 
         //判断是否在书架
         boolean isInBookShelf();
@@ -23,13 +23,13 @@ public class ReadContract {
          *
          * @param bookInfo 书信息
          */
-        void showBookInfo(BookShelfBean bookInfo);
+        void showBookInfo(Book bookInfo);
 
         void showFontFile(File[] files);
 
-        BookShelfBean getBookShelf();
+        Book getBookShelf();
 
-        void showChangeBookSourceResult(BookShelfBean book);
+        void showChangeBookSourceResult(Book book);
 
     }
 
@@ -41,9 +41,9 @@ public class ReadContract {
         /***获取书的信息*/
         void getBookInfo(String url);
 
-        void updateBookInfo(BookInfoBean bookInfo);
+        void updateBookInfo(BookInfo bookInfo);
 
-        void saveProgress(BookShelfBean bookShelf);
+        void saveProgress(Book bookShelf);
 
         void getFontFile();
 

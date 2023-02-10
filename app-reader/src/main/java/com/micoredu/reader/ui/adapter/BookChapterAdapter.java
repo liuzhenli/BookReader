@@ -6,10 +6,10 @@ import android.view.ViewGroup;
 
 import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
 import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
-import com.micoredu.reader.R;
-import com.micoredu.reader.bean.BookChapterBean;
-import com.micoredu.reader.databinding.ItemBookChapterBinding;
-import com.micoredu.reader.helper.ReadConfigManager;
+import com.microedu.lib.reader.R;
+import com.micoredu.reader.bean.BookChapter;
+import com.microedu.lib.reader.databinding.ItemBookChapterBinding;
+import com.micoredu.reader.utils.ReadConfigManager;
 
 
 /**
@@ -18,7 +18,7 @@ import com.micoredu.reader.helper.ReadConfigManager;
  * @author liuzhenli 2021/1/26
  * Email: 848808263@qq.com
  */
-public class BookChapterAdapter extends RecyclerArrayAdapter<BookChapterBean> {
+public class BookChapterAdapter extends RecyclerArrayAdapter<BookChapter> {
 
     private boolean isFromReadPage;
 
@@ -33,7 +33,7 @@ public class BookChapterAdapter extends RecyclerArrayAdapter<BookChapterBean> {
     }
 
 
-    public class BookChapterItemAdapter extends BaseViewHolder<BookChapterBean> {
+    public class BookChapterItemAdapter extends BaseViewHolder<BookChapter> {
 
         ItemBookChapterBinding binding;
 
@@ -43,12 +43,12 @@ public class BookChapterAdapter extends RecyclerArrayAdapter<BookChapterBean> {
         }
 
         @Override
-        public void setData(BookChapterBean item) {
+        public void setData(BookChapter item) {
             super.setData(item);
-            if (TextUtils.isEmpty(item.getDurChapterName())) {
-                item.setDurChapterName("章节未命名");
+            if (TextUtils.isEmpty(item.getTitle())) {
+                item.setTitle("章节未命名");
             }
-            binding.tvBookChapterName.setText(item.getDurChapterName());
+            binding.tvBookChapterName.setText(item.getTitle());
             if (isFromReadPage) {
                 binding.tvBookChapterName.setTextColor(ReadConfigManager.getInstance().getTextColor());
                 binding.viewBookChapter.setBackground(ReadConfigManager.getInstance().getTextBackground(mContext));

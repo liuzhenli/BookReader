@@ -89,7 +89,7 @@ public class WriteHistoryManager {
             String historyFilePath = historyPath + "/" + mLastHistoryFileIndex + ".xml";
 
             try {
-                FileUtils.writeFile(historyFilePath, content);
+                FileUtils.INSTANCE.writeFile(historyFilePath, content);
 
                 mLastTime = System.currentTimeMillis();
 

@@ -6,11 +6,11 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.ViewGroup;
 
-import com.micoredu.reader.R;
-import com.micoredu.reader.bean.EditSource;
+import com.microedu.lib.reader.R;
+import com.micoredu.reader.bean.EditEntity;
 import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
 import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
-import com.micoredu.reader.databinding.ItemEditSourceBinding;
+import com.microedu.lib.reader.databinding.ItemEditSourceBinding;
 
 
 /**
@@ -19,7 +19,7 @@ import com.micoredu.reader.databinding.ItemEditSourceBinding;
  * @author liuzhenli 2020/11/16
  * Email: 848808263@qq.com
  */
-public class EditSourceAdapter extends RecyclerArrayAdapter<EditSource> {
+public class EditSourceAdapter extends RecyclerArrayAdapter<EditEntity> {
     public EditSourceAdapter(Context context) {
         super(context);
     }
@@ -29,7 +29,7 @@ public class EditSourceAdapter extends RecyclerArrayAdapter<EditSource> {
         return new ItemViewHolder(parent, R.layout.item_edit_source);
     }
 
-    public class ItemViewHolder extends BaseViewHolder<EditSource> {
+    public class ItemViewHolder extends BaseViewHolder<EditEntity> {
         ItemEditSourceBinding inflate;
 
         public ItemViewHolder(ViewGroup parent, int res) {
@@ -38,7 +38,7 @@ public class EditSourceAdapter extends RecyclerArrayAdapter<EditSource> {
         }
 
         @Override
-        public void setData(EditSource item) {
+        public void setData(EditEntity item) {
             super.setData(item);
             inflate.viewSourceItem.setText(mContext.getResources().getString(item.getHint()));
             if (TextUtils.isEmpty(item.getValue())) {

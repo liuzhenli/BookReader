@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.microedu.reader.R;
+import com.micoredu.reader.R;
 
 import java.util.ArrayList;
 import java.util.List;

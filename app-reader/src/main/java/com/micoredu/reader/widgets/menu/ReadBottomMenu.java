@@ -10,8 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.liuzhenli.common.utils.ClickUtils;
-import com.micoredu.reader.R;
-import com.micoredu.reader.helper.ReadConfigManager;
+import com.microedu.lib.reader.R;
+import com.micoredu.reader.utils.ReadConfigManager;
 
 /**
  * Description:阅读页底部菜单栏

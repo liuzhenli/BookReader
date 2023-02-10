@@ -17,7 +17,7 @@ import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatImageView;
 
-import com.microedu.reader.R;
+import com.micoredu.reader.R;
 
 /**
  * 圆角ImageView

@@ -1,3 +1,4 @@
+/*
 package com.liuzhenli.reader.ui.fragment;
 
 import android.Manifest;
@@ -15,18 +16,20 @@ import com.liuzhenli.reader.ui.activity.WebViewActivity;
 import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.common.utils.PermissionUtil;
 import com.liuzhenli.common.utils.picker.FilePicker;
-import com.microedu.reader.R;
-import com.microedu.reader.databinding.FragmentMeBinding;
+import com.micoredu.reader.R;
+import com.micoredu.reader.databinding.FragmentMeBinding;
 import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
 
+*/
 /**
  * describe:
  *
  * @author Liuzhenli on 2019-11-09 22:28
- */
+ *//*
+
 public class MeFragment extends BaseFragment {
     private final int IMPORT_SOURCE = 102;
     private final int REQUEST_QR = 202;
@@ -98,3 +101,4 @@ public class MeFragment extends BaseFragment {
 
 }
 
+*/

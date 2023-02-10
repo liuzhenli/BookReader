@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
 import com.liuzhenli.common.utils.ClickUtils;
-import com.micoredu.reader.R;
+import com.microedu.lib.reader.R;
 
 
 /**

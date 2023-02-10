@@ -1,7 +1,7 @@
 package com.liuzhenli.reader.ui.contract;
 
 import com.liuzhenli.common.base.BaseContract;
-import com.micoredu.reader.bean.SearchBookBean;
+import com.micoredu.reader.bean.SearchBook;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public class BookListContract {
         /**
          * 显示书籍列表
          */
-        void showBookList(List<SearchBookBean> data);
+        void showBookList(List<SearchBook> data);
     }
 
     public interface Presenter<T> extends BaseContract.BasePresenter<T> {

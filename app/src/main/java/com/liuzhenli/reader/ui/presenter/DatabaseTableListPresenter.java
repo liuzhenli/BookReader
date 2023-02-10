@@ -1,3 +1,4 @@
+/*
 package com.liuzhenli.reader.ui.presenter;
 
 import android.database.Cursor;
@@ -10,10 +11,8 @@ import com.liuzhenli.common.observer.SampleProgressObserver;
 import com.liuzhenli.reader.bean.DatabaseTable;
 import com.liuzhenli.reader.ui.contract.DatabaseTableListContract;
 import com.liuzhenli.write.helper.WriteDbHelper;
-import com.micoredu.reader.helper.AppReaderDbHelper;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -21,12 +20,14 @@ import javax.inject.Inject;
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
 
+*/
 /**
  * Description:
  *
  * @author liuzhenli 2021/2/25
  * Email: 848808263@qq.com
- */
+ *//*
+
 public class DatabaseTableListPresenter extends RxPresenter<DatabaseTableListContract.View> implements DatabaseTableListContract.Presenter<DatabaseTableListContract.View> {
 
     @Inject
@@ -63,3 +64,4 @@ public class DatabaseTableListPresenter extends RxPresenter<DatabaseTableListCon
         }));
     }
 }
+*/

@@ -35,11 +35,11 @@ public class WebDavHelper {
         Sardine sardine = new OkHttpSardine();
         sardine.setCredentials(userName, password);
         //zip data
-        File outFile = new File(BaseApplication.getInstance().getCacheDir(), "backup.zip");
+        File outFile = new File(BaseApplication.Companion.getInstance().getCacheDir(), "backup.zip");
         if (outFile.exists()) {
             outFile.delete();
         }
-        File[] inFiles = new File(BaseApplication.getInstance().getCacheDir().getParentFile(), "shared_prefs").listFiles();
+        File[] inFiles = new File(BaseApplication.Companion.getInstance().getCacheDir().getParentFile(), "shared_prefs").listFiles();
         if (inFiles == null || inFiles.length <= 0) {
             return false;
         }
@@ -79,7 +79,7 @@ public class WebDavHelper {
         Sardine sardine = new OkHttpSardine();
         sardine.setCredentials(userName, password);
         //download backup data
-        File outFile = new File(BaseApplication.getInstance().getCacheDir(), "backup.zip");
+        File outFile = new File(BaseApplication.Companion.getInstance().getCacheDir(), "backup.zip");
         if (outFile.exists()) {
             outFile.delete();
         }
@@ -103,7 +103,7 @@ public class WebDavHelper {
             outputStream.close();
             inputStream.close();
             File in = outFile;
-            File outDir = new File(BaseApplication.getInstance().getCacheDir().getParentFile(), "shared_prefs");
+            File outDir = new File(BaseApplication.Companion.getInstance().getCacheDir().getParentFile(), "shared_prefs");
             ZipUtils.unzipFile(in, new File(outDir.getPath()));
             L.e(TAG, "restore success");
             return true;

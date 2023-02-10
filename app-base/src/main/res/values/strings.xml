@@ -40,6 +40,9 @@
     <string name="dialog_setting">去设置</string>
     <string name="tip_cannot_jump_setting_page">无法跳转至设置界面</string>
     <string name="local">本地</string>
+    <string name="net_no_group">网络未分组</string>
+    <string name="local_no_group">本地未分组</string>
+    <string name="select_restore_file">选择恢复文件</string>
     <string name="search">搜索</string>
     <string name="net_error_10001">没有网络</string>
     <string name="net_error_10002">网络连接超时</string>
@@ -425,7 +428,6 @@
     <string name="open_local_book_per">打开外部书籍需获取存储权限</string>
     <string name="get_book_info_error">书籍信息获取失败</string>
     <string name="get_content_error">内容获取失败</string>
-    <string name="get_chapter_list_error">目录获取失败</string>
     <string name="get_web_content_error">访问网站失败:%s</string>
     <string name="no_book_name">未获取到书名</string>
     <string name="input_replace_url">输入替换规则网址</string>
@@ -496,4 +498,13 @@
     <string name="about_donate">我们利用有限的业余时间设计了异书房App,虽然它并不那么美好,但仍在努力前行。\n如果你喜欢这款软件,可以通过捐赠来支持我们。\n你也可以关注异书房微信公众号:异书房,获取书源及app更新信息。</string>
     <string name="pre_step">上一步</string>
     <string name="copy_wx_article">复制并打开微信</string>
+
+    <string name="error_decode_bitmap">图片解码失败</string>
+
+    <string name="source_http_header">请求头（header）</string>
+    <string name="share_selected_source">分享选中源</string>
+
+    <string name="text_too_long_qr_error">文字太多，生成二维码失败</string>
+
+    <string name="error_get_book_info">书籍信息获取失败</string>
 </resources>

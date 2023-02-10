@@ -1,3 +1,4 @@
+/*
 package com.liuzhenli.reader.ui.adapter;
 
 import android.content.Context;
@@ -16,16 +17,18 @@ import com.liuzhenli.common.base.BaseFragment;
 import com.liuzhenli.reader.ui.fragment.DiscoverFragment;
 import com.liuzhenli.reader.ui.fragment.BookShelfFragment;
 import com.liuzhenli.write.ui.fragment.CreateBookFragment;
-import com.microedu.reader.R;
+import com.micoredu.reader.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
+*/
 /**
  * describe: 主页tab
  *
  * @author Liuzhenli on 2019-11-09 22:27
- */
+ *//*
+
 public class MainTabAdapter extends FragmentPagerAdapter {
     private Context mContext;
     private String[] tabName;
@@ -76,3 +79,4 @@ public class MainTabAdapter extends FragmentPagerAdapter {
 
 
 }
+*/

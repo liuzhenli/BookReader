@@ -1,3 +1,4 @@
+/*
 package com.liuzhenli.reader.utils.storage
 
 import android.content.Context
@@ -49,9 +50,11 @@ object WebDavHelp {
         return false
     }
 
-    /**
+    */
+/**
      * 获取网络备份内容
-     */
+     *//*
+
     fun getWebDavFileNames(): ArrayList<String> {
         val url = getWebDavUrl()
         val names = arrayListOf<String>()
@@ -88,9 +91,11 @@ object WebDavHelp {
         }
     }
 
-    /**
+    */
+/**
      * 恢复云备份
-     */
+     *//*
+
     fun restoreWebDav(name: String, callBack: Restore.CallBack?) {
         Single.create(SingleOnSubscribe<Boolean> { e ->
             getWebDavUrl().let {
@@ -118,9 +123,11 @@ object WebDavHelp {
             })
     }
 
-    /**
+    */
+/**
      * 备份到服务器
-     */
+     *//*
+
     fun backUpWebDav(path: String, callBack: Backup.CallBack?) {
         try {
             if (initWebDav()) {
@@ -148,4 +155,4 @@ object WebDavHelp {
             callBack?.backupError("WebDav${e.localizedMessage}")
         }
     }
-}
+}*/

@@ -5,7 +5,7 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 
 import com.liuzhenli.common.base.BaseContract;
-import com.micoredu.reader.bean.BookSourceBean;
+import com.micoredu.reader.bean.BookSource;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class MainContract {
          */
         void showWebDavResult(boolean isSet);
 
-        void showBookSource(List<BookSourceBean> list);
+        void showBookSource(List<BookSource> list);
     }
 
     public interface Presenter<T> extends BaseContract.BasePresenter<T> {

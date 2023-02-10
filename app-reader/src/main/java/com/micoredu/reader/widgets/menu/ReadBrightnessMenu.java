@@ -10,8 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.liuzhenli.common.utils.ScreenUtils;
-import com.micoredu.reader.R;
-import com.micoredu.reader.helper.ReadConfigManager;
+import com.microedu.lib.reader.R;
+import com.micoredu.reader.utils.ReadConfigManager;
 import com.qmuiteam.qmui.widget.QMUISlider;
 
 /**

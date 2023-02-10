@@ -15,5 +15,5 @@ public class WriteConstants extends Constant {
         int DRAFT = 0;
         int CONFLICT = 0;
     }
-    public static String PATH_WRITE_BOOK = BaseApplication.getInstance().getFilesDir().getPath() + "/write/";
+    public static String PATH_WRITE_BOOK = BaseApplication.Companion.getInstance().getFilesDir().getPath() + "/write/";
 }

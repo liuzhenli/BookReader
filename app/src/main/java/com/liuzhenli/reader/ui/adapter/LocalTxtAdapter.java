@@ -1,3 +1,4 @@
+/*
 package com.liuzhenli.reader.ui.adapter;
 
 import android.content.Context;
@@ -9,18 +10,18 @@ import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.common.utils.FileUtils;
 import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
 import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
-import com.micoredu.reader.bean.BookShelfBean;
-import com.micoredu.reader.helper.AppReaderDbHelper;
-import com.microedu.reader.R;
-import com.microedu.reader.databinding.ItemLocalBinding;
+import com.micoredu.reader.R;
+import com.micoredu.reader.databinding.ItemLocalBinding;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+*/
 /**
  * describe:
  *
  * @author Liuzhenli on 2019-12-15 10:38
- */
+ *//*
+
 public class LocalTxtAdapter extends RecyclerArrayAdapter<FileItem> {
 
     private SimpleDateFormat simpleDateFormat;
@@ -48,7 +49,7 @@ public class LocalTxtAdapter extends RecyclerArrayAdapter<FileItem> {
         public void setData(FileItem item) {
             super.setData(item);
             //处理文件选中的逻辑 查看数据库中有没有这本书,如果有则显示已经在书架中
-            List<BookShelfBean> list= AppReaderDbHelper.getInstance().getDatabase().getBookShelfDao().getByNoteUrl(item.path);
+            List<Book> list= AppReaderDbHelper.getInstance().getDatabase().getBookShelfDao().getByNoteUrl(item.path);
             int size = list.size();
             inflate.name.setText(item.name);
             if (item.fileType == null || item.fileType.equals(Constant.FileAttr.DIRECTORY)) {
@@ -69,3 +70,4 @@ public class LocalTxtAdapter extends RecyclerArrayAdapter<FileItem> {
         }
     }
 }
+*/

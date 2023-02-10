@@ -1,27 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.liuzhenli.common.widget.recyclerview.swipe.ZLSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.liuzhenli.common.widget.recyclerview.EasyRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mRefreshLayout"
+    android:id="@+id/recyclerView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:ignore="MissingDefaultResource">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:fastScrollEnabled="true"
-        app:fastScrollHorizontalThumbDrawable="@drawable/thumb_drawable"
-        app:fastScrollHorizontalTrackDrawable="@drawable/line_drawable"
-        app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
-        app:fastScrollVerticalTrackDrawable="@drawable/line_drawable" />
-
-    <include
-        android:id="@+id/empty"
-        layout="@layout/empty_view_common"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
-
-</com.liuzhenli.common.widget.recyclerview.swipe.ZLSwipeRefreshLayout>
+    app:fastScrollEnabled="true"
+    app:fastScrollHorizontalThumbDrawable="@drawable/thumb_drawable"
+    app:fastScrollHorizontalTrackDrawable="@drawable/line_drawable"
+    app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
+    app:fastScrollVerticalTrackDrawable="@drawable/line_drawable"
+    app:layout_empty="@layout/empty_view_common"
+    tools:ignore="MissingDefaultResource" />

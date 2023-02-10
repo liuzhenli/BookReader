@@ -14,7 +14,7 @@ import com.liuzhenli.common.utils.AppConfigManager;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.image.ImageUtil;
 import com.liuzhenli.common.widget.dialog.FixHeightBottomSheetDialog;
-import com.microedu.reader.R;
+import com.micoredu.reader.R;
 
 /**
  * Description:add wechat article dialog

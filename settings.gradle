@@ -1,2 +1,2 @@
 include ':app-write'
-include ':app', ':app-reader', ':app-base', ':app-theme'
+include ':app', ':app-reader', ':app-base', ':app-theme', ':epublib'

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.microedu.reader">
+    package="com.micoredu.reader">
 
     <uses-permission
         android:name="android.permission.MANAGE_DOCUMENTS"
@@ -36,14 +36,13 @@
         tools:replace="android:theme,android:appComponentFactory">
         <activity android:name="com.liuzhenli.reader.ui.activity.ChangeSourceActivity" />
         <activity android:name="com.liuzhenli.reader.ui.activity.BookDetailActivity" />
-        <activity
-            android:name="com.micoredu.reader.ui.activity.BookSourceActivity"
-            android:launchMode="singleTop" />
+
         <activity
             android:name="com.liuzhenli.reader.ui.activity.MainActivity"
             android:configChanges="locale|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustResize|stateHidden">
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
@@ -51,7 +50,8 @@
         <activity
             android:name="com.liuzhenli.reader.ui.activity.SplashActivity"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.FullScreen">
+            android:theme="@style/AppTheme.FullScreen"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -66,34 +66,30 @@
             android:name="com.liuzhenli.reader.ui.activity.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name="com.liuzhenli.reader.ui.activity.ImportLocalBookActivity" />
-        <activity
-            android:name="com.micoredu.reader.ui.activity.ReaderActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.FullScreen" />
+
 
         <activity android:name="com.liuzhenli.reader.ui.activity.WebViewActivity" />
         <activity android:name="com.liuzhenli.reader.ui.activity.AboutActivity" />
         <activity android:name="com.liuzhenli.reader.ui.activity.SettingActivity" />
         <activity android:name="com.liuzhenli.reader.ui.activity.SearchActivity" />
-        <activity
-            android:name="com.micoredu.reader.ui.activity.EditSourceActivity"
-            android:configChanges="locale|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout"
-            android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+
         <activity android:name="com.liuzhenli.reader.ui.activity.ContentActivity" />
-        <activity android:name="com.micoredu.reader.ui.activity.TestSourceActivity" />
+
         <activity android:name="com.liuzhenli.reader.ui.activity.BackupSettingActivity" />
         <activity android:name="com.liuzhenli.reader.ui.activity.FilePathsListActivity" />
         <activity android:name="com.liuzhenli.write.ui.activity.WriteBookActivity" />
         <activity android:name="com.micoredu.reader.ui.activity.BookChapterListActivity" />
-        <activity android:name="com.micoredu.reader.ui.activity.DownloadActivity" />
+
         <activity android:name="com.liuzhenli.reader.ui.activity.DatabaseTableListActivity" />
         <activity android:name="com.liuzhenli.reader.ui.activity.DatabaseTableRecordDetailActivity" />
         <activity android:name="com.liuzhenli.reader.ui.activity.DatabaseTableRecordsActivity" />
         <activity android:name="com.liuzhenli.reader.ui.activity.QrCodeActivity" />
         <activity android:name="com.liuzhenli.reader.ui.activity.ManageBookShelfActivity" />
+        <activity android:name="com.liuzhenli.reader.ui.main.HomeActivity" />
+        <activity android:name="com.liuzhenli.reader.ui.search.SearchActivity" />
+        <activity android:name="com.liuzhenli.reader.ui.bookdetail.BookDetailActivity" />
+        <activity android:name=".ui.read.ReaderActivity" />
 
-        <service android:name="com.micoredu.reader.service.CheckSourceService" />
         <service android:name="com.micoredu.reader.service.ReadAloudService" />
         <service android:name="com.micoredu.reader.service.ShareService" />
         <service android:name="com.micoredu.reader.service.DownloadService" />

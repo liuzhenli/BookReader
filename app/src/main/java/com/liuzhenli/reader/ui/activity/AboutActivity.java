@@ -26,8 +26,8 @@ import com.liuzhenli.reader.ReaderApplication;
 import com.liuzhenli.common.base.BaseActivity;
 import com.liuzhenli.reader.bean.Sayings;
 import com.liuzhenli.reader.utils.SayingsManager;
-import com.microedu.reader.R;
-import com.microedu.reader.databinding.ActivityAboutBinding;
+import com.micoredu.reader.R;
+import com.micoredu.reader.databinding.ActivityAboutBinding;
 
 /**
  * Description:about Page
@@ -71,7 +71,7 @@ public class AboutActivity extends BaseActivity<BaseContract.BasePresenter, Acti
         binding.tvVersionInfo.setText(String.format("%s %s Build#%s %s ", appName, versionName, versionCode, channel));
         ClickUtils.click(binding.tvVersionCheckUpdate, o -> {
             //版本有更新
-            if (AppConfigManager.INSTANCE.getNewVersion() != null && AppConfigManager.INSTANCE.getNewVersion() > BaseApplication.getInstance().mVersionCode) {
+            if (AppConfigManager.INSTANCE.getNewVersion() != null && AppConfigManager.INSTANCE.getNewVersion() > BaseApplication.Companion.getInstance().mVersionCode) {
                 toast(AppConfigManager.INSTANCE.getNewVersionIntro());
             } else {
                 toast("已经是最新版本");
@@ -92,7 +92,7 @@ public class AboutActivity extends BaseActivity<BaseContract.BasePresenter, Acti
         configQQGroup();
 
         //版本有更新
-        if (AppConfigManager.INSTANCE.getNewVersion() != null && AppConfigManager.INSTANCE.getNewVersion() > BaseApplication.getInstance().mVersionCode) {
+        if (AppConfigManager.INSTANCE.getNewVersion() != null && AppConfigManager.INSTANCE.getNewVersion() > BaseApplication.Companion.getInstance().mVersionCode) {
 
             binding.ivNewVersionIcon.setVisibility(View.VISIBLE);
             binding.tvNewVersionInfo.setVisibility(View.VISIBLE);

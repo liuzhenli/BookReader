@@ -1,3 +1,4 @@
+/*
 package com.liuzhenli.reader.ui.fragment;
 
 import android.content.Context;
@@ -24,11 +25,12 @@ import com.liuzhenli.reader.DaggerReadBookComponent;
 import com.liuzhenli.reader.ui.contract.DiscoverContract;
 import com.liuzhenli.reader.ui.presenter.DiscoverPresenter;
 import com.liuzhenli.reader.view.ScaleTransitionPagerTitleView;
-import com.micoredu.reader.analyzerule.AnalyzeRule;
-import com.micoredu.reader.bean.BookCategoryBean;
-import com.micoredu.reader.bean.BookSourceBean;
-import com.microedu.reader.R;
-import com.microedu.reader.databinding.FragmentDiscoverBinding;
+import com.micoredu.reader.R;
+import com.micoredu.reader.bean.BookSource;
+import com.micoredu.reader.databinding.FragmentDiscoverBinding;
+import com.micoredu.reader.model.analyzeRule.AnalyzeRule;
+import com.script.ScriptException;
+import com.script.SimpleBindings;
 
 
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -45,17 +47,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import javax.script.ScriptException;
-import javax.script.SimpleBindings;
 
 import static androidx.fragment.app.FragmentPagerAdapter.BEHAVIOR_SET_USER_VISIBLE_HINT;
 import static com.liuzhenli.common.constant.AppConstant.SCRIPT_ENGINE;
 
+*/
 /**
  * describe:推荐书源列表
  *
  * @author Liuzhenli on 2019-11-09 22:28
- */
+ *//*
+
 public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements DiscoverContract.View {
 
     private CommonNavigatorAdapter mCommonNavigationAdapter;
@@ -185,7 +187,7 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
     }
 
     @Override
-    public void showSource(List<BookSourceBean> bookSourceData) {
+    public void showSource(List<BookSource> bookSourceData) {
         if (bookSourceData != null && bookSourceData.size() > 0) {
             Random random = new Random();
             int index = random.nextInt(bookSourceData.size());
@@ -226,10 +228,10 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
     }
 
 
-    public synchronized void onBookSourceChange(BookSourceBean bookSourceBean) {
+    public synchronized void onBookSourceChange(BookSource BookSource) {
         mFragmentList.clear();
         mBookCategory.clear();
-        String ruleFindUrl = bookSourceBean.getRuleFindUrl();
+        String ruleFindUrl = BookSource.getExploreUrl();
         if (TextUtils.isEmpty(ruleFindUrl)) {
             return;
         }
@@ -237,7 +239,7 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
             try {
                 String jsStr = ruleFindUrl.substring(4, ruleFindUrl.lastIndexOf("<"));
                 SimpleBindings bindings = new SimpleBindings();
-                bindings.put("java", new AnalyzeRule(null, bookSourceBean));
+                bindings.put("java", new AnalyzeRule(null, BookSource));
                 bindings.put("baseUrl", ruleFindUrl);
                 Object object = SCRIPT_ENGINE.eval(jsStr, bindings);
                 ruleFindUrl = object.toString();
@@ -252,15 +254,15 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
             if (categoryInfo.length < 2) {
                 continue;
             }
-            mBookCategory.add(new BookCategoryBean(categoryInfo[0], categoryInfo[1]));
+//            mBookCategory.add(new BookCategoryBean(categoryInfo[0], categoryInfo[1]));
             String url = categoryInfo[1];
-            String tag = bookSourceBean.getBookSourceUrl();
-            mFragmentList.add(BookCategoryFragment.getInstance(url, tag, bookSourceBean.getBookSourceName()));
+            String tag = BookSource.getBookSourceUrl();
+            mFragmentList.add(BookCategoryFragment.getInstance(url, tag, BookSource.getBookSourceName()));
         }
         fragmentPagerAdapter.notifyDataSetChanged();
         mCommonNavigationAdapter.notifyDataSetChanged();
         inflate.mViewPager.setCurrentItem(0);
-        RxBus.get().post(RxBusTag.CHANGE_DISCOVER_BOOK_SOURCE, bookSourceBean);
+        RxBus.get().post(RxBusTag.CHANGE_DISCOVER_BOOK_SOURCE, BookSource);
     }
 
     @Override
@@ -282,3 +284,4 @@ public class DiscoverFragment extends BaseFragment<DiscoverPresenter> implements
     }
 
 }
+*/

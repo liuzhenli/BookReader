@@ -14,7 +14,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
-import com.microedu.reader.R;
+import com.micoredu.reader.R;
 
 
 /**

@@ -1,3 +1,4 @@
+/*
 package com.liuzhenli.reader.utils.storage
 
 import android.content.Context
@@ -5,19 +6,15 @@ import android.net.Uri
 import android.text.TextUtils
 import androidx.documentfile.provider.DocumentFile
 import com.liuzhenli.common.BaseApplication
-import com.liuzhenli.common.FileHelp
 import com.liuzhenli.common.FileHelp.createFileIfNotExist
 import com.liuzhenli.common.SharedPreferencesUtil
 import com.liuzhenli.common.utils.*
 import com.liuzhenli.common.utils.filepicker.util.FileUtils.readText
 import com.liuzhenli.reader.ReaderApplication
-import com.liuzhenli.reader.utils.BackupRestoreUi
 import com.liuzhenli.reader.utils.isContentPath
 import com.micoredu.reader.R
 import com.micoredu.reader.bean.*
-import com.micoredu.reader.helper.AppReaderDbHelper
-import com.micoredu.reader.helper.ReadConfigManager
-import com.micoredu.reader.model.BookSourceManager
+import com.micoredu.reader.utils.ReadConfigManager
 import com.micoredu.reader.model.ReplaceRuleManager
 import com.micoredu.reader.model.TxtChapterRuleManager
 import io.reactivex.Single
@@ -26,7 +23,6 @@ import io.reactivex.SingleOnSubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import timber.log.Timber
 import java.io.File
 
 object Restore {
@@ -86,12 +82,12 @@ object Restore {
             try {
                 val file = createFileIfNotExist(getFilePath(path, "myBookShelf.json"))
                 val json = file.readText()
-                GsonUtil.fromJsonArray<BookShelfBean>(json)?.forEach { bookshelf ->
+                GsonUtil.fromJsonArray<Book>(json)?.forEach { bookshelf ->
                     AppReaderDbHelper.getInstance().database.bookShelfDao.insertOrReplace(
                         bookshelf
                     )
                     AppReaderDbHelper.getInstance().database.bookInfoDao.insertOrReplace(
-                        bookshelf.bookInfoBean
+                        bookshelf.BookInfo
                     )
                 }
             } catch (e: Exception) {
@@ -101,7 +97,7 @@ object Restore {
                 val file =
                     createFileIfNotExist(getFilePath(path, "myBookSource.json"))
                 val json = file.readText()
-                GsonUtil.fromJsonArray<BookSourceBean>(json)?.let {
+                GsonUtil.fromJsonArray<BookSource>(json)?.let {
                     BookSourceManager.addBookSource(it)
                 }
             } catch (e: Exception) {
@@ -218,12 +214,12 @@ object Restore {
                     LauncherIcon.ChangeIcon(
                         SharedPreferencesUtil.getInstance().getString(
                             "launcher_icon",
-                            BaseApplication.getInstance().getString(R.string.icon_main)
+                            BaseApplication.Companion.getInstance().getString(R.string.icon_main)
                         )
                     )
                     ReadConfigManager.getInstance().updateReaderSettings()
-                    BaseApplication.getInstance().upThemeStore()
-                    BaseApplication.getInstance().initNightTheme()
+                    BaseApplication.Companion.getInstance().upThemeStore()
+                    BaseApplication.Companion.getInstance().initNightTheme()
                     callBack?.restoreSuccess()
                 }
 
@@ -243,4 +239,4 @@ object Restore {
         fun restoreError(msg: String)
     }
 
-}
+}*/

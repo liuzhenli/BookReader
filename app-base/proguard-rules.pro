@@ -19,3 +19,9 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# hutool-core hutool-crypto
+-dontwarn cn.hutool.**
+-keep class cn.hutool.core.**{*;}
+-keep class cn.hutool.crypto.**{*;}
+

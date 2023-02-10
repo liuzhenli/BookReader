@@ -1,3 +1,4 @@
+/*
 package com.liuzhenli.reader.utils.storage
 
 import android.content.Context
@@ -13,11 +14,6 @@ import com.liuzhenli.common.utils.DocumentUtil
 import com.liuzhenli.common.utils.FileUtils
 import com.liuzhenli.common.utils.GsonUtil
 import com.liuzhenli.reader.utils.isContentPath
-import com.micoredu.reader.helper.BookshelfHelper
-import com.micoredu.reader.helper.AppReaderDbHelper
-import com.micoredu.reader.model.BookSourceManager
-import com.micoredu.reader.model.ReplaceRuleManager
-import com.micoredu.reader.model.TxtChapterRuleManager
 import com.thegrizzlylabs.sardineandroid.model.Set
 import io.reactivex.Single
 import io.reactivex.SingleObserver
@@ -28,26 +24,32 @@ import io.reactivex.schedulers.Schedulers
 import java.io.File
 import java.util.concurrent.TimeUnit
 
+*/
 /**
  * 备份
- */
+ *//*
+
 object Backup {
 
      const val SHUFANG_DIR = "ShuFang"
      const val BACKUP_DIR = "Backups"
 
-    /**生成备份文件的存储位置*/
-    val backupPath =
-        BaseApplication.getInstance().filesDir.absolutePath + File.separator + "backup"
+    */
+/**生成备份文件的存储位置*//*
 
-    /***恢复备份默认地址*/
+    val backupPath =
+        BaseApplication.Companion.getInstance().filesDir.absolutePath + File.separator + "backup"
+
+    */
+/***恢复备份默认地址*//*
+
     fun defaultPath(): String {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
             || !AppSharedPreferenceHelper.getBackupPath("").isNullOrEmpty()
         ) {
             AppSharedPreferenceHelper.getBackupPath("")
         } else {
-            FileUtils.getSdCardPath() + File.separator + "Documents/$SHUFANG_DIR/$BACKUP_DIR"
+            FileUtils.sdCardPath + File.separator + "Documents/$SHUFANG_DIR/$BACKUP_DIR"
         }
     }
 
@@ -63,7 +65,9 @@ object Backup {
         )
     }
 
-    /***自动备份  一天内自动备份一次*/
+    */
+/***自动备份  一天内自动备份一次*//*
+
     fun autoBack() {
         val lastBackup = SharedPreferencesUtil.getInstance().getLong("lastBackup", 0)
         if (System.currentTimeMillis() - lastBackup < TimeUnit.DAYS.toMillis(1)) {
@@ -71,16 +75,18 @@ object Backup {
         }
         val path = SharedPreferencesUtil.getInstance().getString("backupPath", defaultPath())
         if (TextUtils.isEmpty(path)) {
-            backup(BaseApplication.getInstance(), defaultPath(), null, true)
+            backup(BaseApplication.Companion.getInstance(), defaultPath(), null, true)
         } else {
-            backup(BaseApplication.getInstance(), path, null, true)
+            backup(BaseApplication.Companion.getInstance(), path, null, true)
         }
     }
 
-    /**
+    */
+/**
      * 备份
      * @param isBackupToWebDav 是否备份到云端
-     */
+     *//*
+
     fun backup(
         context: Context,
         path: String,
@@ -91,7 +97,7 @@ object Backup {
 
         SharedPreferencesUtil.getInstance().putLong("lastBackup", System.currentTimeMillis())
         Single.create(SingleOnSubscribe<Boolean> { e ->
-            BookshelfHelper.getAllBook().let {
+            BookHelp.getAllBook().let {
                 if (it.isNotEmpty()) {
                     val json = GsonUtil.toJson(it)
                     FileHelp.createFileIfNotExist(backupPath + File.separator + "myBookShelf.json")
@@ -273,4 +279,4 @@ object Backup {
         fun backupSuccess()
         fun backupError(msg: String)
     }
-}
+}*/

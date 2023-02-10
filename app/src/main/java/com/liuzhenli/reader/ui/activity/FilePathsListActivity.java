@@ -10,8 +10,8 @@ import com.liuzhenli.common.base.BaseActivity;
 import com.liuzhenli.common.base.BaseContract;
 import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
 import com.liuzhenli.common.utils.PathUtil;
-import com.liuzhenli.reader.utils.storage.Backup;
-import com.microedu.reader.databinding.ActFilepathlistBinding;
+import com.micoredu.reader.databinding.ActFilepathlistBinding;
+import com.micoredu.reader.help.storage.Backup;
 
 
 /**
@@ -50,8 +50,8 @@ public class FilePathsListActivity extends BaseActivity<BaseContract.BasePresent
 
     @Override
     protected void configViews() {
-        binding.mTvBookSourcePath.setText(PathUtil.Companion.getPathShow(BaseApplication.getInstance().getFilesDir().getAbsolutePath()));
-        binding.mTvBookSourceBackupPath.setText(PathUtil.Companion.getPathShow(AppSharedPreferenceHelper.getBackupPath(Backup.INSTANCE.defaultPath())));
-        binding.mTvBookCachePath.setText(PathUtil.Companion.getPathShow(BaseApplication.getInstance().getDownloadPath()));
+        binding.mTvBookSourcePath.setText(PathUtil.Companion.getPathShow(BaseApplication.Companion.getInstance().getFilesDir().getAbsolutePath()));
+        binding.mTvBookSourceBackupPath.setText(PathUtil.Companion.getPathShow(AppSharedPreferenceHelper.getBackupPath(Backup.INSTANCE.getBackupPath())));
+        binding.mTvBookCachePath.setText(PathUtil.Companion.getPathShow(BaseApplication.Companion.getInstance().getDownloadPath()));
     }
 }

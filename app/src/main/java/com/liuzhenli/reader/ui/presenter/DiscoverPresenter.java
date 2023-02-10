@@ -1,11 +1,10 @@
+/*
 package com.liuzhenli.reader.ui.presenter;
 
 import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.common.base.RxPresenter;
 import com.liuzhenli.common.observer.SampleProgressObserver;
 import com.liuzhenli.reader.ui.contract.DiscoverContract;
-import com.micoredu.reader.bean.BookSourceBean;
-import com.micoredu.reader.model.BookSourceManager;
 
 import java.util.List;
 
@@ -16,12 +15,14 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.observers.DisposableObserver;
 
+*/
 /**
  * Description:
  *
  * @author liuzhenli 2020/9/12
  * Email: 848808263@qq.com
- */
+ *//*
+
 public class DiscoverPresenter extends RxPresenter<DiscoverContract.View> implements DiscoverContract.Presenter<DiscoverContract.View> {
 
 
@@ -33,20 +34,21 @@ public class DiscoverPresenter extends RxPresenter<DiscoverContract.View> implem
     @Override
     public void getSource() {
 
-        Observable<List<BookSourceBean>> listObservable = Observable.create(new ObservableOnSubscribe<List<BookSourceBean>>() {
+        Observable<List<BookSource>> listObservable = Observable.create(new ObservableOnSubscribe<List<BookSource>>() {
             @Override
-            public void subscribe(ObservableEmitter<List<BookSourceBean>> emitter) throws Exception {
-                List<BookSourceBean> allBookSource = BookSourceManager.getRuleFindEnable();
+            public void subscribe(ObservableEmitter<List<BookSource>> emitter) throws Exception {
+                List<BookSource> allBookSource = BookSourceManager.getRuleFindEnable();
                 emitter.onNext(allBookSource);
             }
         });
 
-        DisposableObserver subscribe = RxUtil.subscribe(listObservable, new SampleProgressObserver<List<BookSourceBean>>() {
+        DisposableObserver subscribe = RxUtil.subscribe(listObservable, new SampleProgressObserver<List<BookSource>>() {
             @Override
-            public void onNext(List<BookSourceBean> bookSourceBeans) {
-                mView.showSource(bookSourceBeans);
+            public void onNext(List<BookSource> BookSources) {
+                mView.showSource(BookSources);
             }
         });
         addSubscribe(subscribe);
     }
 }
+*/

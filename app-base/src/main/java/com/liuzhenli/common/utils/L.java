@@ -47,7 +47,7 @@ public class L {
     /***在Application中初始化*/
     public static void init() {
         LOG_FILE_PATH = Environment.getExternalStorageDirectory().getPath() + File.separator
-                + BaseApplication.getInstance().getPackageName();
+                + BaseApplication.Companion.getInstance().getPackageName();
         LOG_FILE_NAME = "Log";
     }
 

@@ -1,3 +1,4 @@
+/*
 package com.liuzhenli.reader.ui.presenter;
 
 import static android.text.TextUtils.isEmpty;
@@ -22,9 +23,7 @@ import com.liuzhenli.common.utils.ThreadUtils;
 import com.liuzhenli.reader.ReaderApplication;
 import com.liuzhenli.reader.ui.contract.MainContract;
 import com.liuzhenli.reader.utils.storage.WebDavHelp;
-import com.micoredu.reader.bean.BookSourceBean;
 import com.micoredu.reader.helper.DocumentHelper;
-import com.micoredu.reader.model.BookSourceManager;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -38,12 +37,14 @@ import io.reactivex.Observable;
 import kotlin.text.Charsets;
 
 
+*/
 /**
  * Description: main presenter
  *
  * @author liuzhenli 2021/7/22
  * Email: 848808263@qq.com
- */
+ *//*
+
 public class MainPresenter extends RxPresenter<MainContract.View> implements MainContract.Presenter<MainContract.View> {
     @Inject
     public MainPresenter() {
@@ -79,48 +80,48 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
 
     @Override
     public void importSource(String url) {
-        Observable<List<BookSourceBean>> observable = BookSourceManager.importSource(url);
+        Observable<List<BookSource>> observable = BookSourceManager.importSource(url);
         if (observable != null) {
-            RxUtil.subscribe(observable, new SampleProgressObserver<List<BookSourceBean>>(mView) {
+            RxUtil.subscribe(observable, new SampleProgressObserver<List<BookSource>>(mView) {
                 @Override
-                public void onNext(@NonNull List<BookSourceBean> bookSource) {
+                public void onNext(@NonNull List<BookSource> bookSource) {
                     saveData(bookSource, mView);
                 }
             });
         } else {
-            mView.showError(new ApiException(1000, new Throwable(BaseApplication.getInstance().getString(com.micoredu.reader.R.string.type_un_correct))));
+            mView.showError(new ApiException(1000, new Throwable(BaseApplication.Companion.getInstance().getString(com.micoredu.reader.R.string.type_un_correct))));
         }
     }
 
     @Override
     public void importSourceFromLocal(@NonNull Uri uri) {
         if (TextUtils.isEmpty(uri.getPath())) {
-            mView.showError(new ApiException(1000, new Throwable(BaseApplication.getInstance().getString(com.micoredu.reader.R.string.read_file_error))));
+            mView.showError(new ApiException(1000, new Throwable(BaseApplication.Companion.getInstance().getString(com.micoredu.reader.R.string.read_file_error))));
             return;
         }
         String json;
         DocumentFile file;
         try {
             if (FileUtils.isContentFile(uri)) {
-                json = new String(DocumentUtil.readBytes(BaseApplication.getInstance(), uri), Charsets.UTF_8);
+                json = new String(DocumentUtil.readBytes(BaseApplication.Companion.getInstance(), uri), Charsets.UTF_8);
             } else {
                 file = DocumentFile.fromFile(new File(uri.toString()));
                 json = DocumentHelper.readString(file);
             }
         } catch (Exception e) {
-            mView.showError(new ApiException(1000, new Throwable(BaseApplication.getInstance().getString(com.micoredu.reader.R.string.can_not_open))));
+            mView.showError(new ApiException(1000, new Throwable(BaseApplication.Companion.getInstance().getString(com.micoredu.reader.R.string.can_not_open))));
             return;
         }
 
         if (!isEmpty(json)) {
             importSource(json);
         } else {
-            mView.showError(new ApiException(1000, new Throwable(BaseApplication.getInstance().getString(com.micoredu.reader.R.string.read_file_error))));
+            mView.showError(new ApiException(1000, new Throwable(BaseApplication.Companion.getInstance().getString(com.micoredu.reader.R.string.read_file_error))));
         }
 
     }
 
-    public void saveData(List<BookSourceBean> data, MainContract.View mView) {
+    public void saveData(List<BookSource> data, MainContract.View mView) {
         addSubscribe(RxUtil.subscribe(Observable.create(emitter -> {
             ThreadUtils.getInstance().getExecutorService().execute(() -> BookSourceManager.update(data));
             emitter.onNext(data == null ? 0 : data.size());
@@ -134,3 +135,4 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
         }));
     }
 }
+*/

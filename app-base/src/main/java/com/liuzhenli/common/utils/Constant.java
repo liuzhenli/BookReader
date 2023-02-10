@@ -20,19 +20,19 @@ public class Constant extends AppConstant {
     public static final String REFER = "http://wan.baidu.com";
     public static final String FEEDBACK = "https://support.qq.com/product/186909";
 
-    public static File BASE_FOLDER = BaseApplication.getInstance().getExternalFilesDir(null) == null ?
-            BaseApplication.getInstance().getFilesDir() :
-            BaseApplication.getInstance().getExternalFilesDir(null);
+    public static File BASE_FOLDER = BaseApplication.Companion.getInstance().getExternalFilesDir(null) == null ?
+            BaseApplication.Companion.getInstance().getFilesDir() :
+            BaseApplication.Companion.getInstance().getExternalFilesDir(null);
 
-    public static String CAPTURE_PATH = FileUtils.createRootPath(BaseApplication.getInstance()) + "/capture/";
+    public static String CAPTURE_PATH = FileUtils.createRootPath(BaseApplication.Companion.getInstance()) + "/capture/";
 
-    public static String PATH_DATA = FileUtils.createRootPath(BaseApplication.getInstance()) + "/data";
-    public static String BASE_PATH = FileUtils.createRootPath(BaseApplication.getInstance()) + "/book/";
-    public static String IMG_PATH = FileUtils.createRootPath(BaseApplication.getInstance()) + "/img/";
-    public static String UPDATE_PATH = FileUtils.createRootPath(BaseApplication.getInstance()) + "/update/";
-    public static String LOG_PATH = FileUtils.createRootPath(BaseApplication.getInstance()) + "/log/";
-    public static String TTS_PATH = FileUtils.createRootPath(BaseApplication.getInstance()) + "/tts/";
-    public static String WIFI_BOOK_PATH = FileUtils.createDownloadBookPath(BaseApplication.getInstance()) + "/wifiTransfer/";
+    public static String PATH_DATA = FileUtils.createRootPath(BaseApplication.Companion.getInstance()) + "/data";
+    public static String BASE_PATH = FileUtils.createRootPath(BaseApplication.Companion.getInstance()) + "/book/";
+    public static String IMG_PATH = FileUtils.createRootPath(BaseApplication.Companion.getInstance()) + "/img/";
+    public static String UPDATE_PATH = FileUtils.createRootPath(BaseApplication.Companion.getInstance()) + "/update/";
+    public static String LOG_PATH = FileUtils.createRootPath(BaseApplication.Companion.getInstance()) + "/log/";
+    public static String TTS_PATH = FileUtils.createRootPath(BaseApplication.Companion.getInstance()) + "/tts/";
+    public static String WIFI_BOOK_PATH = FileUtils.createDownloadBookPath(BaseApplication.Companion.getInstance()) + "/wifiTransfer/";
     public static final String LOCAL_BOOK_PATH = BASE_FOLDER + "/localBook/";
     public static String FONT_PATH = BASE_FOLDER + "/font/";
 

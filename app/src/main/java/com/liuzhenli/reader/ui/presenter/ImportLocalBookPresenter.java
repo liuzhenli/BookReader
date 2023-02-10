@@ -1,3 +1,4 @@
+/*
 package com.liuzhenli.reader.ui.presenter;
 
 import androidx.annotation.NonNull;
@@ -9,7 +10,6 @@ import com.liuzhenli.common.base.RxPresenter;
 import com.liuzhenli.reader.bean.ImportBookModel;
 import com.liuzhenli.common.utils.filepicker.entity.FileItem;
 import com.liuzhenli.reader.ui.contract.ImportLocalBookContract;
-import com.micoredu.reader.bean.LocBookShelfBean;
 
 import java.util.List;
 
@@ -19,11 +19,13 @@ import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
+*/
 /**
  * describe:本地书处理逻辑
  *
  * @author Liuzhenli on 2020-01-11 14:06
- */
+ *//*
+
 public class ImportLocalBookPresenter extends RxPresenter<ImportLocalBookContract.View> implements
         ImportLocalBookContract.Presenter<ImportLocalBookContract.View> {
     @Inject
@@ -62,3 +64,4 @@ public class ImportLocalBookPresenter extends RxPresenter<ImportLocalBookContrac
                 });
     }
 }
+*/

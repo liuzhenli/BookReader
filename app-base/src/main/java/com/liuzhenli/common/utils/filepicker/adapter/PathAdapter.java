@@ -1,5 +1,6 @@
 package com.liuzhenli.common.utils.filepicker.adapter;
 
+import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -12,10 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.liuzhenli.common.R;
-import com.liuzhenli.common.utils.FileUtils;
-import com.liuzhenli.common.utils.L;
+import com.liuzhenli.common.utils.ConvertUtils;
 import com.liuzhenli.common.utils.filepicker.icons.FilePickerIcon;
-import com.liuzhenli.common.utils.filepicker.util.ConvertUtils;
 
 import java.io.File;
 import java.util.Collections;
@@ -54,7 +53,7 @@ public class PathAdapter extends RecyclerView.Adapter<PathAdapter.MyViewHolder> 
     public void updatePath(String path) {
         path = path.replace(sdCardDirectory, "");
         if (arrowIcon == null) {
-            arrowIcon = ConvertUtils.toDrawable(FilePickerIcon.getARROW());
+            arrowIcon = ConvertUtils.INSTANCE.toDrawable(FilePickerIcon.getARROW());
         }
         paths.clear();
         if (!path.equals(File.separator) && !path.equals("")) {
@@ -72,7 +71,7 @@ public class PathAdapter extends RecyclerView.Adapter<PathAdapter.MyViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         holder.textView.setText(paths.get(position));
         holder.imageView.setImageDrawable(arrowIcon);
         holder.itemView.setOnClickListener(new View.OnClickListener() {

@@ -16,7 +16,7 @@ import android.widget.TabWidget;
 
 import androidx.appcompat.widget.AppCompatTextView;
 
-import com.microedu.reader.R;
+import com.micoredu.reader.R;
 
 
 /**

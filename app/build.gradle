@@ -10,7 +10,7 @@ android {
     compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion rootProject.buildToolsVersion
     defaultConfig {
-        applicationId "com.microedu.reader"
+        applicationId "com.micoredu.reader"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
         vectorDrawables.useSupportLibrary = true
@@ -27,6 +27,8 @@ android {
                         "room.schemaLocation"  : "$projectDir/schemas".toString()]
             }
         }
+
+        buildConfigField "String", "Cronet_Version", "\"105.0.5195.136\""
     }
     buildFeatures {
         viewBinding true
@@ -130,5 +132,5 @@ dependencies {
     kapt 'com.google.dagger:dagger-android-processor:2.16'
 
     kapt 'com.alibaba:arouter-compiler:1.5.1'
-
+    kapt "com.airbnb.android:epoxy-processor:$epoxy_version"
 }

@@ -15,8 +15,8 @@ import androidx.annotation.NonNull;
 
 
 import com.liuzhenli.common.utils.DensityUtil;
-import com.micoredu.reader.R;
-import com.micoredu.reader.helper.ReadConfigManager;
+import com.microedu.lib.reader.R;
+import com.micoredu.reader.utils.ReadConfigManager;
 
 public class ReadLongPressPop extends FrameLayout {
 

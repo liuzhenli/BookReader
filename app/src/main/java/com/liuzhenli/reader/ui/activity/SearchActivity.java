@@ -1,3 +1,4 @@
+/*
 package com.liuzhenli.reader.ui.activity;
 
 import android.content.Context;
@@ -25,12 +26,11 @@ import com.liuzhenli.reader.ui.contract.SearchContract;
 import com.liuzhenli.reader.ui.presenter.SearchPresenter;
 import com.liuzhenli.common.utils.DensityUtil;
 import com.liuzhenli.common.utils.SoftInputUtils;
+import com.micoredu.reader.bean.SearchBook;
 import com.micoredu.reader.ui.activity.BookSourceActivity;
 import com.liuzhenli.common.widget.DialogUtil;
-import com.micoredu.reader.bean.SearchBookBean;
-import com.micoredu.reader.bean.SearchHistoryBean;
-import com.microedu.reader.R;
-import com.microedu.reader.databinding.ActivitySearchBinding;
+import com.micoredu.reader.R;
+import com.micoredu.reader.databinding.ActivitySearchBinding;
 import com.qmuiteam.qmui.skin.QMUISkinManager;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
@@ -43,13 +43,15 @@ import java.util.List;
 
 import static com.liuzhenli.common.BitIntentDataManager.DATA_KEY;
 
+*/
 /**
  * Description:
  *
  * @author liuzhenli 2020/8/10
  * Email: 848808263@qq.com
- */
-public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBean, ActivitySearchBinding> implements SearchContract.View {
+ *//*
+
+public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBook, ActivitySearchBinding> implements SearchContract.View {
 
 
     public interface SearchType {
@@ -162,7 +164,7 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
 
     @Override
     public void onItemClick(int position) {
-        SearchBookBean item = mAdapter.getItem(position);
+        SearchBook item = mAdapter.getItem(position);
         String dataKey = String.valueOf(System.currentTimeMillis());
         Intent intent = new Intent(mContext, BookDetailActivity.class);
         intent.putExtra(BookDetailActivity.OPEN_FROM, AppConstant.BookOpenFrom.OPEN_FROM_SEARCH);
@@ -203,7 +205,7 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
 
 
     @Override
-    public void showSearchResult(String key, List<SearchBookBean> searchResult) {
+    public void showSearchResult(String key, List<SearchBook> searchResult) {
         binding.mTvSearchBookCount.setText(String.format("找到%s部相关书籍", searchResult.size()));
         mRecyclerView.setVisibility(View.VISIBLE);
         binding.mViewGroupSearchResult.setVisibility(View.VISIBLE);
@@ -314,9 +316,11 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
                 });
     }
 
-    /**
+    */
+/**
      * if no bookSource available, show
-     */
+     *//*
+
     private void showEmptyBookSourceDialog() {
         DialogUtil.showOneButtonDialog(mContext, getResources().getString(R.string.dialog_title), getResources().getString(R.string.string_book_source_is_empty), new QMUIDialogAction.ActionListener() {
             @Override
@@ -326,3 +330,4 @@ public class SearchActivity extends BaseRvActivity<SearchPresenter, SearchBookBe
         });
     }
 }
+*/

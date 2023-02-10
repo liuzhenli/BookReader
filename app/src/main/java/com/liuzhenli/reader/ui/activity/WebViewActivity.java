@@ -17,7 +17,7 @@ import com.liuzhenli.common.base.BaseContract;
 import com.liuzhenli.common.constant.ARouterConstants;
 import com.liuzhenli.reader.view.webview.ZLWebChromeClient;
 import com.liuzhenli.reader.view.webview.ZLWebViewClient;
-import com.microedu.reader.databinding.ActWebviewBinding;
+import com.micoredu.reader.databinding.ActWebviewBinding;
 
 /**
  * describe: web view

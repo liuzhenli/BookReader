@@ -84,7 +84,7 @@ public class ScreenUtils {
      * 获取状态栏的高度
      */
     public static int getStatusBarHeight() {
-        Resources resources = BaseApplication.getInstance().getResources();
+        Resources resources = BaseApplication.Companion.getInstance().getResources();
         int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
         return resources.getDimensionPixelSize(resourceId);
     }
@@ -94,7 +94,7 @@ public class ScreenUtils {
      */
     public static int getNavigationBarHeight() {
         int navigationBarHeight = 0;
-        Resources rs = BaseApplication.getInstance().getResources();
+        Resources rs = BaseApplication.Companion.getInstance().getResources();
         int id = rs.getIdentifier("navigation_bar_height", "dimen", "android");
         if (id > 0 && hasNavigationBar()) {
             navigationBarHeight = rs.getDimensionPixelSize(id);
@@ -110,7 +110,7 @@ public class ScreenUtils {
     @SuppressWarnings("unchecked")
     private static boolean hasNavigationBar() {
         boolean hasNavigationBar = false;
-        Resources rs = BaseApplication.getInstance().getResources();
+        Resources rs = BaseApplication.Companion.getInstance().getResources();
         int id = rs.getIdentifier("config_showNavigationBar", "bool", "android");
         if (id > 0) {
             hasNavigationBar = rs.getBoolean(id);
@@ -130,7 +130,7 @@ public class ScreenUtils {
     }
 
     public static DisplayMetrics getDisplayMetrics() {
-        return BaseApplication
+        return BaseApplication.Companion
                 .getInstance()
                 .getResources()
                 .getDisplayMetrics();

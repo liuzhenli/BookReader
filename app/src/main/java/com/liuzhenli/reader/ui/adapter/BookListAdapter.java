@@ -1,25 +1,26 @@
+/*
 package com.liuzhenli.reader.ui.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.liuzhenli.common.utils.image.ImageUtil;
 import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
 import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
-import com.micoredu.reader.bean.SearchBookBean;
-import com.microedu.reader.R;
-import com.microedu.reader.databinding.ItemBookListBinding;
+import com.micoredu.reader.R;
+import com.micoredu.reader.bean.SearchBook;
+import com.micoredu.reader.databinding.ItemBookListBinding;
 
+*/
 /**
  * Description:
  *
  * @author liuzhenli 2020/10/9
  * Email: 848808263@qq.com
- */
-public class BookListAdapter extends RecyclerArrayAdapter<SearchBookBean> {
+ *//*
+
+public class BookListAdapter extends RecyclerArrayAdapter<SearchBook> {
     public BookListAdapter(Context context) {
         super(context);
     }
@@ -29,7 +30,7 @@ public class BookListAdapter extends RecyclerArrayAdapter<SearchBookBean> {
         return new BookShelfHolder(parent, R.layout.item_book_list);
     }
 
-    public class BookShelfHolder extends BaseViewHolder<SearchBookBean> {
+    public class BookShelfHolder extends BaseViewHolder<SearchBook> {
         ItemBookListBinding binding;
 
         public BookShelfHolder(ViewGroup parent, int res) {
@@ -38,7 +39,7 @@ public class BookListAdapter extends RecyclerArrayAdapter<SearchBookBean> {
         }
 
         @Override
-        public void setData(SearchBookBean item) {
+        public void setData(SearchBook item) {
             super.setData(item);
             binding.tvName.setText(TextUtils.isEmpty(item.getName()) ? "[未知书名]" : item.getName());
             binding.tvBookSummary.setText(getSummary(item));
@@ -59,12 +60,12 @@ public class BookListAdapter extends RecyclerArrayAdapter<SearchBookBean> {
            // ImageUtil.setRoundedCornerImage(mContext, item.getCoverUrl(), R.drawable.ic_book_cover_placeholder, R.drawable.book_cover, binding.mIvCover, 4);
         }
 
-        private String getAuthor(SearchBookBean item) {
+        private String getAuthor(SearchBook item) {
             return TextUtils.isEmpty(item.getAuthor()) ? "佚名" : String.format("%s·著", item.getAuthor());
         }
     }
 
-    public String getSummary(SearchBookBean item) {
+    public String getSummary(SearchBook item) {
         if (item.getIntroduce() != null) {
             return item.getIntroduce();
         }
@@ -81,3 +82,4 @@ public class BookListAdapter extends RecyclerArrayAdapter<SearchBookBean> {
     }
 
 }
+*/

@@ -17,6 +17,8 @@ import android.widget.TextView;
 import androidx.annotation.ColorRes;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.epoxy.EpoxyController;
+import com.airbnb.epoxy.EpoxyRecyclerView;
 import com.liuzhenli.common.BuildConfig;
 import com.liuzhenli.common.R;
 import com.liuzhenli.common.utils.NetworkUtils;
@@ -37,7 +39,7 @@ public class EasyRecyclerView extends FrameLayout {
 
     public static final String TAG = "EasyRecyclerView";
     public static boolean DEBUG = BuildConfig.DEBUG;
-    protected RecyclerView mRecycler;
+    protected EpoxyRecyclerView mRecycler;
     protected TextView tipView;
     protected ViewGroup mProgressView;
     protected ViewGroup mEmptyView;
@@ -68,8 +70,12 @@ public class EasyRecyclerView extends FrameLayout {
         return mPtrLayout;
     }
 
-    public RecyclerView getRecyclerView() {
+    public EpoxyRecyclerView getRecyclerView() {
         return mRecycler;
+    }
+
+    public void setController(EpoxyController controller) {
+        mRecycler.setController(controller);
     }
 
     public EasyRecyclerView(Context context) {
@@ -198,7 +204,7 @@ public class EasyRecyclerView extends FrameLayout {
      * Implement this method to customize the AbsListView
      */
     protected void initRecyclerView(View view) {
-        mRecycler = (RecyclerView) view.findViewById(android.R.id.list);
+        mRecycler = (EpoxyRecyclerView) view.findViewById(android.R.id.list);
         tipView = (TextView) view.findViewById(R.id.tvTip);
         setItemAnimator(null);
         if (mRecycler != null) {

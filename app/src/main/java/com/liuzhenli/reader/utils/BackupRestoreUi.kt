@@ -1,3 +1,4 @@
+/*
 package com.liuzhenli.reader.utils
 
 import android.Manifest
@@ -19,7 +20,7 @@ import com.liuzhenli.reader.utils.storage.Restore
 import com.liuzhenli.reader.utils.storage.WebDavHelp.getWebDavFileNames
 import com.liuzhenli.reader.utils.storage.WebDavHelp.showRestoreDialog
 import com.liuzhenli.reader.utils.storage.isContentScheme
-import com.microedu.reader.R
+import com.micoredu.reader.R
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
 import io.reactivex.SingleObserver
@@ -36,9 +37,11 @@ object BackupRestoreUi {
     private const val backupSelectRequestCode = 22
     private const val restoreSelectRequestCode = 33
 
-    /**
+    */
+/**
      * 文件备份
-     */
+     *//*
+
     fun backup(
         activity: FragmentActivity,
         isBackupToWebDav: Boolean = false,
@@ -63,9 +66,11 @@ object BackupRestoreUi {
         }
     }
 
-    /**
+    */
+/**
      * 请求权限
-     */
+     *//*
+
     private fun backupUsePermission(
         activity: FragmentActivity,
         isBackupToWebDav: Boolean = true,
@@ -80,9 +85,11 @@ object BackupRestoreUi {
         }, Manifest.permission.WRITE_EXTERNAL_STORAGE)
     }
 
-    /**
+    */
+/**
      * 选择备份路径
-     */
+     *//*
+
     fun selectBackupFolder(
         activity: FragmentActivity,
         isBackupToWebDav: Boolean = true,
@@ -131,9 +138,11 @@ object BackupRestoreUi {
         }.show()
     }
 
-    /**
+    */
+/**
      * 选择备份文件夹
-     */
+     *//*
+
     private fun selectBackupFolderApp(
         activity: Activity,
         isRestore: Boolean,
@@ -155,9 +164,11 @@ object BackupRestoreUi {
         picker.show()
     }
 
-    /**
+    */
+/**
      * 备份恢复
-     */
+     *//*
+
     fun restore(
         activity: FragmentActivity,
         callBack: Restore.CallBack,
@@ -198,9 +209,11 @@ object BackupRestoreUi {
             })
     }
 
-    /**
+    */
+/**
      * 恢复
-     */
+     *//*
+
     private fun restoreUsePermission(
         activity: FragmentActivity,
         path: String = Backup.defaultPath(),
@@ -215,9 +228,11 @@ object BackupRestoreUi {
         }, Manifest.permission.WRITE_EXTERNAL_STORAGE)
     }
 
-    /**
+    */
+/**
      * 设置恢复路径
-     */
+     *//*
+
     private fun selectRestoreFolder(
         activity: FragmentActivity,
         callBack: Backup.CallBack?,
@@ -265,22 +280,22 @@ object BackupRestoreUi {
         when (requestCode) {
             backupSelectRequestCode -> if (resultCode == RESULT_OK) {
                 data?.data?.let { uri ->
-                    BaseApplication.getInstance().contentResolver.takePersistableUriPermission(
+                    BaseApplication.Companion.getInstance().contentResolver.takePersistableUriPermission(
                         uri,
                         Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
                     )
                     AppSharedPreferenceHelper.setBackupPath(uri.toString())
-                    Backup.backup(BaseApplication.getInstance(), uri.toString(), callBack, false)
+                    Backup.backup(BaseApplication.Companion.getInstance(), uri.toString(), callBack, false)
                 }
             }
             restoreSelectRequestCode -> if (resultCode == RESULT_OK) {
                 data?.data?.let { uri ->
-                    BaseApplication.getInstance().contentResolver.takePersistableUriPermission(
+                    BaseApplication.Companion.getInstance().contentResolver.takePersistableUriPermission(
                         uri,
                         Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
                     )
                     AppSharedPreferenceHelper.setBackupPath(uri.toString())
-                    Restore.restore(BaseApplication.getInstance(), uri, restoreCallBack)
+                    Restore.restore(BaseApplication.Companion.getInstance(), uri, restoreCallBack)
                 }
             }
         }
@@ -288,4 +303,4 @@ object BackupRestoreUi {
 
 }
 
-fun String?.isContentPath(): Boolean = this?.startsWith("content://") == true
+fun String?.isContentPath(): Boolean = this?.startsWith("content://") == true*/

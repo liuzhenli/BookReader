@@ -19,7 +19,7 @@ import com.liuzhenli.common.utils.AppUtils;
 import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.common.utils.L;
 import com.liuzhenli.common.utils.ToastUtil;
-import com.microedu.reader.R;
+import com.micoredu.reader.R;
 
 import java.util.HashMap;
 import java.util.Map;

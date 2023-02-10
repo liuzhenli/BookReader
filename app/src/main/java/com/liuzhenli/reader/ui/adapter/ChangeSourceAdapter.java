@@ -1,3 +1,4 @@
+/*
 package com.liuzhenli.reader.ui.adapter;
 
 import android.content.Context;
@@ -6,17 +7,19 @@ import android.view.ViewGroup;
 
 import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
 import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
-import com.micoredu.reader.bean.SearchBookBean;
-import com.microedu.reader.R;
-import com.microedu.reader.databinding.ItemChangeSourceBinding;
+import com.micoredu.reader.R;
+import com.micoredu.reader.bean.SearchBook;
+import com.micoredu.reader.databinding.ItemChangeSourceBinding;
 
+*/
 /**
  * Description:
  *
  * @author liuzhenli 2021/1/31
  * Email: 848808263@qq.com
- */
-public class ChangeSourceAdapter extends RecyclerArrayAdapter<SearchBookBean> {
+ *//*
+
+public class ChangeSourceAdapter extends RecyclerArrayAdapter<SearchBook> {
     public ChangeSourceAdapter(Context context) {
         super(context);
     }
@@ -26,7 +29,7 @@ public class ChangeSourceAdapter extends RecyclerArrayAdapter<SearchBookBean> {
         return new ChangeSourceViewHolder(parent, R.layout.item_change_source);
     }
 
-    public static class ChangeSourceViewHolder extends BaseViewHolder<SearchBookBean> {
+    public static class ChangeSourceViewHolder extends BaseViewHolder<SearchBook> {
         ItemChangeSourceBinding inflate;
 
         public ChangeSourceViewHolder(ViewGroup parent, int layoutResID) {
@@ -35,7 +38,7 @@ public class ChangeSourceAdapter extends RecyclerArrayAdapter<SearchBookBean> {
         }
 
         @Override
-        public void setData(SearchBookBean item) {
+        public void setData(SearchBook item) {
             super.setData(item);
             inflate.tvBookSourceSite.setText(item.getOrigin());
             inflate.tvBookLastChapter.setText(item.getLastChapter());
@@ -47,3 +50,4 @@ public class ChangeSourceAdapter extends RecyclerArrayAdapter<SearchBookBean> {
         }
     }
 }
+*/

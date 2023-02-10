@@ -1,7 +1,7 @@
 package com.liuzhenli.reader.ui.contract;
 
 import com.liuzhenli.common.base.BaseContract;
-import com.micoredu.reader.bean.BookShelfBean;
+import com.micoredu.reader.bean.Book;
 
 import java.util.List;
 
@@ -17,32 +17,32 @@ public class BookShelfContract {
          *
          * @param bookShelfBeanList 书架书列表
          */
-        public void showBooks(List<BookShelfBean> bookShelfBeanList);
+        public void showBooks(List<Book> bookShelfBeanList);
 
         /**
          * 书移除书架
          *
-         * @param bookShelfBean 移除的书信息
+         * @param Book 移除的书信息
          */
-        void onBookRemoved(BookShelfBean bookShelfBean);
+        void onBookRemoved(Book Book);
 
         /**
          * 显示正在更新
-         * @param bookShelfBean
+         * @param Book
          */
-        void setRefreshingBook(BookShelfBean bookShelfBean);
+        void setRefreshingBook(Book Book);
     }
 
     public interface Presenter<T> extends BaseContract.BasePresenter<T> {
         public void queryBooks(final Boolean needRefresh, final int group);
 
-        void removeFromBookShelf(BookShelfBean bookShelfBean);
+        void removeFromBookShelf(Book Book);
 
         /**
          * 更新书信息
          */
         void refreshBookShelf();
 
-        void updateBookInfo(BookShelfBean book);
+        void updateBookInfo(Book book);
     }
 }

@@ -78,7 +78,7 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
 
             }
         }
-        setupActivityComponent(BaseApplication.getInstance().getAppComponent());
+        setupActivityComponent(BaseApplication.Companion.getInstance().getAppComponent());
         attachView();
         initData();
         configViews();

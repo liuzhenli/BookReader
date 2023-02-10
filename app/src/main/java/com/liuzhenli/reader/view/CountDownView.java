@@ -10,7 +10,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
-import com.microedu.reader.R;
+import com.micoredu.reader.R;
 
 import io.reactivex.annotations.Nullable;
 

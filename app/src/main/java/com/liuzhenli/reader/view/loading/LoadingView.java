@@ -19,7 +19,7 @@ import android.view.animation.LinearInterpolator;
 
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
-import com.microedu.reader.R;
+import com.micoredu.reader.R;
 
 public class LoadingView extends View {
 

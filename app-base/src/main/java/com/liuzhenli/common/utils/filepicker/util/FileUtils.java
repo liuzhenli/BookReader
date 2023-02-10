@@ -4,6 +4,8 @@ import android.webkit.MimeTypeMap;
 
 import androidx.annotation.IntDef;
 
+import com.liuzhenli.common.utils.ConvertUtils;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -109,7 +111,7 @@ public final class FileUtils {
         }
         for (File dir : dirs) {
             File file = dir.getAbsoluteFile();
-            if (!ConvertUtils.toString(excludeDirs).contains(file.getName())) {
+            if (!ConvertUtils.INSTANCE.toString(excludeDirs).contains(file.getName())) {
                 dirList.add(file);
             }
         }
@@ -257,7 +259,7 @@ public final class FileUtils {
             public boolean accept(File dir, String name) {
                 //返回当前目录所有以某些扩展名结尾的文件
                 String extension = FileUtils.getExtension(name);
-                return ConvertUtils.toString(allowExtensions).contains(extension);
+                return ConvertUtils.INSTANCE.toString(allowExtensions).contains(extension);
             }
 
         });
@@ -574,7 +576,7 @@ public final class FileUtils {
      */
     public static String getSize(String path) {
         long fileSize = getLength(path);
-        return ConvertUtils.toFileSizeString(fileSize);
+        return ConvertUtils.INSTANCE.toFileSizeString(fileSize);
     }
 
     /**

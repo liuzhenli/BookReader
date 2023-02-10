@@ -38,10 +38,10 @@ object AppConfigManager {
     }
 
     fun getDefaultBookSourceUrl(): String? {
-        if (isShowDonate()) {
-            return getAppConfig()?.data?.sourceUrl
-        }
-        return null
+//        if (isShowDonate()) {
+//            return getAppConfig()?.data?.sourceUrl
+//        }
+        return "https://yd.mgz6.cn/shuyuan/yck115.json"
     }
 
     fun getWeChatName(): String? {
@@ -60,7 +60,7 @@ object AppConfigManager {
             val split = getAppConfig()?.data?.pay?.filterChannel?.split(",")?.toTypedArray()
             if (split != null) {
                 for (s in split) {
-                    if (s == ChannelUtil.getChannelName(BaseApplication.getInstance())) {
+                    if (s == ChannelUtil.getChannelName(BaseApplication.instance)) {
                         return false
                     }
                 }

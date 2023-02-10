@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/main"
+    tools:ignore="MissingDefaultResource">
+    <fragment
+        android:id="@+id/main"
+        android:name="com.liuzhenli.reader.ui.main.HomeFragment">
+        <action
+            android:id="@+id/action_main_to_importLocalBookFragment"
+            app:destination="@id/dadJokeIndex"
+            app:enterAnim="@anim/push_left_in"
+            app:exitAnim="@anim/push_right_out"
+            app:popEnterAnim="@anim/anim_pop_enter"
+            app:popExitAnim="@anim/anim_pop_exit" />
+        <action
+            android:id="@+id/action_main_to_importBookSourceFragment"
+            app:destination="@id/flowIntroFragment"
+            app:enterAnim="@anim/push_left_in"
+            app:exitAnim="@anim/push_right_out"
+            app:popEnterAnim="@anim/anim_pop_enter"
+            app:popExitAnim="@anim/anim_pop_exit" />
+        <action
+            android:id="@+id/action_main_to_searchFragment"
+            app:destination="@id/helloWorldFragment"
+            app:enterAnim="@anim/push_left_in"
+            app:exitAnim="@anim/push_right_out"
+            app:popEnterAnim="@anim/anim_pop_enter"
+            app:popExitAnim="@anim/anim_pop_exit" />
+        <action
+            android:id="@+id/action_main_to_webService"
+            app:destination="@id/randomDadJokeFragment"
+            app:enterAnim="@anim/push_left_in"
+            app:exitAnim="@anim/push_right_out"
+            app:popEnterAnim="@anim/anim_pop_enter"
+            app:popExitAnim="@anim/anim_pop_exit" />
+        <action
+            android:id="@+id/action_main_to_parentFragment"
+            app:destination="@id/parentFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/dadJokeIndex"
+        android:name="com.liuzhenli.reader.ui.main.HomeFragment"
+        android:label="Dad Jokes" />
+    <fragment
+        android:id="@+id/flowIntroFragment"
+        android:name="com.liuzhenli.reader.ui.main.HomeFragment">
+        <action
+            android:id="@+id/action_flowIntroFragment_to_flowCounterFragment"
+            app:destination="@id/flowCounterFragment"
+            app:enterAnim="@anim/push_left_in"
+            app:exitAnim="@anim/push_right_out"
+            app:popEnterAnim="@anim/anim_pop_enter"
+            app:popExitAnim="@anim/anim_pop_exit" />
+    </fragment>
+    <fragment
+        android:id="@+id/flowCounterFragment"
+        android:name="com.liuzhenli.reader.ui.main.HomeFragment" />
+    <fragment
+        android:id="@+id/randomDadJokeFragment"
+        android:name="com.liuzhenli.reader.ui.main.HomeFragment" />
+    <fragment
+        android:id="@+id/helloWorldFragment"
+        android:name="com.liuzhenli.reader.ui.main.HomeFragment" />
+    <fragment
+        android:id="@+id/parentFragment"
+        android:name="com.liuzhenli.reader.ui.main.HomeFragment"
+        android:label="" />
+</navigation>

@@ -5,8 +5,12 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_common_toolbar" />
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/layout_common_toolbar" />
 
-    <include layout="@layout/layout_easy_recyclerview" />
+    <include
+        android:id="@+id/list"
+        layout="@layout/layout_easy_recyclerview" />
 
 </LinearLayout>

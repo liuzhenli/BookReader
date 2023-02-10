@@ -9,7 +9,7 @@ import com.liuzhenli.common.base.BaseFragment;
 import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.reader.ui.contract.HistoryContract;
 import com.liuzhenli.reader.ui.presenter.HistoryPresenter;
-import com.microedu.reader.databinding.FragmentHistoryBinding;
+import com.micoredu.reader.databinding.FragmentHistoryBinding;
 
 /**
  * Description:

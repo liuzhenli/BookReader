@@ -5,9 +5,9 @@ import android.view.ViewGroup;
 
 import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
 import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
-import com.micoredu.reader.bean.BookSourceBean;
-import com.microedu.reader.R;
-import com.microedu.reader.databinding.ItemBookSiteBinding;
+import com.micoredu.reader.R;
+import com.micoredu.reader.bean.BookSource;
+import com.micoredu.reader.databinding.ItemBookSiteBinding;
 
 /**
  * Description:
@@ -15,7 +15,7 @@ import com.microedu.reader.databinding.ItemBookSiteBinding;
  * @author liuzhenli 2020/9/27
  * Email: 848808263@qq.com
  */
-public class BookSourceViewAdapter extends RecyclerArrayAdapter<BookSourceBean> {
+public class BookSourceViewAdapter extends RecyclerArrayAdapter<BookSource> {
     public BookSourceViewAdapter(Context context) {
         super(context);
     }
@@ -25,7 +25,7 @@ public class BookSourceViewAdapter extends RecyclerArrayAdapter<BookSourceBean> 
         return new ItemViewHolder(parent, R.layout.item_book_site);
     }
 
-    static class ItemViewHolder extends BaseViewHolder<BookSourceBean> {
+    static class ItemViewHolder extends BaseViewHolder<BookSource> {
         ItemBookSiteBinding binding;
 
         public ItemViewHolder(ViewGroup parent, int res) {
@@ -34,7 +34,7 @@ public class BookSourceViewAdapter extends RecyclerArrayAdapter<BookSourceBean> 
         }
 
         @Override
-        public void setData(BookSourceBean item) {
+        public void setData(BookSource item) {
             super.setData(item);
             binding.tvSourceWebName.setText(item.getBookSourceName());
             binding.tvSourceWebName.setOnClickListener(v -> itemView.callOnClick());

@@ -36,8 +36,8 @@ public final class HeaderInterceptor implements Interceptor {
     private Map<String, String> commonParams = new HashMap<>();
 
     private void initCommonParams() {
-        commonParams.put("_versions", AppUtils.getAppVersionCode(BaseApplication.getInstance()) + "");
-        commonParams.put("merchant", AppUtils.getChannelValue(BaseApplication.getInstance()));
+        commonParams.put("_versions", AppUtils.getAppVersionCode(BaseApplication.Companion.getInstance()) + "");
+        commonParams.put("merchant", AppUtils.getChannelValue(BaseApplication.Companion.getInstance()));
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.liuzhenli.write.util;
 
 
+import android.text.TextUtils;
+
 import com.liuzhenli.common.encript.Base64;
 
 import java.io.ByteArrayInputStream;
@@ -10,8 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
-import nl.siegmann.epublib.util.StringUtil;
 
 public class QETag {
     private final int CHUNK_SIZE = 1 << 22;
@@ -43,7 +43,7 @@ public class QETag {
 
     public String calcETagWithString(String content) throws IOException, NoSuchAlgorithmException {
         String etag = "";
-        if (StringUtil.isEmpty(content))
+        if (TextUtils.isEmpty(content))
             return etag;
 
         long fileLength = content.getBytes().length;

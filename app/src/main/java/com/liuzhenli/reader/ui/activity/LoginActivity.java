@@ -1,3 +1,4 @@
+/*
 package com.liuzhenli.reader.ui.activity;
 
 import android.view.LayoutInflater;
@@ -9,13 +10,15 @@ import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.reader.DaggerReadBookComponent;
 import com.liuzhenli.reader.ui.contract.LoginContract;
 import com.liuzhenli.reader.ui.presenter.LoginPresenter;
-import com.microedu.reader.databinding.ActivityLoginBinding;
+import com.micoredu.reader.databinding.ActivityLoginBinding;
 
 
+*/
 /**
  * @author Liuzhenli
  * @since 2019-07-07 10:25
- */
+ *//*
+
 public class LoginActivity extends BaseActivity<LoginPresenter, ActivityLoginBinding> implements LoginContract.View {
 
     @Override
@@ -65,3 +68,4 @@ public class LoginActivity extends BaseActivity<LoginPresenter, ActivityLoginBin
     }
 
 }
+*/

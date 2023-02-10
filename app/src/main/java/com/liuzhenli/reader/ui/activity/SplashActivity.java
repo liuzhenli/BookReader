@@ -14,8 +14,9 @@ import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.base.BaseActivity;
 import com.liuzhenli.common.base.BaseContract;
 import com.liuzhenli.reader.bean.Sayings;
+import com.liuzhenli.reader.ui.main.HomeActivity;
 import com.liuzhenli.reader.utils.SayingsManager;
-import com.microedu.reader.databinding.ActivitySplashBinding;
+import com.micoredu.reader.databinding.ActivitySplashBinding;
 
 
 /**
@@ -59,7 +60,7 @@ public class SplashActivity extends BaseActivity<BaseContract.BasePresenter, Act
             binding.countDownView.setHasClickClip(true);
             if (!hasGoHome) {
                 hasGoHome = true;
-                SplashActivity.this.startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                SplashActivity.this.startActivity(new Intent(SplashActivity.this, HomeActivity.class));
                 SplashActivity.this.finish();
             }
         });

@@ -1,76 +1,5 @@
 package com.micoredu.reader.ui.activity;
 
-import android.annotation.SuppressLint;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-
-import com.hwangjr.rxbus.annotation.Subscribe;
-import com.hwangjr.rxbus.annotation.Tag;
-import com.hwangjr.rxbus.thread.EventThread;
-import com.liuzhenli.common.BitIntentDataManager;
-import com.liuzhenli.common.constant.RxBusTag;
-import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
-import com.liuzhenli.common.utils.BatteryUtil;
-import com.liuzhenli.common.utils.IntentUtils;
-import com.liuzhenli.common.utils.ScreenUtils;
-import com.liuzhenli.common.utils.ShareUtils;
-import com.liuzhenli.common.widget.bar.BarHide;
-import com.liuzhenli.common.utils.ToastUtil;
-import com.liuzhenli.common.widget.bar.ImmersionBar;
-import com.micoredu.reader.ReaderComponent;
-import com.micoredu.reader.R;
-import com.micoredu.reader.animation.PageAnimation;
-import com.micoredu.reader.bean.BookShelfBean;
-import com.micoredu.reader.bean.BookmarkBean;
-import com.micoredu.reader.bean.OpenChapterBean;
-import com.micoredu.reader.bean.ReplaceRuleBean;
-import com.micoredu.reader.databinding.ActReadBinding;
-import com.micoredu.reader.helper.BookshelfHelper;
-import com.micoredu.reader.helper.ReadConfigManager;
-import com.micoredu.reader.model.ReplaceRuleManager;
-import com.micoredu.reader.page.PageLoaderNet;
-import com.micoredu.reader.page.PageView;
-import com.micoredu.reader.bean.BookChapterBean;
-import com.micoredu.reader.page.PageLoader;
-import com.micoredu.reader.reciever.BatteryAndTimeChangeReceiver;
-import com.micoredu.reader.ui.contract.ReadContract;
-import com.micoredu.reader.ui.presenter.ReadPresenter;
-import com.liuzhenli.common.widget.DialogUtil;
-import com.micoredu.reader.widgets.ReadLongPressPop;
-import com.micoredu.reader.widgets.ReplaceRuleDialog;
-import com.micoredu.reader.widgets.menu.ReadBottomMenu;
-import com.micoredu.reader.widgets.menu.ReadBrightnessMenu;
-import com.micoredu.reader.widgets.menu.ReadSettingMenu;
-import com.micoredu.reader.widgets.menu.ReadTopBarMenu;
-import com.microedu.theme.ViewUtil;
-import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
-import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
-
-import java.io.File;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.regex.Pattern;
-
-import io.reactivex.SingleObserver;
-import io.reactivex.disposables.Disposable;
-
-import static com.liuzhenli.common.BitIntentDataManager.DATA_KEY;
-import static com.liuzhenli.common.BitIntentDataManager.getInstance;
-import static com.liuzhenli.common.constant.AppConstant.BookOpenFrom.OPEN_FROM_APP;
 
 /**
  * describe:阅读页
@@ -78,6 +7,7 @@ import static com.liuzhenli.common.constant.AppConstant.BookOpenFrom.OPEN_FROM_A
  * @author Liuzhenli on 2019-11-09 19:29
  * @since 1.0.0
  */
+/*
 public class ReaderActivity extends BaseReaderActivity<ReadPresenter, ActReadBinding> implements ReadContract.View {
     public static final String NOTE_URL = "noteUrl";
     public static final String CHAPTER_ID = "chapterID";
@@ -86,18 +16,18 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter, ActReadBin
 
     private Boolean startShareAnim = false;
     private float mAlpha = 0F;
-    private PageLoader mPageLoader;
+    private ReadBook mPageLoader;
     private int mCurrentChapterIndex;
-    /***章节id mChapterId  durChapterIndex*/
+    //章节id mChapterId  durChapterIndex
     private int mChapterId;
     private float mProgress;
     private int mOpenFrom;
     private String mDataKey;
-    /***是否在书架里*/
+    //是否在书架里
     private boolean mIsInBookShelf = false;
 
     private String mNoteUrl;
-    private BookShelfBean mBookShelf;
+    private Book mBookShelf;
     private int lastX, lastY;
     private BatteryAndTimeChangeReceiver batteryAndTimeChangeReceiver;
 
@@ -137,9 +67,9 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter, ActReadBin
     @Override
     protected void onResume() {
         super.onResume();
-        if (batteryAndTimeChangeReceiver == null && mPageLoader != null) {
-            batteryAndTimeChangeReceiver = new BatteryAndTimeChangeReceiver(mPageLoader);
-            batteryAndTimeChangeReceiver.register(mContext, batteryAndTimeChangeReceiver);
+        if (batteryAndTimeChangeReceiver == null) {
+            batteryAndTimeChangeReceiver = new BatteryAndTimeChangeReceiver();
+            registerReceiver(batteryAndTimeChangeReceiver,batteryAndTimeChangeReceiver.getFilter());
         }
     }
 
@@ -147,12 +77,12 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter, ActReadBin
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         if (mBookShelf != null) {
-            outState.putString("noteUrl", mBookShelf.getNoteUrl());
+            outState.putString("noteUrl", mBookShelf.getBookUrl());
             outState.putBoolean("isAdd", mIsInBookShelf);
             String key = String.valueOf(System.currentTimeMillis());
             String bookKey = "book" + key;
             getIntent().putExtra("bookKey", bookKey);
-            BitIntentDataManager.getInstance().putData(bookKey, mBookShelf.clone());
+            BitIntentDataManager.getInstance().putData(bookKey, mBookShelf);
             String chapterListKey = "chapterList" + key;
             getIntent().putExtra("chapterListKey", chapterListKey);
             BitIntentDataManager.getInstance().putData(chapterListKey, mPresenter.getChapterList());
@@ -172,27 +102,27 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter, ActReadBin
             mProgress = getIntent().getFloatExtra(PROGRESS, 0);
         }
         if (mDataKey != null) {
-            mBookShelf = (BookShelfBean) getInstance().getData(mDataKey);
-            mNoteUrl = mBookShelf.getNoteUrl();
+            mBookShelf = (Book) getInstance().getData(mDataKey);
+            mNoteUrl = mBookShelf.getBookUrl();
         }
 
         if (mBookShelf == null) {
-            mBookShelf = BookshelfHelper.getBook(mNoteUrl);
+            mBookShelf = BookHelp.getBook(mNoteUrl);
         }
 
         if (mBookShelf == null) {
-            List<BookShelfBean> allBook = BookshelfHelper.getAllBook();
+            List<Book> allBook = BookHelp.getAllBook();
             if (allBook != null && allBook.size() > 0) {
                 mBookShelf = allBook.get(0);
             }
         }
 
         if (mBookShelf != null && mPresenter.getChapterList().isEmpty()) {
-            mPresenter.setChapterList(BookshelfHelper.getChapterList(mBookShelf.getNoteUrl()));
+            mPresenter.setChapterList(BookHelp.getChapterList(mBookShelf.getBookUrl()));
             mPresenter.updateBookInfo(mBookShelf.getBookInfoBean());
-            mIsInBookShelf = BookshelfHelper.isInBookShelf(mBookShelf.getNoteUrl());
+            mIsInBookShelf = BookHelp.isInBookShelf(mBookShelf.getBookUrl());
         } else {
-            mBookShelf = new BookShelfBean();
+            mBookShelf = new Book();
             mBookShelf.setNoteUrl("empty book");
         }
 
@@ -260,7 +190,7 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter, ActReadBin
                 if (isStop) {
                     mPageLoader.skipToChapter(mCurrentChapterIndex, 0);
                 } else {
-                    binding.mTopBar.setChapterTitle(mPresenter.getChapterList().get(mCurrentChapterIndex).getDurChapterName());
+                    binding.mTopBar.setChapterTitle(mPresenter.getChapterList().get(mCurrentChapterIndex).getTitle());
                 }
             }
         });
@@ -295,7 +225,7 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter, ActReadBin
                 mPresenter.getFontFile();
             }
 
-            /***background changed*/
+            //background changed
             @Override
             public void onBackGroundChanged() {
                 if (mPageLoader != null) {
@@ -331,27 +261,27 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter, ActReadBin
                         }
                     }
                 }
-                BookshelfHelper.saveBookmark(new BookmarkBean(System.currentTimeMillis(), mNoteUrl,
-                        mBookShelf.getBookInfoBean().getName(), mBookShelf.getDurChapterName(), mBookShelf.getDurChapter(), mBookShelf.getDurChapterPage(), saveContent));
+                BookHelp.saveBookmark(new Bookmark(System.currentTimeMillis(), mNoteUrl,
+                        mBookShelf.getBookInfoBean().getName(), mBookShelf.getTitle(), mBookShelf.getDurChapter(), mBookShelf.getDurChapterPage(), saveContent));
             }
         });
         setBrightness();
         binding.mVBottomMenu.changeTheme();
     }
 
-    /**
-     * 阅读页面信息
-     */
+    //
+    //阅读页面信息
+    //
     private void initPageView() {
         mPageLoader = binding.mPageView.getPageLoader((BaseReaderActivity) mContext, mBookShelf, new PageLoader.Callback() {
             @Override
-            public List<BookChapterBean> getChapterList() {
+            public List<BookChapter> getChapterList() {
                 return mPresenter.getChapterList();
             }
 
-            /**
-             * @param pos:切换章节的序号
-             */
+            //
+            //@param pos:切换章节的序号
+            //
             @Override
             public void onChapterChange(int pos) {
                 if (mPresenter.getChapterList().isEmpty()) {
@@ -361,20 +291,20 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter, ActReadBin
                     return;
                 }
                 mCurrentChapterIndex = pos;
-                binding.mTopBar.setChapterTitle(mPresenter.getChapterList().get(mCurrentChapterIndex).getDurChapterName());
+                binding.mTopBar.setChapterTitle(mPresenter.getChapterList().get(mCurrentChapterIndex).getTitle());
             }
 
-            /***
-             * @param chapters：返回章节目录
-             */
+            //*
+            //@param chapters：返回章节目录
+            //
             @Override
-            public void onCategoryFinish(List<BookChapterBean> chapters) {
+            public void onCategoryFinish(List<BookChapter> chapters) {
                 mPresenter.setChapterList(chapters);
                 mBookShelf.setChapterListSize(chapters.size());
                 mCurrentChapterIndex = mBookShelf.getDurChapter();
-                mBookShelf.setDurChapterName(chapters.get(mBookShelf.getDurChapter()).getDurChapterName());
-                mBookShelf.setLastChapterName(chapters.get(chapters.size() - 1).getDurChapterName());
-                binding.mTopBar.setChapterTitle(mPresenter.getChapterList().get(mCurrentChapterIndex).getDurChapterName());
+                mBookShelf.setTitle(chapters.get(mBookShelf.getDurChapter()).getTitle());
+                mBookShelf.setLastChapterName(chapters.get(chapters.size() - 1).getTitle());
+                binding.mTopBar.setChapterTitle(mPresenter.getChapterList().get(mCurrentChapterIndex).getTitle());
             }
 
             @Override
@@ -507,9 +437,9 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter, ActReadBin
         mPresenter.changeBookSource();
     }
 
-    /***
-     * 没有上一页或者没有下一页
-     */
+    //
+    //没有上一页或者没有下一页
+    //
     @Override
     public void showSnackBar(PageView pageView, String msg) {
         ToastUtil.showToast(msg);
@@ -536,7 +466,7 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter, ActReadBin
     }
 
     @Override
-    public void showBookInfo(BookShelfBean bookInfo) {
+    public void showBookInfo(Book bookInfo) {
         this.mBookShelf = bookInfo;
     }
 
@@ -565,12 +495,12 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter, ActReadBin
     }
 
     @Override
-    public BookShelfBean getBookShelf() {
+    public Book getBookShelf() {
         return this.mBookShelf;
     }
 
     @Override
-    public void showChangeBookSourceResult(BookShelfBean book) {
+    public void showChangeBookSourceResult(Book book) {
         this.mBookShelf = book;
         if (mPageLoader != null && mPageLoader instanceof PageLoaderNet) {
             ((PageLoaderNet) mPageLoader).changeSourceFinish(book);
@@ -578,7 +508,7 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter, ActReadBin
     }
 
     @Override
-    public String getNoteUrl() {
+    public String getBookUrl() {
         return mNoteUrl;
     }
 
@@ -592,7 +522,7 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter, ActReadBin
         //如果不在书架,提示添加书架
         if (mBookShelf == null) {
             super.onBackPressed();
-        } else if (!BookshelfHelper.isInBookShelf(mBookShelf.getNoteUrl())) {
+        } else if (!BookHelp.isInBookShelf(mBookShelf.getBookUrl())) {
             showSaveDialog();
         } else {
             mPresenter.saveProgress(mBookShelf);
@@ -615,9 +545,9 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter, ActReadBin
         }, true);
     }
 
-    /**
-     * 长按选择按钮
-     */
+    //
+    //长按选择按钮
+    //
     private void initReadLongPressPop() {
         binding.readLongPress.setListener(new ReadLongPressPop.OnBtnClickListener() {
             @Override
@@ -748,9 +678,9 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter, ActReadBin
         });
     }
 
-    /**
-     * 显示
-     */
+    //
+    //显示
+    //
     private void selectTextCursorShow() {
         if (binding.mPageView.getFirstSelectTxtChar() == null || binding.mPageView.getLastSelectTxtChar() == null) {
             return;
@@ -811,9 +741,9 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter, ActReadBin
         }
     }
 
-    /**
-     * 刷新
-     */
+    //
+    //刷新
+    //
     public void refresh(boolean recreate) {
         if (recreate) {
             recreate();
@@ -853,3 +783,4 @@ public class ReaderActivity extends BaseReaderActivity<ReadPresenter, ActReadBin
         return data;
     }
 }
+*/

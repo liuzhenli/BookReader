@@ -7,7 +7,7 @@ import com.liuzhenli.common.base.BaseActivity
 import com.liuzhenli.common.base.BaseContract.BasePresenter
 import com.liuzhenli.common.AppComponent
 import com.liuzhenli.reader.ui.adapter.DatabaseTableRecordDetailAdapter
-import com.microedu.reader.databinding.ActivityDiagnoseDatabaseTableRecordDetailBinding
+import com.micoredu.reader.databinding.ActivityDiagnoseDatabaseTableRecordDetailBinding
 
 /**
  * 数据表，行数据详情 (由于内容长度过长，需要查看完整内容)

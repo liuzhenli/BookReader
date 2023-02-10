@@ -14,11 +14,10 @@ import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.base.BaseRvActivity;
 import com.micoredu.reader.DaggerReaderComponent;
-import com.micoredu.reader.content.Debug;
-import com.micoredu.reader.databinding.ActSourcetestBinding;
+import com.microedu.lib.reader.databinding.ActSourcetestBinding;
+import com.micoredu.reader.model.Debug;
 import com.micoredu.reader.ui.adapter.TestSourceAdapter;
 import com.micoredu.reader.ui.contract.TestSourceContract;
-import com.micoredu.reader.ui.presenter.TestSourcePresenter;
 import io.reactivex.functions.Consumer;
 
 /**
@@ -27,6 +26,7 @@ import io.reactivex.functions.Consumer;
  * @author liuzhenli 2020/11/18
  * Email: 848808263@qq.com
  */
+/*
 public class TestSourceActivity extends BaseRvActivity<TestSourcePresenter, String,ActSourcetestBinding> implements TestSourceContract.View {
 
     private String mBookSourceUrl;
@@ -91,7 +91,7 @@ public class TestSourceActivity extends BaseRvActivity<TestSourcePresenter, Stri
         }
         binding.mSearchIndicator.setVisibility(View.VISIBLE);
         mAdapter.clear();
-        Debug.newDebug(mBookSourceUrl, content, mPresenter.getCompositeDisposable());
+        Debug.INSTANCE.newDebug(mBookSourceUrl, content, mPresenter.getCompositeDisposable());
 
     }
 
@@ -104,3 +104,6 @@ public class TestSourceActivity extends BaseRvActivity<TestSourcePresenter, Stri
         }
     }
 }
+
+
+ */

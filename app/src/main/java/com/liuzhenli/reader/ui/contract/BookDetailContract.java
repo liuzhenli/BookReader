@@ -1,9 +1,8 @@
 package com.liuzhenli.reader.ui.contract;
 
 import com.liuzhenli.common.base.BaseContract;
-import com.micoredu.reader.bean.BookChapterBean;
-import com.micoredu.reader.bean.BookInfoBean;
-import com.micoredu.reader.bean.BookShelfBean;
+import com.micoredu.reader.bean.Book;
+import com.micoredu.reader.bean.BookChapter;
 
 import java.util.List;
 
@@ -14,16 +13,16 @@ import java.util.List;
  */
 public class BookDetailContract {
     public interface View extends BaseContract.BaseView {
-        void showBookInfo(BookInfoBean data, List<BookChapterBean> bookChapterBeans);
+        void showBookInfo(Book data, List<BookChapter> BookChapters);
     }
 
     public interface Presenter<T> extends BaseContract.BasePresenter<T> {
-        void getBookInfo(BookShelfBean bookShelfBean, boolean isInBookShelf);
+        void getBookInfo(Book Book, boolean isInBookShelf);
 
         /**
          * 从本地数据库获取书源
          */
-        void getBookSource(BookShelfBean bookShelfBean);
+        void getBookSource(Book Book);
     }
 
 

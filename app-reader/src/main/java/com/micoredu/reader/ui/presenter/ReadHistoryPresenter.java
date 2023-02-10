@@ -1,30 +1,13 @@
 package com.micoredu.reader.ui.presenter;
 
-import androidx.annotation.NonNull;
-
-import com.liuzhenli.common.base.RxPresenter;
-import com.liuzhenli.common.observer.SampleProgressObserver;
-import com.liuzhenli.common.utils.RxUtil;
-import com.micoredu.reader.bean.ReadHistory;
-import com.micoredu.reader.helper.AppReaderDbHelper;
-import com.micoredu.reader.ui.contract.ReadHistoryContract;
-
-import java.util.List;
-
-import javax.inject.Inject;
-
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-
 /**
  * Description:
  *
  * @author liuzhenli 2021/10/12
  * Email: 848808263@qq.com
  */
+
+/*
 public class ReadHistoryPresenter extends RxPresenter<ReadHistoryContract.View> implements ReadHistoryContract.Presenter<ReadHistoryContract.View> {
     @Inject
     public ReadHistoryPresenter() {
@@ -51,3 +34,5 @@ public class ReadHistoryPresenter extends RxPresenter<ReadHistoryContract.View> 
 
     }
 }
+
+ */

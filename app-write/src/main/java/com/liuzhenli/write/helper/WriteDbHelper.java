@@ -24,7 +24,7 @@ public class WriteDbHelper {
     private AppWriteDatabase mDatabase;
 
     private WriteDbHelper() {
-        mDatabase = Room.databaseBuilder(BaseApplication.getInstance(), AppWriteDatabase.class, DATABASE_NAME)
+        mDatabase = Room.databaseBuilder(BaseApplication.Companion.getInstance(), AppWriteDatabase.class, DATABASE_NAME)
                 .fallbackToDestructiveMigration()
                 .addMigrations()
                 .allowMainThreadQueries()//允许在主线程中查询

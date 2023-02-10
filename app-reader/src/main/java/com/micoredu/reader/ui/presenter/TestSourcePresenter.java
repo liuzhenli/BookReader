@@ -11,8 +11,11 @@ import javax.inject.Inject;
  * @author liuzhenli 2020/11/18
  * Email: 848808263@qq.com
  */
+/*
 public class TestSourcePresenter extends RxPresenter<TestSourceContract.View> implements TestSourceContract.Presenter<TestSourceContract.View> {
     @Inject
     public TestSourcePresenter() {
     }
 }
+
+ */

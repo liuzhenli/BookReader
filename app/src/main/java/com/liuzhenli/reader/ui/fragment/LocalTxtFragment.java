@@ -1,3 +1,4 @@
+/*
 package com.liuzhenli.reader.ui.fragment;
 
 import android.Manifest;
@@ -21,18 +22,20 @@ import com.liuzhenli.common.utils.filepicker.entity.FileItem;
 import com.liuzhenli.reader.ui.adapter.LocalTxtAdapter;
 import com.liuzhenli.reader.ui.contract.LocalTxtContract;
 import com.liuzhenli.reader.ui.presenter.LocalTxtPresenter;
-import com.microedu.reader.R;
-import com.microedu.reader.databinding.FragmentLocaltxtBinding;
+import com.micoredu.reader.R;
+import com.micoredu.reader.databinding.FragmentLocaltxtBinding;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+*/
 /**
  * describe: 导入书籍,文件
  *
  * @author Liuzhenli on 2019-12-15 10:06
- */
+ *//*
+
 public class LocalTxtFragment extends BaseRVFragment<LocalTxtPresenter, FileItem> implements LocalTxtContract.View {
 
     private FragmentLocaltxtBinding inflate;
@@ -135,3 +138,4 @@ public class LocalTxtFragment extends BaseRVFragment<LocalTxtPresenter, FileItem
     }
 
 }
+*/

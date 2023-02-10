@@ -4,6 +4,7 @@ import com.liuzhenli.common.gson.GsonUtils
 import com.liuzhenli.common.BaseApplication
 import com.liuzhenli.common.utils.IOUtils
 import com.liuzhenli.reader.bean.Sayings
+import splitties.init.appCtx
 import java.io.IOException
 import java.util.*
 
@@ -20,7 +21,7 @@ class SayingsManager private constructor()  {
      */
     fun getSayings(): Sayings {
         try {
-            val open = BaseApplication.getInstance().assets.open("sayings.json")
+            val open = appCtx.assets.open("sayings.json")
             val json = IOUtils.toString(open)
             open.close()
             val sayings = GsonUtils.parseJArray(json, Sayings::class.java)

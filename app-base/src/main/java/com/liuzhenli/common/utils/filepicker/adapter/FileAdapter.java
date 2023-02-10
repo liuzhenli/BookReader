@@ -1,5 +1,6 @@
 package com.liuzhenli.common.utils.filepicker.adapter;
 
+import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.liuzhenli.common.R;
+import com.liuzhenli.common.utils.ConvertUtils;
 import com.liuzhenli.common.utils.filepicker.entity.FileItem;
 import com.liuzhenli.common.utils.filepicker.icons.FilePickerIcon;
-import com.liuzhenli.common.utils.filepicker.util.ConvertUtils;
 import com.liuzhenli.common.utils.filepicker.util.FileUtils;
 
 import java.io.File;
@@ -127,16 +128,16 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.MyViewHolder> 
             return;
         }
         if (homeIcon == null) {
-            homeIcon = ConvertUtils.toDrawable(FilePickerIcon.getHOME());
+            homeIcon = ConvertUtils.INSTANCE.toDrawable(FilePickerIcon.getHOME());
         }
         if (upIcon == null) {
-            upIcon = ConvertUtils.toDrawable(FilePickerIcon.getUPDIR());
+            upIcon = ConvertUtils.INSTANCE.toDrawable(FilePickerIcon.getUPDIR());
         }
         if (folderIcon == null) {
-            folderIcon = ConvertUtils.toDrawable(FilePickerIcon.getFOLDER());
+            folderIcon = ConvertUtils.INSTANCE.toDrawable(FilePickerIcon.getFOLDER());
         }
         if (fileIcon == null) {
-            fileIcon = ConvertUtils.toDrawable(FilePickerIcon.getFILE());
+            fileIcon = ConvertUtils.INSTANCE.toDrawable(FilePickerIcon.getFILE());
         }
         ArrayList<FileItem> datas = new ArrayList<FileItem>();
         if (rootPath == null) {
@@ -209,7 +210,7 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.MyViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         FileItem fileItem = data.get(position);
         holder.imageView.setImageDrawable(fileItem.getIcon());
         holder.textView.setText(fileItem.getName());

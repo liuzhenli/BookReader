@@ -169,13 +169,13 @@ public class AppUtils {
     }
 
     public static String getFormatDeviceUnique() {
-        String uuid = DeviceUtil.getDeviceUniqueId(BaseApplication.getInstance());
+        String uuid = DeviceUtil.getDeviceUniqueId(BaseApplication.Companion.getInstance());
         byte[] data = ("unique_id:" + uuid).getBytes();
         return new String(Base64.encode(data, Base64.DEFAULT));
     }
 
     public static String getFormatVersionCode() {
-        byte[] data = ("app_version:android-" + getAppVersionCode(BaseApplication.getInstance())).getBytes();
+        byte[] data = ("app_version:android-" + getAppVersionCode(BaseApplication.Companion.getInstance())).getBytes();
         return new String(Base64.encode(data, Base64.DEFAULT));
     }
 }

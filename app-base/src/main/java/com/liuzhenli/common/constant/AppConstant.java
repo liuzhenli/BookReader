@@ -3,6 +3,7 @@ package com.liuzhenli.common.constant;
 import com.google.gson.reflect.TypeToken;
 import com.liuzhenli.common.BaseApplication;
 import com.liuzhenli.common.BuildConfig;
+import com.script.ScriptEngine;
 
 
 import java.io.File;
@@ -10,8 +11,6 @@ import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 
 import okhttp3.MediaType;
 
@@ -45,7 +44,7 @@ public class AppConstant {
     public static final String FORMAT_TIME = "HH:mm";
     public static final String FORMAT_FILE_DATE = "yyyy-MM-dd";
     /***BookCachePath (因为getCachePath引用了Context，所以必须是静态变量，不能够是静态常量)***/
-    public static String BOOK_CACHE_PATH = BaseApplication.getInstance().getDownloadPath() + File.separator + "book_cache" + File.separator;
+    public static String BOOK_CACHE_PATH = BaseApplication.Companion.getInstance().getDownloadPath() + File.separator + "book_cache" + File.separator;
     public static final Pattern headerPattern = Pattern.compile("@Header:\\{.+?\\}", Pattern.CASE_INSENSITIVE);
     public static Type MAP_STRING = new TypeToken<Map<String, String>>() {
     }.getType();
@@ -60,7 +59,7 @@ public class AppConstant {
     public static final Pattern JS_PATTERN = Pattern.compile("(<js>[\\w\\W]*?</js>|@js:[\\w\\W]*$)", Pattern.CASE_INSENSITIVE);
     public static final Pattern EXP_PATTERN = Pattern.compile("\\{\\{([\\w\\W]*?)\\}\\}");
 
-    public static final ScriptEngine SCRIPT_ENGINE = new ScriptEngineManager().getEngineByName("rhino");
+    public static final ScriptEngine SCRIPT_ENGINE = null;//new ScriptEngineManager().getEngineByName("rhino");
 
     public static final MediaType jsonMediaType = MediaType.parse("Content-Type, application/json");
     public static final String URL_BACKUP_GUIDE = "http://help.jianguoyun.com?p=2064";

@@ -6,8 +6,8 @@ import android.view.ViewGroup;
 
 import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
 import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
-import com.micoredu.reader.R;
-import com.micoredu.reader.databinding.ItemTestSourceBinding;
+import com.microedu.lib.reader.R;
+import com.microedu.lib.reader.databinding.ItemTestSourceBinding;
 
 /**
  * Description:

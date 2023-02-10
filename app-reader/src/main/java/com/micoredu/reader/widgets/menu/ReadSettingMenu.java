@@ -13,8 +13,8 @@ import androidx.annotation.Nullable;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.FillContentUtil;
 import com.liuzhenli.common.utils.ToastUtil;
-import com.micoredu.reader.R;
-import com.micoredu.reader.helper.ReadConfigManager;
+import com.microedu.lib.reader.R;
+import com.micoredu.reader.utils.ReadConfigManager;
 import com.micoredu.reader.utils.ReaderConfig;
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 

@@ -57,14 +57,14 @@ public class FileHelp {
     public static String getFilesPath() {
         if (isSdCardExist()) {
             try {
-                return BaseApplication.getInstance()
+                return BaseApplication.Companion.getInstance()
                         .getExternalFilesDir(null)
                         .getAbsolutePath();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        return BaseApplication.getInstance()
+        return BaseApplication.Companion.getInstance()
                 .getFilesDir()
                 .getAbsolutePath();
     }
@@ -73,13 +73,13 @@ public class FileHelp {
     public static String getCachePath() {
         if (isSdCardExist()) {
             try {
-                return BaseApplication.getInstance()
+                return BaseApplication.Companion.getInstance()
                         .getExternalCacheDir()
                         .getAbsolutePath();
             } catch (Exception ignored) {
             }
         }
-        return BaseApplication.getInstance()
+        return BaseApplication.Companion.getInstance()
                 .getCacheDir()
                 .getAbsolutePath();
     }

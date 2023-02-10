@@ -6,9 +6,9 @@ import android.view.ViewGroup;
 import com.liuzhenli.common.utils.TimeUtils;
 import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
 import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
-import com.micoredu.reader.R;
-import com.micoredu.reader.bean.ReadHistory;
-import com.micoredu.reader.databinding.ItemReadHistoryBinding;
+import com.microedu.lib.reader.R;
+import com.micoredu.reader.bean.ReadRecord;
+import com.microedu.lib.reader.databinding.ItemReadHistoryBinding;
 
 /**
  * Description:
@@ -16,7 +16,7 @@ import com.micoredu.reader.databinding.ItemReadHistoryBinding;
  * @author liuzhenli 2021/10/12
  * Email: 848808263@qq.com
  */
-public class ReadHistoryAdapter extends RecyclerArrayAdapter<ReadHistory> {
+public class ReadHistoryAdapter extends RecyclerArrayAdapter<ReadRecord> {
     public ReadHistoryAdapter(Context context) {
         super(context);
     }
@@ -26,7 +26,7 @@ public class ReadHistoryAdapter extends RecyclerArrayAdapter<ReadHistory> {
         return new ViewHolder(parent, R.layout.item_read_history);
     }
 
-    class ViewHolder extends BaseViewHolder<ReadHistory> {
+    class ViewHolder extends BaseViewHolder<ReadRecord> {
         ItemReadHistoryBinding binding;
 
         public ViewHolder(ViewGroup parent, int res) {
@@ -35,10 +35,10 @@ public class ReadHistoryAdapter extends RecyclerArrayAdapter<ReadHistory> {
         }
 
         @Override
-        public void setData(ReadHistory item) {
+        public void setData(ReadRecord item) {
             super.setData(item);
-            binding.tvBookName.setText(item.bookName);
-            binding.tvReadTime.setText(String.format("累计阅读:%s", TimeUtils.formatToHour(item.sumTime)));
+            binding.tvBookName.setText(item.getBookName());
+            binding.tvReadTime.setText(String.format("累计阅读:%s", TimeUtils.formatToHour(item.getSumTime())));
         }
     }
 }

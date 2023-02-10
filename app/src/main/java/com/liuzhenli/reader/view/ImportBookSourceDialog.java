@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.widget.dialog.FixHeightBottomSheetDialog;
-import com.microedu.reader.R;
+import com.micoredu.reader.R;
 
 /**
  * Description:

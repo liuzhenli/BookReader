@@ -23,4 +23,16 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:lineSpacingMultiplier">1.0</item>
     </style>
+
+    <!--没有选中的样式-->
+    <style name="bottom_normal_text">
+        <item name="android:textColor">@color/text_color_33</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <!--选中的样式-->
+    <style name="bottom_selected_text">
+        <item name="android:textColor">@color/color_widget</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
 </resources>

@@ -1,7 +1,7 @@
 package com.liuzhenli.reader.ui.contract;
 
 import com.liuzhenli.common.base.BaseContract;
-import com.micoredu.reader.bean.BookSourceBean;
+import com.micoredu.reader.bean.BookSource;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class DiscoverContract {
     public interface View extends BaseContract.BaseView {
-        void showSource(List<BookSourceBean> bookSourceList);
+        void showSource(List<BookSource> bookSourceList);
     }
 
 

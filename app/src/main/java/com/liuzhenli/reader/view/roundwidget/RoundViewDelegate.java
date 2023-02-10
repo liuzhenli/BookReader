@@ -12,7 +12,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
-import com.microedu.reader.R;
+import com.micoredu.reader.R;
 
 public class RoundViewDelegate {
     private View view;

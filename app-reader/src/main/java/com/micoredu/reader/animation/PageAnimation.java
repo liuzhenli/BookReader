@@ -9,9 +9,9 @@ import android.widget.Scroller;
 
 import androidx.annotation.NonNull;
 
-import com.micoredu.reader.R;
 import com.micoredu.reader.ReaderLibManager;
-import com.micoredu.reader.helper.ReadConfigManager;
+import com.microedu.lib.reader.R;
+import com.micoredu.reader.utils.ReadConfigManager;
 import com.micoredu.reader.utils.ReaderConfig;
 
 

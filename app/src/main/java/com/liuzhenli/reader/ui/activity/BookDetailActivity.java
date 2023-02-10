@@ -1,3 +1,4 @@
+/*
 package com.liuzhenli.reader.ui.activity;
 
 import android.content.Intent;
@@ -21,23 +22,18 @@ import com.liuzhenli.common.base.BaseActivity;
 import com.liuzhenli.common.utils.StringUtils;
 import com.liuzhenli.common.widget.bar.ImmersionBar;
 import com.liuzhenli.reader.DaggerReadBookComponent;
-import com.micoredu.reader.service.DownloadService;
+import com.micoredu.reader.bean.Book;
+import com.micoredu.reader.bean.BookChapter;
+import com.micoredu.reader.bean.SearchBook;
+import com.micoredu.reader.help.book.BookHelp;
 import com.liuzhenli.reader.ui.contract.BookDetailContract;
 import com.liuzhenli.reader.ui.presenter.BookDetailPresenter;
 import com.liuzhenli.common.utils.ToastUtil;
 import com.liuzhenli.common.utils.image.ImageUtil;
 import com.liuzhenli.reader.view.loading.DownLoadDialog;
-import com.micoredu.reader.bean.BookChapterBean;
-import com.micoredu.reader.bean.BookInfoBean;
-import com.micoredu.reader.bean.BookShelfBean;
-import com.micoredu.reader.bean.DownloadBookBean;
-import com.micoredu.reader.bean.SearchBookBean;
-import com.micoredu.reader.helper.BookshelfHelper;
-import com.micoredu.reader.helper.AppReaderDbHelper;
 import com.micoredu.reader.ui.activity.BookChapterListActivity;
-import com.micoredu.reader.ui.activity.ReaderActivity;
-import com.microedu.reader.R;
-import com.microedu.reader.databinding.ActBookdetailBinding;
+import com.micoredu.reader.R;
+import com.micoredu.reader.databinding.ActBookdetailBinding;
 
 
 import java.util.ArrayList;
@@ -45,19 +41,21 @@ import java.util.List;
 
 import static com.liuzhenli.common.BitIntentDataManager.DATA_KEY;
 
+*/
 /**
  * 书详情页面
  *
  * @author liuzhenli 2019.12.13
- */
+ *//*
+
 public class BookDetailActivity extends BaseActivity<BookDetailPresenter, ActBookdetailBinding> implements BookDetailContract.View {
     public static final String OPEN_FROM = "openFrom";
     public static final int REQUEST_CODE_CHANGE_SOURCE = 1000;
-    private List<BookChapterBean> mChapterList = new ArrayList<>();
+    private List<BookChapter> mChapterList = new ArrayList<>();
 
     private int mOpenFrom;
-    private SearchBookBean mSearchBook;
-    private BookShelfBean mBookShelf;
+    private SearchBook mSearchBook;
+    private Book mBookShelf;
     private boolean isInBookShelf = false;
     private boolean isLocalBook = false;
 
@@ -80,11 +78,11 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter, ActBoo
     protected void initData() {
         mOpenFrom = getIntent().getIntExtra(BookDetailActivity.OPEN_FROM, -1);
         if (mOpenFrom == AppConstant.BookOpenFrom.FROM_BOOKSHELF) {
-            mBookShelf = (BookShelfBean) BitIntentDataManager.getInstance().getData(getIntent().getStringExtra(DATA_KEY));
+            mBookShelf = (Book) BitIntentDataManager.getInstance().getData(getIntent().getStringExtra(DATA_KEY));
             if (mBookShelf == null) {
                 String noteUrl = getIntent().getStringExtra("noteUrl");
                 if (!TextUtils.isEmpty(noteUrl)) {
-                    mBookShelf = BookshelfHelper.getBook(noteUrl);
+                    //mBookShelf = BookHelp.getBook(noteUrl);
                 }
             }
             if (mBookShelf == null) {
@@ -92,16 +90,16 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter, ActBoo
                 return;
             }
             isInBookShelf = true;
-            mSearchBook = new SearchBookBean();
-            mSearchBook.setNoteUrl(mBookShelf.getNoteUrl());
-            mSearchBook.setTag(mBookShelf.getBookInfoBean().getTag());
+            mSearchBook = new SearchBook();
+//            mSearchBook.setNoteUrl(mBookShelf.getBookUrl());
+//            mSearchBook.setTag(mBookShelf.getBookInfoBean().getTag());
         } else {
             String key = getIntent().getStringExtra(DATA_KEY);
             if (!TextUtils.isEmpty(key)) {
-                mSearchBook = (SearchBookBean) BitIntentDataManager.getInstance().getData(key);
+                mSearchBook = (SearchBook) BitIntentDataManager.getInstance().getData(key);
                 if (mSearchBook != null) {
-                    isInBookShelf = BookshelfHelper.isInBookShelf(mSearchBook.getNoteUrl());
-                    mBookShelf = BookshelfHelper.getBookFromSearchBook(mSearchBook);
+//                    isInBookShelf = BookHelp.isInBookShelf(mSearchBook.getBookUrl());
+//                    mBookShelf = BookHelp.getBookFromSearchBook(mSearchBook);
                 }
             }
         }
@@ -113,13 +111,13 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter, ActBoo
         //add to book shelf or remove from bookshelf
         ClickUtils.click(binding.mTvAddToBookshelf, o -> {
             if (!isInBookShelf) {
-                BookshelfHelper.saveBookToShelf(mBookShelf);
+                BookHelp.saveBookToShelf(mBookShelf);
                 if (mChapterList != null) {
                     AppReaderDbHelper.getInstance().getDatabase().getBookChapterDao().insertOrReplaceInTx(mChapterList);
                 }
                 ToastUtil.showToast("已加入书架");
             } else {
-                BookshelfHelper.removeFromBookShelf(mBookShelf);
+                BookHelp.removeFromBookShelf(mBookShelf);
                 ToastUtil.showToast("已从书架中移除");
             }
             isInBookShelf = !isInBookShelf;
@@ -168,24 +166,24 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter, ActBoo
     }
 
     @Override
-    public void showBookInfo(BookInfoBean data, List<BookChapterBean> bookChapterBeans) {
-        this.mChapterList = bookChapterBeans;
+    public void showBookInfo(Book data, List<BookChapter> BookChapters) {
+        this.mChapterList = BookChapters;
         setBookInfo(data);
         hideDialog();
     }
 
-    private void setBookInfo(BookInfoBean book) {
+    private void setBookInfo(Book book) {
         if (book == null) {
             return;
         }
-        if (TextUtils.isEmpty(book.getIntroduce())) {
-            book.setIntroduce("2333");
+        if (TextUtils.isEmpty(book.getIntro())) {
+            book.setIntro("2333");
         }
-        binding.mTvDescription.setText(Html.fromHtml(String.format("简介:\n%s", book.getIntroduce())));
+        binding.mTvDescription.setText(Html.fromHtml(String.format("简介:\n%s", book.getIntro())));
         binding.viewBookInfo.mTvBookName.setText(book.getName());
-        binding.viewBookInfo.mTvAuthor.setText(String.format("%s 著", TextUtils.isEmpty(mBookShelf.getBookInfoBean().getAuthor()) ? "佚名" : mBookShelf.getBookInfoBean().getAuthor()));
+        binding.viewBookInfo.mTvAuthor.setText(String.format("%s 著", TextUtils.isEmpty(mBookShelf.getAuthor()) ? "佚名" : mBookShelf.getAuthor()));
         binding.mTvChapterCount.setText(String.format(getResources().getString(R.string.total_chapter_count), mChapterList.size() + ""));
-        binding.viewBookInfo.mTvBookSource.setText(mBookShelf.getBookInfoBean().getOrigin());
+        binding.viewBookInfo.mTvBookSource.setText(mBookShelf.getOrigin());
         ImageUtil.setRoundedCornerImage(mContext, book.getCoverUrl(), R.drawable.book_cover, binding.viewBookInfo.mIvCover, 4);
         if (isLocalBook) {
             binding.mTvDownload.setVisibility(View.GONE);
@@ -201,16 +199,18 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter, ActBoo
     }
 
     @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusTag.UPDATE_BOOK_PROGRESS)})
-    public void onBookAddToBookShelf(BookShelfBean bookShelfBean) {
-        if (TextUtils.equals(mSearchBook.getNoteUrl(), bookShelfBean.getNoteUrl())) {
+    public void onBookAddToBookShelf(Book book) {
+        if (TextUtils.equals(mSearchBook.getBookUrl(), book.getBookUrl())) {
             isInBookShelf = true;
             binding.mTvAddToBookshelf.setText("移除书架");
         }
     }
 
-    /**
+    */
+/**
      * 沉浸状态栏
-     */
+     *//*
+
     protected void initImmersionBar() {
         mImmersionBar = ImmersionBar.with(this);
         mImmersionBar.statusBarColor(R.color.book_index_bg_color);
@@ -227,10 +227,10 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter, ActBoo
                 case REQUEST_CODE_CHANGE_SOURCE:
                     String key = data.getStringExtra(DATA_KEY);
                     if (!TextUtils.isEmpty(key)) {
-                        mSearchBook = (SearchBookBean) BitIntentDataManager.getInstance().getData(key);
+                        mSearchBook = (SearchBook) BitIntentDataManager.getInstance().getData(key);
                         if (mSearchBook != null) {
-                            isInBookShelf = BookshelfHelper.isInBookShelf(mSearchBook.getNoteUrl());
-                            mBookShelf = BookshelfHelper.getBookFromSearchBook(mSearchBook);
+                            isInBookShelf = BookHelp.isInBookShelf(mSearchBook.getBookUrl());
+                            mBookShelf = BookHelp.getBookFromSearchBook(mSearchBook);
                             showDialog();
                             mPresenter.getBookInfo(mBookShelf, isInBookShelf);
                         }
@@ -251,7 +251,7 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter, ActBoo
 
             //加入书架
             if (mChapterList != null) {
-                BookshelfHelper.saveBookToShelf(mBookShelf);
+                BookHelp.saveBookToShelf(mBookShelf);
                 setIsInBookShelf(true);
                 AppReaderDbHelper.getInstance().getDatabase().getBookChapterDao().insertOrReplaceInTx(mChapterList);
                 //弹出离线下载界面
@@ -260,7 +260,7 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter, ActBoo
                         .setPositiveButton((start, end) -> {
                             DownloadBookBean downloadBook = new DownloadBookBean();
                             downloadBook.setName(mBookShelf.getBookInfoBean().getName());
-                            downloadBook.setNoteUrl(mBookShelf.getNoteUrl());
+                            downloadBook.setNoteUrl(mBookShelf.getBookUrl());
                             downloadBook.setCoverUrl(mBookShelf.getBookInfoBean().getCoverUrl());
                             downloadBook.setStart(start);
                             downloadBook.setEnd(end);
@@ -274,3 +274,4 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter, ActBoo
         }
     }
 }
+*/

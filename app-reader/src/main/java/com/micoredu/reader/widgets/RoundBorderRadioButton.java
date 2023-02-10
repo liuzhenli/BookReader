@@ -9,7 +9,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.micoredu.reader.R;
+import com.microedu.lib.reader.R;
 
 
 @SuppressWarnings("ResourceType")

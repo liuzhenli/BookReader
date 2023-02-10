@@ -1,9 +1,9 @@
 package com.liuzhenli.reader.ui.contract;
 
 import com.liuzhenli.common.base.BaseContract;
-import com.micoredu.reader.bean.BookShelfBean;
-import com.micoredu.reader.bean.SearchBookBean;
-import com.micoredu.reader.model.SearchBookModel;
+import com.micoredu.reader.bean.Book;
+import com.micoredu.reader.bean.SearchBook;
+import com.micoredu.reader.model.webBook.SearchModel;
 
 import java.util.List;
 
@@ -14,12 +14,12 @@ import java.util.List;
  */
 public class ChangeSourceContract {
     public interface View extends BaseContract.BaseView {
-        void showSearchBook(List<SearchBookBean> bookList);
+        void showSearchBook(List<SearchBook> bookList);
     }
 
     public interface Presenter<T> extends BaseContract.BasePresenter<T> {
-        void getSearchBookInDatabase(BookShelfBean bookShelfBean, SearchBookModel searchBookModel);
+        void getSearchBookInDatabase(Book Book, SearchModel searchBookModel);
 
-         int compareSearchBooks(SearchBookBean s1, SearchBookBean s2);
+         int compareSearchBooks(SearchBook s1, SearchBook s2);
     }
 }

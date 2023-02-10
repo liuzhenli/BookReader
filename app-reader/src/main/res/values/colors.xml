@@ -52,4 +52,7 @@
     <color name="skin_night_reader_scene_top_bottom_extra_txt_color">#959595</color>
 
 
+    <color name="secondaryText">#8a000000</color>
+    <color name="accent">@color/md_pink_800</color>
+    <color name="disabled">@color/md_light_disabled</color>
 </resources>

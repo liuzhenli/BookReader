@@ -1,3 +1,4 @@
+/*
 package com.liuzhenli.reader.ui.adapter;
 
 import android.content.Context;
@@ -9,19 +10,19 @@ import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
 import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
 import com.liuzhenli.common.utils.filepicker.entity.FileItem;
-import com.micoredu.reader.bean.BookShelfBean;
-import com.micoredu.reader.helper.AppReaderDbHelper;
-import com.microedu.reader.R;
-import com.microedu.reader.databinding.ItemLocalBinding;
+import com.micoredu.reader.R;
+import com.micoredu.reader.databinding.ItemLocalBinding;
 
 import java.util.List;
 
 
+*/
 /**
  * describe:
  *
  * @author Liuzhenli on 2019-12-15 10:38
- */
+ *//*
+
 public class LocalFileAdapter extends RecyclerArrayAdapter<FileItem> {
 
 
@@ -59,7 +60,7 @@ public class LocalFileAdapter extends RecyclerArrayAdapter<FileItem> {
                 inflate.size.setVisibility(View.GONE);
             }
             //处理文件选中的逻辑
-            List<BookShelfBean> list = AppReaderDbHelper.getInstance().getDatabase().getBookShelfDao().getByNoteUrl(item.path);
+            List<Book> list = AppReaderDbHelper.getInstance().getDatabase().getBookShelfDao().getByNoteUrl(item.path);
             int size = list.size();
             if (TextUtils.equals(item.fileType, Constant.FileAttr.DIRECTORY)) {
                 inflate.cbLocalCheck.setVisibility(View.GONE);
@@ -73,3 +74,4 @@ public class LocalFileAdapter extends RecyclerArrayAdapter<FileItem> {
         }
     }
 }
+*/

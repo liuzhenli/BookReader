@@ -15,13 +15,11 @@ import com.liuzhenli.common.constant.RxBusTag;
 import com.liuzhenli.common.utils.Constant;
 import com.liuzhenli.common.base.BaseFragment;
 import com.liuzhenli.common.utils.DataDiffUtil;
-import com.micoredu.reader.bean.OpenChapterBean;
-import com.micoredu.reader.databinding.FragmentBookchapterlistBinding;
+import com.micoredu.reader.bean.BookChapter;
+import com.microedu.lib.reader.databinding.FragmentBookchapterlistBinding;
 import com.micoredu.reader.ui.activity.BookChapterListActivity;
-import com.micoredu.reader.ui.activity.ReaderActivity;
-import com.micoredu.reader.bean.BookChapterBean;
-import com.micoredu.reader.helper.BookshelfHelper;
 import com.micoredu.reader.ui.adapter.BookChapterAdapter;
+import com.micoredu.reader.ui.read.ReaderActivity;
 
 public class BookChapterListFragment extends BaseFragment {
 
@@ -69,17 +67,17 @@ public class BookChapterListFragment extends BaseFragment {
         inflate.recyclerView.setAdapter(mAdapter);
         mAdapter.addAll(getParentActivity().getChapterBeanList());
         mAdapter.setOnItemClickListener(position -> {
-            BookChapterBean item = mAdapter.getItem(position);
-            getParentActivity().getBookShelf().setFinalDate(System.currentTimeMillis());
+            BookChapter item = mAdapter.getItem(position);
+            getParentActivity().getBookShelf().setReadStartTime(System.currentTimeMillis());
 
             Intent intent = new Intent(getContext(), ReaderActivity.class);
-            intent.putExtra(ReaderActivity.OPEN_FROM, Constant.BookOpenFrom.FROM_BOOKSHELF);
-            intent.putExtra(ReaderActivity.CHAPTER_ID, item.getDurChapterIndex());
+//            intent.putExtra(ReadActivity.OPEN_FROM, Constant.BookOpenFrom.FROM_BOOKSHELF);
+//            intent.putExtra(ReadActivity.CHAPTER_ID, item.getIndex());
 
             String bookKey = String.valueOf(System.currentTimeMillis());
             intent.putExtra(BitIntentDataManager.DATA_KEY, bookKey);
-            BitIntentDataManager.getInstance().putData(bookKey, getParentActivity().getBookShelf().clone());
-            RxBus.get().post(RxBusTag.SKIP_TO_CHAPTER, new OpenChapterBean(item.getDurChapterIndex(), 0));
+            BitIntentDataManager.getInstance().putData(bookKey, getParentActivity().getBookShelf());
+            //RxBus.get().post(RxBusTag.SKIP_TO_CHAPTER, new OpenChapterBean(item.getDurChapterIndex(), 0));
             mContext.startActivity(intent);
         });
         inflate.recyclerView.scrollToPosition(mChapterId);
@@ -91,15 +89,15 @@ public class BookChapterListFragment extends BaseFragment {
 
     public void refreshData() {
         if (mAdapter.getCount() > 0) {
-            DataDiffUtil.diffResult(mAdapter, getParentActivity().getChapterBeanList(), new DataDiffUtil.ItemSameCallBack<BookChapterBean>() {
+            DataDiffUtil.diffResult(mAdapter, getParentActivity().getChapterBeanList(), new DataDiffUtil.ItemSameCallBack<BookChapter>() {
                 @Override
-                public boolean isItemSame(BookChapterBean oldItem, BookChapterBean newItem) {
+                public boolean isItemSame(BookChapter oldItem, BookChapter newItem) {
                     return oldItem != null && newItem != null;
                 }
 
                 @Override
-                public boolean isContentSame(BookChapterBean oldItem, BookChapterBean newItem) {
-                    return oldItem.getDurChapterIndex() == newItem.getDurChapterIndex();
+                public boolean isContentSame(BookChapter oldItem, BookChapter newItem) {
+                    return oldItem.getIndex() == newItem.getIndex();
                 }
             });
         } else {

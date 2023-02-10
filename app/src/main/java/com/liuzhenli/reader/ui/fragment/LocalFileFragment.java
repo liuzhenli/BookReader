@@ -1,3 +1,4 @@
+/*
 package com.liuzhenli.reader.ui.fragment;
 
 import android.Manifest;
@@ -32,18 +33,20 @@ import com.liuzhenli.reader.ui.adapter.LocalFileAdapter;
 import com.liuzhenli.reader.ui.contract.LocalFileContract;
 import com.liuzhenli.reader.ui.presenter.LocalFilePresenter;
 import com.liuzhenli.common.utils.filepicker.adapter.PathAdapter;
-import com.microedu.reader.R;
-import com.microedu.reader.databinding.FragmentLocalfileBinding;
+import com.micoredu.reader.R;
+import com.micoredu.reader.databinding.FragmentLocalfileBinding;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+*/
 /**
  * describe:导入书籍,文件夹 android 10 以后采用系统文件夹方式获取,10以前采用原来方式
  *
  * @author Liuzhenli on 2019-12-15 10:06
- */
+ *//*
+
 public class LocalFileFragment extends BaseFragment<LocalFilePresenter> implements LocalFileContract.View, PathAdapter.CallBack {
 
     private LocalFileAdapter mAdapter;
@@ -51,9 +54,11 @@ public class LocalFileFragment extends BaseFragment<LocalFilePresenter> implemen
     private String sdPath = FileUtils.getSdCardPath();
     private String mPath = sdPath;
 
-    /***
+    */
+/***
      * path indicator adapter
-     */
+     *//*
+
     private PathAdapter pathAdapter = new PathAdapter();
     private FragmentLocalfileBinding inflate;
     private DocumentFile rootDoc;
@@ -137,9 +142,11 @@ public class LocalFileFragment extends BaseFragment<LocalFilePresenter> implemen
         });
     }
 
-    /**
+    */
+/**
      * go back to parent directory
-     */
+     *//*
+
     private boolean goBackDir() {
         if (rootDoc == null) {
             if (!mPath.equals(sdPath)) {
@@ -286,3 +293,4 @@ public class LocalFileFragment extends BaseFragment<LocalFilePresenter> implemen
         }
     }
 }
+*/

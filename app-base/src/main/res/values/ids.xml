@@ -2,4 +2,5 @@
 <resources>
     <item name="fixedTabIndicator" type="id" />
     <item name="mFilterContentView" type="id" />
+    <item name="epoxy_viewbinding" type="id" />
 </resources>

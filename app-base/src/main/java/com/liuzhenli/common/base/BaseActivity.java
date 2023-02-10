@@ -76,7 +76,7 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter, VB ext
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             getWindow().getDecorView().setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS);
         }
-        setupActivityComponent(BaseApplication.getInstance().getAppComponent());
+        setupActivityComponent(BaseApplication.Companion.getInstance().getAppComponent());
         initData();
         mToolBar = findViewById(R.id.toolbar);
         if (mToolBar != null) {
@@ -178,6 +178,11 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter, VB ext
 
     protected void toast(String mst) {
         ToastUtil.showToast(mContext, mst);
+    }
+
+
+    public boolean isInMultiWindow() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N;
     }
 
 }

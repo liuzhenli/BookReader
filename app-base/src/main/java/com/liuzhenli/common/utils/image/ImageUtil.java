@@ -449,7 +449,7 @@ public class ImageUtil {
             ContentValues values = new ContentValues();
             values.put(MediaStore.Images.Media.DATA, f.getAbsolutePath());
             values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-            Uri uri = BaseApplication.getInstance().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            Uri uri = BaseApplication.Companion.getInstance().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -474,7 +474,7 @@ public class ImageUtil {
             values.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
             values.put(MediaStore.MediaColumns.MIME_TYPE, mimeType);
             values.put("relative_path", Environment.DIRECTORY_DCIM);
-            ContentResolver contentResolver = BaseApplication.getInstance().getContentResolver();
+            ContentResolver contentResolver = BaseApplication.Companion.getInstance().getContentResolver();
             Uri uri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
             if (uri == null) {
                 if (listener != null) {
@@ -503,7 +503,7 @@ public class ImageUtil {
                 e.printStackTrace();
             }
         } else {
-            MediaScannerConnection.scanFile(BaseApplication.getInstance(), new String[]{file.getPath()}, new String[]{mimeType}, (path, uri) -> {
+            MediaScannerConnection.scanFile(BaseApplication.Companion.getInstance(), new String[]{file.getPath()}, new String[]{mimeType}, (path, uri) -> {
                 Looper.prepare();
                 if (listener != null) {
                     listener.onResult(true, path);

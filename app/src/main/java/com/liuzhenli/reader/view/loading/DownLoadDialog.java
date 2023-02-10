@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.liuzhenli.common.utils.SoftInputUtils;
-import com.microedu.reader.R;
+import com.micoredu.reader.R;
 
 
 public class DownLoadDialog extends Dialog {

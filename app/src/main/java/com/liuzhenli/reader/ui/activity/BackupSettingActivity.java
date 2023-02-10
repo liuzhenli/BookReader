@@ -1,3 +1,4 @@
+/*
 package com.liuzhenli.reader.ui.activity;
 
 import android.content.Context;
@@ -24,8 +25,8 @@ import com.liuzhenli.reader.utils.BackupRestoreUi;
 import com.liuzhenli.reader.utils.storage.Backup;
 import com.liuzhenli.reader.utils.storage.Restore;
 import com.liuzhenli.reader.utils.storage.WebDavHelp;
-import com.microedu.reader.R;
-import com.microedu.reader.databinding.ActBackupsettingBinding;
+import com.micoredu.reader.R;
+import com.micoredu.reader.databinding.ActBackupsettingBinding;
 import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheet;
 import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheetListItemModel;
 
@@ -43,13 +44,15 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
+*/
 /**
  * Description: 备份与云备份
  * 此页面参考了纯纯写作的备份页面
  *
  * @author liuzhenli 2020/12/14
  * Email: 848808263@qq.com
- */
+ *//*
+
 public class BackupSettingActivity extends BaseActivity<BaseContract.BasePresenter, ActBackupsettingBinding> implements Backup.CallBack, Restore.CallBack {
     private String[] mBackupNetDes;
 
@@ -157,9 +160,11 @@ public class BackupSettingActivity extends BaseActivity<BaseContract.BasePresent
         }
     }
 
-    /**
+    */
+/**
      * 恢复
-     */
+     *//*
+
     private void restoreFile() {
         WebDavHelp webDavHelp = WebDavHelp.INSTANCE;
         if (!webDavHelp.initWebDav()) {
@@ -200,10 +205,12 @@ public class BackupSettingActivity extends BaseActivity<BaseContract.BasePresent
         setBackupPathInfo();
     }
 
-    /***
+    */
+/***
      * 文件恢复
      * @param list 备份的文件列表
-     */
+     *//*
+
     private void showBackups(List<String> list) {
         hideDialog();
         QMUIBottomSheet.BottomListSheetBuilder builder = new QMUIBottomSheet.BottomListSheetBuilder(this);
@@ -288,3 +295,4 @@ public class BackupSettingActivity extends BaseActivity<BaseContract.BasePresent
 
 
 }
+*/

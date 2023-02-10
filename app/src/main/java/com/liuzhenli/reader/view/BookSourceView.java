@@ -16,8 +16,8 @@ import com.liuzhenli.reader.ui.adapter.BookSourceViewAdapter;
 import com.liuzhenli.common.widget.filter.util.SimpleAnimationListener;
 import com.liuzhenli.common.widget.recyclerview.EasyRecyclerView;
 import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
-import com.micoredu.reader.bean.BookSourceBean;
-import com.microedu.reader.R;
+import com.micoredu.reader.R;
+import com.micoredu.reader.bean.BookSource;
 
 import java.util.List;
 
@@ -85,7 +85,7 @@ public class BookSourceView extends FrameLayout {
         mCloseAnimation.setDuration(300);
     }
 
-    public void setData(List<BookSourceBean> data) {
+    public void setData(List<BookSource> data) {
         adapter.clear();
         adapter.addAll(data);
         adapter.notifyDataSetChanged();
@@ -98,7 +98,7 @@ public class BookSourceView extends FrameLayout {
     }
 
     public interface OnItemClick {
-        void onItemClick(BookSourceBean bookSourceBean);
+        void onItemClick(BookSource BookSource);
     }
 
     public void close() {

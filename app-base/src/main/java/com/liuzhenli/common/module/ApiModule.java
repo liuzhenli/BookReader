@@ -53,7 +53,7 @@ public class ApiModule {
 
             HeaderInterceptor headerInterceptor = new HeaderInterceptor();
 
-            File cacheFile = new File(BaseApplication.getInstance().getCacheDir(), "[缓存目录]");
+            File cacheFile = new File(BaseApplication.Companion.getInstance().getCacheDir(), "[缓存目录]");
             RewriteCacheControlInterceptor rewrite_cache_control_interceptor = new RewriteCacheControlInterceptor();
 
             builder = new OkHttpClient.Builder()

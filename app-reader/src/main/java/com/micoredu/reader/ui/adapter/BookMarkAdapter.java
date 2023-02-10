@@ -6,10 +6,10 @@ import android.view.ViewGroup;
 
 import com.liuzhenli.common.widget.recyclerview.adapter.BaseViewHolder;
 import com.liuzhenli.common.widget.recyclerview.adapter.RecyclerArrayAdapter;
-import com.micoredu.reader.R;
-import com.micoredu.reader.bean.BookmarkBean;
-import com.micoredu.reader.databinding.ItemBookMarkBinding;
-import com.micoredu.reader.helper.ReadConfigManager;
+import com.microedu.lib.reader.R;
+import com.micoredu.reader.bean.Bookmark;
+import com.microedu.lib.reader.databinding.ItemBookMarkBinding;
+import com.micoredu.reader.utils.ReadConfigManager;
 
 /**
  * Description:bookmark item
@@ -17,7 +17,7 @@ import com.micoredu.reader.helper.ReadConfigManager;
  * @author liuzhenli 2021/1/26
  * Email: 848808263@qq.com
  */
-public class BookMarkAdapter extends RecyclerArrayAdapter<BookmarkBean> {
+public class BookMarkAdapter extends RecyclerArrayAdapter<Bookmark> {
     boolean isFromReadPage;
 
     public BookMarkAdapter(Context context, boolean isFromReadPage) {
@@ -31,7 +31,7 @@ public class BookMarkAdapter extends RecyclerArrayAdapter<BookmarkBean> {
     }
 
 
-    public class BookChapterItemAdapter extends BaseViewHolder<BookmarkBean> {
+    public class BookChapterItemAdapter extends BaseViewHolder<Bookmark> {
 
         ItemBookMarkBinding binding;
 
@@ -41,7 +41,7 @@ public class BookMarkAdapter extends RecyclerArrayAdapter<BookmarkBean> {
         }
 
         @Override
-        public void setData(BookmarkBean item) {
+        public void setData(Bookmark item) {
             super.setData(item);
             if (TextUtils.isEmpty(item.getChapterName())) {
                 item.setChapterName("章节未命名");

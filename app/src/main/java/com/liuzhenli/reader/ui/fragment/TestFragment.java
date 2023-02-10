@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import com.liuzhenli.common.base.BaseFragment;
 import com.liuzhenli.common.AppComponent;
-import com.microedu.reader.databinding.FragmentTestBinding;
+import com.micoredu.reader.databinding.FragmentTestBinding;
 
 public class TestFragment extends BaseFragment {
 

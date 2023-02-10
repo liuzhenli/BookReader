@@ -7,20 +7,22 @@ import android.view.View;
 
 import androidx.fragment.app.Fragment;
 
+import com.liuzhenli.common.BaseApplication;
 import com.liuzhenli.common.BitIntentDataManager;
 import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.base.BaseContract;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.base.BaseTabActivity;
-import com.micoredu.reader.R;
-import com.micoredu.reader.bean.BookChapterBean;
-import com.micoredu.reader.bean.BookShelfBean;
-import com.micoredu.reader.bean.BookmarkBean;
-import com.micoredu.reader.databinding.ActBookchapterlistBinding;
-import com.micoredu.reader.helper.BookshelfHelper;
-import com.micoredu.reader.helper.ReadConfigManager;
+import com.microedu.lib.reader.R;
+import com.micoredu.reader.bean.Book;
+import com.micoredu.reader.bean.BookChapter;
+import com.micoredu.reader.bean.Bookmark;
+import com.micoredu.reader.dao.AppDatabase;
+import com.micoredu.reader.model.ReadBook;
 import com.micoredu.reader.ui.fragment.BookChapterListFragment;
-import com.micoredu.reader.ui.fragment.BookMarkFragment;
+import com.micoredu.reader.ui.bookmark.BookMarkFragment;
+import com.micoredu.reader.utils.ReadConfigManager;
+import com.microedu.lib.reader.databinding.ActBookchapterlistBinding;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,13 +36,13 @@ import java.util.List;
  */
 public class BookChapterListActivity extends BaseTabActivity<BaseContract.BasePresenter, ActBookchapterlistBinding> {
 
-    private BookShelfBean mBookShelf;
+    private ReadBook mBookShelf;
     /***正序*/
-    private List<BookChapterBean> mChapterBeanList;
+    private List<BookChapter> mChapterBeanList;
     /***倒序*/
-    private final List<BookChapterBean> mChapterList = new ArrayList<>();
-    private List<BookmarkBean> mBookMarkList = new ArrayList<>();
-    private final List<BookmarkBean> mBookMarkDesc = new ArrayList<>();
+    private final List<BookChapter> mChapterList = new ArrayList<>();
+    private List<Bookmark> mBookMarkList = new ArrayList<>();
+    private final List<Bookmark> mBookMarkDesc = new ArrayList<>();
 
     private boolean mIsBookMark;
     private boolean mIsFromReadPage;
@@ -48,7 +50,7 @@ public class BookChapterListActivity extends BaseTabActivity<BaseContract.BasePr
     private boolean isAsc = true;
     private int mChapterId;
 
-    public static void start(Context context, BookShelfBean bookShelf, List<BookChapterBean> chapterBeanList, boolean isBookMark, boolean isFromReadPage, int chapterId) {
+    public static void start(Context context, Book bookShelf, List<BookChapter> chapterBeanList, boolean isBookMark, boolean isFromReadPage, int chapterId) {
         Intent intent = new Intent(context, BookChapterListActivity.class);
         String key = String.valueOf(System.currentTimeMillis());
 
@@ -57,7 +59,7 @@ public class BookChapterListActivity extends BaseTabActivity<BaseContract.BasePr
         intent.putExtra("isFromReadPage", isFromReadPage);
         intent.putExtra("bookKey", bookKey);
         intent.putExtra("chapterId", chapterId);
-        BitIntentDataManager.getInstance().putData(bookKey, bookShelf.clone());
+        BitIntentDataManager.getInstance().putData(bookKey, bookShelf);
 
         String chapterListKey = "chapterList" + key;
         intent.putExtra("chapterListKey", chapterListKey);
@@ -66,7 +68,7 @@ public class BookChapterListActivity extends BaseTabActivity<BaseContract.BasePr
         context.startActivity(intent);
     }
 
-    public static void start(Context context, BookShelfBean bookShelf, List<BookChapterBean> chapterBeanList) {
+    public static void start(Context context, Book bookShelf, List<BookChapter> chapterBeanList) {
         start(context, bookShelf, chapterBeanList, false, false, 0);
     }
 
@@ -95,8 +97,8 @@ public class BookChapterListActivity extends BaseTabActivity<BaseContract.BasePr
         });
         mTvRight.setVisibility(View.VISIBLE);
 
-        if (mBookShelf != null && mBookShelf.getBookInfoBean() != null) {
-            mTvTitle.setText(mBookShelf.getBookInfoBean().getName());
+        if (mBookShelf != null) {
+            mTvTitle.setText(mBookShelf.getBook().getName());
         }
 
     }
@@ -105,12 +107,12 @@ public class BookChapterListActivity extends BaseTabActivity<BaseContract.BasePr
     @Override
     protected void initData() {
         String bookshelfKey = getIntent().getStringExtra("bookKey");
-        mBookShelf = (BookShelfBean) BitIntentDataManager.getInstance().getData(bookshelfKey);
+        mBookShelf = (ReadBook) BitIntentDataManager.getInstance().getData(bookshelfKey);
         mIsBookMark = getIntent().getBooleanExtra("isBookMark", false);
         mIsFromReadPage = getIntent().getBooleanExtra("isFromReadPage", false);
         mChapterId = getIntent().getIntExtra("chapterId", 0);
         String chapterListKey = getIntent().getStringExtra("chapterListKey");
-        mChapterBeanList = (List<BookChapterBean>) BitIntentDataManager.getInstance().getData(chapterListKey);
+        mChapterBeanList = (List<BookChapter>) BitIntentDataManager.getInstance().getData(chapterListKey);
 
         if (mChapterBeanList != null) {
             for (int i = 0; i < mChapterBeanList.size(); i++) {
@@ -118,8 +120,8 @@ public class BookChapterListActivity extends BaseTabActivity<BaseContract.BasePr
             }
         }
 
-        if (mBookShelf != null && mBookShelf.getBookInfoBean() != null) {
-            mBookMarkList = BookshelfHelper.getBookmarkList(mBookShelf.getBookInfoBean().getName());
+        if (mBookShelf != null) {
+            mBookMarkList = AppDatabase.Companion.createDatabase(BaseApplication.Companion.getInstance()).getBookmarkDao().getByBook(mBookShelf.getBook().getName(), mBookShelf.getBook().getAuthor());
             for (int i = 0; i < mBookMarkList.size(); i++) {
                 mBookMarkDesc.add(0, mBookMarkList.get(i));
             }
@@ -140,18 +142,18 @@ public class BookChapterListActivity extends BaseTabActivity<BaseContract.BasePr
         return titles;
     }
 
-    public BookShelfBean getBookShelf() {
+    public ReadBook getBookShelf() {
         return mBookShelf;
     }
 
-    public List<BookChapterBean> getChapterBeanList() {
+    public List<BookChapter> getChapterBeanList() {
         if (!isAsc) {
             return mChapterList;
         }
         return mChapterBeanList;
     }
 
-    public List<BookmarkBean> getBookMarkList() {
+    public List<Bookmark> getBookMarkList() {
         if (isAsc) {
             return mBookMarkList;
         }

@@ -12,7 +12,7 @@ import com.liuzhenli.common.BaseApplication;
  */
 public class ReaderLibManager {
     public static Application getApplication() {
-        return BaseApplication.getInstance();
+        return BaseApplication.Companion.getInstance();
     }
 
     public static Resources getAppResources() {

@@ -1,50 +1,6 @@
 package com.micoredu.reader.ui.activity;
 
 
-import static com.liuzhenli.common.utils.AppSharedPreferenceHelper.SortType.SORT_TYPE_AUTO;
-import static com.liuzhenli.common.utils.AppSharedPreferenceHelper.SortType.SORT_TYPE_HAND;
-import static com.liuzhenli.common.utils.AppSharedPreferenceHelper.SortType.SORT_TYPE_PINYIN;
-
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
-
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-
-import com.alibaba.android.arouter.launcher.ARouter;
-import com.hwangjr.rxbus.annotation.Subscribe;
-import com.hwangjr.rxbus.annotation.Tag;
-import com.hwangjr.rxbus.thread.EventThread;
-import com.liuzhenli.common.base.BaseBean;
-import com.liuzhenli.common.constant.ARouterConstants;
-import com.liuzhenli.common.constant.RxBusTag;
-import com.liuzhenli.common.utils.AppConfigManager;
-import com.liuzhenli.common.utils.AppSharedPreferenceHelper;
-import com.liuzhenli.common.utils.IntentUtils;
-import com.liuzhenli.common.utils.ToastUtil;
-import com.liuzhenli.common.widget.DialogUtil;
-import com.micoredu.reader.R;
-import com.micoredu.reader.ReaderBaseRVActivity;
-import com.micoredu.reader.ReaderComponent;
-import com.micoredu.reader.bean.BookSourceBean;
-import com.micoredu.reader.databinding.ActivityBookSourceBinding;
-import com.micoredu.reader.model.BookSourceManager;
-import com.micoredu.reader.service.CheckSourceService;
-import com.micoredu.reader.service.ShareService;
-import com.micoredu.reader.ui.adapter.BookSourceAdapter;
-import com.micoredu.reader.ui.adapter.BookSourceFilterMenuAdapter;
-import com.micoredu.reader.ui.contract.BookSourceContract;
-import com.micoredu.reader.ui.presenter.BookSourcePresenter;
-
-import java.util.List;
 
 
 /**
@@ -52,13 +8,14 @@ import java.util.List;
  *
  * @author liuzhenli 2020.8.10
  */
-public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter, BookSourceBean, ActivityBookSourceBinding> implements BookSourceContract.View {
+/*
+public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter, BookSource, ActivityBookSourceBinding> implements BookSourceContract.View {
 
 
     private BookSourceFilterMenuAdapter mFilterMenuAdapter;
-    /**
-     * book source order type see AppSharedPreferenceHelper.SortType
-     */
+    //
+    //book source order type see AppSharedPreferenceHelper.SortType
+    //
     private int mSortType;
 
     public static void start(Context context) {
@@ -109,26 +66,26 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
                         .build(ARouterConstants.ACT_QRCODE)
                         .navigation(this, IntentUtils.IMPORT_BOOK_SOURCE_QRCODE);
             } else if (itemId == R.id.action_del_select) {
-                List<BookSourceBean> bookSourceBeans = ((BookSourceAdapter) mAdapter).getSelectedBookSource();
-                if (bookSourceBeans.size() > 0) {
+                List<BookSource> BookSources = ((BookSourceAdapter) mAdapter).getSelectedBookSource();
+                if (BookSources.size() > 0) {
                     DialogUtil.showMessagePositiveDialog(mContext, getResources().getString(R.string.dialog_title),
-                            String.format(getResources().getString(R.string.delete_selected_book_source), bookSourceBeans.size()),
+                            String.format(getResources().getString(R.string.delete_selected_book_source), BookSources.size()),
                             getResources().getString(R.string.cancel), null, getResources().getString(R.string.ok), (dialog, index) -> {
-                                mPresenter.deleteSelectedSource(bookSourceBeans);
+                                mPresenter.deleteSelectedSource(BookSources);
                             }, true);
                 }
             } else if (itemId == R.id.action_check_book_source) {
-                List<BookSourceBean> selectedBookSource = BookSourceManager.getSelectedBookSource();
+                List<BookSource> selectedBookSource = SourceHelp.INSTANCE.getSelectedBookSource();
                 if (selectedBookSource == null || selectedBookSource.size() == 0) {
                     toast(getResources().getString(R.string.please_choose_book_source));
                 } else {
                     mPresenter.checkBookSource(mContext, selectedBookSource);
                 }
             } else if (itemId == R.id.action_share_wifi) {
-                List<BookSourceBean> bookSourceBeans;
-                bookSourceBeans = ((BookSourceAdapter) mAdapter).getSelectedBookSource();
-                if (bookSourceBeans.size() > 0) {
-                    ShareService.startThis(mContext, bookSourceBeans);
+                List<BookSource> BookSources;
+                BookSources = ((BookSourceAdapter) mAdapter).getSelectedBookSource();
+                if (BookSources.size() > 0) {
+                    ShareService.startThis(mContext, BookSources);
                 } else {
                     toast(getResources().getString(R.string.no_book_source_selected));
                 }
@@ -150,7 +107,7 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
             //全选
             if (index == 0) {
                 for (int i = 0; i < mAdapter.getRealAllData().size(); i++) {
-                    mAdapter.getRealAllData().get(i).setEnable(true);
+                    mAdapter.getRealAllData().get(i).setEnabled(true);
                     mAdapter.notifyItemChanged(i);
                 }
                 //已选
@@ -160,7 +117,7 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
                 //反选
             } else if (index == 2) {
                 for (int i = 0; i < mAdapter.getRealAllData().size(); i++) {
-                    mAdapter.getRealAllData().get(i).setEnable(!mAdapter.getRealAllData().get(i).getEnable());
+                    mAdapter.getRealAllData().get(i).setEnabled(!mAdapter.getRealAllData().get(i).getEnabled());
                     mAdapter.notifyItemChanged(i);
                 }
             }
@@ -168,10 +125,10 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
             binding.mDropdownMenu.close();
         }
 
-        /**
-         * 排序
-         * @param index index item index
-         */
+        //
+        //排序
+        //@param index index item index
+        //
         @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         public void onSortChange(int index) {
@@ -187,11 +144,11 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
             binding.mDropdownMenu.close();
         }
 
-        /**
-         * choose book source by group
-         * @param index     index the item index
-         * @param groupName the item name in the index
-         */
+        //
+        //choose book source by group
+        //@param index     index the item index
+        //@param groupName the item name in the index
+        //
         @Override
         public void onGroupChange(int index, String groupName) {
             if (index == 0) {
@@ -237,7 +194,7 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
     }
 
     @Override
-    public void showLocalBookSource(List<BookSourceBean> list) {
+    public void showLocalBookSource(List<BookSource> list) {
         BookSourceAdapter adapter = (BookSourceAdapter) mAdapter;
         adapter.setSortType(mSortType);
         mAdapter.clear();
@@ -246,7 +203,7 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
     }
 
     @Override
-    public void showAddNetSourceResult(List<BookSourceBean> list) {
+    public void showAddNetSourceResult(List<BookSource> list) {
         if (list != null && list.size() > 0) {
             showDialog();
             mPresenter.getLocalBookSource("");
@@ -290,27 +247,27 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
         }
     }
 
-    public void saveBookSource(List<BookSourceBean> bookSourceBeanList) {
-        mPresenter.saveData(bookSourceBeanList);
+    public void saveBookSource(List<BookSource> BookSourceList) {
+        mPresenter.saveData(BookSourceList);
     }
 
-    public void saveBookSource(BookSourceBean bookSource) {
+    public void saveBookSource(BookSource bookSource) {
         mPresenter.saveData(bookSource);
     }
 
-    public void deleteBookSource(BookSourceBean bookSource) {
+    public void deleteBookSource(BookSource bookSource) {
         mPresenter.delData(bookSource);
     }
 
 
     private void updateSortMenu() {
-        List<String> groupList = BookSourceManager.getGroupList();
+        List<String> groupList = SourceHelp.INSTANCE.getGroupList();
         groupList.add(0, getResources().getString(R.string.all));
         mFilterMenuAdapter.setGroupList(groupList);
     }
 
 
-    /****检测书源是否可用发来的消息*/
+    ///检测书源是否可用发来的消息
     @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusTag.CHECK_SOURCE_STATE)})
     public void onSourceCheckChanged(String msg) {
         binding.mVCheckSource.setVisibility(View.VISIBLE);
@@ -347,3 +304,4 @@ public class BookSourceActivity extends ReaderBaseRVActivity<BookSourcePresenter
         }
     }
 }
+*/

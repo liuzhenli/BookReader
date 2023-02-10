@@ -9,7 +9,7 @@ import com.liuzhenli.common.AppComponent;
 import com.liuzhenli.common.BitIntentDataManager;
 import com.liuzhenli.common.base.BaseActivity;
 import com.liuzhenli.common.base.BaseContract;
-import com.microedu.reader.databinding.ActContentBinding;
+import com.micoredu.reader.databinding.ActContentBinding;
 
 /**
  * Description:

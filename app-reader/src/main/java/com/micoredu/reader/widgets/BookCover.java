@@ -20,7 +20,7 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.micoredu.reader.R;
+import com.microedu.lib.reader.R;
 
 /**
  * Description:book cover view

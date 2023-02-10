@@ -19,16 +19,12 @@ import android.text.TextUtils;
 import androidx.annotation.ChecksSdkIntAtLeast;
 import androidx.core.app.ActivityCompat;
 
-import com.liuzhenli.common.encript.MD5Utils;
-
 import java.io.File;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
-
-import nl.siegmann.epublib.domain.Book;
 
 public class DeviceUtil {
 
@@ -277,41 +273,6 @@ public class DeviceUtil {
             }
         }
         return false;
-    }
-
-    /**
-     * 获取设备唯一标识
-     */
-    public static String getPhoneUid() {
-        return MD5Utils.md5(getMacAddress());
-    }
-
-    public static String getMacAddress() {
-        //该方法在6.0 系统 不再开发，返回 02:00:00:00:00:00
-        String macAddress = null;
-        StringBuffer buf = new StringBuffer();
-        NetworkInterface networkInterface = null;
-        try {
-            networkInterface = NetworkInterface.getByName("eth1");
-            if (networkInterface == null) {
-                networkInterface = NetworkInterface.getByName("wlan0");
-            }
-            if (networkInterface == null) {
-                return "02:00:00:00:00:02";
-            }
-            byte[] addr = networkInterface.getHardwareAddress();
-            for (byte b : addr) {
-                buf.append(String.format("%02X:", b));
-            }
-            if (buf.length() > 0) {
-                buf.deleteCharAt(buf.length() - 1);
-            }
-            macAddress = buf.toString();
-        } catch (SocketException e) {
-            e.printStackTrace();
-            return "02:00:00:00:00:02";
-        }
-        return macAddress;
     }
 
     /**

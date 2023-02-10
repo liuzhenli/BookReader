@@ -1,3 +1,4 @@
+/*
 package com.liuzhenli.reader.ui.activity;
 
 import android.annotation.SuppressLint;
@@ -18,19 +19,20 @@ import com.liuzhenli.reader.ReaderApplication;
 import com.liuzhenli.reader.event.OnWebDavSetEvent;
 import com.liuzhenli.reader.ui.contract.SettingContract;
 import com.liuzhenli.reader.ui.presenter.SettingPresenter;
-import com.micoredu.reader.helper.BookshelfHelper;
-import com.microedu.reader.R;
-import com.microedu.reader.databinding.ActSettingBinding;
+import com.micoredu.reader.R;
+import com.micoredu.reader.databinding.ActSettingBinding;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+*/
 /**
  * Description:设置页面
  *
  * @author liuzhenli 2020/10/26
  * Email: 848808263@qq.com
- */
+ *//*
+
 @SuppressLint("NonConstantResourceId")
 public class SettingActivity extends BaseActivity<SettingPresenter, ActSettingBinding> implements SettingContract.View {
 
@@ -63,7 +65,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter, ActSettingBi
     protected void configViews() {
         ClickUtils.click(binding.mViewClearCache, o -> {
             showDialog();
-            BookshelfHelper.clearCaches(true);
+            BookHelp.clearCaches(true);
             FileUtils.deleteFileOrDirectory(mContext.getCacheDir());
             FileUtils.deleteFile(FileHelp.getCachePath());
             toast("缓存已清理");
@@ -119,3 +121,4 @@ public class SettingActivity extends BaseActivity<SettingPresenter, ActSettingBi
         }
     }
 }
+*/

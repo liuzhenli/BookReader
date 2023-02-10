@@ -11,16 +11,16 @@ import com.liuzhenli.common.R;
  */
 
 public class LauncherIcon {
-    private static PackageManager packageManager = BaseApplication.getInstance().getPackageManager();
-    private static ComponentName componentNameMain = new ComponentName(BaseApplication.getInstance(), "com.liuzhenli.reader.ui.activity.SplashActivity");
-    private static ComponentName componentNameBookMain = new ComponentName(BaseApplication.getInstance(), "com.liuzhenli.reader.ui.activity.SplashActivity");
+    private static PackageManager packageManager = BaseApplication.Companion.getInstance().getPackageManager();
+    private static ComponentName componentNameMain = new ComponentName(BaseApplication.Companion.getInstance(), "com.liuzhenli.reader.ui.activity.SplashActivity");
+    private static ComponentName componentNameBookMain = new ComponentName(BaseApplication.Companion.getInstance(), "com.liuzhenli.reader.ui.activity.SplashActivity");
 
     public static void ChangeIcon(String icon) {
         if (true) {
             return;
         }
 
-        if (icon.equals(BaseApplication.getInstance().getString(R.string.icon_book))) {
+        if (icon.equals(BaseApplication.Companion.getInstance().getString(R.string.icon_book))) {
             if (packageManager.getComponentEnabledSetting(componentNameBookMain) != PackageManager.COMPONENT_ENABLED_STATE_ENABLED) {
                 //启用
                 packageManager.setComponentEnabledSetting(componentNameBookMain,
@@ -43,8 +43,8 @@ public class LauncherIcon {
 
     public static String getInUseIcon() {
         if (packageManager.getComponentEnabledSetting(componentNameBookMain) == PackageManager.COMPONENT_ENABLED_STATE_ENABLED) {
-            return BaseApplication.getInstance().getString(R.string.icon_book);
+            return BaseApplication.Companion.getInstance().getString(R.string.icon_book);
         }
-        return BaseApplication.getInstance().getString(R.string.icon_main);
+        return BaseApplication.Companion.getInstance().getString(R.string.icon_main);
     }
 }

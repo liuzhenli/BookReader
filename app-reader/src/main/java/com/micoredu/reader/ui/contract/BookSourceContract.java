@@ -5,7 +5,7 @@ import android.net.Uri;
 
 import com.liuzhenli.common.base.BaseBean;
 import com.liuzhenli.common.base.BaseContract;
-import com.micoredu.reader.bean.BookSourceBean;
+import com.micoredu.reader.bean.BookSource;
 
 import java.util.List;
 
@@ -22,9 +22,9 @@ public class BookSourceContract {
          *
          * @param list book sources
          */
-        void showLocalBookSource(List<BookSourceBean> list);
+        void showLocalBookSource(List<BookSource> list);
 
-        void showAddNetSourceResult(List<BookSourceBean> list);
+        void showAddNetSourceResult(List<BookSource> list);
 
         void shoDeleteBookSourceResult();
 
@@ -45,7 +45,7 @@ public class BookSourceContract {
          * @param enable     true or false
          * @param bookSource book source
          */
-        void setEnable(BookSourceBean bookSource, boolean enable);
+        void setEnable(BookSource bookSource, boolean enable);
 
         /**
          * set book source to top
@@ -53,16 +53,16 @@ public class BookSourceContract {
          * @param enable     true or false
          * @param bookSource book source
          */
-        void setTop(BookSourceBean bookSource, boolean enable);
+        void setTop(BookSource bookSource, boolean enable);
 
         void getNetSource(String url);
 
         /**
          * delete book source
          */
-        void deleteSelectedSource(List<BookSourceBean> bookSource);
+        void deleteSelectedSource(List<BookSource> bookSource);
 
-        void checkBookSource(Context context, List<BookSourceBean> selectedBookSource);
+        void checkBookSource(Context context, List<BookSource> selectedBookSource);
 
         void loadBookSourceFromFile(Uri filePath);
     }

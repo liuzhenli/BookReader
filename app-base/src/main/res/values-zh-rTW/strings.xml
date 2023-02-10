@@ -388,7 +388,6 @@
     <string name="open_local_book_per">打開外部書籍需獲取儲存權限</string>
     <string name="get_book_info_error">書籍資訊獲取失敗</string>
     <string name="get_content_error">內容獲取失敗</string>
-    <string name="get_chapter_list_error">目錄獲取失敗</string>
     <string name="get_web_content_error">訪問網站失敗:%s</string>
     <string name="no_book_name">未獲取到書名</string>
     <string name="input_replace_url">輸入替換規則網址</string>

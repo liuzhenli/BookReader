@@ -5,8 +5,8 @@ import android.text.TextUtils;
 import com.liuzhenli.common.base.RxPresenter;
 import com.liuzhenli.common.utils.RxUtil;
 import com.liuzhenli.common.observer.SampleProgressObserver;
-import com.micoredu.reader.bean.BookSourceBean;
-import com.micoredu.reader.model.BookSourceManager;
+import com.micoredu.reader.bean.BookSource;
+import com.micoredu.reader.help.source.SourceHelp;
 import com.micoredu.reader.ui.contract.EditSourceContract;
 
 import javax.inject.Inject;
@@ -19,19 +19,21 @@ import io.reactivex.Observable;
  * @author liuzhenli 2020/11/16
  * Email: 848808263@qq.com
  */
+
+/*
 public class EditSourcePresenter extends RxPresenter<EditSourceContract.View> implements EditSourceContract.Presenter<EditSourceContract.View> {
     @Inject
     public EditSourcePresenter() {
     }
 
     @Override
-    public void saveBookSource(BookSourceBean data) {
+    public void saveBookSource(BookSource data) {
         Observable<Boolean> observable = Observable.create(emitter -> {
             //发现数据默认可见
-            if (data != null && !TextUtils.isEmpty(data.getRuleFindUrl())) {
-                data.setRuleFindEnable(true);
+            if (data != null && !TextUtils.isEmpty(data.getExploreUrl())) {
+                data.setEnabledExplore(true);
             }
-            BookSourceManager.saveBookSource(data);
+            SourceHelp.INSTANCE.insertBookSource(data);
             emitter.onNext(true);
         });
         addSubscribe(RxUtil.subscribe(observable, new SampleProgressObserver<Boolean>() {
@@ -44,9 +46,9 @@ public class EditSourcePresenter extends RxPresenter<EditSourceContract.View> im
 
     @Override
     public void getBookSourceFromString(String str) {
-        BookSourceBean bookSourceBean = BookSourceManager.matchSourceBean(str);
-        mView.showBookSource(bookSourceBean);
+        BookSource bookSource = (BookSource) BookSource.Companion.fromJson(str);
+        mView.showBookSource(bookSource);
     }
-
-
 }
+
+ */

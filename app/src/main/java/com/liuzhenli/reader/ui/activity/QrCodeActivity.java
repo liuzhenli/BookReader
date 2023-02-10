@@ -14,8 +14,8 @@ import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.FileUtils;
 import com.liuzhenli.common.utils.PermissionUtil;
 import com.liuzhenli.common.utils.picker.FilePicker;
-import com.microedu.reader.R;
-import com.microedu.reader.databinding.ActQrcodeBinding;
+import com.micoredu.reader.R;
+import com.micoredu.reader.databinding.ActQrcodeBinding;
 
 import java.util.List;
 
