@@ -105,7 +105,7 @@ class PageView(context: Context) : FrameLayout(context) {
      */
     fun upStatusBar() = with(binding.vwStatusBar) {
         setPadding(paddingLeft, context.statusBarHeight, paddingRight, paddingBottom)
-        isGone = ReadBookConfig.hideStatusBar || readBookActivity?.isInMultiWindow() == true
+        isGone = ReadBookConfig.hideStatusBar || readBookActivity?.isInMultiWindow == true
     }
 
     /**

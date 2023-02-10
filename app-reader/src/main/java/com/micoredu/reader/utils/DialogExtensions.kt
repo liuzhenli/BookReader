@@ -7,6 +7,7 @@ import androidx.fragment.app.DialogFragment
 import com.liuzhenli.common.theme.ColorUtils
 import com.liuzhenli.common.theme.filletBackground
 import com.liuzhenli.common.utils.ThemeStore
+import com.liuzhenli.common.utils.windowSize
 import splitties.systemservices.windowManager
 
 fun AlertDialog.applyTint(): AlertDialog {

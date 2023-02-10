@@ -170,7 +170,7 @@ class BookDetailViewModel(initialState: BookDetailState) :
         }
     }
 
-    fun saveBook(book: Book?, action: String = "readBook") = withState { it ->
+    fun saveBook(book: Book?) = withState { it ->
         if (it.saveBook is Loading) return@withState
         suspend {
             if (book?.order == 0) {
@@ -185,7 +185,7 @@ class BookDetailViewModel(initialState: BookDetailState) :
                 ReadBook.book = book
             }
         }.execute(Dispatchers.IO, BookDetailState::saveBook) {
-            copy(saveBook = it, action = action)
+            copy(saveBook = it)
         }
     }
 }

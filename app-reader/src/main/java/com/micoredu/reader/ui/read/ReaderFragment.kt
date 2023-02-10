@@ -130,8 +130,10 @@ class ReaderFragment : BaseFragment(R.layout.fragment_reader),
         resetPageOffset: Boolean,
         success: (() -> Unit)?
     ) {
-        launch {
-            binding.mPageView.upContent(relativePosition, resetPageOffset)
+        if (isAdded) {
+            launch {
+                binding.mPageView.upContent(relativePosition, resetPageOffset)
+            }
         }
     }
 

@@ -1,4 +1,4 @@
-package com.micoredu.reader.utils
+package com.liuzhenli.common.utils
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -11,9 +11,8 @@ import android.widget.FrameLayout
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
+import com.liuzhenli.common.R
 import com.liuzhenli.common.theme.ColorUtils
-import com.liuzhenli.common.utils.getCompatColor
-import com.microedu.lib.reader.R
 
 inline fun <reified T : DialogFragment> AppCompatActivity.showDialogFragment(
     arguments: Bundle.() -> Unit = {}

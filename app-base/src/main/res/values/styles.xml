@@ -1,6 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="QMUI.Compat">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowAnimationStyle">@style/ActivityAnimFade</item>
+        <item name="actionMenuTextColor">@color/main</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="listPopupWindowStyle">@style/Widget.AppCompat.ListPopupWindow</item>
+        <item name="android:dropDownListViewStyle">@style/XSpinnerStyle</item>
+        <item name="android:listDivider">@drawable/shape_common_dash_divide</item>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="actionOverflowMenuStyle">@style/PopupMenu</item>
+        <item name="android:itemTextAppearance">@style/MenuItemTextStyle</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu</item>
+        <item name="actionBarStyle">@style/AppTheme.AppBarOverlay.Light</item>
+    </style>
+    <!-- Light Theme -->
+    <style name="AppTheme.Light" parent="AppTheme">
+        <item name="actionBarStyle">@style/AppTheme.AppBarOverlay.Light</item>
+    </style>
+
+    <!-- Dark Theme -->
+    <style name="AppTheme.Dark" parent="AppTheme">
+        <item name="actionBarStyle">@style/AppTheme.AppBarOverlay.Dark</item>
+    </style>
+
+    <!-- Transparent Theme  -->
+    <style name="AppTheme.Transparent" parent="AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay.Dark" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="colorAccent">@color/md_grey_50</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay.Light" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/md_grey_900</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.FullScreen" parent="AppTheme.NoActionBar">
+        <item name="android:windowAnimationStyle">@style/ActivityAnimFade</item>
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="TransparentActivityTheme" parent="AppTheme.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="MenuItemTextStyle" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
+        <item name="android:textColor">@color/menu_color_default</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="PopupMenu" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:popupBackground">@color/background_menu</item>
+    </style>
+
+    <style name="ActivityAnimFade" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/push_left_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/push_right_out</item>
+    </style>
+
+    <style name="XSpinnerStyle" parent="android:Widget.ListView.DropDown">
+        <!-- 分隔线颜色 -->
+        <item name="android:divider">@drawable/divider</item>
+    </style>
+
     <style name="ItemTitleStyle">
         <item name="android:textSize">@dimen/txt_size_16</item>
         <item name="android:textColor">@color/text_color_66</item>

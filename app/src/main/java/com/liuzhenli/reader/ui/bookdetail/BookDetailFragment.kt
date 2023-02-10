@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Html
 import android.text.TextUtils
-import android.view.TextureView
 import android.view.View
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.airbnb.mvrx.*
@@ -38,7 +37,10 @@ class BookDetailFragment : BaseFragment(R.layout.act_bookdetail),
         binding.viewBookInfo.mTvBookName.text = book?.name
         binding.viewBookInfo.mTvAuthor.text = book?.author
         binding.mTvRead.setOnClickListener {
-            mViewModel.saveBook(book,"readBook")
+            mViewModel.saveBook(book)
+            val intent = Intent(context, ReaderActivity::class.java)
+            intent.putExtra("bookUrl", book?.bookUrl)
+            context?.startActivity(intent)
         }
         setBookInfo(book)
         mViewModel.onAsync(
@@ -57,13 +59,6 @@ class BookDetailFragment : BaseFragment(R.layout.act_bookdetail),
                 ToastUtil.showToast(R.string.error_get_chapter_list)
             })
 
-        mViewModel.onEach(BookDetailState::action, deliveryMode = UniqueOnly("action")){
-            if (TextUtils.equals("readBook", it)) {
-                val intent = Intent(context, ReaderActivity::class.java)
-                intent.putExtra("bookUrl", book?.bookUrl)
-                context?.startActivity(intent)
-            }
-        }
     }
 
     private fun setBookInfo(book: Book?) {
