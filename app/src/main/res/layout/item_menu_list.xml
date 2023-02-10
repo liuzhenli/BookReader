@@ -25,4 +25,5 @@
     android:paddingLeft="?attr/qmui_content_padding_horizontal"
     android:paddingRight="?attr/qmui_content_padding_horizontal"
     android:textAppearance="?android:attr/textAppearanceListItemSmall"
+    android:textColor="@color/text_color_33"
     app:qmui_skin_background="?attr/qmui_skin_support_s_list_item_bg_1" />

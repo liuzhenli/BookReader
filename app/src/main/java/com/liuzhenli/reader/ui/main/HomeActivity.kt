@@ -15,12 +15,10 @@ import com.airbnb.mvrx.MavericksView
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.liuzhenli.common.constant.ARouterConstants
-import com.liuzhenli.common.utils.ClipboardUtil
-import com.liuzhenli.common.utils.IntentUtils
+import com.liuzhenli.common.utils.*
 import com.liuzhenli.common.utils.IntentUtils.IMPORT_BOOK_SOURCE_QRCODE
-import com.liuzhenli.common.utils.ToastUtil
-import com.liuzhenli.common.utils.startActivity
 import com.liuzhenli.reader.bean.MenuBean
+import com.liuzhenli.reader.ui.activity.WebViewActivity
 import com.liuzhenli.reader.ui.discover.DiscoverFragment
 import com.liuzhenli.reader.ui.search.SearchActivity
 import com.liuzhenli.reader.ui.shelf.BookShelfFragment
@@ -30,6 +28,7 @@ import com.micoredu.reader.BaseActivity
 import com.micoredu.reader.R
 import com.micoredu.reader.databinding.ActivityHomeBinding
 import com.micoredu.reader.ui.source.BookSourceActivity
+import com.qmuiteam.qmui.kotlin.onClick
 
 
 class HomeActivity : BaseActivity<ActivityHomeBinding>(), MavericksView {
@@ -85,6 +84,25 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(), MavericksView {
                 binding.mDrawLayout.closeDrawer(binding.viewMainLeft.mDrawLeft)
             }
         }
+        binding.viewMainLeft.mViewReadHistory.onClick {
+            ARouter.getInstance().build(ARouterConstants.ACT_READ_HISTORY).navigation()
+        }
+        binding.viewMainLeft.mViewBookSourceManager.onClick {
+            ARouter.getInstance().build(ARouterConstants.ACT_BOOK_SOURCE).navigation()
+        }
+        binding.viewMainLeft.mViewFeedBack.onClick {
+            WebViewActivity.start(this@HomeActivity, Constant.FEEDBACK)
+        }
+        binding.viewMainLeft.mViewDonate.onClick {
+
+        }
+        binding.viewMainLeft.mViewSetting.onClick {
+
+        }
+        binding.viewMainLeft.mViewAbout.onClick {
+
+        }
+
     }
 
     private fun getImageButton(): ImageButton {
@@ -166,7 +184,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(), MavericksView {
                 binding.toolbar.setOnMenuItemClickListener { item: MenuItem ->
                     binding.mDrawLayout.closeDrawer(binding.viewMainLeft.mDrawLeft)
                     when (item.itemId) {
-                        R.id.item_search -> {}
+                        R.id.item_search -> startActivity<SearchActivity> {}
                         R.id.item_add_from_local -> {}
                         R.id.item_arrange_bookshelf -> {}
                         R.id.item_import_book_source -> showImportBookSourceDialog()

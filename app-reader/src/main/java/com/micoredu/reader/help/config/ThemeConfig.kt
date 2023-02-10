@@ -7,11 +7,11 @@ import android.util.DisplayMetrics
 import androidx.annotation.Keep
 import androidx.appcompat.app.AppCompatDelegate
 import com.liuzhenli.common.theme.ColorUtils
+import com.liuzhenli.common.theme.Theme
 import com.liuzhenli.common.widget.BitmapUtils
 import com.liuzhenli.common.widget.stackBlur
 import com.microedu.lib.reader.R
 import com.micoredu.reader.constant.EventBus
-import com.micoredu.reader.constant.Theme
 import com.micoredu.reader.help.DefaultData
 import com.micoredu.reader.model.BookCover
 import com.micoredu.reader.utils.*

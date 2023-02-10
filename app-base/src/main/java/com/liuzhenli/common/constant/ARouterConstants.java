@@ -16,4 +16,5 @@ public interface ARouterConstants {
     String ACT_EDIT_BOOK_INFO = "/write/activity/EditBookInfoActivity";
     String ACT_WRITE_BOOK = "/write/activity/WriteBookActivity";
     String ACT_READ_HISTORY = "/read/activity/ReadHistoryActivity";
+    String ACT_BOOK_SOURCE = "/read/activity/BookSourceActivity";
 }
