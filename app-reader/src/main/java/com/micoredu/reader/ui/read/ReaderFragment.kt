@@ -1,6 +1,7 @@
 package com.micoredu.reader.ui.read
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
@@ -8,6 +9,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.airbnb.mvrx.MavericksView
 import com.airbnb.mvrx.args
 import com.airbnb.mvrx.fragmentViewModel
+import com.liuzhenli.common.theme.ViewUtils
 import com.liuzhenli.common.utils.runOnUI
 import com.micoredu.reader.BaseFragment
 import com.micoredu.reader.bean.Book
@@ -15,6 +17,7 @@ import com.micoredu.reader.model.ReadBook
 import com.micoredu.reader.page.ContentTextView
 import com.micoredu.reader.page.ReadView
 import com.micoredu.reader.page.provider.TextPageFactory
+import com.micoredu.reader.widgets.menu.ReadBottomMenu
 import com.microedu.lib.reader.R
 import com.microedu.lib.reader.databinding.FragmentReaderBinding
 import kotlinx.coroutines.launch
@@ -33,11 +36,32 @@ class ReaderFragment : BaseFragment(R.layout.fragment_reader),
     private val mViewMode: ReaderViewModel by fragmentViewModel()
     override fun init(savedInstanceState: Bundle?) {
         mViewMode.initData(requireActivity(), args)
-    }
+        binding.mVBottomMenu.setOnMenuElementClickListener(object :
+            ReadBottomMenu.OnElementClickListener {
+            override fun onMenuClick() {
+            }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+            override fun onPreChapterClick() {
+            }
 
+            override fun onNextChapterClick() {
+            }
+
+            override fun onBrightnessClick() {
+            }
+
+            override fun onNightModeClick() {
+            }
+
+            override fun onSettingClick() {
+            }
+
+            override fun onListenBookClick() {
+            }
+
+            override fun onChapterProgressed(progress: Int, isStop: Boolean) {
+            }
+        })
     }
 
     override fun invalidate() {
@@ -105,9 +129,17 @@ class ReaderFragment : BaseFragment(R.layout.fragment_reader),
 
 
     override fun showActionMenu() {
+        if (binding.mVBottomMenu.visibility != View.VISIBLE) {
+            ViewUtils.showBottomView(binding.mVBottomMenu);
+            ViewUtils.showTopView(binding.mTopBar);
+        }
+        binding.mTopBar.toolBar.title = "书名";
+        binding.mTopBar.toolBar.setTitleTextColor(Color.WHITE)
+
     }
 
     override fun screenOffTimerStart() {
+
     }
 
     override fun showTextActionMenu() {
