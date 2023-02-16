@@ -1,18 +1,14 @@
 package com.liuzhenli.reader.ui.search
 
+import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.MavericksViewModel
 import com.liuzhenli.common.utils.AppConfig
-import com.liuzhenli.reader.ui.discover.ImportLocalBookState
 import com.micoredu.reader.bean.SearchBook
+import com.micoredu.reader.bean.SearchKeyword
 import com.micoredu.reader.bean.SearchScope
 import com.micoredu.reader.dao.appDb
 import com.micoredu.reader.model.webBook.SearchModel
-import com.micoredu.reader.model.webBook.WebBook
-import com.micoredu.reader.ui.source.BookSourceState
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.flowOn
 
 class SearchViewModel(initialState: SearchState) :
     MavericksViewModel<SearchState>(initialState) {
@@ -25,7 +21,7 @@ class SearchViewModel(initialState: SearchState) :
         state = initialState
     }
 
-    private val searchModel =
+    private val mSearchModel =
         SearchModel(viewModelScope, object : SearchModel.CallBack {
 
             override fun getSearchScope(): SearchScope {
@@ -70,8 +66,14 @@ class SearchViewModel(initialState: SearchState) :
         })
 
 
-    fun getSearchHistory() {
-
+    fun getSearchHistory() = withState { it ->
+        if (it.getSearchWords is Loading) return@withState
+        suspend { appDb.searchKeywordDao.all }.execute(
+            Dispatchers.IO,
+            retainValue = SearchState::getSearchWords
+        ) {
+            copy(getSearchWords = it)
+        }
     }
 
     fun checkBookSource() = withState {
@@ -85,21 +87,39 @@ class SearchViewModel(initialState: SearchState) :
     }
 
     fun clearSearchHistory() {
+        appDb.searchKeywordDao.deleteAll()
+    }
+
+    fun saveSearchKeyWords(key: String) {
+        if (key.isNotEmpty()) {
+            appDb.searchKeywordDao.insert(
+                SearchKeyword(
+                    word = key,
+                    lastUseTime = System.currentTimeMillis(),
+                    usage = (appDb.searchKeywordDao.get(key)?.usage ?: 0) + 1
+                )
+            )
+        }
     }
 
     fun stopSearch() {
-        searchModel.cancelSearch()
+        mSearchModel.cancelSearch()
     }
 
     fun searchBook(key: String) {
         if ((searchKey == key) || key.isNotEmpty()) {
-            searchModel.cancelSearch()
+            mSearchModel.cancelSearch()
             searchID = System.currentTimeMillis()
             searchKey = key
         }
         if (searchKey.isEmpty()) {
             return
         }
-        searchModel.search(searchID, searchKey)
+        saveSearchKeyWords(key)
+        mSearchModel.search(searchID, searchKey)
+    }
+
+    fun removeSearchHistoryItem(word: SearchKeyword) {
+        appDb.searchKeywordDao.delete(word)
     }
 }

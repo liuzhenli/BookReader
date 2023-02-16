@@ -8,10 +8,12 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.airbnb.mvrx.MavericksView
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
+import com.liuzhenli.common.utils.ClickUtils
 import com.liuzhenli.common.utils.DensityUtil
 import com.liuzhenli.common.utils.SoftInputUtils
 import com.micoredu.reader.BaseFragment
@@ -74,6 +76,34 @@ class SearchFragment : BaseFragment(R.layout.fragment_search),
             },
             onFail = {})
 
+        mViewModel.onAsync(
+            SearchState::getSearchWords,
+            deliveryMode = uniqueOnly("searchWordsHistory"),
+            onSuccess = { res ->
+                binding.flGeneralSearchHistory.removeAllViews()
+                if (res.isNotEmpty()) {
+                    binding.mViewSearchHistory.visibility = View.VISIBLE;
+                    res.forEach { word ->
+                        val tvSearch = TextView(activity)
+                        tvSearch.textSize = 12f
+                        tvSearch.setTextColor(resources.getColor(R.color.text_color_99))
+                        tvSearch.text = word.word
+                        tvSearch.tag = word.word
+                        tvSearch.setOnClickListener {
+                            binding.mEtSearch.setText(tvSearch.text)
+                            binding.mEtSearch.setSelection(tvSearch.text.length)
+                        }
+                        tvSearch.setOnLongClickListener {
+                            binding.flGeneralSearchHistory.removeView(tvSearch)
+                            mViewModel.removeSearchHistoryItem(word)
+                            true
+                        }
+
+                        binding.flGeneralSearchHistory.addView(tvSearch);
+                    }
+                }
+            })
+
         binding.mEtSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
@@ -110,6 +140,7 @@ class SearchFragment : BaseFragment(R.layout.fragment_search),
             mViewModel.checkBookSource()
         }
         binding.ivClearSearchHistory.setOnClickListener {
+            binding.flGeneralSearchHistory.removeAllViews()
             mViewModel.clearSearchHistory()
         }
 
@@ -162,10 +193,10 @@ class SearchFragment : BaseFragment(R.layout.fragment_search),
     private fun stopSearch() {
         mViewModel.stopSearch()
         controller.setData(null)
-        binding.recyclerView.visibility = View.GONE;
-        binding.mViewGroupSearchResult.visibility = View.GONE;
-        binding.mViewTitleBar.visibility = View.VISIBLE;
-        mViewModel.getSearchHistory();
+        binding.recyclerView.visibility = View.GONE
+        binding.mViewGroupSearchResult.visibility = View.GONE
+        binding.mViewTitleBar.visibility = View.VISIBLE
+        mViewModel.getSearchHistory()
     }
 
     private fun initMenu() {
