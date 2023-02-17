@@ -1,7 +1,13 @@
 package com.micoredu.reader.widgets.menu;
 
+import static com.micoredu.reader.constant.PageAnim.coverPageAnim;
+import static com.micoredu.reader.constant.PageAnim.scrollPageAnim;
+import static com.micoredu.reader.constant.PageAnim.simulationPageAnim;
+import static com.micoredu.reader.constant.PageAnim.slidePageAnim;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.RadioGroup;
@@ -10,11 +16,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.liuzhenli.common.utils.AppConfig;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.utils.FillContentUtil;
 import com.liuzhenli.common.utils.ToastUtil;
+import com.micoredu.reader.help.config.ReadBookConfig;
 import com.microedu.lib.reader.R;
-import com.micoredu.reader.utils.ReadConfigManager;
 import com.micoredu.reader.utils.ReaderConfig;
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 
@@ -127,10 +134,11 @@ public class ReadSettingMenu extends BaseMenu {
         //减小字号
         ClickUtils.click(tvMenuTextMin, o -> {
             if (callBack != null) {
-                int textSize = ReadConfigManager.getInstance().getTextSize();
+
+                int textSize = ReadBookConfig.INSTANCE.getTextSize();
                 if (textSize > ReaderConfig.TextSize.SIZE_MIN) {
                     textSize -= 2;
-                    ReadConfigManager.getInstance().setTextSize(textSize);
+                    ReadBookConfig.INSTANCE.setTextSize(textSize);
                     FillContentUtil.setNumberText(tvSettingMenuTextSize, textSize);
                     callBack.onTextStyleChanged();
                 } else {
@@ -142,11 +150,11 @@ public class ReadSettingMenu extends BaseMenu {
         //增大字号
         ClickUtils.click(tvMenuTextEnlarge, o -> {
             if (callBack != null) {
-                int textSize = ReadConfigManager.getInstance().getTextSize();
+                int textSize = ReadBookConfig.INSTANCE.getTextSize();
                 if (textSize < ReaderConfig.TextSize.SIZE_MAX) {
                     textSize += 2;
                     FillContentUtil.setNumberText(tvSettingMenuTextSize, textSize);
-                    ReadConfigManager.getInstance().setTextSize(textSize);
+                    ReadBookConfig.INSTANCE.setTextSize(textSize);
                     callBack.onTextStyleChanged();
                 } else {
                     ToastUtil.showToast("已经是最大字体了~~");
@@ -156,10 +164,11 @@ public class ReadSettingMenu extends BaseMenu {
 
         //字体简体--繁体
         ClickUtils.click(tvMenuTextSimple, o -> {
-            if (ReadConfigManager.getInstance().getTextConvert() != ReaderConfig.CNText.CN_TRADITION) {
-                ReadConfigManager.getInstance().setTextConvert(ReaderConfig.CNText.CN_TRADITION);
+
+            if (AppConfig.INSTANCE.getChineseConverterType() != ReaderConfig.CNText.CN_TRADITION) {
+                AppConfig.INSTANCE.setChineseConverterType(ReaderConfig.CNText.CN_TRADITION);
             } else {
-                ReadConfigManager.getInstance().setTextConvert(ReaderConfig.CNText.CN_SIMPLE);
+                AppConfig.INSTANCE.setChineseConverterType(ReaderConfig.CNText.CN_SIMPLE);
             }
             setCnText();
             if (callBack != null) {
@@ -168,7 +177,11 @@ public class ReadSettingMenu extends BaseMenu {
         });
         //字体加粗,常态
         ClickUtils.click(tvMenuTextStyle, o -> {
-            ReadConfigManager.getInstance().setTextBold(!ReadConfigManager.getInstance().getTextBold());
+            if (ReadBookConfig.INSTANCE.getTextBold() == ReaderConfig.TextType.NORMAL) {
+                ReadBookConfig.INSTANCE.setTextBold(ReaderConfig.TextType.BOLD);
+            } else {
+                ReadBookConfig.INSTANCE.setTextBold(ReaderConfig.TextType.NORMAL);
+            }
             if (callBack != null) {
                 callBack.onTextStyleChanged();
             }
@@ -183,14 +196,14 @@ public class ReadSettingMenu extends BaseMenu {
 
         //文字间距
         ClickUtils.click(mHSpaceMin, o -> {
-            float lineMultiplier = ReadConfigManager.getInstance().getTextLetterSpacing();
+            float lineMultiplier = ReadBookConfig.INSTANCE.getLetterSpacing();
             int tem = (int) (100 * lineMultiplier);
             if (tem <= 0) {
                 ToastUtil.showToast("不能再小了哦");
                 return;
             }
             tem -= 5;
-            ReadConfigManager.getInstance().setTextLetterSpacing(tem / 100.f);
+            ReadBookConfig.INSTANCE.setLetterSpacing(tem / 100.f);
             mHSpaceSize.setText(tem / 100.f + "");
             if (callBack != null) {
                 callBack.onTextStyleChanged();
@@ -198,10 +211,10 @@ public class ReadSettingMenu extends BaseMenu {
         });
         //文字间距
         ClickUtils.click(mHSpaceEnlarge, o -> {
-            float lineMultiplier = ReadConfigManager.getInstance().getTextLetterSpacing();
+            float lineMultiplier = ReadBookConfig.INSTANCE.getLetterSpacing();
             int tem = (int) (100 * lineMultiplier);
             tem += 5;
-            ReadConfigManager.getInstance().setTextLetterSpacing(tem / 100.f);
+            ReadBookConfig.INSTANCE.setLetterSpacing(tem / 100.f);
             mHSpaceSize.setText(tem / 100.f + "");
             if (callBack != null) {
                 callBack.onTextStyleChanged();
@@ -210,26 +223,26 @@ public class ReadSettingMenu extends BaseMenu {
 
         //设置行间距
         ClickUtils.click(mVSpaceMin, o -> {
-            float lineMultiplier = ReadConfigManager.getInstance().getLineMultiplier();
-            int tem = (int) (10 * lineMultiplier);
+            float lineMultiplier = ReadBookConfig.INSTANCE.getLineSpacingExtra();
+            int tem = (int) (lineMultiplier);
             if (tem <= 0) {
                 ToastUtil.showToast("不能再小了哦");
                 return;
             }
             tem -= 2;
-            ReadConfigManager.getInstance().setLineMultiplier(tem / 10.f);
-            mVSpaceSize.setText(tem / 10.f + "");
+            ReadBookConfig.INSTANCE.setLineSpacingExtra(tem);
+            mVSpaceSize.setText(tem + "");
             if (callBack != null) {
                 callBack.onTextStyleChanged();
             }
         });
         //设置行间距
         ClickUtils.click(mVSpaceEnlarge, o -> {
-            float lineMultiplier = ReadConfigManager.getInstance().getLineMultiplier();
-            int tem = (int) (10 * lineMultiplier);
+            float lineMultiplier = ReadBookConfig.INSTANCE.getLineSpacingExtra();
+            int tem = (int) (lineMultiplier);
             tem += 1;
-            ReadConfigManager.getInstance().setLineMultiplier(tem / 10.f);
-            mVSpaceSize.setText(tem / 10.f + "");
+            ReadBookConfig.INSTANCE.setLineSpacingExtra(tem);
+            mVSpaceSize.setText(tem + "");
             if (callBack != null) {
                 callBack.onTextStyleChanged();
             }
@@ -250,18 +263,18 @@ public class ReadSettingMenu extends BaseMenu {
      */
     @SuppressLint("SetTextI18n")
     private void fillDefaultContent() {
-        FillContentUtil.setNumberText(tvSettingMenuTextSize, ReadConfigManager.getInstance().getTextSize());
+        FillContentUtil.setNumberText(tvSettingMenuTextSize, ReadBookConfig.INSTANCE.getTextSize());
         setCnText();
         setTextBold();
-        setPageMode(ReadConfigManager.getInstance().getPageMode());
-        mHSpaceSize.setText(ReadConfigManager.getInstance().getTextLetterSpacing() + "");
-        mVSpaceSize.setText(ReadConfigManager.getInstance().getLineMultiplier() + "");
+        setPageMode(ReadBookConfig.INSTANCE.getPageAnim());
+        mHSpaceSize.setText(ReadBookConfig.INSTANCE.getLetterSpacing() + "");
+        mVSpaceSize.setText(ReadBookConfig.INSTANCE.getLineSpacingExtra() + "");
         tvSettingReset.setVisibility(GONE);
     }
 
     /***繁体,简体*/
     private void setCnText() {
-        if (ReadConfigManager.getInstance().getTextConvert() == ReaderConfig.CNText.CN_TRADITION) {
+        if (AppConfig.INSTANCE.getChineseConverterType() == ReaderConfig.CNText.CN_TRADITION) {
             tvMenuTextSimple.setText("简体");
         } else {
             tvMenuTextSimple.setText("繁体");
@@ -281,32 +294,32 @@ public class ReadSettingMenu extends BaseMenu {
         color[1] = R.color.main;
         //0 白天
         if (checkedId == R.id.tv_menu_background_0) {
-            ReadConfigManager.getInstance().setIsNightTheme(false);
-            ReadConfigManager.getInstance().setTextDrawableIndex(ReaderConfig.PageBgColor.BG_COLOR_DAY);
+            ReadBookConfig.INSTANCE.getDurConfig().setCurBg(0, "#ffffff");
+            ReadBookConfig.INSTANCE.getDurConfig().setCurTextColor(Color.parseColor("#4a4a4a"));
             //1 黄色
         } else if (checkedId == R.id.tv_menu_background_1) {
-            ReadConfigManager.getInstance().setIsNightTheme(false);
-            ReadConfigManager.getInstance().setTextDrawableIndex(ReaderConfig.PageBgColor.BG_COLOR_YELLOW);
+            ReadBookConfig.INSTANCE.getDurConfig().setCurBg(0, "#ffFBE6B5");
+            ReadBookConfig.INSTANCE.getDurConfig().setCurTextColor(Color.parseColor("#6A482E"));
             //2 绿色
         } else if (checkedId == R.id.tv_menu_background_2) {
-            ReadConfigManager.getInstance().setIsNightTheme(false);
-            ReadConfigManager.getInstance().setTextDrawableIndex(ReaderConfig.PageBgColor.BG_COLOR_GREEN);
+            ReadBookConfig.INSTANCE.getDurConfig().setCurBg(0, "#D5E9D4");
+            ReadBookConfig.INSTANCE.getDurConfig().setCurTextColor(Color.parseColor("#425340"));
             //3 粉色
         } else if (checkedId == R.id.tv_menu_background_3) {
-            ReadConfigManager.getInstance().setIsNightTheme(false);
-            ReadConfigManager.getInstance().setTextDrawableIndex(ReaderConfig.PageBgColor.BG_COLOR_PINK);
+            ReadBookConfig.INSTANCE.getDurConfig().setCurBg(0, "#FFE1DC");
+            ReadBookConfig.INSTANCE.getDurConfig().setCurTextColor(Color.parseColor("#814156"));
             //4 深蓝色
         } else if (checkedId == R.id.tv_menu_background_4) {
-            ReadConfigManager.getInstance().setIsNightTheme(false);
-            ReadConfigManager.getInstance().setTextDrawableIndex(ReaderConfig.PageBgColor.BG_COLOR_SBLUE);
+            ReadBookConfig.INSTANCE.getDurConfig().setCurBg(0, "#28334c");
+            ReadBookConfig.INSTANCE.getDurConfig().setCurTextColor(Color.parseColor("#607799"));
             //5 蓝色
         } else if (checkedId == R.id.tv_menu_background_5) {
-            ReadConfigManager.getInstance().setIsNightTheme(false);
-            ReadConfigManager.getInstance().setTextDrawableIndex(ReaderConfig.PageBgColor.BG_COLOR_BLUE);
+            ReadBookConfig.INSTANCE.getDurConfig().setCurBg(0, "#CEE7FF");
+            ReadBookConfig.INSTANCE.getDurConfig().setCurTextColor(Color.parseColor("#52648A"));
             //6 夜间  页面模式是一种皮肤,也需要一种开关
         } else if (checkedId == R.id.tv_menu_background_6) {
-            ReadConfigManager.getInstance().setIsNightTheme(true);
-            ReadConfigManager.getInstance().setTextDrawableIndex(ReaderConfig.PageBgColor.BG_COLOR_NIGHT);
+            ReadBookConfig.INSTANCE.getDurConfig().setCurBg(2, "#292929");
+            ReadBookConfig.INSTANCE.getDurConfig().setCurTextColor(Color.parseColor("#959595"));
         }
         rbPageBg.check(checkedId);
     }
@@ -316,7 +329,7 @@ public class ReadSettingMenu extends BaseMenu {
     }
 
     private void setTextBold() {
-        if (ReadConfigManager.getInstance().getTextBold()) {
+        if (ReadBookConfig.INSTANCE.getTextBold() == ReaderConfig.TextType.BOLD) {
             tvMenuTextStyle.setSelected(true);
         } else {
             tvMenuTextStyle.setSelected(false);
@@ -332,19 +345,27 @@ public class ReadSettingMenu extends BaseMenu {
         tvSettingPageModeEmpty.setSelected(false);
         switch (mode) {
             case ReaderConfig.PageMode.SIMULATION:
+                ReadBookConfig.INSTANCE.setPageAnim(simulationPageAnim);
                 tvSettingPageModePaper.setSelected(true);
                 break;
             case ReaderConfig.PageMode.COVER:
                 tvSettingPageModeCover.setSelected(true);
+                ReadBookConfig.INSTANCE.setPageAnim(coverPageAnim);
                 break;
             case ReaderConfig.PageMode.SLIDE:
                 tvSettingPageModeSlide.setSelected(true);
+                ReadBookConfig.INSTANCE.setPageAnim(slidePageAnim);
+                break;
+
+            case ReaderConfig.PageMode.SCROLL:
+                tvSettingPageModeVertical.setSelected(true);
+                ReadBookConfig.INSTANCE.setPageAnim(scrollPageAnim);
                 break;
             default:
                 tvSettingPageModeEmpty.setSelected(true);
+                ReadBookConfig.INSTANCE.setPageAnim(coverPageAnim);
                 break;
         }
-        ReadConfigManager.getInstance().setPageMode(mode);
         if (callBack != null) {
             callBack.onPageAnimChanged();
         }

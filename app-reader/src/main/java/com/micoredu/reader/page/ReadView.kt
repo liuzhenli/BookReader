@@ -152,8 +152,8 @@ class ReadView(context: Context, attrs: AttributeSet) :
         if (!isInEditMode && callBack?.isAutoPage == true && !isScroll) {
             // 自动翻页
             nextPage.screenshot()?.let {
-                val bottom = callBack?.autoPageProgress
-                autoPageRect.set(0, 0, width, bottom!!)
+                val bottom = callBack?.autoPageProgress ?: 0
+                autoPageRect.set(0, 0, width, bottom)
                 canvas.drawBitmap(it, autoPageRect, autoPageRect, null)
                 canvas.drawRect(
                     0f,
@@ -529,7 +529,7 @@ class ReadView(context: Context, attrs: AttributeSet) :
      */
     override fun upContent(relativePosition: Int, resetPageOffset: Boolean) {
         curPage.setContentDescription(pageFactory.curPage.text)
-        if (isScroll && !callBack?.isAutoPage!!) {
+        if (isScroll && callBack?.isAutoPage != true) {
             curPage.setContent(pageFactory.curPage, resetPageOffset)
         } else {
             curPage.resetPageOffset()

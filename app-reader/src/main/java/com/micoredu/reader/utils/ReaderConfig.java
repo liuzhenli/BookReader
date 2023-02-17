@@ -45,9 +45,17 @@ public class ReaderConfig {
         int SIZE_MAX = 40;
     }
 
-    /***中文繁简体*/
+    /***体字 0:正常, 1:粗体, 2:细体*/
+    public @interface TextType {
+        /***正常*/
+        int NORMAL = 0;
+        int BOLD = 1;
+        int THIN = 2;
+    }
+
+    /***字体样式*/
     public @interface CNText {
-        /***汉语-简体*/
+        /****/
         int CN_SIMPLE = 1;
         /***汉语-繁体*/
         int CN_TRADITION = 2;

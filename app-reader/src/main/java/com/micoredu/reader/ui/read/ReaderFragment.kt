@@ -10,14 +10,19 @@ import com.airbnb.mvrx.MavericksView
 import com.airbnb.mvrx.args
 import com.airbnb.mvrx.fragmentViewModel
 import com.liuzhenli.common.theme.ViewUtils
+import com.liuzhenli.common.utils.AppConfig
 import com.liuzhenli.common.utils.runOnUI
+import com.liuzhenli.common.widget.DialogUtil
 import com.micoredu.reader.BaseFragment
 import com.micoredu.reader.bean.Book
+import com.micoredu.reader.help.config.ThemeConfig
 import com.micoredu.reader.model.ReadBook
 import com.micoredu.reader.page.ContentTextView
 import com.micoredu.reader.page.ReadView
+import com.micoredu.reader.page.entities.PageDirection
 import com.micoredu.reader.page.provider.TextPageFactory
 import com.micoredu.reader.widgets.menu.ReadBottomMenu
+import com.micoredu.reader.widgets.menu.ReadSettingMenu
 import com.microedu.lib.reader.R
 import com.microedu.lib.reader.databinding.FragmentReaderBinding
 import kotlinx.coroutines.launch
@@ -39,27 +44,49 @@ class ReaderFragment : BaseFragment(R.layout.fragment_reader),
         binding.mVBottomMenu.setOnMenuElementClickListener(object :
             ReadBottomMenu.OnElementClickListener {
             override fun onMenuClick() {
+                //打卡目录
             }
 
             override fun onPreChapterClick() {
+                ReadBook.moveToPrevChapter(upContent = true, toLast = false)
             }
 
             override fun onNextChapterClick() {
+                ReadBook.moveToNextChapter(true)
             }
 
             override fun onBrightnessClick() {
+                ViewUtils.showBottomView(binding.mVBrightnessSettingMenu)
             }
 
             override fun onNightModeClick() {
+                AppConfig.isNightTheme = !AppConfig.isNightTheme
+                ThemeConfig.applyDayNight(requireContext())
             }
 
             override fun onSettingClick() {
+                ViewUtils.showBottomView(binding.mVSettingMenu)
             }
 
             override fun onListenBookClick() {
             }
 
             override fun onChapterProgressed(progress: Int, isStop: Boolean) {
+
+            }
+        })
+
+        binding.mVSettingMenu.setReadSettingCallBack(object : ReadSettingMenu.ReadSettingCallBack {
+            override fun onPageAnimChanged() {
+            }
+
+            override fun onTextStyleChanged() {
+            }
+
+            override fun onTypeFaceClicked() {
+            }
+
+            override fun onBackGroundChanged() {
             }
         })
     }

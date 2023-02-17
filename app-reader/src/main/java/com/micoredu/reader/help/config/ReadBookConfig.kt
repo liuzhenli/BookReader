@@ -450,7 +450,7 @@ object ReadBookConfig {
         private var pageAnimEInk: Int = 3,
         var textFont: String = "",//字体
         var textBold: Int = 0,//是否粗体字 0:正常, 1:粗体, 2:细体
-        var textSize: Int = 20,//文字大小
+        var textSize: Int = 16,//文字大小
         var letterSpacing: Float = 0.1f,//字间距
         var lineSpacingExtra: Int = 12,//行间距
         var paragraphSpacing: Int = 2,//段距
@@ -531,6 +531,9 @@ object ReadBookConfig {
             }
         }
 
+        /**
+         * @param bgType 2-night 3--inkMode
+         */
         fun setCurBg(bgType: Int, bg: String) {
             when {
                 AppConfig.isEInkMode -> {
