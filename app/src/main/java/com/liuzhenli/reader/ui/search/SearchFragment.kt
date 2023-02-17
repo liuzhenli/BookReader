@@ -13,7 +13,6 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.airbnb.mvrx.MavericksView
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
-import com.liuzhenli.common.utils.ClickUtils
 import com.liuzhenli.common.utils.DensityUtil
 import com.liuzhenli.common.utils.SoftInputUtils
 import com.micoredu.reader.BaseFragment
@@ -37,6 +36,16 @@ class SearchFragment : BaseFragment(R.layout.fragment_search),
     }
 
     override fun invalidate() = withState(mViewModel) {
+        if (it.searchStart) {
+            binding.mTvSearchBookCount.text = String.format("找到%s部相关书籍", it.bookList.size)
+            binding.recyclerView.visibility = View.VISIBLE
+            binding.mViewGroupSearchResult.visibility = View.VISIBLE
+            binding.mViewTitleBar.visibility = View.GONE
+            binding.mViewSearchHistory.visibility = View.GONE
+
+            binding.mSearchIndicator.visibility = View.VISIBLE
+            binding.mVStopSearch.visibility = View.VISIBLE
+        }
         controller.setData(it)
     }
 
@@ -62,19 +71,6 @@ class SearchFragment : BaseFragment(R.layout.fragment_search),
                 }
             },
             onFail = { toast("no book source") })
-
-
-        mViewModel.onAsync(
-            SearchState::searchBook,
-            deliveryMode = uniqueOnly("searchBook"),
-            onSuccess = { books ->
-                binding.mTvSearchBookCount.text = String.format("找到%s部相关书籍", books.size)
-                binding.recyclerView.visibility = View.VISIBLE
-                binding.mViewGroupSearchResult.visibility = View.VISIBLE
-                binding.mViewTitleBar.visibility = View.GONE
-                binding.mViewSearchHistory.visibility = View.GONE
-            },
-            onFail = {})
 
         mViewModel.onAsync(
             SearchState::getSearchWords,
@@ -129,10 +125,10 @@ class SearchFragment : BaseFragment(R.layout.fragment_search),
                 stopSearch()
             } else {
                 mViewModel.stopSearch()
-                binding.mSearchIndicator.visibility = View.GONE;
-                binding.mVStopSearch.visibility = View.GONE;
+                binding.mSearchIndicator.visibility = View.GONE
+                binding.mVStopSearch.visibility = View.GONE
             }
-            binding.mViewTitleBar.visibility = View.VISIBLE;
+            binding.mViewTitleBar.visibility = View.VISIBLE
         }
 
         //click search button, check if the book source is avaliable

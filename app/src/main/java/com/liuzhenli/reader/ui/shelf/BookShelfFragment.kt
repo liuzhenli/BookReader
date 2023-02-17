@@ -5,8 +5,6 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.airbnb.mvrx.MavericksView
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
-import com.liuzhenli.reader.ui.search.SearchController
-import com.liuzhenli.reader.ui.search.SearchViewModel
 import com.micoredu.reader.BaseFragment
 import com.micoredu.reader.R
 import com.micoredu.reader.databinding.FragmentBookshelfBinding
