@@ -57,10 +57,15 @@ class SearchFragment : BaseFragment(R.layout.fragment_search),
 
         initMenu()
 
+        // check book source result
         mViewModel.onAsync(
             SearchState::checkBookSource,
             deliveryMode = uniqueOnly("checkBookSource"),
             onSuccess = {
+                if (TextUtils.isEmpty(binding.mEtSearch.text)) {
+                    toast("请输入搜索内容")
+                    return@onAsync
+                }
                 if (it.isNotEmpty()) {
                     binding.mViewSearchHistory.visibility = View.GONE
                     binding.mViewGroupSearchResult.visibility = View.VISIBLE
