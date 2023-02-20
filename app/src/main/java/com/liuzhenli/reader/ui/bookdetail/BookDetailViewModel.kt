@@ -1,6 +1,8 @@
 package com.liuzhenli.reader.ui.bookdetail
 
 import android.content.Intent
+import android.text.TextUtils
+import android.util.Log
 import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.MavericksViewModel
 import com.liuzhenli.common.utils.ToastUtil
@@ -97,6 +99,9 @@ class BookDetailViewModel(initialState: BookDetailState) :
         } else {
             bookSource?.let { bookSource ->
                 val oldBook = book.copy()
+                if (TextUtils.isEmpty(book.tocUrl)){
+                    return@withState
+                }
                 suspend {
                     WebBook.getChapterListAwait(bookSource, book, true).getOrThrow()
                 }.execute(

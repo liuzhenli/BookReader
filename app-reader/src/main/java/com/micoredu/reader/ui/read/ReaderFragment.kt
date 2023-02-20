@@ -9,20 +9,23 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.airbnb.mvrx.MavericksView
 import com.airbnb.mvrx.args
 import com.airbnb.mvrx.fragmentViewModel
+import com.github.liuyueyi.quick.transfer.ChineseUtils
+import com.github.liuyueyi.quick.transfer.constants.TransType
 import com.liuzhenli.common.theme.ViewUtils
 import com.liuzhenli.common.utils.AppConfig
-import com.liuzhenli.common.utils.runOnUI
-import com.liuzhenli.common.widget.DialogUtil
 import com.micoredu.reader.BaseFragment
 import com.micoredu.reader.bean.Book
+import com.micoredu.reader.constant.EventBus
 import com.micoredu.reader.help.config.ThemeConfig
 import com.micoredu.reader.model.ReadBook
 import com.micoredu.reader.page.ContentTextView
 import com.micoredu.reader.page.ReadView
-import com.micoredu.reader.page.entities.PageDirection
 import com.micoredu.reader.page.provider.TextPageFactory
+import com.micoredu.reader.utils.observeEvent
+import com.micoredu.reader.utils.postEvent
 import com.micoredu.reader.widgets.menu.ReadBottomMenu
 import com.micoredu.reader.widgets.menu.ReadSettingMenu
+import com.micoredu.reader.widgets.menu.ReadTopBarMenu
 import com.microedu.lib.reader.R
 import com.microedu.lib.reader.databinding.FragmentReaderBinding
 import kotlinx.coroutines.launch
@@ -78,18 +81,41 @@ class ReaderFragment : BaseFragment(R.layout.fragment_reader),
 
         binding.mVSettingMenu.setReadSettingCallBack(object : ReadSettingMenu.ReadSettingCallBack {
             override fun onPageAnimChanged() {
+                postEvent(EventBus.UP_CONFIG, true)
             }
 
             override fun onTextStyleChanged() {
+                ChineseUtils.unLoad(*TransType.values())
+                postEvent(EventBus.UP_CONFIG, true)
             }
 
             override fun onTypeFaceClicked() {
+                postEvent(EventBus.UP_CONFIG, false)
             }
 
             override fun onBackGroundChanged() {
+                postEvent(EventBus.UP_CONFIG, false)
             }
         })
     }
+
+    override fun observeLiveBus() = binding.run {
+        super.observeLiveBus()
+        observeEvent<Boolean>(EventBus.UP_CONFIG) {
+            upSystemUiVisibility()
+            binding.mPageView.upPageSlopSquare()
+            binding.mPageView.upBg()
+            binding.mPageView.upStyle()
+            binding.mPageView.upBgAlpha()
+            if (it) {
+                ReadBook.loadContent(resetPageOffset = false)
+            } else {
+                binding.mPageView.upContent(resetPageOffset = false)
+            }
+        }
+    }
+
+    private fun upSystemUiVisibility() {}
 
     override fun invalidate() {
         binding.mPageView.setContentTextViewCallBack(this)
@@ -157,12 +183,30 @@ class ReaderFragment : BaseFragment(R.layout.fragment_reader),
 
     override fun showActionMenu() {
         if (binding.mVBottomMenu.visibility != View.VISIBLE) {
-            ViewUtils.showBottomView(binding.mVBottomMenu);
-            ViewUtils.showTopView(binding.mTopBar);
-        }
-        binding.mTopBar.toolBar.title = "书名";
-        binding.mTopBar.toolBar.setTitleTextColor(Color.WHITE)
+            ViewUtils.showBottomView(binding.mVBottomMenu)
+            ViewUtils.showTopView(binding.mTopBar)
 
+            binding.mTopBar.toolBar.title = "书名"
+            binding.mTopBar.toolBar.setTitleTextColor(Color.WHITE)
+            binding.mTopBar.setOnMenuElementClickListener(object :
+                ReadTopBarMenu.OnElementClickListener {
+                override fun onBackClick() {
+                    activity?.finish()
+                }
+
+                override fun onMenuClick() {
+                }
+            })
+        } else {
+            hideAllMenus()
+        }
+    }
+
+    private fun hideAllMenus() {
+        ViewUtils.hideBottomView(binding.mVBottomMenu)
+        ViewUtils.hideTopView(binding.mTopBar)
+        ViewUtils.hideBottomView(binding.mVSettingMenu)
+        ViewUtils.hideBottomView(binding.mVBrightnessSettingMenu)
     }
 
     override fun screenOffTimerStart() {
@@ -197,7 +241,7 @@ class ReaderFragment : BaseFragment(R.layout.fragment_reader),
     }
 
     override fun pageChanged() {
-
+        launch { }
     }
 
     override fun contentLoadFinish() {
@@ -205,7 +249,9 @@ class ReaderFragment : BaseFragment(R.layout.fragment_reader),
     }
 
     override fun upPageAnim() {
-
+        launch {
+            binding.mPageView.upPageAnim()
+        }
     }
 
     override fun notifyBookChanged() {

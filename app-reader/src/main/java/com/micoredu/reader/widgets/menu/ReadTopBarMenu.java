@@ -56,6 +56,11 @@ public class ReadTopBarMenu extends BaseMenu {
                 listener.onMenuClick();
             }
         });
+        mToolBar.setNavigationOnClickListener(v -> {
+            if (listener != null) {
+                listener.onBackClick();
+            }
+        });
     }
 
     public Toolbar getToolBar() {

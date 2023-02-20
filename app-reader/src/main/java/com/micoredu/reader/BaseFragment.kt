@@ -21,6 +21,10 @@ abstract class BaseFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentL
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init(savedInstanceState)
+        observeLiveBus()
+    }
+
+    open fun observeLiveBus() {
     }
 
     protected abstract fun init(savedInstanceState: Bundle?)

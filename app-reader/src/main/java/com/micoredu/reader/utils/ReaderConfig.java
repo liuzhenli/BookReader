@@ -55,7 +55,7 @@ public class ReaderConfig {
 
     /***字体样式*/
     public @interface CNText {
-        /****/
+        /***简体中文*/
         int CN_SIMPLE = 1;
         /***汉语-繁体*/
         int CN_TRADITION = 2;

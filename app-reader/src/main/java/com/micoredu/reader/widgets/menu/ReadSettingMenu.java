@@ -225,7 +225,7 @@ public class ReadSettingMenu extends BaseMenu {
         ClickUtils.click(mVSpaceMin, o -> {
             float lineMultiplier = ReadBookConfig.INSTANCE.getLineSpacingExtra();
             int tem = (int) (lineMultiplier);
-            if (tem <= 0) {
+            if (tem <= 10) {
                 ToastUtil.showToast("不能再小了哦");
                 return;
             }
