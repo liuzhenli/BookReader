@@ -12,6 +12,8 @@ data class BookDetailState(
     val getBookInfo: Async<Book> = Uninitialized,
     val saveBook: Async<Any?> = Uninitialized,
     val upCoverByRule: Async<Any?> = Uninitialized,
+    val addToBookShelf: Async<Boolean?> = Uninitialized,
+    val removeFromBookshelf: Async<Boolean?> = Uninitialized,
     val getBookChapter: Async<List<BookChapter>> = Uninitialized,
     val chapterList: List<BookChapter> = listOf(),
     val action: String = "",

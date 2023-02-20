@@ -4,6 +4,7 @@ import android.content.Intent
 import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.MavericksViewModel
 import com.liuzhenli.common.utils.ToastUtil
+import com.liuzhenli.reader.ui.shelf.BookShelfState
 import com.micoredu.reader.R
 import com.micoredu.reader.bean.Book
 import com.micoredu.reader.bean.BookChapter
@@ -33,6 +34,7 @@ class BookDetailViewModel(initialState: BookDetailState) :
         val name = intent.getStringExtra("name") ?: ""
         val author = intent.getStringExtra("author") ?: ""
         val bookUrl = intent.getStringExtra("bookUrl") ?: ""
+
         appDb.bookDao.getBook(name, author)?.let {
             inBookshelf = true
             upBook(it)
@@ -50,7 +52,7 @@ class BookDetailViewModel(initialState: BookDetailState) :
         }
     }
 
-    fun loadBookInfo(
+    private fun loadBookInfo(
         book: Book,
         canReName: Boolean = true,
     ) = withState { bookSourceState ->
@@ -71,7 +73,7 @@ class BookDetailViewModel(initialState: BookDetailState) :
                     appDb.bookDao.update(book)
                 }
                 loadChapter(book)
-                copy(getBookInfo = it)
+                copy(getBookInfo = it, isInBookShelf = inBookshelf)
             }
         }
 
@@ -186,6 +188,36 @@ class BookDetailViewModel(initialState: BookDetailState) :
             }
         }.execute(Dispatchers.IO, BookDetailState::saveBook) {
             copy(saveBook = it)
+        }
+    }
+
+    fun addBookShelf(book: Book?) = withState { state ->
+        if (state.saveBook is Loading) return@withState
+        suspend {
+            if (book?.order == 0) {
+                book.order = appDb.bookDao.minOrder - 1
+            }
+            appDb.bookDao.getBook(book?.name!!, book.author)?.let { it ->
+                book.durChapterPos = it.durChapterPos
+                book.durChapterTitle = it.durChapterTitle
+
+            }
+            book.save()
+            inBookshelf = true
+            inBookshelf
+        }.execute(Dispatchers.IO, retainValue = BookDetailState::addToBookShelf) {
+            copy(isInBookShelf = inBookshelf)
+        }
+    }
+
+    fun removeFromBookShelf(book: Book?) = withState { state ->
+        if (state.removeFromBookshelf is Loading) return@withState
+        suspend {
+            book?.delete()
+            inBookshelf = false
+            inBookshelf
+        }.execute(Dispatchers.IO, retainValue = BookDetailState::removeFromBookshelf) {
+            copy(isInBookShelf = inBookshelf)
         }
     }
 }

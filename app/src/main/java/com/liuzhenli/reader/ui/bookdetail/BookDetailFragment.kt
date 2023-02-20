@@ -17,6 +17,7 @@ import com.micoredu.reader.bean.Book
 import com.micoredu.reader.bean.BookChapter
 import com.micoredu.reader.databinding.ActBookdetailBinding
 import com.micoredu.reader.help.book.isLocal
+import com.qmuiteam.qmui.kotlin.onClick
 
 class BookDetailFragment : BaseFragment(R.layout.act_bookdetail),
     MavericksView {
@@ -59,6 +60,20 @@ class BookDetailFragment : BaseFragment(R.layout.act_bookdetail),
                 ToastUtil.showToast(R.string.error_get_chapter_list)
             })
 
+        mViewModel.onEach(BookDetailState::isInBookShelf) { inBookshelf ->
+            binding.mTvAddToBookshelf.text = if (inBookshelf) {
+                resources.getText(R.string.add_to_shelf)
+            } else {
+                resources.getText(R.string.remove_from_bookshelf)
+            }
+        }
+        binding.mTvAddToBookshelf.onClick {
+            if (mViewModel.inBookshelf) {
+                mViewModel.removeFromBookShelf(book)
+            } else {
+                mViewModel.addBookShelf(book)
+            }
+        }
     }
 
     private fun setBookInfo(book: Book?) {
