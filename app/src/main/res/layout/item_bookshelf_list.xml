@@ -10,7 +10,7 @@
     android:focusable="true"
     tools:ignore="UnusedAttribute">
 
-    <ImageView
+    <com.micoredu.reader.widgets.BookCover
         android:id="@+id/mIvCover"
         android:layout_width="60dp"
         android:layout_height="80dp"
@@ -30,7 +30,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/tv_name">
 
-        <com.liuzhenli.reader.view.BadgeView
+        <com.micoredu.reader.widgets.text.BadgeView
             android:id="@+id/bv_unread"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
             android:includeFontPadding="false"
             tools:ignore="RtlHardcoded" />
 
-        <com.liuzhenli.reader.view.RotateLoading
+        <com.micoredu.reader.widgets.anima.RotateLoading
             android:id="@+id/rl_loading"
             android:layout_width="26dp"
             android:layout_height="26dp"

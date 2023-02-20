@@ -7,6 +7,7 @@ import com.micoredu.reader.bean.Book
 
 data class BookShelfState(
     val title: String = "Hello Book",
+    val bookList: List<Book> = listOf(),
     val getBookList: Async<List<Book>> = Uninitialized,
     val removeFromBookShelf: Async<Any> = Uninitialized,
     val startRefreshBookShelf: Async<Any> = Uninitialized,

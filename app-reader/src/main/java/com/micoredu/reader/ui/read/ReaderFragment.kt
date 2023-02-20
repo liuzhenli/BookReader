@@ -249,9 +249,10 @@ class ReaderFragment : BaseFragment(R.layout.fragment_reader),
     }
 
     override fun upPageAnim() {
-        launch {
-            binding.mPageView.upPageAnim()
-        }
+        if (isAdded)
+            launch {
+                binding.mPageView.upPageAnim()
+            }
     }
 
     override fun notifyBookChanged() {
