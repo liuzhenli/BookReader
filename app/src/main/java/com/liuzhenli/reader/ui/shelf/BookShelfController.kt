@@ -3,7 +3,6 @@ package com.liuzhenli.reader.ui.shelf
 import android.content.Context
 import android.view.View
 import com.airbnb.epoxy.TypedEpoxyController
-import com.liuzhenli.reader.ui.discover.ImportLocalBookState
 
 class BookShelfController(
     private var context: Context,

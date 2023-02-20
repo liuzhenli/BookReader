@@ -21,5 +21,10 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover),
 
     }
 
+    fun configTitle() {
+
+
+    }
+
 
 }

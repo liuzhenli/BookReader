@@ -179,6 +179,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(), MavericksView {
         binding.toolbar.menu.clear()
         when (tabIndex) {
             0 -> {
+                binding.tvToolbarTitle.text = resources.getString(R.string.bookshelf)
+                binding.tvToolbarTitle.setOnClickListener { }
                 binding.toolbar.inflateMenu(R.menu.menu_main)
                 binding.toolbar.menu.findItem(R.id.item_arrange_bookshelf).isVisible = false
                 binding.toolbar.setOnMenuItemClickListener { item: MenuItem ->
@@ -200,11 +202,15 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(), MavericksView {
                 }
             }
             1 -> {
+                binding.tvToolbarTitle.text = resources.getString(R.string.discover)
+                binding.tvToolbarTitle.setOnClickListener {
+                    discoverFragment?.configTitle()
+                }
+
                 binding.toolbar.inflateMenu(R.menu.menu_discover)
                 binding.toolbar.setOnMenuItemClickListener { item: MenuItem ->
                     binding.mDrawLayout.closeDrawer(binding.viewMainLeft.mDrawLeft)
                     when (item.itemId) {
-
                         R.id.item_search -> startActivity<SearchActivity> { }
                         R.id.item_arrange_book_source -> startActivity<BookSourceActivity> { }
                         else -> {}
