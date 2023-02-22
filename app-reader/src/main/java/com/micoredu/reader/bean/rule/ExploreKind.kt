@@ -1,10 +1,12 @@
 package com.micoredu.reader.bean.rule
 
+import java.io.Serializable
+
 data class ExploreKind(
     val title: String,
     val url: String? = null,
     val style: Style? = null
-) {
+):Serializable {
 
     companion object {
         val defaultStyle = Style()
@@ -20,7 +22,7 @@ data class ExploreKind(
         val layout_alignSelf: String = "auto",
         val layout_flexBasisPercent: Float = -1F,
         val layout_wrapBefore: Boolean = false,
-    ) {
+    ) :Serializable{
 
         fun alignSelf(): Int {
             return when (layout_alignSelf) {
