@@ -16,6 +16,27 @@ data class ExploreKind(
         return style ?: defaultStyle
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as ExploreKind
+
+        if (title != other.title) return false
+        if (url != other.url) return false
+        if (style != other.style) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = title.hashCode()
+        result = 31 * result + (url?.hashCode() ?: 0)
+        result = 31 * result + (style?.hashCode() ?: 0)
+        return result
+    }
+
+
     data class Style(
         val layout_flexGrow: Float = 0F,
         val layout_flexShrink: Float = 1F,

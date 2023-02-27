@@ -4,96 +4,93 @@ import android.content.Context
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.airbnb.mvrx.MavericksView
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
-import com.hwangjr.rxbus.RxBus
-import com.liuzhenli.common.constant.AppConstant
-import com.liuzhenli.common.constant.RxBusTag
-import com.liuzhenli.reader.bean.BookCategory
 import com.liuzhenli.reader.ui.discover.category.BookCategoryFragment
 import com.liuzhenli.reader.view.ScaleTransitionPagerTitleView
 import com.micoredu.reader.BaseFragment
 import com.micoredu.reader.R
 import com.micoredu.reader.bean.BookSource
 import com.micoredu.reader.bean.rule.ExploreKind
+import com.micoredu.reader.constant.EventBus
 import com.micoredu.reader.databinding.FragmentDiscoverBinding
-import com.micoredu.reader.help.source.exploreKinds
-import com.micoredu.reader.model.analyzeRule.AnalyzeRule
-import com.script.ScriptException
-import com.script.SimpleBindings
-import net.lucode.hackware.magicindicator.ViewPagerHelper
+import com.micoredu.reader.utils.postEvent
 import net.lucode.hackware.magicindicator.buildins.UIUtil
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator
-import okhttp3.internal.http.HTTP_GONE
+
 
 class DiscoverFragment : BaseFragment(R.layout.fragment_discover),
     MavericksView {
     val binding by viewBinding(FragmentDiscoverBinding::bind)
     private val mViewModel: DiscoverViewModel by fragmentViewModel()
 
-    private var fragmentsList = mutableListOf<Fragment>()
-    private var pagerAdapter: FragmentPagerAdapter? = null
+    private var fragmentsList = mutableListOf<BookCategoryFragment>()
+    private var pagerAdapter: FragmentStateAdapter? = null
     private var navigatorAdapter: CommonNavigatorAdapter? = null
     private var mBookCategory = mutableListOf<ExploreKind>()
+
     override fun invalidate() = withState(mViewModel) {
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        mViewModel.queryBookSource()
-    }
 
     override fun init(savedInstanceState: Bundle?) {
-
         mViewModel.onAsync(
             DiscoverState::queryBookSource,
-            deliveryMode = uniqueOnly(),
-            onSuccess = {
-                mViewModel.dealCategory(it[3])
+            deliveryMode = uniqueOnly("DiscoverFragment_queryBookSource"),
+            onSuccess = { list ->
+                if (list.isNotEmpty()) {
+                    val bookSources = list.filterNot { source ->
+                        TextUtils.isEmpty(source.exploreUrl)
+                    }
+                    binding.mBookSourceView.setData(bookSources)
+                    val bookSource = bookSources.shuffled().take(1)[0]
+                    mViewModel.dealCategory(bookSource)
+                    postEvent(EventBus.CHANGE_DISCOVER_TITLE, bookSource.bookSourceName)
+                }
+
             },
             onFail = {})
 
         mViewModel.onAsync(
             DiscoverState::dealCategory,
-            deliveryMode = uniqueOnly(),
+            deliveryMode = uniqueOnly("DiscoverFragment_dealCategory"),
             onSuccess = {
                 onBookSourceChange(it)
             },
             onFail = {})
         binding.mViewPager.offscreenPageLimit = 10
-        pagerAdapter =
-            object : FragmentPagerAdapter(childFragmentManager, BEHAVIOR_SET_USER_VISIBLE_HINT) {
-                override fun getCount(): Int {
-                    return fragmentsList.size
-                }
+        pagerAdapter = object : FragmentStateAdapter(requireActivity()) {
 
-                override fun getItem(position: Int): Fragment {
-                    return fragmentsList[position]
-                }
-
-                override fun getItemPosition(obj: Any): Int {
-                    return if (fragmentsList.contains(obj)) {
-                        // 如果当前 item 未被 remove，则返回 item 的真实 position
-                        fragmentsList.indexOf(obj)
-                    } else {
-                        // 否则返回状态值 POSITION_NONE
-                        POSITION_NONE;
-                    }
-                }
+            override fun getItemCount(): Int {
+                return fragmentsList.size
             }
+
+            override fun createFragment(position: Int): Fragment {
+                return fragmentsList[position]
+            }
+
+            override fun getItemId(position: Int): Long {
+                return mBookCategory[position].hashCode().toLong()
+            }
+
+            override fun containsItem(itemId: Long): Boolean =
+                mBookCategory.any { it.hashCode().toLong() == itemId }
+        }
 
         binding.mViewPager.adapter = pagerAdapter
         val navigator = CommonNavigator(context)
@@ -105,12 +102,12 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover),
             override fun getTitleView(context: Context?, index: Int): IPagerTitleView {
                 val simplePagerTitleView = ScaleTransitionPagerTitleView(context)
                 simplePagerTitleView.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
-                simplePagerTitleView.text = mBookCategory[index].title
+                simplePagerTitleView.text = mBookCategory[index].title.trim()
                 simplePagerTitleView.textSize = 16f
                 simplePagerTitleView.normalColor = resources.getColor(R.color.text_color_99)
                 simplePagerTitleView.selectedColor = resources.getColor(R.color.text_color_66)
                 simplePagerTitleView.setOnClickListener { v: View? ->
-                    binding.mViewPager.currentItem = index
+                    binding.mViewPager.setCurrentItem(index, false)
                 }
                 return simplePagerTitleView
             }
@@ -128,23 +125,50 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover),
             }
         }
         navigator.adapter = navigatorAdapter
+//        navigator.isReselectWhenLayout = false
         binding.mIndicator.navigator = navigator
-        ViewPagerHelper.bind(binding.mIndicator, binding.mViewPager)
-        binding.mBookSourceView.setOnItemClick { booksource: BookSource? ->
-            mViewModel.dealCategory(booksource!!)
+
+        binding.mViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+                binding.mIndicator.onPageScrolled(position, positionOffset, positionOffsetPixels)
+            }
+
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                binding.mIndicator.onPageSelected(position)
+                binding.mIndicator.onPageScrolled(position, 0f, 0)
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+                super.onPageScrollStateChanged(state)
+                binding.mIndicator.onPageScrollStateChanged(state)
+            }
+        })
+
+        binding.mBookSourceView.setOnItemClick { bookSource: BookSource? ->
+            postEvent(EventBus.CHANGE_DISCOVER_TITLE, bookSource?.bookSourceName)
+            mViewModel.dealCategory(bookSource!!)
         }
         binding.mBookSourceView.visibility = View.GONE
         val tvText: TextView = binding.mViewEmpty.viewEmpty.findViewById(R.id.tv_empty_text)
         tvText.text = "暂无书源,搜索微信公众号:异书房,\n回复\"书源\"获取书源~"
+        mViewModel.queryBookSource()
     }
 
     @Synchronized
-    fun onBookSourceChange(categories: List<ExploreKind>) {
+    fun onBookSourceChange(list: List<ExploreKind>) {
+        val categories = list.filterNot { TextUtils.isEmpty(it.url) }
 
         binding.mViewEmpty.viewEmpty.visibility = View.GONE
 
         fragmentsList.clear()
         mBookCategory.clear()
+
         mBookCategory.addAll(categories)
         for (s in categories) {
             val fragment = BookCategoryFragment()
@@ -154,7 +178,6 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover),
             fragment.arguments = bundle
             fragmentsList.add(fragment)
         }
-
         pagerAdapter?.notifyDataSetChanged()
         navigatorAdapter?.notifyDataSetChanged()
         binding.mViewPager.currentItem = 0
@@ -162,7 +185,10 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover),
 
 
     fun configTitle() {
+        if (binding.mBookSourceView.isClosed) {
+            binding.mBookSourceView.show()
+        } else {
+            binding.mBookSourceView.close()
+        }
     }
-
-
 }

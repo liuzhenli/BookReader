@@ -31,4 +31,5 @@ object EventBus {
     const val UPDATE_READ_ACTION_BAR = "updateReadActionBar"
     const val UP_SEEK_BAR = "upSeekBar"
     const val READ_ALOUD_PLAY = "readAloudPlay"
+    const val CHANGE_DISCOVER_TITLE = "changeDiscoverTitle"
 }

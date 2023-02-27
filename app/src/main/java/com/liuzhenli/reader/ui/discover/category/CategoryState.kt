@@ -10,4 +10,5 @@ import com.micoredu.reader.bean.rule.ExploreKind
 
 data class CategoryState(
     val getBookList: Async<List<SearchBook>> = Uninitialized,
+    val bookList: List<SearchBook> = listOf(),
 ) : MavericksState

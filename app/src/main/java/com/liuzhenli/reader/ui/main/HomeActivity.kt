@@ -26,8 +26,10 @@ import com.liuzhenli.reader.view.ImportBookSourceDialog
 import com.liuzhenli.reader.view.dialog.AddWxArticleDialog
 import com.micoredu.reader.BaseActivity
 import com.micoredu.reader.R
+import com.micoredu.reader.constant.EventBus
 import com.micoredu.reader.databinding.ActivityHomeBinding
 import com.micoredu.reader.ui.source.BookSourceActivity
+import com.micoredu.reader.utils.observeEvent
 import com.qmuiteam.qmui.kotlin.onClick
 
 
@@ -40,6 +42,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(), MavericksView {
     private var bookShelfFragment: BookShelfFragment? = null
     private var discoverFragment: DiscoverFragment? = null
 
+    private var currentTabIndex = 0;
     override fun invalidate() {
     }
 
@@ -48,7 +51,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(), MavericksView {
     }
 
     override fun init(savedInstanceState: Bundle?) {
-        setMenu(0)
+        setMenu(currentTabIndex)
         binding.navView.menu.clear()
         binding.navView.itemIconTintList = null
 
@@ -102,7 +105,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(), MavericksView {
         binding.viewMainLeft.mViewAbout.onClick {
 
         }
-
+        observeLiveBus()
     }
 
     private fun getImageButton(): ImageButton {
@@ -177,6 +180,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(), MavericksView {
 
     private fun setMenu(tabIndex: Int = 0) {
         binding.toolbar.menu.clear()
+        currentTabIndex = tabIndex
         when (tabIndex) {
             0 -> {
                 binding.tvToolbarTitle.text = resources.getString(R.string.bookshelf)
@@ -255,6 +259,14 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(), MavericksView {
             importBookSourceDialog!!.setCanceledOnTouchOutside(true)
         }
         importBookSourceDialog?.show()
+    }
+
+    fun observeLiveBus() {
+        observeEvent<String>(EventBus.CHANGE_DISCOVER_TITLE) {
+            if (currentTabIndex == 1) {
+                binding.tvToolbarTitle.text = it
+            }
+        }
     }
 
 }
