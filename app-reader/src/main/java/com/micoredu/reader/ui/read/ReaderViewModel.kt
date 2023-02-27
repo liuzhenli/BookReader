@@ -139,7 +139,7 @@ class ReaderViewModel(initialState: ReaderState) :
     /**
      * 加载详情页
      */
-    private fun loadBookInfo(book: Book) {
+    private fun loadBookInfo(book: Book) = withState {
         if (book.isLocal) {
             loadChapterList(book)
         } else {
@@ -161,8 +161,8 @@ class ReaderViewModel(initialState: ReaderState) :
     fun syncBookProgress(
         book: Book,
         alertSync: ((progress: BookProgress) -> Unit)? = null
-    ) {
-        if (!AppConfig.syncBookProgress) return
+    ) = withState {
+        if (!AppConfig.syncBookProgress) return@withState
         suspend {
             AppWebDav.getBookProgress(book)
         }.execute(Dispatchers.IO, retainValue = ReaderState::syncBookProgress) { progress ->
@@ -183,7 +183,7 @@ class ReaderViewModel(initialState: ReaderState) :
     /**
      * 换源
      */
-    fun changeTo(book: Book, toc: List<BookChapter>) {
+    fun changeTo(book: Book, toc: List<BookChapter>) = withState {
 
         suspend {
             ReadBook.upMsg(context.getString(R.string.loading))
@@ -208,8 +208,8 @@ class ReaderViewModel(initialState: ReaderState) :
     /**
      * 自动换源
      */
-    private fun autoChangeSource(name: String, author: String) {
-        if (!AppConfig.autoChangeSource) return
+    private fun autoChangeSource(name: String, author: String) = withState {
+        if (!AppConfig.autoChangeSource) return@withState
         suspend execute@{
             val sources = appDb.bookSourceDao.allTextEnabled
             sources.forEach { source ->
@@ -266,7 +266,7 @@ class ReaderViewModel(initialState: ReaderState) :
         }
     }
 
-    fun removeFromBookshelf() =withState{
+    fun removeFromBookshelf() = withState {
         suspend {
             ReadBook.book?.delete()
             true
@@ -275,7 +275,7 @@ class ReaderViewModel(initialState: ReaderState) :
         }
     }
 
-    fun upBookSource() {
+    fun upBookSource() = withState {
         suspend {
             ReadBook.book?.let { book ->
                 ReadBook.bookSource = appDb.bookSourceDao.getBookSource(book.origin)
@@ -286,7 +286,7 @@ class ReaderViewModel(initialState: ReaderState) :
         }
     }
 
-    fun refreshContentDur(book: Book) {
+    fun refreshContentDur(book: Book) = withState {
         suspend {
             appDb.bookChapterDao.getChapter(book.bookUrl, ReadBook.durChapterIndex)
                 ?.let { chapter ->
@@ -298,7 +298,7 @@ class ReaderViewModel(initialState: ReaderState) :
         }
     }
 
-    fun refreshContentAfter(book: Book) {
+    fun refreshContentAfter(book: Book) = withState {
         suspend {
             appDb.bookChapterDao.getChapterList(
                 book.bookUrl,
@@ -324,7 +324,7 @@ class ReaderViewModel(initialState: ReaderState) :
     /**
      * 保存内容
      */
-    fun saveContent(book: Book, content: String) {
+    fun saveContent(book: Book, content: String) = withState {
         suspend {
             appDb.bookChapterDao.getChapter(book.bookUrl, ReadBook.durChapterIndex)
                 ?.let { chapter ->
@@ -339,7 +339,7 @@ class ReaderViewModel(initialState: ReaderState) :
     /**
      * 反转内容
      */
-    fun reverseContent(book: Book) {
+    fun reverseContent(book: Book) = withState {
         suspend execute@{
             val chapter = appDb.bookChapterDao.getChapter(book.bookUrl, ReadBook.durChapterIndex)
                 ?: return@execute
@@ -417,7 +417,7 @@ class ReaderViewModel(initialState: ReaderState) :
         return arrayOf(pageIndex, lineIndex, charIndex, addLine, charIndex2)
     }
 
-    fun refreshImage(src: String) {
+    fun refreshImage(src: String) = withState {
         suspend {
             ReadBook.book?.let { book ->
                 val vFile = BookHelp.getImage(book, src)
@@ -469,7 +469,7 @@ class ReaderViewModel(initialState: ReaderState) :
     /**
      * 替换规则变化
      */
-    fun replaceRuleChanged() {
+    fun replaceRuleChanged() = withState {
         suspend {
             ReadBook.book?.let {
                 ContentProcessor.get(it.name, it.origin).upReplaceRules()
@@ -480,7 +480,7 @@ class ReaderViewModel(initialState: ReaderState) :
         }
     }
 
-    fun disableSource() {
+    fun disableSource() = withState {
         suspend {
             ReadBook.bookSource?.let {
                 it.enabled = false
