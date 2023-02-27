@@ -41,6 +41,7 @@ class BookDetailFragment : BaseFragment(R.layout.act_bookdetail),
             mViewModel.saveBook(book)
             val intent = Intent(context, ReaderActivity::class.java)
             intent.putExtra("bookUrl", book?.bookUrl)
+            intent.putExtra("inBookshelf", mViewModel.inBookshelf)
             context?.startActivity(intent)
         }
         setBookInfo(book)
@@ -61,10 +62,11 @@ class BookDetailFragment : BaseFragment(R.layout.act_bookdetail),
             })
 
         mViewModel.onEach(BookDetailState::isInBookShelf) { inBookshelf ->
+            mViewModel.inBookshelf = inBookshelf
             binding.mTvAddToBookshelf.text = if (inBookshelf) {
-                resources.getText(R.string.add_to_shelf)
-            } else {
                 resources.getText(R.string.remove_from_bookshelf)
+            } else {
+                resources.getText(R.string.add_to_shelf)
             }
         }
         binding.mTvAddToBookshelf.onClick {

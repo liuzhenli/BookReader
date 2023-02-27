@@ -266,7 +266,7 @@ class ReaderViewModel(initialState: ReaderState) :
         }
     }
 
-    fun removeFromBookshelf() {
+    fun removeFromBookshelf() =withState{
         suspend {
             ReadBook.book?.delete()
             true

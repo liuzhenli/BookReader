@@ -3,6 +3,7 @@ package com.liuzhenli.reader.ui.discover.category
 import com.airbnb.mvrx.MavericksViewModel
 import com.micoredu.reader.bean.BookSource
 import com.micoredu.reader.bean.SearchBook
+import com.micoredu.reader.dao.appDb
 import com.micoredu.reader.model.webBook.WebBook
 import kotlinx.coroutines.Dispatchers
 
@@ -23,6 +24,7 @@ class CategoryViewModel(initialState: CategoryState) :
             val searchResult = res()
             if (searchResult?.isNotEmpty() == true && !data.containsAll(searchResult)) {
                 data.addAll(searchResult)
+                appDb.searchBookDao.insert(*searchResult.toTypedArray())
             }
             copy(getBookList = res, bookList = data)
         }
