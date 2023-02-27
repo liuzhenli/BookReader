@@ -9,6 +9,7 @@ import com.micoredu.reader.bean.BookChapter
 data class BookDetailState(
     val book: Book = Book(),
     val isInBookShelf: Boolean = false,
+    val checkInBookShelf: Async<Boolean> = Uninitialized,
     val getBookInfo: Async<Book> = Uninitialized,
     val saveBook: Async<Any?> = Uninitialized,
     val upCoverByRule: Async<Any?> = Uninitialized,

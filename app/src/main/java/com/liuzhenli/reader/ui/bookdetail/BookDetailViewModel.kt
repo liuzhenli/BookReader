@@ -27,17 +27,19 @@ class BookDetailViewModel(initialState: BookDetailState) :
     var bookSource: BookSource? = null
     var isImportBookOnLine = false
     var inBookshelf = false
+    private lateinit var bookName: String
+    private lateinit var authorName: String
 
     init {
         state = initialState
     }
 
     fun initData(intent: Intent) {
-        val name = intent.getStringExtra("name") ?: ""
-        val author = intent.getStringExtra("author") ?: ""
+         bookName = intent.getStringExtra("name") ?: ""
+         authorName = intent.getStringExtra("author") ?: ""
         val bookUrl = intent.getStringExtra("bookUrl") ?: ""
 
-        appDb.bookDao.getBook(name, author)?.let {
+        appDb.bookDao.getBook(bookName, authorName)?.let {
             inBookshelf = true
             upBook(it)
             return
@@ -48,7 +50,7 @@ class BookDetailViewModel(initialState: BookDetailState) :
                 return
             }
         }
-        appDb.searchBookDao.getFirstByNameAuthor(name, author)?.toBook()?.let {
+        appDb.searchBookDao.getFirstByNameAuthor(bookName, authorName)?.toBook()?.let {
             upBook(it)
             return
         }
@@ -92,14 +94,14 @@ class BookDetailViewModel(initialState: BookDetailState) :
                 appDb.bookDao.update(book)
                 appDb.bookChapterDao.delByBook(book.bookUrl)
                 appDb.bookChapterDao.insert(*chapterList.toTypedArray())
-                copy(getBookChapter = it)
+                copy(getBookChapter = it, isInBookShelf = inBookshelf)
             }
         } else if (isImportBookOnLine) {
             setState { copy(chapterList = emptyList<BookChapter>()) }
         } else {
             bookSource?.let { bookSource ->
                 val oldBook = book.copy()
-                if (TextUtils.isEmpty(book.tocUrl)){
+                if (TextUtils.isEmpty(book.tocUrl)) {
                     return@withState
                 }
                 suspend {
@@ -122,7 +124,7 @@ class BookDetailViewModel(initialState: BookDetailState) :
                             ReadBook.chapterSize = book.totalChapterNum
                         }
                     }
-                    copy(getBookChapter = result)
+                    copy(getBookChapter = result, isInBookShelf = inBookshelf)
                 }
 
             } ?: let {
@@ -223,6 +225,14 @@ class BookDetailViewModel(initialState: BookDetailState) :
             inBookshelf
         }.execute(Dispatchers.IO, retainValue = BookDetailState::removeFromBookshelf) {
             copy(isInBookShelf = inBookshelf)
+        }
+    }
+
+    fun checkBookIsInBookShelf() = withState {
+        suspend {
+            appDb.bookDao.getBook(bookName, authorName)!=null
+        }.execute(Dispatchers.IO, retainValue = BookDetailState::checkInBookShelf){
+            copy(isInBookShelf = it()?:false)
         }
     }
 }

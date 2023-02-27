@@ -108,4 +108,9 @@ class BookDetailFragment : BaseFragment(R.layout.act_bookdetail),
             binding.mTvDownload.visibility = View.GONE
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        mViewModel.checkBookIsInBookShelf()
+    }
 }

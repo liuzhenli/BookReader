@@ -43,6 +43,7 @@ class ReaderActivity : BaseActivity<ActivityReaderBinding>() {
                         okButton {
                             ReadBook.inBookshelf = true
                             setResult(Activity.RESULT_OK)
+                            super.finish()
                         }
                         noButton {
                             fragment.mViewMode.removeFromBookshelf()
