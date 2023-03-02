@@ -17,6 +17,7 @@ import com.liuzhenli.common.utils.AppConfig
 import com.micoredu.reader.BaseActivity
 import com.micoredu.reader.bean.Book
 import com.micoredu.reader.constant.EventBus
+import com.micoredu.reader.help.config.ReadBookConfig
 import com.micoredu.reader.help.config.ThemeConfig
 import com.micoredu.reader.model.ReadBook
 import com.micoredu.reader.page.ContentTextView
@@ -80,6 +81,8 @@ class ReaderActivity : BaseActivity<FragmentReaderBinding>(),
             }
 
             override fun onSettingClick() {
+                ViewUtils.hideBottomView(binding.mVBottomMenu)
+                ViewUtils.hideTopView(binding.mTopBar)
                 ViewUtils.showBottomView(binding.mVSettingMenu)
             }
 
@@ -93,7 +96,9 @@ class ReaderActivity : BaseActivity<FragmentReaderBinding>(),
 
         binding.mVSettingMenu.setReadSettingCallBack(object : ReadSettingMenu.ReadSettingCallBack {
             override fun onPageAnimChanged() {
-                postEvent(EventBus.UP_CONFIG, true)
+                ReadBook.book?.setPageAnim(ReadBookConfig.pageAnim)
+                binding.mPageView.upPageAnim()
+                ReadBook.loadContent(false)
             }
 
             override fun onTextStyleChanged() {
@@ -172,7 +177,7 @@ class ReaderActivity : BaseActivity<FragmentReaderBinding>(),
 
 
     override fun showActionMenu() {
-        if (binding.mVBottomMenu.visibility != View.VISIBLE) {
+        if (binding.mVBottomMenu.visibility != View.VISIBLE && binding.mVSettingMenu.visibility != View.VISIBLE) {
             ViewUtils.showBottomView(binding.mVBottomMenu)
             ViewUtils.showTopView(binding.mTopBar)
 
@@ -235,7 +240,7 @@ class ReaderActivity : BaseActivity<FragmentReaderBinding>(),
         resetPageOffset: Boolean,
         success: (() -> Unit)?
     ) {
-        Log.e("------","upContent")
+        Log.e("------", "upContent")
         launch {
             binding.mPageView.upContent(relativePosition, resetPageOffset)
         }
@@ -250,7 +255,9 @@ class ReaderActivity : BaseActivity<FragmentReaderBinding>(),
     }
 
     override fun upPageAnim() {
-        launch { binding.mPageView.upPageAnim() }
+        launch {
+            binding.mPageView.upPageAnim()
+        }
 
     }
 
@@ -279,6 +286,13 @@ class ReaderActivity : BaseActivity<FragmentReaderBinding>(),
         return true
     }
 
+    override fun onBackPressed() {
+        if (binding.mVBottomMenu.visibility == View.VISIBLE || binding.mVSettingMenu.visibility == View.VISIBLE) {
+            hideAllMenus()
+        } else {
+            super.onBackPressed()
+        }
+    }
 
     override fun finish() {
         ReadBook.book?.let {

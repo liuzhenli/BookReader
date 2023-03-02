@@ -1,6 +1,7 @@
 package com.micoredu.reader.widgets.menu;
 
 import static com.micoredu.reader.constant.PageAnim.coverPageAnim;
+import static com.micoredu.reader.constant.PageAnim.noAnim;
 import static com.micoredu.reader.constant.PageAnim.scrollPageAnim;
 import static com.micoredu.reader.constant.PageAnim.simulationPageAnim;
 import static com.micoredu.reader.constant.PageAnim.slidePageAnim;
@@ -361,9 +362,13 @@ public class ReadSettingMenu extends BaseMenu {
                 tvSettingPageModeVertical.setSelected(true);
                 ReadBookConfig.INSTANCE.setPageAnim(scrollPageAnim);
                 break;
+            case ReaderConfig.PageMode.NONE:
+                tvSettingPageModeEmpty.setSelected(true);
+                ReadBookConfig.INSTANCE.setPageAnim(noAnim);
+                break;
             default:
                 tvSettingPageModeEmpty.setSelected(true);
-                ReadBookConfig.INSTANCE.setPageAnim(coverPageAnim);
+                ReadBookConfig.INSTANCE.setPageAnim(slidePageAnim);
                 break;
         }
         if (callBack != null) {
