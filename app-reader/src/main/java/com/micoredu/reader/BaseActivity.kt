@@ -19,6 +19,9 @@ import com.liuzhenli.common.utils.setNavigationBarColorAuto
 import com.liuzhenli.common.utils.setStatusBarColorAuto
 import com.liuzhenli.common.utils.windowSize
 import com.microedu.lib.reader.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 import org.jetbrains.anko.toast
 import java.lang.ref.WeakReference
 
@@ -29,7 +32,7 @@ abstract class BaseActivity<VB : ViewBinding>(
     private val toolBarTheme: Theme = Theme.Auto,
     private val transparent: Boolean = false,
     private val imageBg: Boolean = true
-) : AppCompatActivity() {
+) : AppCompatActivity() , CoroutineScope by MainScope() {
     private var mWeakReference: WeakReference<Activity>? = null
 
     protected lateinit var binding: VB
@@ -44,6 +47,10 @@ abstract class BaseActivity<VB : ViewBinding>(
         setContentView(binding.root)
         upBackgroundImage()
         init(savedInstanceState)
+        observeLiveBus()
+    }
+
+    open fun observeLiveBus() {
     }
 
     open fun initTheme() {
@@ -120,6 +127,7 @@ abstract class BaseActivity<VB : ViewBinding>(
 
     override fun onDestroy() {
         super.onDestroy()
+        cancel()
     }
 
     private var dialog: LoadingDialog? = null

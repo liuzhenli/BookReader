@@ -31,4 +31,12 @@ fun File.listFileDocs(filter: FileDocFilter? = null): ArrayList<FileDoc> {
     return docList
 }
 
+fun File.createFolderReplace(): File {
+    if (exists()) {
+        FileUtils.delete(this, true)
+    }
+    mkdirs()
+    return this
+}
+
 

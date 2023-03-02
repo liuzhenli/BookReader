@@ -9,6 +9,7 @@ import android.text.Editable
 import com.micoredu.reader.constant.AppPattern.dataUriRegex
 import java.io.File
 import java.util.*
+import java.util.regex.Pattern
 
 fun String?.safeTrim() = if (this.isNullOrBlank()) null else this.trim()
 
@@ -69,11 +70,12 @@ fun String?.isTrue(nullIsTrue: Boolean = false): Boolean {
     if (this.isNullOrBlank() || this == "null") {
         return nullIsTrue
     }
-    return !this.matches("\\s*(?i)(false|no|not|0)\\s*".toRegex())
+    return !this.trim().matches("(?i)^(false|no|not|0)$".toRegex())
 }
 
-fun String.splitNotBlank(vararg delimiter: String): Array<String> = run {
-    this.split(*delimiter).map { it.trim() }.filterNot { it.isBlank() }.toTypedArray()
+fun String.splitNotBlank(vararg delimiter: String, limit: Int = 0): Array<String> = run {
+    this.split(*delimiter, limit = limit).map { it.trim() }.filterNot { it.isBlank() }
+        .toTypedArray()
 }
 
 fun String.splitNotBlank(regex: Regex, limit: Int = 0): Array<String> = run {
@@ -89,18 +91,34 @@ fun String.cnCompare(other: String): Int {
 }
 
 /**
+ * 字符串所占内存大小
+ */
+fun String?.memorySize(): Int {
+    this ?: return 0
+    return 40 + 2 * length
+}
+
+/**
+ * 是否中文
+ */
+fun String.isChinese(): Boolean {
+    val p = Pattern.compile("[\u4e00-\u9fa5]")
+    val m = p.matcher(this)
+    return m.find()
+}
+
+/**
  * 将字符串拆分为单个字符,包含emoji
  */
-fun String.toStringArray(): Array<String> {
+fun CharSequence.toStringArray(): Array<String> {
     var codePointIndex = 0
     return try {
-        Array(codePointCount(0, length)) {
+        Array(Character.codePointCount(this, 0, length)) {
             val start = codePointIndex
-            codePointIndex = offsetByCodePoints(start, 1)
+            codePointIndex = Character.offsetByCodePoints(this, start, 1)
             substring(start, codePointIndex)
         }
     } catch (e: Exception) {
         split("").toTypedArray()
     }
 }
-

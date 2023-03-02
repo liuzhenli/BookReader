@@ -1,6 +1,8 @@
 package com.micoredu.reader.help.book
 
+import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.ParcelFileDescriptor
 import androidx.documentfile.provider.DocumentFile
 import com.liuzhenli.common.utils.*
 import com.micoredu.reader.constant.AppPattern
@@ -17,9 +19,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 import org.apache.commons.text.similarity.JaccardSimilarity
 import splitties.init.appCtx
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
+import java.io.*
 import java.util.concurrent.CopyOnWriteArraySet
 import java.util.regex.Pattern
 import java.util.zip.ZipFile
@@ -86,9 +86,14 @@ object BookHelp {
         bookChapter: BookChapter,
         content: String
     ) {
-        saveText(book, bookChapter, content)
-        saveImages(bookSource, book, bookChapter, content)
-        postEvent(EventBus.SAVE_CONTENT, Pair(book, bookChapter))
+        try {
+            saveText(book, bookChapter, content)
+            saveImages(bookSource, book, bookChapter, content)
+            postEvent(EventBus.SAVE_CONTENT, Pair(book, bookChapter))
+        } catch (e: Exception) {
+            e.printStackTrace()
+            AppLog.put("保存正文失败 ${book.name} ${bookChapter.title}", e)
+        }
     }
 
     fun saveText(
@@ -106,22 +111,20 @@ object BookHelp {
         ).writeText(content)
     }
 
-    private suspend fun saveImages(
+    suspend fun saveImages(
         bookSource: BookSource,
         book: Book,
         bookChapter: BookChapter,
         content: String
     ) = coroutineScope {
         val awaitList = arrayListOf<Deferred<Unit>>()
-        content.split("\n").forEach {
-            val matcher = AppPattern.imgPattern.matcher(it)
-            if (matcher.find()) {
-                matcher.group(1)?.let { src ->
-                    val mSrc = NetworkUtils.getAbsoluteURL(bookChapter.url, src)
-                    awaitList.add(async {
-                        saveImage(bookSource, book, mSrc)
-                    })
-                }
+        val matcher = AppPattern.imgPattern.matcher(content)
+        while (matcher.find()) {
+            matcher.group(1)?.let { src ->
+                val mSrc = NetworkUtils.getAbsoluteURL(bookChapter.url, src)
+                awaitList.add(async {
+                    saveImage(bookSource, book, mSrc)
+                })
             }
         }
         awaitList.forEach {
@@ -142,8 +145,11 @@ object BookHelp {
             val bytes = analyzeUrl.getByteArrayAwait()
             //某些图片被加密，需要进一步解密
             ImageUtils.decode(
-              src, bytes, isCover = false, bookSource, book
+                src, bytes, isCover = false, bookSource, book
             )?.let {
+                if (!checkImage(bytes)) {
+                    AppLog.put("图片 $src 下载错误，数据异常")
+                }
                 FileUtils.createFileIfNotExist(
                     downloadDir,
                     cacheFolderName,
@@ -153,7 +159,8 @@ object BookHelp {
                 ).writeBytes(it)
             }
         } catch (e: Exception) {
-            AppLog.putDebug("${src}下载错误", e)
+            e.printStackTrace()
+            AppLog.put("图片 $src 下载错误\n${e.localizedMessage}", e)
         } finally {
             downloadImages.remove(src)
         }
@@ -178,9 +185,9 @@ object BookHelp {
         return suffix
     }
 
-    @Throws(IOException::class)
+    @Throws(IOException::class, FileNotFoundException::class)
     fun getEpubFile(book: Book): ZipFile {
-        val uri = Uri.parse(book.bookUrl)
+        val uri = book.getLocalUri()
         if (uri.isContentScheme()) {
             FileUtils.createFolderIfNotExist(downloadDir, cacheEpubFolderName)
             val path = FileUtils.getPath(downloadDir, cacheEpubFolderName, book.originName)
@@ -197,6 +204,22 @@ object BookHelp {
             return ZipFile(file)
         }
         return ZipFile(uri.path)
+    }
+
+    /**
+     * 获取本地书籍文件的ParcelFileDescriptor
+     *
+     * @param book
+     * @return
+     */
+    @Throws(IOException::class, FileNotFoundException::class)
+    fun getBookPFD(book: Book): ParcelFileDescriptor? {
+        val uri = book.getLocalUri()
+        return if (uri.isContentScheme()) {
+            appCtx.contentResolver.openFileDescriptor(uri, "r")
+        } else {
+            ParcelFileDescriptor.open(File(uri.path!!), ParcelFileDescriptor.MODE_READ_ONLY)
+        }
     }
 
     fun getChapterFiles(book: Book): HashSet<String> {
@@ -235,16 +258,40 @@ object BookHelp {
         if (!hasContent(book, bookChapter)) {
             return false
         }
+        var ret = true
+        val op = BitmapFactory.Options()
+        op.inJustDecodeBounds = true
         getContent(book, bookChapter)?.let {
             val matcher = AppPattern.imgPattern.matcher(it)
             while (matcher.find()) {
-                matcher.group(1)?.let { src ->
-                    val image = getImage(book, src)
-                    if (!image.exists()) {
-                        return false
-                    }
+                val src = matcher.group(1)!!
+                val image = getImage(book, src)
+                if (!image.exists()) {
+                    ret = false
+                    continue
+                }
+                if (SvgUtils.getSize(image.absolutePath) != null) {
+                    continue
+                }
+                BitmapFactory.decodeFile(image.absolutePath, op)
+                if (op.outWidth < 1 && op.outHeight < 1) {
+                    ret = false
+                    image.delete()
                 }
             }
+        }
+        return ret
+    }
+
+    private fun checkImage(bytes: ByteArray): Boolean {
+        if (SvgUtils.getSize(ByteArrayInputStream(bytes)) != null) {
+            return true
+        }
+        val op = BitmapFactory.Options()
+        op.inJustDecodeBounds = true
+        BitmapFactory.decodeByteArray(bytes, 0, bytes.size, op)
+        if (op.outWidth < 1 && op.outHeight < 1) {
+            return false
         }
         return true
     }
@@ -281,6 +328,41 @@ object BookHelp {
             book.getFolderName(),
             bookChapter.getFileName()
         ).delete()
+    }
+
+    /**
+     * 设置是否禁用正文的去除重复标题,针对单个章节
+     */
+    fun setRemoveSameTitle(book: Book, bookChapter: BookChapter, removeSameTitle: Boolean) {
+        if (removeSameTitle) {
+            val path = FileUtils.getPath(
+                downloadDir,
+                cacheFolderName,
+                book.getFolderName(),
+                bookChapter.getFileName(".nr")
+            )
+            File(path).delete()
+        } else {
+            FileUtils.createFileIfNotExist(
+                downloadDir,
+                cacheFolderName,
+                book.getFolderName(),
+                bookChapter.getFileName(".nr")
+            )
+        }
+    }
+
+    /**
+     * 获取是否去除重复标题
+     */
+    fun removeSameTitle(book: Book, bookChapter: BookChapter): Boolean {
+        val path = FileUtils.getPath(
+            downloadDir,
+            cacheFolderName,
+            book.getFolderName(),
+            bookChapter.getFileName(".nr")
+        )
+        return !File(path).exists()
     }
 
     /**

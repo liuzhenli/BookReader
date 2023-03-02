@@ -158,7 +158,15 @@ object ReadBookConfig {
                 appCtx.putPrefBoolean(PreferKey.shareLayout, value)
             }
         }
+
+    /**
+     * 两端对齐
+     */
     val textFullJustify get() = appCtx.getPrefBoolean(PreferKey.textFullJustify, true)
+
+    /**
+     * 底部对齐
+     */
     val textBottomJustify get() = appCtx.getPrefBoolean(PreferKey.textBottomJustify, true)
     var hideStatusBar = appCtx.getPrefBoolean(PreferKey.hideStatusBar)
     var hideNavigationBar = appCtx.getPrefBoolean(PreferKey.hideNavigationBar)
@@ -214,7 +222,9 @@ object ReadBookConfig {
             config.paragraphSpacing = value
         }
 
-    //标题位置 0:居左 1:居中 2:隐藏
+    /**
+     * 标题位置 0:居左 1:居中 2:隐藏
+     */
     var titleMode: Int
         get() = config.titleMode
         set(value) {
@@ -225,6 +235,11 @@ object ReadBookConfig {
         set(value) {
             config.titleSize = value
         }
+
+    /**
+     * 是否标题居中
+     */
+    val isMiddleTitle get() = titleMode == 1
 
     var titleTopSpacing: Int
         get() = config.titleTopSpacing
@@ -375,11 +390,10 @@ object ReadBookConfig {
                 FileUtils.delete(configZipPath)
                 val zipFile = FileUtils.createFileIfNotExist(configZipPath)
                 zipFile.writeBytes(byteArray)
-                val configDirPath = FileUtils.getPath(appCtx.externalCache, "readConfig")
-                FileUtils.delete(configDirPath)
+                val configDir = appCtx.externalCache.getFile("readConfig")
+                configDir.createFolderReplace()
                 @Suppress("BlockingMethodInNonBlockingContext")
-                ZipUtils.unzipFile(zipFile, FileUtils.createFolderIfNotExist(configDirPath))
-                val configDir = FileUtils.createFolderIfNotExist(configDirPath)
+                ZipUtils.unzipFile(zipFile, configDir)
                 val configFile = configDir.getFile(configFileName)
                 val config: Config = GSON.fromJsonObject<Config>(configFile.readText()).getOrThrow()
                     ?: throw NoStackTraceException("排版配置格式错误")
@@ -450,7 +464,7 @@ object ReadBookConfig {
         private var pageAnimEInk: Int = 3,
         var textFont: String = "",//字体
         var textBold: Int = 0,//是否粗体字 0:正常, 1:粗体, 2:细体
-        var textSize: Int = 16,//文字大小
+        var textSize: Int = 20,//文字大小
         var letterSpacing: Float = 0.1f,//字间距
         var lineSpacingExtra: Int = 12,//行间距
         var paragraphSpacing: Int = 2,//段距
@@ -480,6 +494,7 @@ object ReadBookConfig {
         var tipFooterMiddle: Int = ReadTipConfig.none,
         var tipFooterRight: Int = ReadTipConfig.pageAndTotal,
         var tipColor: Int = 0,
+        var tipDividerColor: Int = -1,
         var headerMode: Int = 0,
         var footerMode: Int = 0
     ) {
@@ -531,9 +546,6 @@ object ReadBookConfig {
             }
         }
 
-        /**
-         * @param bgType 2-night 3--inkMode
-         */
         fun setCurBg(bgType: Int, bg: String) {
             when {
                 AppConfig.isEInkMode -> {

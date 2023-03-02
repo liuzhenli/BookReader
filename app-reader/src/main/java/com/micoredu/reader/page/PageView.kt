@@ -2,6 +2,7 @@ package com.micoredu.reader.page
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.core.view.isGone
@@ -11,6 +12,7 @@ import com.liuzhenli.common.utils.activity
 import com.liuzhenli.common.utils.dpToPx
 import com.liuzhenli.common.utils.statusBarHeight
 import com.liuzhenli.common.utils.visible
+import com.micoredu.reader.BaseActivity
 import com.micoredu.reader.bean.Bookmark
 import com.microedu.lib.reader.databinding.ViewBookPageBinding
 import com.micoredu.reader.help.config.ReadBookConfig
@@ -30,7 +32,7 @@ import java.util.*
 class PageView(context: Context) : FrameLayout(context) {
 
     private val binding = ViewBookPageBinding.inflate(LayoutInflater.from(context), this, true)
-    private val readBookActivity get() = activity as? ReaderActivity
+    private val readBookActivity get() = activity as? BaseActivity<*>
     private var battery = 100
     private var tvTitle: BatteryView? = null
     private var tvTime: BatteryView? = null
@@ -59,9 +61,6 @@ class PageView(context: Context) : FrameLayout(context) {
         }
     }
 
-    fun setContentTextViewCallBack(callBack: ContentTextView.CallBack){
-        binding.contentTextView.setCallBack(callBack)
-    }
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         upBg()
@@ -73,12 +72,21 @@ class PageView(context: Context) : FrameLayout(context) {
             val tipColor = with(ReadTipConfig) {
                 if (tipColor == 0) it.textColor else tipColor
             }
+            val tipDividerColor = with(ReadTipConfig) {
+                when (tipDividerColor) {
+                    -1 -> Color.parseColor("#66666666")
+                    0 -> tipColor
+                    else -> tipDividerColor
+                }
+            }
             tvHeaderLeft.setColor(tipColor)
             tvHeaderMiddle.setColor(tipColor)
             tvHeaderRight.setColor(tipColor)
             tvFooterLeft.setColor(tipColor)
             tvFooterMiddle.setColor(tipColor)
             tvFooterRight.setColor(tipColor)
+            vwTopDivider.backgroundColor = tipDividerColor
+            vwBottomDivider.backgroundColor = tipDividerColor
             upStatusBar()
             llHeader.setPadding(
                 it.headerPaddingLeft.dpToPx(),
@@ -216,11 +224,7 @@ class PageView(context: Context) : FrameLayout(context) {
      * 更新背景
      */
     fun upBg() {
-        if (ReadBookConfig.bgAlpha < 100) {
-            binding.vwRoot.backgroundColor = ReadBookConfig.bgMeanColor
-        } else {
-            binding.vwRoot.background = null
-        }
+        binding.vwRoot.backgroundColor = ReadBookConfig.bgMeanColor
         binding.vwBg.background = ReadBookConfig.bg
         upBgAlpha()
     }
@@ -372,7 +376,7 @@ class PageView(context: Context) : FrameLayout(context) {
         return binding.contentTextView.createBookmark()
     }
 
-    fun relativePage(relativePagePos: Int): TextPage? {
+    fun relativePage(relativePagePos: Int): TextPage {
         return binding.contentTextView.relativePage(relativePagePos)
     }
 

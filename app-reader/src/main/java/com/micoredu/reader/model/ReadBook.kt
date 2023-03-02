@@ -12,6 +12,7 @@ import com.liuzhenli.common.utils.stackTraceStr
 import com.micoredu.reader.dao.appDb
 import com.micoredu.reader.help.config.ReadBookConfig
 import com.micoredu.reader.help.coroutine.Coroutine
+import com.micoredu.reader.model.localBook.TextFile
 import com.micoredu.reader.model.webBook.WebBook
 import com.micoredu.reader.page.entities.TextChapter
 import com.micoredu.reader.page.provider.ChapterProvider
@@ -42,9 +43,6 @@ object ReadBook : CoroutineScope by MainScope() {
     private val loadingChapters = arrayListOf<Int>()
     private val readRecord = ReadRecord()
     var readStartTime: Long = System.currentTimeMillis()
-
-    /* 跳转历史记录 */
-    var bookProgressHistory: List<BookProgress>? = null
 
     /* 跳转进度前进度记录 */
     var lastBookPress: BookProgress? = null
@@ -80,6 +78,7 @@ object ReadBook : CoroutineScope by MainScope() {
         upWebBook(book)
         lastBookPress = null
         webBookProgress = null
+        TextFile.txtBuffer = null
         synchronized(this) {
             loadingChapters.clear()
         }
@@ -197,7 +196,7 @@ object ReadBook : CoroutineScope by MainScope() {
         toLast: Boolean = true
     ): Boolean {
         if (durChapterIndex > 0) {
-            durChapterPos = if (toLast) prevTextChapter?.lastReadLength ?: 0 else 0
+            durChapterPos = if (toLast) prevTextChapter?.lastReadLength ?: Int.MAX_VALUE else 0
             durChapterIndex--
             nextTextChapter = curTextChapter
             curTextChapter = prevTextChapter
@@ -274,7 +273,9 @@ object ReadBook : CoroutineScope by MainScope() {
     }
 
     /**
-     * 加载章节内容
+     * 加载当前章节和前后一章内容
+     * @param resetPageOffset 滚动阅读是否重置滚动位置
+     * @param success 当前章节加载完成回调
      */
     fun loadContent(resetPageOffset: Boolean, success: (() -> Unit)? = null) {
         loadContent(durChapterIndex, resetPageOffset = resetPageOffset) {
@@ -284,6 +285,13 @@ object ReadBook : CoroutineScope by MainScope() {
         loadContent(durChapterIndex - 1, resetPageOffset = resetPageOffset)
     }
 
+    /**
+     * 加载章节内容
+     * @param index 章节序号
+     * @param upContent 是否更新视图
+     * @param resetPageOffset 滚动阅读是否重置滚动位置
+     * @param success 加载完成回调
+     */
     fun loadContent(
         index: Int,
         upContent: Boolean = true,
@@ -308,6 +316,9 @@ object ReadBook : CoroutineScope by MainScope() {
         }
     }
 
+    /**
+     * 下载正文
+     */
     private fun download(index: Int) {
         if (index < 0) return
         if (index > chapterSize - 1) {
@@ -332,6 +343,9 @@ object ReadBook : CoroutineScope by MainScope() {
         }
     }
 
+    /**
+     * 下载正文
+     */
     private fun download(
         scope: CoroutineScope,
         chapter: BookChapter,
@@ -468,6 +482,9 @@ object ReadBook : CoroutineScope by MainScope() {
      * 预下载
      */
     private fun preDownload() {
+        if (AppConfig.preDownloadNum < 2) {
+            return
+        }
         Coroutine.async {
             //预下载
             val maxChapterIndex = durChapterIndex + AppConfig.preDownloadNum
@@ -499,6 +516,7 @@ object ReadBook : CoroutineScope by MainScope() {
         fun contentLoadFinish()
 
         fun upPageAnim()
+
         fun notifyBookChanged()
     }
 

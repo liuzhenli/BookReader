@@ -105,7 +105,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(), MavericksView {
         binding.viewMainLeft.mViewAbout.onClick {
 
         }
-        observeLiveBus()
     }
 
     private fun getImageButton(): ImageButton {
@@ -261,7 +260,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(), MavericksView {
         importBookSourceDialog?.show()
     }
 
-    fun observeLiveBus() {
+    override fun observeLiveBus() {
         observeEvent<String>(EventBus.CHANGE_DISCOVER_TITLE) {
             if (currentTabIndex == 1) {
                 binding.tvToolbarTitle.text = it

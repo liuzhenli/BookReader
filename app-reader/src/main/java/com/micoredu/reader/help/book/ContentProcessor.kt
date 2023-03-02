@@ -16,6 +16,7 @@ import java.lang.ref.WeakReference
 import java.util.concurrent.CopyOnWriteArrayList
 import java.util.regex.Pattern
 import com.micoredu.reader.utils.replace
+import splitties.init.appCtx
 
 class ContentProcessor private constructor(
     private val bookName: String,
@@ -24,6 +25,7 @@ class ContentProcessor private constructor(
 
     companion object {
         private val processors = hashMapOf<String, WeakReference<ContentProcessor>>()
+        var enableRemoveSameTitle = true
 
         fun get(bookName: String, bookOrigin: String): ContentProcessor {
             val processorWr = processors[bookName + bookOrigin]
@@ -78,15 +80,33 @@ class ContentProcessor private constructor(
         useReplace: Boolean = true,
         chineseConvert: Boolean = true,
         reSegment: Boolean = true
-    ): List<String> {
+    ): BookContent {
         var mContent = content
+        var sameTitleRemoved = false
         if (content != "null") {
             //去除重复标题
-            try {
+            if (enableRemoveSameTitle && BookHelp.removeSameTitle(book, chapter)) try {
                 val name = Pattern.quote(book.name)
-                val title = Pattern.quote(chapter.title)
-                val titleRegex = "^(\\s|\\p{P}|${name})*${title}(\\s)*".toRegex()
-                mContent = mContent.replace(titleRegex, "")
+                var title = Pattern.quote(chapter.title)
+                var matcher = Pattern.compile("^(\\s|\\p{P}|${name})*${title}(\\s)*")
+                    .matcher(mContent)
+                if (matcher.find()) {
+                    mContent = mContent.substring(matcher.end())
+                    sameTitleRemoved = true
+                } else if (useReplace) {
+                    title = Pattern.quote(
+                        chapter.getDisplayTitle(
+                            contentReplaceRules,
+                            chineseConvert = false
+                        )
+                    )
+                    matcher = Pattern.compile("^(\\s|\\p{P}|${name})*${title}(\\s)*")
+                        .matcher(mContent)
+                    if (matcher.find()) {
+                        mContent = mContent.substring(matcher.end())
+                        sameTitleRemoved = true
+                    }
+                }
             } catch (e: Exception) {
                 AppLog.put("去除重复标题出错\n${e.localizedMessage}", e)
             }
@@ -130,10 +150,10 @@ class ContentProcessor private constructor(
                 }
             }
         }
-        return contents
+        return BookContent(sameTitleRemoved, contents)
     }
 
-    suspend fun replaceContent(content: String): String {
+    private suspend fun replaceContent(content: String): String {
         var mContent = content
         mContent = mContent.lines().joinToString("\n") { it.trim() }
         getContentReplaceRules().forEach { item ->
@@ -156,7 +176,7 @@ class ContentProcessor private constructor(
                     return mContent
                 } catch (e: Exception) {
                     AppLog.put("替换净化: 规则 ${item.name}替换出错\n替换内容\n${mContent}", e)
-                    ToastUtil.showToast("替换净化: 规则 ${item.name}替换出错")
+                   ToastUtil.showToast("替换净化: 规则 ${item.name}替换出错")
                 }
             }
         }

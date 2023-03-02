@@ -13,8 +13,8 @@ import android.view.ViewConfiguration
 import android.view.WindowInsets
 import android.widget.FrameLayout
 import com.liuzhenli.common.theme.accentColor
+import com.liuzhenli.common.utils.*
 import com.micoredu.reader.constant.PageAnim
-import com.liuzhenli.common.utils.AppConfig
 import com.micoredu.reader.help.config.ReadBookConfig
 import com.micoredu.reader.model.ReadAloud
 import com.micoredu.reader.model.ReadBook
@@ -27,9 +27,6 @@ import com.micoredu.reader.page.entities.TextPage
 import com.micoredu.reader.page.entities.TextPos
 import com.micoredu.reader.page.provider.ChapterProvider
 import com.micoredu.reader.page.provider.TextPageFactory
-import com.liuzhenli.common.utils.activity
-import com.liuzhenli.common.utils.invisible
-import com.liuzhenli.common.utils.screenshot
 import java.text.BreakIterator
 import java.util.*
 import kotlin.math.abs
@@ -41,7 +38,7 @@ class ReadView(context: Context, attrs: AttributeSet) :
     FrameLayout(context, attrs),
     DataSource {
 
-    var callBack: CallBack? = null
+    val callBack: CallBack get() = activity as CallBack
     var pageFactory: TextPageFactory = TextPageFactory(this)
     var pageDelegate: PageDelegate? = null
         private set(value) {
@@ -115,15 +112,6 @@ class ReadView(context: Context, attrs: AttributeSet) :
         }
     }
 
-    fun setReadViewCallBack(callBack: CallBack){
-        this.callBack=callBack
-    }
-
-    fun setContentTextViewCallBack(callBack: ContentTextView.CallBack){
-        nextPage.setContentTextViewCallBack(callBack)
-        curPage.setContentTextViewCallBack(callBack)
-        prevPage.setContentTextViewCallBack(callBack)
-    }
     private fun setRect9x() {
         tlRect.set(0f, 0f, width * 0.33f, height * 0.33f)
         tcRect.set(width * 0.33f, 0f, width * 0.66f, height * 0.33f)
@@ -149,10 +137,10 @@ class ReadView(context: Context, attrs: AttributeSet) :
     override fun dispatchDraw(canvas: Canvas) {
         super.dispatchDraw(canvas)
         pageDelegate?.onDraw(canvas)
-        if (!isInEditMode && callBack?.isAutoPage == true && !isScroll) {
+        if (!isInEditMode && callBack.isAutoPage && !isScroll) {
             // 自动翻页
             nextPage.screenshot()?.let {
-                val bottom = callBack?.autoPageProgress ?: 0
+                val bottom = callBack.autoPageProgress
                 autoPageRect.set(0, 0, width, bottom)
                 canvas.drawBitmap(it, autoPageRect, autoPageRect, null)
                 canvas.drawRect(
@@ -193,7 +181,7 @@ class ReadView(context: Context, attrs: AttributeSet) :
 
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                callBack?.screenOffTimerStart()
+                callBack.screenOffTimerStart()
                 if (isTextSelected) {
                     curPage.cancelSelect()
                     isTextSelected = false
@@ -230,7 +218,7 @@ class ReadView(context: Context, attrs: AttributeSet) :
                 }
             }
             MotionEvent.ACTION_UP -> {
-                callBack?.screenOffTimerStart()
+                callBack.screenOffTimerStart()
                 removeCallbacks(longPressRunnable)
                 if (!pressDown) return true
                 pressDown = false
@@ -243,7 +231,7 @@ class ReadView(context: Context, attrs: AttributeSet) :
                     }
                 }
                 if (isTextSelected) {
-                    callBack?.showTextActionMenu()
+                    callBack.showTextActionMenu()
                 } else if (isPageMove) {
                     pageDelegate?.onTouch(event)
                 }
@@ -254,7 +242,7 @@ class ReadView(context: Context, attrs: AttributeSet) :
                 if (!pressDown) return true
                 pressDown = false
                 if (isTextSelected) {
-                    callBack?.showTextActionMenu()
+                    callBack.showTextActionMenu()
                 } else if (isPageMove) {
                     pageDelegate?.onTouch(event)
                 }
@@ -320,25 +308,21 @@ class ReadView(context: Context, attrs: AttributeSet) :
                 var lineStart = textPos.lineIndex
                 var lineEnd = textPos.lineIndex
                 for (index in textPos.lineIndex - 1 downTo 0) {
-                    val textLine = page?.getLine(index)
-                    if (textLine != null) {
-                        if (textLine.isParagraphEnd) {
-                            break
-                        } else {
-                            stringBuilder.insert(0, textLine.text)
-                            lineStart -= 1
-                            cIndex += textLine.charSize
-                        }
+                    val textLine = page.getLine(index)
+                    if (textLine.isParagraphEnd) {
+                        break
+                    } else {
+                        stringBuilder.insert(0, textLine.text)
+                        lineStart -= 1
+                        cIndex += textLine.charSize
                     }
                 }
-                if (page != null) {
-                    for (index in textPos.lineIndex until page.lineSize) {
-                        val textLine = page.getLine(index)
-                        stringBuilder.append(textLine.text)
-                        lineEnd += 1
-                        if (textLine.isParagraphEnd) {
-                            break
-                        }
+                for (index in textPos.lineIndex until page.lineSize) {
+                    val textLine = page.getLine(index)
+                    stringBuilder.append(textLine.text)
+                    lineEnd += 1
+                    if (textLine.isParagraphEnd) {
+                        break
                     }
                 }
                 var start: Int
@@ -356,19 +340,17 @@ class ReadView(context: Context, attrs: AttributeSet) :
                 kotlin.run {
                     var ci = 0
                     for (index in lineStart..lineEnd) {
-                        val textLine = page?.getLine(index)
-                        if (textLine != null) {
-                            for (j in 0 until textLine.charSize) {
-                                if (ci == start) {
-                                    startPos.lineIndex = index
-                                    startPos.columnIndex = j
-                                } else if (ci == end - 1) {
-                                    endPos.lineIndex = index
-                                    endPos.columnIndex = j
-                                    return@run
-                                }
-                                ci++
+                        val textLine = page.getLine(index)
+                        for (j in 0 until textLine.charSize) {
+                            if (ci == start) {
+                                startPos.lineIndex = index
+                                startPos.columnIndex = j
+                            } else if (ci == end - 1) {
+                                endPos.lineIndex = index
+                                endPos.columnIndex = j
+                                return@run
                             }
+                            ci++
                         }
                     }
                 }
@@ -427,13 +409,18 @@ class ReadView(context: Context, attrs: AttributeSet) :
      */
     private fun click(action: Int) {
         when (action) {
-            0 -> callBack?.showActionMenu()
+            0 -> callBack.showActionMenu()
             1 -> pageDelegate?.nextPageByAnim(defaultAnimationSpeed)
             2 -> pageDelegate?.prevPageByAnim(defaultAnimationSpeed)
             3 -> ReadBook.moveToNextChapter(true)
             4 -> ReadBook.moveToPrevChapter(upContent = true, toLast = false)
             5 -> ReadAloud.prevParagraph(context)
             6 -> ReadAloud.nextParagraph(context)
+            7 -> callBack.addBookmark()
+            //8 -> activity?.showDialogFragment(ContentEditDialog())
+            9 -> callBack.changeReplaceRuleState()
+            10 -> callBack.openChapterList()
+            11 -> callBack.openSearchActivity(null)
         }
     }
 
@@ -529,7 +516,7 @@ class ReadView(context: Context, attrs: AttributeSet) :
      */
     override fun upContent(relativePosition: Int, resetPageOffset: Boolean) {
         curPage.setContentDescription(pageFactory.curPage.text)
-        if (isScroll && callBack?.isAutoPage != true) {
+        if (isScroll && !callBack.isAutoPage) {
             curPage.setContent(pageFactory.curPage, resetPageOffset)
         } else {
             curPage.resetPageOffset()
@@ -543,7 +530,7 @@ class ReadView(context: Context, attrs: AttributeSet) :
                 }
             }
         }
-        callBack?.screenOffTimerStart()
+        callBack.screenOffTimerStart()
     }
 
     /**
@@ -632,17 +619,17 @@ class ReadView(context: Context, attrs: AttributeSet) :
 
     override val currentChapter: TextChapter?
         get() {
-            return if (callBack?.isInitFinish == true) ReadBook.textChapter(0) else null
+            return if (callBack.isInitFinish) ReadBook.textChapter(0) else null
         }
 
     override val nextChapter: TextChapter?
         get() {
-            return if (callBack?.isInitFinish == true) ReadBook.textChapter(1) else null
+            return if (callBack.isInitFinish) ReadBook.textChapter(1) else null
         }
 
     override val prevChapter: TextChapter?
         get() {
-            return if (callBack?.isInitFinish == true) ReadBook.textChapter(-1) else null
+            return if (callBack.isInitFinish) ReadBook.textChapter(-1) else null
         }
 
     override fun hasNextChapter(): Boolean {
@@ -661,5 +648,9 @@ class ReadView(context: Context, attrs: AttributeSet) :
         fun screenOffTimerStart()
         fun showTextActionMenu()
         fun autoPageStop()
+        fun openChapterList()
+        fun addBookmark()
+        fun changeReplaceRuleState()
+        fun openSearchActivity(searchWord: String?)
     }
 }

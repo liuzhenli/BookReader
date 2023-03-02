@@ -1,12 +1,14 @@
 package com.micoredu.reader.ui.read
 
-import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.documentfile.provider.DocumentFile
 import com.airbnb.mvrx.MavericksViewModel
 import com.liuzhenli.common.exception.NoStackTraceException
 import com.liuzhenli.common.utils.*
+import com.micoredu.reader.BaseActivity
+import com.micoredu.reader.BaseFragment
 import com.micoredu.reader.bean.Book
 import com.micoredu.reader.bean.BookChapter
 import com.micoredu.reader.bean.BookProgress
@@ -28,6 +30,7 @@ import com.micoredu.reader.service.BaseReadAloudService
 import com.micoredu.reader.utils.toStringArray
 import com.microedu.lib.reader.R
 import kotlinx.coroutines.Dispatchers
+import splitties.init.appCtx
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -38,13 +41,13 @@ class ReaderViewModel(initialState: ReaderState) :
     var searchContentQuery = ""
     var searchResultList: List<SearchResult>? = null
     var searchResultIndex: Int = 0
-    lateinit var context: Context
+    lateinit var mFragment: BaseActivity<*>
 
-    fun initData(context: Context, bundle: Bundle?) {
-        this.context = context
-        ReadBook.inBookshelf = bundle?.getBoolean("inBookshelf", true) == true
-        ReadBook.tocChanged = bundle?.getBoolean("tocChanged", false) == true
-        val bookUrl = bundle?.getString("bookUrl")
+    fun initData(context: BaseActivity<*>, bundle: Intent?) {
+        this.mFragment = context
+        ReadBook.inBookshelf = bundle?.getBooleanExtra("inBookshelf", true) == true
+        ReadBook.tocChanged = bundle?.getBooleanExtra("tocChanged", false) == true
+        val bookUrl = bundle?.getStringExtra("bookUrl")
         val book = when {
             bookUrl.isNullOrEmpty() -> appDb.bookDao.lastReadBook
             else -> appDb.bookDao.getBook(bookUrl)
@@ -87,7 +90,6 @@ class ReaderViewModel(initialState: ReaderState) :
         }
         if (!book.isLocal && ReadBook.bookSource == null) {
             autoChangeSource(book.name, book.author)
-            return
         }
     }
 
@@ -127,7 +129,7 @@ class ReaderViewModel(initialState: ReaderState) :
                         ReadBook.upMsg(null)
                         ReadBook.loadContent(resetPageOffset = true)
                     }.onError {
-                        ReadBook.upMsg(context.getString(R.string.error_load_toc))
+                        ReadBook.upMsg(mFragment.getString(R.string.error_load_toc))
                     }.onFinally {
                         callback?.invoke()
                     }
@@ -170,9 +172,13 @@ class ReaderViewModel(initialState: ReaderState) :
                 (progress()?.durChapterIndex == book.durChapterIndex
                         && (progress()?.durChapterPos ?: 0) < book.durChapterPos)
             ) {
-                progress()?.let { alertSync?.invoke(it) }
+                progress()?.let {
+                    alertSync?.invoke(it)
+                }
             } else {
-                progress()?.let { ReadBook.setProgress(it) }
+                progress()?.let {
+                    ReadBook.setProgress(it)
+                }
                 AppLog.put("自动同步阅读进度成功")
             }
             copy(syncBookProgress = progress)
@@ -186,7 +192,7 @@ class ReaderViewModel(initialState: ReaderState) :
     fun changeTo(book: Book, toc: List<BookChapter>) = withState {
 
         suspend {
-            ReadBook.upMsg(context.getString(R.string.loading))
+            ReadBook.upMsg(mFragment.getString(R.string.loading))
             ReadBook.book?.migrateTo(book, toc)
             book.removeType(BookType.updateError)
             appDb.bookDao.insert(book)
@@ -443,9 +449,9 @@ class ReaderViewModel(initialState: ReaderState) :
             val image = BookHelp.getImage(book, src)
             FileInputStream(image).use { input ->
                 if (uri.isContentScheme()) {
-                    DocumentFile.fromTreeUri(context, uri)?.let { doc ->
+                    DocumentFile.fromTreeUri(appCtx, uri)?.let { doc ->
                         val imageDoc = DocumentUtils.createFileIfNotExist(doc, image.name)!!
-                        context.contentResolver.openOutputStream(imageDoc.uri)!!.use { output ->
+                        appCtx.contentResolver.openOutputStream(imageDoc.uri)!!.use { output ->
                             input.copyTo(output)
                         }
                     }
@@ -494,7 +500,7 @@ class ReaderViewModel(initialState: ReaderState) :
     override fun onCleared() {
         super.onCleared()
         if (BaseReadAloudService.pause) {
-            ReadAloud.stop(context)
+            ReadAloud.stop(mFragment)
         }
     }
 

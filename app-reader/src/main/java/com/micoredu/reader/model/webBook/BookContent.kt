@@ -73,7 +73,7 @@ object BookContent {
                     source = bookSource,
                     ruleData = book,
                     headerMapF = bookSource.getHeaderMap()
-                ).getStrResponseAwait()
+                ).getStrResponseConcurrentAwait() //控制并发访问
                 res.body?.let { nextBody ->
                     contentData = analyzeContent(
                         book, nextUrl, res.url, nextBody, contentRule,
@@ -91,13 +91,12 @@ object BookContent {
                 val asyncArray = Array(contentData.second.size) {
                     async(IO) {
                         val urlStr = contentData.second[it]
-                        val analyzeUrl = AnalyzeUrl(
+                        val res = AnalyzeUrl(
                             mUrl = urlStr,
                             source = bookSource,
                             ruleData = book,
                             headerMapF = bookSource.getHeaderMap()
-                        )
-                        val res = analyzeUrl.getStrResponseAwait()
+                        ).getStrResponseConcurrentAwait() //控制并发访问
                         analyzeContent(
                             book, urlStr, res.url, res.body!!, contentRule,
                             bookChapter, bookSource, mNextChapterUrl, false
