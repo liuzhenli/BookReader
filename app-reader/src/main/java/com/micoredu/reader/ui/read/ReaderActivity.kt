@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -49,6 +50,10 @@ class ReaderActivity : BaseActivity<FragmentReaderBinding>(),
     }
 
     override fun init(savedInstanceState: Bundle?) {
+        binding.cursorLeft.setOnTouchListener(this)
+        binding.cursorRight.setOnTouchListener(this)
+        ReadBook.callBack?.notifyBookChanged()
+        ReadBook.callBack = this
 
         mViewMode.initData(this, intent)
         binding.mVBottomMenu.setOnMenuElementClickListener(object :
@@ -149,14 +154,6 @@ class ReaderActivity : BaseActivity<FragmentReaderBinding>(),
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding.cursorLeft.setOnTouchListener(this)
-        binding.cursorRight.setOnTouchListener(this)
-        ReadBook.callBack?.notifyBookChanged()
-        ReadBook.callBack = this
-    }
-
     override fun upSelectedStart(x: Float, y: Float, top: Float) {
 
     }
@@ -238,6 +235,7 @@ class ReaderActivity : BaseActivity<FragmentReaderBinding>(),
         resetPageOffset: Boolean,
         success: (() -> Unit)?
     ) {
+        Log.e("------","upContent")
         launch {
             binding.mPageView.upContent(relativePosition, resetPageOffset)
         }
