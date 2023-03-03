@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:ignore="MissingDefaultResource">
 
-    <include layout="@layout/layout_common_toolbar" />
+    <include layout="@layout/layout_common_toolbar" android:id="@+id/icToolBar"/>
 
     <include layout="@layout/layout_common_tab_layout" />
 

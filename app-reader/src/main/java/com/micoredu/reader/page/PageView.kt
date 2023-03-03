@@ -12,7 +12,7 @@ import com.liuzhenli.common.utils.activity
 import com.liuzhenli.common.utils.dpToPx
 import com.liuzhenli.common.utils.statusBarHeight
 import com.liuzhenli.common.utils.visible
-import com.micoredu.reader.BaseActivity
+import com.liuzhenli.common.BaseActivity
 import com.micoredu.reader.bean.Bookmark
 import com.microedu.lib.reader.databinding.ViewBookPageBinding
 import com.micoredu.reader.help.config.ReadBookConfig
@@ -21,7 +21,6 @@ import com.micoredu.reader.model.ReadBook
 import com.micoredu.reader.page.entities.TextPage
 import com.micoredu.reader.page.entities.TextPos
 import com.micoredu.reader.page.provider.ChapterProvider
-import com.micoredu.reader.ui.read.ReaderActivity
 import com.micoredu.reader.widgets.BatteryView
 import splitties.views.backgroundColor
 import java.util.*

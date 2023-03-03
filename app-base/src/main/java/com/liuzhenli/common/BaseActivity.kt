@@ -1,7 +1,6 @@
-package com.micoredu.reader
+package com.liuzhenli.common
 
 import android.app.Activity
-import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,16 +12,9 @@ import com.liuzhenli.common.theme.backgroundColor
 import com.liuzhenli.common.theme.primaryColor
 import com.liuzhenli.common.utils.*
 import com.liuzhenli.common.widget.dialog.LoadingDialog
-import com.micoredu.reader.help.config.ThemeConfig
-import com.liuzhenli.common.utils.setLightStatusBar
-import com.liuzhenli.common.utils.setNavigationBarColorAuto
-import com.liuzhenli.common.utils.setStatusBarColorAuto
-import com.liuzhenli.common.utils.windowSize
-import com.microedu.lib.reader.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
-import org.jetbrains.anko.toast
 import java.lang.ref.WeakReference
 
 
@@ -45,7 +37,6 @@ abstract class BaseActivity<VB : ViewBinding>(
         setupSystemBar()
         binding = inflateView(layoutInflater)
         setContentView(binding.root)
-        upBackgroundImage()
         init(savedInstanceState)
         observeLiveBus()
     }
@@ -99,19 +90,6 @@ abstract class BaseActivity<VB : ViewBinding>(
         }
     }
 
-    open fun upBackgroundImage() {
-        if (imageBg) {
-            try {
-                ThemeConfig.getBgImage(this, windowManager.windowSize)?.let {
-                    window.decorView.background = BitmapDrawable(resources, it)
-                }
-            } catch (e: OutOfMemoryError) {
-                toast("背景图片太大,内存溢出")
-            } catch (e: Exception) {
-                AppLog.put("加载背景出错\n${e.localizedMessage}", e)
-            }
-        }
-    }
 
     protected abstract fun inflateView(inflater: LayoutInflater?): VB
 

@@ -14,7 +14,7 @@ import com.github.liuyueyi.quick.transfer.ChineseUtils
 import com.github.liuyueyi.quick.transfer.constants.TransType
 import com.liuzhenli.common.theme.ViewUtils
 import com.liuzhenli.common.utils.AppConfig
-import com.micoredu.reader.BaseActivity
+import com.liuzhenli.common.BaseActivity
 import com.micoredu.reader.bean.Book
 import com.micoredu.reader.constant.EventBus
 import com.micoredu.reader.help.config.ReadBookConfig
@@ -192,7 +192,7 @@ class ReaderActivity : BaseActivity<FragmentReaderBinding>(),
                 }
 
                 override fun onBookMarkClick() {
-                    BookChapterListActivity.start(this@ReaderActivity,ReadBook.book, listOf())
+                    BookChapterListActivity.start(this@ReaderActivity, ReadBook.book?.bookUrl)
                 }
             })
         } else {

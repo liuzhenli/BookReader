@@ -2,7 +2,7 @@ package com.liuzhenli.reader.ui.search
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import com.micoredu.reader.BaseActivity
+import com.liuzhenli.common.BaseActivity
 import com.micoredu.reader.databinding.ActivitySearchBinding
 
 class SearchActivity : BaseActivity<ActivitySearchBinding>() {

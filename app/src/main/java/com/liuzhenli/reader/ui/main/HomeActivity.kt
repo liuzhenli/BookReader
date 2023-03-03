@@ -24,7 +24,7 @@ import com.liuzhenli.reader.ui.search.SearchActivity
 import com.liuzhenli.reader.ui.shelf.BookShelfFragment
 import com.liuzhenli.reader.view.ImportBookSourceDialog
 import com.liuzhenli.reader.view.dialog.AddWxArticleDialog
-import com.micoredu.reader.BaseActivity
+import com.liuzhenli.common.BaseActivity
 import com.micoredu.reader.R
 import com.micoredu.reader.constant.EventBus
 import com.micoredu.reader.databinding.ActivityHomeBinding

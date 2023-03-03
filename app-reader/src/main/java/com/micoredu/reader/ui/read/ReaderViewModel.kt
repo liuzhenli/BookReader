@@ -2,13 +2,11 @@ package com.micoredu.reader.ui.read
 
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
 import androidx.documentfile.provider.DocumentFile
 import com.airbnb.mvrx.MavericksViewModel
 import com.liuzhenli.common.exception.NoStackTraceException
 import com.liuzhenli.common.utils.*
-import com.micoredu.reader.BaseActivity
-import com.micoredu.reader.BaseFragment
+import com.liuzhenli.common.BaseActivity
 import com.micoredu.reader.bean.Book
 import com.micoredu.reader.bean.BookChapter
 import com.micoredu.reader.bean.BookProgress

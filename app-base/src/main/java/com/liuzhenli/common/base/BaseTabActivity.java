@@ -1,6 +1,9 @@
 package com.liuzhenli.common.base;
 
+import android.os.Bundle;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -10,6 +13,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.liuzhenli.common.R;
 import com.liuzhenli.common.utils.UiUtils;
+import com.liuzhenli.common.BaseActivity;
 
 
 import java.util.List;
@@ -19,7 +23,7 @@ import java.util.List;
  *
  * @author Liuzhenli on 2019-10-18 15:44
  */
-public abstract class BaseTabActivity<P extends BaseContract.BasePresenter, V extends ViewBinding> extends BaseActivity<P, V> implements ViewPager.OnPageChangeListener {
+public abstract class BaseTabActivity<V extends ViewBinding> extends BaseActivity<V> implements ViewPager.OnPageChangeListener {
     protected TabLayout mTabLayout;
     protected ViewPager mVp;
     protected TabFragmentPageAdapter tabFragmentPageAdapter;
@@ -33,7 +37,7 @@ public abstract class BaseTabActivity<P extends BaseContract.BasePresenter, V ex
     protected abstract List<String> createTabTitles();
 
     @Override
-    protected void configViews() {
+    protected void init(@Nullable Bundle savedInstanceState) {
         mTabLayout = findViewById(R.id.tab_tl_indicator);
         mVp = findViewById(R.id.tab_vp);
         setUpTabLayout();

@@ -2,7 +2,7 @@ package com.micoredu.reader.ui.source
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import com.micoredu.reader.BaseActivity
+import com.liuzhenli.common.BaseActivity
 import com.microedu.lib.reader.databinding.ActivityEditsourceBinding
 
 class EditSourceActivity : BaseActivity<ActivityEditsourceBinding>() {

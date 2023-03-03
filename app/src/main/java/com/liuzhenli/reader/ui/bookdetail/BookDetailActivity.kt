@@ -3,7 +3,7 @@ package com.liuzhenli.reader.ui.bookdetail
 import android.os.Bundle
 import android.view.LayoutInflater
 import com.airbnb.mvrx.asMavericksArgs
-import com.micoredu.reader.BaseActivity
+import com.liuzhenli.common.BaseActivity
 import com.micoredu.reader.databinding.ActivityBookdetailBinding
 
 class BookDetailActivity : BaseActivity<ActivityBookdetailBinding>() {

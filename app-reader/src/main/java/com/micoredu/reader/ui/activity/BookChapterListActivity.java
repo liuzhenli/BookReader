@@ -2,15 +2,15 @@ package com.micoredu.reader.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.liuzhenli.common.BaseApplication;
 import com.liuzhenli.common.BitIntentDataManager;
-import com.liuzhenli.common.AppComponent;
-import com.liuzhenli.common.base.BaseContract;
 import com.liuzhenli.common.utils.ClickUtils;
 import com.liuzhenli.common.base.BaseTabActivity;
 import com.microedu.lib.reader.R;
@@ -29,12 +29,9 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Description:
- *
- * @author liuzhenli 2021/1/26
- * Email: 848808263@qq.com
+ * Description:chapter list and bookmark list
  */
-public class BookChapterListActivity extends BaseTabActivity<BaseContract.BasePresenter, ActBookchapterlistBinding> {
+public class BookChapterListActivity extends BaseTabActivity<ActBookchapterlistBinding> {
 
     private ReadBook mBookShelf;
     /***正序*/
@@ -48,6 +45,7 @@ public class BookChapterListActivity extends BaseTabActivity<BaseContract.BasePr
     private boolean mIsFromReadPage;
 
     private boolean isAsc = true;
+    private String mBookUrl;
     private int mChapterId;
 
     public static void start(Context context, Book bookShelf, List<BookChapter> chapterBeanList, boolean isBookMark, boolean isFromReadPage, int chapterId) {
@@ -72,40 +70,23 @@ public class BookChapterListActivity extends BaseTabActivity<BaseContract.BasePr
         start(context, bookShelf, chapterBeanList, false, false, 0);
     }
 
+    public static void start(Context context, String bookUrl) {
+        Intent intent = new Intent(context, BookChapterListActivity.class);
+        intent.putExtra("bookUrl", bookUrl);
+        context.startActivity(intent);
+    }
+
     @Override
     protected ActBookchapterlistBinding inflateView(LayoutInflater inflater) {
         return ActBookchapterlistBinding.inflate(inflater);
     }
 
-    @Override
-    protected void setupActivityComponent(AppComponent appComponent) {
-
-    }
 
     @Override
-    protected void initToolBar() {
-        mTvRight.setText("倒序");
-        ClickUtils.click(mTvRight, o -> {
-            isAsc = !isAsc;
-            ((BookChapterListFragment) mFragmentList.get(0)).refreshData();
-            ((BookMarkFragment) mFragmentList.get(1)).refreshData();
-            if (isAsc) {
-                mTvRight.setText("倒序");
-            } else {
-                mTvRight.setText("正序");
-            }
-        });
-        mTvRight.setVisibility(View.VISIBLE);
+    protected void init(@Nullable Bundle savedInstanceState) {
+        super.init(savedInstanceState);
 
-        if (mBookShelf != null) {
-            mTvTitle.setText(mBookShelf.getBook().getName());
-        }
-
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    protected void initData() {
+        mBookUrl = getIntent().getStringExtra("bookUrl");
         String bookshelfKey = getIntent().getStringExtra("bookKey");
         mBookShelf = (ReadBook) BitIntentDataManager.getInstance().getData(bookshelfKey);
         mIsBookMark = getIntent().getBooleanExtra("isBookMark", false);
@@ -126,12 +107,28 @@ public class BookChapterListActivity extends BaseTabActivity<BaseContract.BasePr
                 mBookMarkDesc.add(0, mBookMarkList.get(i));
             }
         }
+        binding.icToolBar.tvToolbarRight.setText("倒序");
+        ClickUtils.click(binding.icToolBar.tvToolbarRight, o -> {
+            isAsc = !isAsc;
+            ((BookMarkFragment) mFragmentList.get(1)).refreshData();
+            if (isAsc) {
+                binding.icToolBar.tvToolbarRight.setText("倒序");
+            } else {
+                binding.icToolBar.tvToolbarRight.setText("正序");
+            }
+        });
+        binding.icToolBar.tvToolbarRight.setVisibility(View.VISIBLE);
+
+        if (mBookShelf != null) {
+            binding.icToolBar.tvToolbarTitle.setText(mBookShelf.getBook().getName());
+        }
 
     }
 
+
     @Override
     protected List<Fragment> createTabFragments() {
-        return Arrays.asList(BookChapterListFragment.getInstance(mIsFromReadPage, mChapterId), BookMarkFragment.getInstance(mIsFromReadPage));
+        return Arrays.asList(BookChapterListFragment.getInstance(mBookUrl, mChapterId), BookMarkFragment.getInstance(mIsFromReadPage));
     }
 
     @Override
@@ -160,13 +157,6 @@ public class BookChapterListActivity extends BaseTabActivity<BaseContract.BasePr
         return mBookMarkDesc;
     }
 
-    @Override
-    protected void configViews() {
-        super.configViews();
-        if (mIsBookMark) {
-            mVp.setCurrentItem(1);
-        }
-    }
 
     @Override
     protected void onResume() {
@@ -178,19 +168,17 @@ public class BookChapterListActivity extends BaseTabActivity<BaseContract.BasePr
     }
 
     private void changeTheme() {
-        mTabLayout.setBackground(ReadConfigManager.getInstance().getTextBackground(mContext));
+        mTabLayout.setBackground(ReadConfigManager.getInstance().getTextBackground(this));
         if (ReadConfigManager.getInstance().getIsNightTheme()) {
-            mToolBar.setBackgroundColor(getResources().getColor(R.color.skin_night_reader_scene_bg_color));
-            mImmersionBar.statusBarColor(R.color.skin_night_reader_scene_bg_color);
+            binding.icToolBar.tvToolbarTitle.setBackgroundColor(getResources().getColor(R.color.skin_night_reader_scene_bg_color));
             mTabLayout.setSelectedTabIndicatorColor(ReadConfigManager.getInstance().getTextColor());
         } else {
             mTabLayout.setSelectedTabIndicatorColor(ReadConfigManager.getInstance().getTextColor());
-            mImmersionBar.statusBarColorInt(ReadConfigManager.getInstance().getBgColor());
-            mToolBar.setBackgroundColor(ReadConfigManager.getInstance().getBgColor());
+            binding.icToolBar.toolbar.setBackgroundColor(ReadConfigManager.getInstance().getBgColor());
         }
-        binding.mViewRoot.setBackground(ReadConfigManager.getInstance().getTextBackground(mContext));
+        binding.mViewRoot.setBackground(ReadConfigManager.getInstance().getTextBackground(this));
         mTabLayout.setTabTextColors(getResources().getColor(R.color.text_color_99), ReadConfigManager.getInstance().getTextColor());
-        mImmersionBar.statusBarDarkFont(false);
-        mImmersionBar.init();
+
+        setupSystemBar();
     }
 }

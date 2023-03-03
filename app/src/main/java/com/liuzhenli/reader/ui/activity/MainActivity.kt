@@ -29,7 +29,7 @@ import com.liuzhenli.common.utils.*
 import com.liuzhenli.reader.view.ChoseBackupFolderDialog
 import com.liuzhenli.reader.view.ImportBookSourceDialog
 import com.liuzhenli.reader.view.dialog.AddWxArticleDialog
-import com.micoredu.reader.BaseActivity
+import com.liuzhenli.common.BaseActivity
 import com.micoredu.reader.R
 import com.micoredu.reader.bean.BookSource
 import com.micoredu.reader.databinding.ActivityMainContainerBinding
