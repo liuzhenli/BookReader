@@ -23,6 +23,7 @@ import com.micoredu.reader.model.ReadBook
 import com.micoredu.reader.page.ContentTextView
 import com.micoredu.reader.page.ReadView
 import com.micoredu.reader.page.provider.TextPageFactory
+import com.micoredu.reader.ui.activity.BookChapterListActivity
 import com.micoredu.reader.utils.dialogs.alert
 import com.micoredu.reader.utils.observeEvent
 import com.micoredu.reader.utils.postEvent
@@ -53,8 +54,8 @@ class ReaderActivity : BaseActivity<FragmentReaderBinding>(),
     override fun init(savedInstanceState: Bundle?) {
         binding.cursorLeft.setOnTouchListener(this)
         binding.cursorRight.setOnTouchListener(this)
-        ReadBook.callBack?.notifyBookChanged()
         ReadBook.callBack = this
+        ReadBook.callBack?.notifyBookChanged()
 
         mViewMode.initData(this, intent)
         binding.mVBottomMenu.setOnMenuElementClickListener(object :
@@ -181,7 +182,8 @@ class ReaderActivity : BaseActivity<FragmentReaderBinding>(),
             ViewUtils.showBottomView(binding.mVBottomMenu)
             ViewUtils.showTopView(binding.mTopBar)
 
-            binding.mTopBar.toolBar.title = "书名"
+            binding.mTopBar.setTitle(ReadBook.book?.name)
+            binding.mTopBar.setChapterTitle(ReadBook.curTextChapter?.title)
             binding.mTopBar.toolBar.setTitleTextColor(Color.WHITE)
             binding.mTopBar.setOnMenuElementClickListener(object :
                 ReadTopBarMenu.OnElementClickListener {
@@ -189,7 +191,8 @@ class ReaderActivity : BaseActivity<FragmentReaderBinding>(),
                     finish()
                 }
 
-                override fun onMenuClick() {
+                override fun onBookMarkClick() {
+                    BookChapterListActivity.start(this@ReaderActivity,ReadBook.book, listOf())
                 }
             })
         } else {

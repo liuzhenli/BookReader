@@ -53,7 +53,7 @@ public class ReadTopBarMenu extends BaseMenu {
 
         ClickUtils.click(mViewMenu, o -> {
             if (listener != null) {
-                listener.onMenuClick();
+                listener.onBookMarkClick();
             }
         });
         mToolBar.setNavigationOnClickListener(v -> {
@@ -92,7 +92,7 @@ public class ReadTopBarMenu extends BaseMenu {
          */
         void onBackClick();
 
-        void onMenuClick();
+        void onBookMarkClick();
     }
 
 }

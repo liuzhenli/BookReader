@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/black"
@@ -13,8 +12,7 @@
         android:layout_height="@dimen/all_item_height"
         android:elevation="1px"
         app:contentInsetStart="0dp"
-        app:navigationIcon="@drawable/icon_back_white_icon"
-        tools:targetApi="lollipop">
+        app:navigationIcon="@drawable/icon_back_white_icon">
 
         <TextView
             android:id="@+id/tv_toolbar_title"
@@ -29,7 +27,7 @@
             android:maxWidth="280dp"
             android:scrollHorizontally="true"
             android:singleLine="true"
-            android:textColor="@color/text_color_33"
+            android:textColor="@color/text_color_99"
             android:textSize="18sp" />
 
         <ImageView
@@ -49,9 +47,12 @@
 
     <TextView
         android:id="@+id/tv_top_menu_chapter_id"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/common_space_large"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="@dimen/common_space_large"
+        android:layout_marginVertical="@dimen/common_space_normal"
+        android:ellipsize="marquee"
         android:text=""
-        android:textColor="@color/qmui_config_color_75_white" />
+        android:textColor="@color/text_color_99" />
 </LinearLayout>
