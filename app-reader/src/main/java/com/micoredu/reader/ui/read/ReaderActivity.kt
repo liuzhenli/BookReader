@@ -61,7 +61,11 @@ class ReaderActivity : BaseActivity<FragmentReaderBinding>(),
         binding.mVBottomMenu.setOnMenuElementClickListener(object :
             ReadBottomMenu.OnElementClickListener {
             override fun onMenuClick() {
-                //打卡目录
+                //打开目录
+                BookChapterListActivity.start(
+                    this@ReaderActivity,
+                    this@ReaderActivity.binding.mPageView.currentChapter?.chapter?.bookUrl
+                )
             }
 
             override fun onPreChapterClick() {
@@ -192,7 +196,10 @@ class ReaderActivity : BaseActivity<FragmentReaderBinding>(),
                 }
 
                 override fun onBookMarkClick() {
-                    BookChapterListActivity.start(this@ReaderActivity, ReadBook.book?.bookUrl)
+                    BookChapterListActivity.start(
+                        this@ReaderActivity,
+                        this@ReaderActivity.binding.mPageView.currentChapter?.chapter?.bookUrl, true
+                    )
                 }
             })
         } else {

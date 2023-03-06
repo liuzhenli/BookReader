@@ -1,20 +1,17 @@
 package com.micoredu.reader.ui.bookmark
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.airbnb.mvrx.MavericksView
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
+import com.micoredu.reader.BaseFragment
+import com.micoredu.reader.ui.activity.BookChapterListActivity
 import com.microedu.lib.reader.R
 import com.microedu.lib.reader.databinding.FragmentBookmarkBinding
-import com.micoredu.reader.ui.activity.BookChapterListActivity
 
-class BookMarkFragment : Fragment(R.layout.fragment_bookmark), MavericksView {
+class BookMarkFragment : BaseFragment(R.layout.fragment_bookmark), MavericksView {
 
     private val mViewModel: BookMarkViewModel by fragmentViewModel()
     private val binding: FragmentBookmarkBinding by viewBinding()
@@ -39,19 +36,11 @@ class BookMarkFragment : Fragment(R.layout.fragment_bookmark), MavericksView {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun init(savedInstanceState: Bundle?) {
         mIsFromReadPage = arguments != null && requireArguments().getBoolean("isFromReadPage")
 
-
-        binding.recyclerView.setRefreshListener {
-            binding.recyclerView.setRefreshing(false)
-        }
-        binding.recyclerView.setLayoutManager(LinearLayoutManager(activity))
-
+        binding.recyclerView.layoutManager = LinearLayoutManager(activity)
+        binding.recyclerView.setController(controller)
 
 //        mAdapter = BookMarkAdapter(activity, mIsFromReadPage)
 //        binding.recyclerView.adapter = mAdapter
@@ -94,7 +83,6 @@ class BookMarkFragment : Fragment(R.layout.fragment_bookmark), MavericksView {
 //            )
 //            false
 //        }
-        return binding.root
     }
 
     private val parentActivity: BookChapterListActivity?

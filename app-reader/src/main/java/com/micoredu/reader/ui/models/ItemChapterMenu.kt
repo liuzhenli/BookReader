@@ -11,6 +11,7 @@ import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
 import com.micoredu.reader.bean.BookChapter
 import com.microedu.lib.reader.R
+import org.jetbrains.anko.textColor
 
 /**
  * Description:book source item view
@@ -24,6 +25,7 @@ class ItemChapterMenu @JvmOverloads constructor(
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
 
+    private var currentIndex: Int? = -1
     private val textView: TextView
 
     private val root: View
@@ -37,9 +39,19 @@ class ItemChapterMenu @JvmOverloads constructor(
 
     @JvmOverloads
     @ModelProp
+    fun setCurrentChapterIndex(currentIndex: Int?) {
+        this.currentIndex = currentIndex
+    }
+
+    @JvmOverloads
+    @ModelProp
     fun source(source: BookChapter) {
         textView.text = source.title
-
+        if (currentIndex == source.index) {
+            textView.textColor = resources.getColor(R.color.color_widget)
+        } else {
+            textView.textColor = resources.getColor(R.color.text_color_66)
+        }
     }
 
     var itemClickListener: View.OnClickListener? = null

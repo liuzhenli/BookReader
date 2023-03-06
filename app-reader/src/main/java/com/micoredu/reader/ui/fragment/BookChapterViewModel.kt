@@ -7,6 +7,7 @@ import kotlinx.coroutines.Dispatchers
 
 class BookChapterViewModel(initialState: BookChapterState) :
     MavericksViewModel<BookChapterState>(initialState) {
+    var chapterIndex: Int? = 0
 
     fun queryChapter(bookUrl: String) = withState {
 
@@ -16,7 +17,17 @@ class BookChapterViewModel(initialState: BookChapterState) :
         ) {
             val chapters = mutableListOf<BookChapter>()
             it()?.let { it1 -> chapters.addAll(it1) }
-            copy(queryChapter = it,chapterList=chapters)
+            copy(queryChapter = it, chapterList = chapters)
+        }
+    }
+
+    fun queryBook(bookUrl: String) = withState {
+        suspend { appDb.bookDao.getBook(bookUrl) }.execute(
+            Dispatchers.IO,
+            retainValue = BookChapterState::queryBook
+        ) {
+            chapterIndex = it()?.durChapterIndex
+            copy(queryBook = it)
         }
     }
 }
