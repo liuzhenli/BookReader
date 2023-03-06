@@ -14,6 +14,7 @@ import com.microedu.lib.reader.databinding.FragmentBookchapterlistBinding
 data class BookChapterState(
     val queryBook: Async<Book?> = Uninitialized,
     val queryChapter: Async<List<BookChapter>> = Uninitialized,
+    val reverseMenu: Async<List<BookChapter>> = Uninitialized,
     val chapterList: List<BookChapter> = listOf()
 ) :
     MavericksState
@@ -61,6 +62,10 @@ class BookChapterListFragment : BaseFragment(R.layout.fragment_bookchapterlist),
         binding.recyclerView.setController(controller)
         viewModel.queryBook(mBookUrl!!)
         viewModel.queryChapter(mBookUrl!!)
+    }
+
+    fun reversionMenu() {
+        viewModel.reverseMenu(mBookUrl!!)
     }
 
 

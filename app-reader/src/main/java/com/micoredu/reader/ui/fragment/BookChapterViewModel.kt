@@ -30,4 +30,23 @@ class BookChapterViewModel(initialState: BookChapterState) :
             copy(queryBook = it)
         }
     }
+
+    fun reverseMenu(bookUrl: String) = withState {
+        suspend {
+            val chapters = appDb.bookChapterDao.getChapterList(bookUrl).reversed()
+            chapters.forEachIndexed { index, bookChapter ->
+                bookChapter.index = index
+            }
+            chapterIndex = chapters.size - (chapterIndex ?: 0) - 1
+            appDb.bookChapterDao.insert(*chapters.toTypedArray())
+            chapters
+        }.execute(
+            Dispatchers.IO,
+            retainValue = BookChapterState::reverseMenu
+        ) {
+            val chapters = mutableListOf<BookChapter>()
+            it()?.let { it1 -> chapters.addAll(it1) }
+            copy(reverseMenu = reverseMenu, chapterList = chapters)
+        }
+    }
 }

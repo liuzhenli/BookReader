@@ -14,6 +14,7 @@ import com.micoredu.reader.dao.AppDatabase.Companion.createDatabase
 import com.micoredu.reader.model.ReadBook
 import com.micoredu.reader.ui.bookmark.BookMarkFragment
 import com.micoredu.reader.ui.bookmark.BookMarkFragment.Companion.getInstance
+import com.micoredu.reader.ui.fragment.BookChapterListFragment
 import com.micoredu.reader.ui.fragment.BookChapterListFragment.Companion.getInstance
 import com.micoredu.reader.utils.ReadConfigManager
 import com.microedu.lib.reader.R
@@ -32,6 +33,7 @@ class BookChapterListActivity : BaseTabActivity<ActBookchapterlistBinding?>() {
     private val mIsFromReadPage = false
     private var isAsc = true
     private var mBookUrl: String? = null
+
     override fun inflateView(inflater: LayoutInflater?): ActBookchapterlistBinding {
         return ActBookchapterlistBinding.inflate(inflater!!)
     }
@@ -58,15 +60,18 @@ class BookChapterListActivity : BaseTabActivity<ActBookchapterlistBinding?>() {
             } else {
                 binding!!.icToolBar.tvToolbarRight.text = "正序"
             }
+            (mFragmentList[0] as BookChapterListFragment).reversionMenu()
         }
         binding!!.icToolBar.tvToolbarRight.visibility = View.VISIBLE
         if (bookShelf != null) {
             binding!!.icToolBar.tvToolbarTitle.text = bookShelf.book!!.name
         }
+        binding?.icToolBar?.toolbar?.setNavigationOnClickListener { finish() }
+
     }
 
     override fun createTabFragments(): List<Fragment> {
-        return Arrays.asList<Fragment>(
+        return listOf<Fragment>(
             getInstance(
                 mBookUrl!!
             ), getInstance(mIsFromReadPage)
