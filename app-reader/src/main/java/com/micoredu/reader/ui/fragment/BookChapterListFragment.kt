@@ -68,6 +68,10 @@ class BookChapterListFragment : BaseFragment(R.layout.fragment_bookchapterlist),
         viewModel.reverseMenu(mBookUrl!!)
     }
 
+    public fun getCurrentIndex():Int {
+        return viewModel.chapterIndex ?: 0
+    }
+
 
     companion object {
         @JvmStatic

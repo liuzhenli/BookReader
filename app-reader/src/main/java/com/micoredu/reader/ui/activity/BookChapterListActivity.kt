@@ -61,6 +61,10 @@ class BookChapterListActivity : BaseTabActivity<ActBookchapterlistBinding?>() {
                 binding!!.icToolBar.tvToolbarRight.text = "正序"
             }
             (mFragmentList[0] as BookChapterListFragment).reversionMenu()
+            setResult(RESULT_OK, Intent().apply {
+                putExtra("index", (mFragmentList[0] as BookChapterListFragment).getCurrentIndex())
+                putExtra("chapterPos", 0)
+            })
         }
         binding!!.icToolBar.tvToolbarRight.visibility = View.VISIBLE
         if (bookShelf != null) {

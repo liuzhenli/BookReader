@@ -2,12 +2,16 @@ package com.micoredu.reader.ui.read
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Instrumentation.ActivityResult
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContract
 import com.airbnb.mvrx.MavericksView
 import com.airbnb.mvrx.viewModel
 import com.github.liuyueyi.quick.transfer.ChineseUtils
@@ -43,6 +47,27 @@ class ReaderActivity : BaseActivity<FragmentReaderBinding>(),
     private val mViewMode: ReaderViewModel by viewModel()
 
     private var isShowingSearchResult = false
+
+    private var chapterActivity =
+        registerForActivityResult(object : ActivityResultContract<String, Pair<Int, Int>?>() {
+            override fun createIntent(context: Context, input: String?): Intent {
+                return Intent(context, ReaderActivity::class.java)
+                    .putExtra("bookUrl", input)
+            }
+
+            override fun parseResult(resultCode: Int, intent: Intent?): Pair<Int, Int>? {
+                if (resultCode == RESULT_OK) {
+                    intent?.let {
+                        return Pair(
+                            it.getIntExtra("index", 0),
+                            it.getIntExtra("chapterPos", 0)
+                        )
+                    }
+                }
+                return null
+            }
+        }) {}
+
     override fun inflateView(inflater: LayoutInflater?): FragmentReaderBinding {
         return FragmentReaderBinding.inflate(inflater!!)
     }
@@ -196,9 +221,8 @@ class ReaderActivity : BaseActivity<FragmentReaderBinding>(),
                 }
 
                 override fun onBookMarkClick() {
-                    BookChapterListActivity.start(
-                        this@ReaderActivity,
-                        this@ReaderActivity.binding.mPageView.currentChapter?.chapter?.bookUrl, true
+                    chapterActivity.launch(
+                        this@ReaderActivity.binding.mPageView.currentChapter?.chapter?.bookUrl
                     )
                 }
             })

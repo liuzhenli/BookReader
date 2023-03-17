@@ -37,7 +37,7 @@ class BookChapterViewModel(initialState: BookChapterState) :
             chapters.forEachIndexed { index, bookChapter ->
                 bookChapter.index = index
             }
-            chapterIndex = chapters.size - (chapterIndex ?: 0) - 1
+            //chapterIndex = chapters.size - (chapterIndex ?: 0) - 1
             appDb.bookChapterDao.insert(*chapters.toTypedArray())
             chapters
         }.execute(

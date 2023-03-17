@@ -2,6 +2,8 @@
 
 package com.micoredu.reader.utils
 
+import android.app.Activity
+import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleService
@@ -25,7 +27,7 @@ inline fun <reified EVENT> postEventOrderly(tag: String, event: EVENT) {
     LiveEventBus.get<EVENT>(tag).postOrderly(event)
 }
 
-inline fun <reified EVENT> AppCompatActivity.observeEvent(
+inline fun <reified EVENT> ComponentActivity.observeEvent(
     vararg tags: String,
     noinline observer: (EVENT) -> Unit
 ) {
