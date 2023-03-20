@@ -25,7 +25,7 @@ abstract class BaseActivity<VB : ViewBinding>(
     private val toolBarTheme: Theme = Theme.Auto,
     private val transparent: Boolean = false,
     private val imageBg: Boolean = true
-) : ComponentActivity() , CoroutineScope by MainScope() {
+) : AppCompatActivity() , CoroutineScope by MainScope() {
     private var mWeakReference: WeakReference<Activity>? = null
 
     protected lateinit var binding: VB

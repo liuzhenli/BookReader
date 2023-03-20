@@ -89,7 +89,6 @@ public class ReadBottomMenu extends BaseMenu {
         ClickUtils.click(mTvNightMode, o -> {
             if (listener != null) {
                 listener.onNightModeClick();
-
             }
         });
         //设置

@@ -49,4 +49,8 @@ class BookChapterViewModel(initialState: BookChapterState) :
             copy(reverseMenu = reverseMenu, chapterList = chapters)
         }
     }
+
+    fun openChapter() {
+
+    }
 }

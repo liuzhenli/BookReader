@@ -2,7 +2,6 @@ package com.micoredu.reader.ui.read
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Instrumentation.ActivityResult
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -16,9 +15,9 @@ import com.airbnb.mvrx.MavericksView
 import com.airbnb.mvrx.viewModel
 import com.github.liuyueyi.quick.transfer.ChineseUtils
 import com.github.liuyueyi.quick.transfer.constants.TransType
+import com.liuzhenli.common.BaseActivity
 import com.liuzhenli.common.theme.ViewUtils
 import com.liuzhenli.common.utils.AppConfig
-import com.liuzhenli.common.BaseActivity
 import com.micoredu.reader.bean.Book
 import com.micoredu.reader.constant.EventBus
 import com.micoredu.reader.help.config.ReadBookConfig
@@ -51,7 +50,7 @@ class ReaderActivity : BaseActivity<FragmentReaderBinding>(),
     private var chapterActivity =
         registerForActivityResult(object : ActivityResultContract<String, Pair<Int, Int>?>() {
             override fun createIntent(context: Context, input: String?): Intent {
-                return Intent(context, ReaderActivity::class.java)
+                return Intent(context, BookChapterListActivity::class.java)
                     .putExtra("bookUrl", input)
             }
 
@@ -66,7 +65,14 @@ class ReaderActivity : BaseActivity<FragmentReaderBinding>(),
                 }
                 return null
             }
-        }) {}
+        }) {
+            hideAllMenus()
+            it?.second?.let { it1 ->
+                it.first.let { it2 ->
+                    mViewMode.openChapter(it2, it1)
+                }
+            }
+        }
 
     override fun inflateView(inflater: LayoutInflater?): FragmentReaderBinding {
         return FragmentReaderBinding.inflate(inflater!!)
@@ -87,8 +93,7 @@ class ReaderActivity : BaseActivity<FragmentReaderBinding>(),
             ReadBottomMenu.OnElementClickListener {
             override fun onMenuClick() {
                 //打开目录
-                BookChapterListActivity.start(
-                    this@ReaderActivity,
+                chapterActivity.launch(
                     this@ReaderActivity.binding.mPageView.currentChapter?.chapter?.bookUrl
                 )
             }
