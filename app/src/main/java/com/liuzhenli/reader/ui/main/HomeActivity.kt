@@ -25,6 +25,7 @@ import com.liuzhenli.reader.ui.shelf.BookShelfFragment
 import com.liuzhenli.reader.view.ImportBookSourceDialog
 import com.liuzhenli.reader.view.dialog.AddWxArticleDialog
 import com.liuzhenli.common.BaseActivity
+import com.liuzhenli.reader.ui.activity.AboutActivity
 import com.micoredu.reader.R
 import com.micoredu.reader.constant.EventBus
 import com.micoredu.reader.databinding.ActivityHomeBinding
@@ -79,8 +80,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(), MavericksView {
         //open left drawer
         binding.mMaterialMenu.setOnClickListener {
             if (!binding.mDrawLayout.isDrawerOpen(
-                    binding.viewMainLeft.mDrawLeft
-                )
+                            binding.viewMainLeft.mDrawLeft
+                    )
             ) {
                 binding.mDrawLayout.openDrawer(Gravity.LEFT, true)
             } else {
@@ -103,7 +104,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(), MavericksView {
 
         }
         binding.viewMainLeft.mViewAbout.onClick {
-
+            AboutActivity.start(this@HomeActivity)
         }
     }
 
@@ -136,43 +137,43 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(), MavericksView {
     }
 
     private val onNavigationItemSelectedListener =
-        BottomNavigationView.OnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.id_shelf -> {
-                    if (bookShelfFragment == null) {
-                        bookShelfFragment = BookShelfFragment()
+            BottomNavigationView.OnNavigationItemSelectedListener { item ->
+                when (item.itemId) {
+                    R.id.id_shelf -> {
+                        if (bookShelfFragment == null) {
+                            bookShelfFragment = BookShelfFragment()
+                        }
+                        switchContent(isFragment, bookShelfFragment)
+                        setMenu(0)
+                        return@OnNavigationItemSelectedListener true
                     }
-                    switchContent(isFragment, bookShelfFragment)
-                    setMenu(0)
-                    return@OnNavigationItemSelectedListener true
-                }
 
-                R.id.id_discover -> {
-                    if (discoverFragment == null) {
-                        discoverFragment = DiscoverFragment()
+                    R.id.id_discover -> {
+                        if (discoverFragment == null) {
+                            discoverFragment = DiscoverFragment()
+                        }
+                        switchContent(isFragment, discoverFragment)
+                        setMenu(1)
+                        return@OnNavigationItemSelectedListener true
                     }
-                    switchContent(isFragment, discoverFragment)
-                    setMenu(1)
-                    return@OnNavigationItemSelectedListener true
                 }
+                false
             }
-            false
-        }
 
 
     private fun getBottomTab(): List<MenuBean> {
         return mutableListOf(
-            MenuBean(
-                0, R.id.id_shelf, 0,
-                R.drawable.icon_main_tab_bookshelf,
-                resources.getString(R.string.bookshelf)
-            ),
+                MenuBean(
+                        0, R.id.id_shelf, 0,
+                        R.drawable.icon_main_tab_bookshelf,
+                        resources.getString(R.string.bookshelf)
+                ),
 
-            MenuBean(
-                0, R.id.id_discover, 2,
-                R.drawable.icon_main_tab_discover,
-                resources.getString(R.string.find)
-            )
+                MenuBean(
+                        0, R.id.id_discover, 2,
+                        R.drawable.icon_main_tab_discover,
+                        resources.getString(R.string.find)
+                )
         )
     }
 
@@ -199,11 +200,13 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(), MavericksView {
 //                                ToastUtil.showToast(getString(R.string.web_service_already_started_hint))
 //                            }
                         }
+
                         else -> {}
                     }
                     false
                 }
             }
+
             1 -> {
                 binding.tvToolbarTitle.text = resources.getString(R.string.discover)
                 binding.tvToolbarTitle.setOnClickListener {
@@ -221,6 +224,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(), MavericksView {
                     false
                 }
             }
+
             else -> {}
         }
     }
@@ -231,8 +235,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(), MavericksView {
             importBookSourceDialog = ImportBookSourceDialog(this, R.style.BottomSheetStyle)
             importBookSourceDialog!!.setCameraClickListener(View.OnClickListener {
                 ARouter.getInstance()
-                    .build(ARouterConstants.ACT_QRCODE)
-                    .navigation(this, IMPORT_BOOK_SOURCE_QRCODE)
+                        .build(ARouterConstants.ACT_QRCODE)
+                        .navigation(this, IMPORT_BOOK_SOURCE_QRCODE)
             }).setImportWxSource {
                 val addWxArticleDialog = AddWxArticleDialog(this@HomeActivity)
                 addWxArticleDialog.setOkButtonClickListener(View.OnClickListener {
@@ -251,8 +255,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(), MavericksView {
             })
             importBookSourceDialog?.setDirClick(View.OnClickListener {
                 IntentUtils.selectFileSys(
-                    this@HomeActivity,
-                    IntentUtils.IMPORT_BOOK_SOURCE_LOCAL
+                        this@HomeActivity,
+                        IntentUtils.IMPORT_BOOK_SOURCE_LOCAL
                 )
             })
             importBookSourceDialog!!.setCanceledOnTouchOutside(true)
