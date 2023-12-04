@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 
+import com.liuzhenli.common.BuildConfig;
 import com.liuzhenli.common.widget.recyclerview.EasyRecyclerView;
 
 import java.util.ArrayList;
@@ -107,8 +108,8 @@ abstract public class RecyclerArrayAdapter<T> extends RecyclerView.Adapter<BaseV
     }
 
     private static void log(String content) {
-        if (EasyRecyclerView.DEBUG) {
-            Log.i(EasyRecyclerView.TAG, content);
+        if (BuildConfig.DEBUG) {
+            Log.i("RecyclerArrayAdapter", content);
         }
     }
 

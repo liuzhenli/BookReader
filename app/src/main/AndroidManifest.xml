@@ -69,7 +69,7 @@
 
 
         <activity android:name="com.liuzhenli.reader.ui.activity.WebViewActivity" />
-        <activity android:name="com.liuzhenli.reader.ui.activity.AboutActivity" />
+        <activity android:name="com.liuzhenli.reader.ui.about.AboutActivity" />
         <activity android:name="com.liuzhenli.reader.ui.activity.SettingActivity" />
         <activity android:name="com.liuzhenli.reader.ui.activity.SearchActivity" />
 
@@ -80,9 +80,9 @@
         <activity android:name="com.liuzhenli.write.ui.activity.WriteBookActivity" />
         <activity android:name="com.micoredu.reader.ui.activity.BookChapterListActivity" />
 
-        <activity android:name="com.liuzhenli.reader.ui.activity.DatabaseTableListActivity" />
-        <activity android:name="com.liuzhenli.reader.ui.activity.DatabaseTableRecordDetailActivity" />
-        <activity android:name="com.liuzhenli.reader.ui.activity.DatabaseTableRecordsActivity" />
+        <activity android:name="com.liuzhenli.reader.ui.database.DatabaseTableListActivity" />
+        <activity android:name="com.liuzhenli.reader.ui.database.DatabaseTableRecordDetailActivity" />
+        <activity android:name="com.liuzhenli.reader.ui.database.DatabaseTableRecordsActivity" />
         <activity android:name="com.liuzhenli.reader.ui.activity.QrCodeActivity" />
         <activity android:name="com.liuzhenli.reader.ui.activity.ManageBookShelfActivity" />
         <activity android:name="com.liuzhenli.reader.ui.main.HomeActivity" />

@@ -1,9 +1,55 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.liuzhenli.common.widget.recyclerview.EasyRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/recyclerView"
+<com.scwang.smart.refresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_empty="@layout/empty_view_common"
-    app:layout_progress="@layout/common_progress_view"
-    app:scrollbarStyle="insideOverlay" />
+    android:layout_height="match_parent">
+
+    <com.scwang.smart.refresh.header.MaterialHeader
+        android:id="@+id/classicsHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.airbnb.epoxy.EpoxyRecyclerView
+            android:id="@+id/epoxyRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:scrollbars="vertical|horizontal" />
+
+        <FrameLayout
+            android:id="@+id/emptyView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <FrameLayout
+            android:id="@+id/progressView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <FrameLayout
+            android:id="@+id/errorView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/tvTipView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="似乎没有网络哦"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+
+
+    </FrameLayout>
+
+    <com.scwang.smart.refresh.footer.ClassicsFooter
+        android:id="@+id/viewFooter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</com.scwang.smart.refresh.layout.SmartRefreshLayout>

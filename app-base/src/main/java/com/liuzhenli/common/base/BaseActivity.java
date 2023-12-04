@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.ArrayMap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -26,7 +25,6 @@ import com.liuzhenli.common.utils.ToastUtil;
 import com.liuzhenli.common.base.rxlife.RxAppCompatActivity;
 import com.liuzhenli.common.widget.bar.ImmersionBar;
 import com.liuzhenli.common.widget.recyclerview.EasyRecyclerView;
-import com.orhanobut.logger.Logger;
 
 import java.util.HashMap;
 import java.util.Map;

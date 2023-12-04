@@ -15,6 +15,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.airbnb.mvrx.MavericksView
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
+import com.liuzhenli.common.base.BaseListener
 import com.liuzhenli.reader.ui.discover.category.BookCategoryFragment
 import com.liuzhenli.reader.view.ScaleTransitionPagerTitleView
 import com.micoredu.reader.BaseFragment
@@ -101,7 +102,7 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover),
             override fun getTitleView(context: Context?, index: Int): IPagerTitleView {
                 val simplePagerTitleView = ScaleTransitionPagerTitleView(context)
                 simplePagerTitleView.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
-                simplePagerTitleView.text = mBookCategory[index].title.trim()
+                simplePagerTitleView.text = mBookCategory[index].title.replace("\\s".toRegex(), "")
                 simplePagerTitleView.textSize = 16f
                 simplePagerTitleView.normalColor = resources.getColor(R.color.text_color_99)
                 simplePagerTitleView.selectedColor = resources.getColor(R.color.text_color_66)
@@ -149,10 +150,12 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover),
             }
         })
 
-        binding.mBookSourceView.setOnItemClick { bookSource: BookSource? ->
-            postEvent(EventBus.CHANGE_DISCOVER_TITLE, bookSource?.bookSourceName)
-            mViewModel.dealCategory(bookSource!!)
-        }
+        binding.mBookSourceView.setOnItemClick(object : BaseListener<BookSource> {
+            override fun onResponse(bookSource: BookSource) {
+                postEvent(EventBus.CHANGE_DISCOVER_TITLE, bookSource?.bookSourceName)
+                mViewModel.dealCategory(bookSource!!)
+            }
+        })
         binding.mBookSourceView.visibility = View.GONE
         val tvText: TextView = binding.mViewEmpty.viewEmpty.findViewById(R.id.tv_empty_text)
         tvText.text = "暂无书源,搜索微信公众号:异书房,\n回复\"书源\"获取书源~"

@@ -1,6 +1,7 @@
 package com.liuzhenli.common
 
 import android.app.Activity
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -25,16 +26,16 @@ abstract class BaseActivity<VB : ViewBinding>(
     private val toolBarTheme: Theme = Theme.Auto,
     private val transparent: Boolean = false,
     private val imageBg: Boolean = true
-) : AppCompatActivity() , CoroutineScope by MainScope() {
+) : AppCompatActivity(), CoroutineScope by MainScope() {
     private var mWeakReference: WeakReference<Activity>? = null
-
     protected lateinit var binding: VB
-
+    lateinit var mContext: Context
     override fun onCreate(savedInstanceState: Bundle?) {
         mWeakReference = WeakReference<Activity>(this)
         window.decorView.disableAutoFill()
         initTheme()
         super.onCreate(savedInstanceState)
+        mContext = this
         setupSystemBar()
         binding = inflateView(layoutInflater)
         setContentView(binding.root)
@@ -52,10 +53,12 @@ abstract class BaseActivity<VB : ViewBinding>(
                 setTheme(R.style.AppTheme_Dark)
                 window.decorView.applyBackgroundTint(backgroundColor)
             }
+
             Theme.Light -> {
                 setTheme(R.style.AppTheme_Light)
                 window.decorView.applyBackgroundTint(backgroundColor)
             }
+
             else -> {
                 if (ColorUtils.isColorLight(primaryColor)) {
                     setTheme(R.style.AppTheme_Light)

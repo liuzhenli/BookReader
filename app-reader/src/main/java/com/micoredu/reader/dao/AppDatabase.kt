@@ -49,7 +49,7 @@ abstract class AppDatabase : RoomDatabase() {
 
     companion object {
 
-        private const val DATABASE_NAME = "reader.db"
+         const val DATABASE_NAME = "reader.db"
 
         fun createDatabase(context: Context) = Room
             .databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)

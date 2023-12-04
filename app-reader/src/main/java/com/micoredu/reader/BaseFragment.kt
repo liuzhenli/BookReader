@@ -1,13 +1,9 @@
 package com.micoredu.reader
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import androidx.viewbinding.ViewBinding
-import by.kirich1409.viewbindingdelegate.viewBinding
 import com.liuzhenli.common.utils.ToastUtil
 import com.liuzhenli.common.widget.dialog.LoadingDialog
 import kotlinx.coroutines.CoroutineScope
@@ -16,8 +12,9 @@ import kotlinx.coroutines.MainScope
 /**
  * Description:BaseFragment
  */
-abstract class BaseFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayoutId), CoroutineScope by MainScope() {
-
+abstract class BaseFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayoutId),
+    CoroutineScope by MainScope() {
+    var mPage = 1
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init(savedInstanceState)

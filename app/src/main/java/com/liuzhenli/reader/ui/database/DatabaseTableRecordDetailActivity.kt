@@ -1,8 +1,7 @@
-package com.liuzhenli.reader.ui.activity
+package com.liuzhenli.reader.ui.database
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import com.liuzhenli.common.base.BaseActivity
 import com.liuzhenli.common.base.BaseContract.BasePresenter
 import com.liuzhenli.common.AppComponent

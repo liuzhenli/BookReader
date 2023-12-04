@@ -1,25 +1,5 @@
 package com.micoredu.reader.ui.activity;
 
-import android.content.Context;
-import android.content.Intent;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-
-import com.hwangjr.rxbus.annotation.Subscribe;
-import com.hwangjr.rxbus.annotation.Tag;
-import com.hwangjr.rxbus.thread.EventThread;
-import com.liuzhenli.common.constant.RxBusTag;
-import com.liuzhenli.common.AppComponent;
-import com.liuzhenli.common.utils.ClickUtils;
-import com.liuzhenli.common.base.BaseRvActivity;
-import com.micoredu.reader.DaggerReaderComponent;
-import com.microedu.lib.reader.databinding.ActSourcetestBinding;
-import com.micoredu.reader.model.Debug;
-import com.micoredu.reader.ui.adapter.TestSourceAdapter;
-import com.micoredu.reader.ui.contract.TestSourceContract;
-import io.reactivex.functions.Consumer;
-
 /**
  * Description:
  *

@@ -9,15 +9,15 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
+import com.liuzhenli.common.BuildConfig;
 import com.liuzhenli.common.R;
-import com.liuzhenli.common.widget.recyclerview.EasyRecyclerView;
 
 /**
  * Created by Mr.Jude on 2015/8/18.
  */
 public class DefaultEventDelegate implements EventDelegate {
     private RecyclerArrayAdapter adapter;
-    private EventFooter footer ;
+    private EventFooter footer;
 
     private OnLoadMoreListener onLoadMoreListener;
 
@@ -44,7 +44,7 @@ public class DefaultEventDelegate implements EventDelegate {
 
     public void onMoreViewShowed() {
         log("onMoreViewShowed");
-        if (!isLoadingMore&&onLoadMoreListener!=null){
+        if (!isLoadingMore && onLoadMoreListener != null) {
             isLoadingMore = true;
             onLoadMoreListener.onLoadMore();
         }
@@ -58,30 +58,30 @@ public class DefaultEventDelegate implements EventDelegate {
     @Override
     public void addData(int length) {
         log("addData" + length);
-        if (hasMore){
-            if (length == 0){
+        if (hasMore) {
+            if (length == 0) {
                 //当添加0个时，认为已结束加载到底
-                if (status==STATUS_INITIAL || status == STATUS_MORE){
-                    if (adapter.getCount() == 0){
+                if (status == STATUS_INITIAL || status == STATUS_MORE) {
+                    if (adapter.getCount() == 0) {
 
                         if (hasZero) {
                             footer.showZeroView();
                         }
-                    }else {
+                    } else {
                         footer.showNoMore();
                     }
                 }
-            }else {
+            } else {
                 //当Error或初始时。添加数据，如果有More则还原。
-                if (hasMore && (status == STATUS_INITIAL || status == STATUS_ERROR)){
-                    if (status == STATUS_ERROR){ //如果从错误的状态加载出数据时,还原状态
+                if (hasMore && (status == STATUS_INITIAL || status == STATUS_ERROR)) {
+                    if (status == STATUS_ERROR) { //如果从错误的状态加载出数据时,还原状态
                         status = STATUS_MORE;
                     }
                     footer.showMore();
                 }
                 hasData = true;
             }
-        }else{
+        } else {
 
 //            if (length == 0){
 //                //当添加0个时，认为已结束加载到底
@@ -98,12 +98,10 @@ public class DefaultEventDelegate implements EventDelegate {
 //            if (hasZero) {
 //                footer.showZeroView();
 //            }else
-            if (hasNoMore){
+            if (hasNoMore) {
                 footer.showNoMore();
                 status = STATUS_NOMORE;
             }
-
-
 
 
         }
@@ -173,7 +171,7 @@ public class DefaultEventDelegate implements EventDelegate {
 
     }
 
-    public EventFooter getFooter(){
+    public EventFooter getFooter() {
         return footer;
     }
 
@@ -193,7 +191,7 @@ public class DefaultEventDelegate implements EventDelegate {
         public static final int showZeroView = 4;
 
 
-        public EventFooter(){
+        public EventFooter() {
             container = new FrameLayout(adapter.getContext());
             container.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         }
@@ -207,7 +205,7 @@ public class DefaultEventDelegate implements EventDelegate {
         @Override
         public void onBindView(View headerView) {
             log("onBindViewFooter");
-            switch (flag){
+            switch (flag) {
                 case ShowMore:
                     onMoreViewShowed();
                     break;
@@ -217,56 +215,67 @@ public class DefaultEventDelegate implements EventDelegate {
             }
         }
 
-        public void refreshStatus(){
-            if (container!=null){
-                if (flag == Hide){
+        public void refreshStatus() {
+            if (container != null) {
+                if (flag == Hide) {
                     container.setVisibility(View.GONE);
                     return;
                 }
-                if (container.getVisibility() != View.VISIBLE)container.setVisibility(View.VISIBLE);
+                if (container.getVisibility() != View.VISIBLE)
+                    container.setVisibility(View.VISIBLE);
                 View view = null;
-                switch (flag){
-                    case ShowMore:view = moreView;break;
-                    case ShowError:view = errorView;break;
-                    case ShowNoMore:view = noMoreView;break;
-                    case showZeroView:view = zeroView;break;
+                switch (flag) {
+                    case ShowMore:
+                        view = moreView;
+                        break;
+                    case ShowError:
+                        view = errorView;
+                        break;
+                    case ShowNoMore:
+                        view = noMoreView;
+                        break;
+                    case showZeroView:
+                        view = zeroView;
+                        break;
                 }
-                if (view == null){
+                if (view == null) {
                     hide();
                     return;
                 }
-                if (view.getParent()==null)container.addView(view);
+                if (view.getParent() == null) container.addView(view);
                 for (int i = 0; i < container.getChildCount(); i++) {
-                    if (container.getChildAt(i) == view)view.setVisibility(View.VISIBLE);
+                    if (container.getChildAt(i) == view) view.setVisibility(View.VISIBLE);
                     else container.getChildAt(i).setVisibility(View.GONE);
                 }
             }
         }
 
-        public void showError(){
+        public void showError() {
             flag = ShowError;
             refreshStatus();
         }
-        public void showMore(){
+
+        public void showMore() {
             flag = ShowMore;
             refreshStatus();
         }
-        public void showNoMore(){
+
+        public void showNoMore() {
             flag = ShowNoMore;
             refreshStatus();
         }
 
-        public void showZeroView(){
+        public void showZeroView() {
             flag = showZeroView;
             refreshStatus();
         }
 
-        public int getFlag(){
+        public int getFlag() {
             return flag;
         }
 
         //初始化
-        public void hide(){
+        public void hide() {
             flag = Hide;
             refreshStatus();
         }
@@ -274,7 +283,7 @@ public class DefaultEventDelegate implements EventDelegate {
         public void setMoreView(View moreView) {
             this.moreView = moreView;
             ProgressBar pb = (ProgressBar) moreView.findViewById(R.id.progressBar);
-            if (pb!=null){
+            if (pb != null) {
 
                 RotateDrawable rd = (RotateDrawable) pb.getIndeterminateDrawable();
                 GradientDrawable gd = (GradientDrawable) rd.getDrawable();
@@ -292,14 +301,14 @@ public class DefaultEventDelegate implements EventDelegate {
             this.errorView = errorView;
         }
 
-        public void setZeroView(View view){
+        public void setZeroView(View view) {
             this.zeroView = view;
         }
     }
 
-    private static void log(String content){
-        if (EasyRecyclerView.DEBUG){
-            Log.i(EasyRecyclerView.TAG,content);
+    private static void log(String content) {
+        if (BuildConfig.DEBUG) {
+            Log.i(DefaultEventDelegate.class.getSimpleName(), content);
         }
     }
 }

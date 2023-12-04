@@ -25,7 +25,8 @@ import com.liuzhenli.reader.ui.shelf.BookShelfFragment
 import com.liuzhenli.reader.view.ImportBookSourceDialog
 import com.liuzhenli.reader.view.dialog.AddWxArticleDialog
 import com.liuzhenli.common.BaseActivity
-import com.liuzhenli.reader.ui.activity.AboutActivity
+import com.liuzhenli.reader.ui.about.AboutActivity
+import com.liuzhenli.reader.ui.activity.SettingActivity
 import com.micoredu.reader.R
 import com.micoredu.reader.constant.EventBus
 import com.micoredu.reader.databinding.ActivityHomeBinding
@@ -101,7 +102,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(), MavericksView {
 
         }
         binding.viewMainLeft.mViewSetting.onClick {
-
+            SettingActivity.start(this@HomeActivity)
         }
         binding.viewMainLeft.mViewAbout.onClick {
             AboutActivity.start(this@HomeActivity)

@@ -16,17 +16,23 @@ class CategoryViewModel(initialState: CategoryState) :
     ) = withState {
         suspend {
             WebBook.exploreBookAwait(source, url, page)
-        }.execute(Dispatchers.IO, retainValue = CategoryState::getBookList) { res ->
+        }.execute(Dispatchers.IO, retainValue = CategoryState::getBookList) { state ->
             val data = mutableListOf<SearchBook>()
+
+            var hasMore = true
+            if (state() == null || state()?.size == null || state()?.size!! == 0) {
+                hasMore = false
+            }
+
             if (page != 1) {
                 data.addAll(bookList)
             }
-            val searchResult = res()
+            val searchResult = state()
             if (searchResult?.isNotEmpty() == true && !data.containsAll(searchResult)) {
                 data.addAll(searchResult)
                 appDb.searchBookDao.insert(*searchResult.toTypedArray())
             }
-            copy(getBookList = res, bookList = data)
+            copy(getBookList = state, bookList = data, hasMoreBooks = hasMore)
         }
     }
 

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <declare-styleable name="SuperRecyclerView">
+    <declare-styleable name="EasyRecyclerView">
         <attr name="layout_empty" format="reference" />
         <attr name="layout_progress" format="reference" />
         <attr name="layout_error" format="reference" />
@@ -23,7 +22,6 @@
             <enum name="none" value="2" />
         </attr>
     </declare-styleable>
-
     <!-- 自定义loading dialog -->
     <style name="loading_dialog" parent="android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>

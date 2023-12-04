@@ -86,7 +86,7 @@ class ItemBook @JvmOverloads constructor(
 
     private fun getSummary(item: SearchBook): String {
         if (!TextUtils.isEmpty(item.intro)) {
-            return item.intro!!
+            return item.intro?.replace("\n", "")?.trim() ?: ""
         }
         return item.getDisplayLastChapterTitle()
     }

@@ -215,5 +215,12 @@ dependencies {
     api("io.noties.markwon:image-glide:$markWonVersion")
     api("io.noties.markwon:ext-tables:$markWonVersion")
     api("io.noties.markwon:html:$markWonVersion")
+
+
+    api 'com.scwang.smart:refresh-layout-horizontal:2.0.0'
+    api 'com.scwang.smart:refresh-layout-kernel:2.0.3'
+    //implementation 'com.scwang.smart:refresh-header-classics:2.0.1'    //经典刷新头
+    api 'com.scwang.smart:refresh-header-material:2.0.3'    //谷歌刷新头
+    implementation 'io.github.scwang90:refresh-footer-classics:2.1.0'    //经典加载
 }
 
